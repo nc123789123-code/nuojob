@@ -1,0 +1,124 @@
+// ─── Core domain types ────────────────────────────────────────────────────────
+
+export type FundStrategy =
+  | "private_credit"
+  | "special_sits"
+  | "direct_lending"
+  | "hedge_fund"
+  | "long_short"
+  | "macro"
+  | "quant"
+  | "multi_strategy"
+  | "distressed"
+  | "mezzanine"
+  | "other";
+
+export type RaiseBucket = "hot" | "warm" | "watch" | "low";
+export type ConfidenceLevel = "high" | "medium" | "low";
+export type OfferingStatus = "open" | "closed" | "unknown";
+
+// ─── Signal ───────────────────────────────────────────────────────────────────
+
+export type SignalType =
+  | "form_d_new"
+  | "form_d_amendment"
+  | "form_d_open"
+  | "form_d_closed"
+  | "large_offering"
+  | "near_target"
+  | "press_release"
+  | "hiring_investing"
+  | "hiring_ir"
+  | "hiring_ops"
+  | "new_senior_hire"
+  | "expansion";
+
+export interface Signal {
+  type: SignalType;
+  description: string;
+  date: string;
+  source: "SEC EDGAR" | "Press Release" | "Careers Page" | "News";
+  weight: number; // contribution to score
+}
+
+// ─── Scoring ──────────────────────────────────────────────────────────────────
+
+export interface FundScore {
+  fundraisingScore: number; // 0–100
+  hiringScore: number; // 0–100 (placeholder in MVP)
+  expansionScore: number; // 0–100 (placeholder in MVP)
+  recencyMultiplier: number; // 0.1–1.0
+  overallScore: number; // 0–100
+  bucket: RaiseBucket;
+  confidence: ConfidenceLevel;
+  whyNow: string[];
+  suggestedAngle: string;
+  suggestedTargetTeams: string[];
+  signals: Signal[];
+}
+
+// ─── Fund filing (from EDGAR Form D) ──────────────────────────────────────────
+
+export interface FundFiling {
+  id: string;
+  entityName: string;
+  cik: string;
+  fileDate: string;
+  formType: string;
+  accessionNo: string;
+  strategy: FundStrategy;
+  strategyLabel: string;
+  // From Form D XML
+  totalOfferingAmount?: number;
+  totalAmountSold?: number;
+  offeringStatus: OfferingStatus;
+  minimumInvestment?: number;
+  state?: string;
+  dateOfFirstSale?: string;
+  revenueRange?: string;
+  relatedPersons?: RelatedPerson[];
+  // Computed
+  score: FundScore;
+  daysSinceFiling: number;
+}
+
+export interface RelatedPerson {
+  firstName?: string;
+  lastName?: string;
+  title?: string;
+  city?: string;
+  state?: string;
+}
+
+// ─── Search / UI ──────────────────────────────────────────────────────────────
+
+export interface SearchFilters {
+  query: string;
+  strategy: "all" | FundStrategy;
+  dateRange: "30" | "60" | "90" | "180";
+  bucket: "all" | RaiseBucket;
+  minAmount: string;
+}
+
+export interface OutreachRecord {
+  filingId: string;
+  entityName: string;
+  strategy: string;
+  status: "not_contacted" | "reached_out" | "in_discussion" | "passed";
+  notes: string;
+  contactedAt?: string;
+  score?: number;
+}
+
+// ─── EDGAR raw types ──────────────────────────────────────────────────────────
+
+export interface EdgarSearchHit {
+  _id: string;
+  _source: {
+    entity_name: string;
+    file_date: string;
+    form_type: string;
+    file_num?: string;
+    period_of_report?: string;
+  };
+}
