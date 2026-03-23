@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FundFiling, OutreachRecord, RaiseBucket } from "@/app/types";
 
 interface Props {
   filing: FundFiling;
   outreach?: OutreachRecord;
   onOutreachChange: (record: OutreachRecord) => void;
+  autoExpand?: boolean;
 }
 
 function fmt(amount?: number): string {
@@ -39,10 +40,25 @@ const OUTREACH_CFG = {
   passed:        { label: "Passed",        cls: "bg-red-100 text-red-600" },
 };
 
-export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
-  const [expanded, setExpanded] = useState(false);
+function SignalChip({ label, color }: { label: string; color: string }) {
+  const cls: Record<string, string> = {
+    blue:   "bg-blue-50 text-blue-700 border-blue-100",
+    green:  "bg-emerald-50 text-emerald-700 border-emerald-100",
+    purple: "bg-violet-50 text-violet-700 border-violet-100",
+    gray:   "bg-gray-50 text-gray-600 border-gray-100",
+    red:    "bg-red-50 text-red-700 border-red-100",
+  };
+  return (
+    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${cls[color] ?? cls.gray}`}>{label}</span>
+  );
+}
+
+export default function FundRow({ filing, outreach, onOutreachChange, autoExpand }: Props) {
+  const [expanded, setExpanded] = useState(autoExpand ?? false);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState(outreach?.notes || "");
+
+  useEffect(() => { if (autoExpand) setExpanded(true); }, [autoExpand]);
 
   const { score } = filing;
   const scoreCls = SCORE_STYLE[score.bucket];
@@ -55,16 +71,19 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
     }
     if (filing.totalAmountSold && filing.totalAmountSold > 0) return `Raised ${fmt(filing.totalAmountSold)}`;
     if (filing.totalOfferingAmount) return `${fmt(filing.totalOfferingAmount)} target`;
-    return filing.offeringStatus === "open" ? "Open" : filing.offeringStatus === "closed" ? "Closed" : "—";
+    return filing.offeringStatus === "open" ? "Raising" : filing.offeringStatus === "closed" ? "Closed" : "—";
   })();
 
+  // Signal chips
+  const chips: Array<{ label: string; color: string }> = [];
+  chips.push({ label: filing.formType === "D" ? "New Form D" : "Form D/A", color: "blue" });
+  if (filing.offeringStatus === "open") chips.push({ label: "In market", color: "green" });
+  else if (filing.offeringStatus === "closed") chips.push({ label: "Recently closed", color: "purple" });
+  if (filing.daysSinceFiling <= 14) chips.push({ label: `${filing.daysSinceFiling}d ago`, color: "red" });
+  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
+
   const handleStatus = (s: OutreachRecord["status"]) => {
-    onOutreachChange({
-      filingId: filing.id, entityName: filing.entityName, strategy: filing.strategyLabel,
-      status: s, notes,
-      contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined,
-      score: score.overallScore,
-    });
+    onOutreachChange({ filingId: filing.id, entityName: filing.entityName, strategy: filing.strategyLabel, status: s, notes, contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined, score: score.overallScore });
   };
 
   const saveNotes = () => {
@@ -73,57 +92,61 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
   };
 
   return (
-    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-blue-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
-      {/* Row */}
+    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-blue-50/10" : "hover:bg-gray-50/60"} transition-colors`}>
+      {/* Collapsed row */}
       <div
-        className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-center"
+        className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
         onClick={() => setExpanded(!expanded)}
       >
         {/* Score */}
-        <div className={`w-10 h-8 rounded-md flex items-center justify-center font-bold text-sm ring-1 ${scoreCls}`}>
+        <div className={`w-10 h-8 rounded-md flex items-center justify-center font-bold text-sm ring-1 mt-0.5 ${scoreCls}`}>
           {score.overallScore}
         </div>
 
-        {/* Fund name + subtitle */}
+        {/* Fund name + Why Now (prominent) + chips */}
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-medium text-gray-900 text-sm leading-tight">{filing.entityName}</span>
+            <span className="font-semibold text-gray-900 text-sm leading-tight">{filing.entityName}</span>
             {outreachStatus !== "not_contacted" && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${OUTREACH_CFG[outreachStatus].cls}`}>
                 {OUTREACH_CFG[outreachStatus].label}
               </span>
             )}
           </div>
+          {/* Why Now — front and center */}
           {score.whyNow[0] && (
-            <p className="text-xs text-gray-400 mt-0.5 truncate">{score.whyNow[0]}</p>
+            <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <span className="text-blue-500">→ </span>{score.whyNow[0]}
+            </p>
           )}
+          {/* Signal chips */}
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
+          </div>
         </div>
 
         {/* Strategy */}
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="pt-0.5">
           <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium whitespace-nowrap">
             {filing.strategyLabel}
           </span>
-          {filing.offeringStatus === "open" && (
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-medium whitespace-nowrap">In market</span>
-          )}
         </div>
 
         {/* Fundraising signal */}
-        <div className="text-sm text-gray-700 truncate">{fundraisingLabel}</div>
+        <div className="text-sm text-gray-700 pt-0.5 truncate">{fundraisingLabel}</div>
 
         {/* Location */}
-        <div className="text-xs text-gray-400">{filing.state || "—"}</div>
+        <div className="text-xs text-gray-400 pt-0.5">{filing.state || "—"}</div>
 
         {/* Updated */}
-        <div className="text-xs text-gray-400">{ago(filing.daysSinceFiling)}</div>
+        <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
       </div>
 
       {/* Expanded detail */}
       {expanded && (
         <div className="px-4 pb-5 pt-2 border-t border-blue-100/60 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-            {/* Why Now */}
+            {/* Why Now — full list */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Why Now</p>
               <ul className="space-y-1.5">
@@ -136,7 +159,7 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
               </ul>
             </div>
 
-            {/* Outreach angle */}
+            {/* Suggested outreach */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
               <p className="text-sm text-gray-700 italic bg-blue-50 rounded-lg px-3 py-2.5 border border-blue-100 leading-relaxed">
@@ -150,7 +173,7 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
             </div>
           </div>
 
-          {/* Signals */}
+          {/* Signal evidence */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Signal Evidence</p>
             <div className="space-y-1.5">
@@ -175,7 +198,7 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
           {/* Key people */}
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People (Form D)</p>
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People</p>
               <div className="flex flex-wrap gap-2">
                 {filing.relatedPersons.slice(0, 5).map((p, i) => (
                   <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
@@ -188,30 +211,19 @@ export default function FundRow({ filing, outreach, onOutreachChange }: Props) {
             </div>
           )}
 
-          {/* Track outreach */}
+          {/* Outreach tracking */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Track Outreach</p>
             <div className="flex flex-wrap gap-2">
               {(["not_contacted", "reached_out", "in_discussion", "passed"] as OutreachRecord["status"][]).map((s) => (
-                <button
-                  key={s}
-                  onClick={(e) => { e.stopPropagation(); handleStatus(s); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                    outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"
-                  }`}
-                >
+                <button key={s} onClick={(e) => { e.stopPropagation(); handleStatus(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"}`}>
                   {OUTREACH_CFG[s].label}
                 </button>
               ))}
               <button onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
                 {notes ? "Edit notes" : "Add notes"}
               </button>
-              <a
-                href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`}
-                target="_blank" rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
-              >
+              <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
                 EDGAR ↗
               </a>
             </div>

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StartupFiling, OutreachRecord, RaiseBucket, FundingStage } from "@/app/types";
 
 interface Props {
   filing: StartupFiling;
   outreach?: OutreachRecord;
   onOutreachChange: (record: OutreachRecord) => void;
+  autoExpand?: boolean;
 }
 
 function fmt(amount?: number): string {
@@ -49,10 +50,26 @@ const OUTREACH_CFG = {
   passed:        { label: "Passed",        cls: "bg-red-100 text-red-600" },
 };
 
-export default function StartupRow({ filing, outreach, onOutreachChange }: Props) {
-  const [expanded, setExpanded] = useState(false);
+function SignalChip({ label, color }: { label: string; color: string }) {
+  const cls: Record<string, string> = {
+    blue:   "bg-blue-50 text-blue-700 border-blue-100",
+    green:  "bg-emerald-50 text-emerald-700 border-emerald-100",
+    purple: "bg-violet-50 text-violet-700 border-violet-100",
+    indigo: "bg-indigo-50 text-indigo-700 border-indigo-100",
+    gray:   "bg-gray-50 text-gray-600 border-gray-100",
+    red:    "bg-red-50 text-red-700 border-red-100",
+  };
+  return (
+    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${cls[color] ?? cls.gray}`}>{label}</span>
+  );
+}
+
+export default function StartupRow({ filing, outreach, onOutreachChange, autoExpand }: Props) {
+  const [expanded, setExpanded] = useState(autoExpand ?? false);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState(outreach?.notes || "");
+
+  useEffect(() => { if (autoExpand) setExpanded(true); }, [autoExpand]);
 
   const { score } = filing;
   const scoreCls = SCORE_STYLE[score.bucket];
@@ -65,13 +82,17 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
     return filing.offeringStatus === "open" ? "Raising" : "—";
   })();
 
+  // Signal chips
+  const chips: Array<{ label: string; color: string }> = [];
+  chips.push({ label: filing.stageLabel, color: "indigo" });
+  if (filing.offeringStatus === "open") chips.push({ label: "Raising", color: "green" });
+  else if (filing.offeringStatus === "closed") chips.push({ label: "Funded", color: "purple" });
+  if (filing.daysSinceFiling <= 14) chips.push({ label: `${filing.daysSinceFiling}d ago`, color: "red" });
+  if (filing.totalAmountSold && filing.totalAmountSold >= 5_000_000) chips.push({ label: fmt(filing.totalAmountSold), color: "gray" });
+  else if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 5_000_000) chips.push({ label: `${fmt(filing.totalOfferingAmount)} target`, color: "gray" });
+
   const handleStatus = (s: OutreachRecord["status"]) => {
-    onOutreachChange({
-      filingId: filing.id, entityName: filing.entityName, strategy: filing.stageLabel,
-      status: s, notes,
-      contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined,
-      score: score.overallScore,
-    });
+    onOutreachChange({ filingId: filing.id, entityName: filing.entityName, strategy: filing.stageLabel, status: s, notes, contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined, score: score.overallScore });
   };
 
   const saveNotes = () => {
@@ -80,57 +101,60 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
   };
 
   return (
-    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-indigo-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
+    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-indigo-50/10" : "hover:bg-gray-50/60"} transition-colors`}>
       {/* Row */}
       <div
-        className="grid grid-cols-[56px_1fr_110px_150px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-center"
+        className="grid grid-cols-[56px_1fr_110px_150px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
         onClick={() => setExpanded(!expanded)}
       >
         {/* Score */}
-        <div className={`w-10 h-8 rounded-md flex items-center justify-center font-bold text-sm ring-1 ${scoreCls}`}>
+        <div className={`w-10 h-8 rounded-md flex items-center justify-center font-bold text-sm ring-1 mt-0.5 ${scoreCls}`}>
           {score.overallScore}
         </div>
 
-        {/* Company name + subtitle */}
+        {/* Company + Why Now (prominent) + chips */}
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-medium text-gray-900 text-sm leading-tight">{filing.entityName}</span>
+            <span className="font-semibold text-gray-900 text-sm leading-tight">{filing.entityName}</span>
             {outreachStatus !== "not_contacted" && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${OUTREACH_CFG[outreachStatus].cls}`}>
                 {OUTREACH_CFG[outreachStatus].label}
               </span>
             )}
           </div>
+          {/* Why Now — front and center */}
           {score.whyNow[0] && (
-            <p className="text-xs text-gray-400 mt-0.5 truncate">{score.whyNow[0]}</p>
+            <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <span className="text-indigo-500">→ </span>{score.whyNow[0]}
+            </p>
           )}
+          {/* Signal chips */}
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
+          </div>
         </div>
 
-        {/* Stage badge */}
-        <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Stage */}
+        <div className="pt-0.5">
           <span className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${stageCls}`}>
             {filing.stageLabel}
           </span>
-          {filing.offeringStatus === "open" && (
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-medium whitespace-nowrap">Raising</span>
-          )}
         </div>
 
-        {/* Funding amount */}
-        <div className="text-sm text-gray-700 font-medium">{fundingLabel}</div>
+        {/* Funding */}
+        <div className="text-sm text-gray-700 font-medium pt-0.5">{fundingLabel}</div>
 
         {/* Location */}
-        <div className="text-xs text-gray-400">{filing.state || "—"}</div>
+        <div className="text-xs text-gray-400 pt-0.5">{filing.state || "—"}</div>
 
         {/* Updated */}
-        <div className="text-xs text-gray-400">{ago(filing.daysSinceFiling)}</div>
+        <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
       </div>
 
       {/* Expanded detail */}
       {expanded && (
         <div className="px-4 pb-5 pt-2 border-t border-indigo-100/60 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-            {/* Why Now */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Why Now</p>
               <ul className="space-y-1.5">
@@ -142,8 +166,6 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
                 ))}
               </ul>
             </div>
-
-            {/* Suggested angle */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
               <p className="text-sm text-gray-700 italic bg-indigo-50 rounded-lg px-3 py-2.5 border border-indigo-100 leading-relaxed">
@@ -152,7 +174,6 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
             </div>
           </div>
 
-          {/* Signals */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Signal Evidence</p>
             <div className="space-y-1.5">
@@ -167,14 +188,12 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
             </div>
           </div>
 
-          {/* Score breakdown */}
           <div className="flex gap-3 flex-wrap">
             <ScoreChip label="Funding" value={score.fundingScore} color="bg-indigo-500" />
             <ScoreChip label="Hiring" value={score.hiringScore} color="bg-green-500" placeholder="Phase 2" />
             <ScoreChip label="Expansion" value={score.expansionScore} color="bg-purple-500" placeholder="Phase 2" />
           </div>
 
-          {/* Key people */}
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People</p>
@@ -190,30 +209,18 @@ export default function StartupRow({ filing, outreach, onOutreachChange }: Props
             </div>
           )}
 
-          {/* Track outreach */}
           <div>
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Track Outreach</p>
             <div className="flex flex-wrap gap-2">
               {(["not_contacted", "reached_out", "in_discussion", "passed"] as OutreachRecord["status"][]).map((s) => (
-                <button
-                  key={s}
-                  onClick={(e) => { e.stopPropagation(); handleStatus(s); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                    outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"
-                  }`}
-                >
+                <button key={s} onClick={(e) => { e.stopPropagation(); handleStatus(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"}`}>
                   {OUTREACH_CFG[s].label}
                 </button>
               ))}
               <button onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
                 {notes ? "Edit notes" : "Add notes"}
               </button>
-              <a
-                href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`}
-                target="_blank" rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
-              >
+              <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
                 EDGAR ↗
               </a>
             </div>
