@@ -179,17 +179,18 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details for first 12 — fetchFormDDetails returns null for non-pooled-fund filings
+    // Fetch XML details for up to 30 entries (parallel) — returns null for non-pooled-fund filings
+    const XML_BATCH = 30;
     const detailedRaw = await Promise.all(
-      partial.slice(0, 12).map(async (f) => {
+      partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
         if (details === null) return null; // not a pooled investment fund — skip
         return { ...f, ...details };
       })
     );
     const detailed = detailedRaw.filter(Boolean) as NonNullable<(typeof detailedRaw)[number]>[];
-    // For hits beyond the XML-fetched batch, keep them without XML details (scored by name/date only)
-    const rest = partial.slice(12);
+    // Keep remaining hits (scored by name/date only — no XML)
+    const rest = partial.slice(XML_BATCH);
     const all = [...detailed, ...rest];
 
     // Fetch news signals for detailed funds (if API key is available)

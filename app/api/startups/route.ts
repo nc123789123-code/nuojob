@@ -167,9 +167,10 @@ export async function GET(req: NextRequest) {
       relatedPersons?: Array<{ firstName?: string; lastName?: string; title?: string; city?: string; state?: string }>;
     };
 
-    // Fetch XML details for first 10 and filter out funds
+    // Fetch XML details for up to 30 entries (parallel) and filter out funds
+    const XML_BATCH = 30;
     const detailedRaw = await Promise.all(
-      partial.slice(0, 10).map(async (f) => {
+      partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
         if (details === null) return null; // pooled investment fund — skip
         return { ...f, ...details } as PartialFiling;
@@ -183,7 +184,7 @@ export async function GET(req: NextRequest) {
       return { ...f, stage: s, stageLabel: label };
     });
 
-    const rest = partial.slice(10);
+    const rest = partial.slice(XML_BATCH);
     const all = [...detailedWithStage, ...rest];
 
     // Fetch news signals
