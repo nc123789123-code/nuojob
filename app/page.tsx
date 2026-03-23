@@ -525,6 +525,7 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
   { v: "In-market raise", l: "In-market raise" },
   { v: "Post-raise build-out", l: "Post-raise" },
   { v: "Fund scaling", l: "Fund scaling" },
+  { v: "New fund", l: "New fund" },
 ];
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
@@ -549,7 +550,7 @@ function JobsSection({
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
         {JOB_CATEGORIES.map((c) => (
-          <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v })}
+          <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v === filters.category && c.v !== "all" ? "all" : c.v })}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
               filters.category === c.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}>
@@ -558,7 +559,7 @@ function JobsSection({
         ))}
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         {JOB_SIGNAL_TAGS.map((t) => (
-          <button key={t.v} onClick={() => setFilters({ ...filters, signalTag: t.v })}
+          <button key={t.v} onClick={() => setFilters({ ...filters, signalTag: t.v === filters.signalTag && t.v !== "all" ? "all" : t.v })}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
               filters.signalTag === t.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}>
