@@ -133,7 +133,10 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const hits = Array.from(seen.values()).filter((hit) => isLikelyFund(hit._source?.entity_name));
+    const hits = Array.from(seen.values()).filter((hit) => {
+      const raw = hit._source?.display_names?.[0] || hit._source?.entity_name || "";
+      return isLikelyFund(raw);
+    });
 
     // Build partial filings — field names from actual EDGAR EFTS response
     const partial = hits.slice(0, 40).map((hit) => {
