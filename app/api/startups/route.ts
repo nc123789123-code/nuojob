@@ -9,7 +9,7 @@ const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
 
 const HEADERS = {
-  "User-Agent": "NolaClaude/1.0 research@nolaclaude.com",
+  "User-Agent": "Onlu/1.0 research@onlu.com",
   "Accept": "application/json, text/xml",
 };
 
@@ -53,8 +53,9 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
 
     // Skip pooled investment funds — those are for the Funds tab
     const securityType = extractXml(xml, "securityType") || "";
-    if (/pooled investment fund/i.test(securityType)) {
-      return null; // signal to skip this filing
+    const isPooledFund = extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() === "true";
+    if (/pooled investment fund/i.test(securityType) || isPooledFund) {
+      return null; // skip — this is a fund, not a startup equity raise
     }
 
     let offeringStatus: OfferingStatus = "unknown";

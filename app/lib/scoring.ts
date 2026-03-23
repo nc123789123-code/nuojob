@@ -144,55 +144,64 @@ export function scoreFiling(
   const isAmendment = filing.formType === "D/A";
 
   if (!isAmendment) {
-    fundraisingRaw += 30;
+    fundraisingRaw += 40;
     signals.push({
       type: "form_d_new",
       description: `New Form D filed ${days} day${days !== 1 ? "s" : ""} ago`,
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 30,
+      weight: 40,
     });
   } else {
-    fundraisingRaw += 10;
+    fundraisingRaw += 15;
     signals.push({
       type: "form_d_amendment",
       description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 10,
-    });
-  }
-
-  // Offering still open = actively raising
-  if (filing.offeringStatus === "open") {
-    fundraisingRaw += 20;
-    signals.push({
-      type: "form_d_open",
-      description: "Offering still open — likely mid-raise",
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 20,
-    });
-  } else if (filing.offeringStatus === "closed") {
-    fundraisingRaw += 15;
-    signals.push({
-      type: "form_d_closed",
-      description: "Offering closed — recently raised capital, likely deploying",
       date: filing.fileDate,
       source: "SEC EDGAR",
       weight: 15,
     });
   }
 
+  // Offering still open = actively raising
+  if (filing.offeringStatus === "open") {
+    fundraisingRaw += 25;
+    signals.push({
+      type: "form_d_open",
+      description: "Offering still open — likely mid-raise",
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 25,
+    });
+  } else if (filing.offeringStatus === "closed") {
+    fundraisingRaw += 20;
+    signals.push({
+      type: "form_d_closed",
+      description: "Offering closed — recently raised capital, likely deploying",
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 20,
+    });
+  }
+
   // Large offering size signal
-  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) {
-    fundraisingRaw += 10;
+  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 500_000_000) {
+    fundraisingRaw += 20;
+    signals.push({
+      type: "large_offering",
+      description: `Very large offering: ${formatM(filing.totalOfferingAmount)} target`,
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 20,
+    });
+  } else if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) {
+    fundraisingRaw += 12;
     signals.push({
       type: "large_offering",
       description: `Large offering: ${formatM(filing.totalOfferingAmount)} target`,
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 10,
+      weight: 12,
     });
   }
 
@@ -200,13 +209,13 @@ export function scoreFiling(
   if (filing.totalOfferingAmount && filing.totalAmountSold) {
     const pct = filing.totalAmountSold / filing.totalOfferingAmount;
     if (pct >= 0.5 && pct < 1.0) {
-      fundraisingRaw += 10;
+      fundraisingRaw += 12;
       signals.push({
         type: "near_target",
         description: `${Math.round(pct * 100)}% raised toward target — near close`,
         date: filing.fileDate,
         source: "SEC EDGAR",
-        weight: 10,
+        weight: 12,
       });
     }
   }
@@ -223,9 +232,11 @@ export function scoreFiling(
   }
 
   // ── Overall weighted score ─────────────────────────────────────────────────
-  // 0.45 * fundraising + 0.35 * hiring + 0.20 * expansion
+  // Normalize by active signals so zero-placeholder signals don't drag the score down.
+  // When hiring (Phase 2) and expansion (no NewsAPI key) are both 0, overallScore = fundraisingScore.
+  const activeW = 0.45 + (hiringScore > 0 ? 0.35 : 0) + (expansionScore > 0 ? 0.20 : 0);
   const overallScore = Math.round(
-    0.45 * fundraisingScore + 0.35 * hiringScore + 0.20 * expansionScore
+    (0.45 * fundraisingScore + 0.35 * hiringScore + 0.20 * expansionScore) / activeW
   );
 
   // ── Bucket ─────────────────────────────────────────────────────────────────
@@ -343,43 +354,43 @@ export function scoreStartup(
   const isAmendment = filing.formType === "D/A";
 
   if (!isAmendment) {
-    fundingRaw += 35;
+    fundingRaw += 45;
     signals.push({
       type: "form_d_new",
       description: `Form D filed ${days} day${days !== 1 ? "s" : ""} ago — equity raise`,
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 35,
+      weight: 45,
     });
   } else {
-    fundingRaw += 12;
+    fundingRaw += 15;
     signals.push({
       type: "form_d_amendment",
       description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`,
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 12,
+      weight: 15,
     });
   }
 
   // Offering open = actively raising
   if (filing.offeringStatus === "open") {
-    fundingRaw += 20;
+    fundingRaw += 25;
     signals.push({
       type: "form_d_open",
       description: "Offering open — round actively in progress",
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 20,
+      weight: 25,
     });
   } else if (filing.offeringStatus === "closed") {
-    fundingRaw += 18;
+    fundingRaw += 22;
     signals.push({
       type: "form_d_closed",
       description: "Funding closed — fresh capital, scaling likely",
       date: filing.fileDate,
       source: "SEC EDGAR",
-      weight: 18,
+      weight: 22,
     });
   }
 
@@ -408,9 +419,10 @@ export function scoreStartup(
   const expansionScore = prefetched?.expansionScore ?? 0;
   if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
 
-  // ── Overall: 50% funding + 30% hiring + 20% expansion ─────────────────────
+  // ── Overall: normalize by active signals (hiring = Phase 2, expansion = optional) ──
+  const activeW2 = 0.50 + (hiringScore > 0 ? 0.30 : 0) + (expansionScore > 0 ? 0.20 : 0);
   const overallScore = Math.round(
-    0.50 * fundingScore + 0.30 * hiringScore + 0.20 * expansionScore
+    (0.50 * fundingScore + 0.30 * hiringScore + 0.20 * expansionScore) / activeW2
   );
 
   const bucket: RaiseBucket =
