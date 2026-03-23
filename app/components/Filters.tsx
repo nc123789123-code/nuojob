@@ -10,139 +10,96 @@ interface FiltersProps {
   onExport: () => void;
 }
 
-const BUCKET_OPTIONS: Array<{ value: RaiseBucket | "all"; label: string; color: string }> = [
-  { value: "all", label: "All", color: "bg-gray-100 text-gray-700" },
-  { value: "hot", label: "🔥 Hot", color: "bg-red-100 text-red-700" },
-  { value: "warm", label: "Warm", color: "bg-orange-100 text-orange-700" },
-  { value: "watch", label: "Watch", color: "bg-yellow-100 text-yellow-700" },
-  { value: "low", label: "Low", color: "bg-gray-100 text-gray-500" },
+const BUCKETS: Array<{ v: RaiseBucket | "all"; l: string }> = [
+  { v: "all",   l: "All" },
+  { v: "hot",   l: "🔥 Hot" },
+  { v: "warm",  l: "Warm" },
+  { v: "watch", l: "Watch" },
+  { v: "low",   l: "Low" },
 ];
 
-export default function Filters({
-  filters,
-  onChange,
-  total,
-  loading,
-  onExport,
-}: FiltersProps) {
-  const update = <K extends keyof SearchFilters>(key: K, value: SearchFilters[K]) => {
-    onChange({ ...filters, [key]: value });
-  };
+export default function FundFilterBar({ filters, onChange, total, loading, onExport }: FiltersProps) {
+  const set = <K extends keyof SearchFilters>(k: K, v: SearchFilters[K]) => onChange({ ...filters, [k]: v });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
-      {/* Top row: counts + export */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-gray-700">Filters</h2>
-          {!loading && (
-            <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-              {total} fund{total !== 1 ? "s" : ""}
-            </span>
-          )}
-          {loading && (
-            <span className="text-xs text-gray-400 animate-pulse">Loading…</span>
-          )}
-        </div>
+    <div className="flex flex-wrap items-center gap-2">
+      {/* Bucket pills */}
+      {BUCKETS.map((b) => (
         <button
-          onClick={onExport}
-          className="flex items-center gap-1.5 text-xs font-medium text-gray-600 hover:text-gray-900 border border-gray-200 hover:border-gray-300 px-3 py-1.5 rounded-lg transition-all"
+          key={b.v}
+          onClick={() => set("bucket", b.v as SearchFilters["bucket"])}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+            filters.bucket === b.v
+              ? "bg-slate-900 text-white border-slate-900"
+              : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+          }`}
         >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Export CSV
+          {b.l}
         </button>
-      </div>
+      ))}
 
-      {/* Priority bucket tabs */}
-      <div>
-        <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
-          Priority
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {BUCKET_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => update("bucket", opt.value as SearchFilters["bucket"])}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                filters.bucket === opt.value
-                  ? `${opt.color} border-current shadow-sm`
-                  : "border-gray-200 text-gray-500 hover:border-gray-300"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <div className="w-px h-5 bg-gray-200 hidden sm:block" />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {/* Strategy */}
-        <div className="space-y-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Strategy
-          </label>
-          <select
-            value={filters.strategy}
-            onChange={(e) => update("strategy", e.target.value as SearchFilters["strategy"])}
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">All Strategies</option>
-            <optgroup label="Credit / Private">
-              <option value="private_credit">Private Credit</option>
-              <option value="special_sits">Special Situations</option>
-              <option value="direct_lending">Direct Lending</option>
-              <option value="distressed">Distressed</option>
-              <option value="mezzanine">Mezzanine</option>
-            </optgroup>
-            <optgroup label="Hedge Funds">
-              <option value="hedge_fund">Hedge Fund (General)</option>
-              <option value="long_short">Long/Short Equity</option>
-              <option value="macro">Global Macro</option>
-              <option value="quant">Quantitative</option>
-              <option value="multi_strategy">Multi-Strategy</option>
-            </optgroup>
-          </select>
-        </div>
+      {/* Strategy */}
+      <select
+        value={filters.strategy}
+        onChange={(e) => set("strategy", e.target.value as SearchFilters["strategy"])}
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+      >
+        <option value="all">All strategies</option>
+        <optgroup label="Credit / Private">
+          <option value="private_credit">Private Credit</option>
+          <option value="special_sits">Special Situations</option>
+          <option value="direct_lending">Direct Lending</option>
+          <option value="distressed">Distressed</option>
+          <option value="mezzanine">Mezzanine</option>
+        </optgroup>
+        <optgroup label="Hedge Funds">
+          <option value="hedge_fund">Hedge Fund</option>
+          <option value="long_short">Long/Short Equity</option>
+          <option value="macro">Global Macro</option>
+          <option value="quant">Quantitative</option>
+          <option value="multi_strategy">Multi-Strategy</option>
+        </optgroup>
+      </select>
 
-        {/* Date Range */}
-        <div className="space-y-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Filed Within
-          </label>
-          <select
-            value={filters.dateRange}
-            onChange={(e) => update("dateRange", e.target.value as SearchFilters["dateRange"])}
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="30">Last 30 days</option>
-            <option value="60">Last 60 days</option>
-            <option value="90">Last 90 days</option>
-            <option value="180">Last 6 months</option>
-          </select>
-        </div>
+      {/* Date */}
+      <select
+        value={filters.dateRange}
+        onChange={(e) => set("dateRange", e.target.value as SearchFilters["dateRange"])}
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+      >
+        <option value="30">Last 30d</option>
+        <option value="60">Last 60d</option>
+        <option value="90">Last 90d</option>
+        <option value="180">Last 6mo</option>
+      </select>
 
-        {/* Min Amount */}
-        <div className="space-y-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-            Min. Fund Size
-          </label>
-          <select
-            value={filters.minAmount}
-            onChange={(e) => update("minAmount", e.target.value)}
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Any size</option>
-            <option value="10">$10M+</option>
-            <option value="50">$50M+</option>
-            <option value="100">$100M+</option>
-            <option value="250">$250M+</option>
-            <option value="500">$500M+</option>
-            <option value="1000">$1B+</option>
-          </select>
-        </div>
-      </div>
+      {/* Min size */}
+      <select
+        value={filters.minAmount}
+        onChange={(e) => set("minAmount", e.target.value)}
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+      >
+        <option value="">Any size</option>
+        <option value="10">$10M+</option>
+        <option value="50">$50M+</option>
+        <option value="100">$100M+</option>
+        <option value="250">$250M+</option>
+        <option value="500">$500M+</option>
+        <option value="1000">$1B+</option>
+      </select>
+
+      {/* Result count + export */}
+      <span className="ml-auto text-xs text-gray-400">
+        {loading ? "Searching…" : `${total} fund${total !== 1 ? "s" : ""}`}
+      </span>
+      <button
+        onClick={onExport}
+        className="text-xs text-gray-500 border border-gray-200 rounded-lg px-2.5 py-1.5 hover:border-gray-400 hover:text-gray-700 transition-all bg-white"
+      >
+        Export CSV
+      </button>
     </div>
   );
 }
