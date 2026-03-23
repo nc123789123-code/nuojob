@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { FundFiling, OfferingStatus } from "@/app/types";
+import { FundFiling, OfferingStatus, EdgarSearchHit } from "@/app/types";
 import { detectStrategy, scoreFiling, getDaysSince } from "@/app/lib/scoring";
 
 export const runtime = "edge";
@@ -123,23 +123,30 @@ export async function GET(req: NextRequest) {
     );
 
     // Deduplicate
-    const seen = new Map<string, { _id: string; _source: { entity_name: string; file_date: string; form_type: string } }>();
+    const seen = new Map<string, EdgarSearchHit>();
     for (const r of searchResults) {
       if (r.status === "fulfilled") {
         for (const hit of r.value) {
-          if (!seen.has(hit._id)) seen.set(hit._id, hit);
+          const key = hit._source?.adsh || hit._id;
+          if (!seen.has(key)) seen.set(key, hit);
         }
       }
     }
 
     const hits = Array.from(seen.values()).filter((hit) => isLikelyFund(hit._source?.entity_name));
 
-    // Build partial filings
+    // Build partial filings — field names from actual EDGAR EFTS response
     const partial = hits.slice(0, 40).map((hit) => {
-      const cik = hit._id.match(/^(\d+)-/)?.[1] || "";
-      const entityName = hit._source?.entity_name || "";
+      const src = hit._source || {};
+      // display_names: ["BlackRock Strategic Equity Hedge Fund Ltd  (CIK 0001566474)"]
+      const rawName: string = (src.display_names?.[0] || src.entity_name || "");
+      const entityName = rawName.replace(/\s*\(CIK\s+\d+\)\s*$/, "").trim();
+      // ciks: ["0001566474"] — strip leading zeros
+      const cik = src.ciks?.[0] ? String(parseInt(src.ciks[0], 10)) : "";
+      const accessionNo: string = src.adsh || hit._id;
+      const formType: string = src.form || src.file_type || "D";
       const { strategy: s, label } = detectStrategy(entityName);
-      return { id: hit._id, entityName, cik, fileDate: hit._source?.file_date || "", formType: hit._source?.form_type || "D", accessionNo: hit._id, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
+      return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
     // Fetch XML details for first 8

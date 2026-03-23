@@ -115,10 +115,17 @@ export interface OutreachRecord {
 export interface EdgarSearchHit {
   _id: string;
   _source: {
-    entity_name: string;
+    // Actual EDGAR EFTS field names
+    display_names?: string[];
+    entity_name?: string; // fallback, older format
+    ciks?: string[];
+    adsh?: string;
     file_date: string;
-    form_type: string;
-    file_num?: string;
-    period_of_report?: string;
+    form?: string;
+    file_type?: string;
+    form_type?: string;
+    biz_locations?: string[];
+    biz_states?: string[];
+    file_num?: string[];
   };
 }
