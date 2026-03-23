@@ -71,6 +71,7 @@ export default function Home() {
   const [jobTotal, setJobTotal] = useState(0);
   const [jobLoading, setJobLoading] = useState(false);
   const [jobError, setJobError] = useState<string | null>(null);
+  const [jobSources, setJobSources] = useState<string[]>([]);
 
   const { records, updateRecord } = useOutreachTracker();
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -111,7 +112,7 @@ export default function Home() {
       const res = await fetch(`/api/jobs?${params}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Search failed");
-      setJobSignals(data.signals || []); setJobTotal(data.total || 0);
+      setJobSignals(data.signals || []); setJobTotal(data.total || 0); setJobSources(data.sources || []);
     } catch (err) { setJobError(err instanceof Error ? err.message : "Failed"); }
     finally { setJobLoading(false); }
   }, []);
@@ -211,6 +212,7 @@ export default function Home() {
             filters={jobFilters} setFilters={setJobFilters}
             signals={jobSignals} total={jobTotal}
             loading={jobLoading} error={jobError}
+            sources={jobSources}
           />
         )}
       </main>
@@ -525,12 +527,23 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
   { v: "Fund scaling", l: "Fund scaling" },
 ];
 
+const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
+  adzuna:  { label: "Adzuna",    color: "bg-blue-50 text-blue-700 border-blue-200" },
+  muse:    { label: "The Muse",  color: "bg-purple-50 text-purple-700 border-purple-200" },
+  jsearch: { label: "JSearch",   color: "bg-green-50 text-green-700 border-green-200" },
+  edgar:   { label: "EDGAR",     color: "bg-gray-50 text-gray-600 border-gray-200" },
+};
+
 function JobsSection({
-  filters, setFilters, signals, total, loading, error,
+  filters, setFilters, signals, total, loading, error, sources,
 }: {
   filters: JobFilters; setFilters: (f: JobFilters) => void;
   signals: JobSignal[]; total: number; loading: boolean; error: string | null;
+  sources: string[];
 }) {
+  const liveSourceCount = sources.filter((s) => s !== "edgar").length;
+  const edgarOnly = !loading && sources.length > 0 && liveSourceCount === 0;
+
   return (
     <>
       {/* Filter bar */}
@@ -565,11 +578,37 @@ function JobsSection({
 
       {error && <ErrorBox message={error} />}
 
-      {/* Explainer */}
-      <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-2.5 text-xs text-amber-800 flex items-start gap-2">
-        <span className="mt-0.5">ℹ</span>
-        <span>Roles are <strong>inferred</strong> from SEC Form D capital signals — not scraped from job boards. A fund raising or recently closed implies likely hiring for these roles.</span>
-      </div>
+      {/* Source badges */}
+      {!loading && sources.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] text-gray-400 font-medium uppercase tracking-wide">Sources:</span>
+          {sources.map((src) => {
+            const meta = SOURCE_LABELS[src] || { label: src, color: "bg-gray-50 text-gray-600 border-gray-200" };
+            return (
+              <span key={src} className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${meta.color}`}>
+                {meta.label}
+              </span>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Setup prompt (EDGAR-only mode) */}
+      {edgarOnly && (
+        <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-xs text-blue-800">
+          <p className="font-semibold mb-1">Add real job board data</p>
+          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna, The Muse, and JSearch, add API keys to <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
+          <pre className="bg-blue-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key\nRAPIDAPI_KEY=your_key       # rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch (free tier)`}</pre>
+        </div>
+      )}
+
+      {/* Inferred-only notice */}
+      {!edgarOnly && sources.length > 0 && (
+        <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-2.5 text-xs text-amber-800 flex items-start gap-2">
+          <span className="mt-0.5">ℹ</span>
+          <span>EDGAR-inferred roles are included alongside live listings. They signal likely hiring based on recent capital raises — not scraped from job boards.</span>
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -587,7 +626,7 @@ function JobsSection({
 
       {signals.length > 0 && (
         <p className="text-center text-xs text-gray-400 py-1">
-          Derived from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> filings · Phase 2: live job board integration
+          Capital signals from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Live listings from Adzuna, The Muse, JSearch
         </p>
       )}
     </>
