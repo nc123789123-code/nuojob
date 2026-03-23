@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 const EDGAR_DATA_URL = "https://data.sec.gov/submissions";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
 

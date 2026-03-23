@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { FundFiling, OfferingStatus } from "@/app/types";
 import { detectStrategy, scoreFiling, getDaysSince } from "@/app/lib/scoring";
 
-export const maxDuration = 30; // Vercel pro allows 30s; free tier gets 10s
+export const runtime = "edge"; // Run on Cloudflare edge — avoids AWS IP blocks from SEC EDGAR
+export const maxDuration = 30;
 
 const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
