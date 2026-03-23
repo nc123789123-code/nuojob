@@ -121,8 +121,9 @@ export async function GET(req: NextRequest) {
     // Build partial filings
     const partial = hits.slice(0, 40).map((hit) => {
       const cik = hit._id.match(/^(\d+)-/)?.[1] || "";
-      const { strategy: s, label } = detectStrategy(hit._source.entity_name);
-      return { id: hit._id, entityName: hit._source.entity_name, cik, fileDate: hit._source.file_date, formType: hit._source.form_type, accessionNo: hit._id, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
+      const entityName = hit._source?.entity_name || "";
+      const { strategy: s, label } = detectStrategy(entityName);
+      return { id: hit._id, entityName, cik, fileDate: hit._source?.file_date || "", formType: hit._source?.form_type || "D", accessionNo: hit._id, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
     // Fetch XML details for first 8

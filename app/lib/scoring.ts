@@ -90,7 +90,7 @@ export function detectStrategy(name: string): {
   strategy: FundStrategy;
   label: string;
 } {
-  const lower = name.toLowerCase();
+  const lower = (name || "").toLowerCase();
 
   for (const { keywords, strategy, label } of STRATEGY_PATTERNS) {
     if (keywords.some((k) => lower.includes(k))) {
