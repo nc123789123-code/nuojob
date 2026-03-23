@@ -1,5 +1,14 @@
 // ─── Core domain types ────────────────────────────────────────────────────────
 
+export type FundingStage =
+  | "pre_seed"
+  | "seed"
+  | "series_a"
+  | "series_b"
+  | "series_c"
+  | "growth"
+  | "unknown";
+
 export type FundStrategy =
   | "private_credit"
   | "special_sits"
@@ -108,6 +117,52 @@ export interface OutreachRecord {
   notes: string;
   contactedAt?: string;
   score?: number;
+}
+
+// ─── Startup filing (EDGAR Form D equity raises) ──────────────────────────────
+
+export interface StartupScore {
+  fundingScore: number;    // 0–100 based on recency + size
+  hiringScore: number;     // 0–100 (placeholder Phase 2)
+  expansionScore: number;  // 0–100 (NewsAPI)
+  recencyMultiplier: number;
+  overallScore: number;    // 0–100
+  bucket: RaiseBucket;
+  confidence: ConfidenceLevel;
+  whyNow: string[];
+  suggestedAngle: string;
+  signals: Signal[];
+  stage: FundingStage;
+  stageLabel: string;
+}
+
+export interface StartupFiling {
+  id: string;
+  entityName: string;
+  cik: string;
+  fileDate: string;
+  formType: string;
+  accessionNo: string;
+  stage: FundingStage;
+  stageLabel: string;
+  // From Form D XML
+  totalOfferingAmount?: number;
+  totalAmountSold?: number;
+  offeringStatus: OfferingStatus;
+  state?: string;
+  dateOfFirstSale?: string;
+  relatedPersons?: RelatedPerson[];
+  // Computed
+  score: StartupScore;
+  daysSinceFiling: number;
+}
+
+export interface StartupSearchFilters {
+  query: string;
+  stage: "all" | FundingStage;
+  dateRange: "30" | "60" | "90" | "180";
+  bucket: "all" | RaiseBucket;
+  minAmount: string;
 }
 
 // ─── EDGAR raw types ──────────────────────────────────────────────────────────

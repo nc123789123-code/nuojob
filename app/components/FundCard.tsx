@@ -189,8 +189,13 @@ export default function FundCard({
               )}
             </div>
 
+            {/* Why Now summary (first bullet, collapsed view) */}
+            {score.whyNow[0] && (
+              <p className="text-xs text-gray-500 mt-1 truncate">{score.whyNow[0]}</p>
+            )}
+
             {/* Metrics */}
-            <div className="flex items-center gap-4 mt-2 flex-wrap text-sm">
+            <div className="flex items-center gap-4 mt-1.5 flex-wrap text-sm">
               {filing.totalOfferingAmount && (
                 <span className="text-gray-600">
                   <span className="text-gray-400 text-xs">Target </span>

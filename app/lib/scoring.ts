@@ -4,6 +4,9 @@ import {
   RaiseBucket,
   Signal,
   FundStrategy,
+  StartupFiling,
+  StartupScore,
+  FundingStage,
 } from "@/app/types";
 
 // ─── Strategy detection ───────────────────────────────────────────────────────
@@ -304,3 +307,153 @@ function formatM(amount: number): string {
 
 // Export for use in API
 export { formatM };
+
+// ─── Startup stage inference ──────────────────────────────────────────────────
+
+const STAGE_BRACKETS: Array<{ max: number; stage: FundingStage; label: string }> = [
+  { max: 1_000_000,   stage: "pre_seed", label: "Pre-Seed" },
+  { max: 5_000_000,   stage: "seed",     label: "Seed" },
+  { max: 20_000_000,  stage: "series_a", label: "Series A" },
+  { max: 75_000_000,  stage: "series_b", label: "Series B" },
+  { max: 250_000_000, stage: "series_c", label: "Series C" },
+];
+
+export function inferStage(amount?: number): { stage: FundingStage; label: string } {
+  if (!amount) return { stage: "unknown", label: "Unknown" };
+  for (const b of STAGE_BRACKETS) {
+    if (amount <= b.max) return { stage: b.stage, label: b.label };
+  }
+  return { stage: "growth", label: "Growth" };
+}
+
+// ─── Startup scoring ──────────────────────────────────────────────────────────
+
+export function scoreStartup(
+  filing: Omit<StartupFiling, "score" | "daysSinceFiling" | "stage" | "stageLabel">,
+  prefetched?: { expansionSignals?: Signal[]; expansionScore?: number }
+): StartupScore {
+  const days = getDaysSince(filing.fileDate);
+  const rm = recencyMultiplier(days);
+  const signals: Signal[] = [];
+
+  const { stage, label: stageLabel } = inferStage(filing.totalAmountSold ?? filing.totalOfferingAmount);
+
+  // ── Funding score ──────────────────────────────────────────────────────────
+  let fundingRaw = 0;
+  const isAmendment = filing.formType === "D/A";
+
+  if (!isAmendment) {
+    fundingRaw += 35;
+    signals.push({
+      type: "form_d_new",
+      description: `Form D filed ${days} day${days !== 1 ? "s" : ""} ago — equity raise`,
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 35,
+    });
+  } else {
+    fundingRaw += 12;
+    signals.push({
+      type: "form_d_amendment",
+      description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`,
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 12,
+    });
+  }
+
+  // Offering open = actively raising
+  if (filing.offeringStatus === "open") {
+    fundingRaw += 20;
+    signals.push({
+      type: "form_d_open",
+      description: "Offering open — round actively in progress",
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 20,
+    });
+  } else if (filing.offeringStatus === "closed") {
+    fundingRaw += 18;
+    signals.push({
+      type: "form_d_closed",
+      description: "Funding closed — fresh capital, scaling likely",
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: 18,
+    });
+  }
+
+  // Stage bonus — later stage = more validated, more hiring
+  const stageBonus: Record<FundingStage, number> = {
+    pre_seed: 0, seed: 5, series_a: 12, series_b: 18, series_c: 20, growth: 20, unknown: 0,
+  };
+  const bonus = stageBonus[stage];
+  if (bonus > 0) {
+    fundingRaw += bonus;
+    signals.push({
+      type: "large_offering",
+      description: `${stageLabel} round — ${formatM(filing.totalAmountSold ?? filing.totalOfferingAmount ?? 0)} raised`,
+      date: filing.fileDate,
+      source: "SEC EDGAR",
+      weight: bonus,
+    });
+  }
+
+  const fundingScore = Math.min(100, Math.round(fundingRaw * rm));
+
+  // ── Hiring score (Phase 2 placeholder) ────────────────────────────────────
+  const hiringScore = 0;
+
+  // ── Expansion score — NewsAPI ──────────────────────────────────────────────
+  const expansionScore = prefetched?.expansionScore ?? 0;
+  if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
+
+  // ── Overall: 50% funding + 30% hiring + 20% expansion ─────────────────────
+  const overallScore = Math.round(
+    0.50 * fundingScore + 0.30 * hiringScore + 0.20 * expansionScore
+  );
+
+  const bucket: RaiseBucket =
+    overallScore >= 80 ? "hot" : overallScore >= 60 ? "warm" : overallScore >= 40 ? "watch" : "low";
+
+  const confidence = signals.length >= 3 ? "medium" : signals.length >= 2 ? "medium" : "low";
+
+  // ── Why Now (intuitive, startup style) ────────────────────────────────────
+  const whyNow: string[] = [];
+  if (filing.totalAmountSold && filing.totalAmountSold > 0) {
+    whyNow.push(`${stageLabel} round: ${formatM(filing.totalAmountSold)} raised${days <= 30 ? " recently" : ""}`);
+  } else if (filing.totalOfferingAmount) {
+    whyNow.push(`${stageLabel} targeting ${formatM(filing.totalOfferingAmount)}`);
+  }
+  if (filing.offeringStatus === "open") {
+    whyNow.push("Round actively open — team build-out imminent");
+  } else if (filing.offeringStatus === "closed") {
+    whyNow.push("Recent funding closed — active scaling phase");
+  }
+  if (days <= 30) whyNow.push(`Filed just ${days} day${days !== 1 ? "s" : ""} ago`);
+  if (filing.dateOfFirstSale) {
+    const firstDays = getDaysSince(filing.dateOfFirstSale);
+    if (firstDays <= 60) whyNow.push(`First capital in ${firstDays} day${firstDays !== 1 ? "s" : ""} ago`);
+  }
+  if (filing.state) whyNow.push(`${filing.state}-based company`);
+
+  const suggestedAngle =
+    filing.offeringStatus === "open"
+      ? `Congrats on the ${stageLabel} raise — as you close and scale the team, would love to discuss your hiring needs across sales, ops, and finance.`
+      : `Congrats on closing the ${stageLabel} — with fresh capital, happy to talk through how we can support your hiring surge.`;
+
+  return {
+    fundingScore,
+    hiringScore,
+    expansionScore,
+    recencyMultiplier: rm,
+    overallScore,
+    bucket,
+    confidence,
+    whyNow,
+    suggestedAngle,
+    signals,
+    stage,
+    stageLabel,
+  };
+}

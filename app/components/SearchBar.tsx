@@ -2,13 +2,7 @@
 
 import { useRef } from "react";
 
-interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
-  loading: boolean;
-}
-
-const QUICK_SEARCHES = [
+const DEFAULT_QUICK_SEARCHES = [
   "private credit",
   "special situations",
   "direct lending",
@@ -19,7 +13,16 @@ const QUICK_SEARCHES = [
   "opportunistic credit",
 ];
 
-export default function SearchBar({ value, onChange, loading }: SearchBarProps) {
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+  loading: boolean;
+  placeholder?: string;
+  quickSearches?: string[];
+}
+
+export default function SearchBar({ value, onChange, loading, placeholder, quickSearches }: SearchBarProps) {
+  const resolvedQuickSearches = quickSearches ?? DEFAULT_QUICK_SEARCHES;
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -44,7 +47,7 @@ export default function SearchBar({ value, onChange, loading }: SearchBarProps) 
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder='Search fund name or strategy (e.g. "Owl Rock", "private credit")...'
+          placeholder={placeholder ?? 'Search fund name or strategy (e.g. "Owl Rock", "private credit")...'}
           className="flex-1 text-sm text-gray-800 placeholder-gray-400 bg-transparent outline-none"
         />
 
@@ -88,7 +91,7 @@ export default function SearchBar({ value, onChange, loading }: SearchBarProps) 
       {!value && (
         <div className="flex flex-wrap items-center gap-2 mt-3">
           <span className="text-xs text-gray-400">Quick:</span>
-          {QUICK_SEARCHES.map((term) => (
+          {resolvedQuickSearches.map((term) => (
             <button
               key={term}
               onClick={() => onChange(term)}
