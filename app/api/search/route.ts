@@ -9,7 +9,7 @@ const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
 
 const HEADERS = {
-  "User-Agent": "NolaClaude/1.0 research@nolaclaude.com",
+  "User-Agent": "Onlu/1.0 research@onlu.com",
   "Accept": "application/json, text/xml",
 };
 
@@ -53,6 +53,10 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
     const offeringNum = offering ? parseFloat(offering) : undefined;
     const soldNum = sold ? parseFloat(sold) : undefined;
 
+    // Only include actual pooled investment funds (hedge funds, PE, credit funds, etc.)
+    const isPooledFund = extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() === "true";
+    if (!isPooledFund) return null; // skip non-fund Form D filings (e.g. real estate, startups)
+
     let offeringStatus: OfferingStatus = "unknown";
     if (soldNum !== undefined && offeringNum !== undefined) {
       offeringStatus = soldNum >= offeringNum * 0.95 ? "closed" : "open";
@@ -84,20 +88,42 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
   }
 }
 
-// Form D is only filed by securities issuers — filter out obvious non-investment entities
-// that appear because the full-text search matches "hedge fund" inside their filing text
+// Require at least one positive indicator in the entity name to avoid garbage.
+// EDGAR full-text search returns any Form D that mentions the search term anywhere in the text,
+// including completely unrelated entities — positive matching is essential.
+const FUND_NAME_REQUIRED = [
+  /\bfund\b/i,
+  /\bL\.?P\.?\b/,
+  /\bpartners\b/i,
+  /\bcapital\b/i,
+  /\bcredit\b/i,
+  /\bequity\b/i,
+  /\bopportunities\b/i,
+  /\bmanagement\b/i,
+  /\bmaster\b/i,
+  /\bfeeder\b/i,
+  /\bhedge\b/i,
+  /\binvestment\b/i,
+  /\bincome\b/i,
+  /\boffshore\b/i,
+  /\bonshore\b/i,
+];
+
 const NON_FUND_PATTERNS = [
   /\blaw (firm|office|group|offices)\b/i,
-  /\battorneys at law\b/i,
+  /\battorneys? at law\b/i,
   /\bcounselors? at law\b/i,
   /\blegal services\b/i,
   /\bpension plan\b/i,
   /\bretirement plan\b/i,
+  /\breal estate\b/i,
+  /\brealty\b/i,
 ];
 
 function isLikelyFund(name: string | undefined): boolean {
   if (!name || name.trim().length < 3) return false;
-  return !NON_FUND_PATTERNS.some((p) => p.test(name));
+  if (NON_FUND_PATTERNS.some((p) => p.test(name))) return false;
+  return FUND_NAME_REQUIRED.some((p) => p.test(name));
 }
 
 export async function GET(req: NextRequest) {
@@ -153,11 +179,18 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details for first 8
-    const detailed = await Promise.all(
-      partial.slice(0, 8).map(async (f) => ({ ...f, ...(await fetchFormDDetails(f.cik, f.accessionNo)) }))
+    // Fetch XML details for up to 30 entries (parallel) — returns null for non-pooled-fund filings
+    const XML_BATCH = 30;
+    const detailedRaw = await Promise.all(
+      partial.slice(0, XML_BATCH).map(async (f) => {
+        const details = await fetchFormDDetails(f.cik, f.accessionNo);
+        if (details === null) return null; // not a pooled investment fund — skip
+        return { ...f, ...details };
+      })
     );
-    const rest = partial.slice(8);
+    const detailed = detailedRaw.filter(Boolean) as NonNullable<(typeof detailedRaw)[number]>[];
+    // Keep remaining hits (scored by name/date only — no XML)
+    const rest = partial.slice(XML_BATCH);
     const all = [...detailed, ...rest];
 
     // Fetch news signals for detailed funds (if API key is available)

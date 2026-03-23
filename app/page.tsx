@@ -2,47 +2,42 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import SearchBar from "@/app/components/SearchBar";
-import Filters from "@/app/components/Filters";
-import FundCard from "@/app/components/FundCard";
-import StartupCard from "@/app/components/StartupCard";
-import StartupFilters from "@/app/components/StartupFilters";
+import FundRow from "@/app/components/FundCard";
+import StartupRow from "@/app/components/StartupCard";
+import JobRow from "@/app/components/JobRow";
+import FundFilterBar from "@/app/components/Filters";
+import StartupFilterBar from "@/app/components/StartupFilters";
 import {
   FundFiling,
   StartupFiling,
   SearchFilters,
   StartupSearchFilters,
   OutreachRecord,
+  JobSignal,
+  JobFilters,
+  JobCategory,
+  JobSignalTag,
 } from "@/app/types";
 import { exportToCsv } from "@/app/lib/export";
 
 const DEFAULT_FUND_FILTERS: SearchFilters = {
-  query: "",
-  strategy: "all",
-  dateRange: "90",
-  bucket: "all",
-  minAmount: "",
+  query: "", strategy: "all", dateRange: "90", bucket: "all", minAmount: "",
 };
-
 const DEFAULT_STARTUP_FILTERS: StartupSearchFilters = {
-  query: "",
-  stage: "all",
-  dateRange: "90",
-  bucket: "all",
-  minAmount: "",
+  query: "", stage: "all", dateRange: "90", bucket: "all", minAmount: "",
+};
+const DEFAULT_JOB_FILTERS: JobFilters = {
+  category: "all", dateRange: "90", signalTag: "all",
 };
 
 function useOutreachTracker() {
   const [records, setRecords] = useState<Record<string, OutreachRecord>>({});
-
   useEffect(() => {
     try {
       const stored = localStorage.getItem("outreach-records-v2");
       if (stored) setRecords(JSON.parse(stored));
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
   }, []);
-
   const updateRecord = useCallback((record: OutreachRecord) => {
     setRecords((prev) => {
       const next = { ...prev, [record.filingId]: record };
@@ -50,164 +45,172 @@ function useOutreachTracker() {
       return next;
     });
   }, []);
-
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "startups";
+type TopTab = "funds" | "startups" | "jobs";
 
 export default function Home() {
   const [topTab, setTopTab] = useState<TopTab>("funds");
 
-  // Funds state
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
   const [fundFilings, setFundFilings] = useState<FundFiling[]>([]);
   const [fundTotal, setFundTotal] = useState(0);
   const [fundLoading, setFundLoading] = useState(false);
   const [fundError, setFundError] = useState<string | null>(null);
-  const [fundSubTab, setFundSubTab] = useState<"search" | "outreach">("search");
+  const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
 
-  // Startups state
   const [startupFilters, setStartupFilters] = useState<StartupSearchFilters>(DEFAULT_STARTUP_FILTERS);
   const [startupFilings, setStartupFilings] = useState<StartupFiling[]>([]);
   const [startupTotal, setStartupTotal] = useState(0);
   const [startupLoading, setStartupLoading] = useState(false);
   const [startupError, setStartupError] = useState<string | null>(null);
 
+  const [jobFilters, setJobFilters] = useState<JobFilters>(DEFAULT_JOB_FILTERS);
+  const [jobSignals, setJobSignals] = useState<JobSignal[]>([]);
+  const [jobTotal, setJobTotal] = useState(0);
+  const [jobLoading, setJobLoading] = useState(false);
+  const [jobError, setJobError] = useState<string | null>(null);
+
   const { records, updateRecord } = useOutreachTracker();
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startupDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const jobDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fundFetchedRef = useRef(false);
+  const startupFetchedRef = useRef(false);
+  const jobFetchedRef = useRef(false);
 
-  // ── Fetch funds ────────────────────────────────────────────────────────────
   const fetchFunds = useCallback(async (f: SearchFilters) => {
-    setFundLoading(true);
-    setFundError(null);
+    setFundLoading(true); setFundError(null);
     try {
-      const params = new URLSearchParams({
-        query: f.query, strategy: f.strategy,
-        dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount,
-      });
+      const params = new URLSearchParams({ query: f.query, strategy: f.strategy, dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount });
       const res = await fetch(`/api/search?${params}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Search failed");
-      setFundFilings(data.filings || []);
-      setFundTotal(data.total || 0);
-    } catch (err) {
-      setFundError(err instanceof Error ? err.message : "Failed to load results.");
-    } finally {
-      setFundLoading(false);
-    }
+      setFundFilings(data.filings || []); setFundTotal(data.total || 0);
+    } catch (err) { setFundError(err instanceof Error ? err.message : "Failed"); }
+    finally { setFundLoading(false); }
   }, []);
 
-  useEffect(() => {
-    if (topTab !== "funds") return;
-    if (fundDebounceRef.current) clearTimeout(fundDebounceRef.current);
-    fundDebounceRef.current = setTimeout(() => fetchFunds(fundFilters), 500);
-    return () => { if (fundDebounceRef.current) clearTimeout(fundDebounceRef.current); };
-  }, [fundFilters, fetchFunds, topTab]);
-
-  // ── Fetch startups ─────────────────────────────────────────────────────────
   const fetchStartups = useCallback(async (f: StartupSearchFilters) => {
-    setStartupLoading(true);
-    setStartupError(null);
+    setStartupLoading(true); setStartupError(null);
     try {
-      const params = new URLSearchParams({
-        query: f.query, stage: f.stage,
-        dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount,
-      });
+      const params = new URLSearchParams({ query: f.query, stage: f.stage, dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount });
       const res = await fetch(`/api/startups?${params}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Search failed");
-      setStartupFilings(data.filings || []);
-      setStartupTotal(data.total || 0);
-    } catch (err) {
-      setStartupError(err instanceof Error ? err.message : "Failed to load results.");
-    } finally {
-      setStartupLoading(false);
-    }
+      setStartupFilings(data.filings || []); setStartupTotal(data.total || 0);
+    } catch (err) { setStartupError(err instanceof Error ? err.message : "Failed"); }
+    finally { setStartupLoading(false); }
   }, []);
+
+  const fetchJobs = useCallback(async (f: JobFilters) => {
+    setJobLoading(true); setJobError(null);
+    try {
+      const params = new URLSearchParams({ dateRange: f.dateRange, category: f.category, signalTag: f.signalTag });
+      const res = await fetch(`/api/jobs?${params}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Search failed");
+      setJobSignals(data.signals || []); setJobTotal(data.total || 0);
+    } catch (err) { setJobError(err instanceof Error ? err.message : "Failed"); }
+    finally { setJobLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    if (fundDebounceRef.current) clearTimeout(fundDebounceRef.current);
+    fundDebounceRef.current = setTimeout(() => { fundFetchedRef.current = true; fetchFunds(fundFilters); }, 400);
+    return () => { if (fundDebounceRef.current) clearTimeout(fundDebounceRef.current); };
+  }, [fundFilters, fetchFunds]);
 
   useEffect(() => {
     if (topTab !== "startups") return;
     if (startupDebounceRef.current) clearTimeout(startupDebounceRef.current);
-    startupDebounceRef.current = setTimeout(() => fetchStartups(startupFilters), 500);
+    startupDebounceRef.current = setTimeout(() => { startupFetchedRef.current = true; fetchStartups(startupFilters); }, 400);
     return () => { if (startupDebounceRef.current) clearTimeout(startupDebounceRef.current); };
   }, [startupFilters, fetchStartups, topTab]);
 
-  // Trigger initial load when switching tabs
   useEffect(() => {
-    if (topTab === "funds" && fundFilings.length === 0 && !fundLoading) {
-      fetchFunds(fundFilters);
-    }
-    if (topTab === "startups" && startupFilings.length === 0 && !startupLoading) {
-      fetchStartups(startupFilters);
-    }
+    if (topTab !== "jobs") return;
+    if (jobDebounceRef.current) clearTimeout(jobDebounceRef.current);
+    jobDebounceRef.current = setTimeout(() => { jobFetchedRef.current = true; fetchJobs(jobFilters); }, 400);
+    return () => { if (jobDebounceRef.current) clearTimeout(jobDebounceRef.current); };
+  }, [jobFilters, fetchJobs, topTab]);
+
+  useEffect(() => {
+    if (topTab === "startups" && !startupFetchedRef.current) { startupFetchedRef.current = true; fetchStartups(startupFilters); }
+    if (topTab === "jobs" && !jobFetchedRef.current) { jobFetchedRef.current = true; fetchJobs(jobFilters); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topTab]);
 
-  const outreachFunds = Object.values(records).filter((r) => r.status !== "not_contacted");
+  const outreachRecords = Object.values(records).filter((r) => r.status !== "not_contacted");
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top nav */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex items-center gap-6 h-14">
-            {/* Brand */}
-            <span className="font-bold text-gray-900 text-base tracking-tight flex-shrink-0">Nolo</span>
-
-            {/* Nav tabs */}
-            <nav className="flex items-center gap-1">
-              <NavTab
-                active={topTab === "funds"}
-                onClick={() => setTopTab("funds")}
-                label="Funds"
-                badge={outreachFunds.filter((r) => r.strategy && r.strategy !== "Seed" && r.strategy !== "Series A" && r.strategy !== "Series B").length || 0}
-              />
-              <NavTab
-                active={topTab === "startups"}
-                onClick={() => setTopTab("startups")}
-                label="Startups"
-                badge={0}
-              />
-            </nav>
-
-            {/* Context subtitle */}
-            <p className="ml-auto text-xs text-gray-400 hidden sm:block">
-              {topTab === "funds"
-                ? "Capital & Hiring Signals · SEC Form D"
-                : "Funding & Hiring Signals · SEC Form D"}
-            </p>
+      {/* Nav */}
+      <header className="bg-slate-900 sticky top-0 z-20">
+        <div className="max-w-6xl mx-auto px-5 h-12 flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <span className="text-white font-bold text-base tracking-tight">Onlu</span>
+            <span className="text-slate-400 text-xs font-medium tracking-wide uppercase">Intel</span>
           </div>
+          <div className="w-px h-4 bg-slate-700" />
+          <nav className="flex items-center gap-1">
+            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Funds" />
+            <NavTab active={topTab === "startups"} onClick={() => setTopTab("startups")} label="Startups" />
+            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Market Hiring" badge />
+          </nav>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-6 space-y-4">
-        {topTab === "funds" ? (
-          <FundsTab
-            filters={fundFilters}
-            setFilters={setFundFilters}
-            filings={fundFilings}
-            total={fundTotal}
-            loading={fundLoading}
-            error={fundError}
-            records={records}
-            updateRecord={updateRecord}
-            outreachFunds={outreachFunds}
-            subTab={fundSubTab}
-            setSubTab={setFundSubTab}
+      {/* Hero */}
+      <div className="bg-slate-900 border-b border-slate-800">
+        <div className="max-w-6xl mx-auto px-5 py-5">
+          {topTab === "funds" && (
+            <>
+              <h1 className="text-white text-xl font-semibold">Track capital. Predict hiring.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">Find the funds most likely hiring right now — ranked by signal strength, before roles are posted.</p>
+            </>
+          )}
+          {topTab === "startups" && (
+            <>
+              <h1 className="text-white text-xl font-semibold">Fresh capital means fresh hiring.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">Startups that recently closed funding are in hiring mode — find them before roles hit LinkedIn.</p>
+            </>
+          )}
+          {topTab === "jobs" && (
+            <>
+              <h1 className="text-white text-xl font-semibold">Where is the market hiring this week?</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">Roles inferred from capital signals — credit, equity, and quant hiring across funds actively raising or post-close.</p>
+            </>
+          )}
+        </div>
+      </div>
+
+      <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
+        {topTab === "funds" && (
+          <FundsSection
+            filters={fundFilters} setFilters={setFundFilters}
+            filings={fundFilings} total={fundTotal}
+            loading={fundLoading} error={fundError}
+            records={records} updateRecord={updateRecord}
+            outreachRecords={outreachRecords}
+            subTab={fundSubTab} setSubTab={setFundSubTab}
             onExport={() => exportToCsv(fundFilings, records)}
           />
-        ) : (
-          <StartupsTab
-            filters={startupFilters}
-            setFilters={setStartupFilters}
-            filings={startupFilings}
-            total={startupTotal}
-            loading={startupLoading}
-            error={startupError}
-            records={records}
-            updateRecord={updateRecord}
+        )}
+        {topTab === "startups" && (
+          <StartupsSection
+            filters={startupFilters} setFilters={setStartupFilters}
+            filings={startupFilings} total={startupTotal}
+            loading={startupLoading} error={startupError}
+            records={records} updateRecord={updateRecord}
+          />
+        )}
+        {topTab === "jobs" && (
+          <JobsSection
+            filters={jobFilters} setFilters={setJobFilters}
+            signals={jobSignals} total={jobTotal}
+            loading={jobLoading} error={jobError}
           />
         )}
       </main>
@@ -215,322 +218,418 @@ export default function Home() {
   );
 }
 
-// ─── Nav tab ──────────────────────────────────────────────────────────────────
-
-function NavTab({ active, onClick, label, badge }: {
-  active: boolean; onClick: () => void; label: string; badge: number;
-}) {
+function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: boolean }) {
   return (
     <button
       onClick={onClick}
-      className={`relative px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-        active
-          ? "bg-gray-900 text-white"
-          : "text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+      className={`relative px-3 py-1 rounded-md text-sm font-medium transition-all ${
+        active ? "bg-white text-slate-900" : "text-slate-300 hover:text-white hover:bg-slate-800"
       }`}
     >
       {label}
-      {badge > 0 && (
-        <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-          {badge}
+      {badge && (
+        <span className="absolute -top-1 -right-1.5 text-[9px] bg-amber-400 text-amber-900 font-bold px-1 py-0.5 rounded leading-none">
+          NEW
         </span>
       )}
     </button>
   );
 }
 
-// ─── Funds tab ────────────────────────────────────────────────────────────────
+// ─── Shared helpers ───────────────────────────────────────────────────────────
 
-function FundsTab({
-  filters, setFilters, filings, total, loading, error,
-  records, updateRecord, outreachFunds, subTab, setSubTab, onExport,
-}: {
-  filters: SearchFilters;
-  setFilters: (f: SearchFilters) => void;
-  filings: FundFiling[];
-  total: number;
-  loading: boolean;
-  error: string | null;
-  records: Record<string, OutreachRecord>;
-  updateRecord: (r: OutreachRecord) => void;
-  outreachFunds: OutreachRecord[];
-  subTab: "search" | "outreach";
-  setSubTab: (t: "search" | "outreach") => void;
-  onExport: () => void;
-}) {
-  return (
-    <>
-      {/* Page title + sub-tabs */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900">Funds</h2>
-          <p className="text-xs text-gray-500 mt-0.5">Precision signals · Form D filings · IR &amp; investing hires</p>
-        </div>
-        <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-          <button
-            onClick={() => setSubTab("search")}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-              subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Search
-          </button>
-          <button
-            onClick={() => setSubTab("outreach")}
-            className={`relative px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-              subTab === "outreach" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            Pipeline
-            {outreachFunds.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
-                {outreachFunds.length}
-              </span>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {subTab === "search" ? (
-        <>
-          <SearchBar
-            value={filters.query}
-            onChange={(q) => setFilters({ ...filters, query: q })}
-            loading={loading}
-          />
-          <Filters
-            filters={filters}
-            onChange={setFilters}
-            total={total}
-            loading={loading}
-            onExport={onExport}
-          />
-          <FundBanner />
-          {error && <ErrorBox message={error} />}
-          {loading && filings.length === 0 && <LoadingSkeleton />}
-          {!loading && filings.length === 0 && !error && (
-            <EmptyState icon="📋" title="No funds found" hint="Try broadening the date range or changing the strategy filter" />
-          )}
-          <div className="space-y-3">
-            {filings.map((filing) => (
-              <FundCard
-                key={filing.id}
-                filing={filing}
-                outreach={records[filing.id]}
-                onOutreachChange={updateRecord}
-              />
-            ))}
-          </div>
-          {filings.length > 0 && (
-            <p className="text-center text-xs text-gray-400 py-4">
-              Data from{" "}
-              <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
-                SEC EDGAR Form D
-              </a>{" "}
-              · Hiring signals coming in Phase 2
-            </p>
-          )}
-        </>
-      ) : (
-        <OutreachPipeline records={outreachFunds} onSearchClick={() => setSubTab("search")} />
-      )}
-    </>
-  );
+function fmt(amount?: number): string {
+  if (!amount) return "";
+  if (amount >= 1_000_000_000) return `$${(amount / 1_000_000_000).toFixed(1)}B`;
+  if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(0)}M`;
+  return `$${(amount / 1_000).toFixed(0)}K`;
 }
 
-// ─── Startups tab ─────────────────────────────────────────────────────────────
-
-function StartupsTab({
-  filters, setFilters, filings, total, loading, error, records, updateRecord,
-}: {
-  filters: StartupSearchFilters;
-  setFilters: (f: StartupSearchFilters) => void;
-  filings: StartupFiling[];
-  total: number;
-  loading: boolean;
-  error: string | null;
-  records: Record<string, OutreachRecord>;
-  updateRecord: (r: OutreachRecord) => void;
-}) {
-  return (
-    <>
-      <div>
-        <h2 className="text-lg font-semibold text-gray-900">Startups</h2>
-        <p className="text-xs text-gray-500 mt-0.5">Funding velocity · Equity raises · Hiring surges</p>
-      </div>
-
-      <SearchBar
-        value={filters.query}
-        onChange={(q) => setFilters({ ...filters, query: q })}
-        loading={loading}
-        placeholder='Search startups — "Series B", "fintech", "healthtech"…'
-        quickSearches={["Series A", "Series B", "seed round", "fintech", "healthtech", "SaaS", "AI", "climate tech"]}
-      />
-
-      <StartupFilters
-        filters={filters}
-        onChange={setFilters}
-        total={total}
-        loading={loading}
-      />
-
-      {error && <ErrorBox message={error} />}
-      {loading && filings.length === 0 && <LoadingSkeleton />}
-      {!loading && filings.length === 0 && !error && (
-        <EmptyState icon="🚀" title="No startups found" hint="Try broadening the date range or searching a specific stage or sector" />
-      )}
-
-      <div className="space-y-2">
-        {filings.map((filing) => (
-          <StartupCard
-            key={filing.id}
-            filing={filing}
-            outreach={records[filing.id]}
-            onOutreachChange={updateRecord}
-          />
-        ))}
-      </div>
-
-      {filings.length > 0 && (
-        <p className="text-center text-xs text-gray-400 py-4">
-          Data from{" "}
-          <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
-            SEC EDGAR Form D
-          </a>{" "}
-          · Stage inferred from raise size · Hiring signals in Phase 2
-        </p>
-      )}
-    </>
-  );
-}
-
-// ─── Helper components ────────────────────────────────────────────────────────
-
-function FundBanner() {
-  const [dismissed, setDismissed] = useState(false);
-  useEffect(() => { setDismissed(localStorage.getItem("fund-banner-dismissed") === "true"); }, []);
-  if (dismissed) return null;
-  return (
-    <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800 flex items-start gap-3">
-      <div className="flex-1">
-        <p className="font-semibold mb-1">How fund scores work</p>
-        <p className="text-xs text-blue-600 leading-relaxed">
-          Scores (0–100): <strong>45%</strong> fundraising (Form D recency, offering status, size) · <strong>35%</strong> hiring signals <span className="opacity-60">(Phase 2)</span> · <strong>20%</strong> expansion signals <span className="opacity-60">(Phase 2)</span>. Recency decays: 1.0× within 30d → 0.1× after 1 year. Hot = 80+, Warm = 60–79, Watch = 40–59.
-        </p>
-      </div>
-      <button
-        onClick={() => { localStorage.setItem("fund-banner-dismissed", "true"); setDismissed(true); }}
-        className="text-blue-400 hover:text-blue-600 flex-shrink-0"
-      >✕</button>
-    </div>
-  );
+function SignalChip({ label, color }: { label: string; color: string }) {
+  const cls: Record<string, string> = {
+    blue:   "bg-blue-50 text-blue-700 border-blue-100",
+    green:  "bg-emerald-50 text-emerald-700 border-emerald-100",
+    purple: "bg-violet-50 text-violet-700 border-violet-100",
+    indigo: "bg-indigo-50 text-indigo-700 border-indigo-100",
+    gray:   "bg-gray-50 text-gray-600 border-gray-100",
+    red:    "bg-red-50 text-red-700 border-red-100",
+    amber:  "bg-amber-50 text-amber-700 border-amber-100",
+  };
+  return <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${cls[color] ?? cls.gray}`}>{label}</span>;
 }
 
 function ErrorBox({ message }: { message: string }) {
+  return <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{message}</div>;
+}
+
+function EmptyState({ icon, title, hint }: { icon: string; title: string; hint: string }) {
   return (
-    <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
-      {message}
+    <div className="text-center py-12 text-gray-400">
+      <div className="text-3xl mb-2">{icon}</div>
+      <p className="font-medium text-gray-600 text-sm">{title}</p>
+      <p className="text-xs mt-1">{hint}</p>
     </div>
   );
 }
 
-function LoadingSkeleton() {
+function SkeletonRows({ cols }: { cols: number }) {
+  const colCls = cols === 6 ? "grid-cols-[56px_1fr_140px_160px_100px_72px]" : cols === 7 ? "grid-cols-[1fr_150px_120px_80px_130px_80px]" : "grid-cols-6";
   return (
-    <div className="space-y-3">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 animate-pulse">
-          <div className="flex gap-4">
-            <div className="w-12 h-12 rounded-full bg-gray-200 flex-shrink-0" />
-            <div className="flex-1 space-y-2">
-              <div className="h-4 bg-gray-200 rounded w-1/3" />
-              <div className="h-3 bg-gray-100 rounded w-1/2" />
-            </div>
-          </div>
+    <div className="divide-y divide-gray-100">
+      {[...Array(6)].map((_, i) => (
+        <div key={i} className={`grid ${colCls} gap-3 px-4 py-3 animate-pulse`}>
+          <div className="space-y-1.5"><div className="h-3.5 bg-gray-100 rounded w-2/3" /><div className="h-3 bg-gray-50 rounded w-1/2" /></div>
+          <div className="h-5 bg-gray-100 rounded-full w-20" />
+          <div className="h-3 bg-gray-100 rounded w-12" />
+          <div className="h-3 bg-gray-100 rounded w-10" />
+          <div className="h-5 bg-gray-100 rounded w-24" />
+          <div className="h-3 bg-gray-100 rounded w-10" />
         </div>
       ))}
     </div>
   );
 }
 
-function EmptyState({ icon, title, hint }: { icon: string; title: string; hint: string }) {
+// ─── Top Opportunities ────────────────────────────────────────────────────────
+
+function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onClick: (id: string) => void }) {
+  const top = filings.filter((f) => f.score.overallScore >= 50).slice(0, Math.min(5, filings.length));
+  if (top.length === 0) return null;
   return (
-    <div className="text-center py-16 text-gray-400">
-      <div className="text-4xl mb-3">{icon}</div>
-      <p className="font-medium text-gray-600">{title}</p>
-      <p className="text-sm mt-1">{hint}</p>
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <h2 className="text-sm font-semibold text-gray-900">Top Opportunities This Week</h2>
+        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">ranked by signal</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
+        {top.map((f, i) => (
+          <TopFundCard key={f.id} filing={f} rank={i + 1} onClick={() => onClick(f.id)} />
+        ))}
+      </div>
     </div>
   );
 }
 
-function OutreachPipeline({
-  records, onSearchClick,
+function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: number; onClick: () => void }) {
+  const { score } = filing;
+  const scoreBg = score.bucket === "hot" ? "bg-red-500" : score.bucket === "warm" ? "bg-amber-500" : "bg-yellow-400";
+  const chips: Array<{ label: string; color: string }> = [];
+  chips.push({ label: filing.formType === "D" ? "Form D" : "Form D/A", color: "blue" });
+  if (filing.offeringStatus === "open") chips.push({ label: "In market", color: "green" });
+  else if (filing.offeringStatus === "closed") chips.push({ label: "Closed", color: "purple" });
+  if (filing.totalOfferingAmount) chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
+  return (
+    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-blue-200 hover:shadow-sm transition-all group">
+      <div className="flex items-start justify-between gap-1 mb-2.5">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
+          <div className={`w-7 h-7 rounded-lg ${scoreBg} flex items-center justify-center flex-shrink-0`}>
+            <span className="text-white font-bold text-xs">{score.overallScore}</span>
+          </div>
+        </div>
+        <span className="text-[10px] text-gray-200 group-hover:text-blue-400 transition-colors mt-0.5">↓</span>
+      </div>
+      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-blue-700 transition-colors line-clamp-2">
+        {filing.entityName}
+      </div>
+      {score.whyNow[0] && (
+        <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
+          <span className="text-blue-500">→ </span>{score.whyNow[0]}
+        </p>
+      )}
+      <div className="flex flex-wrap gap-1">{chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}</div>
+    </button>
+  );
+}
+
+function TopStartupOpportunities({ filings, onClick }: { filings: StartupFiling[]; onClick: (id: string) => void }) {
+  const top = filings.filter((f) => f.score.overallScore >= 50).slice(0, Math.min(5, filings.length));
+  if (top.length === 0) return null;
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <h2 className="text-sm font-semibold text-gray-900">Top Opportunities This Week</h2>
+        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">ranked by signal</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
+        {top.map((f, i) => (
+          <TopStartupCard key={f.id} filing={f} rank={i + 1} onClick={() => onClick(f.id)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TopStartupCard({ filing, rank, onClick }: { filing: StartupFiling; rank: number; onClick: () => void }) {
+  const { score } = filing;
+  const scoreBg = score.bucket === "hot" ? "bg-red-500" : score.bucket === "warm" ? "bg-amber-500" : "bg-yellow-400";
+  const chips: Array<{ label: string; color: string }> = [];
+  chips.push({ label: filing.stageLabel, color: "indigo" });
+  if (filing.offeringStatus === "open") chips.push({ label: "Raising", color: "green" });
+  else if (filing.offeringStatus === "closed") chips.push({ label: "Funded", color: "purple" });
+  const amt = filing.totalAmountSold ?? filing.totalOfferingAmount;
+  if (amt) chips.push({ label: fmt(amt), color: "gray" });
+  return (
+    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-indigo-200 hover:shadow-sm transition-all group">
+      <div className="flex items-start justify-between gap-1 mb-2.5">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
+          <div className={`w-7 h-7 rounded-lg ${scoreBg} flex items-center justify-center flex-shrink-0`}>
+            <span className="text-white font-bold text-xs">{score.overallScore}</span>
+          </div>
+        </div>
+        <span className="text-[10px] text-gray-200 group-hover:text-indigo-400 transition-colors mt-0.5">↓</span>
+      </div>
+      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-indigo-700 transition-colors line-clamp-2">
+        {filing.entityName}
+      </div>
+      {score.whyNow[0] && (
+        <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
+          <span className="text-indigo-500">→ </span>{score.whyNow[0]}
+        </p>
+      )}
+      <div className="flex flex-wrap gap-1">{chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}</div>
+    </button>
+  );
+}
+
+// ─── Funds section ────────────────────────────────────────────────────────────
+
+function FundsSection({
+  filters, setFilters, filings, total, loading, error,
+  records, updateRecord, outreachRecords, subTab, setSubTab, onExport,
 }: {
-  records: OutreachRecord[];
-  onSearchClick: () => void;
+  filters: SearchFilters; setFilters: (f: SearchFilters) => void;
+  filings: FundFiling[]; total: number; loading: boolean; error: string | null;
+  records: Record<string, OutreachRecord>; updateRecord: (r: OutreachRecord) => void;
+  outreachRecords: OutreachRecord[];
+  subTab: "search" | "pipeline"; setSubTab: (t: "search" | "pipeline") => void;
+  onExport: () => void;
 }) {
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+
+  return (
+    <>
+      {subTab === "search" && filings.length > 0 && !loading && (
+        <TopFundOpportunities filings={filings} onClick={(id) => {
+          setHighlightId(id);
+          setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+        }} />
+      )}
+
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1 bg-gray-200 rounded-lg p-0.5">
+          <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>Search</button>
+          <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            Pipeline
+            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
+          </button>
+        </div>
+        <p className="text-xs text-gray-400">Capital &amp; hiring signals · SEC Form D</p>
+      </div>
+
+      {subTab === "search" ? (
+        <>
+          <SearchBar value={filters.query} onChange={(q) => setFilters({ ...filters, query: q })} loading={loading} />
+          <FundFilterBar filters={filters} onChange={setFilters} total={total} loading={loading} onExport={onExport} />
+          {error && <ErrorBox message={error} />}
+
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+              {["Score", "Fund / Firm", "Strategy", "Fundraising", "Location", "Updated"].map((h) => (
+                <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+              ))}
+            </div>
+            {loading && filings.length === 0 && <SkeletonRows cols={6} />}
+            {!loading && filings.length === 0 && !error && <EmptyState icon="📋" title="No funds found" hint="Try broadening the date range or strategy filter" />}
+            {filings.map((f) => (
+              <div key={f.id} id={`fund-row-${f.id}`}>
+                <FundRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />
+              </div>
+            ))}
+          </div>
+          {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Hiring signals in Phase 2</p>}
+        </>
+      ) : (
+        <OutreachPipeline records={outreachRecords} onBack={() => setSubTab("search")} />
+      )}
+    </>
+  );
+}
+
+// ─── Startups section ─────────────────────────────────────────────────────────
+
+function StartupsSection({
+  filters, setFilters, filings, total, loading, error, records, updateRecord,
+}: {
+  filters: StartupSearchFilters; setFilters: (f: StartupSearchFilters) => void;
+  filings: StartupFiling[]; total: number; loading: boolean; error: string | null;
+  records: Record<string, OutreachRecord>; updateRecord: (r: OutreachRecord) => void;
+}) {
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+
+  return (
+    <>
+      {filings.length > 0 && !loading && (
+        <TopStartupOpportunities filings={filings} onClick={(id) => {
+          setHighlightId(id);
+          setTimeout(() => document.getElementById(`startup-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+        }} />
+      )}
+
+      <div className="flex items-center justify-between">
+        <span />
+        <p className="text-xs text-gray-400">Funding &amp; hiring signals · SEC Form D</p>
+      </div>
+
+      <SearchBar value={filters.query} onChange={(q) => setFilters({ ...filters, query: q })} loading={loading}
+        placeholder='Search — "Series B", "fintech", "healthtech"…'
+        quickSearches={["Series A", "Series B", "seed round", "fintech", "healthtech", "SaaS", "AI", "climate tech"]} />
+      <StartupFilterBar filters={filters} onChange={setFilters} total={total} loading={loading} />
+      {error && <ErrorBox message={error} />}
+
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-[56px_1fr_110px_150px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+          {["Score", "Company", "Stage", "Funding", "Location", "Updated"].map((h) => (
+            <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+          ))}
+        </div>
+        {loading && filings.length === 0 && <SkeletonRows cols={6} />}
+        {!loading && filings.length === 0 && !error && <EmptyState icon="🚀" title="No startups found" hint="Try broadening the date range or stage filter" />}
+        {filings.map((f) => (
+          <div key={f.id} id={`startup-row-${f.id}`}>
+            <StartupRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />
+          </div>
+        ))}
+      </div>
+      {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Hiring signals in Phase 2</p>}
+    </>
+  );
+}
+
+// ─── Market Hiring section ────────────────────────────────────────────────────
+
+const JOB_CATEGORIES: Array<{ v: "all" | JobCategory; l: string }> = [
+  { v: "all", l: "All" },
+  { v: "Credit", l: "Credit" },
+  { v: "Equity", l: "Equity" },
+  { v: "Equity Research", l: "Equity Research" },
+  { v: "Quant", l: "Quant" },
+  { v: "IR / Ops", l: "IR / Ops" },
+];
+
+const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
+  { v: "all", l: "All signals" },
+  { v: "In-market raise", l: "In-market raise" },
+  { v: "Post-raise build-out", l: "Post-raise" },
+  { v: "Fund scaling", l: "Fund scaling" },
+];
+
+function JobsSection({
+  filters, setFilters, signals, total, loading, error,
+}: {
+  filters: JobFilters; setFilters: (f: JobFilters) => void;
+  signals: JobSignal[]; total: number; loading: boolean; error: string | null;
+}) {
+  return (
+    <>
+      {/* Filter bar */}
+      <div className="flex flex-wrap items-center gap-2">
+        {JOB_CATEGORIES.map((c) => (
+          <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v })}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+              filters.category === c.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+            }`}>
+            {c.l}
+          </button>
+        ))}
+        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
+        {JOB_SIGNAL_TAGS.map((t) => (
+          <button key={t.v} onClick={() => setFilters({ ...filters, signalTag: t.v })}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+              filters.signalTag === t.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+            }`}>
+            {t.l}
+          </button>
+        ))}
+        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
+        <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
+          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900">
+          <option value="14">Last 14d</option>
+          <option value="30">Last 30d</option>
+          <option value="60">Last 60d</option>
+          <option value="90">Last 90d</option>
+        </select>
+        <span className="ml-auto text-xs text-gray-400">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
+      </div>
+
+      {error && <ErrorBox message={error} />}
+
+      {/* Explainer */}
+      <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-2.5 text-xs text-amber-800 flex items-start gap-2">
+        <span className="mt-0.5">ℹ</span>
+        <span>Roles are <strong>inferred</strong> from SEC Form D capital signals — not scraped from job boards. A fund raising or recently closed implies likely hiring for these roles.</span>
+      </div>
+
+      {/* Table */}
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-[1fr_150px_120px_80px_130px_80px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+          {["Firm / Role", "Category", "Location", "Filed", "Signal", ""].map((h) => (
+            <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+          ))}
+        </div>
+        {loading && signals.length === 0 && <SkeletonRows cols={7} />}
+        {!loading && signals.length === 0 && !error && (
+          <EmptyState icon="📊" title="No hiring signals found" hint="Try expanding the date range or switching category" />
+        )}
+        {signals.map((s) => <JobRow key={s.id} signal={s} />)}
+      </div>
+
+      {signals.length > 0 && (
+        <p className="text-center text-xs text-gray-400 py-1">
+          Derived from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> filings · Phase 2: live job board integration
+        </p>
+      )}
+    </>
+  );
+}
+
+// ─── Outreach pipeline ────────────────────────────────────────────────────────
+
+function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBack: () => void }) {
   if (records.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-400">
-        <div className="text-4xl mb-3">📬</div>
+      <div className="text-center py-16 text-gray-400 bg-white border border-gray-200 rounded-xl">
+        <div className="text-3xl mb-3">📬</div>
         <p className="font-medium text-gray-600">No outreach tracked yet</p>
-        <p className="text-sm mt-1">Open a fund card and set its status to start tracking</p>
-        <button
-          onClick={onSearchClick}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
-        >
-          Search Funds
-        </button>
+        <p className="text-sm mt-1">Open a fund row and set its status to start tracking</p>
+        <button onClick={onBack} className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800">Search Funds</button>
       </div>
     );
   }
-
   const groups = {
     in_discussion: records.filter((r) => r.status === "in_discussion"),
-    reached_out: records.filter((r) => r.status === "reached_out"),
-    passed: records.filter((r) => r.status === "passed"),
+    reached_out:   records.filter((r) => r.status === "reached_out"),
+    passed:        records.filter((r) => r.status === "passed"),
   };
-
-  const colorMap = {
-    in_discussion: "text-green-700 bg-green-50 border-green-200",
-    reached_out: "text-blue-700 bg-blue-50 border-blue-200",
-    passed: "text-gray-600 bg-gray-50 border-gray-200",
-  } as const;
-
-  const titles = {
-    in_discussion: "In Discussion",
-    reached_out: "Reached Out",
-    passed: "Passed",
-  } as const;
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {(["in_discussion", "reached_out", "passed"] as const).map((status) => {
         const group = groups[status];
-        if (group.length === 0) return null;
+        if (!group.length) return null;
+        const titles = { in_discussion: "In Discussion", reached_out: "Reached Out", passed: "Passed" };
+        const colors = { in_discussion: "text-green-700 bg-green-50 border-green-200", reached_out: "text-blue-700 bg-blue-50 border-blue-200", passed: "text-gray-600 bg-gray-50 border-gray-200" };
         return (
           <div key={status}>
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">
-              {titles[status]}{" "}
-              <span className="text-gray-400 font-normal">({group.length})</span>
-            </h2>
-            <div className="space-y-2">
-              {group.map((record) => (
-                <div key={record.filingId} className={`border rounded-xl px-4 py-3 ${colorMap[status]}`}>
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="font-medium text-sm">{record.entityName}</div>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        {record.strategy && <span className="text-xs opacity-70">{record.strategy}</span>}
-                        {record.score !== undefined && <span className="text-xs opacity-60">Score: {record.score}</span>}
-                        {record.contactedAt && (
-                          <span className="text-xs opacity-60">
-                            · {new Date(record.contactedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                          </span>
-                        )}
-                      </div>
-                      {record.notes && <p className="text-xs italic mt-1.5 opacity-80">{record.notes}</p>}
-                    </div>
+            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
+            <div className="space-y-1.5">
+              {group.map((r) => (
+                <div key={r.filingId} className={`border rounded-lg px-4 py-2.5 ${colors[status]}`}>
+                  <div className="flex items-center justify-between">
+                    <div><span className="font-medium text-sm">{r.entityName}</span>{r.strategy && <span className="text-xs opacity-60 ml-2">{r.strategy}</span>}</div>
+                    {r.contactedAt && <span className="text-xs opacity-50">{new Date(r.contactedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>}
                   </div>
+                  {r.notes && <p className="text-xs italic mt-1 opacity-70">{r.notes}</p>}
                 </div>
               ))}
             </div>

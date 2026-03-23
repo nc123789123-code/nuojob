@@ -34,7 +34,10 @@ export type SignalType =
   | "form_d_open"
   | "form_d_closed"
   | "large_offering"
+  | "very_large_offering"
+  | "medium_offering"
   | "near_target"
+  | "recency"
   | "press_release"
   | "hiring_investing"
   | "hiring_ir"
@@ -163,6 +166,30 @@ export interface StartupSearchFilters {
   dateRange: "30" | "60" | "90" | "180";
   bucket: "all" | RaiseBucket;
   minAmount: string;
+}
+
+// ─── Market Hiring ────────────────────────────────────────────────────────────
+
+export type JobCategory = "Credit" | "Equity" | "Equity Research" | "Quant" | "IR / Ops" | "Other";
+export type JobSignalTag = "In-market raise" | "Post-raise build-out" | "Fund scaling" | "New fund";
+
+export interface JobSignal {
+  id: string;
+  firm: string;
+  role: string;
+  category: JobCategory;
+  location: string;
+  daysAgo: number;
+  signalTag: JobSignalTag;
+  why: string; // concise one-liner
+  score: number;
+  edgarUrl?: string;
+}
+
+export interface JobFilters {
+  category: "all" | JobCategory;
+  dateRange: "14" | "30" | "60" | "90";
+  signalTag: "all" | JobSignalTag;
 }
 
 // ─── EDGAR raw types ──────────────────────────────────────────────────────────

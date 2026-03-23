@@ -9,7 +9,7 @@ const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
 
 const HEADERS = {
-  "User-Agent": "NolaClaude/1.0 research@nolaclaude.com",
+  "User-Agent": "Onlu/1.0 research@onlu.com",
   "Accept": "application/json, text/xml",
 };
 
@@ -53,8 +53,9 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
 
     // Skip pooled investment funds — those are for the Funds tab
     const securityType = extractXml(xml, "securityType") || "";
-    if (/pooled investment fund/i.test(securityType)) {
-      return null; // signal to skip this filing
+    const isPooledFund = extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() === "true";
+    if (/pooled investment fund/i.test(securityType) || isPooledFund) {
+      return null; // skip — this is a fund, not a startup equity raise
     }
 
     let offeringStatus: OfferingStatus = "unknown";
@@ -166,9 +167,10 @@ export async function GET(req: NextRequest) {
       relatedPersons?: Array<{ firstName?: string; lastName?: string; title?: string; city?: string; state?: string }>;
     };
 
-    // Fetch XML details for first 10 and filter out funds
+    // Fetch XML details for up to 30 entries (parallel) and filter out funds
+    const XML_BATCH = 30;
     const detailedRaw = await Promise.all(
-      partial.slice(0, 10).map(async (f) => {
+      partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
         if (details === null) return null; // pooled investment fund — skip
         return { ...f, ...details } as PartialFiling;
@@ -182,7 +184,7 @@ export async function GET(req: NextRequest) {
       return { ...f, stage: s, stageLabel: label };
     });
 
-    const rest = partial.slice(10);
+    const rest = partial.slice(XML_BATCH);
     const all = [...detailedWithStage, ...rest];
 
     // Fetch news signals

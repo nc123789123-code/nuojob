@@ -16,105 +16,42 @@ const STRATEGY_PATTERNS: Array<{
   strategy: FundStrategy;
   label: string;
 }> = [
-  {
-    keywords: ["direct lending", "direct lend"],
-    strategy: "direct_lending",
-    label: "Direct Lending",
-  },
-  {
-    keywords: [
-      "private credit",
-      "private debt",
-      "credit opportunities",
-      "credit opportunity",
-    ],
-    strategy: "private_credit",
-    label: "Private Credit",
-  },
-  {
-    keywords: [
-      "special situations",
-      "special sits",
-      "opportunistic credit",
-      "distressed credit",
-    ],
-    strategy: "special_sits",
-    label: "Special Situations",
-  },
-  {
-    keywords: ["distressed", "distress"],
-    strategy: "distressed",
-    label: "Distressed",
-  },
-  {
-    keywords: ["mezzanine", "mezz"],
-    strategy: "mezzanine",
-    label: "Mezzanine",
-  },
-  {
-    keywords: ["long/short", "long short", "equity long"],
-    strategy: "long_short",
-    label: "Long/Short Equity",
-  },
-  {
-    keywords: ["macro", "global macro"],
-    strategy: "macro",
-    label: "Global Macro",
-  },
-  {
-    keywords: ["quant", "quantitative", "systematic"],
-    strategy: "quant",
-    label: "Quantitative",
-  },
-  {
-    keywords: [
-      "multi-strategy",
-      "multi strategy",
-      "multistrategy",
-      "multi strat",
-    ],
-    strategy: "multi_strategy",
-    label: "Multi-Strategy",
-  },
-  {
-    keywords: [
-      "hedge fund",
-      "master fund",
-      "feeder fund",
-      "offshore fund",
-      "cayman",
-    ],
-    strategy: "hedge_fund",
-    label: "Hedge Fund",
-  },
+  { keywords: ["direct lending", "direct lend"], strategy: "direct_lending", label: "Direct Lending" },
+  { keywords: ["private credit", "private debt", "credit opportunities", "credit opportunity"], strategy: "private_credit", label: "Private Credit" },
+  { keywords: ["special situations", "special sits", "opportunistic credit", "distressed credit"], strategy: "special_sits", label: "Special Situations" },
+  { keywords: ["distressed", "distress"], strategy: "distressed", label: "Distressed" },
+  { keywords: ["mezzanine", "mezz"], strategy: "mezzanine", label: "Mezzanine" },
+  { keywords: ["long/short", "long short", "equity long"], strategy: "long_short", label: "Long/Short Equity" },
+  { keywords: ["macro", "global macro"], strategy: "macro", label: "Global Macro" },
+  { keywords: ["quant", "quantitative", "systematic"], strategy: "quant", label: "Quantitative" },
+  { keywords: ["multi-strategy", "multi strategy", "multistrategy", "multi strat"], strategy: "multi_strategy", label: "Multi-Strategy" },
+  { keywords: ["hedge fund", "master fund", "feeder fund", "offshore fund", "cayman"], strategy: "hedge_fund", label: "Hedge Fund" },
 ];
 
-export function detectStrategy(name: string): {
-  strategy: FundStrategy;
-  label: string;
-} {
+export function detectStrategy(name: string): { strategy: FundStrategy; label: string } {
   const lower = (name || "").toLowerCase();
-
   for (const { keywords, strategy, label } of STRATEGY_PATTERNS) {
-    if (keywords.some((k) => lower.includes(k))) {
-      return { strategy, label };
-    }
+    if (keywords.some((k) => lower.includes(k))) return { strategy, label };
   }
-
-  // Heuristic fallbacks
   if (/credit/i.test(name)) return { strategy: "private_credit", label: "Credit" };
-  if (/fund (lp|llc|ltd)/i.test(name) || /partners (lp|llc)/i.test(name)) {
-    return { strategy: "hedge_fund", label: "Hedge Fund" };
-  }
-
+  if (/fund (lp|llc|ltd)/i.test(name) || /partners (lp|llc)/i.test(name)) return { strategy: "hedge_fund", label: "Hedge Fund" };
   return { strategy: "other", label: "Fund" };
 }
 
-// ─── Recency multiplier ───────────────────────────────────────────────────────
+// ─── Recency bonus (additive, not multiplicative) ─────────────────────────────
 
+export function recencyBonus(days: number): number {
+  if (days <= 7)   return 20;
+  if (days <= 30)  return 15;
+  if (days <= 90)  return 8;
+  if (days <= 180) return 3;
+  return 0;
+}
+
+// Keep for backwards compat
 export function recencyMultiplier(days: number): number {
-  if (days <= 30) return 1.0;
-  if (days <= 90) return 0.8;
+  if (days <= 30)  return 1.0;
+  if (days <= 90)  return 0.8;
   if (days <= 180) return 0.6;
   if (days <= 365) return 0.35;
   return 0.1;
@@ -123,171 +60,212 @@ export function recencyMultiplier(days: number): number {
 export function getDaysSince(dateStr: string): number {
   const date = new Date(dateStr);
   const now = new Date();
-  return Math.max(
-    0,
-    Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24))
-  );
+  return Math.max(0, Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)));
 }
 
-// ─── Core scoring ─────────────────────────────────────────────────────────────
+// ─── Why Now builder — specific and actionable ────────────────────────────────
+
+function buildFundWhyNow(
+  filing: { formType: string; totalOfferingAmount?: number; totalAmountSold?: number; offeringStatus: string; state?: string; dateOfFirstSale?: string },
+  days: number
+): string[] {
+  const whyNow: string[] = [];
+
+  // Primary signal line — combine specifics into one clear sentence
+  const parts: string[] = [];
+
+  if (filing.formType === "D/A") {
+    parts.push("Form D amendment");
+  } else {
+    parts.push("New Form D");
+  }
+
+  if (filing.totalOfferingAmount) {
+    parts.push(`${formatM(filing.totalOfferingAmount)} fund`);
+  }
+
+  const recencyLabel = days === 0 ? "today" : days === 1 ? "yesterday" : `${days} days ago`;
+  parts.push(`filed ${recencyLabel}`);
+
+  if (filing.totalAmountSold && filing.totalAmountSold > 0 && filing.totalOfferingAmount) {
+    const pct = Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100);
+    parts.push(`${formatM(filing.totalAmountSold)} raised (${pct}%)`);
+  } else if (filing.totalAmountSold && filing.totalAmountSold > 0) {
+    parts.push(`${formatM(filing.totalAmountSold)} raised`);
+  }
+
+  whyNow.push(parts.join(" · "));
+
+  // Implication — what this means for hiring
+  if (filing.offeringStatus === "open") {
+    if (filing.totalAmountSold && filing.totalOfferingAmount) {
+      const pct = Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100);
+      if (pct >= 75) {
+        whyNow.push(`${pct}% raised → near final close, IR wind-down and investment team expansion likely`);
+      } else if (pct >= 50) {
+        whyNow.push(`${pct}% raised → mid-raise, IR and deal sourcing hires most urgent now`);
+      } else {
+        whyNow.push("Actively raising → investor relations and investment team build-out in progress");
+      }
+    } else {
+      whyNow.push("Offering open → actively raising capital, IR and investment team hires likely");
+    }
+  } else if (filing.offeringStatus === "closed") {
+    whyNow.push("Round closed → post-raise team build-out phase, hiring analysts and associates to deploy capital");
+  } else {
+    whyNow.push("Recent Form D activity → likely fundraising or deploying capital");
+  }
+
+  if (filing.dateOfFirstSale) {
+    const firstDays = getDaysSince(filing.dateOfFirstSale);
+    if (firstDays <= 90) {
+      whyNow.push(`First capital received ${firstDays} day${firstDays !== 1 ? "s" : ""} ago`);
+    }
+  }
+
+  return whyNow;
+}
+
+function buildStartupWhyNow(
+  filing: { formType: string; totalOfferingAmount?: number; totalAmountSold?: number; offeringStatus: string; state?: string; dateOfFirstSale?: string },
+  days: number,
+  stageLabel: string
+): string[] {
+  const whyNow: string[] = [];
+
+  const amount = filing.totalAmountSold ?? filing.totalOfferingAmount;
+  const recencyLabel = days === 0 ? "today" : days === 1 ? "yesterday" : `${days} days ago`;
+
+  const parts: string[] = [];
+  if (amount) {
+    parts.push(`${stageLabel} · ${formatM(amount)}`);
+  } else {
+    parts.push(stageLabel);
+  }
+  parts.push(`filed ${recencyLabel}`);
+  if (filing.offeringStatus === "open") parts.push("raising now");
+  else if (filing.offeringStatus === "closed") parts.push("closed");
+  whyNow.push(parts.join(" · "));
+
+  if (filing.offeringStatus === "open") {
+    whyNow.push("Round in progress → leadership and go-to-market hires typically begin now");
+  } else if (filing.offeringStatus === "closed") {
+    whyNow.push("Funding closed → scaling phase, high-velocity hiring across sales, finance, and engineering");
+  } else {
+    whyNow.push("Recent equity raise → growth and team expansion likely underway");
+  }
+
+  if (filing.dateOfFirstSale) {
+    const firstDays = getDaysSince(filing.dateOfFirstSale);
+    if (firstDays <= 60) {
+      whyNow.push(`First capital in ${firstDays} day${firstDays !== 1 ? "s" : ""} ago`);
+    }
+  }
+
+  return whyNow;
+}
+
+// ─── Core scoring — ADDITIVE system ──────────────────────────────────────────
+//
+// Target ranges:
+//   Hot   ≥ 70  (top opportunities, fresh + strong signal)
+//   Warm  ≥ 50  (solid opportunities, 1–3 months old or weaker signal)
+//   Watch ≥ 30  (worth monitoring)
+//   Low   < 30  (weak signal, old, or incomplete data)
+//
+// Max additive score: 35+25+20+10+20 = 110 → capped at 100
+// ──────────────────────────────────────────────────────────────────────────────
 
 export function scoreFiling(
   filing: Omit<FundFiling, "score" | "daysSinceFiling" | "strategy" | "strategyLabel">,
   prefetched?: { expansionSignals?: Signal[]; expansionScore?: number }
 ): FundScore {
   const days = getDaysSince(filing.fileDate);
-  const rm = recencyMultiplier(days);
   const signals: Signal[] = [];
+  let score = 0;
 
-  // ── Fundraising score ──────────────────────────────────────────────────────
-  let fundraisingRaw = 0;
+  // ── 1. Form type base ──────────────────────────────────────────────────────
   const isAmendment = filing.formType === "D/A";
-
   if (!isAmendment) {
-    fundraisingRaw += 30;
-    signals.push({
-      type: "form_d_new",
-      description: `New Form D filed ${days} day${days !== 1 ? "s" : ""} ago`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 30,
-    });
+    score += 35;
+    signals.push({ type: "form_d_new", description: `New Form D filed ${days} day${days !== 1 ? "s" : ""} ago`, date: filing.fileDate, source: "SEC EDGAR", weight: 35 });
   } else {
-    fundraisingRaw += 10;
-    signals.push({
-      type: "form_d_amendment",
-      description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 10,
-    });
+    score += 15;
+    signals.push({ type: "form_d_amendment", description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`, date: filing.fileDate, source: "SEC EDGAR", weight: 15 });
   }
 
-  // Offering still open = actively raising
+  // ── 2. Offering status ────────────────────────────────────────────────────
   if (filing.offeringStatus === "open") {
-    fundraisingRaw += 20;
-    signals.push({
-      type: "form_d_open",
-      description: "Offering still open — likely mid-raise",
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 20,
-    });
+    score += 25;
+    signals.push({ type: "form_d_open", description: "Offering open — actively raising capital", date: filing.fileDate, source: "SEC EDGAR", weight: 25 });
   } else if (filing.offeringStatus === "closed") {
-    fundraisingRaw += 15;
-    signals.push({
-      type: "form_d_closed",
-      description: "Offering closed — recently raised capital, likely deploying",
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 15,
-    });
+    score += 20;
+    signals.push({ type: "form_d_closed", description: "Offering closed — capital recently raised, team build-out phase", date: filing.fileDate, source: "SEC EDGAR", weight: 20 });
   }
 
-  // Large offering size signal
-  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) {
-    fundraisingRaw += 10;
-    signals.push({
-      type: "large_offering",
-      description: `Large offering: ${formatM(filing.totalOfferingAmount)} target`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 10,
-    });
+  // ── 3. Fund size ──────────────────────────────────────────────────────────
+  const offeringAmt = filing.totalOfferingAmount;
+  if (offeringAmt && offeringAmt >= 500_000_000) {
+    score += 20;
+    signals.push({ type: "very_large_offering", description: `Very large fund: ${formatM(offeringAmt)} target`, date: filing.fileDate, source: "SEC EDGAR", weight: 20 });
+  } else if (offeringAmt && offeringAmt >= 100_000_000) {
+    score += 12;
+    signals.push({ type: "large_offering", description: `Large fund: ${formatM(offeringAmt)} target`, date: filing.fileDate, source: "SEC EDGAR", weight: 12 });
+  } else if (offeringAmt && offeringAmt >= 10_000_000) {
+    score += 5;
+    signals.push({ type: "medium_offering", description: `Fund size: ${formatM(offeringAmt)}`, date: filing.fileDate, source: "SEC EDGAR", weight: 5 });
   }
 
-  // Near / at target (high conviction)
+  // ── 4. Near target ────────────────────────────────────────────────────────
   if (filing.totalOfferingAmount && filing.totalAmountSold) {
     const pct = filing.totalAmountSold / filing.totalOfferingAmount;
     if (pct >= 0.5 && pct < 1.0) {
-      fundraisingRaw += 10;
-      signals.push({
-        type: "near_target",
-        description: `${Math.round(pct * 100)}% raised toward target — near close`,
-        date: filing.fileDate,
-        source: "SEC EDGAR",
-        weight: 10,
-      });
+      score += 10;
+      signals.push({ type: "near_target", description: `${Math.round(pct * 100)}% raised toward target — approaching close`, date: filing.fileDate, source: "SEC EDGAR", weight: 10 });
     }
   }
 
-  const fundraisingScore = Math.min(100, Math.round(fundraisingRaw * rm));
+  // ── 5. Recency bonus ──────────────────────────────────────────────────────
+  const rb = recencyBonus(days);
+  if (rb > 0) {
+    score += rb;
+    signals.push({ type: "recency", description: `Filed ${days === 0 ? "today" : `${days} day${days !== 1 ? "s" : ""} ago`}`, date: filing.fileDate, source: "SEC EDGAR", weight: rb });
+  }
 
-  // ── Hiring score (placeholder — wire to careers scraper in Phase 2) ─────────
+  // ── 6. News / expansion ───────────────────────────────────────────────────
+  const expansionScore = prefetched?.expansionScore ?? 0;
+  const expansionContrib = expansionScore > 0 ? Math.round(expansionScore * 0.10) : 0;
+  if (expansionContrib > 0) {
+    score += expansionContrib;
+    if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
+  }
+
+  const fundraisingScore = Math.min(100, score);
+  const overallScore = fundraisingScore; // hiring is phase 2; score IS the fundraising signal
   const hiringScore = 0;
 
-  // ── Expansion score — NewsAPI signals if available ────────────────────────
-  const expansionScore = prefetched?.expansionScore ?? 0;
-  if (prefetched?.expansionSignals?.length) {
-    signals.push(...prefetched.expansionSignals);
-  }
-
-  // ── Overall weighted score ─────────────────────────────────────────────────
-  // 0.45 * fundraising + 0.35 * hiring + 0.20 * expansion
-  const overallScore = Math.round(
-    0.45 * fundraisingScore + 0.35 * hiringScore + 0.20 * expansionScore
-  );
-
-  // ── Bucket ─────────────────────────────────────────────────────────────────
   const bucket: RaiseBucket =
-    overallScore >= 80
-      ? "hot"
-      : overallScore >= 60
-      ? "warm"
-      : overallScore >= 40
-      ? "watch"
-      : "low";
+    overallScore >= 70 ? "hot" : overallScore >= 50 ? "warm" : overallScore >= 30 ? "watch" : "low";
 
-  // ── Confidence (only EDGAR data in MVP = Medium) ───────────────────────────
-  const confidence =
-    signals.length >= 3 ? "medium" : signals.length >= 2 ? "medium" : "low";
+  const confidence: "high" | "medium" | "low" =
+    filing.offeringStatus !== "unknown" && filing.totalOfferingAmount ? "medium" : "low";
 
-  // ── Why now bullets ────────────────────────────────────────────────────────
-  const whyNow: string[] = [];
-  whyNow.push(`Form ${filing.formType} filed ${days} day${days !== 1 ? "s" : ""} ago`);
-  if (filing.totalAmountSold && filing.totalAmountSold > 0) {
-    whyNow.push(
-      `${formatM(filing.totalAmountSold)} raised${
-        filing.totalOfferingAmount
-          ? ` of ${formatM(filing.totalOfferingAmount)} target`
-          : ""
-      }`
-    );
-  } else if (filing.totalOfferingAmount) {
-    whyNow.push(`${formatM(filing.totalOfferingAmount)} target offering`);
-  }
-  if (filing.offeringStatus === "open") {
-    whyNow.push("Offering open — actively fundraising");
-  } else if (filing.offeringStatus === "closed") {
-    whyNow.push("Offering closed — capital deployed / team build-out likely");
-  }
-  if (filing.dateOfFirstSale) {
-    const firstDays = getDaysSince(filing.dateOfFirstSale);
-    whyNow.push(`First sale ${firstDays} day${firstDays !== 1 ? "s" : ""} ago`);
-  }
-  if (filing.state) {
-    whyNow.push(`${filing.state}-based fund`);
-  }
+  const whyNow = buildFundWhyNow(filing, days);
 
-  // ── Suggested angle ────────────────────────────────────────────────────────
   const suggestedAngle =
     filing.offeringStatus === "open"
-      ? `Congrats on the recent fund momentum — would love to discuss talent needs as you build out the team mid-raise.`
-      : `Congrats on the close — as you deploy capital and scale the portfolio, happy to discuss your investment team build.`;
+      ? `Congratulations on the raise — as you approach close and scale the team, happy to discuss your investment, IR, and operations hiring.`
+      : filing.offeringStatus === "closed"
+      ? `Congrats on closing the fund — as you deploy capital and build out the portfolio team, would love to talk through analyst and associate hires.`
+      : `Noticed the recent Form D activity — happy to connect on how we can support your team growth.`;
 
-  // ── Suggested target teams ─────────────────────────────────────────────────
-  const suggestedTargetTeams = [
-    "Investment team",
-    "Capital formation / IR",
-    "COO / Chief of Staff",
-    "Portfolio Operations",
-  ];
+  const suggestedTargetTeams = ["Investment team", "Capital formation / IR", "Portfolio Operations", "COO / Chief of Staff"];
 
   return {
     fundraisingScore,
     hiringScore,
     expansionScore,
-    recencyMultiplier: rm,
+    recencyMultiplier: recencyMultiplier(days),
     overallScore,
     bucket,
     confidence,
@@ -305,7 +283,6 @@ function formatM(amount: number): string {
   return `$${amount.toLocaleString()}`;
 }
 
-// Export for use in API
 export { formatM };
 
 // ─── Startup stage inference ──────────────────────────────────────────────────
@@ -333,109 +310,66 @@ export function scoreStartup(
   prefetched?: { expansionSignals?: Signal[]; expansionScore?: number }
 ): StartupScore {
   const days = getDaysSince(filing.fileDate);
-  const rm = recencyMultiplier(days);
   const signals: Signal[] = [];
+  let score = 0;
 
   const { stage, label: stageLabel } = inferStage(filing.totalAmountSold ?? filing.totalOfferingAmount);
 
-  // ── Funding score ──────────────────────────────────────────────────────────
-  let fundingRaw = 0;
+  // ── 1. Form type ──────────────────────────────────────────────────────────
   const isAmendment = filing.formType === "D/A";
-
   if (!isAmendment) {
-    fundingRaw += 35;
-    signals.push({
-      type: "form_d_new",
-      description: `Form D filed ${days} day${days !== 1 ? "s" : ""} ago — equity raise`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 35,
-    });
+    score += 35;
+    signals.push({ type: "form_d_new", description: `Equity Form D filed ${days} day${days !== 1 ? "s" : ""} ago`, date: filing.fileDate, source: "SEC EDGAR", weight: 35 });
   } else {
-    fundingRaw += 12;
-    signals.push({
-      type: "form_d_amendment",
-      description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 12,
-    });
+    score += 15;
+    signals.push({ type: "form_d_amendment", description: `Form D amendment filed ${days} day${days !== 1 ? "s" : ""} ago`, date: filing.fileDate, source: "SEC EDGAR", weight: 15 });
   }
 
-  // Offering open = actively raising
+  // ── 2. Offering status ────────────────────────────────────────────────────
   if (filing.offeringStatus === "open") {
-    fundingRaw += 20;
-    signals.push({
-      type: "form_d_open",
-      description: "Offering open — round actively in progress",
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 20,
-    });
+    score += 22;
+    signals.push({ type: "form_d_open", description: "Round actively in progress — team build expected soon", date: filing.fileDate, source: "SEC EDGAR", weight: 22 });
   } else if (filing.offeringStatus === "closed") {
-    fundingRaw += 18;
-    signals.push({
-      type: "form_d_closed",
-      description: "Funding closed — fresh capital, scaling likely",
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: 18,
-    });
+    score += 20;
+    signals.push({ type: "form_d_closed", description: "Round closed — fresh capital, scaling phase", date: filing.fileDate, source: "SEC EDGAR", weight: 20 });
   }
 
-  // Stage bonus — later stage = more validated, more hiring
+  // ── 3. Stage bonus ────────────────────────────────────────────────────────
   const stageBonus: Record<FundingStage, number> = {
     pre_seed: 0, seed: 5, series_a: 12, series_b: 18, series_c: 20, growth: 20, unknown: 0,
   };
   const bonus = stageBonus[stage];
   if (bonus > 0) {
-    fundingRaw += bonus;
-    signals.push({
-      type: "large_offering",
-      description: `${stageLabel} round — ${formatM(filing.totalAmountSold ?? filing.totalOfferingAmount ?? 0)} raised`,
-      date: filing.fileDate,
-      source: "SEC EDGAR",
-      weight: bonus,
-    });
+    score += bonus;
+    const amount = filing.totalAmountSold ?? filing.totalOfferingAmount;
+    signals.push({ type: "large_offering", description: `${stageLabel} round${amount ? ` — ${formatM(amount)} raised` : ""}`, date: filing.fileDate, source: "SEC EDGAR", weight: bonus });
   }
 
-  const fundingScore = Math.min(100, Math.round(fundingRaw * rm));
+  // ── 4. Recency bonus ──────────────────────────────────────────────────────
+  const rb = recencyBonus(days);
+  if (rb > 0) {
+    score += rb;
+    signals.push({ type: "recency", description: `Filed ${days === 0 ? "today" : `${days} day${days !== 1 ? "s" : ""} ago`}`, date: filing.fileDate, source: "SEC EDGAR", weight: rb });
+  }
 
-  // ── Hiring score (Phase 2 placeholder) ────────────────────────────────────
+  // ── 5. Expansion ──────────────────────────────────────────────────────────
+  const expansionScore = prefetched?.expansionScore ?? 0;
+  if (expansionScore > 0) {
+    score += Math.round(expansionScore * 0.08);
+    if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
+  }
+
+  const fundingScore = Math.min(100, score);
+  const overallScore = fundingScore;
   const hiringScore = 0;
 
-  // ── Expansion score — NewsAPI ──────────────────────────────────────────────
-  const expansionScore = prefetched?.expansionScore ?? 0;
-  if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
-
-  // ── Overall: 50% funding + 30% hiring + 20% expansion ─────────────────────
-  const overallScore = Math.round(
-    0.50 * fundingScore + 0.30 * hiringScore + 0.20 * expansionScore
-  );
-
   const bucket: RaiseBucket =
-    overallScore >= 80 ? "hot" : overallScore >= 60 ? "warm" : overallScore >= 40 ? "watch" : "low";
+    overallScore >= 70 ? "hot" : overallScore >= 50 ? "warm" : overallScore >= 30 ? "watch" : "low";
 
-  const confidence = signals.length >= 3 ? "medium" : signals.length >= 2 ? "medium" : "low";
+  const confidence: "high" | "medium" | "low" =
+    filing.offeringStatus !== "unknown" ? "medium" : "low";
 
-  // ── Why Now (intuitive, startup style) ────────────────────────────────────
-  const whyNow: string[] = [];
-  if (filing.totalAmountSold && filing.totalAmountSold > 0) {
-    whyNow.push(`${stageLabel} round: ${formatM(filing.totalAmountSold)} raised${days <= 30 ? " recently" : ""}`);
-  } else if (filing.totalOfferingAmount) {
-    whyNow.push(`${stageLabel} targeting ${formatM(filing.totalOfferingAmount)}`);
-  }
-  if (filing.offeringStatus === "open") {
-    whyNow.push("Round actively open — team build-out imminent");
-  } else if (filing.offeringStatus === "closed") {
-    whyNow.push("Recent funding closed — active scaling phase");
-  }
-  if (days <= 30) whyNow.push(`Filed just ${days} day${days !== 1 ? "s" : ""} ago`);
-  if (filing.dateOfFirstSale) {
-    const firstDays = getDaysSince(filing.dateOfFirstSale);
-    if (firstDays <= 60) whyNow.push(`First capital in ${firstDays} day${firstDays !== 1 ? "s" : ""} ago`);
-  }
-  if (filing.state) whyNow.push(`${filing.state}-based company`);
+  const whyNow = buildStartupWhyNow(filing, days, stageLabel);
 
   const suggestedAngle =
     filing.offeringStatus === "open"
@@ -446,7 +380,7 @@ export function scoreStartup(
     fundingScore,
     hiringScore,
     expansionScore,
-    recencyMultiplier: rm,
+    recencyMultiplier: recencyMultiplier(days),
     overallScore,
     bucket,
     confidence,
@@ -456,4 +390,38 @@ export function scoreStartup(
     stage,
     stageLabel,
   };
+}
+
+// ─── Role inference for Market Hiring tab ─────────────────────────────────────
+
+import { JobCategory, JobSignalTag } from "@/app/types";
+
+const STRATEGY_ROLES: Record<string, Array<{ role: string; category: JobCategory }>> = {
+  private_credit:  [{ role: "Credit Analyst", category: "Credit" }, { role: "Underwriting Associate", category: "Credit" }],
+  direct_lending:  [{ role: "Direct Lending Analyst", category: "Credit" }, { role: "Portfolio Manager (Loans)", category: "Credit" }],
+  special_sits:    [{ role: "Special Situations Analyst", category: "Credit" }, { role: "Investment Associate", category: "Credit" }],
+  distressed:      [{ role: "Distressed Debt Analyst", category: "Credit" }, { role: "Restructuring Associate", category: "Credit" }],
+  mezzanine:       [{ role: "Mezzanine Analyst", category: "Credit" }],
+  hedge_fund:      [{ role: "Equity Analyst", category: "Equity" }, { role: "Portfolio Manager", category: "Equity" }],
+  long_short:      [{ role: "Long/Short Equity Analyst", category: "Equity Research" }, { role: "Sector Specialist", category: "Equity" }],
+  macro:           [{ role: "Macro Analyst", category: "Equity" }, { role: "Fixed Income PM", category: "Credit" }],
+  quant:           [{ role: "Quantitative Researcher", category: "Quant" }, { role: "Systematic Trader", category: "Quant" }],
+  multi_strategy:  [{ role: "Investment Analyst", category: "Equity" }, { role: "Credit Analyst", category: "Credit" }],
+  other:           [{ role: "Investment Analyst", category: "Other" }],
+};
+
+export function inferJobRoles(strategy: string, offeringStatus: string): Array<{ role: string; category: JobCategory }> {
+  const base = STRATEGY_ROLES[strategy] ?? STRATEGY_ROLES.other;
+  // Active raise = also needs IR
+  if (offeringStatus === "open") {
+    return [...base, { role: "Investor Relations Manager", category: "IR / Ops" }];
+  }
+  return base;
+}
+
+export function inferJobSignalTag(offeringStatus: string, formType: string): JobSignalTag {
+  if (offeringStatus === "open") return "In-market raise";
+  if (offeringStatus === "closed") return "Post-raise build-out";
+  if (formType === "D/A") return "Fund scaling";
+  return "New fund";
 }
