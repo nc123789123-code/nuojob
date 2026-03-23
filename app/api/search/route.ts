@@ -83,6 +83,26 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
   }
 }
 
+const NON_FUND_PATTERNS = [
+  /\b(law (firm|office|group|offices)|attorneys|counselors? at law|legal (services|group|advisors?))\b/i,
+  /\bcpa\b|\baccountant|\baccounting firm/i,
+  /\b(realty|real estate (brokers?|agents?|firm))\b/i,
+  /\b(staffing|recruiting|recruitment) (firm|agency|group)\b/i,
+  /\b(dental|medical|physician|healthcare) (practice|group|associates)\b/i,
+  /\bpension plan\b|\bretirement plan\b/i,
+];
+
+const FUND_SIGNALS = [
+  /\b(fund|capital|partners?|management|asset|invest|credit|equity|ventures?|advisors?)\b/i,
+  /\b(lp|llc|ltd|l\.p\.|l\.l\.c\.)\b/i,
+];
+
+function isLikelyFund(name: string | undefined): boolean {
+  if (!name || name.trim().length < 3) return false;
+  if (NON_FUND_PATTERNS.some((p) => p.test(name))) return false;
+  return FUND_SIGNALS.some((p) => p.test(name));
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -116,7 +136,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const hits = Array.from(seen.values());
+    const hits = Array.from(seen.values()).filter((hit) => isLikelyFund(hit._source?.entity_name));
 
     // Build partial filings
     const partial = hits.slice(0, 40).map((hit) => {
