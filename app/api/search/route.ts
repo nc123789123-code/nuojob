@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { FundFiling, OfferingStatus, EdgarSearchHit } from "@/app/types";
 import { detectStrategy, scoreFiling, getDaysSince } from "@/app/lib/scoring";
+import { fetchNewsSignals } from "@/app/lib/news";
 
 export const runtime = "edge";
 
@@ -159,8 +160,27 @@ export async function GET(req: NextRequest) {
     const rest = partial.slice(8);
     const all = [...detailed, ...rest];
 
+    // Fetch news signals for detailed funds (if API key is available)
+    const newsApiKey = process.env.NEWSAPI_KEY ?? "";
+    const newsMap = new Map<string, Awaited<ReturnType<typeof fetchNewsSignals>>>();
+    if (newsApiKey) {
+      await Promise.all(
+        detailed.map(async (f) => {
+          const result = await fetchNewsSignals(f.entityName, newsApiKey);
+          newsMap.set(f.id, result);
+        })
+      );
+    }
+
     // Score
-    let scored: FundFiling[] = all.map((f) => ({ ...f, score: scoreFiling(f), daysSinceFiling: getDaysSince(f.fileDate) }));
+    let scored: FundFiling[] = all.map((f) => {
+      const news = newsMap.get(f.id);
+      return {
+        ...f,
+        score: scoreFiling(f, news ? { expansionSignals: news.signals, expansionScore: news.expansionScore } : undefined),
+        daysSinceFiling: getDaysSince(f.fileDate),
+      };
+    });
 
     if (bucket !== "all") scored = scored.filter((f) => f.score.bucket === bucket);
     if (minAmount) {

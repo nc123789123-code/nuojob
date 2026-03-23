@@ -128,7 +128,10 @@ export function getDaysSince(dateStr: string): number {
 
 // ─── Core scoring ─────────────────────────────────────────────────────────────
 
-export function scoreFiling(filing: Omit<FundFiling, "score" | "daysSinceFiling" | "strategy" | "strategyLabel">): FundScore {
+export function scoreFiling(
+  filing: Omit<FundFiling, "score" | "daysSinceFiling" | "strategy" | "strategyLabel">,
+  prefetched?: { expansionSignals?: Signal[]; expansionScore?: number }
+): FundScore {
   const days = getDaysSince(filing.fileDate);
   const rm = recencyMultiplier(days);
   const signals: Signal[] = [];
@@ -210,8 +213,11 @@ export function scoreFiling(filing: Omit<FundFiling, "score" | "daysSinceFiling"
   // ── Hiring score (placeholder — wire to careers scraper in Phase 2) ─────────
   const hiringScore = 0;
 
-  // ── Expansion score (placeholder — wire to news/PR scraper in Phase 2) ─────
-  const expansionScore = 0;
+  // ── Expansion score — NewsAPI signals if available ────────────────────────
+  const expansionScore = prefetched?.expansionScore ?? 0;
+  if (prefetched?.expansionSignals?.length) {
+    signals.push(...prefetched.expansionSignals);
+  }
 
   // ── Overall weighted score ─────────────────────────────────────────────────
   // 0.45 * fundraising + 0.35 * hiring + 0.20 * expansion
