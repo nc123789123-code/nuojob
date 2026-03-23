@@ -62,14 +62,14 @@ export default function Home() {
       });
 
       const res = await fetch(`/api/search?${params}`);
-      if (!res.ok) throw new Error("Search failed");
-
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Search failed");
+
       setFilings(data.filings || []);
       setTotal(data.total || 0);
     } catch (err) {
       setError(
-        "Failed to reach SEC EDGAR. Please try again in a moment."
+        err instanceof Error ? err.message : "Failed to load results. Please try again."
       );
       console.error(err);
     } finally {
