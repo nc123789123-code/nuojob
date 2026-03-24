@@ -53,6 +53,13 @@ async function safeJson<T>(res: Response): Promise<T | null> {
   try { return await res.json() as T; } catch { return null; }
 }
 
+/** fetch with a hard timeout (default 6 s) to prevent edge function hangs. */
+function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
 const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing)\b/i;
 
@@ -108,7 +115,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
   const results = await Promise.allSettled(
     ADZUNA_QUERIES.map(async ({ what, fallbackCat }) => {
       const p = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "25", sort_by: "date", max_days_old: String(maxDays), "content-type": "application/json" });
-      const res = await fetch(`${ADZUNA_BASE}?${p}`);
+      const res = await fetchT(`${ADZUNA_BASE}?${p}`);
       if (!res.ok) return [] as Array<{ hit: AdzunaJob; fallbackCat: JobCategory }>;
       const data = await safeJson<AdzunaResp>(res);
       return (data?.results || []).map((hit) => ({ hit, fallbackCat }));
@@ -164,7 +171,7 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     MUSE_QUERIES.map(async (q) => {
       const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": "0" });
-      const res = await fetch(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
+      const res = await fetchT(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
       if (!res.ok) return [] as MuseJob[];
       const data = await safeJson<MuseResp>(res);
       return data?.results || [];
@@ -218,7 +225,7 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
   const results = await Promise.allSettled(
     JSEARCH_QUERIES.slice(0, 3).map(async (q) => { // limit to 3 to save quota
       const p = new URLSearchParams({ query: q, num_pages: "1", date_posted: maxDays <= 7 ? "today" : maxDays <= 30 ? "month" : "all" });
-      const res = await fetch(`https://jsearch.p.rapidapi.com/search?${p}`, {
+      const res = await fetchT(`https://jsearch.p.rapidapi.com/search?${p}`, {
         headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
       });
       if (!res.ok) return [] as JSearchJob[];
@@ -275,7 +282,7 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
   const searchResults = await Promise.allSettled(
     EDGAR_QUERIES.map(async (term) => {
       const p = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
-      const res = await fetch(`${EDGAR_SEARCH_URL}?${p}`, { headers: EDGAR_HEADERS });
+      const res = await fetchT(`${EDGAR_SEARCH_URL}?${p}`, { headers: EDGAR_HEADERS });
       if (!res.ok) return [] as EdgarSearchHit[];
       const data = await safeJson<{ hits: { hits: EdgarSearchHit[] } }>(res);
       return (data?.hits?.hits || []) as EdgarSearchHit[];
@@ -305,7 +312,7 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
     partial.slice(0, 25).map(async (f) => {
       try {
         const url = `${EDGAR_ARCHIVE_URL}/${f.cik}/${f.accessionNo.replace(/-/g, "")}/primary_doc.xml`;
-        const res = await fetch(url, { headers: EDGAR_HEADERS });
+        const res = await fetchT(url, { headers: EDGAR_HEADERS });
         if (!res.ok) return null;
         const xml = await res.text();
         if (extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() !== "true") return null;
@@ -388,7 +395,7 @@ interface LeverPosting { id: string; text: string; createdAt: number; applyUrl?:
 async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     GREENHOUSE_FIRMS.map(async ({ slug, firm, type }) => {
-      const res = await fetch(`https://boards.greenhouse.io/${slug}/jobs.json`);
+      const res = await fetchT(`https://boards.greenhouse.io/${slug}/jobs.json`);
       if (!res.ok) return [] as JobSignal[];
       const data = await safeJson<GreenhouseResp>(res);
       const jobs = data?.jobs || [];
@@ -420,7 +427,7 @@ async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
 async function fromLever(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     LEVER_FIRMS.map(async ({ slug, firm, type }) => {
-      const res = await fetch(`https://api.lever.co/v0/postings/${slug}?mode=json`);
+      const res = await fetchT(`https://api.lever.co/v0/postings/${slug}?mode=json`);
       if (!res.ok) return [] as JobSignal[];
       const jobs = await safeJson<LeverPosting[]>(res);
       if (!Array.isArray(jobs)) return [] as JobSignal[];
