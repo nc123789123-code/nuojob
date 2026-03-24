@@ -64,7 +64,7 @@ export default function JobRow({ signal }: Props) {
         </span>
       </div>
 
-      {/* EDGAR link */}
+      {/* Apply / EDGAR link */}
       <div>
         {signal.edgarUrl && (
           <a
@@ -74,7 +74,7 @@ export default function JobRow({ signal }: Props) {
             className="text-[10px] text-gray-300 group-hover:text-blue-400 transition-colors font-medium"
             onClick={(e) => e.stopPropagation()}
           >
-            EDGAR ↗
+            {signal.id.startsWith("edgar-") ? "EDGAR ↗" : "Apply ↗"}
           </a>
         )}
       </div>
