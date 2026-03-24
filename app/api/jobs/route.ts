@@ -46,6 +46,13 @@ function getDateRange(days: string) {
   return { startDate: start.toISOString().split("T")[0], endDate: end.toISOString().split("T")[0] };
 }
 
+/** Safely parse JSON — returns null if the response is HTML or malformed. */
+async function safeJson<T>(res: Response): Promise<T | null> {
+  const ct = res.headers.get("content-type") || "";
+  if (!ct.includes("json")) return null;
+  try { return await res.json() as T; } catch { return null; }
+}
+
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
 const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing)\b/i;
 
@@ -92,8 +99,8 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       const p = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "15", sort_by: "date", max_days_old: String(maxDays), "content-type": "application/json" });
       const res = await fetch(`${ADZUNA_BASE}?${p}`);
       if (!res.ok) return [] as Array<{ hit: AdzunaJob; fallbackCat: JobCategory }>;
-      const data: AdzunaResp = await res.json();
-      return (data.results || []).map((hit) => ({ hit, fallbackCat }));
+      const data = await safeJson<AdzunaResp>(res);
+      return (data?.results || []).map((hit) => ({ hit, fallbackCat }));
     })
   );
 
@@ -148,8 +155,8 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": "0" });
       const res = await fetch(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
       if (!res.ok) return [] as MuseJob[];
-      const data: MuseResp = await res.json();
-      return data.results || [];
+      const data = await safeJson<MuseResp>(res);
+      return data?.results || [];
     })
   );
 
@@ -206,8 +213,8 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
         headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
       });
       if (!res.ok) return [] as JSearchJob[];
-      const data: JSearchResp = await res.json();
-      return data.data || [];
+      const data = await safeJson<JSearchResp>(res);
+      return data?.data || [];
     })
   );
 
@@ -261,7 +268,7 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
       const p = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
       const res = await fetch(`${EDGAR_SEARCH_URL}?${p}`, { headers: EDGAR_HEADERS });
       if (!res.ok) return [] as EdgarSearchHit[];
-      const data = await res.json();
+      const data = await safeJson<{ hits: { hits: EdgarSearchHit[] } }>(res);
       return (data?.hits?.hits || []) as EdgarSearchHit[];
     })
   );

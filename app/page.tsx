@@ -110,7 +110,9 @@ export default function Home() {
     try {
       const params = new URLSearchParams({ dateRange: f.dateRange, category: f.category, signalTag: f.signalTag });
       const res = await fetch(`/api/jobs?${params}`);
-      const data = await res.json();
+      const text = await res.text();
+      let data: { signals?: JobSignal[]; total?: number; sources?: string[]; error?: string };
+      try { data = JSON.parse(text); } catch { throw new Error("Jobs service unavailable"); }
       if (!res.ok) throw new Error(data.error || "Search failed");
       setJobSignals(data.signals || []); setJobTotal(data.total || 0); setJobSources(data.sources || []);
     } catch (err) { setJobError(err instanceof Error ? err.message : "Failed"); }
