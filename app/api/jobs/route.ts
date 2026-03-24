@@ -341,6 +341,127 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
   return out;
 }
 
+// ─── Source 5: Greenhouse + Lever (direct firm career pages) ──────────────────
+
+type FirmType = "pe" | "hedge" | "credit" | "growth";
+
+const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
+  // Mega PE
+  { slug: "blackstone",         firm: "Blackstone",                  type: "pe"     },
+  { slug: "kkr",                firm: "KKR",                         type: "pe"     },
+  { slug: "apolloglobal",       firm: "Apollo Global Management",    type: "pe"     },
+  { slug: "carlyle",            firm: "The Carlyle Group",           type: "pe"     },
+  { slug: "tpg",                firm: "TPG",                         type: "pe"     },
+  { slug: "baincapital",        firm: "Bain Capital",                type: "pe"     },
+  { slug: "warburgpincus",      firm: "Warburg Pincus",              type: "pe"     },
+  // Growth / Tech PE
+  { slug: "generalatlantic",    firm: "General Atlantic",            type: "growth" },
+  { slug: "vistaequity",        firm: "Vista Equity Partners",       type: "pe"     },
+  { slug: "franciscopartners",  firm: "Francisco Partners",          type: "pe"     },
+  { slug: "silverlake",         firm: "Silver Lake",                 type: "pe"     },
+  { slug: "thomabravo",         firm: "Thoma Bravo",                 type: "pe"     },
+  { slug: "hgcapital",          firm: "HG Capital",                  type: "pe"     },
+  { slug: "helion",             firm: "Helion Partners",             type: "pe"     },
+  // Hedge funds
+  { slug: "citadel",            firm: "Citadel",                     type: "hedge"  },
+  { slug: "point72",            firm: "Point72",                     type: "hedge"  },
+  { slug: "twosigma",           firm: "Two Sigma",                   type: "hedge"  },
+  { slug: "bridgewater",        firm: "Bridgewater Associates",      type: "hedge"  },
+  { slug: "millenniummanagement", firm: "Millennium Management",     type: "hedge"  },
+  { slug: "deshaw",             firm: "D.E. Shaw",                   type: "hedge"  },
+  { slug: "aqr",                firm: "AQR Capital Management",      type: "hedge"  },
+  { slug: "mangroup",           firm: "Man Group",                   type: "hedge"  },
+  // Credit / Direct Lending
+  { slug: "aresmgmt",           firm: "Ares Management",             type: "credit" },
+  { slug: "blueowl",            firm: "Blue Owl Capital",            type: "credit" },
+  { slug: "golubcapital",       firm: "Golub Capital",               type: "credit" },
+  { slug: "hps",                firm: "HPS Investment Partners",     type: "credit" },
+  { slug: "owl-rock",           firm: "Owl Rock Capital",            type: "credit" },
+  { slug: "pgim",               firm: "PGIM",                        type: "credit" },
+];
+
+const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
+  { slug: "coatue",             firm: "Coatue Management",           type: "hedge"  },
+  { slug: "tigerglobal",        firm: "Tiger Global",                type: "growth" },
+  { slug: "dragoneer",          firm: "Dragoneer Investment Group",  type: "growth" },
+  { slug: "iconiqcapital",      firm: "ICONIQ Capital",              type: "pe"     },
+  { slug: "gvteam",             firm: "GV (Google Ventures)",        type: "growth" },
+];
+
+/** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
+function firmFallbackCat(type: FirmType): JobCategory {
+  if (type === "credit") return "Credit";
+  return "Equity";
+}
+
+interface GreenhouseJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }
+interface GreenhouseResp { jobs: GreenhouseJob[]; }
+interface LeverPosting { id: string; text: string; createdAt: number; applyUrl?: string; hostedUrl?: string; categories?: { location?: string; department?: string }; }
+
+async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
+  const results = await Promise.allSettled(
+    GREENHOUSE_FIRMS.map(async ({ slug, firm, type }) => {
+      const res = await fetch(`https://boards.greenhouse.io/${slug}/jobs.json`);
+      if (!res.ok) return [] as JobSignal[];
+      const data = await safeJson<GreenhouseResp>(res);
+      const jobs = data?.jobs || [];
+      const out: JobSignal[] = [];
+      for (const job of jobs) {
+        const days = daysAgo(job.updated_at);
+        if (days > maxDays) continue;
+        const cat = classifyTitle(job.title) ?? (FINANCE_KEYWORD_RE.test(job.title) ? firmFallbackCat(type) : null);
+        if (!cat) continue;
+        out.push({
+          id: `gh-${slug}-${job.id}`,
+          firm,
+          role: job.title,
+          category: cat,
+          location: job.location?.name?.split(",")?.[0]?.trim() || "—",
+          daysAgo: days,
+          signalTag: signalTagFromTitle(job.title),
+          why: "Direct from firm careers page",
+          score: 0,
+          edgarUrl: job.absolute_url,
+        });
+      }
+      return out;
+    })
+  );
+  return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
+}
+
+async function fromLever(maxDays: number): Promise<JobSignal[]> {
+  const results = await Promise.allSettled(
+    LEVER_FIRMS.map(async ({ slug, firm, type }) => {
+      const res = await fetch(`https://api.lever.co/v0/postings/${slug}?mode=json`);
+      if (!res.ok) return [] as JobSignal[];
+      const jobs = await safeJson<LeverPosting[]>(res);
+      if (!Array.isArray(jobs)) return [] as JobSignal[];
+      const out: JobSignal[] = [];
+      for (const job of jobs) {
+        const days = Math.floor((Date.now() - job.createdAt) / 86400000);
+        if (days > maxDays) continue;
+        const cat = classifyTitle(job.text) ?? (FINANCE_KEYWORD_RE.test(job.text) ? firmFallbackCat(type) : null);
+        if (!cat) continue;
+        out.push({
+          id: `lever-${slug}-${job.id}`,
+          firm,
+          role: job.text,
+          category: cat,
+          location: job.categories?.location?.split(",")?.[0]?.trim() || "—",
+          daysAgo: days,
+          signalTag: signalTagFromTitle(job.text),
+          why: "Direct from firm careers page",
+          score: 0,
+          edgarUrl: job.applyUrl || job.hostedUrl,
+        });
+      }
+      return out;
+    })
+  );
+  return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
+}
+
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
@@ -356,23 +477,27 @@ export async function GET(req: NextRequest) {
     const rapidKey  = process.env.RAPIDAPI_KEY     ?? "";
 
     // Run all live sources + EDGAR in parallel
-    const [adzunaResult, museResult, jsearchResult, edgarResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, jsearchResult, edgarResult, ghResult, leverResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       rapidKey ? fromJSearch(rapidKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromEdgar(maxDays),
+      fromGreenhouse(maxDays),
+      fromLever(maxDays),
     ]);
 
     const sources: string[] = [];
     const allSignals: JobSignal[] = [];
 
-    const add = (r: typeof adzunaResult, name: string) => {
+    const add = (r: PromiseSettledResult<JobSignal[]>, name: string) => {
       if (r.status === "fulfilled" && r.value.length > 0) { allSignals.push(...r.value); sources.push(name); }
     };
-    add(adzunaResult, "adzuna");
-    add(museResult,   "muse");
-    add(jsearchResult,"jsearch");
-    add(edgarResult,  "edgar");
+    add(adzunaResult,  "adzuna");
+    add(museResult,    "muse");
+    add(jsearchResult, "jsearch");
+    add(edgarResult,   "edgar");
+    add(ghResult,      "greenhouse");
+    add(leverResult,   "lever");
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();
@@ -388,11 +513,11 @@ export async function GET(req: NextRequest) {
     if (category !== "all") filtered = filtered.filter((s) => s.category === category);
     if (signalTag !== "all") filtered = filtered.filter((s) => s.signalTag === signalTag);
 
-    // Sort: real job board results first (non-edgar), then by recency
+    // Sort: direct firm pages first (gh/lever), then other job boards, then EDGAR signals
     filtered.sort((a, b) => {
-      const aEdgar = a.id.startsWith("edgar-") ? 1 : 0;
-      const bEdgar = b.id.startsWith("edgar-") ? 1 : 0;
-      if (aEdgar !== bEdgar) return aEdgar - bEdgar;
+      const rank = (id: string) => id.startsWith("gh-") || id.startsWith("lever-") ? 0 : id.startsWith("edgar-") ? 2 : 1;
+      const diff = rank(a.id) - rank(b.id);
+      if (diff !== 0) return diff;
       return a.daysAgo - b.daysAgo;
     });
 
