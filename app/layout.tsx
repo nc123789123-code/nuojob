@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Buyside Fundraising Intelligence",
+  title: "Onlu",
   description:
     "Search hedge funds and credit funds actively raising capital · SEC EDGAR Form D signals with opportunity scoring",
 };
