@@ -50,7 +50,7 @@ function getDateRange(days: string) {
 function classifyTitle(title: string): JobCategory | null {
   const t = title.toLowerCase();
   if (/credit|lending|fixed income|high yield|leveraged|distressed|mezz|underwrite|loan/i.test(t)) return "Credit";
-  if (/equity research|research analyst|sell.?side/i.test(t)) return "Equity Research";
+  if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
   if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return "IR / Ops";
   if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side/i.test(t)) return "Equity";
@@ -99,7 +99,10 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       seen.add(hit.id);
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
-      const cat = classifyTitle(hit.title) ?? fallbackCat;
+      // Prefer fallbackCat when title gives a generic result that the query context overrides
+      // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
+      const classified = classifyTitle(hit.title);
+      const cat = !classified || (classified === "Equity" && fallbackCat === "Equity Research") ? fallbackCat : classified;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `adzuna-${hit.id}`,
@@ -149,7 +152,8 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       if (seen.has(job.id)) continue;
       seen.add(job.id);
       const pubDate = job.publication_date || "";
-      const days = pubDate ? daysAgo(pubDate) : 0;
+      if (!pubDate) continue; // skip jobs with no date — would falsely show as "Today"
+      const days = daysAgo(pubDate);
       if (days > maxDays) continue;
       const cat = classifyTitle(job.name) ?? ("Other" as JobCategory);
       if (cat === "Other") continue; // skip unclassifiable
@@ -205,7 +209,8 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
     for (const job of r.value) {
       if (seen.has(job.job_id)) continue;
       seen.add(job.job_id);
-      const days = job.job_posted_at_datetime_utc ? daysAgo(job.job_posted_at_datetime_utc) : 0;
+      if (!job.job_posted_at_datetime_utc) continue; // skip jobs with no date — would falsely show as "Today"
+      const days = daysAgo(job.job_posted_at_datetime_utc);
       if (days > maxDays) continue;
       const cat = classifyTitle(job.job_title) ?? ("Other" as JobCategory);
       if (cat === "Other") continue;
