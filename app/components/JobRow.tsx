@@ -30,13 +30,37 @@ function agoLabel(days: number): string {
   return `${Math.round(days / 30)}mo ago`;
 }
 
-export default function JobRow({ signal }: Props) {
+function sourceInfo(id: string): { label: string; style: string } {
+  if (id.startsWith("gh-"))     return { label: "Greenhouse", style: "bg-green-50 text-green-700 border-green-200" };
+  if (id.startsWith("lever-"))  return { label: "Lever",      style: "bg-teal-50 text-teal-700 border-teal-200" };
+  if (id.startsWith("edgar-"))  return { label: "EDGAR",      style: "bg-gray-50 text-gray-500 border-gray-200" };
+  if (id.startsWith("adzuna-")) return { label: "Adzuna",     style: "bg-blue-50 text-blue-700 border-blue-200" };
+  if (id.startsWith("muse-"))   return { label: "The Muse",   style: "bg-purple-50 text-purple-700 border-purple-200" };
+  return { label: "Board", style: "bg-gray-50 text-gray-500 border-gray-200" };
+}
+
+function ScoreBadge({ score }: { score: number }) {
+  const bg   = score >= 80 ? "bg-red-500" : score >= 65 ? "bg-amber-500" : score >= 50 ? "bg-yellow-400" : "bg-gray-200";
+  const text = score >= 50 ? "text-white" : "text-gray-600";
   return (
-    <div className="grid grid-cols-[1fr_150px_120px_80px_130px_80px] gap-3 px-4 py-3 border-b border-gray-100 last:border-0 items-center hover:bg-gray-50/60 transition-colors group">
-      {/* Firm + role + why */}
+    <div className={`w-8 h-8 rounded-lg ${bg} flex items-center justify-center flex-shrink-0`}>
+      <span className={`font-bold text-[11px] tabular-nums ${text}`}>{score}</span>
+    </div>
+  );
+}
+
+export default function JobRow({ signal }: Props) {
+  const src = sourceInfo(signal.id);
+  return (
+    <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-3 border-b border-gray-100 last:border-0 items-center hover:bg-gray-50/60 transition-colors group">
+      {/* Score */}
+      <ScoreBadge score={signal.score} />
+
+      {/* Firm + role + source + why */}
       <div className="min-w-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="font-semibold text-gray-900 text-sm">{signal.firm}</span>
+          <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${src.style}`}>{src.label}</span>
         </div>
         <div className="text-sm text-gray-600 mt-0.5">{signal.role}</div>
         <p className="text-xs text-gray-400 mt-0.5 truncate">

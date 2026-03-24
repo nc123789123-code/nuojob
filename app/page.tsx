@@ -762,8 +762,8 @@ function JobsSection({
 
       {/* Table */}
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-[1fr_150px_120px_80px_130px_80px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-          {["Firm / Role", "Category", "Location", "Filed", "Signal", ""].map((h) => (
+        <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+          {["Score", "Firm / Role", "Category", "Location", "Filed", "Signal", ""].map((h) => (
             <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
           ))}
         </div>
