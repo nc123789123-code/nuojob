@@ -46,8 +46,16 @@ function getDateRange(days: string) {
   return { startDate: start.toISOString().split("T")[0], endDate: end.toISOString().split("T")[0] };
 }
 
-/** Classify a job title into a buy-side category. Returns null if unclear. */
+/** Titles that are never relevant to buy-side investing regardless of search query context. */
+const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing)\b/i;
+
+/** Finance/investment keywords — at least one must appear for the title to be considered buyside-relevant. */
+const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|investor|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|managing director)\b/i;
+
+/** Classify a job title into a buy-side category. Returns null if unclear or irrelevant. */
 function classifyTitle(title: string): JobCategory | null {
+  if (IRRELEVANT_TITLE_RE.test(title)) return null;
+  if (!FINANCE_KEYWORD_RE.test(title)) return null;
   const t = title.toLowerCase();
   if (/credit|lending|fixed income|high yield|leveraged|distressed|mezz|underwrite|loan/i.test(t)) return "Credit";
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
@@ -99,9 +107,11 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       seen.add(hit.id);
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
+      // Drop titles that aren't finance-relevant even if returned by a finance query
+      const classified = classifyTitle(hit.title);
+      if (!classified && !FINANCE_KEYWORD_RE.test(hit.title)) continue;
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
-      const classified = classifyTitle(hit.title);
       const cat = !classified || (classified === "Equity" && fallbackCat === "Equity Research") ? fallbackCat : classified;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
