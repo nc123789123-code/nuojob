@@ -3,17 +3,18 @@
  *
  * Sources (run in parallel, results merged and deduplicated):
  *
- *   1. Adzuna     — aggregates Indeed, LinkedIn, Monster, etc.
- *                   Free at developer.adzuna.com → set ADZUNA_APP_ID + ADZUNA_APP_KEY
+ *   1. Adzuna      — aggregates Indeed, LinkedIn, Monster, etc.
+ *                    Free at developer.adzuna.com → set ADZUNA_APP_ID + ADZUNA_APP_KEY
  *
- *   2. The Muse   — free, no key required. Finance & Accounting category.
+ *   2. The Muse    — free, no key required. Fetches Finance & Accounting jobs across
+ *                    multiple pages and filters to buy-side relevant titles.
  *
- *   3. JSearch    — near-LinkedIn data via RapidAPI (100 free req/day).
- *                   Free at rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch
- *                   → set RAPIDAPI_KEY
+ *   3. Greenhouse  — direct career pages for known buy-side firms.
  *
- *   4. EDGAR      — ALWAYS runs as a fallback signal layer. Infers likely roles
- *                   from SEC Form D fund filings (capital flow → hiring signal).
+ *   4. Lever       — direct career pages for known buy-side firms.
+ *
+ *   5. EDGAR       — ALWAYS runs as a fallback signal layer. Infers likely roles
+ *                    from SEC Form D fund filings (capital flow → hiring signal).
  */
 
 import { NextRequest } from "next/server";
@@ -160,18 +161,15 @@ interface AdzunaJob { id: string; title: string; company?: { display_name: strin
 interface AdzunaResp { results: AdzunaJob[]; count: number; }
 
 // ─── Source 2: The Muse ───────────────────────────────────────────────────────
-
-const MUSE_QUERIES = [
-  "Credit Analyst", "Equity Analyst", "Portfolio Manager",
-  "Equity Research", "Quantitative Analyst", "Investment Analyst",
-  "Hedge Fund", "Fixed Income", "Research Analyst", "Asset Management",
-];
+// Fetches pages 0-4 of Finance & Accounting jobs (20 per page = up to 100 raw).
+// The Muse public API does not support title/keyword filtering, so we fetch
+// broadly and let classifyTitle filter to buy-side relevant roles.
 
 async function fromMuse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
-    MUSE_QUERIES.map(async (q) => {
-      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": "0" });
-      const res = await fetchT(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
+    [0, 1, 2, 3, 4].map(async (page) => {
+      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": String(page) });
+      const res = await fetchT(`https://www.themuse.com/api/public/jobs?${p}`);
       if (!res.ok) return [] as MuseJob[];
       const data = await safeJson<MuseResp>(res);
       return data?.results || [];
@@ -213,61 +211,7 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
 interface MuseJob { id: number; name: string; company?: { name: string }; locations?: Array<{ name: string }>; publication_date?: string; refs?: { landing_page?: string }; }
 interface MuseResp { results: MuseJob[]; }
 
-// ─── Source 3: JSearch (RapidAPI) ─────────────────────────────────────────────
-
-const JSEARCH_QUERIES = [
-  "equity analyst hedge fund",
-  "quantitative researcher fund",
-  "equity research analyst",
-];
-
-async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
-  const results = await Promise.allSettled(
-    JSEARCH_QUERIES.slice(0, 3).map(async (q) => { // limit to 3 to save quota
-      const p = new URLSearchParams({ query: q, num_pages: "1", date_posted: maxDays <= 7 ? "today" : maxDays <= 30 ? "month" : "all" });
-      const res = await fetchT(`https://jsearch.p.rapidapi.com/search?${p}`, {
-        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
-      });
-      if (!res.ok) return [] as JSearchJob[];
-      const data = await safeJson<JSearchResp>(res);
-      return data?.data || [];
-    })
-  );
-
-  const seen = new Set<string>();
-  const out: JobSignal[] = [];
-
-  for (const r of results) {
-    if (r.status !== "fulfilled") continue;
-    for (const job of r.value) {
-      if (seen.has(job.job_id)) continue;
-      seen.add(job.job_id);
-      if (!job.job_posted_at_datetime_utc) continue; // skip jobs with no date — would falsely show as "Today"
-      const days = daysAgo(job.job_posted_at_datetime_utc);
-      if (days > maxDays) continue;
-      const cat = classifyTitle(job.job_title) ?? ("Other" as JobCategory);
-      if (cat === "Other") continue;
-      out.push({
-        id: `jsearch-${job.job_id}`,
-        firm: job.employer_name || "Unknown",
-        role: job.job_title,
-        category: cat,
-        location: job.job_city || job.job_state || "—",
-        daysAgo: days,
-        signalTag: signalTagFromTitle(job.job_title),
-        why: (job.job_description || "").slice(0, 130).trim() + "…",
-        score: 0,
-        edgarUrl: job.job_apply_link,
-      });
-    }
-  }
-  return out;
-}
-
-interface JSearchJob { job_id: string; job_title: string; employer_name?: string; job_city?: string; job_state?: string; job_posted_at_datetime_utc?: string; job_description?: string; job_apply_link?: string; }
-interface JSearchResp { data: JSearchJob[]; }
-
-// ─── Source 4: EDGAR fallback ─────────────────────────────────────────────────
+// ─── Source 3: EDGAR fallback ─────────────────────────────────────────────────
 
 const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
@@ -466,15 +410,13 @@ export async function GET(req: NextRequest) {
     const signalTag = searchParams.get("signalTag") || "all";
     const maxDays = parseInt(dateRange);
 
-    const adzunaId  = process.env.ADZUNA_APP_ID   ?? "";
-    const adzunaKey = process.env.ADZUNA_APP_KEY   ?? "";
-    const rapidKey  = process.env.RAPIDAPI_KEY     ?? "";
+    const adzunaId  = process.env.ADZUNA_APP_ID  ?? "";
+    const adzunaKey = process.env.ADZUNA_APP_KEY ?? "";
 
-    // Run all live sources + EDGAR in parallel
-    const [adzunaResult, museResult, jsearchResult, edgarResult, ghResult, leverResult] = await Promise.allSettled([
+    // Run all sources in parallel
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
-      rapidKey ? fromJSearch(rapidKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
@@ -488,7 +430,6 @@ export async function GET(req: NextRequest) {
     };
     add(adzunaResult,  "adzuna");
     add(museResult,    "muse");
-    add(jsearchResult, "jsearch");
     add(edgarResult,   "edgar");
     add(ghResult,      "greenhouse");
     add(leverResult,   "lever");
