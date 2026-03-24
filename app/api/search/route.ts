@@ -14,17 +14,17 @@ const HEADERS = {
 };
 
 const STRATEGY_QUERIES: Record<string, string[]> = {
-  all: ["hedge fund", "private credit", "direct lending", "special situations"],
-  private_credit: ["private credit", "credit opportunities"],
-  special_sits: ["special situations", "opportunistic credit"],
-  direct_lending: ["direct lending"],
-  distressed: ["distressed"],
-  mezzanine: ["mezzanine"],
-  hedge_fund: ["hedge fund", "master fund"],
-  long_short: ["long short equity"],
-  macro: ["global macro"],
-  quant: ["quantitative fund"],
-  multi_strategy: ["multi-strategy"],
+  all: ["credit fund", "credit partners", "hedge fund", "direct lending", "special situations", "credit opportunities"],
+  private_credit: ["private credit", "credit opportunities", "credit fund", "credit partners"],
+  special_sits: ["special situations", "opportunistic credit", "special opportunities"],
+  direct_lending: ["direct lending", "lending fund", "lending partners"],
+  distressed: ["distressed", "distressed debt", "distressed credit"],
+  mezzanine: ["mezzanine", "mezz fund"],
+  hedge_fund: ["hedge fund", "master fund", "long short", "equity fund"],
+  long_short: ["long short equity", "long short fund", "equity long"],
+  macro: ["global macro", "macro fund", "macro strategies"],
+  quant: ["quantitative fund", "quantitative strategies", "systematic fund"],
+  multi_strategy: ["multi-strategy", "multi strategy", "multistrategy"],
 };
 
 function getDateRange(days: string) {
@@ -136,12 +136,12 @@ export async function GET(req: NextRequest) {
     const minAmount = searchParams.get("minAmount") || "";
 
     const { startDate, endDate } = getDateRange(dateRange);
-    const terms = query ? [query] : (STRATEGY_QUERIES[strategy] || STRATEGY_QUERIES.all).slice(0, 2);
+    const terms = query ? [query] : (STRATEGY_QUERIES[strategy] || STRATEGY_QUERIES.all).slice(0, 4);
 
-    // Search EDGAR
+    // Search EDGAR — hits=40 returns 4x the default 10 results per query
     const searchResults = await Promise.allSettled(
       terms.map(async (term) => {
-        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
+        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, hits: "40" });
         const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, { headers: HEADERS });
         if (!res.ok) return [];
         const data = await res.json();
@@ -179,8 +179,8 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details for up to 30 entries (parallel) — returns null for non-pooled-fund filings
-    const XML_BATCH = 30;
+    // Fetch XML details for up to 40 entries (parallel) — returns null for non-pooled-fund filings
+    const XML_BATCH = 40;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);

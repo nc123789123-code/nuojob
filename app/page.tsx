@@ -168,20 +168,20 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-5 py-5">
           {topTab === "funds" && (
             <>
-              <h1 className="text-white text-xl font-semibold">Track capital. Predict hiring.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">Find the funds most likely hiring right now — ranked by signal strength, before roles are posted.</p>
+              <h1 className="text-white text-xl font-semibold">Find funds hiring before the job is posted.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">We track SEC Form D filings — the capital signal that precedes almost every senior buy-side hire. Ranked by urgency, updated daily.</p>
             </>
           )}
           {topTab === "startups" && (
             <>
-              <h1 className="text-white text-xl font-semibold">Fresh capital means fresh hiring.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">Startups that recently closed funding are in hiring mode — find them before roles hit LinkedIn.</p>
+              <h1 className="text-white text-xl font-semibold">Follow the money. Get there first.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">Companies that just closed a round are in the 90-day hiring window. We surface fresh Form D equity raises so you can reach out before roles hit LinkedIn.</p>
             </>
           )}
           {topTab === "jobs" && (
             <>
-              <h1 className="text-white text-xl font-semibold">Where is the market hiring this week?</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">Roles inferred from capital signals — credit, equity, and quant hiring across funds actively raising or post-close.</p>
+              <h1 className="text-white text-xl font-semibold">Live hiring signals across credit, equity, and quant.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-lg">Real postings and inferred roles from funds actively raising or post-close — aggregated from multiple sources, updated daily.</p>
             </>
           )}
         </div>
@@ -264,13 +264,34 @@ function ErrorBox({ message }: { message: string }) {
   return <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{message}</div>;
 }
 
-function EmptyState({ icon, title, hint }: { icon: string; title: string; hint: string }) {
+function EmptyState({ icon, title, hint, onReset }: { icon: string; title: string; hint: string; onReset?: () => void }) {
   return (
-    <div className="text-center py-12 text-gray-400">
-      <div className="text-3xl mb-2">{icon}</div>
-      <p className="font-medium text-gray-600 text-sm">{title}</p>
-      <p className="text-xs mt-1">{hint}</p>
+    <div className="text-center py-14 text-gray-400">
+      <div className="text-3xl mb-3">{icon}</div>
+      <p className="font-semibold text-gray-700 text-sm">{title}</p>
+      <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">{hint}</p>
+      {onReset && (
+        <button
+          onClick={onReset}
+          className="mt-4 px-4 py-2 text-xs font-medium bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors"
+        >
+          Reset filters
+        </button>
+      )}
+      <p className="text-[11px] text-gray-300 mt-3">EDGAR data refreshes daily</p>
     </div>
+  );
+}
+
+function ScoreTooltip() {
+  return (
+    <span className="group relative inline-flex items-center cursor-help">
+      <span className="text-[10px] text-gray-300 border border-gray-200 rounded px-1 py-0.5 ml-1 hover:border-gray-400 hover:text-gray-500 transition-colors">?</span>
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-slate-900 text-white text-[11px] rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 leading-relaxed shadow-lg">
+        Signal score 1–10. Combines recency of SEC filing, fund size, offering status, and expansion signals. 8+ = act now. 6–8 = worth a reach-out. Under 6 = early signal.
+        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
+      </span>
+    </span>
   );
 }
 
@@ -295,7 +316,7 @@ function SkeletonRows({ cols }: { cols: number }) {
 // ─── Top Opportunities ────────────────────────────────────────────────────────
 
 function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onClick: (id: string) => void }) {
-  const top = filings.filter((f) => f.score.overallScore >= 50).slice(0, Math.min(5, filings.length));
+  const top = filings.filter((f) => f.score.overallScore >= 6.0).slice(0, Math.min(5, filings.length));
   if (top.length === 0) return null;
   return (
     <div>
@@ -345,7 +366,7 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
 }
 
 function TopStartupOpportunities({ filings, onClick }: { filings: StartupFiling[]; onClick: (id: string) => void }) {
-  const top = filings.filter((f) => f.score.overallScore >= 50).slice(0, Math.min(5, filings.length));
+  const top = filings.filter((f) => f.score.overallScore >= 6.0).slice(0, Math.min(5, filings.length));
   if (top.length === 0) return null;
   return (
     <div>
@@ -438,12 +459,20 @@ function FundsSection({
 
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-              {["Score", "Fund / Firm", "Strategy", "Fundraising", "Location", "Updated"].map((h) => (
+              <div className="flex items-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Score<ScoreTooltip /></div>
+              {["Fund / Firm", "Strategy", "Fundraising", "Location", "Updated"].map((h) => (
                 <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
               ))}
             </div>
             {loading && filings.length === 0 && <SkeletonRows cols={6} />}
-            {!loading && filings.length === 0 && !error && <EmptyState icon="📋" title="No funds found" hint="Try broadening the date range or strategy filter" />}
+            {!loading && filings.length === 0 && !error && (
+              <EmptyState
+                icon="📋"
+                title="No funds matched your current filters."
+                hint="Try expanding the date range to 6 months or removing the strategy filter."
+                onReset={() => setFilters({ query: "", strategy: "all", dateRange: "180", bucket: "all", minAmount: "" })}
+              />
+            )}
             {filings.map((f) => (
               <div key={f.id} id={`fund-row-${f.id}`}>
                 <FundRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />
@@ -492,12 +521,20 @@ function StartupsSection({
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div className="grid grid-cols-[56px_1fr_110px_150px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-          {["Score", "Company", "Stage", "Funding", "Location", "Updated"].map((h) => (
+          <div className="flex items-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Score<ScoreTooltip /></div>
+          {["Company", "Stage", "Funding", "Location", "Updated"].map((h) => (
             <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
           ))}
         </div>
         {loading && filings.length === 0 && <SkeletonRows cols={6} />}
-        {!loading && filings.length === 0 && !error && <EmptyState icon="🚀" title="No startups found" hint="Try broadening the date range or stage filter" />}
+        {!loading && filings.length === 0 && !error && (
+          <EmptyState
+            icon="🚀"
+            title="No startups matched your current filters."
+            hint="Try expanding the date range to 6 months or removing the stage filter."
+            onReset={() => setFilters({ query: "", stage: "all", dateRange: "180", bucket: "all", minAmount: "" })}
+          />
+        )}
         {filings.map((f) => (
           <div key={f.id} id={`startup-row-${f.id}`}>
             <StartupRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />

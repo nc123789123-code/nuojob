@@ -240,12 +240,12 @@ export function scoreFiling(
     if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
   }
 
-  const fundraisingScore = Math.min(100, score);
+  const fundraisingScore = parseFloat((Math.min(100, score) / 10).toFixed(1));
   const overallScore = fundraisingScore; // hiring is phase 2; score IS the fundraising signal
   const hiringScore = 0;
 
   const bucket: RaiseBucket =
-    overallScore >= 70 ? "hot" : overallScore >= 50 ? "warm" : overallScore >= 30 ? "watch" : "low";
+    overallScore >= 8 ? "hot" : overallScore >= 6 ? "warm" : overallScore >= 4 ? "watch" : "low";
 
   const confidence: "high" | "medium" | "low" =
     filing.offeringStatus !== "unknown" && filing.totalOfferingAmount ? "medium" : "low";
@@ -359,12 +359,12 @@ export function scoreStartup(
     if (prefetched?.expansionSignals?.length) signals.push(...prefetched.expansionSignals);
   }
 
-  const fundingScore = Math.min(100, score);
+  const fundingScore = parseFloat((Math.min(100, score) / 10).toFixed(1));
   const overallScore = fundingScore;
   const hiringScore = 0;
 
   const bucket: RaiseBucket =
-    overallScore >= 70 ? "hot" : overallScore >= 50 ? "warm" : overallScore >= 30 ? "watch" : "low";
+    overallScore >= 8 ? "hot" : overallScore >= 6 ? "warm" : overallScore >= 4 ? "watch" : "low";
 
   const confidence: "high" | "medium" | "low" =
     filing.offeringStatus !== "unknown" ? "medium" : "low";

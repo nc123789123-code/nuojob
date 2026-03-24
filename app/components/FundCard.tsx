@@ -254,7 +254,7 @@ function ScoreChip({ label, value, color, placeholder }: { label: string; value:
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-gray-800">{value}</span>
           <div className="flex-1 bg-gray-200 rounded-full h-1">
-            <div className={`h-1 rounded-full ${color}`} style={{ width: `${value}%` }} />
+            <div className={`h-1 rounded-full ${color}`} style={{ width: `${value * 10}%` }} />
           </div>
         </div>
       )}

@@ -15,14 +15,14 @@ const HEADERS = {
 
 // Search terms that appear in startup equity Form D filings
 const STAGE_QUERIES: Record<string, string[]> = {
-  all: ["Series A", "Series B", "seed round", "venture capital", "startup equity"],
-  pre_seed: ["pre-seed", "preseed", "angel round"],
-  seed: ["seed round", "seed funding", "seed capital"],
-  series_a: ["Series A"],
-  series_b: ["Series B"],
-  series_c: ["Series C"],
-  growth: ["Series D", "Series E", "growth equity", "late stage"],
-  unknown: ["venture capital", "startup equity"],
+  all: ["Series A", "Series B", "seed round", "venture capital", "growth equity", "Series C"],
+  pre_seed: ["pre-seed", "preseed", "angel round", "angel investment"],
+  seed: ["seed round", "seed funding", "seed capital", "seed stage"],
+  series_a: ["Series A", "Series A round"],
+  series_b: ["Series B", "Series B round"],
+  series_c: ["Series C", "Series C round"],
+  growth: ["Series D", "Series E", "growth equity", "late stage", "growth stage"],
+  unknown: ["venture capital", "startup equity", "equity offering"],
 };
 
 function getDateRange(days: string) {
@@ -112,12 +112,12 @@ export async function GET(req: NextRequest) {
     const minAmount = searchParams.get("minAmount") || "";
 
     const { startDate, endDate } = getDateRange(dateRange);
-    const terms = query ? [query] : (STAGE_QUERIES[stage] || STAGE_QUERIES.all).slice(0, 3);
+    const terms = query ? [query] : (STAGE_QUERIES[stage] || STAGE_QUERIES.all).slice(0, 4);
 
-    // Search EDGAR
+    // Search EDGAR — hits=40 returns 4x the default 10 results per query
     const searchResults = await Promise.allSettled(
       terms.map(async (term) => {
-        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
+        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, hits: "40" });
         const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, { headers: HEADERS });
         if (!res.ok) return [];
         const data = await res.json();
@@ -142,7 +142,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Build partial filings
-    const partial = hits.slice(0, 60).map((hit) => {
+    const partial = hits.slice(0, 80).map((hit) => {
       const src = hit._source || {};
       const rawName: string = src.display_names?.[0] || src.entity_name || "";
       const entityName = rawName.replace(/\s*\(CIK\s+\d+\)\s*$/, "").trim();
@@ -167,8 +167,8 @@ export async function GET(req: NextRequest) {
       relatedPersons?: Array<{ firstName?: string; lastName?: string; title?: string; city?: string; state?: string }>;
     };
 
-    // Fetch XML details for up to 30 entries (parallel) and filter out funds
-    const XML_BATCH = 30;
+    // Fetch XML details for up to 40 entries (parallel) and filter out funds
+    const XML_BATCH = 40;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
