@@ -80,50 +80,35 @@ function signalTagFromTitle(title: string): JobSignal["signalTag"] {
 
 // ─── Source 1: Adzuna ─────────────────────────────────────────────────────────
 
-const ADZUNA_BASE = "https://api.adzuna.com/v1/api/jobs/us/search";
+const ADZUNA_BASE = "https://api.adzuna.com/v1/api/jobs/us/search/1";
 
-// Balanced across all buyside categories. Each query fetches 25 results × 2 pages = 50 max.
-// Credit: 3, Equity: 4, Equity Research: 3, Quant: 3, Macro/Multi-strat: 2, IR/Ops: 2, PE: 1
-const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory; pages?: number }> = [
+// 12 queries × 25 results = up to 300 raw. Balanced: 2 credit / 3 equity / 2 ER / 2 quant / 1 macro / 1 PE / 1 IR
+const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
   // Credit
-  { what: "private credit analyst fund",          fallbackCat: "Credit" },
-  { what: "direct lending associate fund",        fallbackCat: "Credit" },
-  { what: "distressed debt analyst hedge fund",   fallbackCat: "Credit" },
+  { what: "private credit analyst fund",             fallbackCat: "Credit"          },
+  { what: "distressed debt hedge fund analyst",      fallbackCat: "Credit"          },
   // Equity
-  { what: "equity analyst buy side hedge fund",   fallbackCat: "Equity",          pages: 2 },
-  { what: "portfolio manager long short equity",  fallbackCat: "Equity",          pages: 2 },
-  { what: "investment analyst private equity",    fallbackCat: "Equity" },
-  { what: "hedge fund analyst investment",        fallbackCat: "Equity" },
+  { what: "equity analyst buy side hedge fund",      fallbackCat: "Equity"          },
+  { what: "portfolio manager long short equity",     fallbackCat: "Equity"          },
+  { what: "investment analyst private equity fund",  fallbackCat: "Equity"          },
   // Equity Research
-  { what: "equity research analyst sell side",    fallbackCat: "Equity Research", pages: 2 },
-  { what: "sector analyst equity research",       fallbackCat: "Equity Research" },
-  { what: "fundamental research analyst fund",    fallbackCat: "Equity Research" },
+  { what: "equity research analyst sell side",       fallbackCat: "Equity Research" },
+  { what: "sector research analyst fund",            fallbackCat: "Equity Research" },
   // Quant
-  { what: "quantitative researcher systematic fund", fallbackCat: "Quant",        pages: 2 },
-  { what: "quantitative analyst trading firm",    fallbackCat: "Quant" },
-  { what: "algorithmic trading researcher",       fallbackCat: "Quant" },
-  // Macro / Multi-strat
-  { what: "macro analyst global macro fund",      fallbackCat: "Equity" },
-  { what: "multi strategy investment analyst",    fallbackCat: "Equity" },
+  { what: "quantitative researcher systematic fund", fallbackCat: "Quant"           },
+  { what: "quantitative analyst trading",            fallbackCat: "Quant"           },
+  // Macro / PE
+  { what: "global macro analyst fund",               fallbackCat: "Equity"          },
+  { what: "private equity associate vice president", fallbackCat: "Equity"          },
   // IR / Ops
-  { what: "investor relations alternative asset", fallbackCat: "IR / Ops" },
-  { what: "fund operations manager finance",      fallbackCat: "IR / Ops" },
-  // PE
-  { what: "private equity associate vice president", fallbackCat: "Equity" },
+  { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"      },
 ];
 
 async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promise<JobSignal[]> {
-  // Build all page fetches: each query × its page count
-  const fetches: Array<{ what: string; fallbackCat: JobCategory; page: number }> = [];
-  for (const q of ADZUNA_QUERIES) {
-    const pages = q.pages ?? 1;
-    for (let page = 1; page <= pages; page++) fetches.push({ what: q.what, fallbackCat: q.fallbackCat, page });
-  }
-
   const results = await Promise.allSettled(
-    fetches.map(async ({ what, fallbackCat, page }) => {
+    ADZUNA_QUERIES.map(async ({ what, fallbackCat }) => {
       const p = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "25", sort_by: "date", max_days_old: String(maxDays), "content-type": "application/json" });
-      const res = await fetch(`${ADZUNA_BASE}/${page}?${p}`);
+      const res = await fetch(`${ADZUNA_BASE}?${p}`);
       if (!res.ok) return [] as Array<{ hit: AdzunaJob; fallbackCat: JobCategory }>;
       const data = await safeJson<AdzunaResp>(res);
       return (data?.results || []).map((hit) => ({ hit, fallbackCat }));
@@ -172,19 +157,13 @@ interface AdzunaResp { results: AdzunaJob[]; count: number; }
 const MUSE_QUERIES = [
   "Credit Analyst", "Equity Analyst", "Portfolio Manager",
   "Equity Research", "Quantitative Analyst", "Investment Analyst",
-  "Hedge Fund", "Private Credit", "Research Analyst", "Asset Management",
-  "Fixed Income", "Macro Analyst", "Risk Analyst",
+  "Hedge Fund", "Fixed Income", "Research Analyst", "Asset Management",
 ];
 
 async function fromMuse(maxDays: number): Promise<JobSignal[]> {
-  // Fetch page 0 and page 1 for each query to double coverage
-  const fetches = MUSE_QUERIES.flatMap((q) => [
-    { q, page: 0 }, { q, page: 1 },
-  ]);
-
   const results = await Promise.allSettled(
-    fetches.map(async ({ q, page }) => {
-      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": String(page) });
+    MUSE_QUERIES.map(async (q) => {
+      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": "0" });
       const res = await fetch(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
       if (!res.ok) return [] as MuseJob[];
       const data = await safeJson<MuseResp>(res);
@@ -230,16 +209,14 @@ interface MuseResp { results: MuseJob[]; }
 // ─── Source 3: JSearch (RapidAPI) ─────────────────────────────────────────────
 
 const JSEARCH_QUERIES = [
-  "equity analyst hedge fund buy side",
-  "quantitative researcher systematic fund",
-  "equity research analyst sell side",
-  "portfolio manager investment fund",
-  "private equity associate",
+  "equity analyst hedge fund",
+  "quantitative researcher fund",
+  "equity research analyst",
 ];
 
 async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
-    JSEARCH_QUERIES.slice(0, 5).map(async (q) => { // limit to 3 to save quota
+    JSEARCH_QUERIES.slice(0, 3).map(async (q) => { // limit to 3 to save quota
       const p = new URLSearchParams({ query: q, num_pages: "1", date_posted: maxDays <= 7 ? "today" : maxDays <= 30 ? "month" : "all" });
       const res = await fetch(`https://jsearch.p.rapidapi.com/search?${p}`, {
         headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
@@ -377,37 +354,18 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
 
 type FirmType = "pe" | "hedge" | "credit" | "growth";
 
-// Verified or highly likely Greenhouse board slugs (boards.greenhouse.io/<slug>/jobs.json).
-// Firms that use Workday (Blackstone, KKR, Carlyle, Apollo) or own ATS (D.E. Shaw, Bridgewater)
-// have been removed — they return 404 and waste the parallel budget.
+// Tight list — only slugs with high confidence of resolving on boards.greenhouse.io
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // PE / Growth
-  { slug: "generalatlantic",      firm: "General Atlantic",              type: "growth" },
-  { slug: "franciscopartners",    firm: "Francisco Partners",            type: "pe"     },
-  { slug: "silverlake",           firm: "Silver Lake",                   type: "pe"     },
-  { slug: "thomabravo",           firm: "Thoma Bravo",                   type: "pe"     },
-  { slug: "insightpartners",      firm: "Insight Partners",              type: "growth" },
-  { slug: "vistaequitypartners",  firm: "Vista Equity Partners",         type: "pe"     },
-  { slug: "warburg-pincus",       firm: "Warburg Pincus",                type: "pe"     },
-  { slug: "tpg",                  firm: "TPG",                           type: "pe"     },
-  { slug: "nea",                  firm: "New Enterprise Associates",     type: "growth" },
-  // Hedge / Quant
-  { slug: "point72",              firm: "Point72",                       type: "hedge"  },
-  { slug: "twosigma",             firm: "Two Sigma",                     type: "hedge"  },
-  { slug: "aqr",                  firm: "AQR Capital Management",        type: "hedge"  },
-  { slug: "citadel",              firm: "Citadel",                       type: "hedge"  },
-  { slug: "mangroup",             firm: "Man Group",                     type: "hedge"  },
-  { slug: "balyasny",             firm: "Balyasny Asset Management",     type: "hedge"  },
-  { slug: "schonfeld",            firm: "Schonfeld Strategic Advisors",  type: "hedge"  },
-  { slug: "millennium",           firm: "Millennium Management",         type: "hedge"  },
-  // Credit / Direct Lending
-  { slug: "aresmgmt",             firm: "Ares Management",               type: "credit" },
-  { slug: "blueowl",              firm: "Blue Owl Capital",              type: "credit" },
-  { slug: "golubcapital",         firm: "Golub Capital",                 type: "credit" },
-  { slug: "hps",                  firm: "HPS Investment Partners",       type: "credit" },
-  { slug: "oaktree",              firm: "Oaktree Capital Management",    type: "credit" },
-  { slug: "centerbridge",         firm: "Centerbridge Partners",         type: "credit" },
-  { slug: "pgim",                 firm: "PGIM",                          type: "credit" },
+  { slug: "point72",           firm: "Point72",                      type: "hedge"  },
+  { slug: "twosigma",          firm: "Two Sigma",                    type: "hedge"  },
+  { slug: "aqr",               firm: "AQR Capital Management",       type: "hedge"  },
+  { slug: "generalatlantic",   firm: "General Atlantic",             type: "growth" },
+  { slug: "silverlake",        firm: "Silver Lake",                  type: "pe"     },
+  { slug: "thomabravo",        firm: "Thoma Bravo",                  type: "pe"     },
+  { slug: "insightpartners",   firm: "Insight Partners",             type: "growth" },
+  { slug: "golubcapital",      firm: "Golub Capital",                type: "credit" },
+  { slug: "blueowl",           firm: "Blue Owl Capital",             type: "credit" },
+  { slug: "balyasny",          firm: "Balyasny Asset Management",    type: "hedge"  },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
