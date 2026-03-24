@@ -425,3 +425,48 @@ export function inferJobSignalTag(offeringStatus: string, formType: string): Job
   if (formType === "D/A") return "Fund scaling";
   return "New fund";
 }
+
+// ─── Job signal scoring ────────────────────────────────────────────────────────
+//
+// Factors (max 115, normalized to 0-100):
+//   Source quality:   Direct firm pages (gh/lever) = 40 pts, job boards = 20, EDGAR = 15
+//   Recency:          0d = 30, ≤3d = 25, ≤7d = 20, ≤14d = 15, ≤30d = 10, older = 5
+//   Seniority:        MD/Partner/Head/CIO = 30, Director/VP/Senior = 20, Analyst/Assoc = 10, other = 5
+//   Signal tag:       In-market raise = 15, Post-raise build-out = 10, Fund scaling/New fund = 5
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function scoreJobSignal(job: {
+  id: string;
+  daysAgo: number;
+  signalTag: JobSignalTag;
+  role: string;
+}): number {
+  let s = 0;
+
+  // Source quality
+  if (job.id.startsWith("gh-") || job.id.startsWith("lever-")) s += 40;
+  else if (job.id.startsWith("edgar-")) s += 15;
+  else s += 20;
+
+  // Recency
+  if (job.daysAgo === 0)       s += 30;
+  else if (job.daysAgo <= 3)   s += 25;
+  else if (job.daysAgo <= 7)   s += 20;
+  else if (job.daysAgo <= 14)  s += 15;
+  else if (job.daysAgo <= 30)  s += 10;
+  else                         s += 5;
+
+  // Seniority
+  if (/\b(managing director|md|partner|cio|coo|cfo|chief|head of|head,)\b/i.test(job.role)) s += 30;
+  else if (/\b(director|vice president|\bvp\b|senior|principal)\b/i.test(job.role))          s += 20;
+  else if (/\b(analyst|associate)\b/i.test(job.role))                                         s += 10;
+  else                                                                                         s += 5;
+
+  // Signal urgency
+  if (job.signalTag === "In-market raise")      s += 15;
+  else if (job.signalTag === "Post-raise build-out") s += 10;
+  else                                            s += 5;
+
+  return Math.min(100, s);
+}

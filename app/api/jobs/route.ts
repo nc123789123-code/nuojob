@@ -18,7 +18,7 @@
 
 import { NextRequest } from "next/server";
 import { OfferingStatus, EdgarSearchHit, JobSignal, JobCategory } from "@/app/types";
-import { detectStrategy, getDaysSince, inferJobRoles, inferJobSignalTag } from "@/app/lib/scoring";
+import { detectStrategy, getDaysSince, inferJobRoles, inferJobSignalTag, scoreJobSignal } from "@/app/lib/scoring";
 
 export const runtime = "edge";
 
@@ -347,37 +347,54 @@ type FirmType = "pe" | "hedge" | "credit" | "growth";
 
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
   // Mega PE
-  { slug: "blackstone",         firm: "Blackstone",                  type: "pe"     },
-  { slug: "kkr",                firm: "KKR",                         type: "pe"     },
-  { slug: "apolloglobal",       firm: "Apollo Global Management",    type: "pe"     },
-  { slug: "carlyle",            firm: "The Carlyle Group",           type: "pe"     },
-  { slug: "tpg",                firm: "TPG",                         type: "pe"     },
-  { slug: "baincapital",        firm: "Bain Capital",                type: "pe"     },
-  { slug: "warburgpincus",      firm: "Warburg Pincus",              type: "pe"     },
+  { slug: "blackstone",             firm: "Blackstone",                    type: "pe"     },
+  { slug: "kkr",                    firm: "KKR",                           type: "pe"     },
+  { slug: "apolloglobal",           firm: "Apollo Global Management",      type: "pe"     },
+  { slug: "carlyle",                firm: "The Carlyle Group",             type: "pe"     },
+  { slug: "tpg",                    firm: "TPG",                           type: "pe"     },
+  { slug: "baincapital",            firm: "Bain Capital",                  type: "pe"     },
+  { slug: "warburgpincus",          firm: "Warburg Pincus",                type: "pe"     },
+  { slug: "adventinternational",    firm: "Advent International",          type: "pe"     },
+  { slug: "eqtgroup",               firm: "EQT Partners",                  type: "pe"     },
+  { slug: "cvccapitalpartners",     firm: "CVC Capital Partners",          type: "pe"     },
   // Growth / Tech PE
-  { slug: "generalatlantic",    firm: "General Atlantic",            type: "growth" },
-  { slug: "vistaequity",        firm: "Vista Equity Partners",       type: "pe"     },
-  { slug: "franciscopartners",  firm: "Francisco Partners",          type: "pe"     },
-  { slug: "silverlake",         firm: "Silver Lake",                 type: "pe"     },
-  { slug: "thomabravo",         firm: "Thoma Bravo",                 type: "pe"     },
-  { slug: "hgcapital",          firm: "HG Capital",                  type: "pe"     },
-  { slug: "helion",             firm: "Helion Partners",             type: "pe"     },
+  { slug: "generalatlantic",        firm: "General Atlantic",              type: "growth" },
+  { slug: "vistaequity",            firm: "Vista Equity Partners",         type: "pe"     },
+  { slug: "franciscopartners",      firm: "Francisco Partners",            type: "pe"     },
+  { slug: "silverlake",             firm: "Silver Lake",                   type: "pe"     },
+  { slug: "thomabravo",             firm: "Thoma Bravo",                   type: "pe"     },
+  { slug: "hgcapital",              firm: "HG Capital",                    type: "pe"     },
+  { slug: "helion",                 firm: "Helion Partners",               type: "pe"     },
+  { slug: "insightpartners",        firm: "Insight Partners",              type: "growth" },
+  { slug: "nea",                    firm: "New Enterprise Associates",     type: "growth" },
   // Hedge funds
-  { slug: "citadel",            firm: "Citadel",                     type: "hedge"  },
-  { slug: "point72",            firm: "Point72",                     type: "hedge"  },
-  { slug: "twosigma",           firm: "Two Sigma",                   type: "hedge"  },
-  { slug: "bridgewater",        firm: "Bridgewater Associates",      type: "hedge"  },
-  { slug: "millenniummanagement", firm: "Millennium Management",     type: "hedge"  },
-  { slug: "deshaw",             firm: "D.E. Shaw",                   type: "hedge"  },
-  { slug: "aqr",                firm: "AQR Capital Management",      type: "hedge"  },
-  { slug: "mangroup",           firm: "Man Group",                   type: "hedge"  },
+  { slug: "citadel",                firm: "Citadel",                       type: "hedge"  },
+  { slug: "point72",                firm: "Point72",                       type: "hedge"  },
+  { slug: "twosigma",               firm: "Two Sigma",                     type: "hedge"  },
+  { slug: "bridgewater",            firm: "Bridgewater Associates",        type: "hedge"  },
+  { slug: "millenniummanagement",   firm: "Millennium Management",         type: "hedge"  },
+  { slug: "deshaw",                 firm: "D.E. Shaw",                     type: "hedge"  },
+  { slug: "aqr",                    firm: "AQR Capital Management",        type: "hedge"  },
+  { slug: "mangroup",               firm: "Man Group",                     type: "hedge"  },
+  { slug: "balyasny",               firm: "Balyasny Asset Management",     type: "hedge"  },
+  { slug: "schonfeld",              firm: "Schonfeld Strategic Advisors",  type: "hedge"  },
+  { slug: "exoduspoint",            firm: "ExodusPoint Capital",           type: "hedge"  },
+  { slug: "sabacapital",            firm: "Saba Capital Management",       type: "hedge"  },
+  { slug: "sculptorcapital",        firm: "Sculptor Capital Management",   type: "hedge"  },
   // Credit / Direct Lending
-  { slug: "aresmgmt",           firm: "Ares Management",             type: "credit" },
-  { slug: "blueowl",            firm: "Blue Owl Capital",            type: "credit" },
-  { slug: "golubcapital",       firm: "Golub Capital",               type: "credit" },
-  { slug: "hps",                firm: "HPS Investment Partners",     type: "credit" },
-  { slug: "owl-rock",           firm: "Owl Rock Capital",            type: "credit" },
-  { slug: "pgim",               firm: "PGIM",                        type: "credit" },
+  { slug: "aresmgmt",               firm: "Ares Management",               type: "credit" },
+  { slug: "blueowl",                firm: "Blue Owl Capital",              type: "credit" },
+  { slug: "golubcapital",           firm: "Golub Capital",                 type: "credit" },
+  { slug: "hps",                    firm: "HPS Investment Partners",       type: "credit" },
+  { slug: "owl-rock",               firm: "Owl Rock Capital",              type: "credit" },
+  { slug: "pgim",                   firm: "PGIM",                          type: "credit" },
+  { slug: "oaktree",                firm: "Oaktree Capital Management",    type: "credit" },
+  { slug: "fortressinvestmentgroup",firm: "Fortress Investment Group",     type: "credit" },
+  { slug: "benefitstreetpartners",  firm: "Benefit Street Partners",       type: "credit" },
+  { slug: "monroecapital",          firm: "Monroe Capital",                type: "credit" },
+  { slug: "antares",                firm: "Antares Capital",               type: "credit" },
+  { slug: "centerbridge",           firm: "Centerbridge Partners",         type: "credit" },
+  { slug: "angelogordon",           firm: "Angelo Gordon (TPG)",           type: "credit" },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
@@ -386,6 +403,11 @@ const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
   { slug: "dragoneer",          firm: "Dragoneer Investment Group",  type: "growth" },
   { slug: "iconiqcapital",      firm: "ICONIQ Capital",              type: "pe"     },
   { slug: "gvteam",             firm: "GV (Google Ventures)",        type: "growth" },
+  { slug: "pershingsquare",     firm: "Pershing Square Capital",     type: "hedge"  },
+  { slug: "thirdpointllc",      firm: "Third Point",                 type: "hedge"  },
+  { slug: "lightyearcp",        firm: "Lightyear Capital",           type: "pe"     },
+  { slug: "valueactcapital",    firm: "ValueAct Capital",            type: "hedge"  },
+  { slug: "twoharborinvestment",firm: "Two Harbors Investment",      type: "credit" },
 ];
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
@@ -508,18 +530,16 @@ export async function GET(req: NextRequest) {
       return true;
     });
 
+    // Score every signal now that we have the full set
+    deduped.forEach((s) => { s.score = scoreJobSignal(s); });
+
     // Apply filters
     let filtered = deduped;
     if (category !== "all") filtered = filtered.filter((s) => s.category === category);
     if (signalTag !== "all") filtered = filtered.filter((s) => s.signalTag === signalTag);
 
-    // Sort: direct firm pages first (gh/lever), then other job boards, then EDGAR signals
-    filtered.sort((a, b) => {
-      const rank = (id: string) => id.startsWith("gh-") || id.startsWith("lever-") ? 0 : id.startsWith("edgar-") ? 2 : 1;
-      const diff = rank(a.id) - rank(b.id);
-      if (diff !== 0) return diff;
-      return a.daysAgo - b.daysAgo;
-    });
+    // Sort by score descending (score already encodes source quality + recency + seniority)
+    filtered.sort((a, b) => b.score - a.score);
 
     return Response.json({ signals: filtered, total: filtered.length, sources });
   } catch (e: unknown) {

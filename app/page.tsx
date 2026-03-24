@@ -20,6 +20,14 @@ import {
 } from "@/app/types";
 import { exportToCsv } from "@/app/lib/export";
 
+interface DailyIntel {
+  todayCount: number;
+  weekCount: number;
+  topFunds: FundFiling[];
+  topJobs: JobSignal[];
+  lastUpdated: string;
+}
+
 const DEFAULT_FUND_FILTERS: SearchFilters = {
   query: "", strategy: "all", dateRange: "90", bucket: "all", minAmount: "",
 };
@@ -72,6 +80,17 @@ export default function Home() {
   const [jobLoading, setJobLoading] = useState(false);
   const [jobError, setJobError] = useState<string | null>(null);
   const [jobSources, setJobSources] = useState<string[]>([]);
+
+  const [daily, setDaily] = useState<DailyIntel | null>(null);
+  const [dailyLoading, setDailyLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/daily")
+      .then((r) => r.json())
+      .then((d) => setDaily(d))
+      .catch(() => {/* silently ignore */})
+      .finally(() => setDailyLoading(false));
+  }, []);
 
   const { records, updateRecord } = useOutreachTracker();
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -189,6 +208,11 @@ export default function Home() {
         </div>
       </div>
 
+      <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
+        setTopTab("funds");
+        setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
+      }} onJobsClick={() => setTopTab("jobs")} />
+
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "funds" && (
           <FundsSection
@@ -294,6 +318,92 @@ function ScoreTooltip() {
         <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
       </span>
     </span>
+  );
+}
+
+// ─── Daily Intel Bar ──────────────────────────────────────────────────────────
+
+function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
+  daily: DailyIntel | null;
+  loading: boolean;
+  onFundClick: (id: string) => void;
+  onJobsClick: () => void;
+}) {
+  if (loading) {
+    return (
+      <div className="bg-slate-800 border-b border-slate-700">
+        <div className="max-w-6xl mx-auto px-5 py-3 flex items-center gap-3 animate-pulse">
+          <div className="h-4 w-40 bg-slate-700 rounded" />
+          <div className="h-4 w-32 bg-slate-700 rounded" />
+          <div className="h-4 w-24 bg-slate-700 rounded" />
+        </div>
+      </div>
+    );
+  }
+  if (!daily) return null;
+
+  const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+
+  return (
+    <div className="bg-slate-800 border-b border-slate-700">
+      <div className="max-w-6xl mx-auto px-5 py-3 space-y-3">
+        {/* Header row */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-slate-400 text-xs font-medium">{today}</span>
+          <div className="flex items-center gap-2">
+            {daily.todayCount > 0 ? (
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full px-2.5 py-0.5">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                {daily.todayCount} new filing{daily.todayCount !== 1 ? "s" : ""} today
+              </span>
+            ) : (
+              <span className="text-xs text-slate-500">No new filings today</span>
+            )}
+            {daily.weekCount > 0 && (
+              <span className="text-xs text-slate-400">{daily.weekCount} this week</span>
+            )}
+          </div>
+        </div>
+
+        {/* Top fund signals */}
+        {daily.topFunds.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] text-slate-500 font-medium shrink-0">Top signals:</span>
+            {daily.topFunds.slice(0, 4).map((f) => {
+              const bucketColor = f.score.bucket === "hot" ? "bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30"
+                : f.score.bucket === "warm" ? "bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30"
+                : "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600";
+              return (
+                <button key={f.id} onClick={() => onFundClick(f.id)}
+                  className={`inline-flex items-center gap-1.5 text-[11px] font-medium border rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
+                  <span className="font-bold">{f.score.overallScore}</span>
+                  <span className="max-w-[140px] truncate">{f.entityName}</span>
+                  {f.offeringStatus === "open" && <span className="text-[9px] opacity-70">raising</span>}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Top job signals */}
+        {daily.topJobs.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] text-slate-500 font-medium shrink-0">Hiring now:</span>
+            {daily.topJobs.slice(0, 4).map((j) => (
+              <button key={j.id} onClick={onJobsClick}
+                className="inline-flex items-center gap-1 text-[11px] text-slate-300 border border-slate-600 bg-slate-700/50 hover:bg-slate-700 rounded-full px-2.5 py-1 transition-colors cursor-pointer">
+                <span className="font-medium">{j.firm}</span>
+                <span className="text-slate-500">·</span>
+                <span className="text-slate-400 max-w-[120px] truncate">{j.role}</span>
+              </button>
+            ))}
+            <button onClick={onJobsClick} className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+              View all →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
