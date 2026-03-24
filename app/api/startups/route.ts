@@ -112,12 +112,12 @@ export async function GET(req: NextRequest) {
     const minAmount = searchParams.get("minAmount") || "";
 
     const { startDate, endDate } = getDateRange(dateRange);
-    const terms = query ? [query] : (STAGE_QUERIES[stage] || STAGE_QUERIES.all).slice(0, 4);
+    const terms = query ? [query] : (STAGE_QUERIES[stage] || STAGE_QUERIES.all).slice(0, 3);
 
-    // Search EDGAR — hits=40 returns 4x the default 10 results per query
+    // Search EDGAR
     const searchResults = await Promise.allSettled(
       terms.map(async (term) => {
-        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, hits: "40" });
+        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
         const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, { headers: HEADERS });
         if (!res.ok) return [];
         const data = await res.json();
@@ -167,8 +167,8 @@ export async function GET(req: NextRequest) {
       relatedPersons?: Array<{ firstName?: string; lastName?: string; title?: string; city?: string; state?: string }>;
     };
 
-    // Fetch XML details for up to 40 entries (parallel) and filter out funds
-    const XML_BATCH = 40;
+    // Fetch XML details for up to 30 entries (parallel) and filter out funds
+    const XML_BATCH = 30;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
