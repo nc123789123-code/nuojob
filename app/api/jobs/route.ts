@@ -421,12 +421,13 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
   return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
 }
 
-// ─── Source 6: LinkedIn Data API via RapidAPI (rockapis-rockapis-default) ──────
-// Endpoint: GET https://linkedin-data-api.p.rapidapi.com/search-jobs
-// Free tier: 100 req/month. Set RAPIDAPI_KEY in env to enable.
-// locationId 103644278 = United States (LinkedIn geo URN numeric ID)
+// ─── Source 6: Jobs API (Pat92 / jobs-api14) via RapidAPI ─────────────────────
+// Endpoint: GET https://jobs-api14.p.rapidapi.com/v2/list
+// Scrapes LinkedIn, Indeed, Glassdoor, ZipRecruiter + more in a single call.
+// datePosted values: today | 3days | week | month
+// Set RAPIDAPI_KEY in env to enable (subscribe at rapidapi.com/Pat92/api/jobs-api14)
 
-const LINKEDIN_QUERIES = [
+const JOBS14_QUERIES = [
   "private credit analyst",
   "hedge fund analyst",
   "distressed debt analyst",
@@ -437,31 +438,48 @@ const LINKEDIN_QUERIES = [
   "investment analyst buy side",
 ];
 
-// datePosted param mapping
-function linkedinDatePosted(maxDays: number): string {
-  if (maxDays <= 1)  return "past24Hours";
-  if (maxDays <= 7)  return "pastWeek";
-  if (maxDays <= 30) return "pastMonth";
-  return "pastMonth"; // API max is pastMonth; older jobs will be filtered client-side
+function jobs14DatePosted(maxDays: number): string {
+  if (maxDays <= 1)  return "today";
+  if (maxDays <= 3)  return "3days";
+  if (maxDays <= 7)  return "week";
+  return "month";
 }
 
-interface LinkedInJob { id: string; title: string; company?: { name?: string }; location?: string; url?: string; postAt?: string; }
-interface LinkedInResp { success: boolean; data?: LinkedInJob[]; }
+interface Jobs14Job {
+  id?: string;
+  jobTitle?: string;
+  company?: string;
+  location?: string;
+  datePosted?: string;   // ISO string or relative text
+  applyLink?: string;
+  description?: string;
+  employmentType?: string;
+}
+interface Jobs14Resp { jobs?: Jobs14Job[]; }
 
-async function fromLinkedIn(apiKey: string, maxDays: number): Promise<JobSignal[]> {
-  const datePosted = linkedinDatePosted(maxDays);
-  const US_LOCATION_ID = "103644278";
+async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const datePosted = jobs14DatePosted(maxDays);
 
   const results = await Promise.allSettled(
-    LINKEDIN_QUERIES.map(async (keywords) => {
-      const p = new URLSearchParams({ keywords, locationId: US_LOCATION_ID, datePosted, sort: "mostRecent" });
-      const res = await fetchT(`https://linkedin-data-api.p.rapidapi.com/search-jobs?${p}`, {
-        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "linkedin-data-api.p.rapidapi.com" },
+    JOBS14_QUERIES.map(async (query) => {
+      const p = new URLSearchParams({
+        query,
+        location: "United States",
+        autoTranslateLocation: "false",
+        remoteOnly: "false",
+        employmentTypes: "fulltime",
+        datePosted,
+      });
+      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/list?${p}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-RapidAPI-Key": apiKey,
+          "X-RapidAPI-Host": "jobs-api14.p.rapidapi.com",
+        },
       }, 8000);
-      if (!res.ok) return [] as LinkedInJob[];
-      const data = await safeJson<LinkedInResp>(res);
-      if (!data?.success) return [] as LinkedInJob[];
-      return data.data || [];
+      if (!res.ok) return [] as Jobs14Job[];
+      const data = await safeJson<Jobs14Resp>(res);
+      return data?.jobs || [];
     })
   );
 
@@ -471,23 +489,25 @@ async function fromLinkedIn(apiKey: string, maxDays: number): Promise<JobSignal[
   for (const r of results) {
     if (r.status !== "fulfilled") continue;
     for (const job of r.value) {
-      if (!job.id || seen.has(job.id)) continue;
-      seen.add(job.id);
-      const days = job.postAt ? daysAgo(job.postAt) : 30;
+      const key = job.id || `${job.jobTitle}-${job.company}`;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      const days = job.datePosted ? daysAgo(job.datePosted) : maxDays;
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.title);
-      if (!cat && !FINANCE_KEYWORD_RE.test(job.title)) continue;
+      const cat = classifyTitle(job.jobTitle ?? "");
+      if (!cat && !FINANCE_KEYWORD_RE.test(job.jobTitle ?? "")) continue;
+      const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
-        id: `li-${job.id}`,
-        firm: job.company?.name || "Unknown",
-        role: job.title,
+        id: `jobs14-${key}`,
+        firm: job.company || "Unknown",
+        role: job.jobTitle || "Unknown",
         category: cat ?? "Equity",
         location: job.location?.split(",")?.[0]?.trim() || "—",
         daysAgo: days,
-        signalTag: signalTagFromTitle(job.title),
-        why: "Live LinkedIn listing",
+        signalTag: signalTagFromTitle(job.jobTitle ?? ""),
+        why: desc ? `${desc}…` : "See listing",
         score: 0,
-        edgarUrl: job.url,
+        edgarUrl: job.applyLink,
       });
     }
   }
@@ -509,13 +529,13 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, linkedinResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jobs14Result] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
-      rapidApiKey ? fromLinkedIn(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -529,7 +549,7 @@ export async function GET(req: NextRequest) {
     add(edgarResult,     "edgar");
     add(ghResult,        "greenhouse");
     add(leverResult,     "lever");
-    add(linkedinResult,  "linkedin");
+    add(jobs14Result,    "jobs14");
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();

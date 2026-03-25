@@ -624,7 +624,7 @@ const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"       },
   greenhouse: { label: "Greenhouse",        color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
   lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"        },
-  linkedin:   { label: "LinkedIn",          color: "bg-sky-50 text-sky-700 border-sky-200"           },
+  jobs14:     { label: "LinkedIn/Indeed",    color: "bg-sky-50 text-sky-700 border-sky-200"           },
 };
 
 function JobsSection({
