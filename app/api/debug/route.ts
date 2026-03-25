@@ -1,5 +1,6 @@
 export const runtime = "edge";
 
+// v3 — tests RapidAPI sources (jobs-api14 + linkedin-job-search-api)
 export async function GET() {
   const key = process.env.RAPIDAPI_KEY ?? "";
 
@@ -31,5 +32,7 @@ export async function GET() {
     }
   }
 
+  results["_v"] = 3;
+  results["_ts"] = new Date().toISOString();
   return Response.json(results, { headers: { "Cache-Control": "no-store" } });
 }
