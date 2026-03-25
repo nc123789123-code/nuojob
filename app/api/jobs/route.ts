@@ -3,17 +3,18 @@
  *
  * Sources (run in parallel, results merged and deduplicated):
  *
- *   1. Adzuna     — aggregates Indeed, LinkedIn, Monster, etc.
- *                   Free at developer.adzuna.com → set ADZUNA_APP_ID + ADZUNA_APP_KEY
+ *   1. Adzuna      — aggregates Indeed, LinkedIn, Monster, etc.
+ *                    Free at developer.adzuna.com → set ADZUNA_APP_ID + ADZUNA_APP_KEY
  *
- *   2. The Muse   — free, no key required. Finance & Accounting category.
+ *   2. The Muse    — free, no key required. Fetches Finance & Accounting jobs across
+ *                    multiple pages and filters to buy-side relevant titles.
  *
- *   3. JSearch    — near-LinkedIn data via RapidAPI (100 free req/day).
- *                   Free at rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch
- *                   → set RAPIDAPI_KEY
+ *   3. Greenhouse  — direct career pages for known buy-side firms.
  *
- *   4. EDGAR      — ALWAYS runs as a fallback signal layer. Infers likely roles
- *                   from SEC Form D fund filings (capital flow → hiring signal).
+ *   4. Lever       — direct career pages for known buy-side firms.
+ *
+ *   5. EDGAR       — ALWAYS runs as a fallback signal layer. Infers likely roles
+ *                    from SEC Form D fund filings (capital flow → hiring signal).
  */
 
 import { NextRequest } from "next/server";
@@ -53,6 +54,13 @@ async function safeJson<T>(res: Response): Promise<T | null> {
   try { return await res.json() as T; } catch { return null; }
 }
 
+/** fetch with a hard timeout (default 6 s) to prevent edge function hangs. */
+function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+}
+
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
 const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing)\b/i;
 
@@ -82,22 +90,39 @@ function signalTagFromTitle(title: string): JobSignal["signalTag"] {
 
 const ADZUNA_BASE = "https://api.adzuna.com/v1/api/jobs/us/search/1";
 
+// 18 queries × 50 results = up to 900 raw. Balanced across buy-side categories.
 const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
-  { what: "private credit analyst fund",          fallbackCat: "Credit" },
-  { what: "distressed debt hedge fund analyst",   fallbackCat: "Credit" },
-  { what: "direct lending associate",             fallbackCat: "Credit" },
-  { what: "equity analyst buy side hedge fund",   fallbackCat: "Equity" },
-  { what: "portfolio manager investment fund",    fallbackCat: "Equity" },
-  { what: "equity research analyst sell side",    fallbackCat: "Equity Research" },
-  { what: "quantitative researcher quant fund",   fallbackCat: "Quant" },
-  { what: "investor relations fund alternative",  fallbackCat: "IR / Ops" },
+  // Credit
+  { what: "private credit analyst fund",              fallbackCat: "Credit"          },
+  { what: "distressed debt hedge fund analyst",       fallbackCat: "Credit"          },
+  { what: "direct lending associate credit",          fallbackCat: "Credit"          },
+  { what: "leveraged finance analyst investment bank", fallbackCat: "Credit"         },
+  // Equity
+  { what: "equity analyst buy side hedge fund",       fallbackCat: "Equity"          },
+  { what: "portfolio manager long short equity",      fallbackCat: "Equity"          },
+  { what: "investment analyst private equity fund",   fallbackCat: "Equity"          },
+  { what: "hedge fund analyst investment",            fallbackCat: "Equity"          },
+  // Equity Research
+  { what: "equity research analyst sell side",        fallbackCat: "Equity Research" },
+  { what: "sector research analyst fund",             fallbackCat: "Equity Research" },
+  { what: "research analyst coverage securities",     fallbackCat: "Equity Research" },
+  // Quant
+  { what: "quantitative researcher systematic fund",  fallbackCat: "Quant"           },
+  { what: "quantitative analyst trading strategies",  fallbackCat: "Quant"           },
+  // Macro / PE
+  { what: "global macro analyst fund",                fallbackCat: "Equity"          },
+  { what: "private equity associate vice president",  fallbackCat: "Equity"          },
+  { what: "growth equity associate investment",       fallbackCat: "Equity"          },
+  // IR / Ops
+  { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"      },
+  { what: "fund operations analyst asset management", fallbackCat: "IR / Ops"       },
 ];
 
 async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     ADZUNA_QUERIES.map(async ({ what, fallbackCat }) => {
-      const p = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "15", sort_by: "date", max_days_old: String(maxDays), "content-type": "application/json" });
-      const res = await fetch(`${ADZUNA_BASE}?${p}`);
+      const p = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "50", sort_by: "date", max_days_old: String(maxDays), "content-type": "application/json" });
+      const res = await fetchT(`${ADZUNA_BASE}?${p}`);
       if (!res.ok) return [] as Array<{ hit: AdzunaJob; fallbackCat: JobCategory }>;
       const data = await safeJson<AdzunaResp>(res);
       return (data?.results || []).map((hit) => ({ hit, fallbackCat }));
@@ -142,18 +167,15 @@ interface AdzunaJob { id: string; title: string; company?: { display_name: strin
 interface AdzunaResp { results: AdzunaJob[]; count: number; }
 
 // ─── Source 2: The Muse ───────────────────────────────────────────────────────
-
-const MUSE_QUERIES = [
-  "Credit Analyst", "Equity Analyst", "Portfolio Manager",
-  "Equity Research", "Quantitative Analyst", "Investment Analyst",
-  "Hedge Fund", "Private Credit",
-];
+// Fetches pages 0-4 of Finance & Accounting jobs (20 per page = up to 100 raw).
+// The Muse public API does not support title/keyword filtering, so we fetch
+// broadly and let classifyTitle filter to buy-side relevant roles.
 
 async function fromMuse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
-    MUSE_QUERIES.map(async (q) => {
-      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": "0" });
-      const res = await fetch(`https://www.themuse.com/api/public/jobs?${p}&job_name=${encodeURIComponent(q)}`);
+    [0, 1, 2, 3, 4].map(async (page) => {
+      const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": String(page) });
+      const res = await fetchT(`https://www.themuse.com/api/public/jobs?${p}`);
       if (!res.ok) return [] as MuseJob[];
       const data = await safeJson<MuseResp>(res);
       return data?.results || [];
@@ -195,63 +217,7 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
 interface MuseJob { id: number; name: string; company?: { name: string }; locations?: Array<{ name: string }>; publication_date?: string; refs?: { landing_page?: string }; }
 interface MuseResp { results: MuseJob[]; }
 
-// ─── Source 3: JSearch (RapidAPI) ─────────────────────────────────────────────
-
-const JSEARCH_QUERIES = [
-  "credit analyst hedge fund",
-  "equity analyst buy side",
-  "private credit associate",
-  "quantitative researcher fund",
-  "equity research associate",
-];
-
-async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
-  const results = await Promise.allSettled(
-    JSEARCH_QUERIES.slice(0, 3).map(async (q) => { // limit to 3 to save quota
-      const p = new URLSearchParams({ query: q, num_pages: "1", date_posted: maxDays <= 7 ? "today" : maxDays <= 30 ? "month" : "all" });
-      const res = await fetch(`https://jsearch.p.rapidapi.com/search?${p}`, {
-        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
-      });
-      if (!res.ok) return [] as JSearchJob[];
-      const data = await safeJson<JSearchResp>(res);
-      return data?.data || [];
-    })
-  );
-
-  const seen = new Set<string>();
-  const out: JobSignal[] = [];
-
-  for (const r of results) {
-    if (r.status !== "fulfilled") continue;
-    for (const job of r.value) {
-      if (seen.has(job.job_id)) continue;
-      seen.add(job.job_id);
-      if (!job.job_posted_at_datetime_utc) continue; // skip jobs with no date — would falsely show as "Today"
-      const days = daysAgo(job.job_posted_at_datetime_utc);
-      if (days > maxDays) continue;
-      const cat = classifyTitle(job.job_title) ?? ("Other" as JobCategory);
-      if (cat === "Other") continue;
-      out.push({
-        id: `jsearch-${job.job_id}`,
-        firm: job.employer_name || "Unknown",
-        role: job.job_title,
-        category: cat,
-        location: job.job_city || job.job_state || "—",
-        daysAgo: days,
-        signalTag: signalTagFromTitle(job.job_title),
-        why: (job.job_description || "").slice(0, 130).trim() + "…",
-        score: 0,
-        edgarUrl: job.job_apply_link,
-      });
-    }
-  }
-  return out;
-}
-
-interface JSearchJob { job_id: string; job_title: string; employer_name?: string; job_city?: string; job_state?: string; job_posted_at_datetime_utc?: string; job_description?: string; job_apply_link?: string; }
-interface JSearchResp { data: JSearchJob[]; }
-
-// ─── Source 4: EDGAR fallback ─────────────────────────────────────────────────
+// ─── Source 3: EDGAR fallback ─────────────────────────────────────────────────
 
 const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
@@ -266,7 +232,7 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
   const searchResults = await Promise.allSettled(
     EDGAR_QUERIES.map(async (term) => {
       const p = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate });
-      const res = await fetch(`${EDGAR_SEARCH_URL}?${p}`, { headers: EDGAR_HEADERS });
+      const res = await fetchT(`${EDGAR_SEARCH_URL}?${p}`, { headers: EDGAR_HEADERS });
       if (!res.ok) return [] as EdgarSearchHit[];
       const data = await safeJson<{ hits: { hits: EdgarSearchHit[] } }>(res);
       return (data?.hits?.hits || []) as EdgarSearchHit[];
@@ -296,7 +262,7 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
     partial.slice(0, 25).map(async (f) => {
       try {
         const url = `${EDGAR_ARCHIVE_URL}/${f.cik}/${f.accessionNo.replace(/-/g, "")}/primary_doc.xml`;
-        const res = await fetch(url, { headers: EDGAR_HEADERS });
+        const res = await fetchT(url, { headers: EDGAR_HEADERS });
         if (!res.ok) return null;
         const xml = await res.text();
         if (extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() !== "true") return null;
@@ -345,69 +311,40 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
 
 type FirmType = "pe" | "hedge" | "credit" | "growth";
 
+// Only slugs with high confidence of resolving on boards.greenhouse.io
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // Mega PE
-  { slug: "blackstone",             firm: "Blackstone",                    type: "pe"     },
-  { slug: "kkr",                    firm: "KKR",                           type: "pe"     },
-  { slug: "apolloglobal",           firm: "Apollo Global Management",      type: "pe"     },
-  { slug: "carlyle",                firm: "The Carlyle Group",             type: "pe"     },
-  { slug: "tpg",                    firm: "TPG",                           type: "pe"     },
-  { slug: "baincapital",            firm: "Bain Capital",                  type: "pe"     },
-  { slug: "warburgpincus",          firm: "Warburg Pincus",                type: "pe"     },
-  { slug: "adventinternational",    firm: "Advent International",          type: "pe"     },
-  { slug: "eqtgroup",               firm: "EQT Partners",                  type: "pe"     },
-  { slug: "cvccapitalpartners",     firm: "CVC Capital Partners",          type: "pe"     },
-  // Growth / Tech PE
-  { slug: "generalatlantic",        firm: "General Atlantic",              type: "growth" },
-  { slug: "vistaequity",            firm: "Vista Equity Partners",         type: "pe"     },
-  { slug: "franciscopartners",      firm: "Francisco Partners",            type: "pe"     },
-  { slug: "silverlake",             firm: "Silver Lake",                   type: "pe"     },
-  { slug: "thomabravo",             firm: "Thoma Bravo",                   type: "pe"     },
-  { slug: "hgcapital",              firm: "HG Capital",                    type: "pe"     },
-  { slug: "helion",                 firm: "Helion Partners",               type: "pe"     },
-  { slug: "insightpartners",        firm: "Insight Partners",              type: "growth" },
-  { slug: "nea",                    firm: "New Enterprise Associates",     type: "growth" },
+  // Large-cap PE / alt asset managers (confirmed on Greenhouse)
+  { slug: "blackstone",            firm: "Blackstone",                   type: "pe"     },
+  { slug: "kkr",                   firm: "KKR",                          type: "pe"     },
+  { slug: "apolloglobal",          firm: "Apollo Global Management",     type: "pe"     },
+  { slug: "carlyle",               firm: "The Carlyle Group",            type: "pe"     },
+  { slug: "warwickcapital",        firm: "Warwick Capital",              type: "pe"     },
   // Hedge funds
-  { slug: "citadel",                firm: "Citadel",                       type: "hedge"  },
-  { slug: "point72",                firm: "Point72",                       type: "hedge"  },
-  { slug: "twosigma",               firm: "Two Sigma",                     type: "hedge"  },
-  { slug: "bridgewater",            firm: "Bridgewater Associates",        type: "hedge"  },
-  { slug: "millenniummanagement",   firm: "Millennium Management",         type: "hedge"  },
-  { slug: "deshaw",                 firm: "D.E. Shaw",                     type: "hedge"  },
-  { slug: "aqr",                    firm: "AQR Capital Management",        type: "hedge"  },
-  { slug: "mangroup",               firm: "Man Group",                     type: "hedge"  },
-  { slug: "balyasny",               firm: "Balyasny Asset Management",     type: "hedge"  },
-  { slug: "schonfeld",              firm: "Schonfeld Strategic Advisors",  type: "hedge"  },
-  { slug: "exoduspoint",            firm: "ExodusPoint Capital",           type: "hedge"  },
-  { slug: "sabacapital",            firm: "Saba Capital Management",       type: "hedge"  },
-  { slug: "sculptorcapital",        firm: "Sculptor Capital Management",   type: "hedge"  },
-  // Credit / Direct Lending
-  { slug: "aresmgmt",               firm: "Ares Management",               type: "credit" },
-  { slug: "blueowl",                firm: "Blue Owl Capital",              type: "credit" },
-  { slug: "golubcapital",           firm: "Golub Capital",                 type: "credit" },
-  { slug: "hps",                    firm: "HPS Investment Partners",       type: "credit" },
-  { slug: "owl-rock",               firm: "Owl Rock Capital",              type: "credit" },
-  { slug: "pgim",                   firm: "PGIM",                          type: "credit" },
-  { slug: "oaktree",                firm: "Oaktree Capital Management",    type: "credit" },
-  { slug: "fortressinvestmentgroup",firm: "Fortress Investment Group",     type: "credit" },
-  { slug: "benefitstreetpartners",  firm: "Benefit Street Partners",       type: "credit" },
-  { slug: "monroecapital",          firm: "Monroe Capital",                type: "credit" },
-  { slug: "antares",                firm: "Antares Capital",               type: "credit" },
-  { slug: "centerbridge",           firm: "Centerbridge Partners",         type: "credit" },
-  { slug: "angelogordon",           firm: "Angelo Gordon (TPG)",           type: "credit" },
+  { slug: "citadel",               firm: "Citadel",                      type: "hedge"  },
+  { slug: "point72",               firm: "Point72",                      type: "hedge"  },
+  { slug: "balyasny",              firm: "Balyasny Asset Management",    type: "hedge"  },
+  { slug: "millenniummanagement",  firm: "Millennium Management",        type: "hedge"  },
+  { slug: "twosigma",              firm: "Two Sigma",                    type: "hedge"  },
+  { slug: "aqr",                   firm: "AQR Capital Management",       type: "hedge"  },
+  // Credit / direct lending
+  { slug: "aresmgmt",              firm: "Ares Management",              type: "credit" },
+  { slug: "golubcapital",          firm: "Golub Capital",                type: "credit" },
+  { slug: "blueowl",               firm: "Blue Owl Capital",             type: "credit" },
+  { slug: "hps",                   firm: "HPS Investment Partners",      type: "credit" },
+  // Growth / venture
+  { slug: "generalatlantic",       firm: "General Atlantic",             type: "growth" },
+  { slug: "insightpartners",       firm: "Insight Partners",             type: "growth" },
+  { slug: "thomabravo",            firm: "Thoma Bravo",                  type: "pe"     },
+  { slug: "silverlake",            firm: "Silver Lake",                  type: "pe"     },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  { slug: "coatue",             firm: "Coatue Management",           type: "hedge"  },
-  { slug: "tigerglobal",        firm: "Tiger Global",                type: "growth" },
-  { slug: "dragoneer",          firm: "Dragoneer Investment Group",  type: "growth" },
-  { slug: "iconiqcapital",      firm: "ICONIQ Capital",              type: "pe"     },
-  { slug: "gvteam",             firm: "GV (Google Ventures)",        type: "growth" },
-  { slug: "pershingsquare",     firm: "Pershing Square Capital",     type: "hedge"  },
-  { slug: "thirdpointllc",      firm: "Third Point",                 type: "hedge"  },
-  { slug: "lightyearcp",        firm: "Lightyear Capital",           type: "pe"     },
-  { slug: "valueactcapital",    firm: "ValueAct Capital",            type: "hedge"  },
-  { slug: "twoharborinvestment",firm: "Two Harbors Investment",      type: "credit" },
+  { slug: "coatue",          firm: "Coatue Management",          type: "hedge"  },
+  { slug: "tigerglobal",     firm: "Tiger Global",               type: "growth" },
+  { slug: "iconiqcapital",   firm: "ICONIQ Capital",             type: "pe"     },
+  { slug: "dragoneer",       firm: "Dragoneer Investment Group", type: "growth" },
+  { slug: "d1capitalpartners", firm: "D1 Capital Partners",      type: "hedge"  },
+  { slug: "lightspeedvp",    firm: "Lightspeed Venture Partners",type: "growth" },
 ];
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
@@ -423,7 +360,7 @@ interface LeverPosting { id: string; text: string; createdAt: number; applyUrl?:
 async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     GREENHOUSE_FIRMS.map(async ({ slug, firm, type }) => {
-      const res = await fetch(`https://boards.greenhouse.io/${slug}/jobs.json`);
+      const res = await fetchT(`https://boards.greenhouse.io/${slug}/jobs.json`);
       if (!res.ok) return [] as JobSignal[];
       const data = await safeJson<GreenhouseResp>(res);
       const jobs = data?.jobs || [];
@@ -455,7 +392,7 @@ async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
 async function fromLever(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
     LEVER_FIRMS.map(async ({ slug, firm, type }) => {
-      const res = await fetch(`https://api.lever.co/v0/postings/${slug}?mode=json`);
+      const res = await fetchT(`https://api.lever.co/v0/postings/${slug}?mode=json`);
       if (!res.ok) return [] as JobSignal[];
       const jobs = await safeJson<LeverPosting[]>(res);
       if (!Array.isArray(jobs)) return [] as JobSignal[];
@@ -484,6 +421,65 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
   return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
 }
 
+// ─── Source 6: JSearch via RapidAPI (optional — aggregates LinkedIn, Indeed, Glassdoor) ──
+
+const JSEARCH_QUERIES = [
+  "private credit analyst",
+  "hedge fund analyst",
+  "investment analyst buy side",
+  "distressed debt analyst",
+  "quantitative researcher fund",
+  "equity research analyst",
+  "private equity associate",
+];
+
+interface JSearchJob { job_id: string; employer_name: string; job_title: string; job_city?: string; job_state?: string; job_apply_link?: string; job_posted_at_datetime_utc?: string; job_description?: string; }
+interface JSearchResp { data: JSearchJob[]; }
+
+async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const results = await Promise.allSettled(
+    JSEARCH_QUERIES.map(async (query) => {
+      const p = new URLSearchParams({ query, num_pages: "1", date_posted: maxDays <= 14 ? "week" : maxDays <= 30 ? "month" : "all" });
+      const res = await fetchT(`https://jsearch.p.rapidapi.com/search?${p}`, {
+        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
+      }, 8000);
+      if (!res.ok) return [] as JSearchJob[];
+      const data = await safeJson<JSearchResp>(res);
+      return data?.data || [];
+    })
+  );
+
+  const seen = new Set<string>();
+  const out: JobSignal[] = [];
+
+  for (const r of results) {
+    if (r.status !== "fulfilled") continue;
+    for (const job of r.value) {
+      if (seen.has(job.job_id)) continue;
+      seen.add(job.job_id);
+      const days = job.job_posted_at_datetime_utc ? daysAgo(job.job_posted_at_datetime_utc) : 30;
+      if (days > maxDays) continue;
+      const cat = classifyTitle(job.job_title);
+      if (!cat && !FINANCE_KEYWORD_RE.test(job.job_title)) continue;
+      const loc = [job.job_city, job.job_state].filter(Boolean).join(", ") || "—";
+      const desc = (job.job_description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
+      out.push({
+        id: `jsearch-${job.job_id}`,
+        firm: job.employer_name || "Unknown",
+        role: job.job_title,
+        category: cat ?? "Equity",
+        location: loc,
+        daysAgo: days,
+        signalTag: signalTagFromTitle(job.job_title),
+        why: desc ? `${desc}…` : "See listing",
+        score: 0,
+        edgarUrl: job.job_apply_link,
+      });
+    }
+  }
+  return out;
+}
+
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
@@ -494,18 +490,18 @@ export async function GET(req: NextRequest) {
     const signalTag = searchParams.get("signalTag") || "all";
     const maxDays = parseInt(dateRange);
 
-    const adzunaId  = process.env.ADZUNA_APP_ID   ?? "";
-    const adzunaKey = process.env.ADZUNA_APP_KEY   ?? "";
-    const rapidKey  = process.env.RAPIDAPI_KEY     ?? "";
+    const adzunaId    = process.env.ADZUNA_APP_ID  ?? "";
+    const adzunaKey   = process.env.ADZUNA_APP_KEY ?? "";
+    const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
-    // Run all live sources + EDGAR in parallel
-    const [adzunaResult, museResult, jsearchResult, edgarResult, ghResult, leverResult] = await Promise.allSettled([
+    // Run all sources in parallel
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jsearchResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
-      rapidKey ? fromJSearch(rapidKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
+      rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -514,12 +510,12 @@ export async function GET(req: NextRequest) {
     const add = (r: PromiseSettledResult<JobSignal[]>, name: string) => {
       if (r.status === "fulfilled" && r.value.length > 0) { allSignals.push(...r.value); sources.push(name); }
     };
-    add(adzunaResult,  "adzuna");
-    add(museResult,    "muse");
-    add(jsearchResult, "jsearch");
-    add(edgarResult,   "edgar");
-    add(ghResult,      "greenhouse");
-    add(leverResult,   "lever");
+    add(adzunaResult,   "adzuna");
+    add(museResult,     "muse");
+    add(edgarResult,    "edgar");
+    add(ghResult,       "greenhouse");
+    add(leverResult,    "lever");
+    add(jsearchResult,  "jsearch");
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();

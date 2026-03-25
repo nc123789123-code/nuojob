@@ -136,7 +136,7 @@ export async function GET(req: NextRequest) {
     const minAmount = searchParams.get("minAmount") || "";
 
     const { startDate, endDate } = getDateRange(dateRange);
-    const terms = query ? [query] : (STRATEGY_QUERIES[strategy] || STRATEGY_QUERIES.all).slice(0, 3);
+    const terms = query ? [query] : (STRATEGY_QUERIES[strategy] || STRATEGY_QUERIES.all);
 
     // Search EDGAR
     const searchResults = await Promise.allSettled(
@@ -160,13 +160,20 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const hits = Array.from(seen.values()).filter((hit) => {
-      const raw = hit._source?.display_names?.[0] || hit._source?.entity_name || "";
-      return isLikelyFund(raw);
-    });
+    const hits = Array.from(seen.values())
+      .filter((hit) => {
+        const raw = hit._source?.display_names?.[0] || hit._source?.entity_name || "";
+        return isLikelyFund(raw);
+      })
+      // Sort newest first so we process the most recent filings
+      .sort((a, b) => {
+        const da = a._source?.file_date || "";
+        const db = b._source?.file_date || "";
+        return db.localeCompare(da);
+      });
 
     // Build partial filings — field names from actual EDGAR EFTS response
-    const partial = hits.slice(0, 40).map((hit) => {
+    const partial = hits.slice(0, 60).map((hit) => {
       const src = hit._source || {};
       // display_names: ["BlackRock Strategic Equity Hedge Fund Ltd  (CIK 0001566474)"]
       const rawName: string = (src.display_names?.[0] || src.entity_name || "");
@@ -179,8 +186,8 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details for up to 30 entries (parallel) — returns null for non-pooled-fund filings
-    const XML_BATCH = 30;
+    // Fetch XML details for up to 50 entries (parallel) — returns null for non-pooled-fund filings
+    const XML_BATCH = 50;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const details = await fetchFormDDetails(f.cik, f.accessionNo);
