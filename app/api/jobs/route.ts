@@ -421,31 +421,47 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
   return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
 }
 
-// ─── Source 6: JSearch via RapidAPI (optional — aggregates LinkedIn, Indeed, Glassdoor) ──
+// ─── Source 6: LinkedIn Data API via RapidAPI (rockapis-rockapis-default) ──────
+// Endpoint: GET https://linkedin-data-api.p.rapidapi.com/search-jobs
+// Free tier: 100 req/month. Set RAPIDAPI_KEY in env to enable.
+// locationId 103644278 = United States (LinkedIn geo URN numeric ID)
 
-const JSEARCH_QUERIES = [
+const LINKEDIN_QUERIES = [
   "private credit analyst",
   "hedge fund analyst",
-  "investment analyst buy side",
   "distressed debt analyst",
   "quantitative researcher fund",
   "equity research analyst",
   "private equity associate",
+  "direct lending associate",
+  "investment analyst buy side",
 ];
 
-interface JSearchJob { job_id: string; employer_name: string; job_title: string; job_city?: string; job_state?: string; job_apply_link?: string; job_posted_at_datetime_utc?: string; job_description?: string; }
-interface JSearchResp { data: JSearchJob[]; }
+// datePosted param mapping
+function linkedinDatePosted(maxDays: number): string {
+  if (maxDays <= 1)  return "past24Hours";
+  if (maxDays <= 7)  return "pastWeek";
+  if (maxDays <= 30) return "pastMonth";
+  return "pastMonth"; // API max is pastMonth; older jobs will be filtered client-side
+}
 
-async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+interface LinkedInJob { id: string; title: string; company?: { name?: string }; location?: string; url?: string; postAt?: string; }
+interface LinkedInResp { success: boolean; data?: LinkedInJob[]; }
+
+async function fromLinkedIn(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const datePosted = linkedinDatePosted(maxDays);
+  const US_LOCATION_ID = "103644278";
+
   const results = await Promise.allSettled(
-    JSEARCH_QUERIES.map(async (query) => {
-      const p = new URLSearchParams({ query, num_pages: "1", date_posted: maxDays <= 14 ? "week" : maxDays <= 30 ? "month" : "all" });
-      const res = await fetchT(`https://jsearch.p.rapidapi.com/search?${p}`, {
-        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" },
+    LINKEDIN_QUERIES.map(async (keywords) => {
+      const p = new URLSearchParams({ keywords, locationId: US_LOCATION_ID, datePosted, sort: "mostRecent" });
+      const res = await fetchT(`https://linkedin-data-api.p.rapidapi.com/search-jobs?${p}`, {
+        headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "linkedin-data-api.p.rapidapi.com" },
       }, 8000);
-      if (!res.ok) return [] as JSearchJob[];
-      const data = await safeJson<JSearchResp>(res);
-      return data?.data || [];
+      if (!res.ok) return [] as LinkedInJob[];
+      const data = await safeJson<LinkedInResp>(res);
+      if (!data?.success) return [] as LinkedInJob[];
+      return data.data || [];
     })
   );
 
@@ -455,25 +471,23 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
   for (const r of results) {
     if (r.status !== "fulfilled") continue;
     for (const job of r.value) {
-      if (seen.has(job.job_id)) continue;
-      seen.add(job.job_id);
-      const days = job.job_posted_at_datetime_utc ? daysAgo(job.job_posted_at_datetime_utc) : 30;
+      if (!job.id || seen.has(job.id)) continue;
+      seen.add(job.id);
+      const days = job.postAt ? daysAgo(job.postAt) : 30;
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.job_title);
-      if (!cat && !FINANCE_KEYWORD_RE.test(job.job_title)) continue;
-      const loc = [job.job_city, job.job_state].filter(Boolean).join(", ") || "—";
-      const desc = (job.job_description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
+      const cat = classifyTitle(job.title);
+      if (!cat && !FINANCE_KEYWORD_RE.test(job.title)) continue;
       out.push({
-        id: `jsearch-${job.job_id}`,
-        firm: job.employer_name || "Unknown",
-        role: job.job_title,
+        id: `li-${job.id}`,
+        firm: job.company?.name || "Unknown",
+        role: job.title,
         category: cat ?? "Equity",
-        location: loc,
+        location: job.location?.split(",")?.[0]?.trim() || "—",
         daysAgo: days,
-        signalTag: signalTagFromTitle(job.job_title),
-        why: desc ? `${desc}…` : "See listing",
+        signalTag: signalTagFromTitle(job.title),
+        why: "Live LinkedIn listing",
         score: 0,
-        edgarUrl: job.job_apply_link,
+        edgarUrl: job.url,
       });
     }
   }
@@ -495,13 +509,13 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jsearchResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, linkedinResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
-      rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromLinkedIn(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -510,12 +524,12 @@ export async function GET(req: NextRequest) {
     const add = (r: PromiseSettledResult<JobSignal[]>, name: string) => {
       if (r.status === "fulfilled" && r.value.length > 0) { allSignals.push(...r.value); sources.push(name); }
     };
-    add(adzunaResult,   "adzuna");
-    add(museResult,     "muse");
-    add(edgarResult,    "edgar");
-    add(ghResult,       "greenhouse");
-    add(leverResult,    "lever");
-    add(jsearchResult,  "jsearch");
+    add(adzunaResult,    "adzuna");
+    add(museResult,      "muse");
+    add(edgarResult,     "edgar");
+    add(ghResult,        "greenhouse");
+    add(leverResult,     "lever");
+    add(linkedinResult,  "linkedin");
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();
