@@ -72,11 +72,11 @@ function classifyTitle(title: string): JobCategory | null {
   if (IRRELEVANT_TITLE_RE.test(title)) return null;
   if (!FINANCE_KEYWORD_RE.test(title)) return null;
   const t = title.toLowerCase();
-  if (/credit|lending|fixed income|high yield|leveraged|distressed|mezz|underwrite|loan/i.test(t)) return "Credit";
+  if (/credit|lending|fixed income|high yield|leveraged|distressed|mezz|mezzanine|underwrite|loan|special situations|special sits|structured credit|structured finance/i.test(t)) return "Credit";
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
   if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return "IR / Ops";
-  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side/i.test(t)) return "Equity";
+  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "Equity";
   return null;
 }
 
@@ -139,12 +139,12 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       seen.add(hit.id);
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
-      // Drop titles that aren't finance-relevant even if returned by a finance query
+      // Only include jobs with a clear buy-side category
       const classified = classifyTitle(hit.title);
-      if (!classified && !FINANCE_KEYWORD_RE.test(hit.title)) continue;
+      if (!classified) continue;
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
-      const cat = !classified || (classified === "Equity" && fallbackCat === "Equity Research") ? fallbackCat : classified;
+      const cat = (classified === "Equity" && fallbackCat === "Equity Research") ? fallbackCat : classified;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `adzuna-${hit.id}`,
@@ -485,7 +485,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       const days = job.datePosted ? daysAgo(job.datePosted) : maxDays;
       if (days > maxDays) continue;
       const cat = classifyTitle(job.jobTitle ?? "");
-      if (!cat && !FINANCE_KEYWORD_RE.test(job.jobTitle ?? "")) continue;
+      if (!cat) continue;
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-${key}`,
@@ -590,7 +590,7 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
     const title = fjTitle(job);
     if (!title) continue;
     const cat = classifyTitle(title);
-    if (!cat && !FINANCE_KEYWORD_RE.test(title)) continue; // skip non-finance roles
+    if (!cat) continue; // skip non-buy-side roles
 
     const key = job.id || `${title}-${fjCompany(job)}`;
     if (seen.has(key)) continue;
