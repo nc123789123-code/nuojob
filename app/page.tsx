@@ -1,17 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import Link from "next/link";
 import SearchBar from "@/app/components/SearchBar";
 import FundRow from "@/app/components/FundCard";
-import StartupRow from "@/app/components/StartupCard";
-import JobRow from "@/app/components/JobRow";
+import RoleCard from "@/app/components/RoleCard";
 import FundFilterBar from "@/app/components/Filters";
-import StartupFilterBar from "@/app/components/StartupFilters";
+import NewsletterCTA from "@/app/components/NewsletterCTA";
 import {
   FundFiling,
-  StartupFiling,
   SearchFilters,
-  StartupSearchFilters,
   OutreachRecord,
   JobSignal,
   JobFilters,
@@ -30,9 +28,6 @@ interface DailyIntel {
 
 const DEFAULT_FUND_FILTERS: SearchFilters = {
   query: "", strategy: "all", dateRange: "90", bucket: "all", minAmount: "",
-};
-const DEFAULT_STARTUP_FILTERS: StartupSearchFilters = {
-  query: "", stage: "all", dateRange: "90", bucket: "all", minAmount: "",
 };
 const DEFAULT_JOB_FILTERS: JobFilters = {
   category: "all", dateRange: "90", signalTag: "all",
@@ -56,7 +51,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "startups" | "jobs";
+type TopTab = "funds" | "jobs";
 
 export default function Home() {
   const [topTab, setTopTab] = useState<TopTab>("funds");
@@ -67,12 +62,6 @@ export default function Home() {
   const [fundLoading, setFundLoading] = useState(false);
   const [fundError, setFundError] = useState<string | null>(null);
   const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
-
-  const [startupFilters, setStartupFilters] = useState<StartupSearchFilters>(DEFAULT_STARTUP_FILTERS);
-  const [startupFilings, setStartupFilings] = useState<StartupFiling[]>([]);
-  const [startupTotal, setStartupTotal] = useState(0);
-  const [startupLoading, setStartupLoading] = useState(false);
-  const [startupError, setStartupError] = useState<string | null>(null);
 
   const [jobFilters, setJobFilters] = useState<JobFilters>(DEFAULT_JOB_FILTERS);
   const [jobSignals, setJobSignals] = useState<JobSignal[]>([]);
@@ -94,10 +83,8 @@ export default function Home() {
 
   const { records, updateRecord } = useOutreachTracker();
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const startupDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const jobDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fundFetchedRef = useRef(false);
-  const startupFetchedRef = useRef(false);
   const jobFetchedRef = useRef(false);
 
   const fetchFunds = useCallback(async (f: SearchFilters) => {
@@ -110,18 +97,6 @@ export default function Home() {
       setFundFilings(data.filings || []); setFundTotal(data.total || 0);
     } catch (err) { setFundError(err instanceof Error ? err.message : "Failed"); }
     finally { setFundLoading(false); }
-  }, []);
-
-  const fetchStartups = useCallback(async (f: StartupSearchFilters) => {
-    setStartupLoading(true); setStartupError(null);
-    try {
-      const params = new URLSearchParams({ query: f.query, stage: f.stage, dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount });
-      const res = await fetch(`/api/startups?${params}`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Search failed");
-      setStartupFilings(data.filings || []); setStartupTotal(data.total || 0);
-    } catch (err) { setStartupError(err instanceof Error ? err.message : "Failed"); }
-    finally { setStartupLoading(false); }
   }, []);
 
   const fetchJobs = useCallback(async (f: JobFilters) => {
@@ -145,13 +120,6 @@ export default function Home() {
   }, [fundFilters, fetchFunds]);
 
   useEffect(() => {
-    if (topTab !== "startups") return;
-    if (startupDebounceRef.current) clearTimeout(startupDebounceRef.current);
-    startupDebounceRef.current = setTimeout(() => { startupFetchedRef.current = true; fetchStartups(startupFilters); }, 400);
-    return () => { if (startupDebounceRef.current) clearTimeout(startupDebounceRef.current); };
-  }, [startupFilters, fetchStartups, topTab]);
-
-  useEffect(() => {
     if (topTab !== "jobs") return;
     if (jobDebounceRef.current) clearTimeout(jobDebounceRef.current);
     jobDebounceRef.current = setTimeout(() => { jobFetchedRef.current = true; fetchJobs(jobFilters); }, 400);
@@ -159,7 +127,6 @@ export default function Home() {
   }, [jobFilters, fetchJobs, topTab]);
 
   useEffect(() => {
-    if (topTab === "startups" && !startupFetchedRef.current) { startupFetchedRef.current = true; fetchStartups(startupFilters); }
     if (topTab === "jobs" && !jobFetchedRef.current) { jobFetchedRef.current = true; fetchJobs(jobFilters); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topTab]);
@@ -177,10 +144,12 @@ export default function Home() {
           </div>
           <div className="w-px h-4 bg-slate-700" />
           <nav className="flex items-center gap-1">
-            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Funds" />
-            <NavTab active={topTab === "startups"} onClick={() => setTopTab("startups")} label="Startups" />
-            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Market Hiring" badge />
+            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
+            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
           </nav>
+          <div className="ml-auto">
+            <span className="text-slate-500 text-xs hidden sm:block">Finance hiring intelligence</span>
+          </div>
         </div>
       </header>
 
@@ -190,19 +159,13 @@ export default function Home() {
           {topTab === "funds" && (
             <>
               <h1 className="text-white text-xl font-semibold">Find funds hiring before the job is posted.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">We track SEC Form D filings — the capital signal that precedes almost every senior buy-side hire. Ranked by urgency, updated daily.</p>
-            </>
-          )}
-          {topTab === "startups" && (
-            <>
-              <h1 className="text-white text-xl font-semibold">Follow the money. Get there first.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">Companies that just closed a round are in the 90-day hiring window. We surface fresh Form D equity raises so you can reach out before roles hit LinkedIn.</p>
+              <p className="text-slate-400 text-sm mt-1 max-w-xl">We track SEC Form D filings — the capital event that precedes almost every senior buy-side hire. Each fund is scored by signal strength and urgency, updated daily.</p>
             </>
           )}
           {topTab === "jobs" && (
             <>
-              <h1 className="text-white text-xl font-semibold">Live hiring signals across credit, equity, and quant.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-lg">Real postings and inferred roles from funds actively raising or post-close — aggregated from multiple sources, updated daily.</p>
+              <h1 className="text-white text-xl font-semibold">See where finance teams are actually hiring — and why.</h1>
+              <p className="text-slate-400 text-sm mt-1 max-w-xl">Live postings and inferred roles from funds in-market or post-close. Each role includes an OnluIntel analysis: what the signal means, what they&apos;re looking for, and whether it&apos;s worth your time.</p>
             </>
           )}
         </div>
@@ -225,21 +188,16 @@ export default function Home() {
             onExport={() => exportToCsv(fundFilings, records)}
           />
         )}
-        {topTab === "startups" && (
-          <StartupsSection
-            filters={startupFilters} setFilters={setStartupFilters}
-            filings={startupFilings} total={startupTotal}
-            loading={startupLoading} error={startupError}
-            records={records} updateRecord={updateRecord}
-          />
-        )}
         {topTab === "jobs" && (
-          <JobsSection
-            filters={jobFilters} setFilters={setJobFilters}
-            signals={jobSignals} total={jobTotal}
-            loading={jobLoading} error={jobError}
-            sources={jobSources}
-          />
+          <>
+            <JobsSection
+              filters={jobFilters} setFilters={setJobFilters}
+              signals={jobSignals} total={jobTotal}
+              loading={jobLoading} error={jobError}
+              sources={jobSources}
+            />
+            <NewsletterCTA />
+          </>
         )}
       </main>
     </div>
@@ -374,12 +332,12 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
                 : f.score.bucket === "warm" ? "bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30"
                 : "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600";
               return (
-                <button key={f.id} onClick={() => onFundClick(f.id)}
+                <Link key={f.id} href={`/fund/${f.cik}`}
                   className={`inline-flex items-center gap-1.5 text-[11px] font-medium border rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
                   <span className="font-bold">{f.score.overallScore}</span>
                   <span className="max-w-[140px] truncate">{f.entityName}</span>
                   {f.offeringStatus === "open" && <span className="text-[9px] opacity-70">raising</span>}
-                </button>
+                </Link>
               );
             })}
           </div>
@@ -477,56 +435,6 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
   );
 }
 
-function TopStartupOpportunities({ filings, onClick }: { filings: StartupFiling[]; onClick: (id: string) => void }) {
-  const top = filings.filter((f) => f.score.overallScore >= 6.0).slice(0, Math.min(5, filings.length));
-  if (top.length === 0) return null;
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        <h2 className="text-sm font-semibold text-gray-900">Top Opportunities This Week</h2>
-        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">ranked by signal</span>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
-        {top.map((f, i) => (
-          <TopStartupCard key={f.id} filing={f} rank={i + 1} onClick={() => onClick(f.id)} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TopStartupCard({ filing, rank, onClick }: { filing: StartupFiling; rank: number; onClick: () => void }) {
-  const { score } = filing;
-  const scoreBg = score.bucket === "hot" ? "bg-red-500" : score.bucket === "warm" ? "bg-amber-500" : "bg-yellow-400";
-  const chips: Array<{ label: string; color: string }> = [];
-  chips.push({ label: filing.stageLabel, color: "indigo" });
-  if (filing.offeringStatus === "open") chips.push({ label: "Raising", color: "green" });
-  else if (filing.offeringStatus === "closed") chips.push({ label: "Funded", color: "purple" });
-  const amt = filing.totalAmountSold ?? filing.totalOfferingAmount;
-  if (amt) chips.push({ label: fmt(amt), color: "gray" });
-  return (
-    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-indigo-200 hover:shadow-sm transition-all group">
-      <div className="flex items-start justify-between gap-1 mb-2.5">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
-          <div className={`w-7 h-7 rounded-lg ${scoreBg} flex items-center justify-center flex-shrink-0`}>
-            <span className="text-white font-bold text-xs">{score.overallScore}</span>
-          </div>
-        </div>
-        <span className="text-[10px] text-gray-200 group-hover:text-indigo-400 transition-colors mt-0.5">↓</span>
-      </div>
-      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-indigo-700 transition-colors line-clamp-2">
-        {filing.entityName}
-      </div>
-      {score.whyNow[0] && (
-        <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
-          <span className="text-indigo-500">→ </span>{score.whyNow[0]}
-        </p>
-      )}
-      <div className="flex flex-wrap gap-1">{chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}</div>
-    </button>
-  );
-}
 
 // ─── Funds section ────────────────────────────────────────────────────────────
 
@@ -600,63 +508,6 @@ function FundsSection({
   );
 }
 
-// ─── Startups section ─────────────────────────────────────────────────────────
-
-function StartupsSection({
-  filters, setFilters, filings, total, loading, error, records, updateRecord,
-}: {
-  filters: StartupSearchFilters; setFilters: (f: StartupSearchFilters) => void;
-  filings: StartupFiling[]; total: number; loading: boolean; error: string | null;
-  records: Record<string, OutreachRecord>; updateRecord: (r: OutreachRecord) => void;
-}) {
-  const [highlightId, setHighlightId] = useState<string | null>(null);
-
-  return (
-    <>
-      {filings.length > 0 && !loading && (
-        <TopStartupOpportunities filings={filings} onClick={(id) => {
-          setHighlightId(id);
-          setTimeout(() => document.getElementById(`startup-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-        }} />
-      )}
-
-      <div className="flex items-center justify-between">
-        <span />
-        <p className="text-xs text-gray-400">Funding &amp; hiring signals · SEC Form D</p>
-      </div>
-
-      <SearchBar value={filters.query} onChange={(q) => setFilters({ ...filters, query: q })} loading={loading}
-        placeholder='Search — "Series B", "fintech", "healthtech"…'
-        quickSearches={["Series A", "Series B", "seed round", "fintech", "healthtech", "SaaS", "AI", "climate tech"]} />
-      <StartupFilterBar filters={filters} onChange={setFilters} total={total} loading={loading} />
-      {error && <ErrorBox message={error} />}
-
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-[56px_1fr_110px_150px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-          <div className="flex items-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Score<ScoreTooltip /></div>
-          {["Company", "Stage", "Funding", "Location", "Updated"].map((h) => (
-            <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
-          ))}
-        </div>
-        {loading && filings.length === 0 && <SkeletonRows cols={6} />}
-        {!loading && filings.length === 0 && !error && (
-          <EmptyState
-            icon="🚀"
-            title="No startups matched your current filters."
-            hint="Try expanding the date range to 6 months or removing the stage filter."
-            onReset={() => setFilters({ query: "", stage: "all", dateRange: "180", bucket: "all", minAmount: "" })}
-          />
-        )}
-        {filings.map((f) => (
-          <div key={f.id} id={`startup-row-${f.id}`}>
-            <StartupRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />
-          </div>
-        ))}
-      </div>
-      {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Hiring signals in Phase 2</p>}
-    </>
-  );
-}
 
 // ─── Market Hiring section ────────────────────────────────────────────────────
 
@@ -678,10 +529,11 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
 ];
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  adzuna:  { label: "Adzuna",    color: "bg-blue-50 text-blue-700 border-blue-200" },
-  muse:    { label: "The Muse",  color: "bg-purple-50 text-purple-700 border-purple-200" },
-  jsearch: { label: "JSearch",   color: "bg-green-50 text-green-700 border-green-200" },
-  edgar:   { label: "EDGAR",     color: "bg-gray-50 text-gray-600 border-gray-200" },
+  adzuna:     { label: "Adzuna",     color: "bg-blue-50 text-blue-700 border-blue-200"     },
+  muse:       { label: "The Muse",   color: "bg-purple-50 text-purple-700 border-purple-200" },
+  edgar:      { label: "EDGAR",      color: "bg-gray-50 text-gray-600 border-gray-200"      },
+  greenhouse: { label: "Greenhouse", color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  lever:      { label: "Lever",      color: "bg-teal-50 text-teal-700 border-teal-200"       },
 };
 
 function JobsSection({
@@ -747,8 +599,8 @@ function JobsSection({
       {edgarOnly && (
         <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-xs text-blue-800">
           <p className="font-semibold mb-1">Add real job board data</p>
-          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna, The Muse, and JSearch, add API keys to <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
-          <pre className="bg-blue-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key\nRAPIDAPI_KEY=your_key       # rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch (free tier)`}</pre>
+          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna and The Muse, add API keys to <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
+          <pre className="bg-blue-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key`}</pre>
         </div>
       )}
 
@@ -760,23 +612,35 @@ function JobsSection({
         </div>
       )}
 
-      {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-[1fr_150px_120px_80px_130px_80px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-          {["Firm / Role", "Category", "Location", "Filed", "Signal", ""].map((h) => (
-            <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+      {/* Role cards */}
+      {loading && signals.length === 0 && (
+        <div className="space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="bg-white border border-gray-200 rounded-xl px-5 py-4 animate-pulse">
+              <div className="flex items-center justify-between mb-3">
+                <div className="h-4 bg-gray-100 rounded w-32" />
+                <div className="h-5 bg-gray-100 rounded-full w-20" />
+              </div>
+              <div className="h-5 bg-gray-100 rounded w-2/3 mb-2" />
+              <div className="h-3 bg-gray-50 rounded w-1/2" />
+            </div>
           ))}
         </div>
-        {loading && signals.length === 0 && <SkeletonRows cols={7} />}
-        {!loading && signals.length === 0 && !error && (
-          <EmptyState icon="📊" title="No hiring signals found" hint="Try expanding the date range or switching category" />
-        )}
-        {signals.map((s) => <JobRow key={s.id} signal={s} />)}
+      )}
+      {!loading && signals.length === 0 && !error && (
+        <div className="text-center py-14 text-gray-400">
+          <div className="text-3xl mb-3">📊</div>
+          <p className="font-semibold text-gray-700 text-sm">No hiring signals found</p>
+          <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
+        </div>
+      )}
+      <div className="space-y-3">
+        {signals.map((s) => <RoleCard key={s.id} signal={s} />)}
       </div>
 
       {signals.length > 0 && (
         <p className="text-center text-xs text-gray-400 py-1">
-          Capital signals from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Live listings from Adzuna, The Muse, JSearch
+          Capital signals from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Live listings from Greenhouse, Lever, Adzuna, The Muse
         </p>
       )}
     </>
