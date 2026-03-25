@@ -514,6 +514,118 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
   return out;
 }
 
+// ─── Source 7: LinkedIn Job Search API (fantastic-jobs) via RapidAPI ──────────
+// Endpoint: GET https://linkedin-job-search-api.p.rapidapi.com/active-jb-1h
+// Real-time feed of LinkedIn jobs posted in the last hour — no keyword filter.
+// We filter by title/description on our side after fetching.
+// Other time-window variants: active-jb-7d (7 days), active-jb-24h (24h).
+// Params: limit (max 100), offset (pagination), description_type=text
+// Set RAPIDAPI_KEY in env (same key, subscribe to linkedin-job-search-api plan)
+
+// Defensive field extractor — fantastic-jobs field names not fully confirmed;
+// handles both camelCase and snake_case variants seen across similar APIs.
+interface FJJob {
+  id?: string;
+  // title variants
+  title?: string; job_title?: string; jobTitle?: string;
+  // company variants
+  company?: string | { name?: string }; company_name?: string; employer?: string;
+  // location
+  location?: string; job_location?: string;
+  // date variants
+  date?: string; date_posted?: string; datePosted?: string; posted_at?: string; listedAt?: string; listed_at?: string;
+  // URL variants
+  url?: string; job_url?: string; apply_url?: string; linkedin_url?: string; applyLink?: string;
+  // description
+  description?: string; job_description?: string;
+}
+
+function fjTitle(j: FJJob): string {
+  return j.title || j.job_title || j.jobTitle || "";
+}
+function fjCompany(j: FJJob): string {
+  if (typeof j.company === "object" && j.company?.name) return j.company.name;
+  if (typeof j.company === "string") return j.company;
+  return j.company_name || j.employer || "Unknown";
+}
+function fjLocation(j: FJJob): string {
+  return j.location || j.job_location || "—";
+}
+function fjDate(j: FJJob): string {
+  return j.date || j.date_posted || j.datePosted || j.posted_at || j.listedAt || j.listed_at || "";
+}
+function fjUrl(j: FJJob): string | undefined {
+  return j.url || j.job_url || j.apply_url || j.linkedin_url || j.applyLink;
+}
+function fjDesc(j: FJJob): string {
+  return j.description || j.job_description || "";
+}
+
+// Choose feed endpoint based on maxDays
+function fjEndpoint(maxDays: number): string {
+  if (maxDays <= 1)  return "active-jb-1h";
+  if (maxDays <= 7)  return "active-jb-7d";
+  return "active-jb-7d"; // longest available feed
+}
+
+async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const endpoint = fjEndpoint(maxDays);
+  // Fetch up to 100 jobs; the feed has no keyword param so we filter locally
+  const p = new URLSearchParams({ limit: "100", offset: "0", description_type: "text" });
+  const res = await fetchT(
+    `https://linkedin-job-search-api.p.rapidapi.com/${endpoint}?${p}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-RapidAPI-Key": apiKey,
+        "X-RapidAPI-Host": "linkedin-job-search-api.p.rapidapi.com",
+      },
+    },
+    10000,
+  );
+  if (!res.ok) return [];
+
+  // API may return array directly or wrapped in { data: [...] } / { jobs: [...] }
+  const raw = await safeJson<FJJob[] | { data?: FJJob[]; jobs?: FJJob[] }>(res);
+  const jobs: FJJob[] = Array.isArray(raw)
+    ? raw
+    : (raw as { data?: FJJob[]; jobs?: FJJob[] })?.data
+      ?? (raw as { data?: FJJob[]; jobs?: FJJob[] })?.jobs
+      ?? [];
+
+  const seen = new Set<string>();
+  const out: JobSignal[] = [];
+
+  for (const job of jobs) {
+    const title = fjTitle(job);
+    if (!title) continue;
+    const cat = classifyTitle(title);
+    if (!cat && !FINANCE_KEYWORD_RE.test(title)) continue; // skip non-finance roles
+
+    const key = job.id || `${title}-${fjCompany(job)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const days = fjDate(job) ? daysAgo(fjDate(job)) : maxDays;
+    if (days > maxDays) continue;
+
+    const desc = fjDesc(job).replace(/<[^>]+>/g, "").slice(0, 130).trim();
+    out.push({
+      id: `fj-${key}`,
+      firm: fjCompany(job),
+      role: title,
+      category: cat ?? "Equity",
+      location: fjLocation(job).split(",")[0].trim() || "—",
+      daysAgo: days,
+      signalTag: signalTagFromTitle(title),
+      why: desc ? `${desc}…` : "Live LinkedIn listing",
+      score: 0,
+      edgarUrl: fjUrl(job),
+    });
+  }
+  return out;
+}
+
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
@@ -529,13 +641,14 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jobs14Result] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jobs14Result, fjResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -550,6 +663,7 @@ export async function GET(req: NextRequest) {
     add(ghResult,        "greenhouse");
     add(leverResult,     "lever");
     add(jobs14Result,    "jobs14");
+    add(fjResult,        "linkedin");
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();
