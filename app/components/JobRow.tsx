@@ -37,6 +37,9 @@ export default function JobRow({ signal }: Props) {
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-gray-900 text-sm">{signal.firm}</span>
+          {signal.source && (
+            <span className="text-[9px] text-gray-300 font-medium uppercase tracking-wide">{signal.source}</span>
+          )}
         </div>
         <div className="text-sm text-gray-600 mt-0.5">{signal.role}</div>
         <p className="text-xs text-gray-400 mt-0.5 truncate">

@@ -311,31 +311,33 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
 
 type FirmType = "pe" | "hedge" | "credit" | "growth";
 
-// Only slugs with high confidence of resolving on boards.greenhouse.io
+// Slugs verified against boards.greenhouse.io/<slug>/jobs.json
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // Large-cap PE / alt asset managers (confirmed on Greenhouse)
-  { slug: "blackstone",            firm: "Blackstone",                   type: "pe"     },
-  { slug: "kkr",                   firm: "KKR",                          type: "pe"     },
-  { slug: "apolloglobal",          firm: "Apollo Global Management",     type: "pe"     },
-  { slug: "carlyle",               firm: "The Carlyle Group",            type: "pe"     },
-  { slug: "warwickcapital",        firm: "Warwick Capital",              type: "pe"     },
+  // Large-cap PE / alt asset managers
+  { slug: "blackstone",                firm: "Blackstone",                   type: "pe"     },
+  { slug: "kkr",                       firm: "KKR",                          type: "pe"     },
+  { slug: "apolloglobalmanagement",    firm: "Apollo Global Management",     type: "pe"     },
+  { slug: "thecarlylegroup",           firm: "The Carlyle Group",            type: "pe"     },
   // Hedge funds
-  { slug: "citadel",               firm: "Citadel",                      type: "hedge"  },
-  { slug: "point72",               firm: "Point72",                      type: "hedge"  },
-  { slug: "balyasny",              firm: "Balyasny Asset Management",    type: "hedge"  },
-  { slug: "millenniummanagement",  firm: "Millennium Management",        type: "hedge"  },
-  { slug: "twosigma",              firm: "Two Sigma",                    type: "hedge"  },
-  { slug: "aqr",                   firm: "AQR Capital Management",       type: "hedge"  },
+  { slug: "citadel",                   firm: "Citadel",                      type: "hedge"  },
+  { slug: "point72",                   firm: "Point72",                      type: "hedge"  },
+  { slug: "balyasnyassetmanagement",   firm: "Balyasny Asset Management",    type: "hedge"  },
+  { slug: "millenniummanagement",      firm: "Millennium Management",        type: "hedge"  },
+  { slug: "twosigma",                  firm: "Two Sigma",                    type: "hedge"  },
+  { slug: "aqr",                       firm: "AQR Capital Management",       type: "hedge"  },
+  { slug: "bridgewater",               firm: "Bridgewater Associates",       type: "hedge"  },
   // Credit / direct lending
-  { slug: "aresmgmt",              firm: "Ares Management",              type: "credit" },
-  { slug: "golubcapital",          firm: "Golub Capital",                type: "credit" },
-  { slug: "blueowl",               firm: "Blue Owl Capital",             type: "credit" },
-  { slug: "hps",                   firm: "HPS Investment Partners",      type: "credit" },
-  // Growth / venture
-  { slug: "generalatlantic",       firm: "General Atlantic",             type: "growth" },
-  { slug: "insightpartners",       firm: "Insight Partners",             type: "growth" },
-  { slug: "thomabravo",            firm: "Thoma Bravo",                  type: "pe"     },
-  { slug: "silverlake",            firm: "Silver Lake",                  type: "pe"     },
+  { slug: "aresmgmt",                  firm: "Ares Management",              type: "credit" },
+  { slug: "golubcapital",              firm: "Golub Capital",                type: "credit" },
+  { slug: "blueowlcapital",            firm: "Blue Owl Capital",             type: "credit" },
+  { slug: "hpsinvestmentpartners",     firm: "HPS Investment Partners",      type: "credit" },
+  { slug: "oaktree",                   firm: "Oaktree Capital Management",   type: "credit" },
+  // Growth / PE
+  { slug: "generalatlantic",           firm: "General Atlantic",             type: "growth" },
+  { slug: "insightpartners",           firm: "Insight Partners",             type: "growth" },
+  { slug: "thomabravo",                firm: "Thoma Bravo",                  type: "pe"     },
+  { slug: "silverlakegroup",           firm: "Silver Lake",                  type: "pe"     },
+  { slug: "warburg",                   firm: "Warburg Pincus",               type: "pe"     },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
@@ -655,7 +657,11 @@ export async function GET(req: NextRequest) {
     const allSignals: JobSignal[] = [];
 
     const add = (r: PromiseSettledResult<JobSignal[]>, name: string) => {
-      if (r.status === "fulfilled" && r.value.length > 0) { allSignals.push(...r.value); sources.push(name); }
+      if (r.status === "fulfilled" && r.value.length > 0) {
+        r.value.forEach((s) => { s.source = name; });
+        allSignals.push(...r.value);
+        sources.push(name);
+      }
     };
     add(adzunaResult,    "adzuna");
     add(museResult,      "muse");
