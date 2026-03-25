@@ -1,21 +1,35 @@
 export const runtime = "edge";
 
 export async function GET() {
-  const HEADERS = {
-    "User-Agent": "NolaClaude/1.0 research@nolaclaude.com",
-    "Accept": "application/json",
-  };
+  const key = process.env.RAPIDAPI_KEY ?? "";
 
-  const url =
-    "https://efts.sec.gov/LATEST/search-index?q=%22hedge+fund%22&forms=D&dateRange=custom&startdt=2026-01-01&enddt=2026-03-23";
+  const tests = await Promise.allSettled([
+    // Test 1: jobs-api14
+    fetch(
+      "https://jobs-api14.p.rapidapi.com/v2/list?query=private+credit+analyst&location=United+States&autoTranslateLocation=false&remoteOnly=false&employmentTypes=fulltime&datePosted=month",
+      { headers: { "Content-Type": "application/json", "x-rapidapi-host": "jobs-api14.p.rapidapi.com", "x-rapidapi-key": key } }
+    ),
+    // Test 2: linkedin-job-search-api
+    fetch(
+      "https://linkedin-job-search-api.p.rapidapi.com/active-jb-1h?limit=2&offset=0&description_type=text",
+      { headers: { "Content-Type": "application/json", "x-rapidapi-host": "linkedin-job-search-api.p.rapidapi.com", "x-rapidapi-key": key } }
+    ),
+  ]);
 
-  try {
-    const res = await fetch(url, { headers: HEADERS });
-    const text = await res.text();
-    let parsed: unknown;
-    try { parsed = JSON.parse(text); } catch { parsed = text.slice(0, 500); }
-    return Response.json({ status: res.status, body: parsed });
-  } catch (e: unknown) {
-    return Response.json({ error: e instanceof Error ? e.message : String(e) });
+  const results: Record<string, unknown> = { key_set: !!key };
+
+  for (const [i, label] of [["0", "jobs14"], ["1", "linkedin_job_search"]] as const) {
+    const r = tests[Number(i)];
+    if (r.status === "rejected") {
+      results[label] = { error: String(r.reason) };
+    } else {
+      const res = r.value;
+      const text = await res.text();
+      let body: unknown;
+      try { body = JSON.parse(text); } catch { body = text.slice(0, 300); }
+      results[label] = { http: res.status, body };
+    }
   }
+
+  return Response.json(results, { headers: { "Cache-Control": "no-store" } });
 }
