@@ -184,6 +184,7 @@ export interface JobSignal {
   why: string; // concise one-liner
   score: number;
   edgarUrl?: string;
+  source?: string; // which source returned this job
 }
 
 export interface JobFilters {

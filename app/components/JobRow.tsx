@@ -31,11 +31,14 @@ function agoLabel(days: number): string {
 }
 
 function sourceInfo(id: string): { label: string; style: string } {
-  if (id.startsWith("gh-"))     return { label: "Greenhouse", style: "bg-green-50 text-green-700 border-green-200" };
-  if (id.startsWith("lever-"))  return { label: "Lever",      style: "bg-teal-50 text-teal-700 border-teal-200" };
-  if (id.startsWith("edgar-"))  return { label: "EDGAR",      style: "bg-gray-50 text-gray-500 border-gray-200" };
-  if (id.startsWith("adzuna-")) return { label: "Adzuna",     style: "bg-blue-50 text-blue-700 border-blue-200" };
-  if (id.startsWith("muse-"))   return { label: "The Muse",   style: "bg-purple-50 text-purple-700 border-purple-200" };
+  if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-green-50 text-green-700 border-green-200"   };
+  if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-teal-50 text-teal-700 border-teal-200"       };
+  if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-gray-50 text-gray-500 border-gray-200"       };
+  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-blue-50 text-blue-700 border-blue-200"       };
+  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-purple-50 text-purple-700 border-purple-200" };
+  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-sky-50 text-sky-700 border-sky-200"          };
+  if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-sky-600 text-white border-sky-700"           };
+  if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-sky-600 text-white border-sky-700"           };
   return { label: "Board", style: "bg-gray-50 text-gray-500 border-gray-200" };
 }
 
