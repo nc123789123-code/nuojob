@@ -17,7 +17,7 @@ export async function GET() {
     ),
   ]);
 
-  const results: Record<string, unknown> = { key_set: !!key };
+  const results: Record<string, unknown> = { key_set: !!key, key_preview: key ? key.slice(0, 8) + "..." : "missing" };
 
   for (const [i, label] of [["0", "jobs14"], ["1", "linkedin_job_search"]] as const) {
     const r = tests[Number(i)];
