@@ -2,27 +2,76 @@
 
 import { useState } from "react";
 
-export default function NewsletterCTA() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+interface Props {
+  intent?: "signals_subscriber" | "guide_interest";
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  cta?: string;
+  successMessage?: string;
+  dark?: boolean;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function NewsletterCTA({
+  intent = "signals_subscriber",
+  title = "Hiring signals, decoded.",
+  description = "Get new fund signals, relevant roles, and market insight in your inbox.",
+  placeholder = "your@email.com",
+  cta = "Subscribe",
+  successMessage = "You're on the list.",
+  dark = true,
+}: Props) {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    if (!email.trim()) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), intent }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Something went wrong. Try again.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const bg = dark ? "bg-slate-900" : "bg-white border border-gray-200";
+  const headingColor = dark ? "text-white" : "text-gray-900";
+  const descColor = dark ? "text-slate-400" : "text-gray-500";
+  const labelColor = dark ? "text-slate-400" : "text-gray-400";
+  const inputCls = dark
+    ? "border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 focus:ring-blue-500"
+    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:ring-slate-900";
+  const btnCls = dark
+    ? "bg-white text-slate-900 hover:bg-slate-100"
+    : "bg-slate-900 text-white hover:bg-slate-800";
+
   return (
-    <div className="bg-slate-900 rounded-xl px-6 py-7 text-center">
-      <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-2">Weekly Intelligence</p>
-      <h3 className="text-white font-semibold text-lg tracking-tight">Hiring signals, decoded.</h3>
-      <p className="text-slate-400 text-sm mt-1.5 max-w-sm mx-auto leading-relaxed">
-        Every Monday: the strongest buy-side hiring signals from the past week, with context on what each one means.
+    <div className={`${bg} rounded-xl px-6 py-7 text-center`}>
+      <p className={`text-[11px] font-semibold ${labelColor} uppercase tracking-widest mb-2`}>
+        Weekly Intelligence
       </p>
+      <h3 className={`${headingColor} font-semibold text-lg tracking-tight`}>{title}</h3>
+      <p className={`${descColor} text-sm mt-1.5 max-w-sm mx-auto leading-relaxed`}>{description}</p>
 
       {submitted ? (
         <div className="mt-5 inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium px-4 py-2 rounded-lg">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-          You&apos;re on the list.
+          {successMessage}
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="mt-5 flex gap-2 max-w-sm mx-auto">
@@ -30,19 +79,27 @@ export default function NewsletterCTA() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
+            placeholder={placeholder}
             required
-            className="flex-1 rounded-lg border border-slate-700 bg-slate-800 text-white text-sm px-3 py-2 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className={`flex-1 rounded-lg border text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent ${inputCls}`}
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-white text-slate-900 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-colors flex-shrink-0"
+            disabled={loading}
+            className={`px-4 py-2 text-sm font-semibold rounded-lg transition-colors flex-shrink-0 disabled:opacity-50 ${btnCls}`}
           >
-            Subscribe
+            {loading ? "…" : cta}
           </button>
         </form>
       )}
-      <p className="text-slate-600 text-[11px] mt-3">No spam. Unsubscribe any time.</p>
+
+      {error && (
+        <p className="text-red-400 text-xs mt-2">{error}</p>
+      )}
+
+      <p className={`${dark ? "text-slate-600" : "text-gray-300"} text-[11px] mt-3`}>
+        No spam. Unsubscribe any time.
+      </p>
     </div>
   );
 }

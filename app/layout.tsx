@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Onlu",
+  title: "OnluIntel — Private Credit & Special Situations Intelligence",
   description:
-    "Search hedge funds and credit funds actively raising capital · SEC EDGAR Form D signals with opportunity scoring",
+    "Track fund signals, hiring intel, and market insights across private credit, special situations, and restructuring. Know where opportunities are before they're posted.",
 };
 
 export default function RootLayout({

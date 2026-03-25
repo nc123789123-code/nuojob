@@ -7,6 +7,7 @@ import FundRow from "@/app/components/FundCard";
 import RoleCard from "@/app/components/RoleCard";
 import FundFilterBar from "@/app/components/Filters";
 import NewsletterCTA from "@/app/components/NewsletterCTA";
+import GuideSection from "@/app/components/GuideSection";
 import {
   FundFiling,
   SearchFilters,
@@ -147,25 +148,74 @@ export default function Home() {
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
           </nav>
-          <div className="ml-auto">
-            <span className="text-slate-500 text-xs hidden sm:block">Finance hiring intelligence</span>
+          <div className="ml-auto flex items-center gap-4">
+            <a href="#guide" className="hidden sm:inline text-slate-400 hover:text-white text-xs transition-colors">Interview Guide</a>
+            <span className="text-slate-500 text-xs hidden sm:block">Private credit &amp; special situations</span>
           </div>
         </div>
       </header>
 
       {/* Hero */}
       <div className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-6xl mx-auto px-5 py-5">
+        <div className="max-w-6xl mx-auto px-5 py-8">
           {topTab === "funds" && (
             <>
-              <h1 className="text-white text-xl font-semibold">Find funds hiring before the job is posted.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-xl">We track SEC Form D filings — the capital event that precedes almost every senior buy-side hire. Each fund is scored by signal strength and urgency, updated daily.</p>
+              <h1 className="text-white text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                Track Hiring Signals Across Private Credit &amp; Special Situations
+              </h1>
+              <p className="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+                Fund activity, job signals, and market insights — so you know where opportunities are before they&apos;re posted.
+              </p>
+              <p className="text-slate-500 text-xs mt-2 max-w-xl">
+                Built for candidates targeting private credit, special situations, and restructuring.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 mt-5">
+                <button
+                  onClick={() => setTopTab("funds")}
+                  className="px-4 py-2 bg-white text-slate-900 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+                >
+                  Explore Signals
+                </button>
+                <button
+                  onClick={() => setTopTab("jobs")}
+                  className="px-4 py-2 border border-slate-600 text-slate-300 text-sm font-medium rounded-lg hover:border-slate-400 hover:text-white transition-colors"
+                >
+                  View Jobs
+                </button>
+              </div>
+              <p className="text-slate-600 text-xs mt-5 italic">
+                Built from real-world experience across private credit and special situations investing.
+              </p>
             </>
           )}
           {topTab === "jobs" && (
             <>
-              <h1 className="text-white text-xl font-semibold">See where finance teams are actually hiring — and why.</h1>
-              <p className="text-slate-400 text-sm mt-1 max-w-xl">Live postings and inferred roles from funds in-market or post-close. Each role includes an OnluIntel analysis: what the signal means, what they&apos;re looking for, and whether it&apos;s worth your time.</p>
+              <h1 className="text-white text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                See Where Finance Teams Are Hiring — and Why
+              </h1>
+              <p className="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+                Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
+              </p>
+              <p className="text-slate-500 text-xs mt-2 max-w-xl">
+                Each role includes an OnluIntel analysis: what the signal means and whether it&apos;s worth your time.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 mt-5">
+                <button
+                  onClick={() => setTopTab("funds")}
+                  className="px-4 py-2 border border-slate-600 text-slate-300 text-sm font-medium rounded-lg hover:border-slate-400 hover:text-white transition-colors"
+                >
+                  Fund Signals
+                </button>
+                <a
+                  href="#guide"
+                  className="px-4 py-2 border border-amber-500/40 text-amber-400 text-sm font-medium rounded-lg hover:border-amber-400 transition-colors"
+                >
+                  Interview Guide
+                </a>
+              </div>
+              <p className="text-slate-600 text-xs mt-5 italic">
+                Built from real-world experience across private credit and special situations investing.
+              </p>
             </>
           )}
         </div>
@@ -178,15 +228,32 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "funds" && (
-          <FundsSection
-            filters={fundFilters} setFilters={setFundFilters}
-            filings={fundFilings} total={fundTotal}
-            loading={fundLoading} error={fundError}
-            records={records} updateRecord={updateRecord}
-            outreachRecords={outreachRecords}
-            subTab={fundSubTab} setSubTab={setFundSubTab}
-            onExport={() => exportToCsv(fundFilings, records)}
-          />
+          <>
+            <FundsSection
+              filters={fundFilters} setFilters={setFundFilters}
+              filings={fundFilings} total={fundTotal}
+              loading={fundLoading} error={fundError}
+              records={records} updateRecord={updateRecord}
+              outreachRecords={outreachRecords}
+              subTab={fundSubTab} setSubTab={setFundSubTab}
+              onExport={() => exportToCsv(fundFilings, records)}
+            />
+            {/* Inter-section CTA: signals → guide */}
+            <div className="bg-amber-50 border border-amber-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-amber-800">
+                Found opportunities worth pursuing? <span className="font-medium">Prepare for the interview with the full guide.</span>
+              </p>
+              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition-colors text-center">
+                View the Guide →
+              </a>
+            </div>
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Stay ahead of the signals."
+              description="Get new fund signals, relevant roles, and market insight in your inbox."
+              cta="Subscribe"
+            />
+          </>
         )}
         {topTab === "jobs" && (
           <>
@@ -196,10 +263,27 @@ export default function Home() {
               loading={jobLoading} error={jobError}
               sources={jobSources}
             />
-            <NewsletterCTA />
+            {/* Inter-section CTA: jobs → guide */}
+            <div className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-slate-700">
+                Found the right role? <span className="font-medium">Prepare for the interview with the full guide.</span>
+              </p>
+              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors text-center">
+                Get the Interview Guide →
+              </a>
+            </div>
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Hiring signals, decoded."
+              description="Get new fund signals, relevant roles, and market insight in your inbox."
+              cta="Subscribe"
+            />
           </>
         )}
       </main>
+
+      {/* Monetization section — always visible */}
+      <GuideSection />
     </div>
   );
 }
@@ -460,6 +544,12 @@ function FundsSection({
         }} />
       )}
 
+      <div className="space-y-1 mb-1">
+        <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
+          Identify which funds are raising capital, deploying, and likely to hire — before roles are publicly visible.
+        </p>
+      </div>
+
       <div className="flex items-center justify-between">
         <div className="flex gap-1 bg-gray-200 rounded-lg p-0.5">
           <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>Search</button>
@@ -548,6 +638,12 @@ function JobsSection({
 
   return (
     <>
+      <div className="space-y-1 mb-1">
+        <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
+          Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
+        </p>
+      </div>
+
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
         {JOB_CATEGORIES.map((c) => (
