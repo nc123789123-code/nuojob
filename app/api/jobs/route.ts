@@ -311,33 +311,21 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
 
 type FirmType = "pe" | "hedge" | "credit" | "growth";
 
-// Slugs verified against boards.greenhouse.io/<slug>/jobs.json
+// Only confirmed slugs — firms that actually use boards.greenhouse.io/<slug>/jobs.json
+// Blackstone, Apollo, Carlyle, Citadel, Two Sigma use their own ATS portals (not Greenhouse)
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // Large-cap PE / alt asset managers
-  { slug: "blackstone",                firm: "Blackstone",                   type: "pe"     },
-  { slug: "kkr",                       firm: "KKR",                          type: "pe"     },
-  { slug: "apolloglobalmanagement",    firm: "Apollo Global Management",     type: "pe"     },
-  { slug: "thecarlylegroup",           firm: "The Carlyle Group",            type: "pe"     },
-  // Hedge funds
-  { slug: "citadel",                   firm: "Citadel",                      type: "hedge"  },
-  { slug: "point72",                   firm: "Point72",                      type: "hedge"  },
-  { slug: "balyasnyassetmanagement",   firm: "Balyasny Asset Management",    type: "hedge"  },
-  { slug: "millenniummanagement",      firm: "Millennium Management",        type: "hedge"  },
-  { slug: "twosigma",                  firm: "Two Sigma",                    type: "hedge"  },
-  { slug: "aqr",                       firm: "AQR Capital Management",       type: "hedge"  },
-  { slug: "bridgewater",               firm: "Bridgewater Associates",       type: "hedge"  },
-  // Credit / direct lending
-  { slug: "aresmgmt",                  firm: "Ares Management",              type: "credit" },
-  { slug: "golubcapital",              firm: "Golub Capital",                type: "credit" },
-  { slug: "blueowlcapital",            firm: "Blue Owl Capital",             type: "credit" },
-  { slug: "hpsinvestmentpartners",     firm: "HPS Investment Partners",      type: "credit" },
-  { slug: "oaktree",                   firm: "Oaktree Capital Management",   type: "credit" },
-  // Growth / PE
-  { slug: "generalatlantic",           firm: "General Atlantic",             type: "growth" },
-  { slug: "insightpartners",           firm: "Insight Partners",             type: "growth" },
-  { slug: "thomabravo",                firm: "Thoma Bravo",                  type: "pe"     },
-  { slug: "silverlakegroup",           firm: "Silver Lake",                  type: "pe"     },
-  { slug: "warburg",                   firm: "Warburg Pincus",               type: "pe"     },
+  // Confirmed ✓
+  { slug: "kkr",                 firm: "KKR",                        type: "pe"     },
+  { slug: "point72",             firm: "Point72",                    type: "hedge"  },
+  { slug: "millenniummanagement",firm: "Millennium Management",      type: "hedge"  },
+  { slug: "aqr",                 firm: "AQR Capital Management",     type: "hedge"  },
+  { slug: "bridgewater89",       firm: "Bridgewater Associates",     type: "hedge"  },
+  { slug: "aresmgmt",            firm: "Ares Management",            type: "credit" },
+  { slug: "golubcapital",        firm: "Golub Capital",              type: "credit" },
+  { slug: "hpsinvestmentpartners", firm: "HPS Investment Partners",  type: "credit" },
+  { slug: "generalatlantic",     firm: "General Atlantic",           type: "growth" },
+  { slug: "insightpartners",     firm: "Insight Partners",           type: "growth" },
+  { slug: "warburgpincusllc",    firm: "Warburg Pincus",             type: "pe"     },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
