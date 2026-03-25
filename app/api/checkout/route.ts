@@ -40,6 +40,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
+    console.error("[checkout] Stripe error:", err);
     const message = err instanceof Error ? err.message : "Checkout failed";
     return NextResponse.json({ error: message }, { status: 500 });
   }
