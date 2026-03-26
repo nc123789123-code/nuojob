@@ -307,8 +307,10 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
   return (
     <button
       onClick={onClick}
-      className={`relative px-3 py-1 rounded-md text-sm font-medium transition-all ${
-        active ? "bg-sky-100 text-[#396477]" : "text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6]"
+      className={`relative px-4 py-1.5 rounded-md text-sm transition-all ${
+        active
+          ? "bg-sky-100 text-[#396477] font-bold"
+          : "text-[#41484c] font-semibold hover:text-[#191c1e] hover:bg-[#f2f4f6]"
       }`}
     >
       {label}
