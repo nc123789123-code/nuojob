@@ -44,7 +44,6 @@ function extractXml(xml: string, tag: string): string | undefined {
 async function fetchFormDDetails(cik: string, accessionNo: string) {
   try {
     const url = `${EDGAR_ARCHIVE_URL}/${cik}/${accessionNo.replace(/-/g, "")}/primary_doc.xml`;
-    // @ts-expect-error next fetch cache option
     const res = await fetch(url, { headers: HEADERS, next: { revalidate: 3600 } });
     if (!res.ok) return { offeringStatus: "unknown" as OfferingStatus };
 
@@ -133,7 +132,6 @@ interface SubmissionsResp {
 async function fetchSubmissions(cik: string): Promise<{ phone?: string; businessCity?: string; website?: string; stateOfIncorporation?: string }> {
   try {
     const padded = cik.padStart(10, "0");
-    // @ts-expect-error next fetch cache option
     const res = await fetch(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS, next: { revalidate: 3600 } });
     if (!res.ok) return {};
     const data = await res.json() as SubmissionsResp;
@@ -175,7 +173,6 @@ export async function GET(req: NextRequest) {
         const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, from: "0" });
         const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, {
           headers: HEADERS,
-          // @ts-expect-error next fetch cache option
           next: { revalidate: 1800 },
         });
         if (!res.ok) return [];
