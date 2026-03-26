@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
+import LogoMark from "@/app/components/LogoMark";
 import SearchBar from "@/app/components/SearchBar";
 import FundRow from "@/app/components/FundCard";
 import RoleCard from "@/app/components/RoleCard";
@@ -153,11 +154,9 @@ function HomeContent() {
       {/* Nav */}
       <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
         <div className="max-w-6xl mx-auto px-5 h-14 flex items-center gap-6">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#396477] flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-bold text-sm leading-none">O</span>
-            </div>
-            <span className="text-[#191c1e] font-semibold text-sm tracking-tight">Onlu</span>
+          <div className="flex items-center gap-2">
+            <LogoMark size={28} />
+            <span className="font-semibold text-sm tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
