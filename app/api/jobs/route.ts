@@ -101,30 +101,30 @@ const ADZUNA_BASE = "https://api.adzuna.com/v1/api/jobs/us/search/1";
 
 // 18 queries × 50 results = up to 900 raw. Balanced across buy-side categories.
 const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
-  // Credit
-  { what: "private credit analyst fund",              fallbackCat: "Credit"          },
-  { what: "distressed debt hedge fund analyst",       fallbackCat: "Credit"          },
-  { what: "direct lending associate credit",          fallbackCat: "Credit"          },
-  { what: "leveraged finance analyst investment bank", fallbackCat: "Credit"         },
-  // Equity
-  { what: "equity analyst buy side hedge fund",       fallbackCat: "Equity"          },
-  { what: "portfolio manager long short equity",      fallbackCat: "Equity"          },
-  { what: "investment analyst private equity fund",   fallbackCat: "Equity"          },
-  { what: "hedge fund analyst investment",            fallbackCat: "Equity"          },
+  // Private Credit
+  { what: "private credit analyst fund",              fallbackCat: "Private Credit"     },
+  { what: "distressed debt hedge fund analyst",       fallbackCat: "Private Credit"     },
+  { what: "direct lending associate credit",          fallbackCat: "Private Credit"     },
+  { what: "leveraged finance analyst investment bank", fallbackCat: "Investment Banking" },
+  // Equity Investing
+  { what: "equity analyst buy side hedge fund",       fallbackCat: "Equity Investing"   },
+  { what: "portfolio manager long short equity",      fallbackCat: "Equity Investing"   },
+  { what: "investment analyst private equity fund",   fallbackCat: "Equity Investing"   },
+  { what: "hedge fund analyst investment",            fallbackCat: "Equity Investing"   },
   // Equity Research
-  { what: "equity research analyst sell side",        fallbackCat: "Equity Research" },
-  { what: "sector research analyst fund",             fallbackCat: "Equity Research" },
-  { what: "research analyst coverage securities",     fallbackCat: "Equity Research" },
+  { what: "equity research analyst sell side",        fallbackCat: "Equity Research"    },
+  { what: "sector research analyst fund",             fallbackCat: "Equity Research"    },
+  { what: "research analyst coverage securities",     fallbackCat: "Equity Research"    },
   // Quant
-  { what: "quantitative researcher systematic fund",  fallbackCat: "Quant"           },
-  { what: "quantitative analyst trading strategies",  fallbackCat: "Quant"           },
+  { what: "quantitative researcher systematic fund",  fallbackCat: "Quant"              },
+  { what: "quantitative analyst trading strategies",  fallbackCat: "Quant"              },
   // Macro / PE
-  { what: "global macro analyst fund",                fallbackCat: "Equity"          },
-  { what: "private equity associate vice president",  fallbackCat: "Equity"          },
-  { what: "growth equity associate investment",       fallbackCat: "Equity"          },
+  { what: "global macro analyst fund",                fallbackCat: "Equity Investing"   },
+  { what: "private equity associate vice president",  fallbackCat: "Equity Investing"   },
+  { what: "growth equity associate investment",       fallbackCat: "Equity Investing"   },
   // IR / Ops
-  { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"      },
-  { what: "fund operations analyst asset management", fallbackCat: "IR / Ops"       },
+  { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"          },
+  { what: "fund operations analyst asset management", fallbackCat: "IR / Ops"           },
 ];
 
 async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promise<JobSignal[]> {
