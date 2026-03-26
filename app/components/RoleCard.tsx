@@ -362,6 +362,9 @@ export default function RoleCard({ signal }: Props) {
               {signal.location && signal.location !== "—" && (
                 <span className="text-xs text-gray-400">{signal.location}</span>
               )}
+              {signal.salaryRange && (
+                <span className="text-xs font-medium text-emerald-600">{signal.salaryRange}</span>
+              )}
               <span className="text-xs text-gray-400 tabular-nums">{agoLabel(signal.daysAgo)}</span>
             </div>
             <div className="flex items-center gap-3">

@@ -625,6 +625,35 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
   return out;
 }
 
+// ─── Salary range (jobs-api14 /v2/salary/range) ───────────────────────────────
+
+interface SalaryResp {
+  salaryMin?: number; salary_min?: number; min?: number;
+  salaryMax?: number; salary_max?: number; max?: number;
+}
+
+function fmtSalary(n: number): string {
+  return n >= 1000 ? `$${Math.round(n / 1000)}K` : `$${n}`;
+}
+
+async function fetchSalaryRange(apiKey: string, query: string): Promise<string | null> {
+  try {
+    const p = new URLSearchParams({ query, countryCode: "us" });
+    const res = await fetchT(
+      `https://jobs-api14.p.rapidapi.com/v2/salary/range?${p}`,
+      { headers: { "Content-Type": "application/json", "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jobs-api14.p.rapidapi.com" } },
+      6000
+    );
+    if (!res.ok) return null;
+    const data = await safeJson<SalaryResp>(res);
+    if (!data) return null;
+    const min = data.salaryMin ?? data.salary_min ?? data.min;
+    const max = data.salaryMax ?? data.salary_max ?? data.max;
+    if (!min || !max) return null;
+    return `${fmtSalary(min)}–${fmtSalary(max)}`;
+  } catch { return null; }
+}
+
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
@@ -676,6 +705,19 @@ export async function GET(req: NextRequest) {
       dedupSeen.add(key);
       return true;
     });
+
+    // Fetch salary ranges for unique role titles (cap at 15 calls to respect rate limits)
+    if (rapidApiKey) {
+      const uniqueTitles = [...new Set(deduped.map((s) => s.role))].slice(0, 15);
+      const salaryMap = new Map<string, string>();
+      await Promise.allSettled(
+        uniqueTitles.map(async (title) => {
+          const range = await fetchSalaryRange(rapidApiKey, title);
+          if (range) salaryMap.set(title, range);
+        })
+      );
+      deduped.forEach((s) => { if (salaryMap.has(s.role)) s.salaryRange = salaryMap.get(s.role); });
+    }
 
     // Score every signal now that we have the full set
     deduped.forEach((s) => { s.score = scoreJobSignal(s); });

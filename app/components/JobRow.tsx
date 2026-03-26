@@ -79,8 +79,11 @@ export default function JobRow({ signal }: Props) {
         </span>
       </div>
 
-      {/* Location */}
-      <div className="text-xs text-gray-500">{signal.location}</div>
+      {/* Location + salary */}
+      <div className="text-xs text-gray-500">
+        <div>{signal.location}</div>
+        {signal.salaryRange && <div className="text-emerald-600 font-medium mt-0.5">{signal.salaryRange}</div>}
+      </div>
 
       {/* Days ago */}
       <div className="text-xs text-gray-400 tabular-nums">{agoLabel(signal.daysAgo)}</div>

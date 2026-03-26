@@ -185,6 +185,7 @@ export interface JobSignal {
   score: number;
   edgarUrl?: string;
   source?: string; // which source returned this job
+  salaryRange?: string; // e.g. "$120K–$180K"
 }
 
 export interface JobFilters {
