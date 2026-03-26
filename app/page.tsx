@@ -951,6 +951,119 @@ function InsightsSection() {
   return <PostList posts={INDUSTRY_POSTS} />;
 }
 
+// ─── Client-side firm registry (mirrors app/lib/firms.ts) ────────────────────
+
+const FIRM_REGISTRY = [
+  { id: "kkr",           name: "KKR",                    tier: 1 as const, strategies: ["private_credit", "private_equity"] },
+  { id: "ares",          name: "Ares Management",         tier: 1 as const, strategies: ["private_credit", "direct_lending"] },
+  { id: "point72",       name: "Point72",                 tier: 1 as const, strategies: ["multi_strategy", "long_short"] },
+  { id: "millennium",    name: "Millennium Management",   tier: 1 as const, strategies: ["multi_strategy"] },
+  { id: "bridgewater",   name: "Bridgewater Associates",  tier: 1 as const, strategies: ["macro"] },
+  { id: "aqr",           name: "AQR Capital Management",  tier: 1 as const, strategies: ["quant", "multi_strategy"] },
+  { id: "hps",           name: "HPS Investment Partners", tier: 1 as const, strategies: ["private_credit", "special_sits"] },
+  { id: "generalatlantic", name: "General Atlantic",      tier: 1 as const, strategies: ["growth", "private_equity"] },
+  { id: "silverlake",    name: "Silver Lake",             tier: 1 as const, strategies: ["private_equity", "private_credit"] },
+  { id: "tpg",           name: "TPG Capital",             tier: 1 as const, strategies: ["private_equity", "private_credit"] },
+  { id: "blueowl",       name: "Blue Owl Capital",        tier: 2 as const, strategies: ["direct_lending", "private_credit"] },
+  { id: "golub",         name: "Golub Capital",           tier: 2 as const, strategies: ["direct_lending", "private_credit"] },
+  { id: "warburg",       name: "Warburg Pincus",          tier: 2 as const, strategies: ["private_equity"] },
+  { id: "insight",       name: "Insight Partners",        tier: 2 as const, strategies: ["growth", "private_equity"] },
+  { id: "neuberger",     name: "Neuberger Berman",        tier: 2 as const, strategies: ["multi_strategy", "private_credit"] },
+  { id: "coatue",        name: "Coatue Management",       tier: 2 as const, strategies: ["hedge_fund", "long_short"] },
+  { id: "tiger",         name: "Tiger Global",            tier: 2 as const, strategies: ["hedge_fund", "growth"] },
+  { id: "iconiq",        name: "ICONIQ Capital",          tier: 2 as const, strategies: ["private_equity", "growth"] },
+  { id: "dragoneer",     name: "Dragoneer Investment Group", tier: 2 as const, strategies: ["growth", "hedge_fund"] },
+  { id: "d1",            name: "D1 Capital Partners",     tier: 2 as const, strategies: ["hedge_fund", "long_short"] },
+  { id: "magnetar",      name: "Magnetar Capital",        tier: 2 as const, strategies: ["distressed", "special_sits"] },
+];
+
+function matchFirm(firmName: string) {
+  const lower = firmName.toLowerCase();
+  return FIRM_REGISTRY.find((f) =>
+    lower.includes(f.id) ||
+    lower.includes(f.name.toLowerCase()) ||
+    f.name.toLowerCase().includes(lower.split(" ")[0]) // partial first-word match
+  );
+}
+
+const BACK_OFFICE_RE_CLIENT = /\b(software engineer|developer|devops|sysadmin|cybersecurity|HR|human resources|recruit|talent|office manager|admin|payroll|legal counsel|paralegal|attorney|marketing|content manager|social media|sales|business development|customer support|help desk|product manager|project manager|supply chain|procurement)\b/i;
+const SENIORITY_RE_CLIENT: Array<[RegExp, string]> = [
+  [/\b(intern|summer analyst|co-?op)\b/i, "intern"],
+  [/\b(analyst)\b/i, "analyst"],
+  [/\b(associate)\b/i, "associate"],
+  [/\b(vice president|vp)\b/i, "vp"],
+  [/\b(director|principal|svp)\b/i, "director"],
+  [/\b(managing director|md|head of|chief|cio|cco|cfo)\b/i, "md"],
+  [/\b(partner|general partner)\b/i, "partner"],
+];
+
+function classifyClient(role: string, firm: string) {
+  const frontOffice = !BACK_OFFICE_RE_CLIENT.test(role);
+  let seniority = "other";
+  for (const [re, s] of SENIORITY_RE_CLIENT) {
+    if (re.test(role)) { seniority = s; break; }
+  }
+  const relevanceScore = !frontOffice ? 2
+    : ["md", "partner"].includes(seniority) ? 9
+    : ["director", "vp"].includes(seniority) ? 8
+    : ["analyst", "associate"].includes(seniority) ? 7 : 5;
+  const signal = ["md", "partner"].includes(seniority)
+    ? `Senior hire at ${firm} — likely team build-out or strategy expansion`
+    : /distress|restructur|special sit/i.test(role)
+    ? `${firm} hiring for distressed/special sits — watch for deployment activity`
+    : /private credit|direct lend/i.test(role)
+    ? `${firm} expanding private credit team`
+    : `${firm} hiring — ${role}`;
+  return { frontOffice, seniority, relevanceScore, signal, strategies: [] as string[], signalType: "uncertain" as const };
+}
+
+function buildIntelFromJobs(signals: JobSignal[]): IntelResponse {
+  type ClassifiedSignal = JobSignal & { classification: ReturnType<typeof classifyClient> };
+  const firmMap = new Map<string, { def: typeof FIRM_REGISTRY[0]; jobs: ClassifiedSignal[] }>();
+  const allRolesArr: ClassifiedSignal[] = [];
+
+  for (const s of signals) {
+    const classified: ClassifiedSignal = { ...s, classification: classifyClient(s.role, s.firm) };
+    allRolesArr.push(classified);
+    const match = matchFirm(s.firm);
+    if (!match) continue;
+    if (!firmMap.has(match.id)) firmMap.set(match.id, { def: match, jobs: [] });
+    firmMap.get(match.id)!.jobs.push(classified);
+  }
+
+  const profiles: FirmIntelProfile[] = Array.from(firmMap.values())
+    .filter(({ jobs }) => jobs.length > 0)
+    .map(({ def, jobs }) => {
+      const foCount = jobs.filter((j) => j.classification.frontOffice).length;
+      const sigs: string[] = [];
+      if (foCount >= 3) sigs.push(`${foCount} front-office roles open`);
+      else if (foCount > 0) sigs.push(`${foCount} front-office role${foCount > 1 ? "s" : ""} open`);
+      return {
+        firmId: def.id,
+        name: def.name,
+        tier: def.tier,
+        strategies: def.strategies,
+        openRoles: jobs as FirmIntelProfile["openRoles"],
+        frontOfficeCount: foCount,
+        signals: sigs,
+        hiringPush: foCount >= 3,
+        postRaiseHiring: false,
+      };
+    })
+    .sort((a, b) => b.frontOfficeCount - a.frontOfficeCount);
+
+  allRolesArr.sort((a, b) => b.classification.relevanceScore - a.classification.relevanceScore);
+
+  return {
+    hiringPush: profiles.filter((p) => p.hiringPush),
+    postRaise: profiles.filter((p) => !p.hiringPush && p.frontOfficeCount > 0),
+    strategyBuilds: [],
+    allRoles: allRolesArr as IntelResponse["allRoles"],
+    totalFirms: profiles.length,
+    lastUpdated: new Date().toISOString(),
+  };
+}
+
 // ─── Firm Intel ───────────────────────────────────────────────────────────────
 
 interface FirmIntelProfile {
@@ -1124,12 +1237,13 @@ function IntelSection() {
   const [view, setView] = useState<"firms" | "roles">("firms");
 
   useEffect(() => {
-    fetch("/api/intel?dateRange=30")
+    // Use the proven /api/jobs endpoint — aggregates Greenhouse, Lever, EDGAR,
+    // Adzuna, LinkedIn. Intel tab does firm-level grouping client-side.
+    fetch("/api/jobs?dateRange=90")
       .then(async (r) => {
         const d = await r.json();
-        if (!r.ok) throw new Error(d?.error || `Server error ${r.status}`);
-        if (!Array.isArray(d?.hiringPush)) throw new Error("Unexpected response shape");
-        setData(d as IntelResponse);
+        if (!r.ok) throw new Error(d?.error || `Error ${r.status}`);
+        setData(buildIntelFromJobs(d.signals ?? []));
       })
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
@@ -1199,11 +1313,11 @@ function IntelSection() {
           {data.postRaise.length > 0 && (
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Post-Raise Deployment Teams</h2>
+                <h2 className="text-sm font-bold text-[#191c1e]">Active Hiring</h2>
                 <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
                   {data.postRaise.length}
                 </span>
-                <span className="text-xs text-[#71787c]">Active EDGAR raise + front-office hiring</span>
+                <span className="text-xs text-[#71787c]">Known firms with open front-office roles</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.postRaise.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -1284,7 +1398,7 @@ function IntelSection() {
       )}
 
       <p className="text-[11px] text-[#71787c] text-center pt-2">
-        Sourced from Greenhouse, Lever, Ashby, and SEC EDGAR · Updated every 30 min
+        Sourced from career pages, SEC EDGAR, Indeed, and LinkedIn · Grouped by firm · Updated every 30 min
       </p>
     </div>
   );
