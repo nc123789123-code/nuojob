@@ -15,10 +15,12 @@
 import { NextRequest } from "next/server";
 import { getGreenhouseFirms, getLeverFirms, getAshbyFirms, findFirmByName, FIRMS } from "@/app/lib/firms";
 import { fetchAshbyPostings } from "@/app/lib/scrapers/ashby";
-import { classifyJobs, classifyHeuristic, type JobClassification } from "@/app/lib/classify";
+import { classifyHeuristic, type JobClassification } from "@/app/lib/classifyHeuristic";
 import type { JobSignal, JobCategory } from "@/app/types";
 
-export const runtime = "nodejs";
+// Edge runtime: uses Vercel's edge network IPs, which Greenhouse/Lever allow.
+// (nodejs/Lambda IPs get 403 host_not_allowed from boards.greenhouse.io)
+export const runtime = "edge";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -256,7 +258,6 @@ async function fetchEdgarRaises(maxDays: number): Promise<EdgarRaise[]> {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const maxDays = parseInt(searchParams.get("dateRange") || "30");
-  const useLlm = searchParams.get("llm") !== "0";
 
   try {
     // Scrape all direct career pages in parallel
@@ -278,12 +279,8 @@ export async function GET(req: NextRequest) {
       return true;
     });
 
-    // Upgrade heuristic classifications with Claude (if key available)
-    let classifiedJobs = dedupedJobs;
-    if (useLlm && process.env.ANTHROPIC_API_KEY) {
-      const upgraded = await classifyJobs(dedupedJobs);
-      classifiedJobs = upgraded;
-    }
+    // Heuristic classification (edge-compatible; LLM upgrade handled separately)
+    const classifiedJobs = dedupedJobs;
 
     // Sort by relevance score
     classifiedJobs.sort((a, b) => b.classification.relevanceScore - a.classification.relevanceScore);
