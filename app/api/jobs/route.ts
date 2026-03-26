@@ -72,11 +72,20 @@ function classifyTitle(title: string): JobCategory | null {
   if (IRRELEVANT_TITLE_RE.test(title)) return null;
   if (!FINANCE_KEYWORD_RE.test(title)) return null;
   const t = title.toLowerCase();
-  if (/credit|lending|fixed income|high yield|leveraged|distressed|mezz|mezzanine|underwrite|loan|special situations|special sits|structured credit|structured finance/i.test(t)) return "Credit";
+  // Investment Banking (sell-side advisory)
+  if (/investment bank|m&a\b|mergers.*acquisitions|equity capital market|debt capital market|\becm\b|\bdcm\b|corporate.*advisory|leveraged finance.*(bank|group|analyst|associate)/i.test(t)) return "Investment Banking";
+  // Private Credit (illiquid/direct lending)
+  if (/private credit|direct lending|distressed|special situations|special sits|mezzanine|\bmezz\b|structured credit|structured finance|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit/i.test(t)) return "Private Credit";
+  // Public Credit (liquid markets)
+  if (/high yield|fixed income|investment grade|credit research|credit trading|credit analyst|bond.*fund|bond.*analyst|public credit|securit.*credit|\brates\b.*credit/i.test(t)) return "Public Credit";
+  // Equity Research (sell-side / fundamental research)
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
+  // Quant
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
+  // IR / Ops
   if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return "IR / Ops";
-  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "Equity";
+  // Equity Investing (buy-side equity, macro, alternatives)
+  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "Equity Investing";
   return null;
 }
 
@@ -339,8 +348,8 @@ const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
 function firmFallbackCat(type: FirmType): JobCategory {
-  if (type === "credit") return "Credit";
-  return "Equity";
+  if (type === "credit") return "Private Credit";
+  return "Equity Investing";
 }
 
 interface GreenhouseJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }
@@ -491,7 +500,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
         id: `jobs14-${key}`,
         firm: job.company || "Unknown",
         role: job.jobTitle || "Unknown",
-        category: cat ?? "Equity",
+        category: cat ?? "Equity Investing",
         location: job.location?.split(",")?.[0]?.trim() || "—",
         daysAgo: days,
         signalTag: signalTagFromTitle(job.jobTitle ?? ""),
@@ -604,7 +613,7 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
       id: `fj-${key}`,
       firm: fjCompany(job),
       role: title,
-      category: cat ?? "Equity",
+      category: cat ?? "Equity Investing",
       location: fjLocation(job).split(",")[0].trim() || "—",
       daysAgo: days,
       signalTag: signalTagFromTitle(title),

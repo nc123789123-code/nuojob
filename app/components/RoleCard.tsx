@@ -24,21 +24,23 @@ function sourceLabel(id: string): { label: string; style: string; isDirect: bool
 }
 
 const CATEGORY_BAR: Record<JobCategory, string> = {
-  "Credit":          "bg-blue-500",
-  "Equity":          "bg-indigo-500",
-  "Equity Research": "bg-violet-500",
-  "Quant":           "bg-pink-500",
-  "IR / Ops":        "bg-emerald-500",
-  "Other":           "bg-gray-300",
+  "Private Credit":     "bg-blue-600",
+  "Public Credit":      "bg-sky-500",
+  "Equity Research":    "bg-violet-500",
+  "Equity Investing":   "bg-indigo-500",
+  "Investment Banking": "bg-amber-500",
+  "Quant":              "bg-pink-500",
+  "IR / Ops":           "bg-emerald-500",
 };
 
 const CATEGORY_BADGE: Record<JobCategory, string> = {
-  "Credit":          "bg-blue-50 text-blue-700 border-blue-100",
-  "Equity":          "bg-indigo-50 text-indigo-700 border-indigo-100",
-  "Equity Research": "bg-violet-50 text-violet-700 border-violet-100",
-  "Quant":           "bg-pink-50 text-pink-700 border-pink-100",
-  "IR / Ops":        "bg-emerald-50 text-emerald-700 border-emerald-100",
-  "Other":           "bg-gray-50 text-gray-600 border-gray-100",
+  "Private Credit":     "bg-blue-50 text-blue-700 border-blue-100",
+  "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
+  "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
+  "Equity Investing":   "bg-indigo-50 text-indigo-700 border-indigo-100",
+  "Investment Banking": "bg-amber-50 text-amber-700 border-amber-100",
+  "Quant":              "bg-pink-50 text-pink-700 border-pink-100",
+  "IR / Ops":           "bg-emerald-50 text-emerald-700 border-emerald-100",
 };
 
 // ─── Intelligence badge derivation ────────────────────────────────────────────
@@ -53,7 +55,7 @@ function deriveIntelBadges(signal: JobSignal): SignalBadgeVariant[] {
   if (signal.daysAgo <= 3) badges.push("fresh");
   if (src.isDirect) badges.push("direct");
   if (signal.id.startsWith("edgar-")) badges.push("inferred");
-  if (signal.category === "Equity" && (signal.signalTag === "Post-raise build-out" || signal.signalTag === "Fund scaling")) badges.push("buyside-preferred");
+  if (signal.category === "Equity Investing" && (signal.signalTag === "Post-raise build-out" || signal.signalTag === "Fund scaling")) badges.push("buyside-preferred");
 
   return badges.slice(0, 3); // cap at 3 badges to keep it clean
 }
@@ -79,20 +81,26 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
     const raising  = signalTag === "In-market raise";
     const scaling  = signalTag === "Fund scaling";
 
-    if (category === "Credit") {
-      if (buildout) return `Newly created credit seat following a fund close at ${firm}. Typically means direct origination exposure from day one with real IC visibility — not a backfill inheriting a broken book. Team is likely lean, which translates to faster learning and clear ownership.`;
+    if (category === "Private Credit") {
+      if (buildout) return `Newly created private credit seat following a fund close at ${firm}. Typically means direct origination exposure from day one with real IC visibility — not a backfill inheriting a broken book. Team is likely lean, which translates to faster learning and clear ownership.`;
       if (raising)  return `${firm} appears to be mid-raise. This role likely accelerates once the fund formally closes — apply now to be early, but expect the process to shift once LP commitments are locked.`;
       if (scaling)  return `Established credit platform at ${firm} adding capacity. Likely building out a strategy that's already generating returns, which means proven workflow but a potentially defined mandate.`;
-      return `Credit-focused seat at ${firm}. Expect direct deal exposure and IC visibility depending on fund size and strategy maturity.`;
+      return `Private credit seat at ${firm}. Expect direct deal exposure and IC visibility depending on fund size and strategy maturity.`;
     }
-    if (category === "Equity") {
+    if (category === "Public Credit") {
+      return `Public credit role at ${firm}. Liquid credit markets — high yield, investment grade, or fixed income trading. Expect a market-driven workflow with daily P&L accountability, macro overlay, and strong emphasis on relative value across the capital structure.`;
+    }
+    if (category === "Equity Investing") {
       if (buildout) return `Buildout seat at ${firm} following a recent fund close. Expect to cover a sector or strategy with minimal inherited baggage — more autonomy and faster signal-to-PM loop. Typically the best timing to join a new fund.`;
       if (raising)  return `${firm} is in market or recently closed. Hiring is real, but process timing may track the fund close. Get into the pipeline now — don't wait for a job board to surface this.`;
       if (scaling)  return `Growth-phase hire at an established equity shop. The strategy is proven — you're entering a structured team with defined coverage. Less blank-slate autonomy, but clear mentorship and process discipline.`;
-      return `Equity investment role at ${firm}. Coverage focus and team structure will depend on fund AUM and strategy — worth clarifying in the screen.`;
+      return `Equity investing role at ${firm}. Coverage focus and team structure will depend on fund AUM and strategy — worth clarifying in the screen.`;
     }
     if (category === "Equity Research") {
       return `Coverage analyst role at ${firm}. Sell-side ER titles can be misleading here — this is buy-side context, meaning they want independent research, not consensus synthesis. Model quality and differentiated thesis generation are the real bar.`;
+    }
+    if (category === "Investment Banking") {
+      return `Investment banking role at ${firm}. Expect a deal-flow-driven environment focused on M&A advisory, capital markets execution, or leveraged finance structuring. Hours are demanding — the exit opportunity and deal complexity are the primary filters to evaluate.`;
     }
     if (category === "Quant") {
       return `Systematic strategy role at ${firm}. Most mid-size quant shops run hybrid discretionary-systematic — the real question is research depth vs. execution. If they're posting this externally, they likely need signal generation expertise, not just infrastructure.`;
@@ -105,13 +113,19 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
 
   // ── What They Actually Care About ──
   const whatTheyCareAbout = ((): string[] => {
-    if (category === "Credit") return [
+    if (category === "Private Credit") return [
       "Credit process end-to-end: origination call → model → IC memo → monitoring",
       "Memo writing quality — can you construct a standalone credit argument?",
       "Sector depth in their target market (sponsored, direct, structured, distressed)",
       "Coding is a bonus; Excel/model rigor is the baseline",
     ];
-    if (category === "Equity") return [
+    if (category === "Public Credit") return [
+      "Relative value framework across the capital structure (senior vs. sub, IG vs. HY)",
+      "Market intuition: how do you process macro events into positioning decisions?",
+      "Model speed and accuracy under time pressure — intraday decisions are common",
+      "Familiarity with credit derivatives (CDS, CLOs, indices) at more sophisticated shops",
+    ];
+    if (category === "Equity Investing") return [
       "Differentiated view — don't pitch large-cap consensus names",
       "Stock pitch: thesis, variant perception, and bear case clarity",
       "Position sizing logic: why this size, why now, what's the exit",
@@ -122,6 +136,12 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
       "Written communication: research notes, not just numerical output",
       "Sector expertise or a clear coverage angle",
       "Ability to generate differentiated recommendations vs. consensus",
+    ];
+    if (category === "Investment Banking") return [
+      "Execution ability: deal process management, data room, timeline tracking",
+      "Technical fundamentals: LBO, DCF, precedent transactions, comps",
+      "Client communication and presentation quality under tight deadlines",
+      "Group focus and deal flow — know what they've closed in the last 12 months",
     ];
     if (category === "Quant") return [
       "Signal construction and backtesting methodology (decay analysis, turnover constraints)",
@@ -163,9 +183,11 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
 
   // ── Likely Interview Focus ──
   const interviewFocus = ((): string => {
-    if (category === "Credit") return "Expect a case study (credit memo format) with a 2–3 day turnaround. Typical arc: associate/analyst screen → senior associate or PM → final. Key questions: walk through a deal end-to-end, pitch a credit idea, how do you think about downside scenarios in this sector.";
-    if (category === "Equity") return "Expect a stock pitch presentation (10–15 min, 1–3 names). Rounds typically: junior screen → senior PM → partner or CIO. They'll stress-test your assumptions hard — know the bear case more thoroughly than the bull.";
+    if (category === "Private Credit") return "Expect a case study (credit memo format) with a 2–3 day turnaround. Typical arc: associate/analyst screen → senior associate or PM → final. Key questions: walk through a deal end-to-end, pitch a credit idea, how do you think about downside scenarios in this sector.";
+    if (category === "Public Credit") return "Expect a relative value exercise or trade idea presentation. They'll probe your macro framework, how you size positions, and how you'd manage drawdown. Faster-paced process than private credit — decisions often within 2–3 rounds.";
+    if (category === "Equity Investing") return "Expect a stock pitch presentation (10–15 min, 1–3 names). Rounds typically: junior screen → senior PM → partner or CIO. They'll stress-test your assumptions hard — know the bear case more thoroughly than the bull.";
     if (category === "Equity Research") return "Stock pitch + model walkthrough + a quick written note (sometimes same-day). Sector-specific deep dive is standard. They'll push hard on where your estimates differ from sell-side consensus and why.";
+    if (category === "Investment Banking") return "Technical screens heavy on LBO mechanics, valuation multiples, and accounting. Expect a modeling test (often timed). Behavioral rounds will focus on deal experience, client situations, and how you handle pressure. Know the group's recent deal history cold.";
     if (category === "Quant") return "Technical screen (coding challenge, probability/statistics questions) + research presentation. Expect to walk through a signal you've developed, including decay analysis and backtest methodology. Clean code and scientific rigor matter as much as alpha.";
     if (category === "IR / Ops") return "Process-oriented interviews. They'll ask how you've handled LP reporting deadlines, what you do when numbers don't reconcile, and which fund admin systems you've worked in. Softer interview format than investment-side, but attention to detail is heavily tested.";
     return "Expect a mix of technical and behavioral questions. Prepare a clear narrative on relevant experience and why this firm specifically.";

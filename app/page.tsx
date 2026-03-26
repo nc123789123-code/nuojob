@@ -602,12 +602,14 @@ function FundsSection({
 // ─── Market Hiring section ────────────────────────────────────────────────────
 
 const JOB_CATEGORIES: Array<{ v: "all" | JobCategory; l: string }> = [
-  { v: "all", l: "All" },
-  { v: "Credit", l: "Credit" },
-  { v: "Equity", l: "Equity" },
-  { v: "Equity Research", l: "Equity Research" },
-  { v: "Quant", l: "Quant" },
-  { v: "IR / Ops", l: "IR / Ops" },
+  { v: "all",                l: "All"                },
+  { v: "Private Credit",     l: "Private Credit"     },
+  { v: "Public Credit",      l: "Public Credit"      },
+  { v: "Equity Research",    l: "Equity Research"    },
+  { v: "Equity Investing",   l: "Equity Investing"   },
+  { v: "Investment Banking", l: "Investment Banking" },
+  { v: "Quant",              l: "Quant"              },
+  { v: "IR / Ops",           l: "IR / Ops"           },
 ];
 
 const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [

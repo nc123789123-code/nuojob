@@ -170,7 +170,7 @@ export interface StartupSearchFilters {
 
 // ─── Market Hiring ────────────────────────────────────────────────────────────
 
-export type JobCategory = "Credit" | "Equity" | "Equity Research" | "Quant" | "IR / Ops" | "Other";
+export type JobCategory = "Private Credit" | "Public Credit" | "Equity Research" | "Equity Investing" | "Investment Banking" | "Quant" | "IR / Ops";
 export type JobSignalTag = "In-market raise" | "Post-raise build-out" | "Fund scaling" | "New fund";
 
 export interface JobSignal {
