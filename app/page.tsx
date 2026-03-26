@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import SiteFooter from "@/app/components/SiteFooter";
 import SearchBar from "@/app/components/SearchBar";
 import FundRow from "@/app/components/FundCard";
 import RoleCard from "@/app/components/RoleCard";
@@ -153,7 +154,9 @@ export default function Home() {
           </nav>
           <div className="ml-auto flex items-center gap-4">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
-            <span className="text-[#71787c] text-xs hidden sm:block">Private credit &amp; special situations</span>
+            <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
+            <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
+            <span className="text-[#71787c] text-xs hidden lg:block">Private credit &amp; special situations</span>
           </div>
         </div>
       </header>
@@ -295,6 +298,7 @@ export default function Home() {
 
       {/* Monetization section — always visible */}
       <GuideSection />
+      <SiteFooter />
     </div>
   );
 }
@@ -367,7 +371,7 @@ function ScoreTooltip() {
     <span className="group relative inline-flex items-center cursor-help">
       <span className="text-[10px] text-gray-300 border border-gray-200 rounded px-1 py-0.5 ml-1 hover:border-gray-400 hover:text-gray-500 transition-colors">?</span>
       <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-slate-900 text-white text-[11px] rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 leading-relaxed shadow-lg">
-        Signal score 1–10. Combines recency of SEC filing, fund size, offering status, and expansion signals. 8+ = act now. 6–8 = worth a reach-out. Under 6 = early signal.
+        Priority score 1–10. Reflects fundraising recency, hiring and expansion signals, and source confidence. 8+ = act now. 6–8 = worth a reach-out. Under 6 = early signal.
         <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
       </span>
     </span>
