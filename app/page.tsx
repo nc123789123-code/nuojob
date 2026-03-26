@@ -169,7 +169,6 @@ function HomeContent() {
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
             <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
-            <span className="text-[#71787c] text-xs hidden lg:block">Private credit &amp; special situations</span>
           </div>
         </div>
       </header>
