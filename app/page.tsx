@@ -1125,8 +1125,12 @@ function IntelSection() {
 
   useEffect(() => {
     fetch("/api/intel?dateRange=30")
-      .then((r) => r.json())
-      .then((d: IntelResponse) => setData(d))
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) throw new Error(d?.error || `Server error ${r.status}`);
+        if (!Array.isArray(d?.hiringPush)) throw new Error("Unexpected response shape");
+        setData(d as IntelResponse);
+      })
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -1155,7 +1159,7 @@ function IntelSection() {
 
   if (!data) return null;
 
-  const allFirms = [...data.hiringPush, ...data.postRaise, ...data.strategyBuilds];
+  const allFirms = [...(data.hiringPush ?? []), ...(data.postRaise ?? []), ...(data.strategyBuilds ?? [])];
 
   return (
     <div className="space-y-8 py-2">

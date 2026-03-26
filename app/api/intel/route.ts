@@ -216,7 +216,6 @@ async function fetchEdgarRaises(maxDays: number): Promise<EdgarRaise[]> {
   const terms = ["private credit", "special situations", "direct lending", "distressed", "hedge fund"];
   const end = new Date().toISOString().split("T")[0];
   const start = new Date(Date.now() - maxDays * 86_400_000).toISOString().split("T")[0];
-  const raises: EdgarRaise[] = [];
   const EDGAR_HEADERS = { "User-Agent": "Onlu/1.0 research@onlu.com", "Accept": "application/json" };
 
   const searchResults = await Promise.allSettled(
@@ -224,42 +223,29 @@ async function fetchEdgarRaises(maxDays: number): Promise<EdgarRaise[]> {
       const p = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: start, enddt: end });
       const res = await fetchT(`https://efts.sec.gov/LATEST/search-index?${p}`, { headers: EDGAR_HEADERS });
       if (!res.ok) return [];
-      const data = await res.json() as { hits?: { hits?: Array<{ _source?: { display_names?: string[]; adsh?: string; file_date?: string; ciks?: string[] } }> } };
+      const data = await res.json() as { hits?: { hits?: Array<{ _source?: { display_names?: string[]; adsh?: string; file_date?: string } }> } };
       return data?.hits?.hits ?? [];
     })
   );
 
+  // Skip XML parsing entirely — just use entity names from search results.
+  // XML parsing is slow (sequential, per-filing HTTP calls) and times out at scale.
+  // Entity name alone is sufficient to cross-reference with the firm registry.
   const seen = new Set<string>();
+  const raises: EdgarRaise[] = [];
+
   for (const r of searchResults) {
     if (r.status !== "fulfilled") continue;
     for (const hit of r.value) {
       const src = hit._source;
-      if (!src?.adsh || seen.has(src.adsh)) continue;
-      seen.add(src.adsh);
-      const name = (src.display_names?.[0] || "").replace(/\s*\(CIK\s+\d+\)\s*$/, "").trim();
+      const adsh = src?.adsh;
+      if (!adsh || seen.has(adsh)) continue;
+      seen.add(adsh);
+      const name = (src?.display_names?.[0] || "").replace(/\s*\(CIK\s+\d+\)\s*$/, "").trim();
       if (!name) continue;
-      const cik = src.ciks?.[0] ? String(parseInt(src.ciks[0], 10)) : "";
-      // Quick XML check for offering amount
-      try {
-        const xmlUrl = `https://www.sec.gov/Archives/edgar/data/${cik}/${(src.adsh).replace(/-/g, "")}/primary_doc.xml`;
-        const xres = await fetchT(xmlUrl, { headers: EDGAR_HEADERS }, 5000);
-        if (!xres.ok) continue;
-        const xml = await xres.text();
-        if (xml.match(/<isPooledInvestmentFund[^>]*>true/i) === null) continue;
-        const amtMatch = xml.match(/<totalOfferingAmount>([^<]+)<\/totalOfferingAmount>/i);
-        const soldMatch = xml.match(/<totalAmountSold>([^<]+)<\/totalAmountSold>/i);
-        const amt = amtMatch ? parseFloat(amtMatch[1]) : undefined;
-        const sold = soldMatch ? parseFloat(soldMatch[1]) : undefined;
-        const status = sold !== undefined && amt !== undefined
-          ? sold >= amt * 0.95 ? "closed" : "open"
-          : "open";
-        raises.push({
-          entityName: name,
-          amountStr: fmtAmount(amt),
-          date: src.file_date || "",
-          status,
-        });
-      } catch { /* skip */ }
+      // Only include if this name matches a known firm in the registry
+      if (!findFirmByName(name)) continue;
+      raises.push({ entityName: name, amountStr: "", date: src?.file_date || "", status: "open" });
     }
   }
   return raises;
