@@ -42,9 +42,9 @@ const OUTREACH_CFG = {
 
 function SignalChip({ label, color }: { label: string; color: string }) {
   const cls: Record<string, string> = {
-    blue:   "bg-blue-50 text-blue-700 border-blue-100",
-    green:  "bg-emerald-50 text-emerald-700 border-emerald-100",
-    purple: "bg-violet-50 text-violet-700 border-violet-100",
+    blue:   "bg-sky-50 text-[#396477] border-sky-100",
+    green:  "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50",
+    purple: "bg-[#e1ddf2]/60 text-[#5e5c6e] border-[#c7c4d8]/50",
     gray:   "bg-gray-50 text-gray-600 border-gray-100",
     red:    "bg-red-50 text-red-700 border-red-100",
   };
@@ -92,7 +92,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
   };
 
   return (
-    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-blue-50/10" : "hover:bg-gray-50/60"} transition-colors`}>
+    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-sky-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
       {/* Collapsed row */}
       <div
         className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
@@ -116,7 +116,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           {/* Why Now — front and center */}
           {score.whyNow[0] && (
             <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-              <span className="text-blue-500">→ </span>{score.whyNow[0]}
+              <span className="text-[#396477]">→ </span>{score.whyNow[0]}
             </p>
           )}
           {/* Signal chips */}
@@ -138,7 +138,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           {filing.totalAmountSold && filing.totalOfferingAmount && filing.totalAmountSold > 0 && (
             <div className="mt-1 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
               <div
-                className={`h-1 rounded-full ${Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100) >= 90 ? "bg-red-400" : "bg-blue-400"}`}
+                className={`h-1 rounded-full ${Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100) >= 90 ? "bg-red-400" : "bg-[#396477]"}`}
                 style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
               />
             </div>
@@ -162,7 +162,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
       {/* Expanded detail */}
       {expanded && (
-        <div className="px-4 pb-5 pt-2 border-t border-blue-100/60 bg-white space-y-5">
+        <div className="px-4 pb-5 pt-2 border-t border-sky-100/40 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
             {/* Why Now — full list */}
             <div>
@@ -170,7 +170,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
               <ul className="space-y-1.5">
                 {score.whyNow.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-blue-400 mt-0.5 flex-shrink-0">→</span>
+                    <span className="text-[#396477] mt-0.5 flex-shrink-0">→</span>
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
@@ -180,7 +180,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             {/* Suggested outreach */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
-              <p className="text-sm text-gray-700 italic bg-blue-50 rounded-lg px-3 py-2.5 border border-blue-100 leading-relaxed">
+              <p className="text-sm text-gray-700 italic bg-sky-50 rounded-lg px-3 py-2.5 border border-sky-100 leading-relaxed">
                 &ldquo;{score.suggestedAngle}&rdquo;
               </p>
               <div className="flex flex-wrap gap-1.5 mt-2">
@@ -197,7 +197,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <div className="space-y-1.5">
               {score.signals.map((s, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#396477]/60 flex-shrink-0" />
                   <span className="text-gray-700 flex-1">{s.description}</span>
                   <span className="text-xs text-gray-400">· {s.source}</span>
                   <span className="text-xs text-gray-300">+{s.weight}</span>
@@ -208,7 +208,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
           {/* Score breakdown */}
           <div className="flex gap-3 flex-wrap">
-            <ScoreChip label="Fundraising" value={score.fundraisingScore} color="bg-blue-500" />
+            <ScoreChip label="Fundraising" value={score.fundraisingScore} color="bg-[#396477]" />
             <ScoreChip label="Hiring" value={score.hiringScore} color="bg-green-500" placeholder="Phase 2" />
             <ScoreChip label="Expansion" value={score.expansionScore} color="bg-purple-500" placeholder="Phase 2" />
           </div>
@@ -245,7 +245,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <div className="flex flex-wrap gap-4 text-xs text-gray-500">
               {filing.phone && <span>📞 {filing.phone}</span>}
               {filing.website && (
-                <a href={filing.website.startsWith("http") ? filing.website : `https://${filing.website}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-blue-500 hover:underline">
+                <a href={filing.website.startsWith("http") ? filing.website : `https://${filing.website}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[#396477] hover:underline">
                   🌐 {filing.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}
                 </a>
               )}
@@ -270,9 +270,9 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             </div>
             {showNotes && (
               <div className="mt-3 space-y-2" onClick={(e) => e.stopPropagation()}>
-                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes — contact info, convo details, timing…" className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" rows={3} />
+                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes — contact info, convo details, timing…" className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]" rows={3} />
                 <div className="flex gap-2">
-                  <button onClick={saveNotes} className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-slate-800">Save</button>
+                  <button onClick={saveNotes} className="px-3 py-1.5 bg-[#396477] text-white rounded-lg text-xs font-medium hover:bg-[#2d5162]">Save</button>
                   <button onClick={() => setShowNotes(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">Cancel</button>
                 </div>
               </div>

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f9fb;
+  --foreground: #191c1e;
 }
 
 @theme inline {
@@ -12,15 +12,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Figma design system helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(circle at top right, #bae6fd 0%, transparent 45%),
+    radial-gradient(circle at bottom left, #c3ecd7 0%, transparent 45%),
+    #f7f9fb;
 }

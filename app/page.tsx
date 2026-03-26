@@ -135,85 +135,96 @@ export default function Home() {
   const outreachRecords = Object.values(records).filter((r) => r.status !== "not_contacted");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f7f9fb]">
       {/* Nav */}
-      <header className="bg-slate-900 sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto px-5 h-12 flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-white font-bold text-base tracking-tight">Onlu</span>
-            <span className="text-slate-400 text-xs font-medium tracking-wide uppercase">Intel</span>
+      <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
+        <div className="max-w-6xl mx-auto px-5 h-14 flex items-center gap-6">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-[#396477] flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-sm leading-none">O</span>
+            </div>
+            <span className="text-[#191c1e] font-semibold text-sm tracking-tight">Onlu</span>
+            <span className="text-[#71787c] text-xs font-medium tracking-wide uppercase">Intel</span>
           </div>
-          <div className="w-px h-4 bg-slate-700" />
+          <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
           </nav>
           <div className="ml-auto flex items-center gap-4">
-            <a href="#guide" className="hidden sm:inline text-slate-400 hover:text-white text-xs transition-colors">Interview Guide</a>
-            <span className="text-slate-500 text-xs hidden sm:block">Private credit &amp; special situations</span>
+            <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
+            <span className="text-[#71787c] text-xs hidden sm:block">Private credit &amp; special situations</span>
           </div>
         </div>
       </header>
 
       {/* Hero */}
-      <div className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-6xl mx-auto px-5 py-8">
+      <div className="hero-gradient border-b border-sky-100/60">
+        <div className="max-w-6xl mx-auto px-5 py-10">
           {topTab === "funds" && (
             <>
-              <h1 className="text-white text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#396477] rounded-full" />
+                Live fund intelligence
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
                 Track Hiring Signals Across Private Credit &amp; Special Situations
               </h1>
-              <p className="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 Fund activity, job signals, and market insights — so you know where opportunities are before they&apos;re posted.
               </p>
-              <p className="text-slate-500 text-xs mt-2 max-w-xl">
+              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
                 Built for candidates targeting private credit, special situations, and restructuring.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button
                   onClick={() => setTopTab("funds")}
-                  className="px-4 py-2 bg-white text-slate-900 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-colors"
+                  className="px-4 py-2 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors shadow-[0_2px_8px_rgba(57,100,119,0.25)]"
                 >
                   Explore Signals
                 </button>
                 <button
                   onClick={() => setTopTab("jobs")}
-                  className="px-4 py-2 border border-slate-600 text-slate-300 text-sm font-medium rounded-lg hover:border-slate-400 hover:text-white transition-colors"
+                  className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
                 >
                   View Jobs
                 </button>
               </div>
-              <p className="text-slate-600 text-xs mt-5 italic">
+              <p className="text-[#71787c] text-xs mt-5 italic">
                 Built from real-world experience across private credit and special situations investing.
               </p>
             </>
           )}
           {topTab === "jobs" && (
             <>
-              <h1 className="text-white text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full" />
+                Multi-source hiring intel
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
                 See Where Finance Teams Are Hiring — and Why
               </h1>
-              <p className="text-slate-400 text-sm mt-3 max-w-xl leading-relaxed">
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
               </p>
-              <p className="text-slate-500 text-xs mt-2 max-w-xl">
+              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
                 Each role includes an OnluIntel analysis: what the signal means and whether it&apos;s worth your time.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button
                   onClick={() => setTopTab("funds")}
-                  className="px-4 py-2 border border-slate-600 text-slate-300 text-sm font-medium rounded-lg hover:border-slate-400 hover:text-white transition-colors"
+                  className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
                 >
                   Fund Signals
                 </button>
                 <a
                   href="#guide"
-                  className="px-4 py-2 border border-amber-500/40 text-amber-400 text-sm font-medium rounded-lg hover:border-amber-400 transition-colors"
+                  className="px-4 py-2 border border-[#c3ecd7] text-[#416656] text-sm font-medium rounded-lg hover:border-[#416656] hover:bg-[#c3ecd7]/30 transition-colors"
                 >
                   Interview Guide
                 </a>
               </div>
-              <p className="text-slate-600 text-xs mt-5 italic">
+              <p className="text-[#71787c] text-xs mt-5 italic">
                 Built from real-world experience across private credit and special situations investing.
               </p>
             </>
@@ -239,11 +250,11 @@ export default function Home() {
               onExport={() => exportToCsv(fundFilings, records)}
             />
             {/* Inter-section CTA: signals → guide */}
-            <div className="bg-amber-50 border border-amber-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-amber-800">
+            <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-[#396477]">
                 Found opportunities worth pursuing? <span className="font-medium">Prepare for the interview with the full guide.</span>
               </p>
-              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition-colors text-center">
+              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
                 View the Guide →
               </a>
             </div>
@@ -264,11 +275,11 @@ export default function Home() {
               sources={jobSources}
             />
             {/* Inter-section CTA: jobs → guide */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-slate-700">
+            <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-[#41484c]">
                 Found the right role? <span className="font-medium">Prepare for the interview with the full guide.</span>
               </p>
-              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-colors text-center">
+              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#5e5c6e] text-white text-xs font-semibold rounded-lg hover:bg-[#4a4858] transition-colors text-center">
                 Get the Interview Guide →
               </a>
             </div>
@@ -293,12 +304,12 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
     <button
       onClick={onClick}
       className={`relative px-3 py-1 rounded-md text-sm font-medium transition-all ${
-        active ? "bg-white text-slate-900" : "text-slate-300 hover:text-white hover:bg-slate-800"
+        active ? "bg-sky-100 text-[#396477]" : "text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6]"
       }`}
     >
       {label}
       {badge && (
-        <span className="absolute -top-1 -right-1.5 text-[9px] bg-amber-400 text-amber-900 font-bold px-1 py-0.5 rounded leading-none">
+        <span className="absolute -top-1 -right-1.5 text-[9px] bg-[#c3ecd7] text-[#416656] font-bold px-1 py-0.5 rounded leading-none">
           NEW
         </span>
       )}
@@ -341,7 +352,7 @@ function EmptyState({ icon, title, hint, onReset }: { icon: string; title: strin
       {onReset && (
         <button
           onClick={onReset}
-          className="mt-4 px-4 py-2 text-xs font-medium bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors"
+          className="mt-4 px-4 py-2 text-xs font-medium bg-[#396477] text-white rounded-lg hover:bg-[#2d5162] transition-colors"
         >
           Reset filters
         </button>
@@ -373,11 +384,11 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
 }) {
   if (loading) {
     return (
-      <div className="bg-slate-800 border-b border-slate-700">
+      <div className="bg-white border-b border-[#c1c7cc]/30">
         <div className="max-w-6xl mx-auto px-5 py-3 flex items-center gap-3 animate-pulse">
-          <div className="h-4 w-40 bg-slate-700 rounded" />
-          <div className="h-4 w-32 bg-slate-700 rounded" />
-          <div className="h-4 w-24 bg-slate-700 rounded" />
+          <div className="h-4 w-40 bg-[#e0e3e5] rounded" />
+          <div className="h-4 w-32 bg-[#e0e3e5] rounded" />
+          <div className="h-4 w-24 bg-[#e0e3e5] rounded" />
         </div>
       </div>
     );
@@ -387,22 +398,22 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
   const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
 
   return (
-    <div className="bg-slate-800 border-b border-slate-700">
-      <div className="max-w-6xl mx-auto px-5 py-3 space-y-3">
+    <div className="bg-white border-b border-[#c1c7cc]/30">
+      <div className="max-w-6xl mx-auto px-5 py-3 space-y-2.5">
         {/* Header row */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-slate-400 text-xs font-medium">{today}</span>
+          <span className="text-[#71787c] text-xs font-medium">{today}</span>
           <div className="flex items-center gap-2">
             {daily.todayCount > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full px-2.5 py-0.5">
-                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#c3ecd7] text-[#416656] border border-[#a8cfbc] rounded-full px-2.5 py-0.5">
+                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 {daily.todayCount} new filing{daily.todayCount !== 1 ? "s" : ""} today
               </span>
             ) : (
-              <span className="text-xs text-slate-500">No new filings today</span>
+              <span className="text-xs text-[#71787c]">No new filings today</span>
             )}
             {daily.weekCount > 0 && (
-              <span className="text-xs text-slate-400">{daily.weekCount} this week</span>
+              <span className="text-xs text-[#71787c]">{daily.weekCount} this week</span>
             )}
           </div>
         </div>
@@ -410,17 +421,17 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top fund signals */}
         {daily.topFunds.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-slate-500 font-medium shrink-0">Top signals:</span>
+            <span className="text-[11px] text-[#71787c] font-medium shrink-0">Top signals:</span>
             {daily.topFunds.slice(0, 4).map((f) => {
-              const bucketColor = f.score.bucket === "hot" ? "bg-red-500/20 text-red-400 border-red-500/30 hover:bg-red-500/30"
-                : f.score.bucket === "warm" ? "bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30"
-                : "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600";
+              const bucketColor = f.score.bucket === "hot" ? "bg-red-50 text-red-700 border border-red-100 hover:bg-red-100"
+                : f.score.bucket === "warm" ? "bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100"
+                : "bg-sky-50 text-[#396477] border border-sky-100 hover:bg-sky-100";
               return (
                 <Link key={f.id} href={`/fund/${f.cik}`}
-                  className={`inline-flex items-center gap-1.5 text-[11px] font-medium border rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
+                  className={`inline-flex items-center gap-1.5 text-[11px] font-medium rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
                   <span className="font-bold">{f.score.overallScore}</span>
                   <span className="max-w-[140px] truncate">{f.entityName}</span>
-                  {f.offeringStatus === "open" && <span className="text-[9px] opacity-70">raising</span>}
+                  {f.offeringStatus === "open" && <span className="text-[9px] opacity-60">raising</span>}
                 </Link>
               );
             })}
@@ -430,16 +441,16 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top job signals */}
         {daily.topJobs.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-slate-500 font-medium shrink-0">Hiring now:</span>
+            <span className="text-[11px] text-[#71787c] font-medium shrink-0">Hiring now:</span>
             {daily.topJobs.slice(0, 4).map((j) => (
               <button key={j.id} onClick={onJobsClick}
-                className="inline-flex items-center gap-1 text-[11px] text-slate-300 border border-slate-600 bg-slate-700/50 hover:bg-slate-700 rounded-full px-2.5 py-1 transition-colors cursor-pointer">
+                className="inline-flex items-center gap-1 text-[11px] text-[#41484c] border border-[#c1c7cc] bg-white hover:bg-[#f2f4f6] rounded-full px-2.5 py-1 transition-colors cursor-pointer">
                 <span className="font-medium">{j.firm}</span>
-                <span className="text-slate-500">·</span>
-                <span className="text-slate-400 max-w-[120px] truncate">{j.role}</span>
+                <span className="text-[#c1c7cc]">·</span>
+                <span className="text-[#41484c] max-w-[120px] truncate">{j.role}</span>
               </button>
             ))}
-            <button onClick={onJobsClick} className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+            <button onClick={onJobsClick} className="text-[11px] text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
               View all →
             </button>
           </div>
@@ -496,7 +507,7 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
   else if (filing.offeringStatus === "closed") chips.push({ label: "Closed", color: "purple" });
   if (filing.totalOfferingAmount) chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
   return (
-    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-blue-200 hover:shadow-sm transition-all group">
+    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 hover:shadow-sm transition-all group">
       <div className="flex items-start justify-between gap-1 mb-2.5">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
@@ -504,14 +515,14 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
             <span className="text-white font-bold text-xs">{score.overallScore}</span>
           </div>
         </div>
-        <span className="text-[10px] text-gray-200 group-hover:text-blue-400 transition-colors mt-0.5">↓</span>
+        <span className="text-[10px] text-gray-200 group-hover:text-[#396477] transition-colors mt-0.5">↓</span>
       </div>
-      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-blue-700 transition-colors line-clamp-2">
+      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#396477] transition-colors line-clamp-2">
         {filing.entityName}
       </div>
       {score.whyNow[0] && (
         <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
-          <span className="text-blue-500">→ </span>{score.whyNow[0]}
+          <span className="text-[#396477]">→ </span>{score.whyNow[0]}
         </p>
       )}
       <div className="flex flex-wrap gap-1">{chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}</div>
@@ -555,7 +566,7 @@ function FundsSection({
           <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>Search</button>
           <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
             Pipeline
-            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
+            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#396477] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
           </button>
         </div>
         <p className="text-xs text-gray-400">Capital &amp; hiring signals · SEC Form D</p>
@@ -621,13 +632,13 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
 ];
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  adzuna:     { label: "Adzuna",            color: "bg-blue-50 text-blue-700 border-blue-200"      },
-  muse:       { label: "The Muse",          color: "bg-purple-50 text-purple-700 border-purple-200" },
-  edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"       },
-  greenhouse: { label: "Greenhouse",        color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"        },
-  jobs14:     { label: "LinkedIn/Indeed",    color: "bg-sky-50 text-sky-700 border-sky-200"           },
-  linkedin:   { label: "LinkedIn",           color: "bg-blue-600 text-white border-blue-700"           },
+  adzuna:     { label: "Adzuna",            color: "bg-sky-50 text-[#396477] border-sky-100"             },
+  muse:       { label: "The Muse",          color: "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50"  },
+  edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"             },
+  greenhouse: { label: "Greenhouse",        color: "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50"  },
+  lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"              },
+  jobs14:     { label: "LinkedIn/Indeed",   color: "bg-sky-50 text-[#396477] border-sky-100"              },
+  linkedin:   { label: "LinkedIn",          color: "bg-[#396477] text-white border-[#2d5162]"             },
 };
 
 function JobsSection({
@@ -653,14 +664,14 @@ function JobsSection({
         {JOB_CATEGORIES.map((c) => (
           <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v === filters.category && c.v !== "all" ? "all" : c.v })}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-              filters.category === c.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              filters.category === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}>
             {c.l}
           </button>
         ))}
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
-          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900">
+          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]">
           <option value="14">Last 14d</option>
           <option value="30">Last 30d</option>
           <option value="60">Last 60d</option>
@@ -688,10 +699,10 @@ function JobsSection({
 
       {/* Setup prompt (EDGAR-only mode) */}
       {edgarOnly && (
-        <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-xs text-blue-800">
+        <div className="bg-sky-50 border border-sky-100 rounded-lg px-4 py-3 text-xs text-[#396477]">
           <p className="font-semibold mb-1">Add real job board data</p>
-          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna and The Muse, add API keys to <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
-          <pre className="bg-blue-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key`}</pre>
+          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna and The Muse, add API keys to <code className="bg-sky-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
+          <pre className="bg-sky-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key`}</pre>
         </div>
       )}
 
@@ -747,7 +758,7 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         <div className="text-3xl mb-3">📬</div>
         <p className="font-medium text-gray-600">No outreach tracked yet</p>
         <p className="text-sm mt-1">Open a fund row and set its status to start tracking</p>
-        <button onClick={onBack} className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800">Search Funds</button>
+        <button onClick={onBack} className="mt-4 px-4 py-2 bg-[#396477] text-white rounded-lg text-sm font-medium hover:bg-[#2d5162]">Search Funds</button>
       </div>
     );
   }
@@ -762,7 +773,7 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         const group = groups[status];
         if (!group.length) return null;
         const titles = { in_discussion: "In Discussion", reached_out: "Reached Out", passed: "Passed" };
-        const colors = { in_discussion: "text-green-700 bg-green-50 border-green-200", reached_out: "text-blue-700 bg-blue-50 border-blue-200", passed: "text-gray-600 bg-gray-50 border-gray-200" };
+        const colors = { in_discussion: "text-[#416656] bg-[#c3ecd7]/40 border-[#a8cfbc]/50", reached_out: "text-[#396477] bg-sky-50 border-sky-100", passed: "text-gray-600 bg-gray-50 border-gray-200" };
         return (
           <div key={status}>
             <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>

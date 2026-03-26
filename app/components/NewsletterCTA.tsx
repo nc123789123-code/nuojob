@@ -49,16 +49,16 @@ export default function NewsletterCTA({
     }
   };
 
-  const bg = dark ? "bg-slate-900" : "bg-white border border-gray-200";
+  const bg = dark ? "bg-[#396477]" : "bg-white border border-gray-200";
   const headingColor = dark ? "text-white" : "text-gray-900";
-  const descColor = dark ? "text-slate-400" : "text-gray-500";
-  const labelColor = dark ? "text-slate-400" : "text-gray-400";
+  const descColor = dark ? "text-white/70" : "text-gray-500";
+  const labelColor = dark ? "text-white/60" : "text-gray-400";
   const inputCls = dark
-    ? "border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 focus:ring-blue-500"
-    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:ring-slate-900";
+    ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:ring-white/60"
+    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:ring-[#396477]";
   const btnCls = dark
-    ? "bg-white text-slate-900 hover:bg-slate-100"
-    : "bg-slate-900 text-white hover:bg-slate-800";
+    ? "bg-white text-[#396477] hover:bg-gray-100"
+    : "bg-[#396477] text-white hover:bg-[#2d5162]";
 
   return (
     <div className={`${bg} rounded-xl px-6 py-7 text-center`}>
@@ -97,7 +97,7 @@ export default function NewsletterCTA({
         <p className="text-red-400 text-xs mt-2">{error}</p>
       )}
 
-      <p className={`${dark ? "text-slate-600" : "text-gray-300"} text-[11px] mt-3`}>
+      <p className={`${dark ? "text-white/40" : "text-gray-300"} text-[11px] mt-3`}>
         No spam. Unsubscribe any time.
       </p>
     </div>
