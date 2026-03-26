@@ -44,7 +44,8 @@ function extractXml(xml: string, tag: string): string | undefined {
 async function fetchFormDDetails(cik: string, accessionNo: string) {
   try {
     const url = `${EDGAR_ARCHIVE_URL}/${cik}/${accessionNo.replace(/-/g, "")}/primary_doc.xml`;
-    const res = await fetch(url, { headers: HEADERS });
+    // @ts-expect-error next fetch cache option
+    const res = await fetch(url, { headers: HEADERS, next: { revalidate: 3600 } });
     if (!res.ok) return { offeringStatus: "unknown" as OfferingStatus };
 
     const xml = await res.text();
@@ -132,7 +133,8 @@ interface SubmissionsResp {
 async function fetchSubmissions(cik: string): Promise<{ phone?: string; businessCity?: string; website?: string; stateOfIncorporation?: string }> {
   try {
     const padded = cik.padStart(10, "0");
-    const res = await fetch(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS });
+    // @ts-expect-error next fetch cache option
+    const res = await fetch(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS, next: { revalidate: 3600 } });
     if (!res.ok) return {};
     const data = await res.json() as SubmissionsResp;
     const city = data.business?.city || data.mailing?.city;
@@ -167,17 +169,19 @@ export async function GET(req: NextRequest) {
     const { startDate, endDate } = getDateRange(dateRange);
     const terms = query ? [query] : (STRATEGY_QUERIES[strategy] || STRATEGY_QUERIES.all);
 
-    // Search EDGAR — fetch page 0 and page 1 for each term to get up to 20 hits per term
+    // Search EDGAR — one page per term, cached 30 min to avoid rate limits
     const searchResults = await Promise.allSettled(
-      terms.flatMap((term) =>
-        [0, 10].map(async (from) => {
-          const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, from: String(from) });
-          const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, { headers: HEADERS });
-          if (!res.ok) return [];
-          const data = await res.json();
-          return data?.hits?.hits || [];
-        })
-      )
+      terms.map(async (term) => {
+        const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, from: "0" });
+        const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, {
+          headers: HEADERS,
+          // @ts-expect-error next fetch cache option
+          next: { revalidate: 1800 },
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data?.hits?.hits || [];
+      })
     );
 
     // Deduplicate
@@ -217,8 +221,8 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details + submissions data in parallel for up to 80 entries
-    const XML_BATCH = 80;
+    // Fetch XML details + submissions data in parallel — keep batch small to avoid edge timeouts
+    const XML_BATCH = 20;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const [details, subs] = await Promise.all([

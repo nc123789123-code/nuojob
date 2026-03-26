@@ -54,11 +54,16 @@ async function safeJson<T>(res: Response): Promise<T | null> {
   try { return await res.json() as T; } catch { return null; }
 }
 
-/** fetch with a hard timeout (default 6 s) to prevent edge function hangs. */
+/** fetch with a hard timeout (default 6 s) + 30-min cache to stabilise results across refreshes. */
 function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), ms);
-  return fetch(url, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+  return fetch(url, {
+    ...init,
+    signal: ctrl.signal,
+    // @ts-expect-error next fetch cache option
+    next: { revalidate: 1800 },
+  }).finally(() => clearTimeout(timer));
 }
 
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
