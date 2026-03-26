@@ -3,8 +3,6 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 type Intent = "signals_subscriber" | "guide_interest";
 
 const AUDIENCE_MAP: Record<Intent, string | undefined> = {
@@ -53,6 +51,7 @@ const WELCOME_COPY: Record<Intent, { subject: string; html: string }> = {
 };
 
 async function notifyAdmin(email: string, intent: Intent) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   const adminEmail = process.env.ADMIN_EMAIL;
   if (!adminEmail) return;
   await resend.emails.send({
@@ -64,6 +63,7 @@ async function notifyAdmin(email: string, intent: Intent) {
 }
 
 export async function POST(req: Request) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   try {
     const body = await req.json();
     const email: string = (body.email || "").trim().toLowerCase();

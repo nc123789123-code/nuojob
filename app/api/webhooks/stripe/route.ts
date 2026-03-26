@@ -4,12 +4,8 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-02-25.clover",
-});
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 async function sendGuideEmail(email: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   await resend.emails.send({
     from: "OnluIntel <noreply@onluintel.com>",
     to: email,
@@ -37,6 +33,7 @@ async function sendGuideEmail(email: string) {
 }
 
 async function notifyAdmin(email: string, intent: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   const adminEmail = process.env.ADMIN_EMAIL;
   if (!adminEmail) return;
   await resend.emails.send({
@@ -48,6 +45,7 @@ async function notifyAdmin(email: string, intent: string) {
 }
 
 export async function POST(req: Request) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2026-02-25.clover" });
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
