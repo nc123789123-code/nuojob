@@ -152,11 +152,13 @@ const FINANCE_RE = /\b(credit|equity|fund|hedge|portfolio|investment|analyst|qua
 const IRRELEVANT_RE = /\b(IT|software engineer|developer|devops|HR|recruiter|office manager|executive assistant|admin|payroll|legal counsel|paralegal|marketing|social media|customer|product manager|project manager)\b/i;
 
 const CAT_RULES: Array<[RegExp, JobCategory]> = [
-  [/credit|lending|fixed income|high yield|leveraged|distressed|mezz|underwrite|loan/i, "Credit"],
+  [/investment bank|m&a\b|mergers.*acquisitions|equity capital market|debt capital market|\becm\b|\bdcm\b|leveraged finance.*(bank|group|analyst|associate)/i, "Investment Banking"],
+  [/private credit|direct lending|distressed|special situations|mezzanine|\bmezz\b|structured credit|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit/i, "Private Credit"],
+  [/high yield|fixed income|investment grade|credit research|credit trading|credit analyst|bond.*fund|public credit/i, "Public Credit"],
   [/equity research|research analyst|sell.?side|coverage analyst/i,                      "Equity Research"],
   [/quant|quantitative|systematic|algo/i,                                                 "Quant"],
   [/investor relation|fund oper|compliance.*fund/i,                                       "IR / Ops"],
-  [/equity|portfolio|investment analyst|hedge fund|asset manag|buy.?side/i,               "Equity"],
+  [/equity|portfolio|investment analyst|hedge fund|asset manag|buy.?side|macro|long.?short|private equity|growth equity/i, "Equity Investing"],
 ];
 
 function classify(title: string): JobCategory | null {
@@ -167,7 +169,7 @@ function classify(title: string): JobCategory | null {
 }
 
 function firmFallback(type: FirmType): JobCategory {
-  return type === "credit" ? "Credit" : "Equity";
+  return type === "credit" ? "Private Credit" : "Equity Investing";
 }
 
 interface GHJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }
