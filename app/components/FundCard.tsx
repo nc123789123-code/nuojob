@@ -133,10 +133,28 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
         </div>
 
         {/* Fundraising signal */}
-        <div className="text-sm text-gray-700 pt-0.5 truncate">{fundraisingLabel}</div>
+        <div className="pt-0.5">
+          <div className="text-sm text-gray-700 truncate">{fundraisingLabel}</div>
+          {filing.totalAmountSold && filing.totalOfferingAmount && filing.totalAmountSold > 0 && (
+            <div className="mt-1 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className={`h-1 rounded-full ${Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100) >= 90 ? "bg-red-400" : "bg-blue-400"}`}
+                style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
+              />
+            </div>
+          )}
+        </div>
 
-        {/* Location */}
-        <div className="text-xs text-gray-400 pt-0.5">{filing.state || "—"}</div>
+        {/* Location + first contact */}
+        <div className="pt-0.5 space-y-0.5">
+          <div className="text-xs text-gray-400">{filing.businessCity || filing.state || "—"}</div>
+          {filing.relatedPersons?.[0] && (
+            <div className="text-[10px] text-gray-500 truncate">
+              {[filing.relatedPersons[0].firstName, filing.relatedPersons[0].lastName].filter(Boolean).join(" ")}
+              {filing.relatedPersons[0].title ? ` · ${filing.relatedPersons[0].title.split(",")[0]}` : ""}
+            </div>
+          )}
+        </div>
 
         {/* Updated */}
         <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
@@ -200,14 +218,37 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People</p>
               <div className="flex flex-wrap gap-2">
-                {filing.relatedPersons.slice(0, 5).map((p, i) => (
-                  <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
-                    <div className="font-medium text-gray-800">{[p.firstName, p.lastName].filter(Boolean).join(" ") || "—"}</div>
-                    {p.title && <div className="text-xs text-gray-500">{p.title}</div>}
-                    {p.city && <div className="text-xs text-gray-400">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
-                  </div>
-                ))}
+                {filing.relatedPersons.slice(0, 5).map((p, i) => {
+                  const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
+                  const liSearch = fullName ? `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(fullName + " " + filing.entityName)}` : undefined;
+                  const gSearch = fullName ? `https://www.google.com/search?q=${encodeURIComponent(fullName + " " + filing.entityName)}` : undefined;
+                  return (
+                    <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
+                      <div className="font-medium text-gray-800">{fullName || "—"}</div>
+                      {p.title && <div className="text-xs text-gray-500">{p.title}</div>}
+                      {p.city && <div className="text-xs text-gray-400">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
+                      {fullName && (
+                        <div className="flex gap-2 mt-1.5">
+                          {liSearch && <a href={liSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-sky-600 hover:underline">LinkedIn ↗</a>}
+                          {gSearch && <a href={gSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-gray-400 hover:underline">Google ↗</a>}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+            </div>
+          )}
+
+          {/* Contact info */}
+          {(filing.phone || filing.website) && (
+            <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+              {filing.phone && <span>📞 {filing.phone}</span>}
+              {filing.website && (
+                <a href={filing.website.startsWith("http") ? filing.website : `https://${filing.website}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-blue-500 hover:underline">
+                  🌐 {filing.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}
+                </a>
+              )}
             </div>
           )}
 

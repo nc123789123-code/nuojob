@@ -89,6 +89,11 @@ export interface FundFiling {
   dateOfFirstSale?: string;
   revenueRange?: string;
   relatedPersons?: RelatedPerson[];
+  // From EDGAR submissions API
+  phone?: string;
+  businessCity?: string;
+  website?: string;
+  stateOfIncorporation?: string;
   // Computed
   score: FundScore;
   daysSinceFiling: number;

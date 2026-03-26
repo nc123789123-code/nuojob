@@ -14,13 +14,13 @@ const HEADERS = {
 };
 
 const STRATEGY_QUERIES: Record<string, string[]> = {
-  all: ["credit fund", "credit partners", "hedge fund", "direct lending", "special situations", "credit opportunities"],
-  private_credit: ["private credit", "credit opportunities", "credit fund", "credit partners"],
+  all: ["credit fund", "credit partners", "hedge fund", "direct lending", "special situations", "credit opportunities", "private equity fund", "investment fund"],
+  private_credit: ["private credit", "credit opportunities", "credit fund", "credit partners", "direct lending"],
   special_sits: ["special situations", "opportunistic credit", "special opportunities"],
   direct_lending: ["direct lending", "lending fund", "lending partners"],
   distressed: ["distressed", "distressed debt", "distressed credit"],
   mezzanine: ["mezzanine", "mezz fund"],
-  hedge_fund: ["hedge fund", "master fund", "long short", "equity fund"],
+  hedge_fund: ["hedge fund", "master fund", "long short", "equity fund", "investment partners"],
   long_short: ["long short equity", "long short fund", "equity long"],
   macro: ["global macro", "macro fund", "macro strategies"],
   quant: ["quantitative fund", "quantitative strategies", "systematic fund"],
@@ -120,6 +120,35 @@ const NON_FUND_PATTERNS = [
   /\brealty\b/i,
 ];
 
+interface SubmissionsResp {
+  name?: string;
+  phone?: string;
+  website?: string;
+  stateOfIncorporation?: string;
+  mailing?: { street1?: string; city?: string; stateOrCountry?: string };
+  business?: { street1?: string; city?: string; stateOrCountry?: string };
+}
+
+async function fetchSubmissions(cik: string): Promise<{ phone?: string; businessCity?: string; website?: string; stateOfIncorporation?: string }> {
+  try {
+    const padded = cik.padStart(10, "0");
+    const res = await fetch(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS });
+    if (!res.ok) return {};
+    const data = await res.json() as SubmissionsResp;
+    const city = data.business?.city || data.mailing?.city;
+    const rawPhone = data.phone?.replace(/\D/g, "");
+    const phone = rawPhone && rawPhone.length >= 10
+      ? `(${rawPhone.slice(-10, -7)}) ${rawPhone.slice(-7, -4)}-${rawPhone.slice(-4)}`
+      : undefined;
+    return {
+      phone: phone || undefined,
+      businessCity: city || undefined,
+      website: data.website || undefined,
+      stateOfIncorporation: data.stateOfIncorporation || undefined,
+    };
+  } catch { return {}; }
+}
+
 function isLikelyFund(name: string | undefined): boolean {
   if (!name || name.trim().length < 3) return false;
   if (NON_FUND_PATTERNS.some((p) => p.test(name))) return false;
@@ -188,13 +217,16 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details for up to 80 entries (parallel) — returns null for non-pooled-fund filings
+    // Fetch XML details + submissions data in parallel for up to 80 entries
     const XML_BATCH = 80;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
-        const details = await fetchFormDDetails(f.cik, f.accessionNo);
+        const [details, subs] = await Promise.all([
+          fetchFormDDetails(f.cik, f.accessionNo),
+          fetchSubmissions(f.cik),
+        ]);
         if (details === null) return null; // not a pooled investment fund — skip
-        return { ...f, ...details };
+        return { ...f, ...details, ...subs };
       })
     );
     const detailed = detailedRaw.filter(Boolean) as NonNullable<(typeof detailedRaw)[number]>[];
