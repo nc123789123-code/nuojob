@@ -79,7 +79,7 @@ export default function GuideSection() {
 
             {/* Price + CTA */}
             <div className="sm:text-right flex-shrink-0">
-              <div className="text-white text-3xl font-bold mb-1">$49</div>
+              <div className="text-white text-3xl font-bold mb-1">$25</div>
               <div className="text-slate-500 text-xs mb-5">one-time · instant access</div>
 
               <button
