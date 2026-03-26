@@ -7,12 +7,13 @@ interface Props {
 }
 
 const CATEGORY_STYLE: Record<JobCategory, string> = {
-  "Credit":          "bg-blue-50 text-blue-700 border-blue-100",
-  "Equity":          "bg-indigo-50 text-indigo-700 border-indigo-100",
-  "Equity Research": "bg-violet-50 text-violet-700 border-violet-100",
-  "Quant":           "bg-pink-50 text-pink-700 border-pink-100",
-  "IR / Ops":        "bg-emerald-50 text-emerald-700 border-emerald-100",
-  "Other":           "bg-gray-50 text-gray-600 border-gray-100",
+  "Private Credit":     "bg-blue-50 text-blue-700 border-blue-100",
+  "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
+  "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
+  "Equity Investing":   "bg-indigo-50 text-indigo-700 border-indigo-100",
+  "Investment Banking": "bg-amber-50 text-amber-700 border-amber-100",
+  "Quant":              "bg-pink-50 text-pink-700 border-pink-100",
+  "IR / Ops":           "bg-emerald-50 text-emerald-700 border-emerald-100",
 };
 
 const SIGNAL_STYLE: Record<JobSignalTag, string> = {

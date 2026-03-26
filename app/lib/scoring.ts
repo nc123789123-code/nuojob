@@ -397,17 +397,17 @@ export function scoreStartup(
 import { JobCategory, JobSignalTag } from "@/app/types";
 
 const STRATEGY_ROLES: Record<string, Array<{ role: string; category: JobCategory }>> = {
-  private_credit:  [{ role: "Credit Analyst", category: "Credit" }, { role: "Underwriting Associate", category: "Credit" }],
-  direct_lending:  [{ role: "Direct Lending Analyst", category: "Credit" }, { role: "Portfolio Manager (Loans)", category: "Credit" }],
-  special_sits:    [{ role: "Special Situations Analyst", category: "Credit" }, { role: "Investment Associate", category: "Credit" }],
-  distressed:      [{ role: "Distressed Debt Analyst", category: "Credit" }, { role: "Restructuring Associate", category: "Credit" }],
-  mezzanine:       [{ role: "Mezzanine Analyst", category: "Credit" }],
-  hedge_fund:      [{ role: "Equity Analyst", category: "Equity" }, { role: "Portfolio Manager", category: "Equity" }],
-  long_short:      [{ role: "Long/Short Equity Analyst", category: "Equity Research" }, { role: "Sector Specialist", category: "Equity" }],
-  macro:           [{ role: "Macro Analyst", category: "Equity" }, { role: "Fixed Income PM", category: "Credit" }],
+  private_credit:  [{ role: "Credit Analyst", category: "Private Credit" }, { role: "Underwriting Associate", category: "Private Credit" }],
+  direct_lending:  [{ role: "Direct Lending Analyst", category: "Private Credit" }, { role: "Portfolio Manager (Loans)", category: "Private Credit" }],
+  special_sits:    [{ role: "Special Situations Analyst", category: "Private Credit" }, { role: "Investment Associate", category: "Private Credit" }],
+  distressed:      [{ role: "Distressed Debt Analyst", category: "Private Credit" }, { role: "Restructuring Associate", category: "Private Credit" }],
+  mezzanine:       [{ role: "Mezzanine Analyst", category: "Private Credit" }],
+  hedge_fund:      [{ role: "Equity Analyst", category: "Equity Investing" }, { role: "Portfolio Manager", category: "Equity Investing" }],
+  long_short:      [{ role: "Long/Short Equity Analyst", category: "Equity Research" }, { role: "Sector Specialist", category: "Equity Investing" }],
+  macro:           [{ role: "Macro Analyst", category: "Equity Investing" }, { role: "Fixed Income PM", category: "Public Credit" }],
   quant:           [{ role: "Quantitative Researcher", category: "Quant" }, { role: "Systematic Trader", category: "Quant" }],
-  multi_strategy:  [{ role: "Investment Analyst", category: "Equity" }, { role: "Credit Analyst", category: "Credit" }],
-  other:           [{ role: "Investment Analyst", category: "Other" }],
+  multi_strategy:  [{ role: "Investment Analyst", category: "Equity Investing" }, { role: "Credit Analyst", category: "Private Credit" }],
+  other:           [{ role: "Investment Analyst", category: "Equity Investing" }],
 };
 
 export function inferJobRoles(strategy: string, offeringStatus: string): Array<{ role: string; category: JobCategory }> {

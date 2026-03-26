@@ -153,7 +153,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       if (!classified) continue;
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
-      const cat = (classified === "Equity" && fallbackCat === "Equity Research") ? fallbackCat : classified;
+      const cat = (classified === "Equity Investing" && fallbackCat === "Equity Research") ? fallbackCat : classified;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `adzuna-${hit.id}`,
@@ -203,8 +203,8 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       if (!pubDate) continue; // skip jobs with no date — would falsely show as "Today"
       const days = daysAgo(pubDate);
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.name) ?? ("Other" as JobCategory);
-      if (cat === "Other") continue; // skip unclassifiable
+      const cat = classifyTitle(job.name);
+      if (!cat) continue; // skip unclassifiable
       const loc = job.locations?.[0]?.name?.split(",")?.[0]?.trim() || "—";
       out.push({
         id: `muse-${job.id}`,
