@@ -425,15 +425,12 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
 // Confirmed working: /v2/indeed/search, /v2/linkedin/search
 // Set RAPIDAPI_KEY in env to enable
 
+// 4 queries keeps parallel burst within PRO rate limits (20 results each = 80 raw per provider)
 const JOBS14_QUERIES = [
-  "private credit analyst",
-  "hedge fund analyst",
-  "distressed debt analyst",
-  "quantitative researcher fund",
-  "equity research analyst",
-  "private equity associate",
-  "direct lending associate",
-  "investment analyst buy side",
+  "private credit analyst hedge fund",
+  "investment banking analyst associate",
+  "equity research analyst buy side",
+  "private equity quantitative fund",
 ];
 
 const JOBS14_HEADERS = (apiKey: string) => ({
