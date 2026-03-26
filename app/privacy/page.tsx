@@ -3,7 +3,7 @@ import SiteNav from "@/app/components/SiteNav";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — OnluIntel",
+  title: "Privacy Policy — Onlu",
 };
 
 export default function PrivacyPage() {
@@ -15,13 +15,13 @@ export default function PrivacyPage() {
         <h1 className="text-[#191c1e] text-2xl font-bold tracking-tight mb-6">Privacy Policy</h1>
         <div className="space-y-4 text-sm text-[#41484c] leading-relaxed">
           <p>
-            OnluIntel collects only the information necessary to provide the service, including email addresses submitted voluntarily for newsletter signup or product access.
+            Onlu collects only the information necessary to provide the service, including email addresses submitted voluntarily for newsletter signup or product access.
           </p>
           <p>
             We do not sell, trade, or share your personal information with third parties except as required to operate the service (e.g., payment processing via Stripe, email delivery).
           </p>
           <p>
-            All fund and hiring signal data displayed on OnluIntel is sourced from publicly available records including SEC EDGAR filings and public job boards.
+            All fund and hiring signal data displayed on Onlu is sourced from publicly available records including SEC EDGAR filings and public job boards.
           </p>
           <p>
             For questions about data or privacy, contact us at{" "}

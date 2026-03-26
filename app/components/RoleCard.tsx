@@ -282,7 +282,7 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
       </div>
 
       <p className="text-[10px] text-gray-400 mt-5 pt-4 border-t border-gray-200">
-        OnluIntel analysis · Based on signal source, hiring context, and category patterns · Not AI-generated
+        Onlu analysis · Based on signal source, hiring context, and category patterns · Not AI-generated
       </p>
     </div>
   );

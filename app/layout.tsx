@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OnluIntel — Private Credit & Special Situations Intelligence",
+  title: "Onlu — Private Credit & Special Situations Intelligence",
   description:
     "Track fund signals, hiring intel, and market insights across private credit, special situations, and restructuring. Know where opportunities are before they're posted.",
 };

@@ -348,7 +348,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           >
             SEC EDGAR Form D
           </a>
-          {" "}· Intelligence layer by OnluIntel · Not investment advice
+          {" "}· Intelligence layer by Onlu · Not investment advice
         </p>
       </div>
     </div>

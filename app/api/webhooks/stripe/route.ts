@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 async function sendGuideEmail(email: string) {
   const resend = new Resend(process.env.RESEND_API_KEY!);
   await resend.emails.send({
-    from: "OnluIntel <noreply@onluintel.com>",
+    from: "Onlu <noreply@onluintel.com>",
     to: email,
     subject: "Your Credit Interview Guide — access inside",
     html: `
@@ -37,9 +37,9 @@ async function notifyAdmin(email: string, intent: string) {
   const adminEmail = process.env.ADMIN_EMAIL;
   if (!adminEmail) return;
   await resend.emails.send({
-    from: "OnluIntel <noreply@onluintel.com>",
+    from: "Onlu <noreply@onluintel.com>",
     to: adminEmail,
-    subject: `[OnluIntel] New ${intent}: ${email}`,
+    subject: `[Onlu] New ${intent}: ${email}`,
     html: `<p>New <strong>${intent}</strong>: <a href="mailto:${email}">${email}</a></p>`,
   });
 }

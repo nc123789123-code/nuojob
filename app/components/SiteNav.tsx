@@ -9,7 +9,6 @@ export default function SiteNav() {
             <span className="text-white font-bold text-sm leading-none">O</span>
           </div>
           <span className="text-[#191c1e] font-semibold text-sm tracking-tight">Onlu</span>
-          <span className="text-[#71787c] text-xs font-medium tracking-wide uppercase">Intel</span>
         </Link>
         <div className="w-px h-4 bg-[#c1c7cc]/50" />
         <nav className="flex items-center gap-1">

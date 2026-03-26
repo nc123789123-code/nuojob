@@ -12,7 +12,7 @@ const AUDIENCE_MAP: Record<Intent, string | undefined> = {
 
 const WELCOME_COPY: Record<Intent, { subject: string; html: string }> = {
   signals_subscriber: {
-    subject: "You're on the OnluIntel list",
+    subject: "You're on the Onlu list",
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
         <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">You're in.</h2>
@@ -55,9 +55,9 @@ async function notifyAdmin(email: string, intent: Intent) {
   const adminEmail = process.env.ADMIN_EMAIL;
   if (!adminEmail) return;
   await resend.emails.send({
-    from: "OnluIntel <noreply@onluintel.com>",
+    from: "Onlu <noreply@onluintel.com>",
     to: adminEmail,
-    subject: `[OnluIntel] New ${intent}: ${email}`,
+    subject: `[Onlu] New ${intent}: ${email}`,
     html: `<p>New <strong>${intent}</strong>: <a href="mailto:${email}">${email}</a></p>`,
   });
 }
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
 
     const tasks: Promise<unknown>[] = [
       resend.emails.send({
-        from: "OnluIntel <noreply@onluintel.com>",
+        from: "Onlu <noreply@onluintel.com>",
         to: email,
         subject: welcome.subject,
         html: welcome.html,

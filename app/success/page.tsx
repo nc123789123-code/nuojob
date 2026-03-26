@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Purchase confirmed — OnluIntel",
+  title: "Purchase confirmed — Onlu",
   description: "Your Credit Interview Guide purchase is confirmed.",
 };
 
@@ -54,7 +54,7 @@ export default function SuccessPage() {
           href="/"
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors"
         >
-          Back to OnluIntel
+          Back to Onlu
         </Link>
       </div>
     </div>

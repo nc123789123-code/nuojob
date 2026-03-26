@@ -145,7 +145,6 @@ export default function Home() {
               <span className="text-white font-bold text-sm leading-none">O</span>
             </div>
             <span className="text-[#191c1e] font-semibold text-sm tracking-tight">Onlu</span>
-            <span className="text-[#71787c] text-xs font-medium tracking-wide uppercase">Intel</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
@@ -211,7 +210,7 @@ export default function Home() {
                 Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
               </p>
               <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Each role includes an OnluIntel analysis: what the signal means and whether it&apos;s worth your time.
+                Each role includes an Onlu analysis: what the signal means and whether it&apos;s worth your time.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button

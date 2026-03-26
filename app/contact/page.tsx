@@ -4,18 +4,33 @@ import { useState } from "react";
 import SiteNav from "@/app/components/SiteNav";
 import SiteFooter from "@/app/components/SiteFooter";
 
+type Status = "idle" | "sending" | "sent" | "error";
+
 export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent("OnluIntel — Contact");
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\n${message}`
-    );
-    window.location.href = `mailto:info@onluintel.com?subject=${subject}&body=${body}`;
+    setStatus("sending");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      setStatus("sent");
+      setName(""); setEmail(""); setMessage("");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -64,49 +79,63 @@ export default function ContactPage() {
         </div>
 
         {/* Contact form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-[#41484c] mb-1.5">Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
-            />
+        {status === "sent" ? (
+          <div className="bg-[#c3ecd7]/40 border border-[#a8cfbc]/50 rounded-xl px-5 py-6 text-center">
+            <p className="text-[#416656] font-semibold text-sm mb-1">Message sent.</p>
+            <p className="text-[#41484c] text-xs">We&apos;ll get back to you at {email || "your email"}.</p>
+            <button
+              onClick={() => setStatus("idle")}
+              className="mt-4 text-xs text-[#396477] hover:underline"
+            >
+              Send another message
+            </button>
           </div>
-          <div>
-            <label className="block text-xs font-medium text-[#41484c] mb-1.5">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-[#41484c] mb-1.5">Message</label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Your message…"
-              required
-              rows={5}
-              className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full px-5 py-3 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors"
-          >
-            Send Message
-          </button>
-          <p className="text-[11px] text-[#71787c] text-center">
-            This will open your email client with the message pre-filled.
-          </p>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1.5">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1.5">Message</label>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Your message…"
+                required
+                rows={5}
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#71787c] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
+              />
+            </div>
+            {status === "error" && (
+              <p className="text-xs text-red-600">{errorMsg}</p>
+            )}
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="w-full px-5 py-3 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors disabled:opacity-60"
+            >
+              {status === "sending" ? "Sending…" : "Send Message"}
+            </button>
+          </form>
+        )}
       </main>
 
       <SiteFooter />

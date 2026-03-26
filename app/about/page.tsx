@@ -3,9 +3,9 @@ import SiteNav from "@/app/components/SiteNav";
 import SiteFooter from "@/app/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "About — OnluIntel",
+  title: "About — Onlu",
   description:
-    "OnluIntel is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.",
+    "Onlu is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.",
 };
 
 export default function AboutPage() {
@@ -18,17 +18,17 @@ export default function AboutPage() {
         <div className="mb-10">
           <p className="text-[11px] font-semibold text-[#71787c] uppercase tracking-widest mb-3">About</p>
           <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug mb-4">
-            OnluIntel
+            Onlu
           </h1>
           <p className="text-[#41484c] text-sm leading-relaxed">
-            OnluIntel is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.
+            Onlu is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.
           </p>
         </div>
 
         <div className="space-y-10 text-[#41484c] text-sm leading-relaxed">
           {/* Mission */}
           <p>
-            Most platforms show what is already visible. OnluIntel is built to surface signals earlier, helping users identify which firms may be raising capital, deploying, or likely to hire before opportunities are broadly visible.
+            Most platforms show what is already visible. Onlu is built to surface signals earlier, helping users identify which firms may be raising capital, deploying, or likely to hire before opportunities are broadly visible.
           </p>
           <p>
             We combine fund activity, hiring signals, and market context into a more focused view of where attention should go. The goal is not more noise. It is better prioritization.
@@ -39,9 +39,9 @@ export default function AboutPage() {
 
           {/* What makes it different */}
           <div>
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">What makes OnluIntel different</h2>
+            <h2 className="text-[#191c1e] text-base font-semibold mb-3">What makes Onlu different</h2>
             <p className="mb-4">
-              OnluIntel sits between a job board, a market monitor, and an interview prep resource.
+              Onlu sits between a job board, a market monitor, and an interview prep resource.
             </p>
             <p className="mb-4">The platform is designed to help users:</p>
             <ul className="space-y-2 pl-1">
@@ -62,7 +62,7 @@ export default function AboutPage() {
           {/* Who it's for */}
           <div>
             <h2 className="text-[#191c1e] text-base font-semibold mb-3">Who it&apos;s for</h2>
-            <p className="mb-4">OnluIntel is built for:</p>
+            <p className="mb-4">Onlu is built for:</p>
             <ul className="space-y-2 pl-1">
               {[
                 "candidates targeting private credit, special situations, and restructuring roles",
@@ -84,14 +84,14 @@ export default function AboutPage() {
             <p className="mb-3">
               The edge is not having more information. It is knowing what to focus on, and when.
             </p>
-            <p>OnluIntel is built around that idea.</p>
+            <p>Onlu is built around that idea.</p>
           </div>
 
           {/* Founder note */}
           <div className="border-t border-[#c1c7cc]/40 pt-8">
             <h2 className="text-[#191c1e] text-base font-semibold mb-3">Founder note</h2>
             <p className="text-[#41484c]">
-              OnluIntel was built from real-world experience in private credit and special situations investing, with the goal of making recruiting intelligence more practical, targeted, and useful.
+              Onlu was built from real-world experience in private credit and special situations investing, with the goal of making recruiting intelligence more practical, targeted, and useful.
             </p>
           </div>
 

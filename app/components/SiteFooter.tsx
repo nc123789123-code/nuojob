@@ -8,7 +8,7 @@ export default function SiteFooter() {
           <div className="w-5 h-5 rounded bg-[#396477] flex items-center justify-center flex-shrink-0">
             <span className="text-white font-bold text-[10px] leading-none">O</span>
           </div>
-          <span className="text-[#71787c] text-xs">OnluIntel · Private credit &amp; special situations intelligence</span>
+          <span className="text-[#71787c] text-xs">Onlu · Private credit &amp; special situations intelligence</span>
         </div>
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
           {[
