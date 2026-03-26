@@ -55,7 +55,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "jobs" | "insights";
+type TopTab = "funds" | "jobs" | "career" | "insights";
 
 export default function Home() {
   return (
@@ -69,7 +69,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "jobs", "insights"].includes(initialTab) ? initialTab : "funds"
+    ["funds", "jobs", "career", "insights"].includes(initialTab) ? initialTab : "funds"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -162,6 +162,7 @@ function HomeContent() {
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
+            <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
           </nav>
           <div className="ml-auto flex items-center gap-4">
@@ -243,11 +244,25 @@ function HomeContent() {
               </p>
             </>
           )}
+          {topTab === "career" && (
+            <>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full" />
+                Career &amp; Interview Prep
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                Career Prep
+              </h1>
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
+                How credit hiring works, what interviews actually test, and how to position yourself effectively — from people who&apos;ve been on both sides of the table.
+              </p>
+            </>
+          )}
           {topTab === "insights" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
-                Credit &amp; Restructuring
+                Industry Insights
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
                 Insights
@@ -319,6 +334,7 @@ function HomeContent() {
             />
           </>
         )}
+        {topTab === "career" && <CareerSection />}
         {topTab === "insights" && <InsightsSection />}
       </main>
 
@@ -836,7 +852,7 @@ interface InsightPost {
   paragraphs: string[];
 }
 
-const INSIGHTS: InsightPost[] = [
+const CAREER_POSTS: InsightPost[] = [
   {
     slug: "credit-hiring-capital-driven",
     title: "Why Credit Hiring Is Driven by Capital, Not Recruiting Cycles",
@@ -870,6 +886,9 @@ const INSIGHTS: InsightPost[] = [
       `In this sense, credit interviews are less about recalling formulas and more about demonstrating judgment. The goal is not to show that you know the definitions, but that you can apply them in a way that reflects how investors actually underwrite risk.`,
     ],
   },
+];
+
+const INDUSTRY_POSTS: InsightPost[] = [
   {
     slug: "co-op-vs-rsa",
     title: "Co-op Agreements vs. Restructuring Support Agreements (RSA)",
@@ -883,10 +902,10 @@ const INSIGHTS: InsightPost[] = [
   },
 ];
 
-function InsightsSection() {
+function PostList({ posts }: { posts: InsightPost[] }) {
   return (
     <div className="max-w-2xl space-y-16 py-2">
-      {INSIGHTS.map((post) => (
+      {posts.map((post) => (
         <article key={post.slug}>
           <header className="mb-6">
             <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
@@ -906,4 +925,12 @@ function InsightsSection() {
       ))}
     </div>
   );
+}
+
+function CareerSection() {
+  return <PostList posts={CAREER_POSTS} />;
+}
+
+function InsightsSection() {
+  return <PostList posts={INDUSTRY_POSTS} />;
 }

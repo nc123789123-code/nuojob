@@ -17,6 +17,9 @@ export default function SiteNav() {
           <Link href="/#guide" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Interview Guide
           </Link>
+          <Link href="/?tab=career" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Career Prep
+          </Link>
           <Link href="/?tab=insights" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Insights
           </Link>
