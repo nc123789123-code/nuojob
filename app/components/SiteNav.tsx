@@ -4,7 +4,7 @@ import LogoMark from "@/app/components/LogoMark";
 export default function SiteNav() {
   return (
     <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
-      <div className="max-w-6xl mx-auto px-5 h-14 flex items-center gap-6">
+      <div className="max-w-6xl mx-auto px-8 h-16 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2">
           <LogoMark size={28} />
           <span className="font-semibold text-sm tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
