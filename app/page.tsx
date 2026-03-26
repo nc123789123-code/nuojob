@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -57,6 +57,14 @@ function useOutreachTracker() {
 type TopTab = "funds" | "jobs" | "insights";
 
 export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
   const [topTab, setTopTab] = useState<TopTab>(
