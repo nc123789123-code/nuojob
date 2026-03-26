@@ -135,17 +135,12 @@ function HomeContent() {
     return () => { if (fundDebounceRef.current) clearTimeout(fundDebounceRef.current); };
   }, [fundFilters, fetchFunds]);
 
+  // Fetch jobs eagerly on mount so cross-linking works on Fund Signals tab too
   useEffect(() => {
-    if (topTab !== "jobs") return;
     if (jobDebounceRef.current) clearTimeout(jobDebounceRef.current);
     jobDebounceRef.current = setTimeout(() => { jobFetchedRef.current = true; fetchJobs(jobFilters); }, 400);
     return () => { if (jobDebounceRef.current) clearTimeout(jobDebounceRef.current); };
-  }, [jobFilters, fetchJobs, topTab]);
-
-  useEffect(() => {
-    if (topTab === "jobs" && !jobFetchedRef.current) { jobFetchedRef.current = true; fetchJobs(jobFilters); }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topTab]);
+  }, [jobFilters, fetchJobs]);
 
   const outreachRecords = Object.values(records).filter((r) => r.status !== "not_contacted");
 
@@ -184,54 +179,52 @@ function HomeContent() {
                 Live fund intelligence
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Track Hiring Signals Across Private Credit &amp; Special Situations
+                Fund Signals — Decide Where to Hunt
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Fund activity, job signals, and market insights — so you know where opportunities are before they&apos;re posted.
+                Capital raises, fund activity, and strategy shifts — tracked from SEC filings before roles ever appear on job boards. Use signals to decide which firms are worth your attention.
               </p>
               <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Built for candidates targeting private credit, special situations, and restructuring.
+                Once you&apos;ve identified target firms here, switch to <button onClick={() => setTopTab("jobs")} className="underline hover:text-[#41484c] transition-colors">Jobs</button> to act on them.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button
-                  onClick={() => setTopTab("funds")}
+                  onClick={() => setTopTab("jobs")}
                   className="px-4 py-2 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors shadow-[0_2px_8px_rgba(57,100,119,0.25)]"
                 >
-                  Explore Signals
+                  See Open Roles →
                 </button>
                 <button
-                  onClick={() => setTopTab("jobs")}
+                  onClick={() => setTopTab("intel")}
                   className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
                 >
-                  View Jobs
+                  Firm Intel
                 </button>
               </div>
-              <p className="text-[#71787c] text-xs mt-5 italic">
-                Built from real-world experience across private credit and special situations investing.
-              </p>
             </>
           )}
           {topTab === "jobs" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full" />
-                Multi-source hiring intel
+                Curated roles — act on them now
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                See Where Finance Teams Are Hiring — and Why
+                Jobs — Take Action
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
+                Curated roles at firms worth pursuing — private credit, restructuring, leveraged finance. Each card explains why the role exists and what the firm actually cares about.
               </p>
               <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Each role includes an Onlu analysis: what the signal means and whether it&apos;s worth your time.
+                Roles at firms with active fund signals are highlighted. Not sure which firms to target? Start with{" "}
+                <button onClick={() => setTopTab("funds")} className="underline hover:text-[#41484c] transition-colors">Fund Signals</button>.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button
                   onClick={() => setTopTab("funds")}
                   className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
                 >
-                  Fund Signals
+                  ← Fund Signals
                 </button>
                 <a
                   href="#guide"
@@ -240,9 +233,6 @@ function HomeContent() {
                   Interview Guide
                 </a>
               </div>
-              <p className="text-[#71787c] text-xs mt-5 italic">
-                Built from real-world experience across private credit and special situations investing.
-              </p>
             </>
           )}
           {topTab === "intel" && (
@@ -306,6 +296,8 @@ function HomeContent() {
               outreachRecords={outreachRecords}
               subTab={fundSubTab} setSubTab={setFundSubTab}
               onExport={() => exportToCsv(fundFilings, records)}
+              jobSignals={jobSignals}
+              onViewJobs={() => setTopTab("jobs")}
             />
             {/* Inter-section CTA: signals → guide */}
             <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -331,6 +323,8 @@ function HomeContent() {
               signals={jobSignals} total={jobTotal}
               loading={jobLoading} error={jobError}
               sources={jobSources}
+              fundFilings={fundFilings}
+              onViewSignals={() => setTopTab("funds")}
             />
             {/* Inter-section CTA: jobs → guide */}
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -597,9 +591,89 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
 
 // ─── Funds section ────────────────────────────────────────────────────────────
 
+function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
+  filings: FundFiling[];
+  jobSignals: JobSignal[];
+  onViewJobs: () => void;
+}) {
+  // Find filings that have at least one matching job
+  const pairs = filings
+    .map((f) => ({ filing: f, jobs: getJobsForFiling(f, jobSignals) }))
+    .filter(({ jobs }) => jobs.length > 0)
+    .slice(0, 6);
+
+  // Known firms in this filing set that have NO jobs
+  const noJobFirms = filings
+    .filter((f) => {
+      const match = matchFirm(f.entityName);
+      if (!match) return false;
+      return getJobsForFiling(f, jobSignals).length === 0;
+    })
+    .map((f) => matchFirm(f.entityName)?.name ?? f.entityName)
+    .filter((v, i, arr) => arr.indexOf(v) === i) // dedupe
+    .slice(0, 4);
+
+  if (pairs.length === 0 && noJobFirms.length === 0) return null;
+
+  const totalRoles = pairs.reduce((sum, { jobs }) => sum + jobs.length, 0);
+
+  return (
+    <div className="rounded-xl border border-sky-100 bg-sky-50/60 px-4 py-4">
+      <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+        <div>
+          <p className="text-sm font-semibold text-[#396477]">
+            Signals → Jobs
+          </p>
+          <p className="text-xs text-[#71787c] mt-0.5">
+            Use signals to decide where to focus. These firms have both an active signal and open roles.
+          </p>
+        </div>
+        {pairs.length > 0 && (
+          <button
+            onClick={onViewJobs}
+            className="flex-shrink-0 text-xs font-semibold text-[#396477] border border-[#396477]/30 px-3 py-1.5 rounded-lg hover:bg-[#396477] hover:text-white transition-colors"
+          >
+            View {totalRoles} role{totalRoles !== 1 ? "s" : ""} →
+          </button>
+        )}
+      </div>
+
+      {pairs.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-3">
+          {pairs.map(({ filing, jobs }) => (
+            <button
+              key={filing.id}
+              onClick={onViewJobs}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-medium text-[#396477] hover:border-[#396477]/50 hover:shadow-sm transition-all"
+            >
+              <span className="max-w-[140px] truncate">{matchFirm(filing.entityName)?.name ?? filing.entityName}</span>
+              <span className="bg-[#396477]/10 text-[#396477] text-[10px] font-bold px-1 py-0.5 rounded">
+                {jobs.length} role{jobs.length !== 1 ? "s" : ""}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {noJobFirms.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-sky-100">
+          <span className="text-[11px] text-[#71787c]">No roles posted yet:</span>
+          {noJobFirms.map((name) => (
+            <span key={name} className="text-[11px] text-[#71787c] bg-white border border-[#c1c7cc]/40 px-2 py-0.5 rounded-full">
+              {name}
+            </span>
+          ))}
+          <span className="text-[11px] text-[#71787c]">— consider reaching out directly.</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function FundsSection({
   filters, setFilters, filings, total, loading, error,
   records, updateRecord, outreachRecords, subTab, setSubTab, onExport,
+  jobSignals, onViewJobs,
 }: {
   filters: SearchFilters; setFilters: (f: SearchFilters) => void;
   filings: FundFiling[]; total: number; loading: boolean; error: string | null;
@@ -607,6 +681,8 @@ function FundsSection({
   outreachRecords: OutreachRecord[];
   subTab: "search" | "pipeline"; setSubTab: (t: "search" | "pipeline") => void;
   onExport: () => void;
+  jobSignals: JobSignal[];
+  onViewJobs: () => void;
 }) {
   const [highlightId, setHighlightId] = useState<string | null>(null);
 
@@ -619,9 +695,13 @@ function FundsSection({
         }} />
       )}
 
+      {subTab === "search" && !loading && jobSignals.length > 0 && (
+        <SignalJobsBridge filings={filings} jobSignals={jobSignals} onViewJobs={onViewJobs} />
+      )}
+
       <div className="space-y-1 mb-1">
         <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
-          Identify which funds are raising capital, deploying, and likely to hire — before roles are publicly visible.
+          Identify which funds are raising capital, deploying, and likely to hire — before roles are publicly visible. Once you spot a target, use the Jobs tab to act.
         </p>
       </div>
 
@@ -705,21 +785,67 @@ const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   linkedin:   { label: "LinkedIn",          color: "bg-[#396477] text-white border-[#2d5162]"             },
 };
 
+function FundSignalBadge({ filing, onViewSignals }: { filing: FundFiling; onViewSignals: () => void }) {
+  const isOpen = filing.offeringStatus === "open";
+  const amt = filing.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : null;
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
+      className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-sky-50 text-[#396477] border-sky-200 hover:bg-sky-100 transition-colors"
+      title="This firm has an active fund signal — click to view"
+    >
+      <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-[#396477] animate-pulse" : "bg-sky-400"}`} />
+      Fund Signal{amt ? ` · ${amt}` : ""}
+    </button>
+  );
+}
+
 function JobsSection({
   filters, setFilters, signals, total, loading, error, sources,
+  fundFilings, onViewSignals,
 }: {
   filters: JobFilters; setFilters: (f: JobFilters) => void;
   signals: JobSignal[]; total: number; loading: boolean; error: string | null;
   sources: string[];
+  fundFilings: FundFiling[];
+  onViewSignals: () => void;
 }) {
   const liveSourceCount = sources.filter((s) => s !== "edgar").length;
   const edgarOnly = !loading && sources.length > 0 && liveSourceCount === 0;
 
+  // Split signals into "at signal firms" and "other"
+  const signalPairs = signals.map((s) => ({
+    signal: s,
+    filing: getFilingForJob(s, fundFilings),
+  }));
+  const atSignalFirms = signalPairs.filter(({ filing }) => !!filing);
+  const otherSignals  = signalPairs.filter(({ filing }) => !filing);
+
   return (
     <>
+      {/* Context bridge banner */}
+      {!loading && atSignalFirms.length > 0 && (
+        <div className="flex items-center justify-between gap-3 bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
+          <div>
+            <p className="text-sm font-semibold text-[#396477]">
+              {atSignalFirms.length} role{atSignalFirms.length !== 1 ? "s" : ""} at firms with active fund signals
+            </p>
+            <p className="text-xs text-[#71787c] mt-0.5">
+              These firms are raising or recently closed. Signal firms are shown first.
+            </p>
+          </div>
+          <button
+            onClick={onViewSignals}
+            className="flex-shrink-0 text-xs font-medium text-[#396477] underline hover:no-underline transition-all whitespace-nowrap"
+          >
+            View signals ↗
+          </button>
+        </div>
+      )}
+
       <div className="space-y-1 mb-1">
         <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
-          Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance, not volume.
+          Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance. Roles at firms with active fund signals are shown first.
         </p>
       </div>
 
@@ -800,9 +926,48 @@ function JobsSection({
           <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
         </div>
       )}
-      <div className="space-y-3">
-        {signals.map((s) => <RoleCard key={s.id} signal={s} />)}
-      </div>
+
+      {/* Signal firms first */}
+      {atSignalFirms.length > 0 && (
+        <>
+          <div className="flex items-center gap-2 pt-1">
+            <span className="text-[11px] font-semibold text-[#396477] uppercase tracking-wide">At Signal Firms</span>
+            <span className="text-[10px] bg-sky-100 text-[#396477] px-1.5 py-0.5 rounded font-bold">{atSignalFirms.length}</span>
+            <div className="flex-1 h-px bg-sky-100" />
+          </div>
+          <div className="space-y-3">
+            {atSignalFirms.map(({ signal, filing }) => (
+              <div key={signal.id} className="relative">
+                {filing && (
+                  <div className="absolute top-3 right-14 z-10">
+                    <FundSignalBadge filing={filing} onViewSignals={onViewSignals} />
+                  </div>
+                )}
+                <RoleCard signal={signal} />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Other roles */}
+      {otherSignals.length > 0 && (
+        <>
+          {atSignalFirms.length > 0 && (
+            <div className="flex items-center gap-2 pt-2">
+              <span className="text-[11px] font-semibold text-[#71787c] uppercase tracking-wide">Other Roles</span>
+              <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
+              <div className="flex-1 h-px bg-gray-100" />
+              <button onClick={onViewSignals} className="text-[11px] text-[#71787c] hover:text-[#396477] transition-colors">
+                Check signals for these firms →
+              </button>
+            </div>
+          )}
+          <div className="space-y-3">
+            {otherSignals.map(({ signal }) => <RoleCard key={signal.id} signal={signal} />)}
+          </div>
+        </>
+      )}
 
       {signals.length > 0 && (
         <p className="text-center text-xs text-gray-400 py-1">
@@ -984,6 +1149,20 @@ function matchFirm(firmName: string) {
     lower.includes(f.name.toLowerCase()) ||
     f.name.toLowerCase().includes(lower.split(" ")[0]) // partial first-word match
   );
+}
+
+// Bridge: find the best EDGAR filing for a given job's firm (if any)
+function getFilingForJob(job: JobSignal, filings: FundFiling[]): FundFiling | undefined {
+  const firmMatch = matchFirm(job.firm);
+  if (!firmMatch) return undefined;
+  return filings.find((f) => matchFirm(f.entityName)?.id === firmMatch.id);
+}
+
+// Bridge: get all jobs that match a given EDGAR filing's firm
+function getJobsForFiling(filing: FundFiling, jobSignals: JobSignal[]): JobSignal[] {
+  const firmMatch = matchFirm(filing.entityName);
+  if (!firmMatch) return [];
+  return jobSignals.filter((j) => matchFirm(j.firm)?.id === firmMatch.id);
 }
 
 const BACK_OFFICE_RE_CLIENT = /\b(software engineer|developer|devops|sysadmin|cybersecurity|HR|human resources|recruit|talent|office manager|admin|payroll|legal counsel|paralegal|attorney|marketing|content manager|social media|sales|business development|customer support|help desk|product manager|project manager|supply chain|procurement)\b/i;
@@ -1347,6 +1526,40 @@ function IntelSection() {
               <p className="text-xs mt-1.5 max-w-xs mx-auto">Career pages are checked every 30 minutes. Check back later or expand the date range.</p>
             </div>
           )}
+
+          {/* Watched firms with no current roles */}
+          {(() => {
+            const activeIds = new Set(allFirms.map((f) => f.firmId));
+            const quiet = FIRM_REGISTRY.filter((f) => !activeIds.has(f.id)).slice(0, 8);
+            if (quiet.length === 0) return null;
+            return (
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <h2 className="text-sm font-bold text-[#191c1e]">Monitored — No Roles Posted Yet</h2>
+                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{quiet.length}</span>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {quiet.map((f) => (
+                    <div key={f.id} className="bg-white border border-[#c1c7cc]/30 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <TierBadge tier={f.tier} />
+                          <span className="font-semibold text-sm text-[#41484c]">{f.name}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
+                        </div>
+                      </div>
+                      <span className="text-[10px] text-[#71787c] whitespace-nowrap flex-shrink-0">No open roles</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-[#71787c] mt-3">
+                  These firms are on our watch list. No roles posted in the last 90 days — consider reaching out directly or monitoring their careers page.
+                </p>
+              </section>
+            );
+          })()}
         </>
       )}
 
