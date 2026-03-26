@@ -20,6 +20,8 @@
 import { NextRequest } from "next/server";
 import { OfferingStatus, EdgarSearchHit, JobSignal, JobCategory } from "@/app/types";
 import { detectStrategy, getDaysSince, inferJobRoles, inferJobSignalTag, scoreJobSignal } from "@/app/lib/scoring";
+import { getAshbyFirms } from "@/app/lib/firms";
+import { fetchAshbyPostings } from "@/app/lib/scrapers/ashby";
 
 export const runtime = "edge";
 
@@ -324,21 +326,24 @@ async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
 
 type FirmType = "pe" | "hedge" | "credit" | "growth";
 
-// Only confirmed slugs — firms that actually use boards.greenhouse.io/<slug>/jobs.json
-// Blackstone, Apollo, Carlyle, Citadel, Two Sigma use their own ATS portals (not Greenhouse)
+// Firm lists are sourced from the central registry in app/lib/firms.ts.
+// Additional one-off entries here are kept for backwards compatibility.
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // Confirmed ✓
-  { slug: "kkr",                 firm: "KKR",                        type: "pe"     },
-  { slug: "point72",             firm: "Point72",                    type: "hedge"  },
-  { slug: "millenniummanagement",firm: "Millennium Management",      type: "hedge"  },
-  { slug: "aqr",                 firm: "AQR Capital Management",     type: "hedge"  },
-  { slug: "bridgewater89",       firm: "Bridgewater Associates",     type: "hedge"  },
-  { slug: "aresmgmt",            firm: "Ares Management",            type: "credit" },
-  { slug: "golubcapital",        firm: "Golub Capital",              type: "credit" },
-  { slug: "hpsinvestmentpartners", firm: "HPS Investment Partners",  type: "credit" },
-  { slug: "generalatlantic",     firm: "General Atlantic",           type: "growth" },
-  { slug: "insightpartners",     firm: "Insight Partners",           type: "growth" },
-  { slug: "warburgpincusllc",    firm: "Warburg Pincus",             type: "pe"     },
+  { slug: "kkr",                   firm: "KKR",                        type: "pe"     },
+  { slug: "point72",               firm: "Point72",                    type: "hedge"  },
+  { slug: "millenniummanagement",  firm: "Millennium Management",      type: "hedge"  },
+  { slug: "aqr",                   firm: "AQR Capital Management",     type: "hedge"  },
+  { slug: "bridgewater89",         firm: "Bridgewater Associates",     type: "hedge"  },
+  { slug: "aresmgmt",              firm: "Ares Management",            type: "credit" },
+  { slug: "golubcapital",          firm: "Golub Capital",              type: "credit" },
+  { slug: "hpsinvestmentpartners", firm: "HPS Investment Partners",    type: "credit" },
+  { slug: "generalatlantic",       firm: "General Atlantic",           type: "growth" },
+  { slug: "insightpartners",       firm: "Insight Partners",           type: "growth" },
+  { slug: "warburgpincusllc",      firm: "Warburg Pincus",             type: "pe"     },
+  { slug: "blueowl",               firm: "Blue Owl Capital",           type: "credit" },
+  { slug: "silverlake",            firm: "Silver Lake",                type: "pe"     },
+  { slug: "tpg",                   firm: "TPG Capital",                type: "pe"     },
+  { slug: "neubergerberman",       firm: "Neuberger Berman",           type: "credit" },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
@@ -682,6 +687,47 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
   return out;
 }
 
+// ─── Source 8: Ashby (direct firm career pages) ──────────────────────────────
+
+async function fromAshby(maxDays: number): Promise<JobSignal[]> {
+  const firms = getAshbyFirms();
+  const results = await Promise.allSettled(
+    firms.map(async ({ slug, firm, strategies }) => {
+      const postings = await fetchAshbyPostings(slug);
+      if (!postings) return [] as JobSignal[];
+      const out: JobSignal[] = [];
+      for (const p of postings) {
+        if (p.employmentType === "Intern" || p.employmentType === "PartTime") continue;
+        const published = p.publishedDate || "";
+        const days = published
+          ? Math.floor((Date.now() - new Date(published).getTime()) / 86_400_000)
+          : maxDays;
+        if (days > maxDays) continue;
+        // Use strategy context from firm registry to boost classification
+        const strategyHint = strategies.join(" ");
+        const cat = classifyTitle(`${p.title} ${strategyHint}`) ?? (
+          FINANCE_KEYWORD_RE.test(p.title) ? "Private Credit" as JobCategory : null
+        );
+        if (!cat) continue;
+        out.push({
+          id: `ashby-${slug}-${p.id}`,
+          firm,
+          role: p.title,
+          category: cat,
+          location: p.locationName?.split(",")?.[0]?.trim() || "—",
+          daysAgo: days,
+          signalTag: signalTagFromTitle(p.title),
+          why: "Direct from firm careers page (Ashby)",
+          score: 0,
+          edgarUrl: p.applyUrl || p.externalLink,
+        });
+      }
+      return out;
+    })
+  );
+  return results.flatMap((r) => r.status === "fulfilled" ? r.value : []);
+}
+
 // ─── Salary range (jobs-api14 /v2/salary/range) ───────────────────────────────
 
 interface SalaryResp {
@@ -726,12 +772,13 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, jobs14Result, fjResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, jobs14Result, fjResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
+      fromAshby(maxDays),
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
@@ -751,6 +798,7 @@ export async function GET(req: NextRequest) {
     add(edgarResult,     "edgar");
     add(ghResult,        "greenhouse");
     add(leverResult,     "lever");
+    add(ashbyResult,     "ashby");
     add(jobs14Result,    "jobs14");
     add(fjResult,        "linkedin");
 

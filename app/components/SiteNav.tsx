@@ -11,6 +11,9 @@ export default function SiteNav() {
         </Link>
         <div className="w-px h-4 bg-[#c1c7cc]/50" />
         <nav className="flex items-center gap-1">
+          <Link href="/?tab=intel" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Firm Intel
+          </Link>
           <Link href="/" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Fund Signals
           </Link>

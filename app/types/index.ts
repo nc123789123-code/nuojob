@@ -199,6 +199,37 @@ export interface JobFilters {
   signalTag: "all" | JobSignalTag;
 }
 
+// ─── Job classification (LLM + heuristic) ────────────────────────────────────
+
+export interface JobClassification {
+  frontOffice: boolean;
+  seniority: "analyst" | "associate" | "vp" | "director" | "md" | "partner" | "intern" | "other";
+  /** Strategy identifiers matched in role/firm context */
+  strategies: string[];
+  /** expansion = net new headcount, replacement = backfill, uncertain = unknown */
+  signalType: "expansion" | "replacement" | "uncertain";
+  /** 1 (irrelevant) – 10 (must see) for a buyside finance candidate */
+  relevanceScore: number;
+  /** One-sentence signal insight */
+  signal: string;
+}
+
+// ─── Firm-level intelligence profile ─────────────────────────────────────────
+
+export interface FirmIntelProfile {
+  firmId: string;
+  name: string;
+  tier: 1 | 2 | 3;
+  strategies: string[];
+  openRoles: (JobSignal & { classification: JobClassification })[];
+  frontOfficeCount: number;
+  signals: string[];
+  hiringPush: boolean;
+  edgarRaise?: { amountStr: string; date: string; status: string };
+  postRaiseHiring: boolean;
+  strategyBuildout?: string;
+}
+
 // ─── EDGAR raw types ──────────────────────────────────────────────────────────
 
 export interface EdgarSearchHit {

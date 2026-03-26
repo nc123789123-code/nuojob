@@ -55,7 +55,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "jobs" | "career" | "insights";
+type TopTab = "funds" | "jobs" | "intel" | "career" | "insights";
 
 export default function Home() {
   return (
@@ -69,7 +69,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "jobs", "career", "insights"].includes(initialTab) ? initialTab : "funds"
+    ["funds", "jobs", "intel", "career", "insights"].includes(initialTab) ? initialTab : "funds"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -160,7 +160,8 @@ function HomeContent() {
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
-            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
+            <NavTab active={topTab === "intel"} onClick={() => setTopTab("intel")} label="Firm Intel" badge />
+            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
@@ -241,6 +242,20 @@ function HomeContent() {
               </div>
               <p className="text-[#71787c] text-xs mt-5 italic">
                 Built from real-world experience across private credit and special situations investing.
+              </p>
+            </>
+          )}
+          {topTab === "intel" && (
+            <>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
+                Live firm intelligence
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                Firm Intel
+              </h1>
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
+                Which firms are on a hiring push. Which just closed a raise. Where new strategies are being built. Sourced directly from career pages and SEC filings — before it hits LinkedIn.
               </p>
             </>
           )}
@@ -334,6 +349,7 @@ function HomeContent() {
             />
           </>
         )}
+        {topTab === "intel" && <IntelSection />}
         {topTab === "career" && <CareerSection />}
         {topTab === "insights" && <InsightsSection />}
       </main>
@@ -933,4 +949,339 @@ function CareerSection() {
 
 function InsightsSection() {
   return <PostList posts={INDUSTRY_POSTS} />;
+}
+
+// ─── Firm Intel ───────────────────────────────────────────────────────────────
+
+interface FirmIntelProfile {
+  firmId: string;
+  name: string;
+  tier: 1 | 2 | 3;
+  strategies: string[];
+  openRoles: Array<{
+    id: string;
+    role: string;
+    location: string;
+    daysAgo: number;
+    edgarUrl?: string;
+    classification: {
+      frontOffice: boolean;
+      seniority: string;
+      relevanceScore: number;
+      signal: string;
+      signalType: string;
+    };
+  }>;
+  frontOfficeCount: number;
+  signals: string[];
+  hiringPush: boolean;
+  edgarRaise?: { amountStr: string; date: string; status: string };
+  postRaiseHiring: boolean;
+  strategyBuildout?: string;
+}
+
+interface IntelResponse {
+  hiringPush: FirmIntelProfile[];
+  postRaise: FirmIntelProfile[];
+  strategyBuilds: FirmIntelProfile[];
+  allRoles: Array<{ id: string; firm: string; role: string; location: string; daysAgo: number; edgarUrl?: string; source?: string; classification: { frontOffice: boolean; seniority: string; relevanceScore: number; signal: string } }>;
+  totalFirms: number;
+  lastUpdated: string;
+}
+
+const SENIORITY_LABELS: Record<string, string> = {
+  analyst: "Analyst", associate: "Associate", vp: "VP",
+  director: "Director", md: "MD", partner: "Partner",
+  intern: "Intern", other: "Professional",
+};
+
+const STRATEGY_LABELS: Record<string, string> = {
+  private_credit: "Private Credit", distressed: "Distressed", special_sits: "Special Sits",
+  hedge_fund: "Hedge Fund", macro: "Macro", quant: "Quant",
+  private_equity: "PE", growth: "Growth", structured_credit: "Structured",
+  public_credit: "Public Credit", equity: "Equity",
+};
+
+function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
+  const cls = tier === 1
+    ? "bg-[#396477]/10 text-[#396477] border-[#396477]/20"
+    : tier === 2
+    ? "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50"
+    : "bg-gray-50 text-gray-500 border-gray-200";
+  return (
+    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
+      T{tier}
+    </span>
+  );
+}
+
+function StrategyTag({ s }: { s: string }) {
+  return (
+    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#f2f4f6] text-[#41484c] border border-[#e0e3e5]">
+      {STRATEGY_LABELS[s] ?? s}
+    </span>
+  );
+}
+
+function SeniorityBadge({ seniority, frontOffice }: { seniority: string; frontOffice: boolean }) {
+  const isSenior = ["md", "partner", "director"].includes(seniority);
+  const cls = !frontOffice
+    ? "bg-gray-50 text-gray-400 border-gray-200"
+    : isSenior
+    ? "bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50"
+    : "bg-sky-50 text-[#396477] border-sky-100";
+  return (
+    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
+      {SENIORITY_LABELS[seniority] ?? seniority}
+    </span>
+  );
+}
+
+function FirmCard({ profile }: { profile: FirmIntelProfile }) {
+  const topRoles = profile.openRoles
+    .filter((r) => r.classification.frontOffice)
+    .slice(0, 4);
+
+  return (
+    <div className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 hover:shadow-[0_2px_12px_rgba(57,100,119,0.1)] transition-shadow">
+      {/* Firm header */}
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <TierBadge tier={profile.tier} />
+            <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
+          </div>
+        </div>
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+          <span className="text-xs font-bold text-[#396477]">{profile.frontOfficeCount} open</span>
+          {profile.edgarRaise && (
+            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
+              profile.edgarRaise.status === "open"
+                ? "bg-[#c3ecd7] text-[#416656]"
+                : "bg-sky-100 text-[#396477]"
+            }`}>
+              {profile.edgarRaise.status === "open" ? "Raising" : "Closed raise"}
+              {profile.edgarRaise.amountStr ? ` · ${profile.edgarRaise.amountStr}` : ""}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Signal tags */}
+      {profile.signals.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {profile.signals.map((sig, i) => (
+            <span key={i} className="text-[11px] text-[#41484c] bg-[#f7f9fb] border border-[#e0e3e5] px-2 py-0.5 rounded-full">
+              {sig}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Top roles */}
+      {topRoles.length > 0 && (
+        <div className="space-y-1.5 mt-3">
+          {topRoles.map((r) => (
+            <a
+              key={r.id}
+              href={r.edgarUrl || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between gap-2 group"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                <span className="text-xs text-[#41484c] group-hover:text-[#396477] truncate transition-colors">
+                  {r.role}
+                </span>
+              </div>
+              <span className="text-[10px] text-[#71787c] flex-shrink-0">{r.daysAgo}d</span>
+            </a>
+          ))}
+          {profile.frontOfficeCount > 4 && (
+            <p className="text-[11px] text-[#71787c] pt-1">+{profile.frontOfficeCount - 4} more roles</p>
+          )}
+        </div>
+      )}
+
+      {/* LLM signal */}
+      {topRoles[0]?.classification.signal && (
+        <p className="text-[11px] text-[#71787c] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
+          {topRoles[0].classification.signal}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function IntelSection() {
+  const [data, setData] = useState<IntelResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [view, setView] = useState<"firms" | "roles">("firms");
+
+  useEffect(() => {
+    fetch("/api/intel?dateRange=30")
+      .then((r) => r.json())
+      .then((d: IntelResponse) => setData(d))
+      .catch((e: Error) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-4 py-2">
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-32 bg-[#e0e3e5] rounded animate-pulse" />
+          <div className="h-4 w-24 bg-[#e0e3e5] rounded animate-pulse" />
+        </div>
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 animate-pulse">
+            <div className="h-4 w-48 bg-[#e0e3e5] rounded mb-3" />
+            <div className="h-3 w-32 bg-[#f0f2f4] rounded mb-2" />
+            <div className="h-3 w-40 bg-[#f0f2f4] rounded" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">{error}</div>;
+  }
+
+  if (!data) return null;
+
+  const allFirms = [...data.hiringPush, ...data.postRaise, ...data.strategyBuilds];
+
+  return (
+    <div className="space-y-8 py-2">
+      {/* View toggle */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => setView("firms")}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-[#396477] text-white" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+        >
+          Firms ({allFirms.length})
+        </button>
+        <button
+          onClick={() => setView("roles")}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-[#396477] text-white" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+        >
+          All Roles ({data.allRoles.filter((r) => r.classification.frontOffice).length})
+        </button>
+      </div>
+
+      {view === "firms" && (
+        <>
+          {data.hiringPush.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Firms on a Hiring Push</h2>
+                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                  {data.hiringPush.length}
+                </span>
+                <span className="text-xs text-[#71787c]">3+ front-office roles open</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {data.hiringPush.map((p) => <FirmCard key={p.firmId} profile={p} />)}
+              </div>
+            </section>
+          )}
+
+          {data.postRaise.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Post-Raise Deployment Teams</h2>
+                <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
+                  {data.postRaise.length}
+                </span>
+                <span className="text-xs text-[#71787c]">Active EDGAR raise + front-office hiring</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {data.postRaise.map((p) => <FirmCard key={p.firmId} profile={p} />)}
+              </div>
+            </section>
+          )}
+
+          {data.strategyBuilds.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Strategy Buildouts</h2>
+                <span className="text-[10px] bg-[#e1ddf2]/70 text-[#5e5c6e] font-bold px-1.5 py-0.5 rounded">
+                  {data.strategyBuilds.length}
+                </span>
+                <span className="text-xs text-[#71787c]">Hiring into new asset class</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {data.strategyBuilds.map((p) => <FirmCard key={p.firmId} profile={p} />)}
+              </div>
+            </section>
+          )}
+
+          {allFirms.length === 0 && (
+            <div className="text-center py-16 text-gray-400">
+              <div className="text-3xl mb-3">🔍</div>
+              <p className="font-semibold text-gray-700 text-sm">No firm signals found in the last 30 days</p>
+              <p className="text-xs mt-1.5 max-w-xs mx-auto">Career pages are checked every 30 minutes. Check back later or expand the date range.</p>
+            </div>
+          )}
+        </>
+      )}
+
+      {view === "roles" && (
+        <div className="space-y-2">
+          {data.allRoles
+            .filter((r) => r.classification.frontOffice)
+            .slice(0, 50)
+            .map((r) => (
+              <a
+                key={r.id}
+                href={r.edgarUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-[0_1px_6px_rgba(57,100,119,0.08)] transition-all group"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">
+                      {r.role}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#71787c]">
+                    <span className="font-medium text-[#41484c]">{r.firm}</span>
+                    <span>·</span>
+                    <span>{r.location}</span>
+                    <span>·</span>
+                    <span>{r.daysAgo}d ago</span>
+                    {r.source && (
+                      <>
+                        <span>·</span>
+                        <span className="capitalize">{r.source}</span>
+                      </>
+                    )}
+                  </div>
+                  {r.classification.signal && (
+                    <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">
+                      {r.classification.signal}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-shrink-0 text-right">
+                  <span className="text-xs font-bold text-[#396477]">{r.classification.relevanceScore}/10</span>
+                </div>
+              </a>
+            ))}
+        </div>
+      )}
+
+      <p className="text-[11px] text-[#71787c] text-center pt-2">
+        Sourced from Greenhouse, Lever, Ashby, and SEC EDGAR · Updated every 30 min
+      </p>
+    </div>
+  );
 }
