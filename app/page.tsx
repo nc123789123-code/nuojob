@@ -659,15 +659,6 @@ function JobsSection({
           </button>
         ))}
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
-        {JOB_SIGNAL_TAGS.map((t) => (
-          <button key={t.v} onClick={() => setFilters({ ...filters, signalTag: t.v === filters.signalTag && t.v !== "all" ? "all" : t.v })}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-              filters.signalTag === t.v ? "bg-slate-900 text-white border-slate-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
-            }`}>
-            {t.l}
-          </button>
-        ))}
-        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
           className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900">
           <option value="14">Last 14d</option>
