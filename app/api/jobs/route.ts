@@ -61,7 +61,6 @@ function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
   return fetch(url, {
     ...init,
     signal: ctrl.signal,
-    // @ts-expect-error next fetch cache option
     next: { revalidate: 1800 },
   }).finally(() => clearTimeout(timer));
 }
