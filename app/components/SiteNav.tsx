@@ -18,6 +18,9 @@ export default function SiteNav() {
           <Link href="/#guide" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Interview Guide
           </Link>
+          <Link href="/?tab=insights" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Insights
+          </Link>
         </nav>
         <div className="ml-auto flex items-center gap-4">
           <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>

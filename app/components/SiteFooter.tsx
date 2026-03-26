@@ -13,6 +13,7 @@ export default function SiteFooter() {
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
           {[
             { href: "/", label: "Fund Signals" },
+            { href: "/?tab=insights", label: "Insights" },
             { href: "/#guide", label: "Interview Guide" },
             { href: "/about", label: "About" },
             { href: "/contact", label: "Contact" },

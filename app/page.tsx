@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
 import SearchBar from "@/app/components/SearchBar";
@@ -53,10 +54,14 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "jobs";
+type TopTab = "funds" | "jobs" | "insights";
 
 export default function Home() {
-  const [topTab, setTopTab] = useState<TopTab>("funds");
+  const searchParams = useSearchParams();
+  const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
+  const [topTab, setTopTab] = useState<TopTab>(
+    ["funds", "jobs", "insights"].includes(initialTab) ? initialTab : "funds"
+  );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
   const [fundFilings, setFundFilings] = useState<FundFiling[]>([]);
@@ -150,6 +155,7 @@ export default function Home() {
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" badge />
+            <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
           </nav>
           <div className="ml-auto flex items-center gap-4">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
@@ -231,6 +237,20 @@ export default function Home() {
               </p>
             </>
           )}
+          {topTab === "insights" && (
+            <>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
+                Credit &amp; Restructuring
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                Insights
+              </h1>
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
+                Practical write-ups on private credit, special situations, and restructuring — for practitioners and candidates who want to go deeper.
+              </p>
+            </>
+          )}
         </div>
       </div>
 
@@ -293,6 +313,7 @@ export default function Home() {
             />
           </>
         )}
+        {topTab === "insights" && <InsightsSection />}
       </main>
 
       {/* Monetization section — always visible */}
@@ -796,6 +817,54 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
           </div>
         );
       })}
+    </div>
+  );
+}
+
+// ─── Insights ─────────────────────────────────────────────────────────────────
+
+interface InsightPost {
+  slug: string;
+  title: string;
+  date: string;
+  paragraphs: string[];
+}
+
+const INSIGHTS: InsightPost[] = [
+  {
+    slug: "co-op-vs-rsa",
+    title: "Co-op Agreements vs. Restructuring Support Agreements (RSA)",
+    date: "March 26, 2026",
+    paragraphs: [
+      `Cooperation agreements ("Co-ops") and Restructuring Support Agreements (RSAs) are both commonly used in debt restructurings, but they serve distinct purposes and typically arise at different stages of a transaction.`,
+      `Co-ops are generally agreements among creditors only and are most often used in the early stages of a situation. At this point, the company is typically not yet formally involved, and creditors use the agreement to coordinate strategy and present a unified negotiating position. These agreements are contractually binding among participating creditors and usually cover cooperation mechanics, cost sharing, information exchange, and economic incentives that differentiate early participants from those who join later. Co-ops also frequently include transfer restrictions, requiring any buyer of the debt to accede to the agreement, thereby preserving alignment within the creditor group.`,
+      `In contrast, RSAs are entered into between the company and key creditor constituencies once a restructuring framework has largely been agreed. RSAs carry stronger legal weight and set out the terms of the proposed transaction in detail, including capital structure outcomes, treatment of various creditor classes, voting commitments, and key milestones. Their primary function is to lock in support from major stakeholders and provide execution certainty ahead of a formal restructuring process.`,
+      `In practice, Co-ops function as a coordination tool during the negotiation phase, while RSAs represent a more definitive agreement that underpins transaction execution, often in the lead-up to or during a Chapter 11 process.`,
+    ],
+  },
+];
+
+function InsightsSection() {
+  return (
+    <div className="max-w-2xl space-y-16 py-2">
+      {INSIGHTS.map((post) => (
+        <article key={post.slug}>
+          <header className="mb-6">
+            <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
+              {post.title}
+            </h2>
+            <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
+          </header>
+          <div className="space-y-4">
+            {post.paragraphs.map((p, i) => (
+              <p key={i} className="text-[#41484c] text-sm leading-[1.75]">
+                {p}
+              </p>
+            ))}
+          </div>
+          <div className="mt-10 border-t border-[#c1c7cc]/30" />
+        </article>
+      ))}
     </div>
   );
 }
