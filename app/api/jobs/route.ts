@@ -420,11 +420,10 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
   return results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
 }
 
-// ─── Source 6: Jobs API (Pat92 / jobs-api14) via RapidAPI ─────────────────────
-// Endpoint: GET https://jobs-api14.p.rapidapi.com/v2/list
-// Scrapes LinkedIn, Indeed, Glassdoor, ZipRecruiter + more in a single call.
-// datePosted values: today | 3days | week | month
-// Set RAPIDAPI_KEY in env to enable (subscribe at rapidapi.com/Pat92/api/jobs-api14)
+// ─── Source 6: Jobs API (Pat92 / jobs-api14) via RapidAPI — PRO plan ──────────
+// PRO plan uses per-provider endpoints instead of the old /v2/list.
+// Confirmed working: /v2/indeed/search, /v2/linkedin/search
+// Set RAPIDAPI_KEY in env to enable
 
 const JOBS14_QUERIES = [
   "private credit analyst",
@@ -437,79 +436,136 @@ const JOBS14_QUERIES = [
   "investment analyst buy side",
 ];
 
+const JOBS14_HEADERS = (apiKey: string) => ({
+  "Content-Type": "application/json",
+  "X-RapidAPI-Key": apiKey,
+  "X-RapidAPI-Host": "jobs-api14.p.rapidapi.com",
+});
+
 function jobs14DatePosted(maxDays: number): string {
-  if (maxDays <= 1)  return "today";
-  if (maxDays <= 3)  return "3days";
+  if (maxDays <= 1)  return "day";
   if (maxDays <= 7)  return "week";
   return "month";
 }
 
-interface Jobs14Job {
+// Indeed job shape from /v2/indeed/search
+interface IndeedJob {
   id?: string;
-  jobTitle?: string;
-  company?: string;
-  location?: string;
-  datePosted?: string;   // ISO string or relative text
-  applyLink?: string;
+  title?: string;
+  company?: { name?: string };
+  location?: { location?: string };
+  applyUrl?: string;
   description?: string;
-  employmentType?: string;
+  datePublishedTimestamp?: number;  // Unix ms
+  dateOnIndeedTimestamp?: number;
 }
-interface Jobs14Resp { jobs?: Jobs14Job[]; }
+interface IndeedResp { jobs?: IndeedJob[]; data?: IndeedJob[]; meta?: { nextToken?: string }; }
+
+// LinkedIn job shape from /v2/linkedin/search
+interface LinkedInJob {
+  id?: string;
+  title?: string;
+  company?: string | { name?: string };
+  location?: string;
+  applyUrl?: string;
+  url?: string;
+  description?: string;
+  datePosted?: string;
+  publishedAt?: string;
+  postedAt?: string;
+}
+interface LinkedInResp { jobs?: LinkedInJob[]; data?: LinkedInJob[]; }
+
+function indeedDaysAgo(job: IndeedJob, maxDays: number): number {
+  const ts = job.datePublishedTimestamp ?? job.dateOnIndeedTimestamp;
+  if (ts) return Math.floor((Date.now() - ts) / 86400000);
+  return maxDays;
+}
 
 async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]> {
   const datePosted = jobs14DatePosted(maxDays);
+  const headers = JOBS14_HEADERS(apiKey);
 
-  const results = await Promise.allSettled(
+  // Run Indeed and LinkedIn searches in parallel across all queries
+  const indeedResults = await Promise.allSettled(
     JOBS14_QUERIES.map(async (query) => {
-      const p = new URLSearchParams({
-        query,
-        location: "United States",
-        autoTranslateLocation: "false",
-        remoteOnly: "false",
-        employmentTypes: "fulltime",
-        datePosted,
-      });
-      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/list?${p}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-RapidAPI-Key": apiKey,
-          "X-RapidAPI-Host": "jobs-api14.p.rapidapi.com",
-        },
-      }, 8000);
-      if (!res.ok) return [] as Jobs14Job[];
-      const data = await safeJson<Jobs14Resp>(res);
-      return data?.jobs || [];
+      const p = new URLSearchParams({ countryCode: "us", query, location: "United States", sortType: "date", datePosted });
+      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/indeed/search?${p}`, { headers }, 8000);
+      if (!res.ok) return [] as IndeedJob[];
+      const data = await safeJson<IndeedResp>(res);
+      return data?.jobs ?? data?.data ?? [];
+    })
+  );
+
+  const linkedInResults = await Promise.allSettled(
+    JOBS14_QUERIES.map(async (query) => {
+      const p = new URLSearchParams({ query, location: "United States", datePosted });
+      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/linkedin/search?${p}`, { headers }, 8000);
+      if (!res.ok) return [] as LinkedInJob[];
+      const data = await safeJson<LinkedInResp>(res);
+      return data?.jobs ?? data?.data ?? [];
     })
   );
 
   const seen = new Set<string>();
   const out: JobSignal[] = [];
 
-  for (const r of results) {
+  // Process Indeed results
+  for (const r of indeedResults) {
     if (r.status !== "fulfilled") continue;
     for (const job of r.value) {
-      const key = job.id || `${job.jobTitle}-${job.company}`;
+      const key = job.id || `${job.title}-${job.company?.name}`;
       if (!key || seen.has(key)) continue;
       seen.add(key);
-      const days = job.datePosted ? daysAgo(job.datePosted) : maxDays;
+      const days = indeedDaysAgo(job, maxDays);
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.jobTitle ?? "");
+      const cat = classifyTitle(job.title ?? "");
       if (!cat) continue;
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
-        id: `jobs14-${key}`,
-        firm: job.company || "Unknown",
-        role: job.jobTitle || "Unknown",
-        category: cat ?? "Equity Investing",
-        location: job.location?.split(",")?.[0]?.trim() || "—",
+        id: `jobs14-indeed-${key}`,
+        firm: job.company?.name || "Unknown",
+        role: job.title || "Unknown",
+        category: cat,
+        location: job.location?.location?.split(",")?.[0]?.trim() || "—",
         daysAgo: days,
-        signalTag: signalTagFromTitle(job.jobTitle ?? ""),
+        signalTag: signalTagFromTitle(job.title ?? ""),
         why: desc ? `${desc}…` : "See listing",
         score: 0,
-        edgarUrl: job.applyLink,
+        edgarUrl: job.applyUrl,
       });
     }
   }
+
+  // Process LinkedIn results
+  for (const r of linkedInResults) {
+    if (r.status !== "fulfilled") continue;
+    for (const job of r.value) {
+      const key = job.id || `${job.title}-${typeof job.company === "string" ? job.company : job.company?.name}`;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      const dateStr = job.datePosted ?? job.publishedAt ?? job.postedAt ?? "";
+      const days = dateStr ? daysAgo(dateStr) : maxDays;
+      if (days > maxDays) continue;
+      const cat = classifyTitle(job.title ?? "");
+      if (!cat) continue;
+      const companyName = typeof job.company === "string" ? job.company : job.company?.name ?? "Unknown";
+      const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
+      out.push({
+        id: `jobs14-li-${key}`,
+        firm: companyName,
+        role: job.title || "Unknown",
+        category: cat,
+        location: job.location?.split(",")?.[0]?.trim() || "—",
+        daysAgo: days,
+        signalTag: signalTagFromTitle(job.title ?? ""),
+        why: desc ? `${desc}…` : "See listing",
+        score: 0,
+        edgarUrl: job.applyUrl ?? job.url,
+      });
+    }
+  }
+
   return out;
 }
 
