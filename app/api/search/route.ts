@@ -161,7 +161,6 @@ export async function GET(req: NextRequest) {
     const query = searchParams.get("query") || "";
     const strategy = searchParams.get("strategy") || "all";
     const dateRange = searchParams.get("dateRange") || "90";
-    const bucket = searchParams.get("bucket") || "all";
     const minAmount = searchParams.get("minAmount") || "";
 
     const { startDate, endDate } = getDateRange(dateRange);
@@ -257,12 +256,12 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    if (bucket !== "all") scored = scored.filter((f) => f.score.bucket === bucket);
     if (minAmount) {
       const min = parseFloat(minAmount) * 1_000_000;
       scored = scored.filter((f) => !f.totalOfferingAmount || f.totalOfferingAmount >= min);
     }
-    scored.sort((a, b) => b.score.overallScore - a.score.overallScore);
+    // Sort by recency — most recent filing first
+    scored.sort((a, b) => a.daysSinceFiling - b.daysSinceFiling);
 
     return Response.json({ total: scored.length, filings: scored, dateRange: { startDate, endDate } });
   } catch (e: unknown) {

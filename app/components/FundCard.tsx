@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FundFiling, OutreachRecord, RaiseBucket } from "@/app/types";
+import { FundFiling, OutreachRecord } from "@/app/types";
+import { NewsArticle } from "@/app/api/news/route";
 
 interface Props {
   filing: FundFiling;
@@ -26,12 +27,12 @@ function ago(days: number): string {
   return `${Math.round(days / 365)}y`;
 }
 
-const SCORE_STYLE: Record<RaiseBucket, string> = {
-  hot:   "bg-red-100 text-red-700 ring-red-200",
-  warm:  "bg-amber-100 text-amber-700 ring-amber-200",
-  watch: "bg-yellow-100 text-yellow-700 ring-yellow-200",
-  low:   "bg-gray-100 text-gray-500 ring-gray-200",
-};
+function newsAgo(pubDate: string): string {
+  try {
+    const days = Math.floor((Date.now() - new Date(pubDate).getTime()) / 86400000);
+    return ago(days);
+  } catch { return ""; }
+}
 
 const OUTREACH_CFG = {
   not_contacted: { label: "Not contacted", cls: "bg-gray-100 text-gray-600" },
@@ -53,6 +54,65 @@ function SignalChip({ label, color }: { label: string; color: string }) {
   );
 }
 
+function NewsPanel({ entityName }: { entityName: string }) {
+  const [articles, setArticles] = useState<NewsArticle[] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/news?firm=${encodeURIComponent(entityName)}`)
+      .then((r) => r.json())
+      .then((d) => setArticles(d.articles ?? []))
+      .catch(() => setArticles([]))
+      .finally(() => setLoading(false));
+  }, [entityName]);
+
+  return (
+    <div>
+      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Recent News</p>
+      {loading && (
+        <div className="space-y-2">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="h-4 bg-gray-100 rounded animate-pulse" style={{ width: `${70 + i * 10}%` }} />
+          ))}
+        </div>
+      )}
+      {!loading && articles && articles.length === 0 && (
+        <p className="text-xs text-gray-400 italic">No recent news found for this firm.</p>
+      )}
+      {!loading && articles && articles.length > 0 && (
+        <div className="space-y-2">
+          {articles.map((a, i) => (
+            <div key={i} className="flex items-start gap-2">
+              <span className={`mt-0.5 flex-shrink-0 text-[10px] font-bold px-1 py-0.5 rounded ${
+                a.tag === "fundraising"
+                  ? "bg-sky-100 text-[#396477]"
+                  : "bg-[#c3ecd7]/60 text-[#416656]"
+              }`}>
+                {a.tag === "fundraising" ? "Raise" : "Hire"}
+              </span>
+              <div className="min-w-0">
+                <a
+                  href={a.link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-xs text-gray-700 hover:text-[#396477] transition-colors leading-snug line-clamp-2"
+                >
+                  {a.title}
+                </a>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  {a.source && <span className="text-[10px] text-gray-400">{a.source}</span>}
+                  {a.pubDate && <span className="text-[10px] text-gray-300">· {newsAgo(a.pubDate)}</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function FundRow({ filing, outreach, onOutreachChange, autoExpand }: Props) {
   const [expanded, setExpanded] = useState(autoExpand ?? false);
   const [showNotes, setShowNotes] = useState(false);
@@ -60,8 +120,6 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
   useEffect(() => { if (autoExpand) setExpanded(true); }, [autoExpand]);
 
-  const { score } = filing;
-  const scoreCls = SCORE_STYLE[score.bucket];
   const outreachStatus = outreach?.status || "not_contacted";
 
   const fundraisingLabel = (() => {
@@ -74,36 +132,54 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
     return filing.offeringStatus === "open" ? "Raising" : filing.offeringStatus === "closed" ? "Closed" : "—";
   })();
 
-  // Signal chips
+  // Status chip
+  const statusChip = filing.offeringStatus === "open"
+    ? { label: "In market", color: "green" }
+    : filing.offeringStatus === "closed"
+    ? { label: "Closed raise", color: "purple" }
+    : null;
+
   const chips: Array<{ label: string; color: string }> = [];
   chips.push({ label: filing.formType === "D" ? "New Form D" : "Form D/A", color: "blue" });
-  if (filing.offeringStatus === "open") chips.push({ label: "In market", color: "green" });
-  else if (filing.offeringStatus === "closed") chips.push({ label: "Recently closed", color: "purple" });
+  if (statusChip) chips.push(statusChip);
   if (filing.daysSinceFiling <= 14) chips.push({ label: `${filing.daysSinceFiling}d ago`, color: "red" });
-  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
+  if (filing.totalOfferingAmount && filing.totalOfferingAmount >= 100_000_000) {
+    chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
+  }
 
   const handleStatus = (s: OutreachRecord["status"]) => {
-    onOutreachChange({ filingId: filing.id, entityName: filing.entityName, strategy: filing.strategyLabel, status: s, notes, contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined, score: score.overallScore });
+    onOutreachChange({
+      filingId: filing.id,
+      entityName: filing.entityName,
+      strategy: filing.strategyLabel,
+      status: s,
+      notes,
+      contactedAt: s !== "not_contacted" ? outreach?.contactedAt || new Date().toISOString() : undefined,
+      score: filing.score.overallScore,
+    });
   };
 
   const saveNotes = () => {
-    onOutreachChange({ filingId: filing.id, entityName: filing.entityName, strategy: filing.strategyLabel, status: outreachStatus, notes, contactedAt: outreach?.contactedAt, score: score.overallScore });
+    onOutreachChange({
+      filingId: filing.id,
+      entityName: filing.entityName,
+      strategy: filing.strategyLabel,
+      status: outreachStatus,
+      notes,
+      contactedAt: outreach?.contactedAt,
+      score: filing.score.overallScore,
+    });
     setShowNotes(false);
   };
 
   return (
     <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-sky-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
-      {/* Collapsed row */}
+      {/* Collapsed row — 5 columns, no score */}
       <div
-        className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
+        className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
         onClick={() => setExpanded(!expanded)}
       >
-        {/* Score */}
-        <div className={`w-10 h-8 rounded-md flex items-center justify-center font-bold text-sm ring-1 mt-0.5 ${scoreCls}`}>
-          {score.overallScore}
-        </div>
-
-        {/* Fund name + Why Now (prominent) + chips */}
+        {/* Fund name + Why Now + chips */}
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-semibold text-gray-900 text-sm leading-tight">{filing.entityName}</span>
@@ -113,13 +189,11 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
               </span>
             )}
           </div>
-          {/* Why Now — front and center */}
-          {score.whyNow[0] && (
+          {filing.score.whyNow[0] && (
             <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-              <span className="text-[#396477]">→ </span>{score.whyNow[0]}
+              <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
             </p>
           )}
-          {/* Signal chips */}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
           </div>
@@ -132,13 +206,13 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           </span>
         </div>
 
-        {/* Fundraising signal */}
+        {/* Fundraising */}
         <div className="pt-0.5">
           <div className="text-sm text-gray-700 truncate">{fundraisingLabel}</div>
           {filing.totalAmountSold && filing.totalOfferingAmount && filing.totalAmountSold > 0 && (
             <div className="mt-1 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
               <div
-                className={`h-1 rounded-full ${Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100) >= 90 ? "bg-red-400" : "bg-[#396477]"}`}
+                className="h-1 rounded-full bg-[#396477]"
                 style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
               />
             </div>
@@ -156,7 +230,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           )}
         </div>
 
-        {/* Updated */}
+        {/* Filed */}
         <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
       </div>
 
@@ -164,11 +238,11 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
       {expanded && (
         <div className="px-4 pb-5 pt-2 border-t border-sky-100/40 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-            {/* Why Now — full list */}
+            {/* Why Now */}
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Why Now</p>
               <ul className="space-y-1.5">
-                {score.whyNow.map((item, i) => (
+                {filing.score.whyNow.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
                     <span className="text-[#396477] mt-0.5 flex-shrink-0">→</span>
                     <span className="text-gray-700">{item}</span>
@@ -181,47 +255,32 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <div>
               <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
               <p className="text-sm text-gray-700 italic bg-sky-50 rounded-lg px-3 py-2.5 border border-sky-100 leading-relaxed">
-                &ldquo;{score.suggestedAngle}&rdquo;
+                &ldquo;{filing.score.suggestedAngle}&rdquo;
               </p>
               <div className="flex flex-wrap gap-1.5 mt-2">
-                {score.suggestedTargetTeams.map((t) => (
+                {filing.score.suggestedTargetTeams.map((t) => (
                   <span key={t} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{t}</span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Signal evidence */}
-          <div>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Signal Evidence</p>
-            <div className="space-y-1.5">
-              {score.signals.map((s, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#396477]/60 flex-shrink-0" />
-                  <span className="text-gray-700 flex-1">{s.description}</span>
-                  <span className="text-xs text-gray-400">· {s.source}</span>
-                  <span className="text-xs text-gray-300">+{s.weight}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Recent News — fetched on expand */}
+          <NewsPanel entityName={filing.entityName} />
 
-          {/* Score breakdown */}
-          <div className="flex gap-3 flex-wrap">
-            <ScoreChip label="Fundraising" value={score.fundraisingScore} color="bg-[#396477]" />
-            <ScoreChip label="Hiring" value={score.hiringScore} color="bg-green-500" placeholder="Phase 2" />
-            <ScoreChip label="Expansion" value={score.expansionScore} color="bg-purple-500" placeholder="Phase 2" />
-          </div>
-
-          {/* Key people */}
+          {/* Key people from Form D */}
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People</p>
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People (Form D)</p>
               <div className="flex flex-wrap gap-2">
                 {filing.relatedPersons.slice(0, 5).map((p, i) => {
                   const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
-                  const liSearch = fullName ? `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(fullName + " " + filing.entityName)}` : undefined;
-                  const gSearch = fullName ? `https://www.google.com/search?q=${encodeURIComponent(fullName + " " + filing.entityName)}` : undefined;
+                  const liSearch = fullName
+                    ? `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(fullName + " " + filing.entityName)}`
+                    : undefined;
+                  const gSearch = fullName
+                    ? `https://www.google.com/search?q=${encodeURIComponent(fullName + " " + filing.entityName)}`
+                    : undefined;
                   return (
                     <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
                       <div className="font-medium text-gray-800">{fullName || "—"}</div>
@@ -229,8 +288,16 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                       {p.city && <div className="text-xs text-gray-400">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
                       {fullName && (
                         <div className="flex gap-2 mt-1.5">
-                          {liSearch && <a href={liSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-sky-600 hover:underline">LinkedIn ↗</a>}
-                          {gSearch && <a href={gSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-gray-400 hover:underline">Google ↗</a>}
+                          {liSearch && (
+                            <a href={liSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-sky-600 hover:underline">
+                              LinkedIn ↗
+                            </a>
+                          )}
+                          {gSearch && (
+                            <a href={gSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-gray-400 hover:underline">
+                              Google ↗
+                            </a>
+                          )}
                         </div>
                       )}
                     </div>
@@ -245,8 +312,14 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <div className="flex flex-wrap gap-4 text-xs text-gray-500">
               {filing.phone && <span>📞 {filing.phone}</span>}
               {filing.website && (
-                <a href={filing.website.startsWith("http") ? filing.website : `https://${filing.website}`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[#396477] hover:underline">
-                  🌐 {filing.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}
+                <a
+                  href={filing.website.startsWith("http") ? filing.website : `https://${filing.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[#396477] hover:underline"
+                >
+                  🌐 {filing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
                 </a>
               )}
             </div>
@@ -257,45 +330,52 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Track Outreach</p>
             <div className="flex flex-wrap gap-2">
               {(["not_contacted", "reached_out", "in_discussion", "passed"] as OutreachRecord["status"][]).map((s) => (
-                <button key={s} onClick={(e) => { e.stopPropagation(); handleStatus(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"}`}>
+                <button
+                  key={s}
+                  onClick={(e) => { e.stopPropagation(); handleStatus(s); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                    outreachStatus === s
+                      ? `${OUTREACH_CFG[s].cls} border-current`
+                      : "border-gray-200 text-gray-500 hover:border-gray-300"
+                  }`}
+                >
                   {OUTREACH_CFG[s].label}
                 </button>
               ))}
-              <button onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }}
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
+              >
                 {notes ? "Edit notes" : "Add notes"}
               </button>
-              <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
+              <a
+                href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
+              >
                 EDGAR ↗
               </a>
             </div>
             {showNotes && (
               <div className="mt-3 space-y-2" onClick={(e) => e.stopPropagation()}>
-                <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes — contact info, convo details, timing…" className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]" rows={3} />
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Notes — contact info, convo details, timing…"
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]"
+                  rows={3}
+                />
                 <div className="flex gap-2">
                   <button onClick={saveNotes} className="px-3 py-1.5 bg-[#396477] text-white rounded-lg text-xs font-medium hover:bg-[#2d5162]">Save</button>
                   <button onClick={() => setShowNotes(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">Cancel</button>
                 </div>
               </div>
             )}
-            {notes && !showNotes && <p className="mt-2 text-xs text-gray-500 italic bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">{notes}</p>}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ScoreChip({ label, value, color, placeholder }: { label: string; value: number; color: string; placeholder?: string }) {
-  return (
-    <div className="bg-gray-50 rounded-lg px-3 py-2 border border-gray-100 min-w-[100px]">
-      <div className="text-[10px] text-gray-400 mb-1">{label}</div>
-      {placeholder ? (
-        <div className="text-xs text-gray-300">{placeholder}</div>
-      ) : (
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-gray-800">{value}</span>
-          <div className="flex-1 bg-gray-200 rounded-full h-1">
-            <div className={`h-1 rounded-full ${color}`} style={{ width: `${value * 10}%` }} />
+            {notes && !showNotes && (
+              <p className="mt-2 text-xs text-gray-500 italic bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">{notes}</p>
+            )}
           </div>
         </div>
       )}

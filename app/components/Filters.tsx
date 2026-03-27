@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchFilters, RaiseBucket } from "@/app/types";
+import { SearchFilters } from "@/app/types";
 
 interface FiltersProps {
   filters: SearchFilters;
@@ -10,35 +10,11 @@ interface FiltersProps {
   onExport: () => void;
 }
 
-const BUCKETS: Array<{ v: RaiseBucket | "all"; l: string }> = [
-  { v: "all",   l: "All" },
-  { v: "hot",   l: "🔥 Hot" },
-  { v: "warm",  l: "Warm" },
-  { v: "watch", l: "Watch" },
-  { v: "low",   l: "Low" },
-];
-
 export default function FundFilterBar({ filters, onChange, total, loading, onExport }: FiltersProps) {
   const set = <K extends keyof SearchFilters>(k: K, v: SearchFilters[K]) => onChange({ ...filters, [k]: v });
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {/* Bucket pills */}
-      {BUCKETS.map((b) => (
-        <button
-          key={b.v}
-          onClick={() => set("bucket", b.v as SearchFilters["bucket"])}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-            filters.bucket === b.v
-              ? "bg-[#396477] text-white border-[#396477]"
-              : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
-          }`}
-        >
-          {b.l}
-        </button>
-      ))}
-
-      <div className="w-px h-5 bg-gray-200 hidden sm:block" />
 
       {/* Strategy */}
       <select

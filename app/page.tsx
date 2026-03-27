@@ -106,7 +106,7 @@ function HomeContent() {
   const fetchFunds = useCallback(async (f: SearchFilters) => {
     setFundLoading(true); setFundError(null);
     try {
-      const params = new URLSearchParams({ query: f.query, strategy: f.strategy, dateRange: f.dateRange, bucket: f.bucket, minAmount: f.minAmount });
+      const params = new URLSearchParams({ query: f.query, strategy: f.strategy, dateRange: f.dateRange, minAmount: f.minAmount });
       const res = await fetch(`/api/search?${params}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Search failed");
@@ -420,17 +420,6 @@ function EmptyState({ icon, title, hint, onReset }: { icon: string; title: strin
   );
 }
 
-function ScoreTooltip() {
-  return (
-    <span className="group relative inline-flex items-center cursor-help">
-      <span className="text-[10px] text-gray-300 border border-gray-200 rounded px-1 py-0.5 ml-1 hover:border-gray-400 hover:text-gray-500 transition-colors">?</span>
-      <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-slate-900 text-white text-[11px] rounded-lg px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 leading-relaxed shadow-lg">
-        Priority score 1–10. Reflects fundraising recency, hiring and expansion signals, and source confidence. 8+ = act now. 6–8 = worth a reach-out. Under 6 = early signal.
-        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
-      </span>
-    </span>
-  );
-}
 
 // ─── Daily Intel Bar ──────────────────────────────────────────────────────────
 
@@ -481,15 +470,15 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] text-[#71787c] font-medium shrink-0">Top signals:</span>
             {daily.topFunds.slice(0, 4).map((f) => {
-              const bucketColor = f.score.bucket === "hot" ? "bg-red-50 text-red-700 border border-red-100 hover:bg-red-100"
-                : f.score.bucket === "warm" ? "bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100"
+              const bucketColor = f.offeringStatus === "open"
+                ? "bg-[#c3ecd7]/60 text-[#416656] border border-[#a8cfbc]/50 hover:bg-[#c3ecd7]"
                 : "bg-sky-50 text-[#396477] border border-sky-100 hover:bg-sky-100";
               return (
                 <Link key={f.id} href={`/fund/${f.cik}`}
                   className={`inline-flex items-center gap-1.5 text-[11px] font-medium rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
-                  <span className="font-bold">{f.score.overallScore}</span>
                   <span className="max-w-[140px] truncate">{f.entityName}</span>
                   {f.offeringStatus === "open" && <span className="text-[9px] opacity-60">raising</span>}
+                  {f.totalOfferingAmount && <span className="text-[9px] opacity-60">{fmt(f.totalOfferingAmount)}</span>}
                 </Link>
               );
             })}
@@ -518,17 +507,15 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
   );
 }
 
-function SkeletonRows({ cols }: { cols: number }) {
-  const colCls = cols === 6 ? "grid-cols-[56px_1fr_140px_160px_100px_72px]" : cols === 7 ? "grid-cols-[1fr_150px_120px_80px_130px_80px]" : "grid-cols-6";
+function SkeletonRows() {
   return (
     <div className="divide-y divide-gray-100">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className={`grid ${colCls} gap-3 px-4 py-3 animate-pulse`}>
+        <div key={i} className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-3 animate-pulse">
           <div className="space-y-1.5"><div className="h-3.5 bg-gray-100 rounded w-2/3" /><div className="h-3 bg-gray-50 rounded w-1/2" /></div>
           <div className="h-5 bg-gray-100 rounded-full w-20" />
           <div className="h-3 bg-gray-100 rounded w-12" />
           <div className="h-3 bg-gray-100 rounded w-10" />
-          <div className="h-5 bg-gray-100 rounded w-24" />
           <div className="h-3 bg-gray-100 rounded w-10" />
         </div>
       ))}
@@ -539,13 +526,14 @@ function SkeletonRows({ cols }: { cols: number }) {
 // ─── Top Opportunities ────────────────────────────────────────────────────────
 
 function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onClick: (id: string) => void }) {
-  const top = filings.filter((f) => f.score.overallScore >= 6.0).slice(0, Math.min(5, filings.length));
+  // Show the 5 most recent filings
+  const top = filings.slice(0, 5);
   if (top.length === 0) return null;
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <h2 className="text-sm font-semibold text-gray-900">Top Opportunities This Week</h2>
-        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">ranked by signal</span>
+        <h2 className="text-sm font-semibold text-gray-900">Most Recent Signals</h2>
+        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">sorted by date</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
         {top.map((f, i) => (
@@ -557,33 +545,31 @@ function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onC
 }
 
 function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: number; onClick: () => void }) {
-  const { score } = filing;
-  const scoreBg = score.bucket === "hot" ? "bg-red-500" : score.bucket === "warm" ? "bg-amber-500" : "bg-yellow-400";
-  const chips: Array<{ label: string; color: string }> = [];
-  chips.push({ label: filing.formType === "D" ? "Form D" : "Form D/A", color: "blue" });
-  if (filing.offeringStatus === "open") chips.push({ label: "In market", color: "green" });
-  else if (filing.offeringStatus === "closed") chips.push({ label: "Closed", color: "purple" });
-  if (filing.totalOfferingAmount) chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
+  const statusColor = filing.offeringStatus === "open"
+    ? "bg-[#c3ecd7] text-[#416656]"
+    : filing.offeringStatus === "closed"
+    ? "bg-[#e1ddf2]/70 text-[#5e5c6e]"
+    : "bg-gray-100 text-gray-500";
+  const statusLabel = filing.offeringStatus === "open" ? "In market"
+    : filing.offeringStatus === "closed" ? "Closed"
+    : "Filed";
   return (
     <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 hover:shadow-sm transition-all group">
       <div className="flex items-start justify-between gap-1 mb-2.5">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
-          <div className={`w-7 h-7 rounded-lg ${scoreBg} flex items-center justify-center flex-shrink-0`}>
-            <span className="text-white font-bold text-xs">{score.overallScore}</span>
-          </div>
-        </div>
-        <span className="text-[10px] text-gray-200 group-hover:text-[#396477] transition-colors mt-0.5">↓</span>
+        <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
+        <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${statusColor}`}>{statusLabel}</span>
       </div>
       <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#396477] transition-colors line-clamp-2">
         {filing.entityName}
       </div>
-      {score.whyNow[0] && (
+      {filing.score.whyNow[0] && (
         <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
-          <span className="text-[#396477]">→ </span>{score.whyNow[0]}
+          <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
         </p>
       )}
-      <div className="flex flex-wrap gap-1">{chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}</div>
+      <div className="text-[10px] text-gray-400 mt-auto">
+        {filing.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : filing.strategyLabel} · {filing.daysSinceFiling}d ago
+      </div>
     </button>
   );
 }
@@ -723,19 +709,18 @@ function FundsSection({
           {error && <ErrorBox message={error} />}
 
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="grid grid-cols-[56px_1fr_140px_160px_100px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-              <div className="flex items-center text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Score<ScoreTooltip /></div>
-              {["Fund / Firm", "Strategy", "Fundraising", "Location", "Updated"].map((h) => (
+            <div className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+              {["Fund / Firm", "Strategy", "Fundraising", "Location", "Filed"].map((h) => (
                 <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
               ))}
             </div>
-            {loading && filings.length === 0 && <SkeletonRows cols={6} />}
+            {loading && filings.length === 0 && <SkeletonRows />}
             {!loading && filings.length === 0 && !error && (
               <EmptyState
                 icon="📋"
                 title="No funds matched your current filters."
                 hint="Try expanding the date range to 6 months or removing the strategy filter."
-                onReset={() => setFilters({ query: "", strategy: "all", dateRange: "180", bucket: "all", minAmount: "" })}
+                onReset={() => setFilters({ query: "", strategy: "all", dateRange: "180", bucket: "all" as const, minAmount: "" })}
               />
             )}
             {filings.map((f) => (
