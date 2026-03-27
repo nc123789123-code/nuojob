@@ -218,3 +218,11 @@ export interface EdgarSearchHit {
     file_num?: string[];
   };
 }
+
+export interface NewsArticle {
+  title: string;
+  link: string;
+  pubDate: string;
+  source: string;
+  tag: "fundraising" | "hiring";
+}
