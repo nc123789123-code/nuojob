@@ -15,8 +15,8 @@ function parseRssItems(xml: string, tag: NewsArticle["tag"]): NewsArticle[] {
       const block = m[1];
       // Title: try CDATA first, then plain
       const title =
-        block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/s)?.[1] ||
-        block.match(/<title>(.*?)<\/title>/s)?.[1] ||
+        block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ||
+        block.match(/<title>(.*?)<\/title>/)?.[1] ||
         "";
       // Link: Google News puts <link> AFTER </title> — grab the text node
       const link =
@@ -25,7 +25,7 @@ function parseRssItems(xml: string, tag: NewsArticle["tag"]): NewsArticle[] {
         "";
       const pubDate = block.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
       const source =
-        block.match(/<source[^>]*>(.*?)<\/source>/)?.[1] ||
+        block.match(/<source[^>]*>(.*?)<\/ource>/)?.[1] ||
         block.match(/<source[^>]*\/>/)?.[0]?.match(/url="([^"]+)"/)?.[1] ||
         "";
       return { title: title.trim(), link: link.trim(), pubDate: pubDate.trim(), source: source.trim(), tag };
@@ -63,7 +63,7 @@ export async function GET(req: Request) {
 
   const results = await Promise.allSettled(
     searches.map(async ({ q, tag }) => {
-      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
+      const url = `https://news.google.com/rss/earch?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
       const res = await fetch(url, {
         headers: { "User-Agent": "Onlu/1.0 research@onluintel.com" },
         // @ts-expect-error next is a Vercel/Next.js extension
