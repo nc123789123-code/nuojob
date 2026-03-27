@@ -1,0 +1,83 @@
+{
+  "Blue Owl Capital Partners VIII LP": {
+    "raw_name": "Blue Owl Capital Partners VIII LP",
+    "normalized": "blue owl",
+    "manager_name": "Blue Owl Capital",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "Ares Capital Corporation": {
+    "raw_name": "Ares Capital Corporation",
+    "normalized": "ares",
+    "manager_name": "Ares Management",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "Apollo Investment Fund IX, L.P.": {
+    "raw_name": "Apollo Investment Fund IX, L.P.",
+    "normalized": "apollo investment",
+    "manager_name": "Apollo Global Management",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "Oaktree Opportunities Fund XI (Cayman), L.P.": {
+    "raw_name": "Oaktree Opportunities Fund XI (Cayman), L.P.",
+    "normalized": "oaktree opportunities",
+    "manager_name": "Oaktree Capital Management",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "HPS Mezzanine Partners IV, L.P.": {
+    "raw_name": "HPS Mezzanine Partners IV, L.P.",
+    "normalized": "hps mezzanine",
+    "manager_name": "HPS Investment Partners",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "KKR Credit Advisors (Ireland) Unlimited Company": {
+    "raw_name": "KKR Credit Advisors (Ireland) Unlimited Company",
+    "normalized": "kkr credit advisors",
+    "manager_name": "KKR Credit",
+    "confidence": "high",
+    "match_score": 0.95,
+    "review_flag": false,
+    "match_method": "dict_substr"
+  },
+  "Centerbridge Special Credit Partners III, L.P.": {
+    "raw_name": "Centerbridge Special Credit Partners III, L.P.",
+    "normalized": "centerbridge special",
+    "manager_name": "Centerbridge Partners",
+    "confidence": "high",
+    "match_score": 1.0,
+    "review_flag": false,
+    "match_method": "dict_exact"
+  },
+  "Golub Capital BDC 3, Inc.": {
+    "raw_name": "Golub Capital BDC 3, Inc.",
+    "normalized": "golub capital bdc",
+    "manager_name": "Golub Capital",
+    "confidence": "high",
+    "match_score": 0.95,
+    "review_flag": false,
+    "match_method": "dict_substr"
+  },
+  "Totally Unknown Fund Manager II LP": {
+    "raw_name": "Totally Unknown Fund Manager II LP",
+    "normalized": "totally unknown fund manager",
+    "manager_name": "Totally Unknown Fund Manager",
+    "confidence": "low",
+    "match_score": 0.0,
+    "review_flag": true,
+    "match_method": "none"
+  }
+}

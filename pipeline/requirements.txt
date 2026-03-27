@@ -1,0 +1,12 @@
+# Onlu pipeline dependencies
+# Install with: pip install -r requirements.txt
+#
+# All HTTP and XML work uses Python stdlib (urllib, xml.etree) to minimize
+# dependencies. Only add a package if the stdlib equivalent is genuinely
+# insufficient.
+
+# Optional but recommended — speeds up entity fuzzy matching significantly
+# rapidfuzz>=3.6.1
+
+# Date parsing (only needed if EDGAR date formats vary beyond strptime)
+# python-dateutil>=2.8.2
