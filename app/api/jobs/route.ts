@@ -329,30 +329,38 @@ type FirmType = "pe" | "hedge" | "credit" | "growth";
 // Firm lists are sourced from the central registry in app/lib/firms.ts.
 // Additional one-off entries here are kept for backwards compatibility.
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
+  // Tier 1 mega-platforms
   { slug: "kkr",                   firm: "KKR",                        type: "pe"     },
-  { slug: "point72",               firm: "Point72",                    type: "hedge"  },
-  { slug: "millenniummanagement",  firm: "Millennium Management",      type: "hedge"  },
-  { slug: "aqr",                   firm: "AQR Capital Management",     type: "hedge"  },
-  { slug: "bridgewater89",         firm: "Bridgewater Associates",     type: "hedge"  },
   { slug: "aresmgmt",              firm: "Ares Management",            type: "credit" },
-  { slug: "golubcapital",          firm: "Golub Capital",              type: "credit" },
+  { slug: "apolloglobal",          firm: "Apollo Global Management",   type: "credit" },
+  { slug: "oaktree",               firm: "Oaktree Capital Management", type: "credit" },
+  { slug: "blackstone",            firm: "Blackstone Credit",          type: "credit" },
   { slug: "hpsinvestmentpartners", firm: "HPS Investment Partners",    type: "credit" },
-  { slug: "generalatlantic",       firm: "General Atlantic",           type: "growth" },
-  { slug: "insightpartners",       firm: "Insight Partners",           type: "growth" },
-  { slug: "warburgpincusllc",      firm: "Warburg Pincus",             type: "pe"     },
+  { slug: "centerbridgepartners",  firm: "Centerbridge Partners",      type: "credit" },
   { slug: "blueowl",               firm: "Blue Owl Capital",           type: "credit" },
-  { slug: "silverlake",            firm: "Silver Lake",                type: "pe"     },
+  // Private credit / direct lending
+  { slug: "baincapital",           firm: "Bain Capital Credit",        type: "credit" },
+  { slug: "carlyle",               firm: "Carlyle Credit",             type: "credit" },
+  { slug: "golubcapital",          firm: "Golub Capital",              type: "credit" },
+  { slug: "antarescapital",        firm: "Antares Capital",            type: "credit" },
+  { slug: "benefitstreetpartners", firm: "Benefit Street Partners",    type: "credit" },
+  { slug: "firsteagle",            firm: "First Eagle Alternative Capital", type: "credit" },
+  { slug: "marathonassetmanagement", firm: "Marathon Asset Management", type: "credit" },
+  { slug: "angelogordon",          firm: "TPG Angelo Gordon",          type: "credit" },
+  // Multi-strat / hedge
+  { slug: "millenniummanagement",  firm: "Millennium Management",      type: "hedge"  },
+  { slug: "neubergerberman",       firm: "Neuberger Berman Credit",    type: "credit" },
+  // PE platforms with credit
+  { slug: "silverlake",            firm: "Silver Lake Credit",         type: "pe"     },
   { slug: "tpg",                   firm: "TPG Capital",                type: "pe"     },
-  { slug: "neubergerberman",       firm: "Neuberger Berman",           type: "credit" },
+  { slug: "warburgpincusllc",      firm: "Warburg Pincus",             type: "pe"     },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  { slug: "coatue",            firm: "Coatue Management",          type: "hedge"  },
-  { slug: "tigerglobal",       firm: "Tiger Global",               type: "growth" },
-  { slug: "iconiqcapital",     firm: "ICONIQ Capital",             type: "pe"     },
-  { slug: "dragoneer",         firm: "Dragoneer Investment Group", type: "growth" },
-  { slug: "d1capitalpartners", firm: "D1 Capital Partners",        type: "hedge"  },
-  { slug: "lightspeedvp",      firm: "Lightspeed Venture Partners",type: "growth" },
+  { slug: "monarchalternative",    firm: "Monarch Alternative Capital", type: "credit" },
+  { slug: "silverpoint",           firm: "Silver Point Capital",        type: "credit" },
+  { slug: "brigidecapital",        firm: "Brigade Capital Management",  type: "credit" },
+  { slug: "magnetar",              firm: "Magnetar Capital",            type: "credit" },
 ];
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */

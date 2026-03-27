@@ -1068,48 +1068,56 @@ const FIRM_REGISTRY = [
     id: "ares", name: "Ares Management", tier: 1 as const,
     strategies: ["private_credit", "direct_lending"],
     keywords: ["ares"],
+    careersUrl: "https://www.ares.com/careers",
     desc: "Largest private credit manager globally with $400B+ AUM. One of the most active direct lenders; consistently hiring across credit and direct lending.",
   },
   {
     id: "apollo", name: "Apollo Global Management", tier: 1 as const,
     strategies: ["private_credit", "distressed", "special_sits"],
     keywords: ["apollo"],
+    careersUrl: "https://www.apollo.com/careers",
     desc: "Hybrid value-investing platform deploying capital across credit, private equity, and real assets. Known for originating large, complex credit transactions.",
   },
   {
     id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["oaktree"],
+    careersUrl: "https://www.oaktreecapital.com/careers",
     desc: "Distressed debt pioneer founded by Howard Marks; $190B+ AUM across opportunistic credit, high yield, and emerging markets. Core distressed franchise.",
   },
   {
     id: "blackstone", name: "Blackstone Credit", tier: 1 as const,
     strategies: ["private_credit", "direct_lending", "structured_credit"],
     keywords: ["blackstone"],
+    careersUrl: "https://www.blackstone.com/careers",
     desc: "Blackstone's $300B+ credit platform spanning direct lending, CLOs, liquid credit, and insurance-linked strategies. One of the fastest-growing credit managers.",
   },
   {
     id: "hps", name: "HPS Investment Partners", tier: 1 as const,
     strategies: ["private_credit", "direct_lending", "special_sits"],
     keywords: ["hps"],
+    careersUrl: "https://www.hpsinvest.com/careers",
     desc: "Top-tier direct lending and private credit firm ($100B+ AUM); recently acquired by BlackRock. Known for large-ticket capital solutions and complex transactions.",
   },
   {
     id: "kkr", name: "KKR Credit", tier: 1 as const,
     strategies: ["private_credit", "direct_lending", "special_sits"],
     keywords: ["kkr"],
+    careersUrl: "https://www.kkr.com/careers",
     desc: "Global credit platform with $200B+ AUM across direct lending, opportunistic credit, and structured credit. Highly active capital deployer across cycles.",
   },
   {
     id: "centerbridge", name: "Centerbridge Partners", tier: 1 as const,
     strategies: ["distressed", "special_sits", "private_credit"],
     keywords: ["centerbridge"],
+    careersUrl: "https://www.centerbridgepartners.com/careers",
     desc: "Multi-strategy firm with deep expertise in distressed and special situations. Known for high-complexity restructurings across the US and Europe.",
   },
   {
     id: "blueowl", name: "Blue Owl Capital", tier: 1 as const,
     strategies: ["direct_lending", "private_credit"],
     keywords: ["blue owl"],
+    careersUrl: "https://www.blueowlcapital.com/careers",
     desc: "Permanent capital business focused on direct lending to upper middle market sponsor-backed companies. Raised $30B+ in flagship credit strategies.",
   },
   // ── Tier 2: specialist credit platforms ────────────────────────────────────
@@ -1117,120 +1125,140 @@ const FIRM_REGISTRY = [
     id: "bain_credit", name: "Bain Capital Credit", tier: 2 as const,
     strategies: ["private_credit", "distressed", "special_sits"],
     keywords: ["bain capital credit", "bain capital"],
+    careersUrl: "https://www.baincapital.com/careers",
     desc: "Multi-strategy credit manager with $50B+ AUM across leveraged credit, special situations, structured products, and European credit.",
   },
   {
     id: "monarch", name: "Monarch Alternative Capital", tier: 2 as const,
     strategies: ["distressed", "special_sits", "private_credit"],
     keywords: ["monarch alternative", "monarch capital"],
+    careersUrl: "https://www.monarchalternative.com",
     desc: "Opportunistic credit and special situations manager. Focuses on complex, event-driven situations across stressed, distressed, and performing credit.",
   },
   {
     id: "avenue", name: "Avenue Capital Group", tier: 2 as const,
     strategies: ["distressed", "private_credit"],
     keywords: ["avenue capital"],
+    careersUrl: "https://www.avenuecapital.com",
     desc: "Distressed and special situations credit manager founded by Marc Lasry. Active in stressed and distressed credit across North America and Europe.",
   },
   {
     id: "silverpoint", name: "Silver Point Capital", tier: 2 as const,
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["silver point"],
+    careersUrl: "https://www.silverpointcapital.com",
     desc: "Credit-focused hedge fund specializing in distressed debt, corporate restructurings, and complex special situations across the capital structure.",
   },
   {
     id: "marathon", name: "Marathon Asset Management", tier: 2 as const,
     strategies: ["distressed", "special_sits", "structured_credit"],
     keywords: ["marathon asset"],
+    careersUrl: "https://www.marathonam.com",
     desc: "Global opportunistic credit manager with $20B+ AUM. Invests across stressed/distressed credit, special situations, and structured products.",
   },
   {
     id: "brigade", name: "Brigade Capital Management", tier: 2 as const,
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["brigade capital"],
+    careersUrl: "https://www.brigadecapital.com",
     desc: "Opportunistic and event-driven credit manager focused on high yield, leveraged loans, distressed debt, and capital structure arbitrage situations.",
   },
   {
     id: "kingstreet", name: "King Street Capital", tier: 2 as const,
     strategies: ["distressed", "special_sits", "private_credit"],
     keywords: ["king street"],
+    careersUrl: "https://www.kingstreetcapital.com",
     desc: "Event-driven credit manager specializing in distressed, special situations, and private credit globally. Strong bankruptcy and restructuring expertise.",
   },
   {
     id: "mudrick", name: "Mudrick Capital Management", tier: 2 as const,
     strategies: ["distressed", "special_sits"],
     keywords: ["mudrick"],
+    careersUrl: "https://www.mudrickcapital.com",
     desc: "Distressed and event-driven credit manager. Focuses on stressed/distressed credit, rescue financing, and corporate restructurings across the US.",
   },
   {
     id: "tpg_angelo", name: "TPG Angelo Gordon", tier: 2 as const,
     strategies: ["private_credit", "distressed", "special_sits"],
     keywords: ["angelo gordon", "tpg angelo"],
+    careersUrl: "https://www.tpg.com/careers",
     desc: "Multi-strategy credit platform ($75B+ AUM) covering middle market direct lending, asset-backed credit, real estate, and special situations.",
   },
   {
     id: "carlyle_credit", name: "Carlyle Credit", tier: 2 as const,
     strategies: ["private_credit", "direct_lending", "distressed"],
     keywords: ["carlyle credit", "carlyle"],
+    careersUrl: "https://www.carlyle.com/careers",
     desc: "Global alternative credit platform within Carlyle ($50B+ AUM). Active across direct lending, CLOs, structured credit, and opportunistic credit.",
   },
   {
     id: "benefit_street", name: "Benefit Street Partners", tier: 2 as const,
     strategies: ["private_credit", "direct_lending", "structured_credit"],
     keywords: ["benefit street"],
+    careersUrl: "https://www.benefitstreetpartners.com",
     desc: "Franklin Templeton-owned credit manager with $75B+ AUM. Specializes in direct lending, special situations, and structured credit solutions.",
   },
   {
     id: "antares", name: "Antares Capital", tier: 2 as const,
     strategies: ["direct_lending", "private_credit"],
     keywords: ["antares capital", "antares"],
+    careersUrl: "https://www.antarescapital.com/careers",
     desc: "One of the largest middle market direct lenders, providing senior secured debt to sponsor-backed companies. Manages $65B+ in credit assets.",
   },
   {
     id: "golub", name: "Golub Capital", tier: 2 as const,
     strategies: ["direct_lending", "private_credit"],
     keywords: ["golub"],
+    careersUrl: "https://www.golubcapital.com/careers",
     desc: "Direct lender focused on middle market sponsor finance. Known for one-stop lending and strong sponsor relationships; $70B+ in assets under management.",
   },
   {
     id: "magnetar", name: "Magnetar Capital", tier: 2 as const,
     strategies: ["distressed", "special_sits", "structured_credit"],
     keywords: ["magnetar"],
+    careersUrl: "https://www.magnetar.com/careers",
     desc: "Multi-strategy alternative manager with expertise in credit arbitrage, distressed situations, and structured credit across the capital stack.",
   },
   {
     id: "first_eagle", name: "First Eagle Alternative Capital", tier: 2 as const,
     strategies: ["direct_lending", "private_credit"],
     keywords: ["first eagle"],
+    careersUrl: "https://www.firsteagle.com/careers",
     desc: "Middle market direct lender providing senior secured and unitranche loans to sponsor-backed businesses. Focuses on cash-generative, defensive companies.",
   },
   {
     id: "neuberger", name: "Neuberger Berman Credit", tier: 2 as const,
     strategies: ["private_credit", "direct_lending", "structured_credit"],
     keywords: ["neuberger berman", "neuberger"],
+    careersUrl: "https://www.nb.com/en/us/careers",
     desc: "Full-service credit platform with $100B+ in credit AUM. Active across direct lending, CLOs, structured products, and specialty finance globally.",
   },
   {
     id: "silverlake", name: "Silver Lake Credit", tier: 2 as const,
     strategies: ["private_credit", "special_sits"],
     keywords: ["silver lake"],
+    careersUrl: "https://www.silverlake.com/careers",
     desc: "Technology-focused credit platform providing flexible capital solutions including direct lending, structured credit, and preferred equity to tech companies.",
   },
   {
     id: "tpg", name: "TPG Capital", tier: 1 as const,
     strategies: ["private_equity", "private_credit"],
     keywords: ["tpg capital", "tpg"],
+    careersUrl: "https://www.tpg.com/careers",
     desc: "Global alternative asset manager with large private credit and equity platforms. Credit arm focuses on direct lending, real estate credit, and special situations.",
   },
   {
     id: "millennium", name: "Millennium Management", tier: 1 as const,
     strategies: ["multi_strategy", "distressed"],
     keywords: ["millennium management", "millennium"],
+    careersUrl: "https://www.mlp.com/careers",
     desc: "Multi-strategy hedge fund managing $65B+. Credit-focused pods hire across distressed, high yield, and special situations; rapid internal mobility.",
   },
   {
     id: "warburg", name: "Warburg Pincus", tier: 2 as const,
     strategies: ["private_equity", "private_credit"],
     keywords: ["warburg pincus", "warburg"],
+    careersUrl: "https://www.warburgpincus.com/careers",
     desc: "Growth-oriented private equity and credit manager active in financial services, healthcare, and technology. Frequently hires credit analysts for portfolio companies.",
   },
 ];
@@ -1667,13 +1695,14 @@ function HiringSection({
             </section>
           )}
 
-          {/* Quiet firms — monitored but no roles */}
+          {/* Quiet firms — monitored but no roles visible yet */}
           {quietFirms.length > 0 && (
             <section>
-              <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Monitored — No Roles Posted</h2>
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-sm font-bold text-[#191c1e]">Monitored Firms — Not Currently Visible</h2>
                 <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{quietFirms.length}</span>
               </div>
+              <p className="text-xs text-[#71787c] mb-3">These firms actively hire but may post on proprietary ATS systems or headhunters. Use the careers links to check directly.</p>
               <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {quietFirms.map((f) => {
                   const filing = fundFilings.find((fi) => matchFirm(fi.entityName)?.id === f.id);
@@ -1691,16 +1720,20 @@ function HiringSection({
                           <p className="text-[11px] text-[#71787c] leading-relaxed">{f.desc}</p>
                         </div>
                       </div>
-                      {filing && (
-                        <div className="mt-2 pt-2 border-t border-gray-100">
-                          <button onClick={onViewSignals} className="text-[10px] font-semibold text-[#396477] hover:underline">
-                            Fund signal on file {filing.totalOfferingAmount ? `· ${fmt(filing.totalOfferingAmount)}` : ""} →
-                          </button>
-                        </div>
-                      )}
-                      {!filing && (
-                        <p className="text-[10px] text-[#71787c] mt-2 pt-2 border-t border-gray-100">No open roles — consider reaching out directly.</p>
-                      )}
+                      <div className="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between gap-2">
+                        <p className="text-[10px] text-[#71787c]">
+                          {filing
+                            ? <button onClick={onViewSignals} className="font-semibold text-[#396477] hover:underline">Fund signal on file {filing.totalOfferingAmount ? `· ${fmt(filing.totalOfferingAmount)}` : ""} →</button>
+                            : "Not currently visible — check directly"
+                          }
+                        </p>
+                        {f.careersUrl && (
+                          <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
+                            className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-0.5 rounded hover:bg-[#396477] hover:text-white transition-colors">
+                            Careers →
+                          </a>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
