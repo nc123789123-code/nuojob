@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FundFiling, OutreachRecord } from "@/app/types";
-import { NewsArticle } from "@/app/api/news/route";
+import { FundFiling, OutreachRecord, NewsArticle } from "@/app/types";
 
 interface Props {
   filing: FundFiling;
   outreach?: OutreachRecord;
   onOutreachChange: (record: OutreachRecord) => void;
   autoExpand?: boolean;
+  openRolesCount?: number;
 }
 
 function fmt(amount?: number): string {
@@ -113,7 +113,7 @@ function NewsPanel({ entityName }: { entityName: string }) {
   );
 }
 
-export default function FundRow({ filing, outreach, onOutreachChange, autoExpand }: Props) {
+export default function FundRow({ filing, outreach, onOutreachChange, autoExpand, openRolesCount }: Props) {
   const [expanded, setExpanded] = useState(autoExpand ?? false);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState(outreach?.notes || "");
@@ -196,6 +196,11 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           )}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
+            {openRolesCount != null && openRolesCount > 0 && (
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50">
+                {openRolesCount} role{openRolesCount !== 1 ? "s" : ""} →
+              </span>
+            )}
           </div>
         </div>
 

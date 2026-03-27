@@ -1,12 +1,7 @@
 export const runtime = "edge";
 
-export interface NewsArticle {
-  title: string;
-  link: string;
-  pubDate: string;
-  source: string;
-  tag: "fundraising" | "hiring";
-}
+import type { NewsArticle } from "@/app/types";
+export type { NewsArticle };
 
 function parseRssItems(xml: string, tag: NewsArticle["tag"]): NewsArticle[] {
   const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, 4);

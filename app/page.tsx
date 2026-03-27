@@ -55,7 +55,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "jobs" | "intel" | "career" | "insights";
+type TopTab = "funds" | "hiring" | "career" | "insights";
 
 export default function Home() {
   return (
@@ -69,7 +69,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "jobs", "intel", "career", "insights"].includes(initialTab) ? initialTab : "funds"
+    ["funds", "hiring", "career", "insights"].includes(initialTab) ? initialTab : "funds"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -155,9 +155,8 @@ function HomeContent() {
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
-            <NavTab active={topTab === "intel"} onClick={() => setTopTab("intel")} label="Firm Intel" badge />
-            <NavTab active={topTab === "jobs"} onClick={() => setTopTab("jobs")} label="Hiring Intel" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
+            <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
           </nav>
@@ -185,67 +184,32 @@ function HomeContent() {
                 Capital raises, fund activity, and strategy shifts — tracked from SEC filings before roles ever appear on job boards. Use signals to decide which firms are worth your attention.
               </p>
               <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Once you&apos;ve identified target firms here, switch to <button onClick={() => setTopTab("jobs")} className="underline hover:text-[#41484c] transition-colors">Jobs</button> to act on them.
+                Once you&apos;ve identified target firms here, switch to <button onClick={() => setTopTab("hiring")} className="underline hover:text-[#41484c] transition-colors">Hiring</button> to act on them.
               </p>
               <div className="flex flex-wrap items-center gap-3 mt-5">
                 <button
-                  onClick={() => setTopTab("jobs")}
+                  onClick={() => setTopTab("hiring")}
                   className="px-4 py-2 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors shadow-[0_2px_8px_rgba(57,100,119,0.25)]"
                 >
                   See Open Roles →
                 </button>
-                <button
-                  onClick={() => setTopTab("intel")}
-                  className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
-                >
-                  Firm Intel
-                </button>
               </div>
             </>
           )}
-          {topTab === "jobs" && (
-            <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full" />
-                Curated roles — act on them now
-              </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Jobs — Take Action
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Curated roles at firms worth pursuing — private credit, restructuring, leveraged finance. Each card explains why the role exists and what the firm actually cares about.
-              </p>
-              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Roles at firms with active fund signals are highlighted. Not sure which firms to target? Start with{" "}
-                <button onClick={() => setTopTab("funds")} className="underline hover:text-[#41484c] transition-colors">Fund Signals</button>.
-              </p>
-              <div className="flex flex-wrap items-center gap-3 mt-5">
-                <button
-                  onClick={() => setTopTab("funds")}
-                  className="px-4 py-2 border border-[#c1c7cc] text-[#41484c] text-sm font-medium rounded-lg hover:border-[#71787c] hover:bg-white/60 transition-colors"
-                >
-                  ← Fund Signals
-                </button>
-                <a
-                  href="#guide"
-                  className="px-4 py-2 border border-[#c3ecd7] text-[#416656] text-sm font-medium rounded-lg hover:border-[#416656] hover:bg-[#c3ecd7]/30 transition-colors"
-                >
-                  Interview Guide
-                </a>
-              </div>
-            </>
-          )}
-          {topTab === "intel" && (
+          {topTab === "hiring" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
-                Live firm intelligence
+                Firm-by-firm hiring intelligence
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Firm Intel
+                Hiring — by Firm
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Which firms are on a hiring push. Which just closed a raise. Where new strategies are being built. Sourced directly from career pages and SEC filings — before it hits LinkedIn.
+                30 monitored firms across private credit, distressed, and special situations — with open roles, firm context, and what each team actually looks for.
+              </p>
+              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
+                Use <button onClick={() => setTopTab("funds")} className="underline hover:text-[#41484c] transition-colors">Fund Signals</button> to identify firms with recent capital activity, then come here to find and act on their open roles.
               </p>
             </>
           )}
@@ -283,7 +247,7 @@ function HomeContent() {
       <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
         setTopTab("funds");
         setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
-      }} onJobsClick={() => setTopTab("jobs")} />
+      }} onJobsClick={() => setTopTab("hiring")} />
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "funds" && (
@@ -297,7 +261,7 @@ function HomeContent() {
               subTab={fundSubTab} setSubTab={setFundSubTab}
               onExport={() => exportToCsv(fundFilings, records)}
               jobSignals={jobSignals}
-              onViewJobs={() => setTopTab("jobs")}
+              onViewJobs={() => setTopTab("hiring")}
             />
             {/* Inter-section CTA: signals → guide */}
             <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -316,17 +280,13 @@ function HomeContent() {
             />
           </>
         )}
-        {topTab === "jobs" && (
+        {topTab === "hiring" && (
           <>
-            <JobsSection
-              filters={jobFilters} setFilters={setJobFilters}
-              signals={jobSignals} total={jobTotal}
-              loading={jobLoading} error={jobError}
-              sources={jobSources}
+            <HiringSection
+              signals={jobSignals} loading={jobLoading}
               fundFilings={fundFilings}
               onViewSignals={() => setTopTab("funds")}
             />
-            {/* Inter-section CTA: jobs → guide */}
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <p className="text-sm text-[#41484c]">
                 Found the right role? <span className="font-medium">Prepare for the interview with the full guide.</span>
@@ -343,7 +303,6 @@ function HomeContent() {
             />
           </>
         )}
-        {topTab === "intel" && <IntelSection />}
         {topTab === "career" && <CareerSection />}
         {topTab === "insights" && <InsightsSection />}
       </main>
@@ -725,7 +684,7 @@ function FundsSection({
             )}
             {filings.map((f) => (
               <div key={f.id} id={`fund-row-${f.id}`}>
-                <FundRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} />
+                <FundRow filing={f} outreach={records[f.id]} onOutreachChange={updateRecord} autoExpand={highlightId === f.id} openRolesCount={getJobsForFiling(f, jobSignals).length} />
               </div>
             ))}
           </div>
@@ -1104,35 +1063,182 @@ function InsightsSection() {
 // ─── Client-side firm registry (mirrors app/lib/firms.ts) ────────────────────
 
 const FIRM_REGISTRY = [
-  { id: "kkr",           name: "KKR",                    tier: 1 as const, strategies: ["private_credit", "private_equity"] },
-  { id: "ares",          name: "Ares Management",         tier: 1 as const, strategies: ["private_credit", "direct_lending"] },
-  { id: "point72",       name: "Point72",                 tier: 1 as const, strategies: ["multi_strategy", "long_short"] },
-  { id: "millennium",    name: "Millennium Management",   tier: 1 as const, strategies: ["multi_strategy"] },
-  { id: "bridgewater",   name: "Bridgewater Associates",  tier: 1 as const, strategies: ["macro"] },
-  { id: "aqr",           name: "AQR Capital Management",  tier: 1 as const, strategies: ["quant", "multi_strategy"] },
-  { id: "hps",           name: "HPS Investment Partners", tier: 1 as const, strategies: ["private_credit", "special_sits"] },
-  { id: "generalatlantic", name: "General Atlantic",      tier: 1 as const, strategies: ["growth", "private_equity"] },
-  { id: "silverlake",    name: "Silver Lake",             tier: 1 as const, strategies: ["private_equity", "private_credit"] },
-  { id: "tpg",           name: "TPG Capital",             tier: 1 as const, strategies: ["private_equity", "private_credit"] },
-  { id: "blueowl",       name: "Blue Owl Capital",        tier: 2 as const, strategies: ["direct_lending", "private_credit"] },
-  { id: "golub",         name: "Golub Capital",           tier: 2 as const, strategies: ["direct_lending", "private_credit"] },
-  { id: "warburg",       name: "Warburg Pincus",          tier: 2 as const, strategies: ["private_equity"] },
-  { id: "insight",       name: "Insight Partners",        tier: 2 as const, strategies: ["growth", "private_equity"] },
-  { id: "neuberger",     name: "Neuberger Berman",        tier: 2 as const, strategies: ["multi_strategy", "private_credit"] },
-  { id: "coatue",        name: "Coatue Management",       tier: 2 as const, strategies: ["hedge_fund", "long_short"] },
-  { id: "tiger",         name: "Tiger Global",            tier: 2 as const, strategies: ["hedge_fund", "growth"] },
-  { id: "iconiq",        name: "ICONIQ Capital",          tier: 2 as const, strategies: ["private_equity", "growth"] },
-  { id: "dragoneer",     name: "Dragoneer Investment Group", tier: 2 as const, strategies: ["growth", "hedge_fund"] },
-  { id: "d1",            name: "D1 Capital Partners",     tier: 2 as const, strategies: ["hedge_fund", "long_short"] },
-  { id: "magnetar",      name: "Magnetar Capital",        tier: 2 as const, strategies: ["distressed", "special_sits"] },
+  // ── Tier 1: mega-platforms ──────────────────────────────────────────────────
+  {
+    id: "ares", name: "Ares Management", tier: 1 as const,
+    strategies: ["private_credit", "direct_lending"],
+    keywords: ["ares"],
+    desc: "Largest private credit manager globally with $400B+ AUM. One of the most active direct lenders; consistently hiring across credit and direct lending.",
+  },
+  {
+    id: "apollo", name: "Apollo Global Management", tier: 1 as const,
+    strategies: ["private_credit", "distressed", "special_sits"],
+    keywords: ["apollo"],
+    desc: "Hybrid value-investing platform deploying capital across credit, private equity, and real assets. Known for originating large, complex credit transactions.",
+  },
+  {
+    id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
+    strategies: ["distressed", "private_credit", "special_sits"],
+    keywords: ["oaktree"],
+    desc: "Distressed debt pioneer founded by Howard Marks; $190B+ AUM across opportunistic credit, high yield, and emerging markets. Core distressed franchise.",
+  },
+  {
+    id: "blackstone", name: "Blackstone Credit", tier: 1 as const,
+    strategies: ["private_credit", "direct_lending", "structured_credit"],
+    keywords: ["blackstone"],
+    desc: "Blackstone's $300B+ credit platform spanning direct lending, CLOs, liquid credit, and insurance-linked strategies. One of the fastest-growing credit managers.",
+  },
+  {
+    id: "hps", name: "HPS Investment Partners", tier: 1 as const,
+    strategies: ["private_credit", "direct_lending", "special_sits"],
+    keywords: ["hps"],
+    desc: "Top-tier direct lending and private credit firm ($100B+ AUM); recently acquired by BlackRock. Known for large-ticket capital solutions and complex transactions.",
+  },
+  {
+    id: "kkr", name: "KKR Credit", tier: 1 as const,
+    strategies: ["private_credit", "direct_lending", "special_sits"],
+    keywords: ["kkr"],
+    desc: "Global credit platform with $200B+ AUM across direct lending, opportunistic credit, and structured credit. Highly active capital deployer across cycles.",
+  },
+  {
+    id: "centerbridge", name: "Centerbridge Partners", tier: 1 as const,
+    strategies: ["distressed", "special_sits", "private_credit"],
+    keywords: ["centerbridge"],
+    desc: "Multi-strategy firm with deep expertise in distressed and special situations. Known for high-complexity restructurings across the US and Europe.",
+  },
+  {
+    id: "blueowl", name: "Blue Owl Capital", tier: 1 as const,
+    strategies: ["direct_lending", "private_credit"],
+    keywords: ["blue owl"],
+    desc: "Permanent capital business focused on direct lending to upper middle market sponsor-backed companies. Raised $30B+ in flagship credit strategies.",
+  },
+  // ── Tier 2: specialist credit platforms ────────────────────────────────────
+  {
+    id: "bain_credit", name: "Bain Capital Credit", tier: 2 as const,
+    strategies: ["private_credit", "distressed", "special_sits"],
+    keywords: ["bain capital credit", "bain capital"],
+    desc: "Multi-strategy credit manager with $50B+ AUM across leveraged credit, special situations, structured products, and European credit.",
+  },
+  {
+    id: "monarch", name: "Monarch Alternative Capital", tier: 2 as const,
+    strategies: ["distressed", "special_sits", "private_credit"],
+    keywords: ["monarch alternative", "monarch capital"],
+    desc: "Opportunistic credit and special situations manager. Focuses on complex, event-driven situations across stressed, distressed, and performing credit.",
+  },
+  {
+    id: "avenue", name: "Avenue Capital Group", tier: 2 as const,
+    strategies: ["distressed", "private_credit"],
+    keywords: ["avenue capital"],
+    desc: "Distressed and special situations credit manager founded by Marc Lasry. Active in stressed and distressed credit across North America and Europe.",
+  },
+  {
+    id: "silverpoint", name: "Silver Point Capital", tier: 2 as const,
+    strategies: ["distressed", "private_credit", "special_sits"],
+    keywords: ["silver point"],
+    desc: "Credit-focused hedge fund specializing in distressed debt, corporate restructurings, and complex special situations across the capital structure.",
+  },
+  {
+    id: "marathon", name: "Marathon Asset Management", tier: 2 as const,
+    strategies: ["distressed", "special_sits", "structured_credit"],
+    keywords: ["marathon asset"],
+    desc: "Global opportunistic credit manager with $20B+ AUM. Invests across stressed/distressed credit, special situations, and structured products.",
+  },
+  {
+    id: "brigade", name: "Brigade Capital Management", tier: 2 as const,
+    strategies: ["distressed", "private_credit", "special_sits"],
+    keywords: ["brigade capital"],
+    desc: "Opportunistic and event-driven credit manager focused on high yield, leveraged loans, distressed debt, and capital structure arbitrage situations.",
+  },
+  {
+    id: "kingstreet", name: "King Street Capital", tier: 2 as const,
+    strategies: ["distressed", "special_sits", "private_credit"],
+    keywords: ["king street"],
+    desc: "Event-driven credit manager specializing in distressed, special situations, and private credit globally. Strong bankruptcy and restructuring expertise.",
+  },
+  {
+    id: "mudrick", name: "Mudrick Capital Management", tier: 2 as const,
+    strategies: ["distressed", "special_sits"],
+    keywords: ["mudrick"],
+    desc: "Distressed and event-driven credit manager. Focuses on stressed/distressed credit, rescue financing, and corporate restructurings across the US.",
+  },
+  {
+    id: "tpg_angelo", name: "TPG Angelo Gordon", tier: 2 as const,
+    strategies: ["private_credit", "distressed", "special_sits"],
+    keywords: ["angelo gordon", "tpg angelo"],
+    desc: "Multi-strategy credit platform ($75B+ AUM) covering middle market direct lending, asset-backed credit, real estate, and special situations.",
+  },
+  {
+    id: "carlyle_credit", name: "Carlyle Credit", tier: 2 as const,
+    strategies: ["private_credit", "direct_lending", "distressed"],
+    keywords: ["carlyle credit", "carlyle"],
+    desc: "Global alternative credit platform within Carlyle ($50B+ AUM). Active across direct lending, CLOs, structured credit, and opportunistic credit.",
+  },
+  {
+    id: "benefit_street", name: "Benefit Street Partners", tier: 2 as const,
+    strategies: ["private_credit", "direct_lending", "structured_credit"],
+    keywords: ["benefit street"],
+    desc: "Franklin Templeton-owned credit manager with $75B+ AUM. Specializes in direct lending, special situations, and structured credit solutions.",
+  },
+  {
+    id: "antares", name: "Antares Capital", tier: 2 as const,
+    strategies: ["direct_lending", "private_credit"],
+    keywords: ["antares capital", "antares"],
+    desc: "One of the largest middle market direct lenders, providing senior secured debt to sponsor-backed companies. Manages $65B+ in credit assets.",
+  },
+  {
+    id: "golub", name: "Golub Capital", tier: 2 as const,
+    strategies: ["direct_lending", "private_credit"],
+    keywords: ["golub"],
+    desc: "Direct lender focused on middle market sponsor finance. Known for one-stop lending and strong sponsor relationships; $70B+ in assets under management.",
+  },
+  {
+    id: "magnetar", name: "Magnetar Capital", tier: 2 as const,
+    strategies: ["distressed", "special_sits", "structured_credit"],
+    keywords: ["magnetar"],
+    desc: "Multi-strategy alternative manager with expertise in credit arbitrage, distressed situations, and structured credit across the capital stack.",
+  },
+  {
+    id: "first_eagle", name: "First Eagle Alternative Capital", tier: 2 as const,
+    strategies: ["direct_lending", "private_credit"],
+    keywords: ["first eagle"],
+    desc: "Middle market direct lender providing senior secured and unitranche loans to sponsor-backed businesses. Focuses on cash-generative, defensive companies.",
+  },
+  {
+    id: "neuberger", name: "Neuberger Berman Credit", tier: 2 as const,
+    strategies: ["private_credit", "direct_lending", "structured_credit"],
+    keywords: ["neuberger berman", "neuberger"],
+    desc: "Full-service credit platform with $100B+ in credit AUM. Active across direct lending, CLOs, structured products, and specialty finance globally.",
+  },
+  {
+    id: "silverlake", name: "Silver Lake Credit", tier: 2 as const,
+    strategies: ["private_credit", "special_sits"],
+    keywords: ["silver lake"],
+    desc: "Technology-focused credit platform providing flexible capital solutions including direct lending, structured credit, and preferred equity to tech companies.",
+  },
+  {
+    id: "tpg", name: "TPG Capital", tier: 1 as const,
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["tpg capital", "tpg"],
+    desc: "Global alternative asset manager with large private credit and equity platforms. Credit arm focuses on direct lending, real estate credit, and special situations.",
+  },
+  {
+    id: "millennium", name: "Millennium Management", tier: 1 as const,
+    strategies: ["multi_strategy", "distressed"],
+    keywords: ["millennium management", "millennium"],
+    desc: "Multi-strategy hedge fund managing $65B+. Credit-focused pods hire across distressed, high yield, and special situations; rapid internal mobility.",
+  },
+  {
+    id: "warburg", name: "Warburg Pincus", tier: 2 as const,
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["warburg pincus", "warburg"],
+    desc: "Growth-oriented private equity and credit manager active in financial services, healthcare, and technology. Frequently hires credit analysts for portfolio companies.",
+  },
 ];
 
 function matchFirm(firmName: string) {
   const lower = firmName.toLowerCase();
   return FIRM_REGISTRY.find((f) =>
-    lower.includes(f.id) ||
-    lower.includes(f.name.toLowerCase()) ||
-    f.name.toLowerCase().includes(lower.split(" ")[0]) // partial first-word match
+    f.keywords.some((k) => lower.includes(k.toLowerCase()))
   );
 }
 
@@ -1206,6 +1312,7 @@ function buildIntelFromJobs(signals: JobSignal[]): IntelResponse {
         firmId: def.id,
         name: def.name,
         tier: def.tier,
+        desc: def.desc,
         strategies: def.strategies,
         openRoles: jobs as FirmIntelProfile["openRoles"],
         frontOfficeCount: foCount,
@@ -1234,6 +1341,7 @@ interface FirmIntelProfile {
   firmId: string;
   name: string;
   tier: 1 | 2 | 3;
+  desc?: string;
   strategies: string[];
   openRoles: Array<{
     id: string;
@@ -1347,6 +1455,13 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
         </div>
       </div>
 
+      {/* Description */}
+      {profile.desc && (
+        <p className="text-[12px] text-[#41484c] leading-relaxed mb-3">
+          {profile.desc}
+        </p>
+      )}
+
       {/* Signal tags */}
       {profile.signals.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-3">
@@ -1389,6 +1504,312 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
         <p className="text-[11px] text-[#71787c] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
           {topRoles[0].classification.signal}
         </p>
+      )}
+    </div>
+  );
+}
+
+// ─── Hiring Section (combined firm intel + jobs) ──────────────────────────────
+
+function HiringSection({
+  signals, loading, fundFilings, onViewSignals,
+}: {
+  signals: JobSignal[];
+  loading: boolean;
+  fundFilings: FundFiling[];
+  onViewSignals: () => void;
+}) {
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [view, setView] = useState<"firms" | "roles">("firms");
+
+  const filtered = categoryFilter === "all"
+    ? signals
+    : signals.filter((s) => s.category === categoryFilter);
+
+  const intel = buildIntelFromJobs(filtered);
+
+  // All firms in registry — active ones from intel, quiet ones from registry
+  const activeIds = new Set([...intel.hiringPush, ...intel.postRaise].map((f) => f.firmId));
+  const quietFirms = FIRM_REGISTRY.filter((f) => !activeIds.has(f.id));
+
+  // Other roles: jobs not from any registry firm
+  const otherRoles = intel.allRoles.filter((r) => {
+    return !matchFirm(r.firm);
+  });
+
+  const allRegistryProfiles = [...intel.hiringPush, ...intel.postRaise];
+
+  return (
+    <div className="space-y-6 py-1">
+      {/* Context bridge */}
+      {!loading && fundFilings.length > 0 && (
+        <div className="flex items-center justify-between gap-3 bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
+          <div>
+            <p className="text-sm font-semibold text-[#396477]">
+              Fund Signals → Hiring
+            </p>
+            <p className="text-xs text-[#71787c] mt-0.5">
+              Use Fund Signals to identify firms raising capital, then find their open roles here.
+            </p>
+          </div>
+          <button
+            onClick={onViewSignals}
+            className="flex-shrink-0 text-xs font-medium text-[#396477] border border-[#396477]/30 px-3 py-1.5 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap"
+          >
+            View Fund Signals ↗
+          </button>
+        </div>
+      )}
+
+      {/* View + category filter bar */}
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
+          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "firms" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            By Firm ({allRegistryProfiles.length + quietFirms.length})
+          </button>
+          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "roles" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            All Roles ({intel.allRoles.filter(r => r.classification.frontOffice).length})
+          </button>
+        </div>
+        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
+        {JOB_CATEGORIES.slice(0, 5).map((c) => (
+          <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
+              categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+            }`}>
+            {c.l}
+          </button>
+        ))}
+        <span className="ml-auto text-xs text-gray-400">
+          {loading ? "Loading…" : `${signals.length} role${signals.length !== 1 ? "s" : ""} · ${allRegistryProfiles.length} firm${allRegistryProfiles.length !== 1 ? "s" : ""} hiring`}
+        </span>
+      </div>
+
+      {loading && (
+        <div className="space-y-3">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 animate-pulse">
+              <div className="h-4 w-48 bg-[#e0e3e5] rounded mb-2" />
+              <div className="h-3 w-72 bg-[#f0f2f4] rounded mb-1" />
+              <div className="h-3 w-56 bg-[#f0f2f4] rounded" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {view === "firms" && !loading && (
+        <>
+          {/* Active hiring firms */}
+          {intel.hiringPush.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Hiring Push</h2>
+                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{intel.hiringPush.length}</span>
+                <span className="text-xs text-[#71787c]">3+ front-office roles open</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {intel.hiringPush.map((p) => (
+                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={onViewSignals} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {intel.postRaise.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Active Hiring</h2>
+                <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">{intel.postRaise.length}</span>
+                <span className="text-xs text-[#71787c]">Monitored firms with open front-office roles</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {intel.postRaise.map((p) => (
+                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={onViewSignals} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {allRegistryProfiles.length === 0 && (
+            <div className="text-center py-10 text-gray-400">
+              <div className="text-3xl mb-3">🏢</div>
+              <p className="font-semibold text-gray-700 text-sm">No roles found at monitored firms</p>
+              <p className="text-xs mt-1.5 max-w-xs mx-auto">Try clearing the category filter or expanding the date range on the Fund Signals tab.</p>
+            </div>
+          )}
+
+          {/* Other roles section */}
+          {otherRoles.filter(r => r.classification.frontOffice).length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
+                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.filter(r => r.classification.frontOffice).length}</span>
+                <span className="text-xs text-[#71787c]">Firms not in watch list</span>
+              </div>
+              <div className="space-y-2">
+                {otherRoles.filter(r => r.classification.frontOffice).slice(0, 12).map((r) => (
+                  <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                        <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-[#71787c]">
+                        <span className="font-medium text-[#41484c]">{r.firm}</span>
+                        <span>·</span><span>{r.location}</span>
+                        <span>·</span><span>{r.daysAgo}d ago</span>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Quiet firms — monitored but no roles */}
+          {quietFirms.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Monitored — No Roles Posted</h2>
+                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{quietFirms.length}</span>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {quietFirms.map((f) => {
+                  const filing = fundFilings.find((fi) => matchFirm(fi.entityName)?.id === f.id);
+                  return (
+                    <div key={f.id} className="bg-white border border-[#c1c7cc]/30 rounded-xl px-4 py-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <TierBadge tier={f.tier} />
+                            <span className="font-semibold text-sm text-[#41484c] truncate">{f.name}</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
+                          </div>
+                          <p className="text-[11px] text-[#71787c] leading-relaxed">{f.desc}</p>
+                        </div>
+                      </div>
+                      {filing && (
+                        <div className="mt-2 pt-2 border-t border-gray-100">
+                          <button onClick={onViewSignals} className="text-[10px] font-semibold text-[#396477] hover:underline">
+                            Fund signal on file {filing.totalOfferingAmount ? `· ${fmt(filing.totalOfferingAmount)}` : ""} →
+                          </button>
+                        </div>
+                      )}
+                      {!filing && (
+                        <p className="text-[10px] text-[#71787c] mt-2 pt-2 border-t border-gray-100">No open roles — consider reaching out directly.</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+        </>
+      )}
+
+      {view === "roles" && !loading && (
+        <div className="space-y-2">
+          {intel.allRoles.filter(r => r.classification.frontOffice).slice(0, 60).map((r) => (
+            <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+              className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                  <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-[#71787c]">
+                  <span className="font-medium text-[#41484c]">{r.firm}</span>
+                  <span>·</span><span>{r.location}</span>
+                  <span>·</span><span>{r.daysAgo}d ago</span>
+                  {r.source && <><span>·</span><span className="capitalize">{r.source}</span></>}
+                </div>
+                {r.classification.signal && (
+                  <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
+                )}
+              </div>
+              <div className="flex-shrink-0 text-right">
+                <span className="text-xs font-bold text-[#396477]">{r.classification.relevanceScore}/10</span>
+              </div>
+            </a>
+          ))}
+          {intel.allRoles.filter(r => r.classification.frontOffice).length === 0 && !loading && (
+            <div className="text-center py-12 text-gray-400">
+              <p className="font-semibold text-gray-700 text-sm">No roles found</p>
+              <p className="text-xs mt-1.5">Try clearing the category filter.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {signals.length > 0 && (
+        <p className="text-center text-xs text-gray-400 py-1">
+          Sourced from career pages, SEC EDGAR, Adzuna · Grouped by firm · Updated every 30 min
+        </p>
+      )}
+    </div>
+  );
+}
+
+function HiringFirmCard({ profile, fundFilings, onViewSignals }: {
+  profile: FirmIntelProfile;
+  fundFilings: FundFiling[];
+  onViewSignals: () => void;
+}) {
+  const filing = fundFilings.find((f) => matchFirm(f.entityName)?.id === profile.firmId);
+  const topRoles = profile.openRoles.filter(r => r.classification.frontOffice).slice(0, 4);
+
+  return (
+    <div className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 hover:shadow-[0_2px_12px_rgba(57,100,119,0.1)] transition-shadow">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3 mb-2">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <TierBadge tier={profile.tier} />
+            <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
+          </div>
+        </div>
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+          <span className="text-xs font-bold text-[#396477]">{profile.frontOfficeCount} open</span>
+          {filing && (
+            <button onClick={onViewSignals} className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border transition-colors ${
+              filing.offeringStatus === "open"
+                ? "bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50 hover:bg-[#c3ecd7]"
+                : "bg-sky-50 text-[#396477] border-sky-200 hover:bg-sky-100"
+            }`}>
+              {filing.offeringStatus === "open" ? "Raising" : "Filed"}{filing.totalOfferingAmount ? ` · ${fmt(filing.totalOfferingAmount)}` : ""}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Description */}
+      {profile.desc && (
+        <p className="text-[12px] text-[#41484c] leading-relaxed mb-3">{profile.desc}</p>
+      )}
+
+      {/* Roles */}
+      {topRoles.length > 0 && (
+        <div className="space-y-1.5 pt-2 border-t border-[#f0f2f4]">
+          {topRoles.map((r) => (
+            <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+              className="flex items-center justify-between gap-2 group">
+              <div className="flex items-center gap-2 min-w-0">
+                <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                <span className="text-xs text-[#41484c] group-hover:text-[#396477] truncate transition-colors">{r.role}</span>
+              </div>
+              <span className="text-[10px] text-[#71787c] flex-shrink-0">{r.daysAgo}d</span>
+            </a>
+          ))}
+          {profile.frontOfficeCount > 4 && (
+            <p className="text-[11px] text-[#71787c] pt-0.5">+{profile.frontOfficeCount - 4} more</p>
+          )}
+        </div>
       )}
     </div>
   );
