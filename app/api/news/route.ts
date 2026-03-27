@@ -25,8 +25,7 @@ function parseRssItems(xml: string, tag: NewsArticle["tag"]): NewsArticle[] {
         "";
       const pubDate = block.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
       const source =
-        block.match(/<source[^>]*>(.*?)<\/ource>/)?.[1] ||
-        block.match(/<source[^>]*\/>/)?.[0]?.match(/url="([^"]+)"/)?.[1] ||
+        block.match(/<source[^>]*>([^<]*)<\/source>/)?.[1] ||
         "";
       return { title: title.trim(), link: link.trim(), pubDate: pubDate.trim(), source: source.trim(), tag };
     })
@@ -63,9 +62,9 @@ export async function GET(req: Request) {
 
   const results = await Promise.allSettled(
     searches.map(async ({ q, tag }) => {
-      const url = `https://news.google.com/rss/earch?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
+      const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
       const res = await fetch(url, {
-        headers: { "User-Agent": "Onlu/1.0 research@onluintel.com" },
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" },
         next: { revalidate: 14400 }, // 4-hour cache
       });
       if (!res.ok) return [] as NewsArticle[];
