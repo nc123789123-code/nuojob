@@ -50,8 +50,10 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
     const xml = await res.text();
     const offering = extractXml(xml, "totalOfferingAmount");
     const sold = extractXml(xml, "totalAmountSold");
-    const offeringNum = offering ? parseFloat(offering) : undefined;
-    const soldNum = sold ? parseFloat(sold) : undefined;
+    // "Indefinite" is valid EDGAR Form D value — treat as no target set
+    const offeringNum = offering && offering !== "Indefinite" && offering !== "0" ? parseFloat(offering) : undefined;
+    const soldNum = sold && sold !== "Indefinite" && sold !== "0" ? parseFloat(sold) : undefined;
+    const isIndefinite = offering === "Indefinite";
 
     // Only include actual pooled investment funds (hedge funds, PE, credit funds, etc.)
     const isPooledFund = extractXml(xml, "isPooledInvestmentFund")?.toLowerCase() === "true";
@@ -60,7 +62,8 @@ async function fetchFormDDetails(cik: string, accessionNo: string) {
     let offeringStatus: OfferingStatus = "unknown";
     if (soldNum !== undefined && offeringNum !== undefined) {
       offeringStatus = soldNum >= offeringNum * 0.95 ? "closed" : "open";
-    } else if (extractXml(xml, "dateOfFirstSale")) {
+    } else if (isIndefinite || extractXml(xml, "dateOfFirstSale")) {
+      // Indefinite-amount funds are actively raising; so are any fund with a first-sale date
       offeringStatus = "open";
     }
 

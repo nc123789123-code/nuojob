@@ -129,7 +129,9 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
     }
     if (filing.totalAmountSold && filing.totalAmountSold > 0) return `Raised ${fmt(filing.totalAmountSold)}`;
     if (filing.totalOfferingAmount) return `${fmt(filing.totalOfferingAmount)} target`;
-    return filing.offeringStatus === "open" ? "Raising" : filing.offeringStatus === "closed" ? "Closed" : "—";
+    if (filing.offeringStatus === "open") return "In market";
+    if (filing.offeringStatus === "closed") return "Closed";
+    return "Filed";
   })();
 
   // Status chip
