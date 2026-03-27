@@ -155,8 +155,8 @@ function HomeContent() {
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
-            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring" />
+            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
           </nav>
