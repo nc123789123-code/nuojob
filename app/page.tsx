@@ -150,8 +150,8 @@ function HomeContent() {
       <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
         <div className="max-w-6xl mx-auto px-8 h-24 flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <LogoMark size={46} />
-            <span className="font-semibold text-lg tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <LogoMark size={64} />
+            <span className="font-bold text-2xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
