@@ -22,6 +22,7 @@ import { OfferingStatus, EdgarSearchHit, JobSignal, JobCategory } from "@/app/ty
 import { detectStrategy, getDaysSince, inferJobRoles, inferJobSignalTag, scoreJobSignal } from "@/app/lib/scoring";
 import { getAshbyFirms } from "@/app/lib/firms";
 import { fetchAshbyPostings } from "@/app/lib/scrapers/ashby";
+import { getStaticJobs } from "@/app/lib/static-jobs";
 
 export const runtime = "edge";
 
@@ -809,6 +810,13 @@ export async function GET(req: NextRequest) {
     add(ashbyResult,     "ashby");
     add(jobs14Result,    "jobs14");
     add(fjResult,        "linkedin");
+
+    // Static curated jobs — always added
+    const staticJobs = getStaticJobs(maxDays);
+    if (staticJobs.length > 0) {
+      allSignals.push(...staticJobs);
+      sources.push("curated");
+    }
 
     // Deduplicate by firm+role (fuzzy: lowercase+trim)
     const dedupSeen = new Set<string>();
