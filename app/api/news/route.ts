@@ -66,7 +66,6 @@ export async function GET(req: Request) {
       const url = `https://news.google.com/rss/earch?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
       const res = await fetch(url, {
         headers: { "User-Agent": "Onlu/1.0 research@onluintel.com" },
-        // @ts-expect-error next is a Vercel/Next.js extension
         next: { revalidate: 14400 }, // 4-hour cache
       });
       if (!res.ok) return [] as NewsArticle[];
