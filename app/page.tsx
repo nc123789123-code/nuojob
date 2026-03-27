@@ -470,11 +470,10 @@ function SkeletonRows() {
   return (
     <div className="divide-y divide-gray-100">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-3 animate-pulse">
+        <div key={i} className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-3 animate-pulse">
           <div className="space-y-1.5"><div className="h-3.5 bg-gray-100 rounded w-2/3" /><div className="h-3 bg-gray-50 rounded w-1/2" /></div>
           <div className="h-5 bg-gray-100 rounded-full w-20" />
           <div className="h-3 bg-gray-100 rounded w-12" />
-          <div className="h-3 bg-gray-100 rounded w-10" />
           <div className="h-3 bg-gray-100 rounded w-10" />
         </div>
       ))}
@@ -668,8 +667,8 @@ function FundsSection({
           {error && <ErrorBox message={error} />}
 
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-              {["Fund / Firm", "Strategy", "Fundraising", "Location", "Filed"].map((h) => (
+            <div className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+              {["Fund / Firm", "Strategy", "Fundraising", "Filed"].map((h) => (
                 <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
               ))}
             </div>

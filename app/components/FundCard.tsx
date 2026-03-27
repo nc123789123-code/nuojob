@@ -174,9 +174,9 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
   return (
     <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-sky-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
-      {/* Collapsed row — 5 columns, no score */}
+      {/* Collapsed row — 4 columns, no score */}
       <div
-        className="grid grid-cols-[1fr_140px_160px_120px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
+        className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
         onClick={() => setExpanded(!expanded)}
       >
         {/* Fund name + Why Now + chips */}
@@ -220,17 +220,6 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                 className="h-1 rounded-full bg-[#396477]"
                 style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
               />
-            </div>
-          )}
-        </div>
-
-        {/* Location + first contact */}
-        <div className="pt-0.5 space-y-0.5">
-          <div className="text-xs text-gray-400">{filing.businessCity || filing.state || "—"}</div>
-          {filing.relatedPersons?.[0] && (
-            <div className="text-[10px] text-gray-500 truncate">
-              {[filing.relatedPersons[0].firstName, filing.relatedPersons[0].lastName].filter(Boolean).join(" ")}
-              {filing.relatedPersons[0].title ? ` · ${filing.relatedPersons[0].title.split(",")[0]}` : ""}
             </div>
           )}
         </div>
