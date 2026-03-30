@@ -87,12 +87,24 @@ export default function AboutPage() {
             <p>Onlu is built around that idea.</p>
           </div>
 
-          {/* Founder note */}
+          {/* Founder bio */}
           <div className="border-t border-[#c1c7cc]/40 pt-8">
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">Founder note</h2>
-            <p className="text-[#41484c]">
-              Onlu was built from real-world experience in private credit and special situations investing, with the goal of making recruiting intelligence more practical, targeted, and useful.
-            </p>
+            <h2 className="text-[#191c1e] text-base font-semibold mb-5">Founder</h2>
+            <p className="text-[#191c1e] font-semibold mb-4">Karlie Nuo Chen</p>
+            <div className="space-y-4">
+              <p>
+                Karlie Nuo Chen is the founder of Onlu, a platform focused on delivering actionable intelligence across private credit, special situations, and buyside recruiting.
+              </p>
+              <p>
+                She brings a cross-cycle investing background spanning sell-side, banking, and principal investing roles. Karlie began her career at Goldman Sachs, where she worked in credit research and later in the Debt Financing Group, underwriting revolving credit facilities and term loans with a focus on downside protection, capital structure, and documentation. She then joined Capital One, where she worked on data-driven strategy and analytics initiatives supporting treasury and commercial banking leadership.
+              </p>
+              <p>
+                Most recently, Karlie has invested on the buyside across private credit, hybrid capital, and event-driven public credit. Her experience includes leading end-to-end underwriting, structuring, and portfolio monitoring across healthcare, business services, and complex special situations. She has evaluated over $100 million of investment opportunities, with a focus on scenarios where structure, documentation, and timing drive outcomes as much as fundamentals.
+              </p>
+              <p>
+                Karlie founded Onlu to address a gap she experienced firsthand: while information in credit markets is abundant, actionable insight—especially around capital structure dynamics, restructuring risk, and real-time fund behavior—is often fragmented. Onlu aims to bridge that gap by combining investment-focused analysis with practical insights for professionals navigating the buyside.
+              </p>
+            </div>
           </div>
 
           {/* CTA */}
