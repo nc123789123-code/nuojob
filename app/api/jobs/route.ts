@@ -153,6 +153,8 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
     for (const { hit, fallbackCat } of r.value) {
       if (seen.has(hit.id)) continue;
       seen.add(hit.id);
+      if (!hit.company?.display_name) continue; // skip unknown firm
+      if (!hit.redirect_url) continue;           // skip missing link
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
       // Only include jobs with a clear buy-side category
@@ -206,6 +208,8 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
     for (const job of r.value) {
       if (seen.has(job.id)) continue;
       seen.add(job.id);
+      if (!job.company?.name) continue;           // skip unknown firm
+      if (!job.refs?.landing_page) continue;      // skip missing link
       const pubDate = job.publication_date || "";
       if (!pubDate) continue; // skip jobs with no date — would falsely show as "Today"
       const days = daysAgo(pubDate);
