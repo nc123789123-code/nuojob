@@ -536,6 +536,8 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       const key = job.id || `${job.title}-${job.company?.name}`;
       if (!key || seen.has(key)) continue;
       seen.add(key);
+      if (!job.company?.name) continue;  // skip unknown firm
+      if (!job.applyUrl) continue;       // skip missing link
       const days = indeedDaysAgo(job, maxDays);
       if (days > maxDays) continue;
       const cat = classifyTitle(job.title ?? "");
@@ -563,24 +565,27 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       const key = job.id || `${job.title}-${typeof job.company === "string" ? job.company : job.company?.name}`;
       if (!key || seen.has(key)) continue;
       seen.add(key);
+      const companyName = typeof job.company === "string" ? job.company : job.company?.name ?? "";
+      if (!companyName) continue;                        // skip unknown firm
+      const applyLink = job.applyUrl ?? job.url;
+      if (!applyLink) continue;                          // skip missing link
       const dateStr = job.datePosted ?? job.publishedAt ?? job.postedAt ?? "";
       const days = dateStr ? daysAgo(dateStr) : maxDays;
       if (days > maxDays) continue;
       const cat = classifyTitle(job.title ?? "");
       if (!cat) continue;
-      const companyName = typeof job.company === "string" ? job.company : job.company?.name ?? "Unknown";
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-li-${key}`,
         firm: companyName,
-        role: job.title || "Unknown",
+        role: job.title || "",
         category: cat,
         location: job.location?.split(",")?.[0]?.trim() || "—",
         daysAgo: days,
         signalTag: signalTagFromTitle(job.title ?? ""),
         why: desc ? `${desc}…` : "See listing",
         score: 0,
-        edgarUrl: job.applyUrl ?? job.url,
+        edgarUrl: applyLink,
       });
     }
   }
@@ -680,13 +685,18 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
     if (seen.has(key)) continue;
     seen.add(key);
 
+    const company = fjCompany(job);
+    if (!company || company === "Unknown") continue;  // skip unknown firm
+    const jobUrl = fjUrl(job);
+    if (!jobUrl) continue;                            // skip missing link
+
     const days = fjDate(job) ? daysAgo(fjDate(job)) : maxDays;
     if (days > maxDays) continue;
 
     const desc = fjDesc(job).replace(/<[^>]+>/g, "").slice(0, 130).trim();
     out.push({
       id: `fj-${key}`,
-      firm: fjCompany(job),
+      firm: company,
       role: title,
       category: cat ?? "Equity Investing",
       location: fjLocation(job).split(",")[0].trim() || "—",
@@ -694,7 +704,7 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
       signalTag: signalTagFromTitle(title),
       why: desc ? `${desc}…` : "Live LinkedIn listing",
       score: 0,
-      edgarUrl: fjUrl(job),
+      edgarUrl: jobUrl,
     });
   }
   return out;
