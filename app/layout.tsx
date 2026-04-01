@@ -5,6 +5,28 @@ export const metadata: Metadata = {
   title: "Onlu — Private Credit & Special Situations Intelligence",
   description:
     "Track fund signals, hiring intel, and market insights across private credit, special situations, and restructuring. Know where opportunities are before they're posted.",
+  metadataBase: new URL("https://onluintel.com"),
+  alternates: { canonical: "https://onluintel.com" },
+  openGraph: {
+    title: "Onlu — Private Credit & Special Situations Intelligence",
+    description:
+      "Track fund signals, hiring intel, and market insights across private credit, special situations, and restructuring. Know where opportunities are before they're posted.",
+    url: "https://onluintel.com",
+    siteName: "Onlu",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Onlu — Private Credit & Special Situations Intelligence",
+    description:
+      "Track fund signals, hiring intel, and market insights across private credit, special situations, and restructuring.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 export default function RootLayout({
