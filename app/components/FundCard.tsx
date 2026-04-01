@@ -149,6 +149,16 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
     chips.push({ label: fmt(filing.totalOfferingAmount), color: "gray" });
   }
 
+  // Hiring timeline chip
+  const hiringChip = (() => {
+    const d = filing.daysSinceFiling;
+    if (d <= 30)  return { label: "⏰ Outreach now — hiring likely in 30–60d", color: "red" };
+    if (d <= 60)  return { label: "🟢 Hiring window open", color: "green" };
+    if (d <= 90)  return { label: "📋 Active build-out phase", color: "purple" };
+    if (d <= 180) return { label: "🔵 Post-close hiring", color: "blue" };
+    return null;
+  })();
+
   const handleStatus = (s: OutreachRecord["status"]) => {
     onOutreachChange({
       filingId: filing.id,
@@ -198,6 +208,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           )}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
+            {hiringChip && <SignalChip key="hiring-timeline" label={hiringChip.label} color={hiringChip.color} />}
             {openRolesCount != null && openRolesCount > 0 && (
               <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50">
                 {openRolesCount} role{openRolesCount !== 1 ? "s" : ""} →
