@@ -980,6 +980,7 @@ interface InsightPost {
   slug: string;
   title: string;
   date: string;
+  tag: string;
   paragraphs: string[];
 }
 
@@ -988,6 +989,7 @@ const CAREER_POSTS: InsightPost[] = [
     slug: "buyside-interview-questions",
     title: "What Buyside Interviews Are Really Asking (Even When the Questions Sound Different)",
     date: "March 30, 2026",
+    tag: "Interview Prep",
     paragraphs: [
       `Spend enough time interviewing for buyside roles—whether in private credit, public credit, or special situations—and you start to notice a pattern. The surface-level questions vary slightly depending on the firm, the strategy, or the seniority of the seat. But underneath, the same handful of ideas come up again and again. The interview is less about what you know and more about how you think, how you prioritize, and how consistently you apply your framework under pressure.`,
       `Take the classic "walk me through your resume." On paper, it sounds like a warm-up question. In reality, it's one of the most important signals in the entire process. No one is looking for a chronological recap of your roles. What they're really assessing is whether your career path makes sense—whether each move reflects a deliberate decision rather than randomness. They're listening for a narrative that compounds: how you built skills, how your perspective evolved, and why this specific role is a natural next step. If your story feels inevitable in hindsight, you're in a strong position. If it feels stitched together, they'll notice.`,
@@ -1006,6 +1008,7 @@ const CAREER_POSTS: InsightPost[] = [
     slug: "credit-hiring-capital-driven",
     title: "Why Credit Hiring Is Driven by Capital, Not Recruiting Cycles",
     date: "March 26, 2026",
+    tag: "Career Prep",
     paragraphs: [
       `Unlike many corporate roles, hiring in credit funds is rarely driven by a fixed recruiting cycle. Instead, it is closely tied to capital availability and deployment needs.`,
       `When a fund raises a new vehicle, the immediate priority becomes putting capital to work. This often leads to incremental hiring within a relatively short window, particularly at the junior level where additional analytical capacity is required. Similarly, periods of increased market dislocation or strategy expansion can drive hiring as teams adjust to new opportunity sets.`,
@@ -1017,6 +1020,7 @@ const CAREER_POSTS: InsightPost[] = [
     slug: "credit-avoiding-losses",
     title: "Credit Investing Is Primarily About Avoiding Losses, Not Finding Upside",
     date: "March 26, 2026",
+    tag: "Career Prep",
     paragraphs: [
       `A common misconception among candidates transitioning from equity to credit is that the objective is to identify mispriced upside. In reality, credit investing is more fundamentally about avoiding permanent capital impairment.`,
       `This distinction drives a different analytical approach. Rather than focusing on how much a business can grow, credit investors prioritize how a business performs under stress and whether it can sustain its obligations across a range of downside scenarios. The emphasis is on durability of cash flow, asset coverage, and structural protections within the capital stack.`,
@@ -1028,6 +1032,7 @@ const CAREER_POSTS: InsightPost[] = [
     slug: "what-credit-interviews-test",
     title: "What Credit Interviews Actually Test (and What They Don't)",
     date: "March 26, 2026",
+    tag: "Career Prep",
     paragraphs: [
       `Many candidates approach credit interviews by focusing on memorizing technical concepts such as leverage ratios, FCCR, or yield calculations. While these are necessary, they are rarely what differentiates candidates in practice.`,
       `What interviewers are typically evaluating is whether a candidate can think through a situation as an investor. This includes the ability to identify key risks, understand how cash flow behaves under stress, and assess downside protection rather than simply describing a business at a high level.`,
@@ -1039,9 +1044,24 @@ const CAREER_POSTS: InsightPost[] = [
 
 const INDUSTRY_POSTS: InsightPost[] = [
   {
+    slug: "iran-israel-geopolitical-shock",
+    title: "Iran, Israel, and the U.S.: A Geopolitical Shock and Its Transmission Through Markets",
+    date: "April 2, 2026",
+    tag: "Macro",
+    paragraphs: [
+      `The conflict between Iran, Israel, and the United States represents a meaningful geopolitical shock with broad implications across macro, equity, and credit markets. Unlike traditional conflicts that primarily affect trade flows or regional demand, this situation transmits through the global economy mainly via energy markets. As tensions escalate, disruptions to oil supply—particularly through critical transit routes like the Strait of Hormuz—have driven a sharp increase in oil prices. This creates an immediate inflationary impulse that feeds into fuel costs, transportation, and ultimately food and core goods pricing, raising the risk of a stagflationary environment characterized by higher inflation and weaker growth.`,
+      `From a macro perspective, the most important consequence is the constraint placed on central banks. Higher energy prices push inflation upward at a time when growth is already slowing, limiting the ability of policymakers to ease monetary conditions. This creates a challenging policy tradeoff: cutting rates risks entrenching inflation, while holding rates high exacerbates the slowdown. As a result, financial conditions tighten even without additional policy action, with markets repricing toward higher-for-longer rates and elevated real yields. Historically, this type of environment has been negative for risk assets, as both discount rates rise and growth expectations deteriorate simultaneously.`,
+      `Equity markets reflect this dynamic through both direction and rotation. While broad indices tend to sell off in response to heightened geopolitical risk and tighter financial conditions, the more important shift occurs beneath the surface. Energy and defense sectors benefit directly from higher commodity prices and increased government spending, while commodities more broadly act as inflation hedges. In contrast, consumer discretionary sectors face pressure from declining real incomes, and industrials are squeezed by rising input costs. Technology and other long-duration assets are particularly vulnerable due to their sensitivity to higher discount rates. The net effect is not necessarily a uniform bear market, but rather a regime shift in leadership toward inflation beneficiaries and defensive sectors, accompanied by downward pressure on overall valuation multiples and earnings expectations.`,
+      `The implications for credit markets are more subtle but potentially more severe. Higher rates increase the cost of servicing debt at the same time that economic growth—and therefore corporate earnings—comes under pressure. This combination weakens credit fundamentals, particularly for highly leveraged borrowers. At the same time, risk aversion reduces the availability of capital, making refinancing more difficult. This is especially problematic given the large cohort of companies that issued debt in the low-rate environment of 2020 to 2022 and now face a refinancing wall at significantly higher coupons. Public high yield and leveraged loan markets may see widening spreads and rising default expectations, but the greater risk may lie in private credit, where valuations are less transparent and adjustments to stress can be delayed.`,
+      `Taken together, the transmission mechanism from geopolitics to markets follows a clear chain: conflict drives an energy shock, which feeds into inflation, constrains monetary policy, tightens financial conditions, and ultimately slows growth. This sequence creates simultaneous pressure on equities through both earnings and valuation channels, and on credit through deteriorating fundamentals and reduced liquidity. The result is a macro environment that increasingly resembles stagflation, a regime that has historically been challenging for both traditional risk assets and leveraged strategies.`,
+      `Ultimately, the key risk for investors is mischaracterizing the conflict as a short-term volatility event rather than a structural shift. While markets may initially react to headlines, the more durable impact comes from second-order effects on inflation expectations, interest rates, and credit conditions. If energy disruptions persist, the conflict has the potential not only to delay the easing cycle but also to catalyze a broader credit cycle turn. In that sense, the most important takeaway is not the immediate move in oil prices, but the tightening of financial conditions that follows and its cascading effects across asset classes.`,
+    ],
+  },
+  {
     slug: "co-op-vs-rsa",
     title: "Co-op Agreements vs. Restructuring Support Agreements (RSA)",
     date: "March 26, 2026",
+    tag: "Credit",
     paragraphs: [
       `Cooperation agreements ("Co-ops") and Restructuring Support Agreements (RSAs) are both commonly used in debt restructurings, but they serve distinct purposes and typically arise at different stages of a transaction.`,
       `Co-ops are generally agreements among creditors only and are most often used in the early stages of a situation. At this point, the company is typically not yet formally involved, and creditors use the agreement to coordinate strategy and present a unified negotiating position. These agreements are contractually binding among participating creditors and usually cover cooperation mechanics, cost sharing, information exchange, and economic incentives that differentiate early participants from those who join later. Co-ops also frequently include transfer restrictions, requiring any buyer of the debt to accede to the agreement, thereby preserving alignment within the creditor group.`,
@@ -1051,12 +1071,25 @@ const INDUSTRY_POSTS: InsightPost[] = [
   },
 ];
 
+const TAG_STYLES: Record<string, string> = {
+  "Macro":        "bg-amber-100 text-amber-700",
+  "Credit":       "bg-sky-100 text-sky-700",
+  "Equity":       "bg-emerald-100 text-emerald-700",
+  "Interview Prep": "bg-violet-100 text-violet-700",
+  "Career Prep":  "bg-violet-100 text-violet-700",
+};
+
 function PostList({ posts }: { posts: InsightPost[] }) {
   return (
     <div className="max-w-2xl space-y-16 py-2">
       {posts.map((post) => (
         <article key={post.slug}>
           <header className="mb-6">
+            {post.tag && (
+              <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
+                {post.tag}
+              </span>
+            )}
             <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
               {post.title}
             </h2>
