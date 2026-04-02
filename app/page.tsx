@@ -251,10 +251,10 @@ function HomeContent() {
         </div>
       </div>
 
-      <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
+      {topTab === "funds" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
         setTopTab("funds");
         setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
-      }} onJobsClick={() => setTopTab("hiring")} />
+      }} onJobsClick={() => setTopTab("hiring")} />}
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "funds" && (
