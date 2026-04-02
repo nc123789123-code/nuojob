@@ -715,7 +715,6 @@ const JOB_CATEGORIES: Array<{ v: "all" | JobCategory; l: string }> = [
   { v: "Equity Investing",   l: "Equity Investing"   },
   { v: "Investment Banking", l: "Investment Banking" },
   { v: "Quant",              l: "Quant"              },
-  { v: "IR / Ops",           l: "IR / Ops"           },
 ];
 
 const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
@@ -2215,36 +2214,81 @@ function HiringSection({
         </>
       )}
 
-      {view === "roles" && !loading && (
-        <div className="space-y-2">
-          {intel.allRoles.filter(r => r.classification.frontOffice).slice(0, 60).map((r) => (
-            <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-              className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                  <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+      {view === "roles" && !loading && (() => {
+        const visibleRoles = intel.allRoles.filter(
+          r => r.classification.frontOffice && r.classification.seniority !== "other"
+        );
+        const internRoles   = visibleRoles.filter(r => r.classification.seniority === "intern");
+        const juniorRoles   = visibleRoles.filter(r => ["analyst", "associate"].includes(r.classification.seniority));
+        const seniorRoles   = visibleRoles.filter(r => ["vp", "director", "md", "partner"].includes(r.classification.seniority));
+
+        const RoleList = ({ roles }: { roles: typeof visibleRoles }) => (
+          <div className="space-y-2">
+            {roles.map((r) => (
+              <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#71787c]">
+                    <span className="font-medium text-[#41484c]">{r.firm}</span>
+                    <span>·</span><span>{r.location}</span>
+                    <span>·</span><span>{r.daysAgo}d ago</span>
+                    {r.source && <><span>·</span><span className="capitalize">{r.source}</span></>}
+                  </div>
+                  {r.classification.signal && (
+                    <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
+                  )}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-[#71787c]">
-                  <span className="font-medium text-[#41484c]">{r.firm}</span>
-                  <span>·</span><span>{r.location}</span>
-                  <span>·</span><span>{r.daysAgo}d ago</span>
-                  {r.source && <><span>·</span><span className="capitalize">{r.source}</span></>}
+              </a>
+            ))}
+          </div>
+        );
+
+        if (visibleRoles.length === 0) return (
+          <div className="text-center py-12 text-gray-400">
+            <p className="font-semibold text-gray-700 text-sm">No roles found</p>
+            <p className="text-xs mt-1.5">Try clearing the category filter.</p>
+          </div>
+        );
+
+        return (
+          <div className="space-y-8">
+            {seniorRoles.length > 0 && (
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-sm font-bold text-[#191c1e]">Senior Roles</h3>
+                  <span className="text-[10px] bg-violet-100 text-violet-700 font-bold px-1.5 py-0.5 rounded">{seniorRoles.length}</span>
+                  <span className="text-xs text-[#71787c]">VP · Director · MD · Partner</span>
                 </div>
-                {r.classification.signal && (
-                  <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
-                )}
-              </div>
-            </a>
-          ))}
-          {intel.allRoles.filter(r => r.classification.frontOffice).length === 0 && !loading && (
-            <div className="text-center py-12 text-gray-400">
-              <p className="font-semibold text-gray-700 text-sm">No roles found</p>
-              <p className="text-xs mt-1.5">Try clearing the category filter.</p>
-            </div>
-          )}
-        </div>
-      )}
+                <RoleList roles={seniorRoles} />
+              </section>
+            )}
+            {juniorRoles.length > 0 && (
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-sm font-bold text-[#191c1e]">Experienced Junior Roles</h3>
+                  <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{juniorRoles.length}</span>
+                  <span className="text-xs text-[#71787c]">Analyst · Associate</span>
+                </div>
+                <RoleList roles={juniorRoles} />
+              </section>
+            )}
+            {internRoles.length > 0 && (
+              <section>
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-sm font-bold text-[#191c1e]">Internships</h3>
+                  <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{internRoles.length}</span>
+                  <span className="text-xs text-[#71787c]">Summer · Co-op · Intern</span>
+                </div>
+                <RoleList roles={internRoles} />
+              </section>
+            )}
+          </div>
+        );
+      })()}
 
       {(signals.length > 0 || !loading) && (
         <p className="text-center text-xs text-gray-400 py-1">
