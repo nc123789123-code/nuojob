@@ -191,7 +191,7 @@ interface AdzunaResp { results: AdzunaJob[]; count: number; }
 
 async function fromMuse(maxDays: number): Promise<JobSignal[]> {
   const results = await Promise.allSettled(
-    [0, 1, 2, 3, 4].map(async (page) => {
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(async (page) => {
       const p = new URLSearchParams({ "category": "Finance & Accounting", "descending": "true", "page": String(page) });
       const res = await fetchT(`https://www.themuse.com/api/public/jobs?${p}`);
       if (!res.ok) return [] as MuseJob[];

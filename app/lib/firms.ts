@@ -180,6 +180,126 @@ export const FIRMS: FirmProfile[] = [
     tier: 2,
     ashby: "magnetar",
   },
+
+  // ── Tier 1: Additional mega-funds (Greenhouse) ────────────────────────────
+  {
+    id: "twosigma",
+    name: "Two Sigma",
+    strategies: ["quant", "multi_strategy"],
+    tier: 1,
+    greenhouse: "twosigma",
+  },
+  {
+    id: "citadel",
+    name: "Citadel",
+    strategies: ["multi_strategy", "quant", "long_short"],
+    tier: 1,
+    greenhouse: "citadel",
+  },
+  {
+    id: "citadelsecurities",
+    name: "Citadel Securities",
+    strategies: ["quant", "market_making"],
+    tier: 1,
+    greenhouse: "citadelsecurities",
+  },
+  {
+    id: "brookfield",
+    name: "Brookfield Asset Management",
+    strategies: ["real_assets", "private_credit", "private_equity"],
+    tier: 1,
+    greenhouse: "brookfield",
+  },
+
+  // ── Tier 2: Additional credit / special sits (Greenhouse) ─────────────────
+  {
+    id: "pgim",
+    name: "PGIM",
+    strategies: ["private_credit", "fixed_income", "real_assets"],
+    tier: 2,
+    greenhouse: "pgim",
+  },
+  {
+    id: "bain",
+    name: "Bain Capital",
+    strategies: ["private_equity", "private_credit", "special_sits"],
+    tier: 2,
+    greenhouse: "baincapital",
+  },
+  {
+    id: "castlelake",
+    name: "Castle Lake",
+    strategies: ["special_sits", "private_credit"],
+    tier: 2,
+    greenhouse: "castlelake",
+  },
+  {
+    id: "leonardogreen",
+    name: "Leonard Green & Partners",
+    strategies: ["private_equity"],
+    tier: 2,
+    greenhouse: "lgp",
+  },
+  {
+    id: "vistaequity",
+    name: "Vista Equity Partners",
+    strategies: ["private_equity", "growth"],
+    tier: 2,
+    greenhouse: "vistaequitypartners",
+  },
+  {
+    id: "thoma",
+    name: "Thoma Bravo",
+    strategies: ["private_equity", "growth"],
+    tier: 2,
+    greenhouse: "thomabravo",
+  },
+
+  // ── Tier 2: Additional hedge funds (Lever) ────────────────────────────────
+  {
+    id: "thirdpoint",
+    name: "Third Point",
+    strategies: ["hedge_fund", "long_short", "special_sits"],
+    tier: 2,
+    lever: "thirdpoint",
+  },
+  {
+    id: "nea",
+    name: "NEA",
+    strategies: ["growth", "private_equity"],
+    tier: 2,
+    lever: "nea",
+  },
+  {
+    id: "permira",
+    name: "Permira",
+    strategies: ["private_equity", "private_credit"],
+    tier: 2,
+    lever: "permira",
+  },
+
+  // ── Tier 2: Additional Ashby firms ────────────────────────────────────────
+  {
+    id: "altimeter",
+    name: "Altimeter Capital",
+    strategies: ["hedge_fund", "growth", "long_short"],
+    tier: 2,
+    ashby: "altimeter",
+  },
+  {
+    id: "greenoaks",
+    name: "Greenoaks Capital",
+    strategies: ["growth", "long_short"],
+    tier: 2,
+    ashby: "greenoaks",
+  },
+  {
+    id: "stripes",
+    name: "Stripes",
+    strategies: ["growth", "private_equity"],
+    tier: 2,
+    ashby: "stripes",
+  },
 ];
 
 /**

@@ -1618,13 +1618,13 @@ function getJobsForFiling(filing: FundFiling, jobSignals: JobSignal[]): JobSigna
 
 const BACK_OFFICE_RE_CLIENT = /\b(software engineer|developer|devops|sysadmin|cybersecurity|HR|human resources|recruit|talent|office manager|admin|payroll|legal counsel|paralegal|attorney|marketing|content manager|social media|sales|business development|customer support|help desk|product manager|project manager|supply chain|procurement)\b/i;
 const SENIORITY_RE_CLIENT: Array<[RegExp, string]> = [
-  [/\b(intern|summer analyst|co-?op)\b/i, "intern"],
-  [/\b(analyst)\b/i, "analyst"],
-  [/\b(associate)\b/i, "associate"],
-  [/\b(vice president|vp)\b/i, "vp"],
-  [/\b(director|principal|svp)\b/i, "director"],
-  [/\b(managing director|md|head of|chief|cio|cco|cfo)\b/i, "md"],
-  [/\b(partner|general partner)\b/i, "partner"],
+  [/\b(intern|summer analyst|co-?op|summer associate)\b/i, "intern"],
+  [/\b(analyst|research analyst|investment analyst|credit analyst|portfolio analyst|financial analyst)\b/i, "analyst"],
+  [/\b(associate|investment associate|credit associate|portfolio associate|research associate)\b/i, "associate"],
+  [/\b(vice president|vp|senior associate|senior analyst|portfolio manager|investment manager|fund manager|research manager)\b/i, "vp"],
+  [/\b(director|principal|svp|senior vice president|senior portfolio manager|senior investment manager)\b/i, "director"],
+  [/\b(managing director|md|head of|chief|cio|cco|cfo|executive director|general manager|investment officer|chief investment)\b/i, "md"],
+  [/\b(partner|general partner|senior partner|co-head|co-founder)\b/i, "partner"],
 ];
 
 function classifyClient(role: string, firm: string) {
