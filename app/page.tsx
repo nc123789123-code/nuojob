@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, Suspense } from "react";
+import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -165,6 +166,7 @@ function HomeContent() {
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
             <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
+            <AuthButton />
           </div>
         </div>
       </header>
@@ -319,6 +321,20 @@ function HomeContent() {
       <GuideSection />
       <SiteFooter />
     </div>
+  );
+}
+
+function AuthButton() {
+  const { isSignedIn } = useUser();
+  if (isSignedIn) {
+    return <UserButton />;
+  }
+  return (
+    <SignInButton mode="modal">
+      <button className="px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#243d6b] transition-colors">
+        Sign in
+      </button>
+    </SignInButton>
   );
 }
 
