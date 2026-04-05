@@ -69,10 +69,17 @@ function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
 }
 
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
-const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing)\b/i;
+const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing|investor relations|client relations|client service|fundraising coordinator)\b/i;
 
 /** Finance/investment keywords — at least one must appear for the title to be considered buyside-relevant. */
-const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|investor|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|managing director)\b/i;
+const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|managing director)\b/i;
+
+/**
+ * Company name must contain at least one buyside indicator.
+ * Applied to external/broad sources (Muse, Adzuna) to block non-finance firms
+ * (e.g. Everside Health posting a finance analyst role).
+ */
+const BUYSIDE_CO_RE = /\b(capital|credit|invest|fund|asset|management|mgmt|advisors?|partners?|equity|wealth|hedge|alternative|alternatives|financial|securities|portfolio|ventures?|trading|lending|markets?)\b/i;
 
 /** Classify a job title into a buy-side category. Returns null if unclear or irrelevant. */
 function classifyTitle(title: string): JobCategory | null {
@@ -89,8 +96,8 @@ function classifyTitle(title: string): JobCategory | null {
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
   // Quant
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
-  // IR / Ops
-  if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return "IR / Ops";
+  // IR / Ops — excluded from display, return null
+  if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return null;
   // Equity Investing (buy-side equity, macro, alternatives)
   if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "Equity Investing";
   return null;
@@ -154,6 +161,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       if (seen.has(hit.id)) continue;
       seen.add(hit.id);
       if (!hit.company?.display_name) continue; // skip unknown firm
+      if (!BUYSIDE_CO_RE.test(hit.company.display_name)) continue; // skip non-finance companies
       if (!hit.redirect_url) continue;           // skip missing link
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
@@ -209,6 +217,7 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       if (seen.has(job.id)) continue;
       seen.add(job.id);
       if (!job.company?.name) continue;           // skip unknown firm
+      if (!BUYSIDE_CO_RE.test(job.company.name)) continue; // skip non-finance companies (e.g. Everside Health)
       if (!job.refs?.landing_page) continue;      // skip missing link
       const pubDate = job.publication_date || "";
       if (!pubDate) continue; // skip jobs with no date — would falsely show as "Today"
@@ -242,8 +251,8 @@ interface MuseResp { results: MuseJob[]; }
 const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
 const EDGAR_HEADERS = { "User-Agent": "Onlu/1.0 research@onlu.com", "Accept": "application/json, text/xml" };
-const EDGAR_QUERIES = ["private credit", "special situations", "hedge fund", "direct lending", "distressed", "long short equity"];
-const FUND_REQUIRED = [/\bfund\b/i, /\bL\.?P\.?\b/, /\bpartners\b/i, /\bcapital\b/i, /\bcredit\b/i, /\bequity\b/i, /\bopportunities\b/i, /\bmanagement\b/i, /\bhedge\b/i, /\binvestment\b/i];
+const EDGAR_QUERIES = ["private credit", "special situations", "hedge fund", "direct lending", "distressed", "long short equity", "SBIC", "small business investment company"];
+const FUND_REQUIRED = [/\bfund\b/i, /\bL\.?P\.?\b/, /\bpartners\b/i, /\bcapital\b/i, /\bcredit\b/i, /\bequity\b/i, /\bopportunities\b/i, /\bmanagement\b/i, /\bhedge\b/i, /\binvestment\b/i, /\bSBIC\b/i];
 const FUND_EXCLUDE = [/\blaw (firm|office)\b/i, /\battorneys? at law\b/i, /\bpension plan\b/i, /\breal estate\b/i, /\brealty\b/i];
 
 async function fromEdgar(maxDays: number): Promise<JobSignal[]> {
