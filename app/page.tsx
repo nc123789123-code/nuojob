@@ -1238,6 +1238,7 @@ function FirmPrepSection() {
                   </li>
                 ))}
               </ul>
+              <p className="text-xs text-gray-400 mt-2">Sourced from live news. Verify before your interview.</p>
             </section>
           )}
 
@@ -1279,7 +1280,7 @@ function FirmPrepSection() {
             </ul>
           </section>
 
-          <p className="text-center text-xs text-gray-400">AI-generated based on publicly available information. Always do your own research.</p>
+          <p className="text-center text-xs text-gray-400">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
         </div>
       )}
     </div>

@@ -57,35 +57,34 @@ export async function GET(req: Request) {
     max_tokens: 4000,
     messages: [{
       role: "user",
-      content: `You are a senior buyside professional who has interviewed at and worked at top hedge funds, private credit firms, and PE funds. Generate a comprehensive, firm-specific interview prep guide for: "${firm}"
+      content: `You are a senior buyside professional generating an interview prep guide for: "${firm}"
 
-Recent news about this firm: ${news.length > 0 ? news.join(" | ") : "No recent news available"}
+LIVE NEWS (use ONLY these for recentDevelopments — do not invent events):
+${news.length > 0 ? news.map((n, i) => `${i + 1}. ${n}`).join("\n") : "No recent news available — leave recentDevelopments as empty array []"}
 
-Return ONLY a JSON object with this exact structure:
+STRICT RULES:
+- Do NOT mention specific people by name (executives, partners, founders) — you may get them wrong
+- Do NOT reference specific deals, fund closes, or dates unless they appear in the live news above
+- Focus on strategy, culture, and what the firm is known for — not specific recent facts
+- Keep "context" and "tip" fields under 2 sentences each
+
+Return ONLY valid JSON:
 {
   "firm": "${firm}",
-  "strategy": "1-line description of their primary investment strategy and AUM if known",
-  "overview": "3-4 sentences covering what makes this firm distinctive, their edge, culture, and what they look for in candidates",
-  "recentDevelopments": ["3-5 recent or notable developments about this firm that an interviewer might reference"],
+  "strategy": "1-line: primary strategy and approximate AUM if well-known",
+  "overview": "3-4 sentences on what makes this firm distinctive, their investment edge, culture, and candidate fit",
+  "recentDevelopments": [],
   "behavioral": [
-    {
-      "question": "specific behavioral question this firm is known to ask",
-      "context": "what they are really testing with this question",
-      "tip": "how to answer it well for this specific firm"
-    }
+    { "question": "firm-specific behavioral question", "context": "what they test", "tip": "how to answer for this firm" }
   ],
   "technical": [
-    {
-      "question": "specific technical question relevant to their strategy",
-      "context": "what skill or knowledge they are assessing",
-      "tip": "how to frame your answer given their specific approach"
-    }
+    { "question": "strategy-specific technical question", "context": "what skill they assess", "tip": "how to frame your answer" }
   ],
-  "whatTheyValue": ["4-6 specific traits or qualities this firm prioritizes in candidates"],
-  "redFlags": ["3-5 things that would immediately disqualify a candidate at this firm"]
+  "whatTheyValue": ["4-5 specific traits this firm prioritizes"],
+  "redFlags": ["3-4 things that disqualify candidates at this firm"]
 }
 
-Include 4 behavioral and 4 technical questions. Keep each "context" and "tip" field under 2 sentences. Be highly specific to this firm's strategy. Return only valid JSON — no extra text.`,
+Include 4 behavioral and 4 technical questions. Tailor everything to their specific strategy (credit/quant/distressed/macro/PE). Return only valid JSON.`,
     }],
   });
 
