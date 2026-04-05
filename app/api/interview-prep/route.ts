@@ -59,7 +59,7 @@ export async function GET(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 5000,
+      max_tokens: 8000,
       messages: [{
         role: "user",
         content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"
@@ -67,39 +67,38 @@ export async function GET(req: Request) {
 BUSINESS NEWS: ${newsHeadlines.length > 0 ? newsHeadlines.join(" | ") : "none"}
 CULTURE NEWS: ${cultureHeadlines.length > 0 ? cultureHeadlines.join(" | ") : "none"}
 
-RULES:
+STRICT RULES:
 - Never name specific individuals
 - No fabricated dates or deals
 - Be specific to ${firm}'s actual strategy — no generic finance advice
-- Technical tips must include a full walkthrough framework a candidate can use in the room
-- Behavioral tips must include what to lead with, what to avoid, and how to close
+- Keep each string field concise (1-3 sentences max)
 
-Return ONLY valid JSON:
+Return ONLY valid JSON with NO trailing commas, NO comments:
 {
   "firm": "${firm}",
-  "strategy": "2-3 sentences: strategy, AUM, key markets",
-  "overview": "5 sentences: what makes them distinctive, investment edge, decision-making, what succeeds there",
-  "culture": "4 sentences: pace, collaboration style, performance evaluation, what employees say",
-  "recentDevelopments": ["4 items — 2 sentences each: what happened and why an interviewer might raise it"],
+  "strategy": "2 sentences: strategy, AUM, key markets",
+  "overview": "3 sentences: what makes them distinctive, investment edge, what succeeds there",
+  "culture": "3 sentences: pace, collaboration style, performance expectations",
+  "recentDevelopments": ["3 items — 1-2 sentences each: what happened and why it matters for the interview"],
   "behavioral": [
     {
       "question": "firm-specific behavioral question",
-      "context": "3 sentences: what they are diagnosing, why this firm cares, weak vs strong signal",
-      "tip": "4 sentences: what to lead with, specific details to include, what to avoid, how to tie back to this firm"
+      "context": "2 sentences: what they are diagnosing and why this firm cares",
+      "tip": "2 sentences: what to lead with and how to close tied to this firm"
     }
   ],
   "technical": [
     {
       "question": "strategy-specific technical question",
-      "context": "3 sentences: skill being tested, how it maps to their work, depth expected",
-      "tip": "5 sentences: step-by-step framework, key metrics, specific terminology, what separates good from great"
+      "context": "2 sentences: skill being tested and how it maps to their work",
+      "tip": "3 sentences: step-by-step framework, key metrics, what separates good from great"
     }
   ],
-  "whatTheyValue": ["5 traits — 2 sentences each: the trait and how it shows up in their process"],
-  "redFlags": ["4 items — 2 sentences each: the red flag and what it signals"]
+  "whatTheyValue": ["4 traits — 1 sentence each: the trait and how it shows up"],
+  "redFlags": ["3 items — 1 sentence each: the red flag and what it signals"]
 }
 
-6 behavioral, 6 technical. Return only valid JSON.`,
+5 behavioral, 5 technical. Return only valid JSON.`,
       }],
     });
 
