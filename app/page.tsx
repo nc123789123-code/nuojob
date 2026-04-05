@@ -56,7 +56,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "hiring" | "career" | "insights" | "market";
+type TopTab = "funds" | "hiring" | "career" | "insights" | "market" | "firmprep";
 
 export default function Home() {
   return (
@@ -70,7 +70,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "hiring", "career", "insights", "market"].includes(initialTab) ? initialTab : "funds"
+    ["funds", "hiring", "career", "insights", "market", "firmprep"].includes(initialTab) ? initialTab : "funds"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -159,6 +159,7 @@ function HomeContent() {
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" />
+            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Firm Prep" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
           </nav>
@@ -219,6 +220,20 @@ function HomeContent() {
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 How credit hiring works, what interviews actually test, and how to position yourself effectively — from people who&apos;ve been on both sides of the table.
+              </p>
+            </>
+          )}
+          {topTab === "firmprep" && (
+            <>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-100/70 text-rose-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
+                AI-Powered · Firm-Specific
+              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+                Firm Prep — Know Before You Walk In
+              </h1>
+              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
+                Search any buyside firm and get a tailored interview prep guide — behavioral, technical, what they really value, and what gets candidates cut. Built for credit, PE, and hedge fund interviews.
               </p>
             </>
           )}
@@ -315,6 +330,7 @@ function HomeContent() {
         {topTab === "career" && <CareerSection />}
         {topTab === "insights" && <InsightsSection />}
         {topTab === "market" && <MarketSection />}
+        {topTab === "firmprep" && <FirmPrepSection />}
       </main>
 
       {/* Monetization section — always visible */}
@@ -1121,6 +1137,151 @@ function PostList({ posts }: { posts: InsightPost[] }) {
           <div className="mt-10 border-t border-[#c1c7cc]/30" />
         </article>
       ))}
+    </div>
+  );
+}
+
+// ─── Firm Prep Section ───────────────────────────────────────────────────────
+
+interface PrepQuestion { question: string; context: string; tip: string; }
+interface InterviewPrep {
+  firm: string; strategy: string; overview: string;
+  recentDevelopments: string[]; behavioral: PrepQuestion[];
+  technical: PrepQuestion[]; whatTheyValue: string[]; redFlags: string[];
+}
+
+function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border border-gray-200 rounded-xl overflow-hidden">
+      <button onClick={() => setOpen(!open)}
+        className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors">
+        <span className="text-xs font-bold text-gray-400 mt-0.5 w-5 flex-shrink-0">{index + 1}</span>
+        <span className="text-sm font-medium text-[#191c1e] flex-1">{q.question}</span>
+        <span className="text-gray-400 flex-shrink-0 mt-0.5">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-2 border-t border-gray-100 pt-3">
+          <div className="bg-sky-50 rounded-lg p-3">
+            <p className="text-[11px] font-semibold text-sky-700 uppercase tracking-wide mb-1">What they&apos;re testing</p>
+            <p className="text-xs text-[#41484c] leading-relaxed">{q.context}</p>
+          </div>
+          <div className="bg-emerald-50 rounded-lg p-3">
+            <p className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wide mb-1">How to answer</p>
+            <p className="text-xs text-[#41484c] leading-relaxed">{q.tip}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FirmPrepSection() {
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [prep, setPrep] = useState<InterviewPrep | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const search = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setLoading(true); setError(null); setPrep(null);
+    try {
+      const res = await fetch(`/api/interview-prep?firm=${encodeURIComponent(query.trim())}`);
+      const d = await res.json();
+      if (d.error) setError(d.error);
+      else setPrep(d);
+    } catch { setError("Failed to generate prep guide."); }
+    finally { setLoading(false); }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
+      {/* Search */}
+      <form onSubmit={search} className="flex gap-2">
+        <input value={query} onChange={e => setQuery(e.target.value)}
+          placeholder="Search any firm — Ares, Citadel, Apollo, KKR…"
+          className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+        <button type="submit" disabled={loading}
+          className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+          {loading ? "Generating…" : "Prep →"}
+        </button>
+      </form>
+
+      {loading && (
+        <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
+          <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm">Generating your firm-specific prep guide…</p>
+          <p className="text-xs text-gray-400">This takes 10–15 seconds</p>
+        </div>
+      )}
+
+      {error && <p className="text-center text-sm text-red-500 py-8">{error}</p>}
+
+      {prep && (
+        <div className="space-y-8">
+          {/* Header */}
+          <div className="border border-rose-200 bg-rose-50/30 rounded-xl px-6 py-5">
+            <h2 className="text-xl font-bold text-[#191c1e] mb-1">{prep.firm}</h2>
+            <p className="text-xs font-semibold text-rose-600 mb-3">{prep.strategy}</p>
+            <p className="text-sm text-[#41484c] leading-relaxed">{prep.overview}</p>
+          </div>
+
+          {/* Recent Developments */}
+          {prep.recentDevelopments?.length > 0 && (
+            <section>
+              <h3 className="text-sm font-bold text-[#191c1e] mb-3">📰 Recent Developments</h3>
+              <ul className="space-y-2">
+                {prep.recentDevelopments.map((d, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#41484c]">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />{d}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* What They Value */}
+          <section>
+            <h3 className="text-sm font-bold text-[#191c1e] mb-3">⭐ What They Value in Candidates</h3>
+            <div className="flex flex-wrap gap-2">
+              {prep.whatTheyValue.map((v, i) => (
+                <span key={i} className="px-3 py-1.5 bg-[#1A2B4A]/5 text-[#1A2B4A] text-xs font-medium rounded-full border border-[#1A2B4A]/10">{v}</span>
+              ))}
+            </div>
+          </section>
+
+          {/* Behavioral */}
+          <section>
+            <h3 className="text-sm font-bold text-[#191c1e] mb-3">💬 Behavioral Questions</h3>
+            <div className="space-y-2">
+              {prep.behavioral.map((q, i) => <PrepQuestionCard key={i} q={q} index={i} />)}
+            </div>
+          </section>
+
+          {/* Technical */}
+          <section>
+            <h3 className="text-sm font-bold text-[#191c1e] mb-3">📊 Technical Questions</h3>
+            <div className="space-y-2">
+              {prep.technical.map((q, i) => <PrepQuestionCard key={i} q={q} index={i} />)}
+            </div>
+          </section>
+
+          {/* Red Flags */}
+          <section>
+            <h3 className="text-sm font-bold text-[#191c1e] mb-3">🚩 Red Flags — What Gets Candidates Cut</h3>
+            <ul className="space-y-2">
+              {prep.redFlags.map((r, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-[#41484c]">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{r}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <p className="text-center text-xs text-gray-400">AI-generated based on publicly available information. Always do your own research.</p>
+        </div>
+      )}
     </div>
   );
 }
