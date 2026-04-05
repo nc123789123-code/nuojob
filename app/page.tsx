@@ -1189,9 +1189,9 @@ function FirmPrepSection() {
     try {
       const res = await fetch(`/api/interview-prep?firm=${encodeURIComponent(query.trim())}`);
       const d = await res.json();
-      if (d.error) setError(d.error);
+      if (d.error) setError(`Error: ${d.error}`);
       else setPrep(d);
-    } catch { setError("Failed to generate prep guide."); }
+    } catch (e) { setError(e instanceof Error ? e.message : "Failed to generate prep guide."); }
     finally { setLoading(false); }
   };
 

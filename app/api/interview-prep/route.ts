@@ -45,8 +45,9 @@ export async function GET(req: Request) {
   if (cached && Date.now() - cached.ts < CACHE_TTL) return Response.json(cached.data);
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
+  if (!apiKey) return Response.json({ error: "ANTHROPIC_API_KEY not set in environment" }, { status: 500 });
 
+  try {
   const news = await fetchFirmNews(firm);
 
   const client = new Anthropic({ apiKey });
@@ -94,4 +95,9 @@ Include 4 behavioral and 5 technical questions. Be highly specific to this firm'
 
   cache.set(key, { data: result, ts: Date.now() });
   return Response.json(result);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[interview-prep]", message);
+    return Response.json({ error: message }, { status: 500 });
+  }
 }
