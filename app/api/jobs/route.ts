@@ -75,11 +75,19 @@ const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|deve
 const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|managing director)\b/i;
 
 /**
- * Company name must contain at least one buyside indicator.
- * Applied to external/broad sources (Muse, Adzuna) to block non-finance firms
- * (e.g. Everside Health posting a finance analyst role).
+ * For external broad sources (Muse, Adzuna): require EITHER the company name to
+ * contain a buyside indicator (catches "Blue Owl Capital", "Everside Capital")
+ * OR the title to be specifically buyside enough (catches "Investment Analyst at
+ * Goldman Sachs" where the company name has no finance keyword).
+ * This blocks "Financial Analyst at Everside Health" — company name has no
+ * finance keyword and title isn't specific enough.
  */
 const BUYSIDE_CO_RE = /\b(capital|credit|invest|fund|asset|management|mgmt|advisors?|partners?|equity|wealth|hedge|alternative|alternatives|financial|securities|portfolio|ventures?|trading|lending|markets?)\b/i;
+const BUYSIDE_TITLE_SPECIFIC_RE = /\b(investment analyst|credit analyst|portfolio manager|portfolio analyst|fund analyst|fund manager|hedge fund|private equity|direct lending|distressed|quantitative analyst|quant analyst|fixed income analyst|equity research analyst|equity analyst|macro analyst)\b/i;
+
+function isExternalJobValid(companyName: string, title: string): boolean {
+  return BUYSIDE_CO_RE.test(companyName) || BUYSIDE_TITLE_SPECIFIC_RE.test(title);
+}
 
 /** Classify a job title into a buy-side category. Returns null if unclear or irrelevant. */
 function classifyTitle(title: string): JobCategory | null {
@@ -161,13 +169,13 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       if (seen.has(hit.id)) continue;
       seen.add(hit.id);
       if (!hit.company?.display_name) continue; // skip unknown firm
-      if (!BUYSIDE_CO_RE.test(hit.company.display_name)) continue; // skip non-finance companies
       if (!hit.redirect_url) continue;           // skip missing link
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
       // Only include jobs with a clear buy-side category
       const classified = classifyTitle(hit.title);
       if (!classified) continue;
+      if (!isExternalJobValid(hit.company.display_name, hit.title)) continue; // skip non-buyside firms
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
       const cat = (classified === "Equity Investing" && fallbackCat === "Equity Research") ? fallbackCat : classified;
@@ -217,7 +225,6 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       if (seen.has(job.id)) continue;
       seen.add(job.id);
       if (!job.company?.name) continue;           // skip unknown firm
-      if (!BUYSIDE_CO_RE.test(job.company.name)) continue; // skip non-finance companies (e.g. Everside Health)
       if (!job.refs?.landing_page) continue;      // skip missing link
       const pubDate = job.publication_date || "";
       if (!pubDate) continue; // skip jobs with no date — would falsely show as "Today"
@@ -225,6 +232,7 @@ async function fromMuse(maxDays: number): Promise<JobSignal[]> {
       if (days > maxDays) continue;
       const cat = classifyTitle(job.name);
       if (!cat) continue; // skip unclassifiable
+      if (!isExternalJobValid(job.company.name, job.name)) continue; // skip non-buyside firms
       const loc = job.locations?.[0]?.name?.split(",")?.[0]?.trim() || "—";
       out.push({
         id: `muse-${job.id}`,
@@ -343,38 +351,74 @@ type FirmType = "pe" | "hedge" | "credit" | "growth";
 // Firm lists are sourced from the central registry in app/lib/firms.ts.
 // Additional one-off entries here are kept for backwards compatibility.
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  // Tier 1 mega-platforms
-  { slug: "kkr",                   firm: "KKR",                        type: "pe"     },
-  { slug: "aresmgmt",              firm: "Ares Management",            type: "credit" },
-  { slug: "apolloglobal",          firm: "Apollo Global Management",   type: "credit" },
-  { slug: "oaktree",               firm: "Oaktree Capital Management", type: "credit" },
-  { slug: "blackstone",            firm: "Blackstone Credit",          type: "credit" },
-  { slug: "hpsinvestmentpartners", firm: "HPS Investment Partners",    type: "credit" },
-  { slug: "centerbridgepartners",  firm: "Centerbridge Partners",      type: "credit" },
-  { slug: "blueowl",               firm: "Blue Owl Capital",           type: "credit" },
-  // Private credit / direct lending
-  { slug: "baincapital",           firm: "Bain Capital Credit",        type: "credit" },
-  { slug: "carlyle",               firm: "Carlyle Credit",             type: "credit" },
-  { slug: "golubcapital",          firm: "Golub Capital",              type: "credit" },
-  { slug: "antarescapital",        firm: "Antares Capital",            type: "credit" },
-  { slug: "benefitstreetpartners", firm: "Benefit Street Partners",    type: "credit" },
-  { slug: "firsteagle",            firm: "First Eagle Alternative Capital", type: "credit" },
-  { slug: "marathonassetmanagement", firm: "Marathon Asset Management", type: "credit" },
-  { slug: "angelogordon",          firm: "TPG Angelo Gordon",          type: "credit" },
-  // Multi-strat / hedge
-  { slug: "millenniummanagement",  firm: "Millennium Management",      type: "hedge"  },
-  { slug: "neubergerberman",       firm: "Neuberger Berman Credit",    type: "credit" },
-  // PE platforms with credit
-  { slug: "silverlake",            firm: "Silver Lake Credit",         type: "pe"     },
-  { slug: "tpg",                   firm: "TPG Capital",                type: "pe"     },
-  { slug: "warburgpincusllc",      firm: "Warburg Pincus",             type: "pe"     },
+  // ── Tier 1 mega-platforms ────────────────────────────────────────────────
+  { slug: "kkr",                     firm: "KKR",                             type: "pe"     },
+  { slug: "aresmgmt",                firm: "Ares Management",                 type: "credit" },
+  { slug: "apolloglobal",            firm: "Apollo Global Management",        type: "credit" },
+  { slug: "apollo-global-management",firm: "Apollo Global Management",        type: "credit" },
+  { slug: "oaktree",                 firm: "Oaktree Capital Management",      type: "credit" },
+  { slug: "blackstone",              firm: "Blackstone",                      type: "pe"     },
+  { slug: "hpsinvestmentpartners",   firm: "HPS Investment Partners",         type: "credit" },
+  { slug: "centerbridgepartners",    firm: "Centerbridge Partners",           type: "credit" },
+  { slug: "blueowl",                 firm: "Blue Owl Capital",                type: "credit" },
+  { slug: "point72",                 firm: "Point72",                         type: "hedge"  },
+  { slug: "millenniummanagement",    firm: "Millennium Management",           type: "hedge"  },
+  { slug: "bridgewater89",           firm: "Bridgewater Associates",          type: "hedge"  },
+  { slug: "aqr",                     firm: "AQR Capital Management",          type: "hedge"  },
+  { slug: "twosigma",                firm: "Two Sigma",                       type: "hedge"  },
+  { slug: "citadel",                 firm: "Citadel",                         type: "hedge"  },
+  { slug: "citadelsecurities",       firm: "Citadel Securities",              type: "hedge"  },
+  // ── Private credit / direct lending ─────────────────────────────────────
+  { slug: "baincapital",             firm: "Bain Capital",                    type: "credit" },
+  { slug: "carlyle",                 firm: "The Carlyle Group",               type: "pe"     },
+  { slug: "golubcapital",            firm: "Golub Capital",                   type: "credit" },
+  { slug: "antarescapital",          firm: "Antares Capital",                 type: "credit" },
+  { slug: "benefitstreetpartners",   firm: "Benefit Street Partners",         type: "credit" },
+  { slug: "firsteagle",              firm: "First Eagle Alternative Capital",  type: "credit" },
+  { slug: "marathonassetmanagement", firm: "Marathon Asset Management",       type: "credit" },
+  { slug: "angelogordon",            firm: "TPG Angelo Gordon",               type: "credit" },
+  { slug: "pgim",                    firm: "PGIM",                            type: "credit" },
+  { slug: "castlelake",              firm: "Castle Lake",                     type: "credit" },
+  { slug: "sixthstreetpartners",     firm: "Sixth Street Partners",           type: "credit" },
+  // ── PE / growth ─────────────────────────────────────────────────────────
+  { slug: "silverlake",              firm: "Silver Lake",                     type: "pe"     },
+  { slug: "tpg",                     firm: "TPG Capital",                     type: "pe"     },
+  { slug: "warburgpincusllc",        firm: "Warburg Pincus",                  type: "pe"     },
+  { slug: "generalatlantic",         firm: "General Atlantic",                type: "growth" },
+  { slug: "insightpartners",         firm: "Insight Partners",                type: "growth" },
+  { slug: "brookfield",              firm: "Brookfield Asset Management",     type: "pe"     },
+  { slug: "lgp",                     firm: "Leonard Green & Partners",        type: "pe"     },
+  { slug: "vistaequitypartners",     firm: "Vista Equity Partners",           type: "pe"     },
+  { slug: "thomabravo",              firm: "Thoma Bravo",                     type: "pe"     },
+  { slug: "clearlakecapital",        firm: "Clearlake Capital",               type: "pe"     },
+  { slug: "adventinternational",     firm: "Advent International",            type: "pe"     },
+  { slug: "franciscopartners",       firm: "Francisco Partners",              type: "pe"     },
+  { slug: "eqtgroup",                firm: "EQT",                             type: "pe"     },
+  { slug: "stonepeak",               firm: "Stonepeak",                       type: "pe"     },
+  { slug: "starwoodcapital",         firm: "Starwood Capital Group",          type: "pe"     },
+  { slug: "hgcapital",               firm: "HgCapital",                       type: "pe"     },
+  // ── Neuberger ────────────────────────────────────────────────────────────
+  { slug: "neubergerberman",         firm: "Neuberger Berman",                type: "credit" },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
-  { slug: "monarchalternative",    firm: "Monarch Alternative Capital", type: "credit" },
-  { slug: "silverpoint",           firm: "Silver Point Capital",        type: "credit" },
-  { slug: "brigidecapital",        firm: "Brigade Capital Management",  type: "credit" },
-  { slug: "magnetar",              firm: "Magnetar Capital",            type: "credit" },
+  { slug: "monarchalternative",      firm: "Monarch Alternative Capital",     type: "credit" },
+  { slug: "silverpoint",             firm: "Silver Point Capital",            type: "credit" },
+  { slug: "brigidecapital",          firm: "Brigade Capital Management",      type: "credit" },
+  { slug: "magnetar",                firm: "Magnetar Capital",                type: "credit" },
+  { slug: "coatue",                  firm: "Coatue Management",               type: "hedge"  },
+  { slug: "tigerglobal",             firm: "Tiger Global",                    type: "hedge"  },
+  { slug: "iconiqcapital",           firm: "ICONIQ Capital",                  type: "pe"     },
+  { slug: "dragoneer",               firm: "Dragoneer Investment Group",      type: "hedge"  },
+  { slug: "d1capitalpartners",       firm: "D1 Capital Partners",             type: "hedge"  },
+  { slug: "thirdpoint",              firm: "Third Point",                     type: "hedge"  },
+  { slug: "nea",                     firm: "NEA",                             type: "growth" },
+  { slug: "permira",                 firm: "Permira",                         type: "pe"     },
+  { slug: "battery",                 firm: "Battery Ventures",                type: "growth" },
+  { slug: "lightspeedvp",            firm: "Lightspeed Venture Partners",     type: "growth" },
+  { slug: "generalcatalyst",         firm: "General Catalyst",                type: "growth" },
+  { slug: "a16z",                    firm: "Andreessen Horowitz",             type: "growth" },
+  { slug: "kleinerperkins",          firm: "Kleiner Perkins",                 type: "growth" },
 ];
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
