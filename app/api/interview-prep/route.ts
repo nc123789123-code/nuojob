@@ -59,13 +59,13 @@ export async function GET(req: Request) {
       role: "user",
       content: `You are a senior buyside professional generating an interview prep guide for: "${firm}"
 
-LIVE NEWS (use ONLY these for recentDevelopments — do not invent events):
-${news.length > 0 ? news.map((n, i) => `${i + 1}. ${n}`).join("\n") : "No recent news available — leave recentDevelopments as empty array []"}
+LIVE NEWS (prioritize these for recentDevelopments):
+${news.length > 0 ? news.map((n, i) => `${i + 1}. ${n}`).join("\n") : "No live news available"}
 
 STRICT RULES:
-- Do NOT mention specific people by name (executives, partners, founders) — you may get them wrong
-- Do NOT reference specific deals, fund closes, or dates unless they appear in the live news above
-- Focus on strategy, culture, and what the firm is known for — not specific recent facts
+- Do NOT mention specific people by name — you may get them wrong
+- Do NOT reference specific deal dates or years unless from live news above
+- For recentDevelopments: use live news if available, otherwise include 3-4 well-known factual things about this firm (strategy expansion, AUM milestones, known market position) — never invent events
 - Keep "context" and "tip" fields under 2 sentences each
 
 Return ONLY valid JSON:
@@ -73,7 +73,7 @@ Return ONLY valid JSON:
   "firm": "${firm}",
   "strategy": "1-line: primary strategy and approximate AUM if well-known",
   "overview": "3-4 sentences on what makes this firm distinctive, their investment edge, culture, and candidate fit",
-  "recentDevelopments": [],
+  "recentDevelopments": ["3-4 factual developments from live news or well-known public facts about this firm"],
   "behavioral": [
     { "question": "firm-specific behavioral question", "context": "what they test", "tip": "how to answer for this firm" }
   ],
