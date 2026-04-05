@@ -68,9 +68,9 @@ export default function Home() {
 
 function HomeContent() {
   const searchParams = useSearchParams();
-  const initialTab = (searchParams.get("tab") as TopTab | null) ?? "funds";
+  const initialTab = (searchParams.get("tab") as TopTab | null) ?? "hiring";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "hiring", "career", "insights", "market", "firmprep"].includes(initialTab) ? initialTab : "funds"
+    ["funds", "hiring", "career", "insights", "market", "firmprep"].includes(initialTab) ? initialTab : "hiring"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -157,11 +157,11 @@ function HomeContent() {
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
+            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Firm Prep" badge="AI" />
+            <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
-            <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" />
-            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Firm Prep" />
-            <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" />
-            <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" />
+            <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" badge="Blog" />
+            <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" badge="Blog" />
           </nav>
           <div className="ml-auto flex items-center gap-4">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
@@ -354,11 +354,17 @@ function AuthButton() {
   );
 }
 
-function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: boolean }) {
+function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: string }) {
+  const badgeStyle = badge === "AI"
+    ? "bg-violet-100 text-violet-600"
+    : badge === "Blog"
+    ? "bg-amber-100 text-amber-600"
+    : "bg-[#c3ecd7] text-[#416656]";
+
   return (
     <button
       onClick={onClick}
-      className={`relative px-4 py-1.5 rounded-md text-sm transition-all ${
+      className={`relative flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm transition-all ${
         active
           ? "bg-sky-100 text-[#396477] font-bold"
           : "text-[#41484c] font-semibold hover:text-[#191c1e] hover:bg-[#f2f4f6]"
@@ -366,8 +372,8 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
     >
       {label}
       {badge && (
-        <span className="absolute -top-1 -right-1.5 text-[9px] bg-[#c3ecd7] text-[#416656] font-bold px-1 py-0.5 rounded leading-none">
-          NEW
+        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none ${badgeStyle}`}>
+          {badge}
         </span>
       )}
     </button>
