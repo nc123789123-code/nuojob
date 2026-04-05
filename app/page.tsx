@@ -1151,7 +1151,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
 
 interface PrepQuestion { question: string; context: string; tip: string; }
 interface InterviewPrep {
-  firm: string; strategy: string; overview: string;
+  firm: string; strategy: string; overview: string; culture: string;
   recentDevelopments: string[]; behavioral: PrepQuestion[];
   technical: PrepQuestion[]; whatTheyValue: string[]; redFlags: string[];
 }
@@ -1218,7 +1218,7 @@ function FirmPrepSection() {
         <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
           <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Generating your firm-specific prep guide…</p>
-          <p className="text-xs text-gray-400">This takes 5–10 seconds</p>
+          <p className="text-xs text-gray-400">This takes 15–25 seconds</p>
         </div>
       )}
 
@@ -1232,6 +1232,16 @@ function FirmPrepSection() {
             <p className="text-xs font-semibold text-rose-600 mb-3">{prep.strategy}</p>
             <p className="text-sm text-[#41484c] leading-relaxed">{prep.overview}</p>
           </div>
+
+          {/* Culture */}
+          {prep.culture && (
+            <section>
+              <h3 className="text-sm font-bold text-[#191c1e] mb-3">🏢 Culture & Work Environment</h3>
+              <div className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4">
+                <p className="text-sm text-[#41484c] leading-relaxed">{prep.culture}</p>
+              </div>
+            </section>
+          )}
 
           {/* Recent Developments */}
           {prep.recentDevelopments?.length > 0 && (
