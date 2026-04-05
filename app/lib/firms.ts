@@ -300,6 +300,161 @@ export const FIRMS: FirmProfile[] = [
     tier: 2,
     ashby: "stripes",
   },
+
+  // ── Tier 1: Major PE / credit mega-funds (Greenhouse) ─────────────────────
+  {
+    id: "blackstone",
+    name: "Blackstone",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    tier: 1,
+    greenhouse: "blackstone",
+  },
+  {
+    id: "apollo",
+    name: "Apollo Global Management",
+    strategies: ["private_credit", "private_equity", "distressed"],
+    tier: 1,
+    greenhouse: "apollo-global-management",
+  },
+  {
+    id: "carlyle",
+    name: "The Carlyle Group",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    tier: 1,
+    greenhouse: "carlyle",
+  },
+  {
+    id: "oaktree",
+    name: "Oaktree Capital Management",
+    strategies: ["distressed", "private_credit", "special_sits"],
+    tier: 1,
+    greenhouse: "oaktree",
+  },
+
+  // ── Tier 2: Real assets / infrastructure (Greenhouse) ────────────────────
+  {
+    id: "stonepeak",
+    name: "Stonepeak",
+    strategies: ["real_assets", "private_credit"],
+    tier: 2,
+    greenhouse: "stonepeak",
+  },
+  {
+    id: "starwood",
+    name: "Starwood Capital Group",
+    strategies: ["real_assets", "private_credit"],
+    tier: 2,
+    greenhouse: "starwoodcapital",
+  },
+  {
+    id: "eqt",
+    name: "EQT",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    tier: 2,
+    greenhouse: "eqtgroup",
+  },
+  {
+    id: "clearlake",
+    name: "Clearlake Capital",
+    strategies: ["private_equity", "special_sits"],
+    tier: 2,
+    greenhouse: "clearlakecapital",
+  },
+  {
+    id: "advent",
+    name: "Advent International",
+    strategies: ["private_equity"],
+    tier: 2,
+    greenhouse: "adventinternational",
+  },
+  {
+    id: "franciscopartners",
+    name: "Francisco Partners",
+    strategies: ["private_equity", "growth"],
+    tier: 2,
+    greenhouse: "franciscopartners",
+  },
+  {
+    id: "sixthstreet",
+    name: "Sixth Street Partners",
+    strategies: ["private_credit", "direct_lending", "special_sits"],
+    tier: 2,
+    greenhouse: "sixthstreetpartners",
+  },
+  {
+    id: "hg",
+    name: "HgCapital",
+    strategies: ["private_equity", "growth"],
+    tier: 2,
+    greenhouse: "hgcapital",
+  },
+  {
+    id: "ivc",
+    name: "IVC Evidensia",
+    strategies: ["private_equity"],
+    tier: 3,
+    greenhouse: "ivc",
+  },
+
+  // ── Tier 2: Growth equity / VC (Lever) ────────────────────────────────────
+  {
+    id: "battery",
+    name: "Battery Ventures",
+    strategies: ["growth", "private_equity"],
+    tier: 2,
+    lever: "battery",
+  },
+  {
+    id: "lightspeed",
+    name: "Lightspeed Venture Partners",
+    strategies: ["growth"],
+    tier: 2,
+    lever: "lightspeedvp",
+  },
+  {
+    id: "generalcatalyst",
+    name: "General Catalyst",
+    strategies: ["growth"],
+    tier: 2,
+    lever: "generalcatalyst",
+  },
+  {
+    id: "andreessen",
+    name: "Andreessen Horowitz",
+    strategies: ["growth"],
+    tier: 2,
+    lever: "a16z",
+  },
+  {
+    id: "kpcb",
+    name: "Kleiner Perkins",
+    strategies: ["growth"],
+    tier: 2,
+    lever: "kleinerperkins",
+  },
+
+  // ── Tier 2: Credit / special sits (Ashby) ────────────────────────────────
+  {
+    id: "veritascapital",
+    name: "Veritas Capital",
+    strategies: ["private_equity", "special_sits"],
+    tier: 2,
+    ashby: "veritascapital",
+  },
+  {
+    id: "hgcapital_ashby",
+    name: "HG Capital",
+    strategies: ["private_equity"],
+    tier: 2,
+    ashby: "hg",
+  },
+  {
+    id: "sageviewcapital",
+    name: "Sageview Capital",
+    strategies: ["private_equity", "growth"],
+    tier: 3,
+    ashby: "sageviewcapital",
+  },
 ];
 
 /**

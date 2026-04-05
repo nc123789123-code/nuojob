@@ -1820,6 +1820,92 @@ const FIRM_REGISTRY = [
     careersUrl: "https://www.tpg.com/careers",
     desc: "Global alternative asset manager with large private credit and equity platforms. Credit arm focuses on direct lending, real estate credit, and special situations.",
   },
+
+  // ── Additional Tier 1 Mega-funds ──────────────────────────────────────────
+  {
+    id: "blackstone", name: "Blackstone", tier: 1 as const,
+    category: "Private Credit",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    keywords: ["blackstone"],
+    careersUrl: "https://www.blackstone.com/careers",
+    desc: "World's largest alternative asset manager with $1T+ AUM. Credit platform spans direct lending, CLOs, liquid credit, and insurance-linked strategies.",
+  },
+  {
+    id: "apollo", name: "Apollo Global Management", tier: 1 as const,
+    category: "Private Credit",
+    strategies: ["private_credit", "private_equity", "distressed"],
+    keywords: ["apollo global", "apollo management"],
+    careersUrl: "https://www.apollo.com/careers",
+    desc: "Hybrid value-investing platform with $650B+ AUM. Known for large-scale credit origination, insurance assets, and complex structured transactions.",
+  },
+  {
+    id: "carlyle", name: "The Carlyle Group", tier: 1 as const,
+    category: "Private Credit",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    keywords: ["carlyle group", "carlyle"],
+    careersUrl: "https://www.carlyle.com/careers",
+    desc: "Global alternative asset manager with $425B+ AUM. Credit platform covers direct lending, structured credit, and opportunistic / distressed strategies.",
+  },
+  {
+    id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
+    category: "Distressed",
+    strategies: ["distressed", "private_credit", "special_sits"],
+    keywords: ["oaktree"],
+    careersUrl: "https://www.oaktreecapital.com/careers",
+    desc: "Premier distressed and credit-focused manager founded by Howard Marks with $190B+ AUM. Dominant in distressed debt, high yield, and convertibles.",
+  },
+
+  // ── Real Assets / Infrastructure ──────────────────────────────────────────
+  {
+    id: "stonepeak", name: "Stonepeak", tier: 2 as const,
+    category: "Private Credit",
+    strategies: ["real_assets", "private_credit"],
+    keywords: ["stonepeak"],
+    careersUrl: "https://www.stonepeakpartners.com/careers",
+    desc: "Infrastructure and real assets specialist with $70B+ AUM. Invests across digital infrastructure, energy transition, transport, and water globally.",
+  },
+  {
+    id: "starwood", name: "Starwood Capital Group", tier: 2 as const,
+    category: "Private Credit",
+    strategies: ["real_assets", "private_credit"],
+    keywords: ["starwood capital", "starwood"],
+    careersUrl: "https://www.starwoodcapital.com/careers",
+    desc: "Real estate and real assets manager with $115B+ AUM. Active across debt, equity, and opportunistic real estate credit globally.",
+  },
+  {
+    id: "eqt", name: "EQT", tier: 2 as const,
+    category: "Private Credit",
+    strategies: ["private_equity", "private_credit", "real_assets"],
+    keywords: ["eqt"],
+    careersUrl: "https://www.eqtgroup.com/careers",
+    desc: "Swedish PE giant with €230B+ AUM. Active across PE, infrastructure, real estate, and credit; one of Europe's most active buyers.",
+  },
+
+  // ── Growth Equity / PE ─────────────────────────────────────────────────────
+  {
+    id: "clearlake", name: "Clearlake Capital", tier: 2 as const,
+    category: "Equity Investing",
+    strategies: ["private_equity", "special_sits"],
+    keywords: ["clearlake"],
+    careersUrl: "https://www.clearlake.com/careers",
+    desc: "Technology and operations-focused PE firm with $90B+ AUM. Known for operational engineering approach and control-oriented buyouts.",
+  },
+  {
+    id: "advent", name: "Advent International", tier: 2 as const,
+    category: "Equity Investing",
+    strategies: ["private_equity"],
+    keywords: ["advent international", "advent"],
+    careersUrl: "https://www.adventinternational.com/careers",
+    desc: "Global PE firm focused on buyouts with $25B+ in committed capital. Active across Europe, North America, and emerging markets.",
+  },
+  {
+    id: "sixthstreet", name: "Sixth Street Partners", tier: 2 as const,
+    category: "Private Credit",
+    strategies: ["private_credit", "direct_lending", "special_sits"],
+    keywords: ["sixth street"],
+    careersUrl: "https://sixthstreet.com/careers",
+    desc: "Multi-strategy credit platform with $75B+ AUM. Spans direct lending, asset-backed finance, TAO (tactical opportunities), and growth equity.",
+  },
 ];
 
 function matchFirm(firmName: string) {
@@ -1843,7 +1929,7 @@ function getJobsForFiling(filing: FundFiling, jobSignals: JobSignal[]): JobSigna
   return jobSignals.filter((j) => matchFirm(j.firm)?.id === firmMatch.id);
 }
 
-const BACK_OFFICE_RE_CLIENT = /\b(software engineer|developer|devops|sysadmin|cybersecurity|HR|human resources|recruit|talent|office manager|admin|payroll|legal counsel|paralegal|attorney|marketing|content manager|social media|sales|business development|customer support|help desk|product manager|project manager|supply chain|procurement)\b/i;
+const BACK_OFFICE_RE_CLIENT = /\b(software engineer|developer|devops|sysadmin|cybersecurity|HR|human resources|recruit|talent|office manager|admin|payroll|legal counsel|paralegal|attorney|marketing|content manager|social media|sales|business development|customer support|help desk|product manager|project manager|supply chain|procurement|investor relations|investor relation|client relations|client service|fundraising coordinator)\b/i;
 const SENIORITY_RE_CLIENT: Array<[RegExp, string]> = [
   [/\b(intern|summer analyst|co-?op|summer associate)\b/i, "intern"],
   [/\b(analyst|research analyst|investment analyst|credit analyst|portfolio analyst|financial analyst)\b/i, "analyst"],
