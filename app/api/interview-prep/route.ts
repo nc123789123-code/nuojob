@@ -24,7 +24,7 @@ async function fetchFirmNews(firm: string): Promise<string[]> {
   const short = firm.replace(/\b(LP|LLC|Ltd|Inc|Corp|Fund|Partners|Capital|Management|Advisors?|Group)\b.*/i, "").trim().slice(0, 40);
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(`"${short}" finance investment`)}&hl=en-US&gl=US&ceid=US:en`;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
     const xml = await res.text();
     const cdata = [...xml.matchAll(/<title><!\[CDATA\[(.*?)\]\]><\/title>/g)].slice(1, 6).map(m => m[1].trim());
     if (cdata.length > 0) return cdata;
@@ -52,8 +52,8 @@ export async function GET(req: Request) {
   const client = new Anthropic({ apiKey });
 
   const msg = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 2500,
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 2000,
     messages: [{
       role: "user",
       content: `You are a senior buyside professional who has interviewed at and worked at top hedge funds, private credit firms, and PE funds. Generate a comprehensive, firm-specific interview prep guide for: "${firm}"
@@ -84,7 +84,7 @@ Return ONLY a JSON object with this exact structure:
   "redFlags": ["3-5 things that would immediately disqualify a candidate at this firm"]
 }
 
-Include 5 behavioral and 6 technical questions. Make them highly specific to this firm's strategy — not generic. If this is a credit firm, focus on credit. If quant, focus on quant. If distressed, focus on restructuring. Return only the JSON.`,
+Include 4 behavioral and 5 technical questions. Be highly specific to this firm's strategy. If credit, focus on credit. If quant, focus on quant. If distressed, focus on restructuring. Be concise. Return only the JSON.`,
     }],
   });
 

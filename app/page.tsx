@@ -1212,7 +1212,7 @@ function FirmPrepSection() {
         <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
           <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Generating your firm-specific prep guide…</p>
-          <p className="text-xs text-gray-400">This takes 10–15 seconds</p>
+          <p className="text-xs text-gray-400">This takes 5–10 seconds</p>
         </div>
       )}
 
