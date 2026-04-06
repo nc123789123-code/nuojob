@@ -38,9 +38,10 @@ const CACHE_TTL = 24 * 60 * 60 * 1000;
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const firm = (searchParams.get("firm") || "").trim();
+  const group = (searchParams.get("group") || "").trim();
   if (!firm) return Response.json({ error: "Missing firm name" }, { status: 400 });
 
-  const key = firm.toLowerCase();
+  const key = `${firm.toLowerCase()}|${group.toLowerCase()}`;
   const cached = cache.get(key);
   if (cached && Date.now() - cached.ts < CACHE_TTL) return Response.json(cached.data);
 
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
       max_tokens: 8000,
       messages: [{
         role: "user",
-        content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"
+        content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"${group ? ` — specifically for the ${group} team/group` : ""}
 
 BUSINESS NEWS: ${newsHeadlines.length > 0 ? newsHeadlines.join(" | ") : "none"}
 CULTURE NEWS: ${cultureHeadlines.length > 0 ? cultureHeadlines.join(" | ") : "none"}

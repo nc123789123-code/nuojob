@@ -11,12 +11,13 @@ const TTL = 24 * 60 * 60 * 1000;
 
 export async function GET(req: NextRequest) {
   const firm = req.nextUrl.searchParams.get("firm")?.trim();
+  const group = req.nextUrl.searchParams.get("group")?.trim() || "";
   if (!firm) return Response.json({ error: "firm is required" }, { status: 400 });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return Response.json({ error: "ANTHROPIC_API_KEY not set" }, { status: 500 });
 
-  const cacheKey = firm.toLowerCase();
+  const cacheKey = `${firm.toLowerCase()}|${group.toLowerCase()}`;
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < TTL) return Response.json(cached.data);
 
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
       max_tokens: 3000,
       messages: [{
         role: "user",
-        content: `List the investment professionals at "${firm}" based on publicly available information.
+        content: `List the investment professionals at "${firm}"${group ? ` on the ${group} team` : ""} based on publicly available information.
 
 RULES:
 - Only include people whose names and titles have been publicly listed on the firm's website, press releases, or reputable news sources

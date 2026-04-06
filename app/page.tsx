@@ -1246,6 +1246,7 @@ const CONFIDENCE_STYLE: Record<string, string> = {
 
 function FirmPrepSection() {
   const [query, setQuery] = useState("");
+  const [teamGroup, setTeamGroup] = useState("");
   const [mode, setMode] = useState<"prep" | "team">("prep");
   const [loading, setLoading] = useState(false);
   const [prep, setPrep] = useState<InterviewPrep | null>(null);
@@ -1262,13 +1263,18 @@ function FirmPrepSection() {
     if (remaining <= 0) { setShowPaywall(true); return; }
     setLoading(true); setError(null); setPrep(null); setTeam(null);
     try {
+      const group = teamGroup.trim();
       if (mode === "prep") {
-        const res = await fetch(`/api/interview-prep?firm=${encodeURIComponent(query.trim())}`);
+        const params = new URLSearchParams({ firm: query.trim() });
+        if (group) params.set("group", group);
+        const res = await fetch(`/api/interview-prep?${params}`);
         const d = await res.json();
         if (d.error) setError(`Error: ${d.error}`);
         else { setPrep(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
       } else {
-        const res = await fetch(`/api/team-search?firm=${encodeURIComponent(query.trim())}`);
+        const params = new URLSearchParams({ firm: query.trim() });
+        if (group) params.set("group", group);
+        const res = await fetch(`/api/team-search?${params}`);
         const d = await res.json();
         if (d.error) setError(`Error: ${d.error}`);
         else { setTeam(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
@@ -1328,14 +1334,19 @@ function FirmPrepSection() {
 
       {/* Search */}
       <div className="space-y-2">
-        <form onSubmit={search} className="flex gap-2">
-          <input value={query} onChange={e => setQuery(e.target.value)}
-            placeholder={mode === "prep" ? "Search any firm — Ares, Citadel, Apollo, KKR…" : "Search a firm — KKR, Ares, Blackstone…"}
-            className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-          <button type="submit" disabled={loading}
-            className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
-            {loading ? "Loading…" : mode === "prep" ? "Prep →" : "Search →"}
-          </button>
+        <form onSubmit={search} className="space-y-2">
+          <div className="flex gap-2">
+            <input value={query} onChange={e => setQuery(e.target.value)}
+              placeholder={mode === "prep" ? "Firm — Ares, Citadel, Apollo, KKR…" : "Firm — KKR, Ares, Blackstone…"}
+              className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+            <button type="submit" disabled={loading}
+              className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+              {loading ? "Loading…" : mode === "prep" ? "Prep →" : "Search →"}
+            </button>
+          </div>
+          <input value={teamGroup} onChange={e => setTeamGroup(e.target.value)}
+            placeholder={mode === "prep" ? "Team / group you're interviewing for (optional) — e.g. Direct Lending, Special Sits" : "Filter by team / group (optional) — e.g. Credit, Real Estate"}
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#41484c] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
         </form>
         <p className="text-xs text-right text-[#71787c]">
           {remaining > 0
