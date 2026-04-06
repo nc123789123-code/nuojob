@@ -4,8 +4,8 @@ import { Resend } from "resend";
 export const runtime = "nodejs";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "hello@onlu.io";
-const FROM_EMAIL = "Onlu <noreply@onlu.io>";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "nuoc@onluintel.com";
+const FROM_EMAIL = "Onlu <noreply@onluintel.com>";
 
 export async function POST(req: NextRequest) {
   try {
