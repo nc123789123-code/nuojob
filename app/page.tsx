@@ -1130,6 +1130,7 @@ interface InsightPost {
   date: string;
   tag: string;
   paragraphs: string[];
+  richContent?: React.ReactNode;
 }
 
 const CAREER_POSTS: InsightPost[] = [
@@ -1190,7 +1191,127 @@ const CAREER_POSTS: InsightPost[] = [
   },
 ];
 
+// ─── AI Ecosystem Post ───────────────────────────────────────────────────────
+
+const AI_STACK_LAYERS = [
+  { label: "Physical (EV / Robotics / Autonomy)",  color: "#4f46e5", gross: "10–20%",  note: "Largest TAM, lowest near-term margins" },
+  { label: "Applications",                          color: "#0891b2", gross: "25–35%+", note: "High margins; dependent on upstream costs" },
+  { label: "Middleware / Data Platforms",           color: "#059669", gross: "20–30%",  note: "Bridging layer; growing criticality" },
+  { label: "Foundation Models",                     color: "#d97706", gross: "Uncertain",note: "Innovation leader; risk of commoditisation" },
+  { label: "Cloud Infrastructure",                  color: "#dc2626", gross: "25–35%",  note: "Best durability; controls distribution" },
+  { label: "Networking & Optics",                   color: "#7c3aed", gross: "30–45%",  note: "Data-movement bottleneck; volume-driven" },
+  { label: "Semiconductors / Compute",              color: "#ea580c", gross: "60–70%",  note: "Highest margin today; cyclical risk ahead" },
+];
+
+const AI_MARGIN_BARS = [
+  { label: "Semiconductors",     lo: 60, hi: 70, color: "#ea580c" },
+  { label: "Networking & Optics",lo: 30, hi: 45, color: "#7c3aed" },
+  { label: "Cloud",              lo: 25, hi: 35, color: "#dc2626" },
+  { label: "Applications",       lo: 25, hi: 35, color: "#0891b2" },
+  { label: "Middleware / Data",  lo: 20, hi: 30, color: "#059669" },
+  { label: "Physical Systems",   lo: 10, hi: 20, color: "#4f46e5" },
+  { label: "Foundation Models",  lo: 0,  hi: 15, color: "#d97706" },
+];
+
+const AI_POST_CONTENT = (
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+    <p>Artificial intelligence is often reduced to a handful of names — large language models, chat interfaces, and a few hyperscalers. But AI is not a single layer. It is a full-stack ecosystem spanning semiconductors, infrastructure, data, software, and increasingly, the physical world. Understanding where value accrues requires looking across this entire chain. The most important opportunities are often not at the most visible layer.</p>
+
+    {/* Stack diagram */}
+    <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
+        <p className="text-[11px] text-gray-400 mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
+      </div>
+      <div className="p-5 space-y-2">
+        {AI_STACK_LAYERS.map((layer, i) => (
+          <div key={i} className="flex items-stretch gap-3">
+            <div className="w-2 rounded-full flex-shrink-0" style={{ backgroundColor: layer.color }} />
+            <div className="flex-1 rounded-lg px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1" style={{ backgroundColor: layer.color + "12" }}>
+              <span className="text-xs font-semibold" style={{ color: layer.color }}>{layer.label}</span>
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <span className="text-[11px] text-gray-500">{layer.note}</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
+                  {layer.gross} gross
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">The Foundation: Compute and the Hardware Layer</h3>
+    <p>At the base of the ecosystem lies compute. Training and running modern AI models requires massive parallel processing, making GPUs the central building block. Companies like NVIDIA dominate through both hardware and a tightly integrated software ecosystem, while AMD and custom silicon efforts from Google and Amazon continue to scale.</p>
+    <p>But compute does not operate in isolation. It sits within a broader hardware layer that includes memory, networking, and increasingly, optics. High-bandwidth memory from SK Hynix and Micron Technology is essential to model performance, while networking players like Broadcom and Marvell Technology enable GPUs to communicate across large clusters. As AI workloads scale, the bottleneck is shifting from compute itself to data movement — which is where optical interconnects become critical. Companies like Coherent Corp. and Lumentum Holdings provide optical components that allow data to move efficiently within and between data centers. In many respects, optics is becoming the circulatory system of AI infrastructure: less visible than GPUs, but equally essential for scaling.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Cloud Infrastructure: The Aggregation Layer</h3>
+    <p>Above hardware sits the cloud layer. Hyperscalers — Microsoft, Amazon, and Google — aggregate compute, storage, and networking into usable platforms, effectively acting as the operating system of modern AI development. Developers access AI resources without owning physical infrastructure. The economics here are powerful: capital intensive upfront, but highly scalable once deployed. Cloud providers sit at a central junction, capturing value from both upstream demand for compute and downstream demand for AI services. This is arguably the most structurally durable position in the stack — not because margins are the highest, but because control over distribution compounds over time.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Models, Data, and Middleware</h3>
+    <p>On top of infrastructure sits the model layer, where companies like OpenAI, Anthropic, and Meta Platforms develop large-scale foundation models. Yet competitive dynamics here are evolving quickly. Open-source alternatives and rapid iteration are compressing differentiation. Model quality still matters, but it is increasingly tied to data access and distribution rather than raw capability alone.</p>
+    <p>If models are the engine, data is the constraint. Proprietary, well-structured data is becoming one of the most defensible assets in AI. Companies like Palantir Technologies are positioned around this thesis — focused not on frontier models but on integrating data, governance, and decision-making workflows within complex enterprise environments. Between models and applications, a growing middleware layer — including platforms like Databricks and Snowflake — is becoming critical. Value here accrues to companies that simplify complexity rather than add to it.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Applications and the Physical World</h3>
+    <p>At the top of the digital stack sits the application layer — copilots, automation tools, vertical-specific solutions. Companies like Salesforce and Adobe are embedding AI into existing workflows, while newer entrants build AI-native products. Historically this is where software margins have been highest, but in AI those margins are increasingly linked to upstream infrastructure costs.</p>
+    <p>Finally, AI is extending into the physical world. Autonomous systems, robotics, and electric vehicles represent a layer where AI interacts directly with real environments. Companies like Tesla are integrating AI into self-driving platforms, while industrial players embed AI into manufacturing and logistics. This layer introduces new constraints — latency, safety, hardware integration — that do not exist in digital environments. Margins here are lower, but the total addressable market is arguably larger than any other layer.</p>
+
+    {/* Margin comparison chart */}
+    <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
+        <p className="text-[11px] text-gray-400 mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
+      </div>
+      <div className="p-5 space-y-3">
+        {AI_MARGIN_BARS.map((bar, i) => (
+          <div key={i} className="flex items-center gap-3">
+            <span className="text-xs text-gray-500 w-36 flex-shrink-0 text-right">{bar.label}</span>
+            <div className="flex-1 relative h-6 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="absolute top-0 h-full rounded-full"
+                style={{
+                  left: `${bar.lo}%`,
+                  width: `${bar.hi - bar.lo}%`,
+                  backgroundColor: bar.color,
+                  opacity: 0.85,
+                }}
+              />
+            </div>
+            <span className="text-xs font-semibold w-16 flex-shrink-0" style={{ color: bar.color }}>
+              {bar.lo === 0 ? "TBD" : `${bar.lo}–${bar.hi}%`}
+            </span>
+          </div>
+        ))}
+        <div className="flex items-center gap-3 pt-1">
+          <span className="w-36 flex-shrink-0" />
+          <div className="flex-1 flex justify-between text-[10px] text-gray-400 px-1">
+            <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+          </div>
+          <span className="w-16 flex-shrink-0" />
+        </div>
+      </div>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Where Value Actually Accrues</h3>
+    <p>Semiconductors are capturing the highest gross margins today — 60–70% for leading AI chips, driven by scarcity, performance differentiation, and software lock-in. This advantage is real, but partly cyclical. Over time, competition from AMD and in-house silicon from hyperscalers will compress margins as supply catches up to demand.</p>
+    <p>Networking and optics players benefit from the same scaling dynamic at more moderate margins, but with volume-driven demand across the entire ecosystem rather than dependence on any single application. The cloud layer commands moderate margins (25–35%) but compensates through durability and compounding. Cloud providers monetize both sides of the AI value chain and benefit from switching costs that grow over time. Application companies can still achieve strong margins (25–35%+), but they are increasingly dependent on upstream cost structures — a structural shift relative to previous software cycles.</p>
+    <p>The physical layer — EV, robotics, autonomy — operates at the lowest margins (10–20%), but represents the largest long-term opportunity. As AI moves from digital environments into physical systems, the scope of impact expands significantly. Over a multi-decade horizon, this may become the largest single pool of economic value, even if it is not the most profitable on a percentage basis today.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">The Key Insight for Investors</h3>
+    <p>In the near term, compute and infrastructure matter most because they are the binding constraint. That is why the market has rewarded semiconductor and infrastructure players so heavily in this cycle. Over the long term, value tends to migrate toward control points — layers that own distribution, data, or customer relationships. Today, that increasingly points to cloud and, selectively, to application companies with strong embedded workflows and proprietary data.</p>
+    <p>The most important takeaway is that AI is not a winner-take-all market at a single layer. It is a multi-layer profit pool where leadership — and value capture — shifts over time. Understanding where we are in that cycle is what ultimately drives returns. AI is not just a product. It is a system-level shift. And like most system-level shifts, the winners are rarely confined to the top layer everyone is watching.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "ai-ecosystem-value-chain",
+    title: "The AI Ecosystem: Mapping the Full Value Chain",
+    date: "April 6, 2026",
+    tag: "Tech / AI",
+    paragraphs: [],
+    richContent: AI_POST_CONTENT,
+  },
   {
     slug: "fixed-income-101",
     title: "Fixed Income 101: How Credit Markets Actually Work",
@@ -1249,6 +1370,7 @@ const TAG_STYLES: Record<string, string> = {
   "Macro":        "bg-amber-100 text-amber-700",
   "Credit":       "bg-sky-100 text-sky-700",
   "Equity":       "bg-emerald-100 text-emerald-700",
+  "Tech / AI":    "bg-indigo-100 text-indigo-700",
   "Interview Prep": "bg-violet-100 text-violet-700",
   "Career Prep":  "bg-violet-100 text-violet-700",
 };
@@ -1316,10 +1438,8 @@ function PostList({ posts }: { posts: InsightPost[] }) {
               <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
             </header>
             <div className="space-y-4">
-              {post.paragraphs.map((p, i) => (
-                <p key={i} className="text-[#41484c] text-sm leading-[1.75]">
-                  {p}
-                </p>
+              {post.richContent ?? post.paragraphs.map((p, i) => (
+                <p key={i} className="text-[#41484c] text-sm leading-[1.75]">{p}</p>
               ))}
             </div>
             <div className="mt-10 border-t border-[#c1c7cc]/30" />
