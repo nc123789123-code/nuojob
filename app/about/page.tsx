@@ -5,7 +5,7 @@ import SiteFooter from "@/app/components/SiteFooter";
 export const metadata: Metadata = {
   title: "About — Onlu",
   description:
-    "Onlu is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.",
+    "Onlu is an intelligence platform for buyside professionals — fund signals, hiring intel, live markets, AI-powered interview prep, and community.",
 };
 
 export default function AboutPage() {
@@ -21,39 +21,35 @@ export default function AboutPage() {
             Onlu
           </h1>
           <p className="text-[#41484c] text-sm leading-relaxed">
-            Onlu is an intelligence platform for candidates and professionals focused on private credit, special situations, and restructuring.
+            Onlu is an intelligence platform for buyside professionals and candidates — combining fund signals, hiring intel, live market data, AI-powered interview prep, and community in one place.
           </p>
         </div>
 
         <div className="space-y-10 text-[#41484c] text-sm leading-relaxed">
           {/* Mission */}
           <p>
-            Most platforms show what is already visible. Onlu is built to surface signals earlier, helping users identify which firms may be raising capital, deploying, or likely to hire before opportunities are broadly visible.
+            Most platforms show what is already visible. Onlu is built to surface signals earlier — helping users identify which firms are raising capital, deploying, or likely to hire before opportunities become broadly visible.
           </p>
           <p>
-            We combine fund activity, hiring signals, and market context into a more focused view of where attention should go. The goal is not more noise. It is better prioritization.
-          </p>
-          <p>
-            Instead of scrolling through generic job boards or fragmented updates, users get a more targeted view of relevant platforms, supported by real signals and practical context.
+            The goal is not more noise. It is better prioritization, backed by real signals and practical context.
           </p>
 
-          {/* What makes it different */}
+          {/* What's on the platform */}
           <div>
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">What makes Onlu different</h2>
-            <p className="mb-4">
-              Onlu sits between a job board, a market monitor, and an interview prep resource.
-            </p>
-            <p className="mb-4">The platform is designed to help users:</p>
-            <ul className="space-y-2 pl-1">
+            <h2 className="text-[#191c1e] text-base font-semibold mb-3">What&apos;s on the platform</h2>
+            <ul className="space-y-3 pl-1">
               {[
-                "track relevant firm and fund activity",
-                "spot hiring and fundraising signals",
-                "focus on the most actionable opportunities",
-                "prepare for interviews with investor-style frameworks",
+                { label: "Hiring Watch", desc: "Curated job listings across hedge funds, private equity, private credit, and other alternative asset managers — filtered for relevance, updated daily." },
+                { label: "The Edge (AI)", desc: "AI-powered firm prep guides grounded in real Glassdoor interview data. Plus a Concept Q&A tool — type any finance concept (DCF, LBO, credit spreads) and get a structured buyside-lens walkthrough." },
+                { label: "Fund Signals (AI)", desc: "EDGAR filings and fundraising signals across 28+ alternative asset managers. Spot which firms may be hiring before roles are posted." },
+                { label: "Market Brief (AI)", desc: "AI-generated morning and evening market analysis across equities, fixed income, macro, and alternatives." },
+                { label: "Live Market Data", desc: "Real-time prices for S&P 500, QQQ, VIX, Treasury yields, DXY, WTI, and Gold — always visible at the top of the page." },
+                { label: "Onlu Table", desc: "Small-group weekend coffee chats for buyside professionals. Capped at 8 people — sign up to join the next session." },
+                { label: "Learn", desc: "Practical write-ups on credit markets, AI, macro, and career prep — including visual deep-dives like Fixed Income 101 and The AI Ecosystem." },
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5">
+                <li key={item.label} className="flex items-start gap-2.5">
                   <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
-                  <span>{item}</span>
+                  <span><span className="font-semibold text-[#191c1e]">{item.label}</span> — {item.desc}</span>
                 </li>
               ))}
             </ul>
@@ -62,12 +58,11 @@ export default function AboutPage() {
           {/* Who it's for */}
           <div>
             <h2 className="text-[#191c1e] text-base font-semibold mb-3">Who it&apos;s for</h2>
-            <p className="mb-4">Onlu is built for:</p>
             <ul className="space-y-2 pl-1">
               {[
-                "candidates targeting private credit, special situations, and restructuring roles",
-                "professionals tracking platform activity and team expansion",
-                "users who want a more informed approach to finance recruiting",
+                "candidates targeting roles at hedge funds, private equity, private credit, and other alternative asset managers",
+                "buyside professionals tracking fund activity, market moves, and hiring trends",
+                "anyone who wants a more informed, signal-first approach to finance",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
@@ -93,7 +88,7 @@ export default function AboutPage() {
             <p className="text-[#191c1e] font-semibold mb-4">Karlie Nuo Chen</p>
             <div className="space-y-4">
               <p>
-                Karlie Nuo Chen is the founder of Onlu, a platform focused on delivering actionable intelligence across private credit, special situations, and buyside recruiting.
+                Karlie Nuo Chen is the founder of Onlu, a platform delivering actionable intelligence across buyside recruiting, fund signals, and market analysis.
               </p>
               <p>
                 She brings a cross-cycle investing background spanning sell-side, banking, and principal investing roles. Karlie began her career at Goldman Sachs, where she worked in credit research and later in the Debt Financing Group, underwriting revolving credit facilities and term loans with a focus on downside protection, capital structure, and documentation. She then joined Capital One, where she worked on data-driven strategy and analytics initiatives supporting treasury and commercial banking leadership.
@@ -102,7 +97,7 @@ export default function AboutPage() {
                 Most recently, Karlie has invested on the buyside across private credit, hybrid capital, and event-driven public credit. Her experience includes leading end-to-end underwriting, structuring, and portfolio monitoring across healthcare, business services, and complex special situations. She has evaluated over $100 million of investment opportunities, with a focus on scenarios where structure, documentation, and timing drive outcomes as much as fundamentals.
               </p>
               <p>
-                Karlie founded Onlu to address a gap she experienced firsthand: while information in credit markets is abundant, actionable insight—especially around capital structure dynamics, restructuring risk, and real-time fund behavior—is often fragmented. Onlu aims to bridge that gap by combining investment-focused analysis with practical insights for professionals navigating the buyside.
+                Karlie founded Onlu to address a gap she experienced firsthand: while information in alternative markets is abundant, actionable insight — around capital structure dynamics, fund behavior, and hiring signals — is often fragmented. Onlu bridges that gap by combining investment-focused analysis with practical tools for professionals navigating the buyside.
               </p>
             </div>
           </div>
@@ -116,7 +111,7 @@ export default function AboutPage() {
               href="/"
               className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center"
             >
-              View Fund Signals →
+              Explore Onlu →
             </a>
           </div>
         </div>
