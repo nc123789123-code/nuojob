@@ -506,6 +506,10 @@ const JOBS14_QUERIES = [
   "investment banking analyst associate",
   "equity research analyst buy side",
   "private equity quantitative fund",
+  "distressed debt special situations analyst",
+  "credit analyst direct lending",
+  "portfolio manager hedge fund",
+  "fixed income analyst fund",
 ];
 
 const JOBS14_HEADERS = (apiKey: string) => ({
@@ -591,6 +595,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       seen.add(key);
       if (!job.company?.name) continue;  // skip unknown firm
       if (!job.applyUrl) continue;       // skip missing link
+      if (!isExternalJobValid(job.company.name, job.title ?? "")) continue;
       const days = indeedDaysAgo(job, maxDays);
       if (days > maxDays) continue;
       const cat = classifyTitle(job.title ?? "");
@@ -622,6 +627,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       if (!companyName) continue;                        // skip unknown firm
       const applyLink = job.applyUrl ?? job.url;
       if (!applyLink) continue;                          // skip missing link
+      if (!isExternalJobValid(companyName, job.title ?? "")) continue;
       const dateStr = job.datePosted ?? job.publishedAt ?? job.postedAt ?? "";
       const days = dateStr ? daysAgo(dateStr) : maxDays;
       if (days > maxDays) continue;
@@ -763,7 +769,173 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
   return out;
 }
 
-// ─── Source 8: Ashby (direct firm career pages) ──────────────────────────────
+// ─── Source 8: Workday (direct firm career pages — no API key needed) ────────
+// Many major financial institutions use Workday. The public JSON API is:
+//   POST https://{tenant}.wd{n}.myworkdayjobs.com/wday/cxs/{tenant}/{board}/jobs
+// Returns up to 20 jobs per call; we filter by title relevance.
+
+interface WorkdayJob {
+  title?: string;
+  externalPath?: string;
+  locationsText?: string;
+  postedOn?: string;  // "Posted X Days Ago" | "Posted Today"
+}
+interface WorkdayResp {
+  jobPostings?: WorkdayJob[];
+  total?: number;
+}
+
+const WORKDAY_FIRMS: Array<{ tenant: string; board: string; version: string; firm: string; type: FirmType }> = [
+  { tenant: "goldmansachs",    board: "GoldmanSachs",              version: "wd9",  firm: "Goldman Sachs",           type: "pe"     },
+  { tenant: "blackrock",       board: "BlackRock_Global",          version: "wd1",  firm: "BlackRock",               type: "credit" },
+  { tenant: "morganstanley",   board: "MorganStanleyPublicSector", version: "wd1",  firm: "Morgan Stanley",          type: "pe"     },
+  { tenant: "pimco",           board: "PIMCO",                     version: "wd1",  firm: "PIMCO",                   type: "credit" },
+  { tenant: "troweprice",      board: "TRowePrice",                version: "wd1",  firm: "T. Rowe Price",           type: "pe"     },
+  { tenant: "statestreet",     board: "StateStreetCareers",        version: "wd3",  firm: "State Street",            type: "credit" },
+  { tenant: "invesco",         board: "InvescoUS",                 version: "wd1",  firm: "Invesco",                 type: "pe"     },
+  { tenant: "wellsfargojobs",  board: "WellsFargoJobsSite",        version: "wd1",  firm: "Wells Fargo Asset Management", type: "credit" },
+  { tenant: "bainconsulting",  board: "BainCareers",               version: "wd1",  firm: "Bain & Company",          type: "pe"     },
+  { tenant: "blackstone",      board: "Blackstone",                version: "wd1",  firm: "Blackstone",              type: "pe"     },
+  { tenant: "kkr",             board: "KKR",                       version: "wd1",  firm: "KKR",                     type: "pe"     },
+  { tenant: "carlyle",         board: "TheCarlyleGroup",           version: "wd1",  firm: "The Carlyle Group",       type: "pe"     },
+];
+
+function workdayDaysAgo(postedOn?: string): number {
+  if (!postedOn) return 30;
+  if (/today/i.test(postedOn)) return 0;
+  const m = postedOn.match(/(\d+)\s+day/i);
+  if (m) return parseInt(m[1]);
+  const m2 = postedOn.match(/(\d+)\s+month/i);
+  if (m2) return parseInt(m2[1]) * 30;
+  return 30;
+}
+
+async function fromWorkday(maxDays: number): Promise<JobSignal[]> {
+  const results = await Promise.allSettled(
+    WORKDAY_FIRMS.map(async ({ tenant, board, version, firm, type }) => {
+      try {
+        const url = `https://${tenant}.${version}.myworkdayjobs.com/wday/cxs/${tenant}/${board}/jobs`;
+        const res = await fetchT(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ appliedFacets: {}, limit: 20, offset: 0, searchText: "" }),
+        }, 8000);
+        if (!res.ok) return [] as JobSignal[];
+        const data = await safeJson<WorkdayResp>(res);
+        const jobs = data?.jobPostings ?? [];
+        const out: JobSignal[] = [];
+        for (const job of jobs) {
+          if (!job.title) continue;
+          const days = workdayDaysAgo(job.postedOn);
+          if (days > maxDays) continue;
+          const cat = classifyTitle(job.title) ?? (FINANCE_KEYWORD_RE.test(job.title) ? firmFallbackCat(type) : null);
+          if (!cat) continue;
+          const applyUrl = job.externalPath
+            ? `https://${tenant}.${version}.myworkdayjobs.com${job.externalPath}`
+            : undefined;
+          out.push({
+            id: `workday-${tenant}-${job.title}-${days}`,
+            firm,
+            role: job.title,
+            category: cat,
+            location: job.locationsText?.split(",")?.[0]?.trim() || "—",
+            daysAgo: days,
+            signalTag: signalTagFromTitle(job.title),
+            why: "Direct from firm careers page (Workday)",
+            score: 0,
+            edgarUrl: applyUrl,
+          });
+        }
+        return out;
+      } catch { return [] as JobSignal[]; }
+    })
+  );
+  return results.flatMap((r) => r.status === "fulfilled" ? r.value : []);
+}
+
+// ─── Source 9: JSearch via RapidAPI (LinkedIn + Glassdoor + Indeed + more) ────
+// Same RAPIDAPI_KEY as jobs-api14. Free tier: 500 req/month.
+// https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch
+
+interface JSearchJob {
+  job_id?: string;
+  employer_name?: string;
+  job_title?: string;
+  job_city?: string;
+  job_state?: string;
+  job_apply_link?: string;
+  job_description?: string;
+  job_posted_at_datetime_utc?: string;
+  job_posted_at_timestamp?: number;
+}
+interface JSearchResp { data?: JSearchJob[]; }
+
+const JSEARCH_QUERIES = [
+  "private credit analyst",
+  "hedge fund analyst",
+  "investment analyst buyside",
+  "credit analyst alternative investments",
+  "portfolio manager hedge fund",
+  "private equity analyst",
+  "distressed debt analyst",
+  "quantitative analyst hedge fund",
+];
+
+async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const dateFilter = maxDays <= 3 ? "3days" : maxDays <= 7 ? "week" : "month";
+  const results = await Promise.allSettled(
+    JSEARCH_QUERIES.map(async (query) => {
+      const p = new URLSearchParams({ query, page: "1", num_pages: "1", date_posted: dateFilter, country: "us" });
+      const res = await fetchT(
+        `https://jsearch.p.rapidapi.com/search?${p}`,
+        { headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "jsearch.p.rapidapi.com" } },
+        8000
+      );
+      if (!res.ok) return [] as JSearchJob[];
+      const data = await safeJson<JSearchResp>(res);
+      return data?.data ?? [];
+    })
+  );
+
+  const seen = new Set<string>();
+  const out: JobSignal[] = [];
+
+  for (const r of results) {
+    if (r.status !== "fulfilled") continue;
+    for (const job of r.value) {
+      const key = job.job_id || `${job.job_title}-${job.employer_name}`;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      if (!job.employer_name || !job.job_title) continue;
+      if (!job.job_apply_link) continue;
+      if (!isExternalJobValid(job.employer_name, job.job_title)) continue;
+      const ts = job.job_posted_at_timestamp;
+      const days = ts ? Math.floor((Date.now() - ts * 1000) / 86400000)
+        : job.job_posted_at_datetime_utc ? daysAgo(job.job_posted_at_datetime_utc.split("T")[0])
+        : maxDays;
+      if (days > maxDays) continue;
+      const cat = classifyTitle(job.job_title);
+      if (!cat) continue;
+      const desc = (job.job_description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
+      const loc = [job.job_city, job.job_state].filter(Boolean).join(", ") || "—";
+      out.push({
+        id: `jsearch-${key}`,
+        firm: job.employer_name,
+        role: job.job_title,
+        category: cat,
+        location: loc,
+        daysAgo: days,
+        signalTag: signalTagFromTitle(job.job_title),
+        why: desc ? `${desc}…` : "See listing",
+        score: 0,
+        edgarUrl: job.job_apply_link,
+      });
+    }
+  }
+  return out;
+}
+
+// ─── Source 10: Ashby (direct firm career pages) ─────────────────────────────
 
 async function fromAshby(maxDays: number): Promise<JobSignal[]> {
   const firms = getAshbyFirms();
@@ -848,15 +1020,17 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, jobs14Result, fjResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
       fromAshby(maxDays),
+      fromWorkday(maxDays),
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -875,8 +1049,10 @@ export async function GET(req: NextRequest) {
     add(ghResult,        "greenhouse");
     add(leverResult,     "lever");
     add(ashbyResult,     "ashby");
+    add(workdayResult,   "workday");
     add(jobs14Result,    "jobs14");
     add(fjResult,        "linkedin");
+    add(jsearchResult,   "jsearch");
 
     // Static curated jobs — always added
     const staticJobs = getStaticJobs(maxDays);
