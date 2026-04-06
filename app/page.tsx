@@ -839,11 +839,9 @@ function JobsSection({
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
           className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]">
-          <option value="14">Last 14d</option>
-          <option value="30">Last 30d</option>
-          <option value="45">Last 45d</option>
-          <option value="60">Last 60d</option>
-          <option value="90">Last 90d</option>
+          <option value="30">Last 30 days</option>
+          <option value="45">Last 45 days</option>
+          <option value="60">Last 60 days</option>
         </select>
         <span className="ml-auto text-xs text-gray-400">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
       </div>
