@@ -1184,7 +1184,7 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
   );
 }
 
-const EDGE_FREE_LIMIT = 3;
+const EDGE_FREE_LIMIT = 10;
 const EDGE_STORAGE_KEY = "edge_usage";
 
 function getEdgeUsage(): { count: number; month: string } {
@@ -1253,7 +1253,7 @@ function FirmPrepSection() {
               <p className="text-2xl">🔒</p>
               <h3 className="text-lg font-bold text-[#1A2B4A]">You&apos;ve used your 3 free searches</h3>
               <p className="text-sm text-[#71787c] leading-relaxed">
-                The Edge gives 3 free firm prep guides per month. Upgrade for unlimited access — plus Fund Signals and full Market Brief.
+                The Edge gives 10 free firm prep guides per month. Upgrade for unlimited access — plus Fund Signals and full Market Brief.
               </p>
             </div>
             <div className="border border-gray-200 rounded-xl p-4 space-y-2">
