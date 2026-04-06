@@ -10,7 +10,8 @@ export async function GET(req: NextRequest) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  // Use full-access key for reading contacts (RESEND_API_KEY is send-only)
+  const apiKey = process.env.RESEND_API_KEY_FULL ?? process.env.RESEND_API_KEY;
   if (!apiKey) return Response.json({ error: "Resend not configured" }, { status: 500 });
 
   const resend = new Resend(apiKey);
