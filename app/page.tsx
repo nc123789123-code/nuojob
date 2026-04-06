@@ -173,35 +173,7 @@ function HomeContent() {
       </header>
 
       {/* Market Ticker Bar */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="tradingview-widget-container">
-          <div className="tradingview-widget-container__widget" />
-          <Script
-            src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                symbols: [
-                  { proName: "FOREXCOM:SPXUSD", title: "S&P 500" },
-                  { proName: "NASDAQ:QQQ", title: "QQQ" },
-                  { proName: "NASDAQ:IWM", title: "Russell 2000" },
-                  { proName: "TVC:DXY", title: "DXY" },
-                  { proName: "TVC:US10Y", title: "10Y Treasury" },
-                  { proName: "TVC:US02Y", title: "2Y Treasury" },
-                  { proName: "TVC:VIX", title: "VIX" },
-                  { proName: "NYMEX:CL1!", title: "WTI Crude" },
-                  { proName: "COMEX:GC1!", title: "Gold" },
-                ],
-                showSymbolLogo: false,
-                isTransparent: true,
-                displayMode: "adaptive",
-                colorTheme: "light",
-                locale: "en",
-              }),
-            }}
-          />
-        </div>
-      </div>
+      <MarketTickerBar />
 
       {/* Hero */}
       <div className="hero-gradient border-b border-sky-100/60">
@@ -372,6 +344,53 @@ function HomeContent() {
   );
 }
 
+
+// ─── Market Ticker Bar ────────────────────────────────────────────────────────
+
+interface MarketTicker {
+  symbol: string; label: string; price: number;
+  change: number; changePct: number; isYield: boolean;
+}
+
+function MarketTickerBar() {
+  const [tickers, setTickers] = useState<MarketTicker[]>([]);
+
+  useEffect(() => {
+    fetch("/api/market-prices")
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (Array.isArray(d) && d.length) setTickers(d); })
+      .catch(() => {});
+  }, []);
+
+  if (!tickers.length) return null;
+
+  function fmt(t: MarketTicker): string {
+    if (t.isYield) return `${t.price.toFixed(2)}%`;
+    if (t.price >= 1000) return t.price.toLocaleString("en-US", { maximumFractionDigits: 0 });
+    return t.price.toFixed(2);
+  }
+
+  return (
+    <div className="bg-white border-b border-gray-100 overflow-x-auto">
+      <div className="flex items-center gap-0 min-w-max px-4 h-9">
+        {tickers.map((t, i) => {
+          const up = t.changePct >= 0;
+          return (
+            <div key={t.symbol} className={`flex items-center gap-2.5 px-4 h-full text-xs ${i > 0 ? "border-l border-gray-100" : ""}`}>
+              <span className="text-gray-400 font-medium">{t.label}</span>
+              <span className="font-semibold text-[#191c1e]">{fmt(t)}</span>
+              <span className={`font-medium ${up ? "text-emerald-600" : "text-red-500"}`}>
+                {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 
 function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: string }) {
   const badgeStyle = badge === "AI"
