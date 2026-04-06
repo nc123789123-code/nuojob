@@ -1184,37 +1184,117 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
   );
 }
 
+const EDGE_FREE_LIMIT = 3;
+const EDGE_STORAGE_KEY = "edge_usage";
+
+function getEdgeUsage(): { count: number; month: string } {
+  try {
+    const raw = localStorage.getItem(EDGE_STORAGE_KEY);
+    if (!raw) return { count: 0, month: "" };
+    return JSON.parse(raw);
+  } catch { return { count: 0, month: "" }; }
+}
+
+function incrementEdgeUsage(): number {
+  const now = new Date();
+  const month = `${now.getFullYear()}-${now.getMonth()}`;
+  const prev = getEdgeUsage();
+  const count = prev.month === month ? prev.count + 1 : 1;
+  try { localStorage.setItem(EDGE_STORAGE_KEY, JSON.stringify({ count, month })); } catch { /* noop */ }
+  return count;
+}
+
+function getRemainingSearches(): number {
+  try {
+    const now = new Date();
+    const month = `${now.getFullYear()}-${now.getMonth()}`;
+    const prev = getEdgeUsage();
+    const used = prev.month === month ? prev.count : 0;
+    return Math.max(0, EDGE_FREE_LIMIT - used);
+  } catch { return EDGE_FREE_LIMIT; }
+}
+
 function FirmPrepSection() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [prep, setPrep] = useState<InterviewPrep | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState<number>(EDGE_FREE_LIMIT);
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  useEffect(() => { setRemaining(getRemainingSearches()); }, []);
 
   const search = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
+    if (remaining <= 0) { setShowPaywall(true); return; }
     setLoading(true); setError(null); setPrep(null);
     try {
       const res = await fetch(`/api/interview-prep?firm=${encodeURIComponent(query.trim())}`);
       const d = await res.json();
       if (d.error) setError(`Error: ${d.error}`);
-      else setPrep(d);
+      else {
+        setPrep(d);
+        const newRemaining = EDGE_FREE_LIMIT - incrementEdgeUsage();
+        setRemaining(Math.max(0, newRemaining));
+      }
     } catch (e) { setError(e instanceof Error ? e.message : "Failed to generate prep guide."); }
     finally { setLoading(false); }
   };
 
   return (
     <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
+
+      {/* Paywall modal */}
+      {showPaywall && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 space-y-4">
+            <div className="text-center space-y-2">
+              <p className="text-2xl">🔒</p>
+              <h3 className="text-lg font-bold text-[#1A2B4A]">You&apos;ve used your 3 free searches</h3>
+              <p className="text-sm text-[#71787c] leading-relaxed">
+                The Edge gives 3 free firm prep guides per month. Upgrade for unlimited access — plus Fund Signals and full Market Brief.
+              </p>
+            </div>
+            <div className="border border-gray-200 rounded-xl p-4 space-y-2">
+              <p className="text-sm font-semibold text-[#1A2B4A]">Premium — $25/month</p>
+              <ul className="text-xs text-[#41484c] space-y-1">
+                <li>✓ Unlimited Edge firm prep guides</li>
+                <li>✓ Full Fund Signals & EDGAR intelligence</li>
+                <li>✓ Full Market Brief (morning + evening)</li>
+                <li>✓ Priority access to Onlu Table sessions</li>
+              </ul>
+            </div>
+            <a href="mailto:nuoc@onluintel.com?subject=The Edge Premium Access"
+              className="block w-full text-center py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors">
+              Get Premium Access →
+            </a>
+            <button onClick={() => setShowPaywall(false)}
+              className="block w-full text-center text-xs text-[#71787c] hover:text-[#1A2B4A] transition-colors">
+              Maybe later
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Search */}
-      <form onSubmit={search} className="flex gap-2">
-        <input value={query} onChange={e => setQuery(e.target.value)}
-          placeholder="Search any firm — Ares, Citadel, Apollo, KKR…"
-          className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-        <button type="submit" disabled={loading}
-          className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
-          {loading ? "Generating…" : "Prep →"}
-        </button>
-      </form>
+      <div className="space-y-2">
+        <form onSubmit={search} className="flex gap-2">
+          <input value={query} onChange={e => setQuery(e.target.value)}
+            placeholder="Search any firm — Ares, Citadel, Apollo, KKR…"
+            className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+          <button type="submit" disabled={loading}
+            className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+            {loading ? "Generating…" : "Prep →"}
+          </button>
+        </form>
+        <p className="text-xs text-right text-[#71787c]">
+          {remaining > 0
+            ? <>{remaining} free search{remaining !== 1 ? "es" : ""} remaining this month</>
+            : <span className="text-rose-500">Free limit reached — <button onClick={() => setShowPaywall(true)} className="underline">upgrade for unlimited</button></span>
+          }
+        </p>
+      </div>
 
       {loading && (
         <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
