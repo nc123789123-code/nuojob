@@ -69,10 +69,10 @@ function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
 }
 
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
-const IRRELEVANT_TITLE_RE = /\b(IT|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative|admin assistant|receptionist|payroll|benefits|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|operations manager|supply chain|logistics|procurement|purchasing|investor relations|client relations|client service|fundraising coordinator)\b/i;
+const IRRELEVANT_TITLE_RE = /\b(IT support|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR generalist|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative assistant|admin assistant|receptionist|payroll|benefits coordinator|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO specialist|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|project manager|scrum master|supply chain|logistics|procurement|purchasing|client service representative|fundraising coordinator)\b/i;
 
 /** Finance/investment keywords — at least one must appear for the title to be considered buyside-relevant. */
-const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|managing director)\b/i;
+const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|invest|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|VP|managing director|principal|director|origination|underwriting|structuring|valuation|due diligence|deal|transaction|leverage|loan|bond|CLO|ABS|CDO|rates|derivative|alternatives)\b/i;
 
 /**
  * For external broad sources (Muse, Adzuna): require EITHER the company name to
@@ -85,7 +85,12 @@ const KNOWN_BUYSIDE_FIRMS_RE = /\b(blackstone|kkr|citadel|bridgewater|point72|tw
 
 function isExternalJobValid(companyName: string, title: string): boolean {
   if (KNOWN_BUYSIDE_FIRMS_RE.test(companyName)) return true;
-  return BUYSIDE_CO_RE.test(companyName) || BUYSIDE_TITLE_SPECIFIC_RE.test(title);
+  if (BUYSIDE_CO_RE.test(companyName)) return true;
+  // Accept if the title is highly specific to buyside roles (even at unknown firms)
+  if (BUYSIDE_TITLE_SPECIFIC_RE.test(title)) return true;
+  // Accept if company name looks like a fund (e.g. "XYZ Capital", "Acme Partners")
+  if (/\b(capital|credit|invest|fund|asset|management|advisors?|partners?|equity|wealth|hedge|alternative|alternatives|financial|securities|portfolio|ventures?|trading|lending|markets?|group)\b/i.test(companyName)) return true;
+  return false;
 }
 
 /** For query-targeted APIs (JSearch, Active Jobs DB) — queries are already buyside-specific.
@@ -104,17 +109,17 @@ function classifyTitle(title: string): JobCategory | null {
   // Investment Banking (sell-side advisory)
   if (/investment bank|m&a\b|mergers.*acquisitions|equity capital market|debt capital market|\becm\b|\bdcm\b|corporate.*advisory|leveraged finance.*(bank|group|analyst|associate)/i.test(t)) return "Investment Banking";
   // Private Credit (illiquid/direct lending)
-  if (/private credit|direct lending|distressed|special situations|special sits|mezzanine|\bmezz\b|structured credit|structured finance|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit/i.test(t)) return "Private Credit";
+  if (/private credit|direct lending|distressed|special situations|special sits|mezzanine|\bmezz\b|structured credit|structured finance|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit|direct.*lend|credit.*origination|asset.*backed|asset-backed|abs\b|clo\b|private.*debt/i.test(t)) return "Private Credit";
   // Public Credit (liquid markets)
-  if (/high yield|fixed income|investment grade|credit research|credit trading|credit analyst|bond.*fund|bond.*analyst|public credit|securit.*credit|\brates\b.*credit/i.test(t)) return "Public Credit";
+  if (/high yield|fixed income|investment grade|credit research|credit trading|credit analyst|bond.*fund|bond.*analyst|public credit|securit.*credit|\brates\b.*credit|\brates\b.*analyst|municipal|munis|sovereign/i.test(t)) return "Public Credit";
   // Equity Research (sell-side / fundamental research)
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
   // Quant
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
   // IR / Ops — excluded from display, return null
-  if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return null;
-  // General Investment Roles (buy-side equity, macro, alternatives)
-  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "General Investment Roles";
+  if (/investor relation|fund admin|compliance.*fund|finance operation|operations manager|fund accounting/i.test(t)) return null;
+  // General Investment Roles (buy-side equity, macro, alternatives, catch-all)
+  if (/equity|portfolio|investment analyst|investment associate|investment professional|investment officer|hedge fund|fund manager|fund analyst|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity|principal.*invest|deal.*team|transaction.*team|underwriting|origination|due diligence|valuation analyst|financial analyst.*(fund|invest|capital|asset|credit)|associate.*(fund|capital|invest|credit|equity|asset)|analyst.*(fund|capital|invest|equity|alternative)|vice president.*(invest|credit|fund|asset|capital)|managing director.*(invest|credit|fund|asset|capital)|director.*(invest|credit|fund|asset|capital)/i.test(t)) return "General Investment Roles";
   return null;
 }
 
@@ -449,8 +454,9 @@ async function fromGreenhouse(maxDays: number): Promise<JobSignal[]> {
       for (const job of jobs) {
         const days = daysAgo(job.updated_at);
         if (days > maxDays) continue;
-        const cat = classifyTitle(job.title) ?? (FINANCE_KEYWORD_RE.test(job.title) ? firmFallbackCat(type) : null);
-        if (!cat) continue;
+        // For direct firm career pages: accept any role not explicitly irrelevant
+        if (IRRELEVANT_TITLE_RE.test(job.title)) continue;
+        const cat = classifyTitle(job.title) ?? firmFallbackCat(type);
         out.push({
           id: `gh-${slug}-${job.id}`,
           firm,
@@ -481,8 +487,9 @@ async function fromLever(maxDays: number): Promise<JobSignal[]> {
       for (const job of jobs) {
         const days = Math.floor((Date.now() - job.createdAt) / 86400000);
         if (days > maxDays) continue;
-        const cat = classifyTitle(job.text) ?? (FINANCE_KEYWORD_RE.test(job.text) ? firmFallbackCat(type) : null);
-        if (!cat) continue;
+        // For direct firm career pages: accept any role not explicitly irrelevant
+        if (IRRELEVANT_TITLE_RE.test(job.text)) continue;
+        const cat = classifyTitle(job.text) ?? firmFallbackCat(type);
         out.push({
           id: `lever-${slug}-${job.id}`,
           firm,
@@ -835,8 +842,9 @@ async function fromWorkday(maxDays: number): Promise<JobSignal[]> {
           if (!job.title) continue;
           const days = workdayDaysAgo(job.postedOn);
           if (days > maxDays) continue;
-          const cat = classifyTitle(job.title) ?? (FINANCE_KEYWORD_RE.test(job.title) ? firmFallbackCat(type) : null);
-          if (!cat) continue;
+          // For direct firm career pages: accept any role not explicitly irrelevant
+          if (IRRELEVANT_TITLE_RE.test(job.title)) continue;
+          const cat = classifyTitle(job.title) ?? firmFallbackCat(type);
           const applyUrl = job.externalPath
             ? `https://${tenant}.${version}.myworkdayjobs.com${job.externalPath}`
             : undefined;
@@ -966,9 +974,24 @@ const ACTIVE_JOBS_TITLE_FILTERS = [
   '"Portfolio Manager"',
   '"Distressed" "analyst"',
   '"Investment" "analyst"',
+  '"Vice President" "credit"',
+  '"Vice President" "investment"',
+  '"Director" "credit"',
+  '"Director" "investment"',
+  '"Principal" "credit"',
+  '"Principal" "investment"',
+  '"Associate" "investment"',
 ];
 
+/** Select the right endpoint based on how far back we want to look. */
+function activeJobsEndpoint(maxDays: number): string {
+  if (maxDays <= 1) return "active-ats-1h";
+  if (maxDays <= 3) return "active-ats-24h";
+  return "active-ats-7d"; // longest available; covers 7-day window but we apply our own maxDays filter
+}
+
 async function fromActiveJobsDB(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const endpoint = activeJobsEndpoint(maxDays);
   const results = await Promise.allSettled(
     ACTIVE_JOBS_TITLE_FILTERS.map(async (titleFilter) => {
       const p = new URLSearchParams({
@@ -978,7 +1001,7 @@ async function fromActiveJobsDB(apiKey: string, maxDays: number): Promise<JobSig
         description_type: "text",
       });
       const res = await fetchT(
-        `https://active-jobs-db.p.rapidapi.com/active-ats-1h?${p}`,
+        `https://active-jobs-db.p.rapidapi.com/${endpoint}?${p}`,
         { headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "active-jobs-db.p.rapidapi.com" } },
         8000
       );
@@ -1038,12 +1061,11 @@ async function fromAshby(maxDays: number): Promise<JobSignal[]> {
           ? Math.floor((Date.now() - new Date(published).getTime()) / 86_400_000)
           : maxDays;
         if (days > maxDays) continue;
+        // For direct firm career pages: accept any role not explicitly irrelevant
+        if (IRRELEVANT_TITLE_RE.test(p.title)) continue;
         // Use strategy context from firm registry to boost classification
         const strategyHint = strategies.join(" ");
-        const cat = classifyTitle(`${p.title} ${strategyHint}`) ?? (
-          FINANCE_KEYWORD_RE.test(p.title) ? "Private Credit" as JobCategory : null
-        );
-        if (!cat) continue;
+        const cat = classifyTitle(`${p.title} ${strategyHint}`) ?? firmFallbackCat(strategies[0]?.includes("credit") ? "credit" : "pe");
         out.push({
           id: `ashby-${slug}-${p.id}`,
           firm,
