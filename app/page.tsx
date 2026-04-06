@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Script from "next/script";
 import SiteFooter from "@/app/components/SiteFooter";
 import LogoMark from "@/app/components/LogoMark";
 import SearchBar from "@/app/components/SearchBar";
@@ -382,6 +381,78 @@ function MarketTickerBar() {
               <span className={`font-medium ${up ? "text-emerald-600" : "text-red-500"}`}>
                 {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
               </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── Market Data Panel (Market Brief tab) ────────────────────────────────────
+
+const MARKET_GROUPS = [
+  { title: "Equities", keys: ["S&P 500", "QQQ", "Russell 2K", "VIX"] },
+  { title: "Fixed Income", keys: ["10Y Yield", "3M Yield", "DXY"] },
+  { title: "Commodities", keys: ["WTI", "Gold"] },
+];
+
+function MarketDataPanel() {
+  const [tickers, setTickers] = useState<MarketTicker[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/market-prices")
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (Array.isArray(d)) setTickers(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  function fmt(t: MarketTicker): string {
+    if (t.isYield) return `${t.price.toFixed(2)}%`;
+    if (t.price >= 1000) return t.price.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    return t.price.toFixed(2);
+  }
+
+  if (loading) return (
+    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
+      <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
+      Loading market data…
+    </div>
+  );
+
+  if (!tickers.length) return null;
+
+  return (
+    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
+        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live Markets</span>
+        <span className="ml-auto text-[11px] text-gray-400">Delayed ~15 min</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+        {MARKET_GROUPS.map(group => {
+          const groupTickers = tickers.filter(t => group.keys.includes(t.label));
+          return (
+            <div key={group.title} className="px-5 py-4">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">{group.title}</p>
+              <div className="space-y-3">
+                {groupTickers.map(t => {
+                  const up = t.changePct >= 0;
+                  return (
+                    <div key={t.symbol} className="flex items-center justify-between gap-2">
+                      <span className="text-xs text-gray-500">{t.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-[#191c1e]">{fmt(t)}</span>
+                        <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded ${up ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"}`}>
+                          {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}
@@ -1495,64 +1566,7 @@ function MarketSection() {
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 space-y-6">
       {/* Live Market Data */}
-      <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
-        <div className="px-5 pt-4 pb-1 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live Markets</span>
-        </div>
-        <div className="tradingview-widget-container" style={{ height: 400 }}>
-          <div className="tradingview-widget-container__widget" style={{ height: "100%" }} />
-          <Script
-            src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                colorTheme: "light",
-                dateRange: "1D",
-                showChart: true,
-                locale: "en",
-                largeChartUrl: "",
-                isTransparent: true,
-                showSymbolLogo: true,
-                showFloatingTooltip: false,
-                width: "100%",
-                height: 400,
-                tabs: [
-                  {
-                    title: "Indices",
-                    symbols: [
-                      { s: "FOREXCOM:SPXUSD", d: "S&P 500" },
-                      { s: "NASDAQ:QQQ", d: "QQQ" },
-                      { s: "NASDAQ:IWM", d: "Russell 2000" },
-                      { s: "TVC:VIX", d: "VIX" },
-                    ],
-                    originalTitle: "Indices",
-                  },
-                  {
-                    title: "Fixed Income",
-                    symbols: [
-                      { s: "TVC:US10Y", d: "10Y Treasury" },
-                      { s: "TVC:US02Y", d: "2Y Treasury" },
-                      { s: "TVC:US30Y", d: "30Y Treasury" },
-                      { s: "TVC:DXY", d: "US Dollar (DXY)" },
-                    ],
-                    originalTitle: "Fixed Income",
-                  },
-                  {
-                    title: "Commodities",
-                    symbols: [
-                      { s: "NYMEX:CL1!", d: "WTI Crude" },
-                      { s: "COMEX:GC1!", d: "Gold" },
-                      { s: "COMEX:SI1!", d: "Silver" },
-                    ],
-                    originalTitle: "Commodities",
-                  },
-                ],
-              }),
-            }}
-          />
-        </div>
-      </div>
+      <MarketDataPanel />
 
       {/* Header */}
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
