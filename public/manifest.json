@@ -1,0 +1,42 @@
+{
+  "name": "Onlu — Buyside Intelligence",
+  "short_name": "Onlu",
+  "description": "Fund signals, hiring intel, live markets, and AI-powered interview prep for buyside professionals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f9fb",
+  "theme_color": "#1A2B4A",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "business"],
+  "icons": [
+    {
+      "src": "/icon-192",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Hiring Watch",
+      "url": "/?tab=hiring",
+      "description": "Browse buyside job listings"
+    },
+    {
+      "name": "The Edge",
+      "url": "/?tab=firmprep",
+      "description": "AI firm prep & concept Q&A"
+    },
+    {
+      "name": "Fund Signals",
+      "url": "/?tab=funds",
+      "description": "EDGAR fund signals"
+    }
+  ]
+}
