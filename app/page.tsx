@@ -157,7 +157,7 @@ function HomeContent() {
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
-            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Firm Prep" badge="AI" />
+            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="The Edge" badge="AI" />
             <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" badge="Blog" />
@@ -230,7 +230,7 @@ function HomeContent() {
                 AI-Powered · Firm-Specific
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Firm Prep — Know Before You Walk In
+                The Edge — Know Before You Walk In
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 Search any buyside firm and get a tailored interview prep guide — behavioral, technical, what they really value, and what gets candidates cut. Built for credit, PE, and hedge fund interviews.
