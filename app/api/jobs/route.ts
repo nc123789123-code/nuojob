@@ -935,6 +935,86 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
   return out;
 }
 
+// ─── Source 10b: Active Jobs DB via RapidAPI (ATS-aggregated, updated hourly) ─
+// https://rapidapi.com/active-jobs-db/api/active-jobs-db
+// Queries ATS systems (Greenhouse, Lever, Ashby, Workday) for fresh buyside roles.
+
+interface ActiveJobsDBJob {
+  id?: string;
+  title?: string;
+  company?: string;
+  location?: string;
+  url?: string;
+  date_posted?: string;
+  description?: string;
+}
+interface ActiveJobsDBResp { data?: ActiveJobsDBJob[] }
+
+const ACTIVE_JOBS_TITLE_FILTERS = [
+  '"Analyst" "credit"',
+  '"Analyst" "private equity"',
+  '"Analyst" "hedge fund"',
+  '"Associate" "credit"',
+  '"Associate" "private equity"',
+  '"Portfolio Manager"',
+  '"Distressed" "analyst"',
+  '"Investment" "analyst"',
+];
+
+async function fromActiveJobsDB(apiKey: string, maxDays: number): Promise<JobSignal[]> {
+  const results = await Promise.allSettled(
+    ACTIVE_JOBS_TITLE_FILTERS.map(async (titleFilter) => {
+      const p = new URLSearchParams({
+        offset: "0",
+        title_filter: titleFilter,
+        location_filter: '"United States"',
+        description_type: "text",
+      });
+      const res = await fetchT(
+        `https://active-jobs-db.p.rapidapi.com/active-ats-1h?${p}`,
+        { headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "active-jobs-db.p.rapidapi.com" } },
+        8000
+      );
+      if (!res.ok) return [] as ActiveJobsDBJob[];
+      const data = await safeJson<ActiveJobsDBResp>(res);
+      return data?.data ?? [];
+    })
+  );
+
+  const seen = new Set<string>();
+  const out: JobSignal[] = [];
+
+  for (const r of results) {
+    if (r.status !== "fulfilled") continue;
+    for (const job of r.value) {
+      const key = job.id || `${job.title}-${job.company}`;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      if (!job.company || !job.title || !job.url) continue;
+      if (!isExternalJobValid(job.company, job.title)) continue;
+      const days = job.date_posted ? daysAgo(job.date_posted.split("T")[0]) : maxDays;
+      if (days > maxDays) continue;
+      const cat = classifyTitle(job.title);
+      if (!cat) continue;
+      const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
+      const loc = job.location || "—";
+      out.push({
+        id: `activejobs-${key}`,
+        firm: job.company,
+        role: job.title,
+        category: cat,
+        location: loc,
+        daysAgo: days,
+        signalTag: signalTagFromTitle(job.title),
+        why: desc ? `${desc}…` : "See listing",
+        score: 0,
+        edgarUrl: job.url,
+      });
+    }
+  }
+  return out;
+}
+
 // ─── Source 10: Ashby (direct firm career pages) ─────────────────────────────
 
 async function fromAshby(maxDays: number): Promise<JobSignal[]> {
@@ -1020,7 +1100,7 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult] = await Promise.allSettled([
+    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult, activeJobsResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromMuse(maxDays),
       fromEdgar(maxDays),
@@ -1031,6 +1111,7 @@ export async function GET(req: NextRequest) {
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromActiveJobsDB(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -1053,6 +1134,7 @@ export async function GET(req: NextRequest) {
     add(jobs14Result,    "jobs14");
     add(fjResult,        "linkedin");
     add(jsearchResult,   "jsearch");
+    add(activeJobsResult, "activejobs");
 
     // Static curated jobs — always added
     const staticJobs = getStaticJobs(maxDays);
