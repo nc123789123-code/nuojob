@@ -20,12 +20,15 @@ export async function GET(req: NextRequest) {
     guide:   process.env.RESEND_AUDIENCE_GUIDE,
   };
 
-  async function countContacts(audienceId?: string): Promise<number> {
-    if (!audienceId) return 0;
+  async function countContacts(audienceId?: string): Promise<{ count: number; raw: unknown }> {
+    if (!audienceId) return { count: 0, raw: null };
     try {
       const res = await (resend.contacts as any).list({ audienceId });
-      return res?.data?.data?.length ?? res?.data?.length ?? 0;
-    } catch { return 0; }
+      // Try every known shape of the Resend contacts.list response
+      const data = res?.data?.data ?? res?.data ?? res;
+      const count = Array.isArray(data) ? data.length : 0;
+      return { count, raw: res };
+    } catch (e) { return { count: 0, raw: String(e) }; }
   }
 
   const [signals, guide] = await Promise.all([
@@ -35,10 +38,11 @@ export async function GET(req: NextRequest) {
 
   return Response.json({
     subscribers: {
-      signals,
-      guide,
-      total: signals + guide,
+      signals: signals.count,
+      guide: guide.count,
+      total: signals.count + guide.count,
     },
+    debug: { signals: signals.raw, guide: guide.raw },
     asOf: new Date().toISOString(),
   });
 }
