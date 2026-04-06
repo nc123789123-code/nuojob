@@ -1259,7 +1259,9 @@ function FirmPrepSection() {
               </p>
             </div>
             <div className="border border-gray-200 rounded-xl p-4 space-y-2">
-              <p className="text-sm font-semibold text-[#1A2B4A]">Premium — $25/month</p>
+              <p className="text-sm font-semibold text-[#1A2B4A]">
+                Premium — <span className="line-through text-[#71787c] font-normal">$25</span> <span className="text-emerald-600">$15/month</span>
+              </p>
               <ul className="text-xs text-[#41484c] space-y-1">
                 <li>✓ Unlimited Edge firm prep guides</li>
                 <li>✓ Full Fund Signals & EDGAR intelligence</li>
