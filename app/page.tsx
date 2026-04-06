@@ -159,7 +159,7 @@ function HomeContent() {
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="The Edge" badge="AI" />
             <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
-            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
+            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" badge="AI" />
             <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" badge="Events" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" badge="Blog" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" badge="Blog" />
