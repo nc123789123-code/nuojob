@@ -2631,7 +2631,7 @@ function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): str
   const amt = filing?.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : null;
 
   if (filing?.offeringStatus === "open" && profile.frontOfficeCount >= 2) {
-    return `Actively raising${amt ? ` (${amt})` : ""} while hiring ${profile.frontOfficeCount} front-office roles — a concurrent signal of team expansion. Strong timing to engage.`;
+    return `Actively raising${amt ? ` (${amt})` : ""} while hiring ${profile.frontOfficeCount} open roles — a concurrent signal of team expansion. Strong timing to engage.`;
   }
   if (filing?.offeringStatus === "open") {
     const days = filing.daysSinceFiling;
@@ -2644,7 +2644,7 @@ function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): str
     return `Senior hires alongside ${profile.frontOfficeCount} open roles — signals a deliberate team build-out or new mandate, not routine backfill.`;
   }
   if (profile.frontOfficeCount >= 4) {
-    return `${profile.frontOfficeCount} front-office roles open concurrently — broad hiring push consistent with new fund deployment or an expanded mandate.`;
+    return `${profile.frontOfficeCount} roles open concurrently — broad hiring push consistent with new fund deployment or an expanded mandate.`;
   }
   if (hasSenior) {
     return `Senior hire posted at ${profile.name}. Senior additions typically precede a junior team build — watch for analyst and associate roles to follow.`;
@@ -2692,8 +2692,8 @@ function buildIntelFromJobs(signals: JobSignal[]): IntelResponse {
     .map(({ def, jobs }) => {
       const foCount = jobs.filter((j) => j.classification.frontOffice).length;
       const sigs: string[] = [];
-      if (foCount >= 3) sigs.push(`${foCount} front-office roles open`);
-      else if (foCount > 0) sigs.push(`${foCount} front-office role${foCount > 1 ? "s" : ""} open`);
+      if (foCount >= 3) sigs.push(`${foCount} roles open`);
+      else if (foCount > 0) sigs.push(`${foCount} role${foCount > 1 ? "s" : ""} open`);
       return {
         firmId: def.id,
         name: def.name,
