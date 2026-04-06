@@ -27,16 +27,15 @@ export async function GET(req: NextRequest) {
       max_tokens: 3000,
       messages: [{
         role: "user",
-        content: `List investment professionals at "${firm}"${group ? ` on the ${group} team` : ""} based ONLY on information you are extremely confident about from public sources.
+        content: `List investment professionals at "${firm}"${group ? ` on the ${group} team` : ""} based on publicly available information.
 
-STRICT RULES:
-- ONLY include people you have seen named at THIS specific firm in multiple public sources (press releases, firm website, major financial news)
-- If you are not highly confident a person is CURRENTLY at this firm, OMIT them entirely
-- Do NOT move people between firms — verify the firm name carefully
-- Do NOT include people who may have left or joined recently
-- It is better to list 3 correct people than 10 uncertain ones
-- Focus only on investment/portfolio professionals (not legal, HR, marketing)
-- If you cannot confidently name anyone, return an empty members array
+RULES:
+- Include senior professionals (Partner, MD, Director level) you have reasonable confidence about at this firm
+- For VP/Associate/Analyst level, only include if clearly associated with this firm publicly
+- Do NOT move people between firms — double-check the firm name before listing anyone
+- Focus on investment/portfolio professionals (not legal, HR, marketing)
+- Aim for 8-15 people for large firms, 4-8 for mid-size, 2-4 for smaller firms
+- If unsure about someone, still include them but set confidence to "low"
 
 Return ONLY valid JSON:
 {
