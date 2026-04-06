@@ -32,6 +32,78 @@ async function fetchNews(query: string): Promise<string[]> {
   } catch { return []; }
 }
 
+// ─── Glassdoor Real-Time API ───────────────────────────────────────────────
+
+interface GDCompany { id?: number; name?: string; shortName?: string; }
+interface GDSearchResp { data?: { employers?: GDCompany[] } }
+
+interface GDInterview {
+  interviewId?: number;
+  jobTitle?: string;
+  interviewExperience?: string;
+  interviewDifficulty?: string;
+  interviewQuestions?: Array<{ question?: string }>;
+  howGotInterview?: string;
+  overallRating?: number;
+}
+interface GDInterviewsResp { data?: { interviews?: GDInterview[] } }
+
+async function glassdoorCompanyId(firmName: string, apiKey: string): Promise<number | null> {
+  try {
+    const p = new URLSearchParams({ query: firmName, limit: "5" });
+    const res = await fetch(`https://glassdoor-real-time.p.rapidapi.com/companies/search?${p}`, {
+      headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "glassdoor-real-time.p.rapidapi.com" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as GDSearchResp;
+    const employers = data?.data?.employers ?? [];
+    if (!employers.length) return null;
+    // Pick best match by name similarity
+    const short = firmName.toLowerCase().replace(/\b(lp|llc|ltd|inc|corp|fund|partners|capital|management|advisors?|group)\b/gi, "").trim();
+    const match = employers.find(e => (e.name || e.shortName || "").toLowerCase().includes(short)) ?? employers[0];
+    return match?.id ?? null;
+  } catch { return null; }
+}
+
+async function glassdoorInterviews(companyId: number, apiKey: string): Promise<GDInterview[]> {
+  try {
+    const p = new URLSearchParams({ employerId: String(companyId), limit: "20" });
+    const res = await fetch(`https://glassdoor-real-time.p.rapidapi.com/companies/interviews?${p}`, {
+      headers: { "X-RapidAPI-Key": apiKey, "X-RapidAPI-Host": "glassdoor-real-time.p.rapidapi.com" },
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) return [];
+    const data = await res.json() as GDInterviewsResp;
+    return data?.data?.interviews ?? [];
+  } catch { return []; }
+}
+
+function summarizeInterviews(interviews: GDInterview[]): string {
+  if (!interviews.length) return "";
+  const questions: string[] = [];
+  const experiences: string[] = [];
+
+  for (const iv of interviews) {
+    for (const q of iv.interviewQuestions ?? []) {
+      if (q.question && q.question.length > 10) questions.push(q.question.trim());
+    }
+    if (iv.interviewExperience) experiences.push(iv.interviewExperience);
+  }
+
+  const uniqueQs = [...new Set(questions)].slice(0, 15);
+  const expSummary = experiences.length
+    ? `Process described as: ${[...new Set(experiences)].slice(0, 5).join(", ")}.`
+    : "";
+
+  return [
+    uniqueQs.length ? `REAL GLASSDOOR INTERVIEW QUESTIONS (${uniqueQs.length}):\n${uniqueQs.map((q, i) => `${i + 1}. ${q}`).join("\n")}` : "",
+    expSummary,
+  ].filter(Boolean).join("\n\n");
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+
 const cache = new Map<string, { data: InterviewPrep; ts: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
@@ -48,13 +120,24 @@ export async function GET(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return Response.json({ error: "ANTHROPIC_API_KEY not set" }, { status: 500 });
 
+  const rapidApiKey = process.env.RAPIDAPI_KEY ?? "";
+
   try {
     const short = firm.replace(/\b(LP|LLC|Ltd|Inc|Corp|Fund|Partners|Capital|Management|Advisors?|Group)\b.*/i, "").trim().slice(0, 40);
 
-    const [newsHeadlines, cultureHeadlines] = await Promise.all([
+    // Fetch news + Glassdoor data in parallel
+    const [newsHeadlines, cultureHeadlines, gdCompanyId] = await Promise.all([
       fetchNews(`"${short}" finance investment`),
       fetchNews(`"${short}" culture workplace employees`),
+      rapidApiKey ? glassdoorCompanyId(firm, rapidApiKey) : Promise.resolve(null),
     ]);
+
+    // Fetch Glassdoor interviews if we found the company
+    const gdInterviews = gdCompanyId && rapidApiKey
+      ? await glassdoorInterviews(gdCompanyId, rapidApiKey)
+      : [];
+
+    const glassdoorContext = summarizeInterviews(gdInterviews);
 
     const client = new Anthropic({ apiKey });
 
@@ -67,6 +150,7 @@ export async function GET(req: Request) {
 
 BUSINESS NEWS: ${newsHeadlines.length > 0 ? newsHeadlines.join(" | ") : "none"}
 CULTURE NEWS: ${cultureHeadlines.length > 0 ? cultureHeadlines.join(" | ") : "none"}
+${glassdoorContext ? `\n${glassdoorContext}\n\nIMPORTANT: Incorporate the real Glassdoor questions above into the behavioral and technical sections where relevant. Label them with "(reported)" if directly using them.` : ""}
 
 STRICT RULES:
 - Never name specific individuals
