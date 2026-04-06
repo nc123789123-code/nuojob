@@ -332,7 +332,7 @@ function HomeContent() {
         {topTab === "career" && <CareerSection />}
         {topTab === "insights" && <InsightsSection />}
         {topTab === "market" && <MarketSection />}
-        {topTab === "firmprep" && <FirmPrepSection />}
+        {topTab === "firmprep" && <EdgeSection />}
         {topTab === "table" && <OnluTableSection />}
       </main>
 
@@ -1623,6 +1623,191 @@ function getRemainingSearches(): number {
 }
 
 // ─── Firm Prep Section ───────────────────────────────────────────────────────
+// ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
+
+function EdgeSection() {
+  const [mode, setMode] = useState<"firm" | "concept">("firm");
+  return (
+    <div className="max-w-3xl mx-auto">
+      {/* Mode toggle */}
+      <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit mx-auto mb-6">
+        {(["firm", "concept"] as const).map(m => (
+          <button key={m} onClick={() => setMode(m)}
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+              mode === m ? "bg-white text-[#191c1e] shadow-sm" : "text-gray-500 hover:text-gray-700"
+            }`}>
+            {m === "firm" ? "🏦 Firm Prep" : "📚 Concept Q&A"}
+          </button>
+        ))}
+      </div>
+      {mode === "firm" ? <FirmPrepSection /> : <ConceptQASection />}
+    </div>
+  );
+}
+
+// ─── Concept Q&A ─────────────────────────────────────────────────────────────
+
+interface ConceptSection { title: string; content: string; bullets?: string[]; }
+interface ConceptAnswer {
+  concept: string; oneLiner: string;
+  sections: ConceptSection[];
+  interviewAngle: string;
+  commonMistakes: string[];
+  relatedConcepts: string[];
+}
+
+const CONCEPT_CHIPS = [
+  "DCF", "LBO Model", "Credit Spreads", "Yield to Maturity", "Capital Structure",
+  "Distressed Debt", "EBITDA", "Leverage Ratios", "Covenant Analysis",
+  "IRR vs MOIC", "Waterfall Distribution", "PIK Interest", "Loan vs Bond",
+  "Beta & Alpha", "Duration & Convexity", "Sector Rotation", "Short Selling",
+  "Carry Trade", "Free Cash Flow", "Working Capital",
+];
+
+function ConceptQASection() {
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [answer, setAnswer] = useState<ConceptAnswer | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [history, setHistory] = useState<string[]>([]);
+
+  const search = async (concept: string) => {
+    const q = concept.trim();
+    if (!q) return;
+    setQuery(q);
+    setLoading(true); setError(null); setAnswer(null);
+    try {
+      const res = await fetch(`/api/concept-qa?concept=${encodeURIComponent(q)}`);
+      const d = await res.json();
+      if (d.error) setError(d.error);
+      else {
+        setAnswer(d);
+        setHistory(prev => [q, ...prev.filter(h => h.toLowerCase() !== q.toLowerCase())].slice(0, 8));
+      }
+    } catch { setError("Something went wrong — please try again."); }
+    finally { setLoading(false); }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); search(query); };
+
+  return (
+    <div className="max-w-3xl mx-auto px-1 py-6 space-y-6">
+      {/* Search */}
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          value={query} onChange={e => setQuery(e.target.value)}
+          placeholder="Ask any concept — DCF, LBO, credit spreads, convexity…"
+          className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400"
+        />
+        <button type="submit" disabled={loading}
+          className="px-5 py-3 bg-indigo-700 text-white text-sm font-semibold rounded-xl hover:bg-indigo-800 transition-colors disabled:opacity-50">
+          {loading ? "…" : "Ask →"}
+        </button>
+      </form>
+
+      {/* Suggested chips */}
+      {!answer && !loading && (
+        <div>
+          <p className="text-xs text-gray-400 font-medium mb-2">Popular concepts</p>
+          <div className="flex flex-wrap gap-2">
+            {CONCEPT_CHIPS.map(chip => (
+              <button key={chip} onClick={() => search(chip)}
+                className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full hover:border-indigo-400 hover:text-indigo-700 transition-colors">
+                {chip}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recent history */}
+      {history.length > 0 && !loading && (
+        <div className="flex flex-wrap gap-2">
+          <span className="text-xs text-gray-400 self-center">Recent:</span>
+          {history.map(h => (
+            <button key={h} onClick={() => search(h)}
+              className="text-xs px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100 hover:bg-indigo-100 transition-colors">
+              {h}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Loading */}
+      {loading && (
+        <div className="flex flex-col items-center gap-3 py-16 text-gray-400">
+          <div className="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm">Explaining {query}…</p>
+        </div>
+      )}
+
+      {error && <p className="text-center text-sm text-red-500 py-8">{error}</p>}
+
+      {answer && (
+        <div className="space-y-5">
+          {/* Header */}
+          <div className="border border-indigo-200 bg-indigo-50/40 rounded-xl px-6 py-5">
+            <h2 className="text-lg font-bold text-[#191c1e] mb-1">{answer.concept}</h2>
+            <p className="text-sm text-indigo-700 font-medium leading-relaxed">{answer.oneLiner}</p>
+          </div>
+
+          {/* Sections */}
+          {answer.sections.map((sec, i) => (
+            <div key={i} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-2">
+              <h3 className="text-sm font-bold text-[#191c1e]">{sec.title}</h3>
+              <p className="text-sm text-[#41484c] leading-relaxed">{sec.content}</p>
+              {sec.bullets && (
+                <ul className="space-y-1 mt-2">
+                  {sec.bullets.map((b, j) => (
+                    <li key={j} className="flex items-start gap-2 text-xs text-[#41484c]">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />{b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+
+          {/* Interview angle */}
+          <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-5 py-4">
+            <h3 className="text-sm font-bold text-[#191c1e] mb-2">🎯 Interview Angle</h3>
+            <p className="text-sm text-[#41484c] leading-relaxed">{answer.interviewAngle}</p>
+          </div>
+
+          {/* Common mistakes */}
+          <div className="border border-red-100 bg-red-50/30 rounded-xl px-5 py-4">
+            <h3 className="text-sm font-bold text-[#191c1e] mb-2">🚩 Common Mistakes</h3>
+            <ul className="space-y-1">
+              {answer.commonMistakes.map((m, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{m}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Related concepts */}
+          <div>
+            <p className="text-xs text-gray-400 font-medium mb-2">Explore related</p>
+            <div className="flex flex-wrap gap-2">
+              {answer.relatedConcepts.map(c => (
+                <button key={c} onClick={() => search(c)}
+                  className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full hover:border-indigo-400 hover:text-indigo-700 transition-colors">
+                  {c} →
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-center text-xs text-gray-400">AI-generated. Use as a study aid — verify with primary sources before interviews.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+
 function FirmPrepSection() {
   const [query, setQuery] = useState("");
   const [teamGroup, setTeamGroup] = useState("");
