@@ -55,7 +55,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "hiring" | "career" | "insights" | "market" | "firmprep" | "table";
+type TopTab = "funds" | "hiring" | "learn" | "market" | "firmprep" | "table";
 
 export default function Home() {
   return (
@@ -69,7 +69,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "hiring";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "hiring", "career", "insights", "market", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
+    ["funds", "hiring", "learn", "market", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -160,8 +160,7 @@ function HomeContent() {
             <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" badge="AI" />
             <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" badge="Events" />
-            <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" badge="Blog" />
-            <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" badge="Blog" />
+            <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Learn" badge="Blog" />
           </nav>
           <div className="ml-auto flex items-center gap-4">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
@@ -211,17 +210,17 @@ function HomeContent() {
               </p>
             </>
           )}
-          {topTab === "career" && (
+          {topTab === "learn" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full" />
-                Career &amp; Interview Prep
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
+                Learn
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Career Prep
+                Learn
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                How credit hiring works, what interviews actually test, and how to position yourself effectively — from people who&apos;ve been on both sides of the table.
+                Career prep, market insights, and deep-dives on credit, AI, and macro — for practitioners and candidates who want to go deeper.
               </p>
             </>
           )}
@@ -253,20 +252,7 @@ function HomeContent() {
               </p>
             </>
           )}
-          {topTab === "insights" && (
-            <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
-                Industry Insights
-              </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Insights
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Practical write-ups on alternative investing, credit, and restructuring — for practitioners and candidates who want to go deeper.
-              </p>
-            </>
-          )}
+
         </div>
       </div>
 
@@ -329,8 +315,7 @@ function HomeContent() {
             />
           </>
         )}
-        {topTab === "career" && <CareerSection />}
-        {topTab === "insights" && <InsightsSection />}
+        {topTab === "learn" && <LearnSection />}
         {topTab === "market" && <MarketSection />}
         {topTab === "firmprep" && <EdgeSection />}
         {topTab === "table" && <OnluTableSection />}
@@ -1592,35 +1577,7 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
   );
 }
 
-const EDGE_FREE_LIMIT = 10;
-const EDGE_STORAGE_KEY = "edge_usage";
 
-function getEdgeUsage(): { count: number; month: string } {
-  try {
-    const raw = localStorage.getItem(EDGE_STORAGE_KEY);
-    if (!raw) return { count: 0, month: "" };
-    return JSON.parse(raw);
-  } catch { return { count: 0, month: "" }; }
-}
-
-function incrementEdgeUsage(): number {
-  const now = new Date();
-  const month = `${now.getFullYear()}-${now.getMonth()}`;
-  const prev = getEdgeUsage();
-  const count = prev.month === month ? prev.count + 1 : 1;
-  try { localStorage.setItem(EDGE_STORAGE_KEY, JSON.stringify({ count, month })); } catch { /* noop */ }
-  return count;
-}
-
-function getRemainingSearches(): number {
-  try {
-    const now = new Date();
-    const month = `${now.getFullYear()}-${now.getMonth()}`;
-    const prev = getEdgeUsage();
-    const used = prev.month === month ? prev.count : 0;
-    return Math.max(0, EDGE_FREE_LIMIT - used);
-  } catch { return EDGE_FREE_LIMIT; }
-}
 
 // ─── Firm Prep Section ───────────────────────────────────────────────────────
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
@@ -1814,15 +1771,11 @@ function FirmPrepSection() {
   const [loading, setLoading] = useState(false);
   const [prep, setPrep] = useState<InterviewPrep | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [remaining, setRemaining] = useState<number>(EDGE_FREE_LIMIT);
-  const [showPaywall, setShowPaywall] = useState(false);
 
-  useEffect(() => { setRemaining(getRemainingSearches()); }, []);
 
   const search = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    if (remaining <= 0) { setShowPaywall(true); return; }
     setLoading(true); setError(null); setPrep(null);
     try {
       const group = teamGroup.trim();
@@ -1831,47 +1784,13 @@ function FirmPrepSection() {
       const res = await fetch(`/api/interview-prep?${params}`);
       const d = await res.json();
       if (d.error) setError(`Error: ${d.error}`);
-      else { setPrep(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
+      else { setPrep(d); }
     } catch (e) { setError(e instanceof Error ? e.message : "Something went wrong."); }
     finally { setLoading(false); }
   };
 
   return (
     <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
-
-      {/* Paywall modal */}
-      {showPaywall && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 space-y-4">
-            <div className="text-center space-y-2">
-              <p className="text-2xl">🔒</p>
-              <h3 className="text-lg font-bold text-[#1A2B4A]">You&apos;ve used your 3 free searches</h3>
-              <p className="text-sm text-[#71787c] leading-relaxed">
-                The Edge gives 10 free firm prep guides per month. Upgrade for unlimited access — plus Fund Signals and full Market Brief.
-              </p>
-            </div>
-            <div className="border border-gray-200 rounded-xl p-4 space-y-2">
-              <p className="text-sm font-semibold text-[#1A2B4A]">
-                Premium — <span className="line-through text-[#71787c] font-normal">$25</span> <span className="text-emerald-600">$15/month</span>
-              </p>
-              <ul className="text-xs text-[#41484c] space-y-1">
-                <li>✓ Unlimited Edge firm prep guides</li>
-                <li>✓ Full Fund Signals & EDGAR intelligence</li>
-                <li>✓ Full Market Brief (morning + evening)</li>
-                <li>✓ Priority access to Onlu Table sessions</li>
-              </ul>
-            </div>
-            <a href="mailto:nuoc@onluintel.com?subject=The Edge Premium Access"
-              className="block w-full text-center py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors">
-              Get Premium Access →
-            </a>
-            <button onClick={() => setShowPaywall(false)}
-              className="block w-full text-center text-xs text-[#71787c] hover:text-[#1A2B4A] transition-colors">
-              Maybe later
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Search */}
       <div className="space-y-2">
@@ -1890,10 +1809,6 @@ function FirmPrepSection() {
             className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#41484c] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
         </form>
         <p className="text-xs text-right text-[#71787c]">
-          {remaining > 0
-            ? <>{remaining} free search{remaining !== 1 ? "es" : ""} remaining this month</>
-            : <span className="text-rose-500">Free limit reached — <button onClick={() => setShowPaywall(true)} className="underline">upgrade for unlimited</button></span>
-          }
         </p>
       </div>
 
@@ -2092,12 +2007,9 @@ function MarketSection() {
   );
 }
 
-function CareerSection() {
-  return <PostList posts={CAREER_POSTS} />;
-}
-
-function InsightsSection() {
-  return <PostList posts={INDUSTRY_POSTS} />;
+function LearnSection() {
+  const ALL_POSTS = [...INDUSTRY_POSTS, ...CAREER_POSTS];
+  return <PostList posts={ALL_POSTS} />;
 }
 
 // ─── Client-side firm registry (mirrors app/lib/firms.ts) ────────────────────
