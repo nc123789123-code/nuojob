@@ -106,8 +106,8 @@ function classifyTitle(title: string): JobCategory | null {
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
   // IR / Ops — excluded from display, return null
   if (/investor relation|fund oper|compliance.*fund|finance operation/i.test(t)) return null;
-  // Equity Investing (buy-side equity, macro, alternatives)
-  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "Equity Investing";
+  // General Investment Roles (buy-side equity, macro, alternatives)
+  if (/equity|portfolio|investment analyst|hedge fund|fund manager|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity/i.test(t)) return "General Investment Roles";
   return null;
 }
 
@@ -128,11 +128,11 @@ const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
   { what: "distressed debt hedge fund analyst",       fallbackCat: "Private Credit"     },
   { what: "direct lending associate credit",          fallbackCat: "Private Credit"     },
   { what: "leveraged finance analyst investment bank", fallbackCat: "Investment Banking" },
-  // Equity Investing
-  { what: "equity analyst buy side hedge fund",       fallbackCat: "Equity Investing"   },
-  { what: "portfolio manager long short equity",      fallbackCat: "Equity Investing"   },
-  { what: "investment analyst private equity fund",   fallbackCat: "Equity Investing"   },
-  { what: "hedge fund analyst investment",            fallbackCat: "Equity Investing"   },
+  // General Investment Roles
+  { what: "equity analyst buy side hedge fund",       fallbackCat: "General Investment Roles"   },
+  { what: "portfolio manager long short equity",      fallbackCat: "General Investment Roles"   },
+  { what: "investment analyst private equity fund",   fallbackCat: "General Investment Roles"   },
+  { what: "hedge fund analyst investment",            fallbackCat: "General Investment Roles"   },
   // Equity Research
   { what: "equity research analyst sell side",        fallbackCat: "Equity Research"    },
   { what: "sector research analyst fund",             fallbackCat: "Equity Research"    },
@@ -141,9 +141,9 @@ const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
   { what: "quantitative researcher systematic fund",  fallbackCat: "Quant"              },
   { what: "quantitative analyst trading strategies",  fallbackCat: "Quant"              },
   // Macro / PE
-  { what: "global macro analyst fund",                fallbackCat: "Equity Investing"   },
-  { what: "private equity associate vice president",  fallbackCat: "Equity Investing"   },
-  { what: "growth equity associate investment",       fallbackCat: "Equity Investing"   },
+  { what: "global macro analyst fund",                fallbackCat: "General Investment Roles"   },
+  { what: "private equity associate vice president",  fallbackCat: "General Investment Roles"   },
+  { what: "growth equity associate investment",       fallbackCat: "General Investment Roles"   },
   // IR / Ops
   { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"          },
   { what: "fund operations analyst asset management", fallbackCat: "IR / Ops"           },
@@ -178,7 +178,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       if (!isExternalJobValid(hit.company.display_name, hit.title)) continue; // skip non-buyside firms
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
-      const cat = (classified === "Equity Investing" && fallbackCat === "Equity Research") ? fallbackCat : classified;
+      const cat = (classified === "General Investment Roles" && fallbackCat === "Equity Research") ? fallbackCat : classified;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `adzuna-${hit.id}`,
@@ -424,7 +424,7 @@ const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
 function firmFallbackCat(type: FirmType): JobCategory {
   if (type === "credit") return "Private Credit";
-  return "Equity Investing";
+  return "General Investment Roles";
 }
 
 interface GreenhouseJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }
@@ -757,7 +757,7 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
       id: `fj-${key}`,
       firm: company,
       role: title,
-      category: cat ?? "Equity Investing",
+      category: cat ?? "General Investment Roles",
       location: fjLocation(job).split(",")[0].trim() || "—",
       daysAgo: days,
       signalTag: signalTagFromTitle(title),
