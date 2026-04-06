@@ -27,36 +27,38 @@ export async function GET(req: NextRequest) {
       max_tokens: 3000,
       messages: [{
         role: "user",
-        content: `List the investment professionals at "${firm}"${group ? ` on the ${group} team` : ""} based on publicly available information.
+        content: `List investment professionals at "${firm}"${group ? ` on the ${group} team` : ""} based ONLY on information you are extremely confident about from public sources.
 
-RULES:
-- Only include people whose names and titles have been publicly listed on the firm's website, press releases, or reputable news sources
-- Do NOT fabricate names — if you are not confident a person works there, omit them
-- Focus on investment/portfolio professionals only (not legal, compliance, HR, marketing)
-- Include seniority levels: Partner, MD, Director, VP, Associate, Analyst
-- Group by team/strategy where relevant (e.g. Direct Lending, Special Situations, Real Estate)
-- Max 20 people
+STRICT RULES:
+- ONLY include people you have seen named at THIS specific firm in multiple public sources (press releases, firm website, major financial news)
+- If you are not highly confident a person is CURRENTLY at this firm, OMIT them entirely
+- Do NOT move people between firms — verify the firm name carefully
+- Do NOT include people who may have left or joined recently
+- It is better to list 3 correct people than 10 uncertain ones
+- Focus only on investment/portfolio professionals (not legal, HR, marketing)
+- If you cannot confidently name anyone, return an empty members array
 
 Return ONLY valid JSON:
 {
   "firm": "${firm}",
-  "teamPage": "URL of the firm's public team/people page if known, else null",
+  "teamPage": "URL of the firm's official team/people page, or null",
+  "linkedinPage": "URL of the firm's LinkedIn company page, or null",
   "groups": [
     {
-      "name": "Team or strategy name (e.g. Direct Lending, Credit, PE)",
+      "name": "Team or strategy name",
       "members": [
         {
           "name": "Full name",
-          "title": "Exact title",
+          "title": "Title as publicly listed",
           "seniority": "partner|md|director|vp|associate|analyst",
-          "notes": "1 sentence: focus area or notable background if publicly known, else null"
+          "notes": "1 sentence of publicly known background, or null"
         }
       ]
     }
   ],
   "totalListed": 0,
   "confidence": "high|medium|low",
-  "confidenceNote": "1 sentence explaining confidence level"
+  "confidenceNote": "1 sentence explaining confidence — be honest if uncertain"
 }`,
       }],
     });

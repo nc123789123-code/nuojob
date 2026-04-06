@@ -1370,17 +1370,39 @@ function FirmPrepSection() {
       {team && (
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-[#191c1e]">{team.firm}</h2>
-              <p className="text-sm text-[#71787c] mt-0.5">{team.totalListed} professionals listed</p>
+          <div>
+            <h2 className="text-xl font-bold text-[#191c1e]">{team.firm}</h2>
+            <p className="text-sm text-[#71787c] mt-0.5">{team.totalListed} professionals listed</p>
+          </div>
+
+          {/* Primary CTA — official sources */}
+          <div className="bg-[#1A2B4A]/5 border border-[#1A2B4A]/15 rounded-xl p-4 space-y-2">
+            <p className="text-xs font-semibold text-[#1A2B4A]">Go to the source for accurate, up-to-date team info:</p>
+            <div className="flex flex-wrap gap-2">
+              {team.teamPage && (
+                <a href={team.teamPage} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#243d6b] transition-colors">
+                  Official Team Page →
+                </a>
+              )}
+              {(team as any).linkedinPage && (
+                <a href={(team as any).linkedinPage} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                  LinkedIn Company Page →
+                </a>
+              )}
+              {!team.teamPage && !(team as any).linkedinPage && (
+                <p className="text-xs text-[#71787c]">Search &quot;{team.firm} team&quot; on the firm&apos;s website or LinkedIn for accurate info.</p>
+              )}
             </div>
-            {team.teamPage && (
-              <a href={team.teamPage} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-[#1A2B4A] underline whitespace-nowrap">
-                Official team page →
-              </a>
-            )}
+          </div>
+
+          {/* Warning */}
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-2">
+            <span className="text-amber-500 text-sm flex-shrink-0">⚠️</span>
+            <p className="text-xs text-amber-800 leading-relaxed">
+              AI-generated — may be outdated or incomplete. Only well-known senior professionals are listed. <strong>Always verify on the official team page before any outreach.</strong>
+            </p>
           </div>
 
           {/* Confidence */}
