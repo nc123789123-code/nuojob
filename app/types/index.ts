@@ -195,7 +195,7 @@ export interface JobSignal {
 
 export interface JobFilters {
   category: "all" | JobCategory;
-  dateRange: "14" | "30" | "60" | "90";
+  dateRange: "14" | "30" | "45" | "60" | "90";
   signalTag: "all" | JobSignalTag;
 }
 

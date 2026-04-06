@@ -3,7 +3,6 @@ import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "nuoc@onluintel.com";
 const FROM_EMAIL = "Onlu <noreply@onluintel.com>";
 
@@ -20,6 +19,8 @@ export async function POST(req: NextRequest) {
     if (!apiKey) {
       return Response.json({ error: "Email service not configured" }, { status: 500 });
     }
+
+    const resend = new Resend(apiKey);
 
     const sessionLabel = `${session.date} · ${session.theme} · ${session.location}`;
 
