@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, Suspense } from "react";
-import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -168,7 +167,6 @@ function HomeContent() {
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
             <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
-            <AuthButton />
           </div>
         </div>
       </header>
@@ -342,19 +340,6 @@ function HomeContent() {
   );
 }
 
-function AuthButton() {
-  const { isSignedIn } = useUser();
-  if (isSignedIn) {
-    return <UserButton />;
-  }
-  return (
-    <SignInButton mode="modal">
-      <button className="px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#243d6b] transition-colors">
-        Sign in
-      </button>
-    </SignInButton>
-  );
-}
 
 function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: string }) {
   const badgeStyle = badge === "AI"
@@ -1216,41 +1201,12 @@ function getRemainingSearches(): number {
   } catch { return EDGE_FREE_LIMIT; }
 }
 
-// ─── Team Search types ────────────────────────────────────────────────────────
-interface TeamMember {
-  name: string; title: string; seniority: string; notes?: string | null;
-}
-interface TeamGroup { name: string; members: TeamMember[]; }
-interface TeamResult {
-  firm: string; teamPage?: string | null; groups: TeamGroup[];
-  totalListed: number; confidence: "high" | "medium" | "low"; confidenceNote: string;
-}
-
-const SENIORITY_BADGE: Record<string, string> = {
-  partner:   "bg-[#1A2B4A] text-white",
-  md:        "bg-slate-700 text-white",
-  director:  "bg-slate-500 text-white",
-  vp:        "bg-slate-200 text-slate-700",
-  associate: "bg-gray-100 text-gray-600",
-  analyst:   "bg-gray-50 text-gray-500",
-};
-const SENIORITY_LABEL: Record<string, string> = {
-  partner: "Partner", md: "MD", director: "Director",
-  vp: "VP", associate: "Associate", analyst: "Analyst",
-};
-const CONFIDENCE_STYLE: Record<string, string> = {
-  high:   "bg-emerald-50 text-emerald-700 border-emerald-200",
-  medium: "bg-amber-50 text-amber-700 border-amber-200",
-  low:    "bg-rose-50 text-rose-600 border-rose-200",
-};
-
+// ─── Firm Prep Section ───────────────────────────────────────────────────────
 function FirmPrepSection() {
   const [query, setQuery] = useState("");
   const [teamGroup, setTeamGroup] = useState("");
-  const [mode, setMode] = useState<"prep" | "team">("prep");
   const [loading, setLoading] = useState(false);
   const [prep, setPrep] = useState<InterviewPrep | null>(null);
-  const [team, setTeam] = useState<TeamResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [remaining, setRemaining] = useState<number>(EDGE_FREE_LIMIT);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -1261,24 +1217,15 @@ function FirmPrepSection() {
     e.preventDefault();
     if (!query.trim()) return;
     if (remaining <= 0) { setShowPaywall(true); return; }
-    setLoading(true); setError(null); setPrep(null); setTeam(null);
+    setLoading(true); setError(null); setPrep(null);
     try {
       const group = teamGroup.trim();
-      if (mode === "prep") {
-        const params = new URLSearchParams({ firm: query.trim() });
-        if (group) params.set("group", group);
-        const res = await fetch(`/api/interview-prep?${params}`);
-        const d = await res.json();
-        if (d.error) setError(`Error: ${d.error}`);
-        else { setPrep(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
-      } else {
-        const params = new URLSearchParams({ firm: query.trim() });
-        if (group) params.set("group", group);
-        const res = await fetch(`/api/team-search?${params}`);
-        const d = await res.json();
-        if (d.error) setError(`Error: ${d.error}`);
-        else { setTeam(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
-      }
+      const params = new URLSearchParams({ firm: query.trim() });
+      if (group) params.set("group", group);
+      const res = await fetch(`/api/interview-prep?${params}`);
+      const d = await res.json();
+      if (d.error) setError(`Error: ${d.error}`);
+      else { setPrep(d); const nr = EDGE_FREE_LIMIT - incrementEdgeUsage(); setRemaining(Math.max(0, nr)); }
     } catch (e) { setError(e instanceof Error ? e.message : "Something went wrong."); }
     finally { setLoading(false); }
   };
@@ -1320,32 +1267,20 @@ function FirmPrepSection() {
         </div>
       )}
 
-      {/* Mode toggle */}
-      <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
-        <button onClick={() => { setMode("prep"); setPrep(null); setTeam(null); setError(null); }}
-          className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-colors ${mode === "prep" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-[#71787c] hover:text-[#1A2B4A]"}`}>
-          Prep Guide
-        </button>
-        <button onClick={() => { setMode("team"); setPrep(null); setTeam(null); setError(null); }}
-          className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-colors ${mode === "team" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-[#71787c] hover:text-[#1A2B4A]"}`}>
-          Meet the Team
-        </button>
-      </div>
-
       {/* Search */}
       <div className="space-y-2">
         <form onSubmit={search} className="space-y-2">
           <div className="flex gap-2">
             <input value={query} onChange={e => setQuery(e.target.value)}
-              placeholder={mode === "prep" ? "Firm — Ares, Citadel, Apollo, KKR…" : "Firm — KKR, Ares, Blackstone…"}
+              placeholder="Search any firm — Ares, Citadel, Apollo, KKR…"
               className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             <button type="submit" disabled={loading}
               className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
-              {loading ? "Loading…" : mode === "prep" ? "Prep →" : "Search →"}
+              {loading ? "Loading…" : "Prep →"}
             </button>
           </div>
           <input value={teamGroup} onChange={e => setTeamGroup(e.target.value)}
-            placeholder={mode === "prep" ? "Team / group you're interviewing for (optional) — e.g. Direct Lending, Special Sits" : "Filter by team / group (optional) — e.g. Credit, Real Estate"}
+            placeholder="Team / group you're interviewing for (optional) — e.g. Direct Lending, Special Sits"
             className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#41484c] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
         </form>
         <p className="text-xs text-right text-[#71787c]">
@@ -1359,85 +1294,12 @@ function FirmPrepSection() {
       {loading && (
         <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
           <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm">{mode === "prep" ? "Generating your firm-specific prep guide…" : "Looking up the team…"}</p>
-          {mode === "prep" && <p className="text-xs text-gray-400">This takes 15–25 seconds</p>}
+          <p className="text-sm">Generating your firm-specific prep guide…</p>
+          <p className="text-xs text-gray-400">This takes 15–25 seconds</p>
         </div>
       )}
 
       {error && <p className="text-center text-sm text-red-500 py-8">{error}</p>}
-
-      {/* Team results */}
-      {team && (
-        <div className="space-y-6">
-          {/* Header */}
-          <div>
-            <h2 className="text-xl font-bold text-[#191c1e]">{team.firm}</h2>
-            <p className="text-sm text-[#71787c] mt-0.5">{team.totalListed} professionals listed</p>
-          </div>
-
-          {/* Primary CTA — official sources */}
-          <div className="bg-[#1A2B4A]/5 border border-[#1A2B4A]/15 rounded-xl p-4 space-y-2">
-            <p className="text-xs font-semibold text-[#1A2B4A]">Go to the source for accurate, up-to-date team info:</p>
-            <div className="flex flex-wrap gap-2">
-              {team.teamPage && (
-                <a href={team.teamPage} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#243d6b] transition-colors">
-                  Official Team Page →
-                </a>
-              )}
-              {(team as any).linkedinPage && (
-                <a href={(team as any).linkedinPage} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors">
-                  LinkedIn Company Page →
-                </a>
-              )}
-              {!team.teamPage && !(team as any).linkedinPage && (
-                <p className="text-xs text-[#71787c]">Search &quot;{team.firm} team&quot; on the firm&apos;s website or LinkedIn for accurate info.</p>
-              )}
-            </div>
-          </div>
-
-          {/* Warning */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-2">
-            <span className="text-amber-500 text-sm flex-shrink-0">⚠️</span>
-            <p className="text-xs text-amber-800 leading-relaxed">
-              AI-generated — may be outdated or incomplete. Only well-known senior professionals are listed. <strong>Always verify on the official team page before any outreach.</strong>
-            </p>
-          </div>
-
-          {/* Confidence */}
-          <div className={`text-xs px-3 py-2 rounded-lg border ${CONFIDENCE_STYLE[team.confidence]}`}>
-            <span className="font-semibold capitalize">{team.confidence} confidence</span> — {team.confidenceNote}
-          </div>
-
-          {/* Groups */}
-          {team.groups.map((group, gi) => (
-            <div key={gi} className="space-y-2">
-              {group.name && <h3 className="text-xs font-bold text-[#71787c] uppercase tracking-wider">{group.name}</h3>}
-              <div className="divide-y divide-gray-100 border border-gray-200 rounded-xl overflow-hidden">
-                {group.members.map((m, mi) => (
-                  <div key={mi} className="flex items-start gap-3 px-4 py-3 bg-white hover:bg-gray-50 transition-colors">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-semibold text-[#191c1e]">{m.name}</span>
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${SENIORITY_BADGE[m.seniority] ?? "bg-gray-100 text-gray-500"}`}>
-                          {SENIORITY_LABEL[m.seniority] ?? m.seniority}
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#71787c] mt-0.5">{m.title}</p>
-                      {m.notes && <p className="text-xs text-[#41484c] mt-1 italic">{m.notes}</p>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          <p className="text-[11px] text-[#71787c] text-center pt-1">
-            Sourced from publicly available information only. Verify on the firm&apos;s website before outreach. For reference only.
-          </p>
-        </div>
-      )}
 
       {prep && (
         <div className="space-y-8">

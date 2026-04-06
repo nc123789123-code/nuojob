@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -40,10 +39,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className="h-full antialiased">
-        <body className="min-h-full flex flex-col font-sans">{children}<Analytics /></body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className="h-full antialiased">
+      <body className="min-h-full flex flex-col font-sans">{children}<Analytics /></body>
+    </html>
   );
 }
