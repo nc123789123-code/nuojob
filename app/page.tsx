@@ -34,7 +34,7 @@ const DEFAULT_FUND_FILTERS: SearchFilters = {
   query: "", strategy: "all", dateRange: "90", bucket: "all", minAmount: "",
 };
 const DEFAULT_JOB_FILTERS: JobFilters = {
-  category: "all", dateRange: "90", signalTag: "all",
+  category: "all", dateRange: "45", signalTag: "all",
 };
 
 function useOutreachTracker() {
@@ -841,6 +841,7 @@ function JobsSection({
           className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]">
           <option value="14">Last 14d</option>
           <option value="30">Last 30d</option>
+          <option value="45">Last 45d</option>
           <option value="60">Last 60d</option>
           <option value="90">Last 90d</option>
         </select>
@@ -2767,7 +2768,7 @@ function IntelSection() {
   useEffect(() => {
     // Use the proven /api/jobs endpoint — aggregates Greenhouse, Lever, EDGAR,
     // Adzuna, LinkedIn. Intel tab does firm-level grouping client-side.
-    fetch("/api/jobs?dateRange=90")
+    fetch("/api/jobs?dateRange=45")
       .then(async (r) => {
         const d = await r.json();
         if (!r.ok) throw new Error(d?.error || `Error ${r.status}`);
@@ -2904,7 +2905,7 @@ function IntelSection() {
                   ))}
                 </div>
                 <p className="text-xs text-[#71787c] mt-3">
-                  These firms are on our watch list. No roles posted in the last 90 days — consider reaching out directly or monitoring their careers page.
+                  These firms are on our watch list. No roles posted in the last 45 days — consider reaching out directly or monitoring their careers page.
                 </p>
               </section>
             );

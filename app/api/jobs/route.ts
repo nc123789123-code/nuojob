@@ -76,18 +76,25 @@ const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|ana
 
 /**
  * For external broad sources (Muse, Adzuna): require EITHER the company name to
- * contain a buyside indicator (catches "Blue Owl Capital", "Everside Capital")
- * OR the title to be specifically buyside enough (catches "Investment Analyst at
- * Goldman Sachs" where the company name has no finance keyword).
- * This blocks "Financial Analyst at Everside Health" — company name has no
- * finance keyword and title isn't specific enough.
+ * contain a buyside indicator OR the title to be specifically buyside enough.
  */
 const BUYSIDE_CO_RE = /\b(capital|credit|invest|fund|asset|management|mgmt|advisors?|partners?|equity|wealth|hedge|alternative|alternatives|financial|securities|portfolio|ventures?|trading|lending|markets?)\b/i;
-const BUYSIDE_TITLE_SPECIFIC_RE = /\b(investment analyst|credit analyst|portfolio manager|portfolio analyst|fund analyst|fund manager|hedge fund|private equity|direct lending|distressed|quantitative analyst|quant analyst|fixed income analyst|equity research analyst|equity analyst|macro analyst)\b/i;
+
+/** Well-known buyside firms whose names don't contain obvious finance keywords */
+const KNOWN_BUYSIDE_FIRMS_RE = /\b(blackstone|kkr|citadel|bridgewater|point72|two sigma|de shaw|d\.e\. shaw|renaissance|millennium|balyasny|exoduspoint|exodus point|sculptor|och.ziff|elliott|third point|pershing square|starboard|jana partners|corvex|paulson|viking global|tiger global|coatue|dragoneer|d1 capital|appaloosa|baupost|greenlight|glenview|blue ridge|lone pine|sequoia|benchmark|founders fund|general catalyst|andreessen|a16z|accel|insight partners|thoma bravo|vista equity|francisco partners|warburg pincus|advent international|eqt|permira|cinven|apax|hgcapital|hg capital|stonepeak|starwood capital|apollo|ares|carlyle|tpg|silver lake|bain capital|advent|nea|lightspeed|battery ventures|kleiner|iconiq)\b/i;
 
 function isExternalJobValid(companyName: string, title: string): boolean {
+  if (KNOWN_BUYSIDE_FIRMS_RE.test(companyName)) return true;
   return BUYSIDE_CO_RE.test(companyName) || BUYSIDE_TITLE_SPECIFIC_RE.test(title);
 }
+
+/** For query-targeted APIs (JSearch, Active Jobs DB) — queries are already buyside-specific.
+ *  Skip company name check; only filter out obvious non-finance titles. */
+function isQueryFilteredJobValid(title: string): boolean {
+  return !IRRELEVANT_TITLE_RE.test(title) && FINANCE_KEYWORD_RE.test(title);
+}
+
+const BUYSIDE_TITLE_SPECIFIC_RE = /\b(investment analyst|credit analyst|portfolio manager|portfolio analyst|fund analyst|fund manager|hedge fund|private equity|direct lending|distressed|quantitative analyst|quant analyst|fixed income analyst|equity research analyst|equity analyst|macro analyst|risk analyst|derivatives analyst|loan analyst|debt analyst|leveraged finance)\b/i;
 
 /** Classify a job title into a buy-side category. Returns null if unclear or irrelevant. */
 function classifyTitle(title: string): JobCategory | null {
@@ -908,7 +915,7 @@ async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]
       seen.add(key);
       if (!job.employer_name || !job.job_title) continue;
       if (!job.job_apply_link) continue;
-      if (!isExternalJobValid(job.employer_name, job.job_title)) continue;
+      if (!isQueryFilteredJobValid(job.job_title)) continue;
       const ts = job.job_posted_at_timestamp;
       const days = ts ? Math.floor((Date.now() - ts * 1000) / 86400000)
         : job.job_posted_at_datetime_utc ? daysAgo(job.job_posted_at_datetime_utc.split("T")[0])
@@ -991,7 +998,7 @@ async function fromActiveJobsDB(apiKey: string, maxDays: number): Promise<JobSig
       if (!key || seen.has(key)) continue;
       seen.add(key);
       if (!job.company || !job.title || !job.url) continue;
-      if (!isExternalJobValid(job.company, job.title)) continue;
+      if (!isQueryFilteredJobValid(job.title)) continue;
       const days = job.date_posted ? daysAgo(job.date_posted.split("T")[0]) : maxDays;
       if (days > maxDays) continue;
       const cat = classifyTitle(job.title);
@@ -1090,7 +1097,7 @@ async function fetchSalaryRange(apiKey: string, query: string): Promise<string |
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const dateRange = searchParams.get("dateRange") || "90";
+    const dateRange = searchParams.get("dateRange") || "45";
     const category = searchParams.get("category") || "all";
     const signalTag = searchParams.get("signalTag") || "all";
     const maxDays = parseInt(dateRange);
