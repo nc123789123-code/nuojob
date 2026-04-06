@@ -201,7 +201,7 @@ function HomeContent() {
                 See which firms may hire before roles are posted.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Funds don&apos;t post roles on a schedule — they hire when capital moves. Hiring Watch tracks leading indicators across 28 private credit and special situations managers: fundraising filings, concurrent hiring patterns, and senior team changes. Each signal includes an interpretation of what it likely means for near-term headcount.
+                Funds don&apos;t post roles on a schedule — they hire when capital moves. Hiring Watch tracks leading indicators across 28 alternative asset managers: fundraising filings, concurrent hiring patterns, and senior team changes. Each signal includes an interpretation of what it likely means for near-term headcount.
               </p>
               <p className="text-[#71787c] text-xs mt-2 max-w-xl">
                 Early signals — firms with fresh EDGAR filings but no roles posted yet — are the most actionable. Outreach before a formal process gives the strongest edge.
@@ -260,7 +260,7 @@ function HomeContent() {
                 Insights
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Practical write-ups on private credit, special situations, and restructuring — for practitioners and candidates who want to go deeper.
+                Practical write-ups on alternative investing, credit, and restructuring — for practitioners and candidates who want to go deeper.
               </p>
             </>
           )}
@@ -298,7 +298,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get hiring signals before they become job postings."
-              description="New fund filings, early signals, and hiring intelligence across 28 private credit and special situations managers."
+              description="New fund filings, early signals, and hiring intelligence across 28 alternative asset managers."
               cta="Subscribe"
             />
           </>
@@ -321,7 +321,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Hiring intelligence, not job board noise."
-              description="Early signals, fund activity, and firm-level context — for buyside recruiting across private credit and special situations."
+              description="Early signals, fund activity, and firm-level context — for buyside recruiting across alternative asset managers."
               cta="Subscribe"
             />
           </>
