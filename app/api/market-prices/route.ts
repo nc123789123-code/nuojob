@@ -48,11 +48,11 @@ export async function GET() {
 
   try {
     const res = await fetch(
-      `https://yh-finance.p.rapidapi.com/market/v2/get-quotes?symbols=${encodeURIComponent(symbolList)}&region=US`,
+      `https://yahoo-finance-real-time1.p.rapidapi.com/market/get-quotes?symbols=${encodeURIComponent(symbolList)}&region=US&lang=en-US`,
       {
         headers: {
           "X-RapidAPI-Key": apiKey,
-          "X-RapidAPI-Host": "yh-finance.p.rapidapi.com",
+          "X-RapidAPI-Host": "yahoo-finance-real-time1.p.rapidapi.com",
         },
         signal: AbortSignal.timeout(6000),
       }
@@ -61,7 +61,10 @@ export async function GET() {
     if (!res.ok) return Response.json([], { status: 200 });
 
     const data = await res.json() as YFResp;
-    const results = data?.quoteResponse?.result ?? [];
+    // yahoo-finance-real-time1 may nest differently — handle both shapes
+    const results: YFQuote[] = data?.quoteResponse?.result
+      ?? (data as unknown as { result?: YFQuote[] })?.result
+      ?? [];
 
     const tickers: MarketTicker[] = SYMBOLS.flatMap(({ symbol, label, isYield }) => {
       const q = results.find(r => r.symbol === symbol);
