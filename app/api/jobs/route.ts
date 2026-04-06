@@ -185,12 +185,13 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       const days = daysAgo(hit.created);
       if (days > maxDays) continue;
       // Only include jobs with a clear buy-side category
+      // Adzuna queries are buyside-targeted — trust the query context; only filter obvious non-finance titles
+      if (!isQueryFilteredJobValid(hit.title)) continue;
       const classified = classifyTitle(hit.title);
-      if (!classified) continue;
-      if (!isExternalJobValid(hit.company.display_name, hit.title)) continue; // skip non-buyside firms
       // Prefer fallbackCat when title gives a generic result that the query context overrides
-      // e.g. "Equity Analyst" from an Equity Research query → classify as Equity Research
-      const cat = (classified === "General Investment Roles" && fallbackCat === "Equity Research") ? fallbackCat : classified;
+      const cat = classified
+        ? (classified === "General Investment Roles" && fallbackCat !== "General Investment Roles" ? fallbackCat : classified)
+        : fallbackCat;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `adzuna-${hit.id}`,
@@ -367,7 +368,6 @@ const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = 
   { slug: "kkr",                     firm: "KKR",                             type: "pe"     },
   { slug: "aresmgmt",                firm: "Ares Management",                 type: "credit" },
   { slug: "apolloglobal",            firm: "Apollo Global Management",        type: "credit" },
-  { slug: "apollo-global-management",firm: "Apollo Global Management",        type: "credit" },
   { slug: "oaktree",                 firm: "Oaktree Capital Management",      type: "credit" },
   { slug: "blackstone",              firm: "Blackstone",                      type: "pe"     },
   { slug: "hpsinvestmentpartners",   firm: "HPS Investment Partners",         type: "credit" },
@@ -576,26 +576,27 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
   const datePosted = jobs14DatePosted(maxDays);
   const headers = JOBS14_HEADERS(apiKey);
 
-  // Run Indeed and LinkedIn searches in parallel across all queries
-  const indeedResults = await Promise.allSettled(
-    JOBS14_QUERIES.map(async (query) => {
-      const p = new URLSearchParams({ countryCode: "us", query, location: "United States", sortType: "date", datePosted });
-      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/indeed/search?${p}`, { headers }, 8000);
-      if (!res.ok) return [] as IndeedJob[];
-      const data = await safeJson<IndeedResp>(res);
-      return data?.jobs ?? data?.data ?? [];
-    })
-  );
-
-  const linkedInResults = await Promise.allSettled(
-    JOBS14_QUERIES.map(async (query) => {
-      const p = new URLSearchParams({ query, location: "United States", datePosted });
-      const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/linkedin/search?${p}`, { headers }, 8000);
-      if (!res.ok) return [] as LinkedInJob[];
-      const data = await safeJson<LinkedInResp>(res);
-      return data?.jobs ?? data?.data ?? [];
-    })
-  );
+  // Run LinkedIn, Indeed, and Bing searches in parallel across all queries
+  const [indeedResults, linkedInResults] = await Promise.all([
+    Promise.allSettled(
+      JOBS14_QUERIES.map(async (query) => {
+        const p = new URLSearchParams({ countryCode: "us", query, location: "United States", sortType: "date", datePosted });
+        const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/indeed/search?${p}`, { headers }, 8000);
+        if (!res.ok) return [] as IndeedJob[];
+        const data = await safeJson<IndeedResp>(res);
+        return data?.jobs ?? data?.data ?? [];
+      })
+    ),
+    Promise.allSettled(
+      JOBS14_QUERIES.map(async (query) => {
+        const p = new URLSearchParams({ query, location: "United States", datePosted });
+        const res = await fetchT(`https://jobs-api14.p.rapidapi.com/v2/linkedin/search?${p}`, { headers }, 8000);
+        if (!res.ok) return [] as LinkedInJob[];
+        const data = await safeJson<LinkedInResp>(res);
+        return data?.jobs ?? data?.data ?? [];
+      })
+    ),
+  ]);
 
   const seen = new Set<string>();
   const out: JobSignal[] = [];
@@ -609,11 +610,11 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       seen.add(key);
       if (!job.company?.name) continue;  // skip unknown firm
       if (!job.applyUrl) continue;       // skip missing link
-      if (!isExternalJobValid(job.company.name, job.title ?? "")) continue;
+      // Jobs14 queries are buyside-targeted — use looser title-only filter
+      if (!isQueryFilteredJobValid(job.title ?? "")) continue;
       const days = indeedDaysAgo(job, maxDays);
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.title ?? "");
-      if (!cat) continue;
+      const cat = classifyTitle(job.title ?? "") ?? "General Investment Roles";
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-indeed-${key}`,
@@ -641,12 +642,12 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       if (!companyName) continue;                        // skip unknown firm
       const applyLink = job.applyUrl ?? job.url;
       if (!applyLink) continue;                          // skip missing link
-      if (!isExternalJobValid(companyName, job.title ?? "")) continue;
+      // Jobs14 queries are buyside-targeted — use looser title-only filter
+      if (!isQueryFilteredJobValid(job.title ?? "")) continue;
       const dateStr = job.datePosted ?? job.publishedAt ?? job.postedAt ?? "";
       const days = dateStr ? daysAgo(dateStr) : maxDays;
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.title ?? "");
-      if (!cat) continue;
+      const cat = classifyTitle(job.title ?? "") ?? "General Investment Roles";
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-li-${key}`,
@@ -1129,9 +1130,9 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, museResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult, activeJobsResult] = await Promise.allSettled([
+    // Note: JSearch is over monthly quota; Active Jobs DB not subscribed — both skipped
+    const [adzunaResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
-      fromMuse(maxDays),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
       fromLever(maxDays),
@@ -1139,8 +1140,6 @@ export async function GET(req: NextRequest) {
       fromWorkday(maxDays),
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
-      rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
-      rapidApiKey ? fromActiveJobsDB(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -1153,17 +1152,14 @@ export async function GET(req: NextRequest) {
         sources.push(name);
       }
     };
-    add(adzunaResult,    "adzuna");
-    add(museResult,      "muse");
-    add(edgarResult,     "edgar");
-    add(ghResult,        "greenhouse");
-    add(leverResult,     "lever");
-    add(ashbyResult,     "ashby");
-    add(workdayResult,   "workday");
-    add(jobs14Result,    "jobs14");
-    add(fjResult,        "linkedin");
-    add(jsearchResult,   "jsearch");
-    add(activeJobsResult, "activejobs");
+    add(adzunaResult,  "adzuna");
+    add(edgarResult,   "edgar");
+    add(ghResult,      "greenhouse");
+    add(leverResult,   "lever");
+    add(ashbyResult,   "ashby");
+    add(workdayResult, "workday");
+    add(jobs14Result,  "jobs14");
+    add(fjResult,      "linkedin");
 
     // Static curated jobs — always added
     const staticJobs = getStaticJobs(maxDays);
