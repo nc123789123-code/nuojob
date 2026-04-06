@@ -1192,6 +1192,32 @@ const CAREER_POSTS: InsightPost[] = [
 
 const INDUSTRY_POSTS: InsightPost[] = [
   {
+    slug: "fixed-income-101",
+    title: "Fixed Income 101: How Credit Markets Actually Work",
+    date: "April 6, 2026",
+    tag: "Credit",
+    paragraphs: [
+      `If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way.`,
+      `To understand fixed income is to understand how the market prices time, risk, and uncertainty.`,
+      `At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades—and what it implies about the world—is far more complex.`,
+      `The first distinction most investors encounter is between current yield and yield to maturity. Current yield is the simplest lens: it measures the income you receive today relative to the bond's price. If a bond pays a fixed coupon and its price falls, the income relative to what you pay increases. It is intuitive and useful for income-focused investors, but it is also incomplete.`,
+      `Yield to maturity, by contrast, is the market's full return expectation. It incorporates not just the coupon, but also any gain or loss from buying the bond above or below its face value, and crucially, the time value of money. When a bond trades at a discount, its yield to maturity exceeds its current yield because you are earning both income and price appreciation over time. This is why credit investors anchor on yield to maturity—it reflects the total economic return embedded in the instrument, assuming the issuer survives.`,
+      `Beyond individual bonds, the yield curve provides a broader lens into the market's expectations. By plotting interest rates across maturities, the curve becomes a real-time signal of how investors view growth and inflation.`,
+      `In a normal environment, the curve slopes upward, with longer-term rates higher than short-term ones. This reflects the natural uncertainty of time and the expectation of economic expansion. When the curve inverts, however, the message changes. Short-term rates exceed long-term rates, signaling that markets expect tightening conditions today to lead to weaker growth tomorrow. Historically, this inversion has been one of the more reliable indicators of an approaching slowdown.`,
+      `For credit markets, the shape of the curve is not just academic. A steep curve supports lending and liquidity, while an inverted curve tightens financial conditions and increases pressure on borrowers. In that sense, the yield curve is not just a reflection of the economy—it actively influences it.`,
+      `If the yield curve represents expectations, inflation represents erosion. Fixed income securities are fundamentally exposed to inflation because their cash flows are fixed in nominal terms. When inflation rises, the real value of those payments declines, and investors demand higher yields to compensate. The adjustment happens quickly: yields rise and bond prices fall.`,
+      `This is why inflation is often described as the silent driver of bond markets. Even modest changes in inflation expectations can lead to significant repricing, particularly for longer-duration assets where cash flows are further into the future.`,
+      `Central bank policy interacts directly with this dynamic, most visibly through rate cuts. When rates fall, newly issued bonds offer lower yields, making existing bonds with higher coupons more valuable. Prices adjust upward accordingly, and bondholders benefit.`,
+      `However, the story is more nuanced in credit markets. Rate cuts often occur in response to economic weakness, which introduces a second force: rising credit risk. While government bonds may rally strongly, lower-quality credit can lag or even decline if investors become concerned about defaults. The balance between these forces—rates and credit—is what defines performance across different parts of fixed income.`,
+      `This tension becomes most apparent in stagflation, one of the most difficult environments for investors. In a stagflationary scenario, inflation remains elevated while economic growth slows. The usual policy response mechanisms become constrained. Higher inflation pushes yields upward, hurting bond prices, while weaker growth increases default risk, widening credit spreads. Unlike typical cycles where one asset class can offset another, stagflation tends to pressure both rates and credit simultaneously.`,
+      `At the heart of credit markets lies the concept of the credit spread, which represents the additional yield investors demand over a risk-free benchmark. This spread compensates for default risk, liquidity risk, and uncertainty. In stable environments, spreads tend to compress as confidence builds. In periods of stress, they widen sharply as investors demand greater protection.`,
+      `Understanding spreads is critical because they capture what is unique about credit investing. While interest rates reflect macro conditions, spreads reflect issuer-specific risk and market sentiment. The interplay between the two determines how a bond ultimately performs.`,
+      `Taken together, fixed income can be understood as the combination of two forces. The first is rates, driven by inflation, central bank policy, and growth expectations. The second is credit, driven by fundamentals, capital structure, and risk perception. Different segments of the market respond differently depending on which force dominates. Government bonds are primarily driven by rates, investment-grade credit reflects a balance of both, and high yield is largely driven by credit risk.`,
+      `Fixed income is often framed as a defensive asset class, but that framing understates its role. Credit markets are not just about preserving capital—they are about pricing risk with precision. They often react earlier than equities and provide a clearer signal of where stress is building.`,
+      `If equities reflect optimism about the future, fixed income reflects the cost of being wrong.`,
+    ],
+  },
+  {
     slug: "iran-israel-geopolitical-shock",
     title: "Iran, Israel, and the U.S.: A Geopolitical Shock and Its Transmission Through Markets",
     date: "April 2, 2026",
@@ -1228,31 +1254,78 @@ const TAG_STYLES: Record<string, string> = {
 };
 
 function PostList({ posts }: { posts: InsightPost[] }) {
+  const [activeTag, setActiveTag] = useState<string>("All");
+  const tags = ["All", ...Array.from(new Set(posts.map(p => p.tag).filter(Boolean))) as string[]];
+  const filtered = activeTag === "All" ? posts : posts.filter(p => p.tag === activeTag);
+
   return (
-    <div className="max-w-2xl space-y-16 py-2">
-      {posts.map((post) => (
-        <article key={post.slug}>
-          <header className="mb-6">
-            {post.tag && (
-              <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
-                {post.tag}
-              </span>
-            )}
-            <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
-              {post.title}
-            </h2>
-            <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
-          </header>
-          <div className="space-y-4">
-            {post.paragraphs.map((p, i) => (
-              <p key={i} className="text-[#41484c] text-sm leading-[1.75]">
-                {p}
-              </p>
+    <div className="max-w-2xl py-2">
+      {/* Topic navigator */}
+      <div className="mb-8 space-y-4">
+        {/* Tag filter */}
+        <div className="flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
+                activeTag === tag
+                  ? "bg-[#191c1e] text-white border-[#191c1e]"
+                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+        {/* Jump links */}
+        <div className="border border-gray-100 rounded-xl px-4 py-3 bg-gray-50/60">
+          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Jump to</p>
+          <div className="space-y-1.5">
+            {filtered.map(post => (
+              <a
+                key={post.slug}
+                href={`#post-${post.slug}`}
+                className="flex items-center gap-2 text-xs text-[#41484c] hover:text-[#191c1e] transition-colors group"
+              >
+                {post.tag && (
+                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
+                    {post.tag}
+                  </span>
+                )}
+                <span className="group-hover:underline underline-offset-2">{post.title}</span>
+              </a>
             ))}
           </div>
-          <div className="mt-10 border-t border-[#c1c7cc]/30" />
-        </article>
-      ))}
+        </div>
+      </div>
+
+      {/* Posts */}
+      <div className="space-y-16">
+        {filtered.map((post) => (
+          <article key={post.slug} id={`post-${post.slug}`}>
+            <header className="mb-6">
+              {post.tag && (
+                <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
+                  {post.tag}
+                </span>
+              )}
+              <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
+                {post.title}
+              </h2>
+              <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
+            </header>
+            <div className="space-y-4">
+              {post.paragraphs.map((p, i) => (
+                <p key={i} className="text-[#41484c] text-sm leading-[1.75]">
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div className="mt-10 border-t border-[#c1c7cc]/30" />
+          </article>
+        ))}
+      </div>
     </div>
   );
 }
