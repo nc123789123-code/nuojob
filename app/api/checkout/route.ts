@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const { email } = await req.json().catch(() => ({}));
 
     const baseUrl = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
-    const priceInCents = parseInt(process.env.GUIDE_PRICE_CENTS || "2500", 10);
+    const priceInCents = parseInt(process.env.GUIDE_PRICE_CENTS || "1000", 10);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
