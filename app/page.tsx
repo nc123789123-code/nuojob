@@ -1171,7 +1171,7 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
   );
 }
 
-const EDGE_FREE_LIMIT = 50;
+const EDGE_FREE_LIMIT = 10;
 const EDGE_STORAGE_KEY = "edge_usage";
 
 function getEdgeUsage(): { count: number; month: string } {
