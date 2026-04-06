@@ -1194,13 +1194,13 @@ const CAREER_POSTS: InsightPost[] = [
 // ─── AI Ecosystem Post ───────────────────────────────────────────────────────
 
 const AI_STACK_LAYERS = [
-  { label: "Physical (EV / Robotics / Autonomy)",  color: "#4f46e5", gross: "10–20%",  note: "Largest TAM, lowest near-term margins" },
-  { label: "Applications",                          color: "#0891b2", gross: "25–35%+", note: "High margins; dependent on upstream costs" },
-  { label: "Middleware / Data Platforms",           color: "#059669", gross: "20–30%",  note: "Bridging layer; growing criticality" },
-  { label: "Foundation Models",                     color: "#d97706", gross: "Uncertain",note: "Innovation leader; risk of commoditisation" },
-  { label: "Cloud Infrastructure",                  color: "#dc2626", gross: "25–35%",  note: "Best durability; controls distribution" },
-  { label: "Networking & Optics",                   color: "#7c3aed", gross: "30–45%",  note: "Data-movement bottleneck; volume-driven" },
-  { label: "Semiconductors / Compute",              color: "#ea580c", gross: "60–70%",  note: "Highest margin today; cyclical risk ahead" },
+  { label: "Physical (EV / Robotics / Autonomy)",  color: "#4f46e5", gross: "10–20%",   note: "Largest TAM, lowest near-term margins",     companies: ["Tesla", "Waymo", "Figure AI", "Boston Dynamics", "Mobileye", "Rivian"] },
+  { label: "Applications",                          color: "#0891b2", gross: "25–35%+",  note: "High margins; dependent on upstream costs",  companies: ["Salesforce", "Adobe", "ServiceNow", "Workday", "Cursor", "Perplexity"] },
+  { label: "Middleware / Data Platforms",           color: "#059669", gross: "20–30%",   note: "Bridging layer; growing criticality",         companies: ["Palantir", "Databricks", "Snowflake", "Scale AI", "Weights & Biases"] },
+  { label: "Foundation Models",                     color: "#d97706", gross: "Uncertain", note: "Innovation leader; risk of commoditisation",  companies: ["OpenAI", "Anthropic", "Meta (Llama)", "Google DeepMind", "Mistral"] },
+  { label: "Cloud Infrastructure",                  color: "#dc2626", gross: "25–35%",   note: "Best durability; controls distribution",      companies: ["Microsoft Azure", "AWS", "Google Cloud", "Oracle Cloud"] },
+  { label: "Networking & Optics",                   color: "#7c3aed", gross: "30–45%",   note: "Data-movement bottleneck; volume-driven",     companies: ["Broadcom", "Marvell", "Coherent Corp.", "Lumentum", "Ciena"] },
+  { label: "Semiconductors / Compute",              color: "#ea580c", gross: "60–70%",   note: "Highest margin today; cyclical risk ahead",   companies: ["NVIDIA", "AMD", "Intel", "SK Hynix", "Micron", "Google TPU", "AWS Trainium"] },
 ];
 
 const AI_MARGIN_BARS = [
@@ -1227,13 +1227,20 @@ const AI_POST_CONTENT = (
         {AI_STACK_LAYERS.map((layer, i) => (
           <div key={i} className="flex items-stretch gap-3">
             <div className="w-2 rounded-full flex-shrink-0" style={{ backgroundColor: layer.color }} />
-            <div className="flex-1 rounded-lg px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1" style={{ backgroundColor: layer.color + "12" }}>
-              <span className="text-xs font-semibold" style={{ color: layer.color }}>{layer.label}</span>
-              <div className="flex items-center gap-3 flex-shrink-0">
-                <span className="text-[11px] text-gray-500">{layer.note}</span>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
-                  {layer.gross} gross
-                </span>
+            <div className="flex-1 rounded-lg px-4 py-3 flex flex-col gap-2" style={{ backgroundColor: layer.color + "10" }}>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <span className="text-xs font-bold" style={{ color: layer.color }}>{layer.label}</span>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-[11px] text-gray-400">{layer.note}</span>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
+                    {layer.gross} gross
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {layer.companies.map((co) => (
+                  <span key={co} className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white border border-gray-200 text-gray-600">{co}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -1317,26 +1324,126 @@ const INDUSTRY_POSTS: InsightPost[] = [
     title: "Fixed Income 101: How Credit Markets Actually Work",
     date: "April 6, 2026",
     tag: "Credit",
-    paragraphs: [
-      `If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way.`,
-      `To understand fixed income is to understand how the market prices time, risk, and uncertainty.`,
-      `At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades—and what it implies about the world—is far more complex.`,
-      `The first distinction most investors encounter is between current yield and yield to maturity. Current yield is the simplest lens: it measures the income you receive today relative to the bond's price. If a bond pays a fixed coupon and its price falls, the income relative to what you pay increases. It is intuitive and useful for income-focused investors, but it is also incomplete.`,
-      `Yield to maturity, by contrast, is the market's full return expectation. It incorporates not just the coupon, but also any gain or loss from buying the bond above or below its face value, and crucially, the time value of money. When a bond trades at a discount, its yield to maturity exceeds its current yield because you are earning both income and price appreciation over time. This is why credit investors anchor on yield to maturity—it reflects the total economic return embedded in the instrument, assuming the issuer survives.`,
-      `Beyond individual bonds, the yield curve provides a broader lens into the market's expectations. By plotting interest rates across maturities, the curve becomes a real-time signal of how investors view growth and inflation.`,
-      `In a normal environment, the curve slopes upward, with longer-term rates higher than short-term ones. This reflects the natural uncertainty of time and the expectation of economic expansion. When the curve inverts, however, the message changes. Short-term rates exceed long-term rates, signaling that markets expect tightening conditions today to lead to weaker growth tomorrow. Historically, this inversion has been one of the more reliable indicators of an approaching slowdown.`,
-      `For credit markets, the shape of the curve is not just academic. A steep curve supports lending and liquidity, while an inverted curve tightens financial conditions and increases pressure on borrowers. In that sense, the yield curve is not just a reflection of the economy—it actively influences it.`,
-      `If the yield curve represents expectations, inflation represents erosion. Fixed income securities are fundamentally exposed to inflation because their cash flows are fixed in nominal terms. When inflation rises, the real value of those payments declines, and investors demand higher yields to compensate. The adjustment happens quickly: yields rise and bond prices fall.`,
-      `This is why inflation is often described as the silent driver of bond markets. Even modest changes in inflation expectations can lead to significant repricing, particularly for longer-duration assets where cash flows are further into the future.`,
-      `Central bank policy interacts directly with this dynamic, most visibly through rate cuts. When rates fall, newly issued bonds offer lower yields, making existing bonds with higher coupons more valuable. Prices adjust upward accordingly, and bondholders benefit.`,
-      `However, the story is more nuanced in credit markets. Rate cuts often occur in response to economic weakness, which introduces a second force: rising credit risk. While government bonds may rally strongly, lower-quality credit can lag or even decline if investors become concerned about defaults. The balance between these forces—rates and credit—is what defines performance across different parts of fixed income.`,
-      `This tension becomes most apparent in stagflation, one of the most difficult environments for investors. In a stagflationary scenario, inflation remains elevated while economic growth slows. The usual policy response mechanisms become constrained. Higher inflation pushes yields upward, hurting bond prices, while weaker growth increases default risk, widening credit spreads. Unlike typical cycles where one asset class can offset another, stagflation tends to pressure both rates and credit simultaneously.`,
-      `At the heart of credit markets lies the concept of the credit spread, which represents the additional yield investors demand over a risk-free benchmark. This spread compensates for default risk, liquidity risk, and uncertainty. In stable environments, spreads tend to compress as confidence builds. In periods of stress, they widen sharply as investors demand greater protection.`,
-      `Understanding spreads is critical because they capture what is unique about credit investing. While interest rates reflect macro conditions, spreads reflect issuer-specific risk and market sentiment. The interplay between the two determines how a bond ultimately performs.`,
-      `Taken together, fixed income can be understood as the combination of two forces. The first is rates, driven by inflation, central bank policy, and growth expectations. The second is credit, driven by fundamentals, capital structure, and risk perception. Different segments of the market respond differently depending on which force dominates. Government bonds are primarily driven by rates, investment-grade credit reflects a balance of both, and high yield is largely driven by credit risk.`,
-      `Fixed income is often framed as a defensive asset class, but that framing understates its role. Credit markets are not just about preserving capital—they are about pricing risk with precision. They often react earlier than equities and provide a clearer signal of where stress is building.`,
-      `If equities reflect optimism about the future, fixed income reflects the cost of being wrong.`,
-    ],
+    paragraphs: [],
+    richContent: (
+      <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+        <p>If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way. To understand fixed income is to understand how the market prices time, risk, and uncertainty.</p>
+
+        <p>At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades — and what it implies about the world — is far more complex. The first distinction most investors encounter is between current yield and yield to maturity. Current yield measures the income you receive today relative to the bond's price. Yield to maturity is the market's full return expectation — it incorporates the coupon, any gain or loss from buying above or below face value, and the time value of money. This is why credit investors anchor on yield to maturity: it reflects total economic return, assuming the issuer survives.</p>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">The Yield Curve: The Market's Expectations in One Line</h3>
+        <p>Beyond individual bonds, the yield curve provides a broader lens. By plotting interest rates across maturities, it becomes a real-time signal of how investors view growth and inflation. In a normal environment the curve slopes upward — longer-term rates exceed short-term ones, reflecting the uncertainty of time and expectations of growth. When the curve inverts, short-term rates exceed long-term ones, historically one of the most reliable signals of an approaching slowdown.</p>
+
+        {/* Figure 1: Yield Curve SVG */}
+        <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
+          </div>
+          <div className="p-5">
+            <svg viewBox="0 0 480 200" className="w-full" style={{ fontFamily: "inherit" }}>
+              {/* Grid lines */}
+              {[0,1,2,3,4,5,6].map(y => (
+                <line key={y} x1="48" y1={170 - y * 24} x2="460" y2={170 - y * 24} stroke="#f3f4f6" strokeWidth="1" />
+              ))}
+              {/* Y axis labels */}
+              {[0,1,2,3,4,5,6].map(y => (
+                <text key={y} x="42" y={174 - y * 24} textAnchor="end" fontSize="9" fill="#9ca3af">{y}%</text>
+              ))}
+              {/* X axis labels */}
+              {["3M","1Y","2Y","5Y","10Y","30Y"].map((label, i) => (
+                <text key={label} x={48 + i * 82} y="188" textAnchor="middle" fontSize="9" fill="#6b7280">{label}</text>
+              ))}
+              {/* Normal curve (green) */}
+              <polyline
+                points={[
+                  [48,  170 - 2.0 * 24],
+                  [130, 170 - 2.8 * 24],
+                  [212, 170 - 3.4 * 24],
+                  [294, 170 - 4.0 * 24],
+                  [376, 170 - 4.6 * 24],
+                  [458, 170 - 5.0 * 24],
+                ].map(p => p.join(",")).join(" ")}
+                fill="none" stroke="#059669" strokeWidth="2.5" strokeLinejoin="round"
+              />
+              {/* Inverted curve (red) */}
+              <polyline
+                points={[
+                  [48,  170 - 5.3 * 24],
+                  [130, 170 - 5.0 * 24],
+                  [212, 170 - 4.6 * 24],
+                  [294, 170 - 4.2 * 24],
+                  [376, 170 - 3.9 * 24],
+                  [458, 170 - 3.7 * 24],
+                ].map(p => p.join(",")).join(" ")}
+                fill="none" stroke="#dc2626" strokeWidth="2.5" strokeDasharray="6 3" strokeLinejoin="round"
+              />
+              {/* Legend */}
+              <line x1="56" y1="14" x2="76" y2="14" stroke="#059669" strokeWidth="2.5" />
+              <text x="80" y="18" fontSize="10" fill="#374151">Normal (upward sloping) — growth expected</text>
+              <line x1="56" y1="30" x2="76" y2="30" stroke="#dc2626" strokeWidth="2.5" strokeDasharray="5 3" />
+              <text x="80" y="34" fontSize="10" fill="#374151">Inverted — slowdown signal</text>
+            </svg>
+          </div>
+        </div>
+
+        <p>For credit markets, the shape of the curve is not just academic. A steep curve supports lending and liquidity. An inverted curve tightens financial conditions and increases pressure on borrowers — it is not just a reflection of the economy, it actively influences it.</p>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">Inflation, Central Banks, and the Rate-Credit Tension</h3>
+        <p>If the yield curve represents expectations, inflation represents erosion. Fixed income securities are fundamentally exposed to inflation because their cash flows are fixed in nominal terms. When inflation rises, the real value of those payments declines and investors demand higher yields. Yields rise and bond prices fall — quickly. This is why inflation is often described as the silent driver of bond markets.</p>
+        <p>Central bank policy interacts directly with this dynamic. When rates fall, existing bonds with higher coupons become more valuable. But rate cuts often occur in response to economic weakness, introducing a second force: rising credit risk. Government bonds may rally while lower-quality credit lags or declines. The balance between rates and credit is what defines performance across different segments of fixed income.</p>
+        <p>This tension becomes most acute in stagflation. Inflation remains elevated while growth slows — constraining the usual policy response. Higher inflation pushes yields up, hurting bond prices. Weaker growth widens credit spreads. Unlike typical cycles where one asset class offsets another, stagflation pressures both simultaneously.</p>
+
+        {/* Figure 2: Credit Spread Anatomy */}
+        <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative yield composition across credit quality</p>
+          </div>
+          <div className="p-5 space-y-3">
+            {[
+              { label: "US Treasury (Risk-Free)",  riskFree: 100, ig: 0,  hy: 0,  total: "~4.5%", color1: "#3b82f6", note: "Rates only" },
+              { label: "Investment Grade Corp.",   riskFree: 72,  ig: 28, hy: 0,  total: "~6.2%", color1: "#3b82f6", color2: "#8b5cf6", note: "+IG spread ~150bp" },
+              { label: "High Yield Corp.",         riskFree: 45,  ig: 18, hy: 37, total: "~9.8%", color1: "#3b82f6", color2: "#8b5cf6", note: "+HY spread ~500bp" },
+            ].map((row) => (
+              <div key={row.label}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-medium text-gray-600">{row.label}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-gray-400">{row.note}</span>
+                    <span className="text-xs font-bold text-gray-800">{row.total}</span>
+                  </div>
+                </div>
+                <div className="flex h-7 rounded-lg overflow-hidden gap-px">
+                  <div style={{ width: `${row.riskFree}%`, backgroundColor: "#3b82f6" }} className="flex items-center justify-center">
+                    {row.riskFree > 20 && <span className="text-[9px] font-semibold text-white">Risk-Free Rate</span>}
+                  </div>
+                  {row.ig > 0 && <div style={{ width: `${row.ig}%`, backgroundColor: "#8b5cf6" }} className="flex items-center justify-center">
+                    {row.ig > 15 && <span className="text-[9px] font-semibold text-white">IG Spread</span>}
+                  </div>}
+                  {row.hy > 0 && <div style={{ width: `${row.hy}%`, backgroundColor: "#ef4444" }} className="flex items-center justify-center">
+                    {row.hy > 15 && <span className="text-[9px] font-semibold text-white">HY Spread</span>}
+                  </div>}
+                </div>
+              </div>
+            ))}
+            <div className="flex gap-4 pt-2">
+              {[["#3b82f6","Risk-Free Rate"],["#8b5cf6","IG Credit Spread"],["#ef4444","HY Credit Spread"]].map(([color, label]) => (
+                <div key={label} className="flex items-center gap-1.5">
+                  <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: color }} />
+                  <span className="text-[10px] text-gray-500">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">Credit Spreads: The Core of Credit Investing</h3>
+        <p>At the heart of credit markets lies the credit spread — the additional yield investors demand over a risk-free benchmark. This spread compensates for default risk, liquidity risk, and uncertainty. In stable environments, spreads compress as confidence builds. In stress, they widen sharply. Understanding spreads is critical because they capture what is unique about credit investing. While rates reflect macro conditions, spreads reflect issuer-specific risk and market sentiment. The interplay between the two determines how a bond ultimately performs.</p>
+        <p>Fixed income can ultimately be understood as the combination of two forces: rates, driven by inflation and central bank policy; and credit, driven by fundamentals and capital structure. Government bonds are primarily rate-driven. Investment-grade credit reflects a balance of both. High yield is largely credit-driven. The most important question in credit is rarely about a single bond — it is about where you are in the cycle and which force is dominant.</p>
+        <p>Fixed income is often framed as a defensive asset class, but that framing understates its role. Credit markets are not just about preserving capital — they are about pricing risk with precision. They often react earlier than equities and provide a clearer signal of where stress is building. If equities reflect optimism about the future, fixed income reflects the cost of being wrong.</p>
+      </div>
+    ),
   },
   {
     slug: "iran-israel-geopolitical-shock",
