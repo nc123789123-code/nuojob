@@ -55,7 +55,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "hiring" | "learn" | "market" | "firmprep" | "table";
+type TopTab = "pulse" | "hiring" | "learn" | "firmprep" | "table";
 
 export default function Home() {
   return (
@@ -69,8 +69,10 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "hiring";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "hiring", "learn", "market", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
+    ["pulse", "hiring", "learn", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
   );
+
+  const [pulseSubTab, setPulseSubTab] = useState<"market" | "funds">("market");
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
   const [fundFilings, setFundFilings] = useState<FundFiling[]>([]);
@@ -157,8 +159,7 @@ function HomeContent() {
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="The Edge" badge="AI" />
-            <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
-            <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" badge="AI" />
+            <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Pulse" badge="AI" />
             <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" badge="Events" />
             <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Learn" badge="Blog" />
           </nav>
@@ -176,20 +177,17 @@ function HomeContent() {
       {/* Hero */}
       <div className="hero-gradient border-b border-sky-100/60">
         <div className="max-w-6xl mx-auto px-5 py-10">
-          {topTab === "funds" && (
+          {topTab === "pulse" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#396477] rounded-full" />
-                SEC EDGAR · Form D
+                <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
+                Market · Fund Intelligence · AI
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Fund Signals — Track Capital Before It Moves
+                Pulse
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Search private fund filings directly from the SEC. Capital raises are one of the strongest leading indicators of near-term hiring — funds that close a new vehicle typically build headcount within one to three quarters.
-              </p>
-              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Spot a firm raising capital? Switch to <button onClick={() => setTopTab("hiring")} className="underline hover:text-[#41484c] transition-colors">Hiring Watch</button> to see whether roles are already being posted.
+                Live market analysis and fund signal intelligence in one place — AI-generated market briefs alongside SEC fundraising filings and hiring signals.
               </p>
             </>
           )}
@@ -238,66 +236,37 @@ function HomeContent() {
               </p>
             </>
           )}
-          {topTab === "market" && (
-            <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100/70 text-amber-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
-                Daily Market Brief · AI-Generated
-              </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Market Brief
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Morning and evening market analysis across U.S. equity, fixed income, international, macro, and alternatives — synthesized for buyside professionals.
-              </p>
-            </>
-          )}
+
 
         </div>
       </div>
 
-      {topTab === "funds" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
-        setTopTab("funds");
+      {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
+        setTopTab("pulse");
         setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
       }} onJobsClick={() => setTopTab("hiring")} />}
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
-        {topTab === "funds" && (
-          <>
-            <FundsSection
-              filters={fundFilters} setFilters={setFundFilters}
-              filings={fundFilings} total={fundTotal}
-              loading={fundLoading} error={fundError}
-              records={records} updateRecord={updateRecord}
-              outreachRecords={outreachRecords}
-              subTab={fundSubTab} setSubTab={setFundSubTab}
-              onExport={() => exportToCsv(fundFilings, records)}
-              jobSignals={jobSignals}
-              onViewJobs={() => setTopTab("hiring")}
-            />
-            {/* Inter-section CTA: signals → guide */}
-            <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-[#396477]">
-                Spotted a target firm? <span className="font-medium">Prepare for the interview before they post the role.</span>
-              </p>
-              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
-                View the Guide →
-              </a>
-            </div>
-            <NewsletterCTA
-              intent="signals_subscriber"
-              title="Get hiring signals before they become job postings."
-              description="New fund filings, early signals, and hiring intelligence across 28 alternative asset managers."
-              cta="Subscribe"
-            />
-          </>
+        {topTab === "pulse" && (
+          <PulseSection
+            pulseSubTab={pulseSubTab} setPulseSubTab={setPulseSubTab}
+            fundFilters={fundFilters} setFundFilters={setFundFilters}
+            fundFilings={fundFilings} fundTotal={fundTotal}
+            fundLoading={fundLoading} fundError={fundError}
+            records={records} updateRecord={updateRecord}
+            outreachRecords={outreachRecords}
+            fundSubTab={fundSubTab} setFundSubTab={setFundSubTab}
+            onExport={() => exportToCsv(fundFilings, records)}
+            jobSignals={jobSignals}
+            onViewJobs={() => setTopTab("hiring")}
+          />
         )}
         {topTab === "hiring" && (
           <>
             <HiringSection
               signals={jobSignals} loading={jobLoading}
               fundFilings={fundFilings}
-              onViewSignals={() => setTopTab("funds")}
+              onViewSignals={() => setTopTab("pulse")}
             />
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <p className="text-sm text-[#41484c]">
@@ -316,7 +285,7 @@ function HomeContent() {
           </>
         )}
         {topTab === "learn" && <LearnSection />}
-        {topTab === "market" && <MarketSection />}
+
         {topTab === "firmprep" && <EdgeSection />}
         {topTab === "table" && <OnluTableSection />}
       </main>
@@ -751,6 +720,84 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
           ))}
           <span className="text-[11px] text-[#71787c]">— consider reaching out directly.</span>
         </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Pulse Section (Market Brief + Fund Signals) ─────────────────────────────
+
+function PulseSection({
+  pulseSubTab, setPulseSubTab,
+  fundFilters, setFundFilters, fundFilings, fundTotal, fundLoading, fundError,
+  records, updateRecord, outreachRecords, fundSubTab, setFundSubTab, onExport,
+  jobSignals, onViewJobs,
+}: {
+  pulseSubTab: "market" | "funds";
+  setPulseSubTab: (t: "market" | "funds") => void;
+  fundFilters: SearchFilters; setFundFilters: (f: SearchFilters) => void;
+  fundFilings: FundFiling[]; fundTotal: number; fundLoading: boolean; fundError: string | null;
+  records: Record<string, OutreachRecord>; updateRecord: (r: OutreachRecord) => void;
+  outreachRecords: OutreachRecord[];
+  fundSubTab: "search" | "pipeline"; setFundSubTab: (t: "search" | "pipeline") => void;
+  onExport: () => void; jobSignals: JobSignal[]; onViewJobs: () => void;
+}) {
+  return (
+    <div className="space-y-4">
+      {/* Sub-navigation */}
+      <div className="flex items-center gap-1 p-1 bg-white border border-gray-200 rounded-xl w-fit">
+        <button
+          onClick={() => setPulseSubTab("market")}
+          className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
+            pulseSubTab === "market"
+              ? "bg-amber-50 text-amber-700 shadow-sm"
+              : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
+          }`}
+        >
+          📊 Market Brief
+        </button>
+        <button
+          onClick={() => setPulseSubTab("funds")}
+          className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
+            pulseSubTab === "funds"
+              ? "bg-sky-50 text-[#396477] shadow-sm"
+              : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
+          }`}
+        >
+          🔍 Fund Signals
+        </button>
+      </div>
+
+      {pulseSubTab === "market" && <MarketSection />}
+
+      {pulseSubTab === "funds" && (
+        <>
+          <FundsSection
+            filters={fundFilters} setFilters={setFundFilters}
+            filings={fundFilings} total={fundTotal}
+            loading={fundLoading} error={fundError}
+            records={records} updateRecord={updateRecord}
+            outreachRecords={outreachRecords}
+            subTab={fundSubTab} setSubTab={setFundSubTab}
+            onExport={onExport}
+            jobSignals={jobSignals}
+            onViewJobs={onViewJobs}
+          />
+          <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm text-[#396477]">
+              Spotted a target firm? <span className="font-medium">Prepare for the interview before they post the role.</span>
+            </p>
+            <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
+              View the Guide →
+            </a>
+          </div>
+          <NewsletterCTA
+            intent="signals_subscriber"
+            title="Get hiring signals before they become job postings."
+            description="New fund filings, early signals, and hiring intelligence across 28 alternative asset managers."
+            cta="Subscribe"
+          />
+        </>
       )}
     </div>
   );
