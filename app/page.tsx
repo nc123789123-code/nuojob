@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Script from "next/script";
 import SiteFooter from "@/app/components/SiteFooter";
 import LogoMark from "@/app/components/LogoMark";
 import SearchBar from "@/app/components/SearchBar";
@@ -170,6 +171,37 @@ function HomeContent() {
           </div>
         </div>
       </header>
+
+      {/* Market Ticker Bar */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="tradingview-widget-container">
+          <div className="tradingview-widget-container__widget" />
+          <Script
+            src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                symbols: [
+                  { proName: "FOREXCOM:SPXUSD", title: "S&P 500" },
+                  { proName: "NASDAQ:QQQ", title: "QQQ" },
+                  { proName: "NASDAQ:IWM", title: "Russell 2000" },
+                  { proName: "TVC:DXY", title: "DXY" },
+                  { proName: "TVC:US10Y", title: "10Y Treasury" },
+                  { proName: "TVC:US02Y", title: "2Y Treasury" },
+                  { proName: "TVC:VIX", title: "VIX" },
+                  { proName: "NYMEX:CL1!", title: "WTI Crude" },
+                  { proName: "COMEX:GC1!", title: "Gold" },
+                ],
+                showSymbolLogo: false,
+                isTransparent: true,
+                displayMode: "adaptive",
+                colorTheme: "light",
+                locale: "en",
+              }),
+            }}
+          />
+        </div>
+      </div>
 
       {/* Hero */}
       <div className="hero-gradient border-b border-sky-100/60">
@@ -1443,6 +1475,66 @@ function MarketSection() {
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 space-y-6">
+      {/* Live Market Data */}
+      <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
+        <div className="px-5 pt-4 pb-1 flex items-center gap-2">
+          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live Markets</span>
+        </div>
+        <div className="tradingview-widget-container" style={{ height: 400 }}>
+          <div className="tradingview-widget-container__widget" style={{ height: "100%" }} />
+          <Script
+            src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                colorTheme: "light",
+                dateRange: "1D",
+                showChart: true,
+                locale: "en",
+                largeChartUrl: "",
+                isTransparent: true,
+                showSymbolLogo: true,
+                showFloatingTooltip: false,
+                width: "100%",
+                height: 400,
+                tabs: [
+                  {
+                    title: "Indices",
+                    symbols: [
+                      { s: "FOREXCOM:SPXUSD", d: "S&P 500" },
+                      { s: "NASDAQ:QQQ", d: "QQQ" },
+                      { s: "NASDAQ:IWM", d: "Russell 2000" },
+                      { s: "TVC:VIX", d: "VIX" },
+                    ],
+                    originalTitle: "Indices",
+                  },
+                  {
+                    title: "Fixed Income",
+                    symbols: [
+                      { s: "TVC:US10Y", d: "10Y Treasury" },
+                      { s: "TVC:US02Y", d: "2Y Treasury" },
+                      { s: "TVC:US30Y", d: "30Y Treasury" },
+                      { s: "TVC:DXY", d: "US Dollar (DXY)" },
+                    ],
+                    originalTitle: "Fixed Income",
+                  },
+                  {
+                    title: "Commodities",
+                    symbols: [
+                      { s: "NYMEX:CL1!", d: "WTI Crude" },
+                      { s: "COMEX:GC1!", d: "Gold" },
+                      { s: "COMEX:SI1!", d: "Silver" },
+                    ],
+                    originalTitle: "Commodities",
+                  },
+                ],
+              }),
+            }}
+          />
+        </div>
+      </div>
+
       {/* Header */}
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
