@@ -56,7 +56,7 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
-type TopTab = "funds" | "hiring" | "career" | "insights" | "market" | "firmprep";
+type TopTab = "funds" | "hiring" | "career" | "insights" | "market" | "firmprep" | "table";
 
 export default function Home() {
   return (
@@ -70,7 +70,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as TopTab | null) ?? "hiring";
   const [topTab, setTopTab] = useState<TopTab>(
-    ["funds", "hiring", "career", "insights", "market", "firmprep"].includes(initialTab) ? initialTab : "hiring"
+    ["funds", "hiring", "career", "insights", "market", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
   );
 
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
@@ -160,6 +160,7 @@ function HomeContent() {
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="The Edge" badge="AI" />
             <NavTab active={topTab === "market"} onClick={() => setTopTab("market")} label="Market Brief" badge="AI" />
             <NavTab active={topTab === "funds"} onClick={() => setTopTab("funds")} label="Fund Signals" />
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" />
             <NavTab active={topTab === "career"} onClick={() => setTopTab("career")} label="Career Prep" badge="Blog" />
             <NavTab active={topTab === "insights"} onClick={() => setTopTab("insights")} label="Insights" badge="Blog" />
           </nav>
@@ -331,6 +332,7 @@ function HomeContent() {
         {topTab === "insights" && <InsightsSection />}
         {topTab === "market" && <MarketSection />}
         {topTab === "firmprep" && <FirmPrepSection />}
+        {topTab === "table" && <OnluTableSection />}
       </main>
 
       {/* Monetization section — always visible */}
@@ -2885,6 +2887,202 @@ function IntelSection() {
       <p className="text-[11px] text-[#71787c] text-center pt-2">
         Sourced from career pages, SEC EDGAR, Indeed, and LinkedIn · Grouped by firm · Updated every 30 min
       </p>
+    </div>
+  );
+}
+
+// ─── Onlu Table Section ───────────────────────────────────────────────────────
+
+interface TableSession {
+  id: string;
+  date: string;          // e.g. "Saturday, April 19"
+  time: string;          // e.g. "11:00 AM – 1:00 PM ET"
+  location: string;      // e.g. "NYC – Midtown"
+  theme: string;         // e.g. "Private Credit & Direct Lending"
+  capacity: number;
+  spotsLeft: number;
+  description: string;
+}
+
+const UPCOMING_SESSIONS: TableSession[] = [
+  {
+    id: "apr-19-credit",
+    date: "Saturday, April 19",
+    time: "11:00 AM – 1:00 PM ET",
+    location: "NYC – Midtown",
+    theme: "Private Credit & Direct Lending",
+    capacity: 8,
+    spotsLeft: 6,
+    description: "Small-group coffee chat for professionals in private credit, direct lending, and special situations. Compare notes on deal flow, career paths, and what's moving the market.",
+  },
+  {
+    id: "apr-26-pe",
+    date: "Saturday, April 26",
+    time: "10:30 AM – 12:30 PM ET",
+    location: "NYC – Flatiron",
+    theme: "Private Equity & Growth",
+    capacity: 8,
+    spotsLeft: 5,
+    description: "For PE associates, analysts, and growth equity investors. Casual conversation on portfolio company dynamics, deal sourcing, and buyside career moves.",
+  },
+  {
+    id: "may-3-multi",
+    date: "Saturday, May 3",
+    time: "11:00 AM – 1:00 PM ET",
+    location: "NYC – Lower Manhattan",
+    theme: "Hedge Funds & Multi-Strategy",
+    capacity: 8,
+    spotsLeft: 7,
+    description: "Open table for hedge fund analysts and multi-strat PMs. Topics: market structure, pod dynamics, career mobility, and what's interesting right now.",
+  },
+];
+
+function OnluTableSection() {
+  const [selected, setSelected] = useState<TableSession | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selected) return;
+    setSubmitting(true); setError(null);
+    try {
+      const res = await fetch("/api/table-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, session: selected }),
+      });
+      const d = await res.json();
+      if (!res.ok) throw new Error(d.error || "Something went wrong");
+      setSubmitted(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const reset = () => { setSelected(null); setSubmitted(false); setForm({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" }); };
+
+  return (
+    <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
+      {/* Header */}
+      <div className="space-y-2">
+        <h2 className="text-xl font-bold text-[#1A2B4A]">Onlu Table</h2>
+        <p className="text-sm text-[#71787c] leading-relaxed">
+          Small-group weekend coffee chats for finance and buyside professionals in NYC.
+          Max 8 people per session — curated for meaningful conversation, not networking theatre.
+        </p>
+      </div>
+
+      {/* Session cards */}
+      {!selected && (
+        <div className="space-y-4">
+          {UPCOMING_SESSIONS.map((s) => (
+            <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-1 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1A2B4A]/8 text-[#1A2B4A]">{s.theme}</span>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-700"}`}>
+                      {s.spotsLeft} spot{s.spotsLeft !== 1 ? "s" : ""} left
+                    </span>
+                  </div>
+                  <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
+                  <p className="text-xs text-[#71787c]">{s.time} · {s.location}</p>
+                  <p className="text-sm text-[#41484c] mt-2 leading-relaxed">{s.description}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => { setSelected(s); setSubmitted(false); }}
+                disabled={s.spotsLeft === 0}
+                className="mt-4 w-full py-2.5 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
+              </button>
+            </div>
+          ))}
+          <p className="text-[11px] text-[#71787c] text-center pt-1">
+            Sessions added every few weeks · NYC only for now · All levels welcome
+          </p>
+        </div>
+      )}
+
+      {/* Signup form */}
+      {selected && !submitted && (
+        <div className="border border-gray-200 rounded-2xl p-6 bg-white space-y-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-[#71787c]">{selected.date} · {selected.time}</p>
+              <p className="text-base font-semibold text-[#1A2B4A] mt-0.5">{selected.theme} — {selected.location}</p>
+            </div>
+            <button onClick={reset} className="text-xs text-[#71787c] hover:text-[#1A2B4A] transition-colors">← Back</button>
+          </div>
+
+          <form onSubmit={submit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">Full name *</label>
+                <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="Jane Smith"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">Email *</label>
+                <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="jane@example.com"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">Firm *</label>
+                <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
+                  placeholder="Ares Management"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">Role *</label>
+                <input required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
+                  placeholder="Credit Analyst"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1">LinkedIn URL <span className="text-[#71787c] font-normal">(optional)</span></label>
+              <input value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))}
+                placeholder="linkedin.com/in/janesmith"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1">What do you want to get out of this? <span className="text-[#71787c] font-normal">(optional)</span></label>
+              <textarea rows={3} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
+                placeholder="e.g. Looking to connect with peers in private credit, compare notes on the market…"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
+            </div>
+            {error && <p className="text-sm text-rose-600">{error}</p>}
+            <button type="submit" disabled={submitting}
+              className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+              {submitting ? "Submitting…" : "Request My Seat →"}
+            </button>
+            <p className="text-[11px] text-[#71787c] text-center">
+              We&apos;ll confirm your spot by email within 24 hours. Seats are limited to 8 per session.
+            </p>
+          </form>
+        </div>
+      )}
+
+      {/* Success */}
+      {selected && submitted && (
+        <div className="border border-emerald-200 rounded-2xl p-8 bg-emerald-50 text-center space-y-3">
+          <div className="text-2xl">☕</div>
+          <p className="text-base font-semibold text-[#1A2B4A]">You&apos;re on the list</p>
+          <p className="text-sm text-[#41484c]">
+            We&apos;ll send a confirmation to <strong>{form.email}</strong> within 24 hours with location details and who else is joining.
+          </p>
+          <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
+        </div>
+      )}
     </div>
   );
 }
