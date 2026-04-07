@@ -14,7 +14,10 @@
  * Cached for 6 hours — restructuring situations don't move that fast.
  */
 
+import Anthropic from "@anthropic-ai/sdk";
+
 export const runtime = "nodejs";
+export const maxDuration = 45;
 
 export interface DistressedSituation {
   id: string;
@@ -61,12 +64,38 @@ function fmtCik(cik: string): string {
   return String(parseInt(cik, 10));
 }
 
-function buildWhyItMatters(company: string, situationType: DistressedSituation["situationType"]): string {
-  if (situationType === "chapter11")
-    return `${company} filed Chapter 11 — creating DIP financing, creditor committee, and plan-of-reorganisation mandates. Distressed funds typically begin building positions within days of filing.`;
-  if (situationType === "distressed_exchange")
-    return `${company} pursuing a distressed exchange — out-of-court restructuring that avoids formal bankruptcy. Holders of discounted debt may convert to equity; credit funds active in secondary markets watch these closely.`;
-  return `${company} in restructuring — potential for new money financing, creditor advisory mandates, and post-reorg equity opportunities. Special situations desks at major credit managers will be tracking.`;
+const FALLBACK_WHY: Record<DistressedSituation["situationType"], string> = {
+  chapter11:          "Filed Chapter 11 — DIP financing, creditor committee, and plan-of-reorganisation mandates typically follow within days.",
+  distressed_exchange: "Pursuing a distressed exchange — out-of-court process where debt converts to equity at a discount, avoiding formal bankruptcy.",
+  restructuring:      "Actively restructuring — potential for new money financing, creditor advisory mandates, and post-reorg equity opportunities.",
+  bankruptcy:         "Bankruptcy filing — creditor waterfall and recovery analysis will drive positioning across distressed funds.",
+};
+
+async function buildWhyItMatters(
+  company: string,
+  situationType: DistressedSituation["situationType"],
+  headline?: string,
+): Promise<string> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return `${company}: ${FALLBACK_WHY[situationType]}`;
+
+  try {
+    const anthropic = new Anthropic({ apiKey });
+    const context = headline ? `Latest headline: "${headline}"` : `Situation type: ${situationType}`;
+    const msg = await anthropic.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 90,
+      messages: [{
+        role: "user",
+        content: `Company: ${company}. ${context}.
+Write 1-2 sentences explaining why this matters to a buyside credit investor — what mandates, opportunities, or risks it creates. Be specific to this company and situation. No filler. No "this is significant because". Start with the insight directly.`,
+      }],
+    });
+    const block = msg.content[0];
+    if (block.type === "text" && block.text.trim()) return block.text.trim();
+  } catch { /* fall through */ }
+
+  return `${company}: ${FALLBACK_WHY[situationType]}`;
 }
 
 function classifySituation(text: string): DistressedSituation["situationType"] {
@@ -149,9 +178,9 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
 
   const hits = Array.from(byCik.values()).slice(0, 30);
 
-  // Enrich with news headlines in parallel (cap at 15 to avoid rate limits)
+  // Enrich with news headlines + AI summaries in parallel (cap at 10)
   const enriched = await Promise.allSettled(
-    hits.slice(0, 15).map(async (hit) => {
+    hits.slice(0, 10).map(async (hit) => {
       const src = hit._source ?? {};
       const company = (src.display_names?.[0] ?? src.entity_name ?? "").replace(/\s*\(CIK\s*\d+\)\s*$/i, "").trim();
       if (!company || company.length < 3) return null;
@@ -168,7 +197,7 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
 
       const headline = await fetchNewsHeadline(company);
       const situationType = classifySituation(headline || company);
-      const whyItMatters = buildWhyItMatters(company, situationType);
+      const whyItMatters = await buildWhyItMatters(company, situationType, headline || undefined);
 
       const situation: DistressedSituation = {
         id: `distressed-${hit._id}`,
