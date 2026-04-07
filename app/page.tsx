@@ -1339,7 +1339,219 @@ const AI_POST_CONTENT = (
   </div>
 );
 
+const COMMODITY_POST_CONTENT = (
+  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
+    {/* Intro */}
+    <p>Commodities are the bedrock of the global economy. Oil powers transportation and petrochemicals; copper wires every building, vehicle, and data centre; wheat feeds billions; gold anchors monetary systems. Yet for all their importance, the price of a barrel of crude or a tonne of copper can swing 30%, 50%, even 100% within a single year — rewarding or ruining nations, corporations, and portfolios alike.</p>
+    <p>Understanding what drives those swings requires thinking across multiple timescales simultaneously. A drought is measured in months. A new mine takes a decade to build. An energy transition redraws demand curves over decades. The analyst who can hold all of these timeframes in mind — and weigh them against each other — has a genuine edge.</p>
+    <p>This piece sets out a systematic framework for commodity price analysis, covering the five major commodity classes — energy, metals, agricultural goods, precious metals, and soft commodities — and the structural drivers that cut across all of them: the US dollar, interest rates, geopolitical shocks, speculative positioning, and the long-cycle dynamics of capital expenditure.</p>
+
+    {/* Pull quote */}
+    <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
+      <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Commodities are the original macro asset. Every price is simultaneously a signal about growth, geopolitics, technology, and climate — all at once."</p>
+    </div>
+
+    {/* Section: Five Classes */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      {[
+        { icon: "🛢️", label: "Energy", sub: "Oil, Gas & Coal", desc: "The most geopolitically sensitive class. Crude oil alone accounts for roughly 3% of world GDP in annual trade value. OPEC+ supply decisions can move Brent by $10/bbl overnight." },
+        { icon: "🔩", label: "Industrial Metals", sub: "Copper, Iron Ore, Aluminium", desc: "The classic economic growth proxies. Copper's correlation with Chinese PMI data is so reliable it earned the nickname \"Dr Copper.\" Mine supply pipelines stretch 10–15 years." },
+        { icon: "🌾", label: "Agricultural", sub: "Wheat, Corn, Soybeans", desc: "Seasonally driven but profoundly affected by weather events, biofuel policy, and trade flows. The Russia-Ukraine conflict demonstrated how concentrated grain supply can be." },
+        { icon: "🥇", label: "Precious Metals", sub: "Gold, Silver, Platinum", desc: "Gold functions as a monetary asset, inflation hedge, and fear gauge simultaneously. Its price is as much a reflection of real interest rates and central bank buying as of physical supply." },
+        { icon: "☕", label: "Softs", sub: "Coffee, Sugar, Cotton", desc: "Highly weather-dependent. El Niño / La Niña cycles are the dominant structural driver, alongside chronic underinvestment in tropical agriculture in major producing nations." },
+        { icon: "⚡", label: "Critical Minerals", sub: "Lithium, Cobalt, Nickel", desc: "The newest major class. Demand is driven by EV battery manufacturing and energy storage, but supply is geographically concentrated in a handful of politically complex jurisdictions." },
+      ].map(c => (
+        <div key={c.label} className="border border-gray-200 rounded-xl p-4 bg-white">
+          <div className="text-xl mb-2">{c.icon}</div>
+          <div className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider mb-1">{c.label}</div>
+          <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.sub}</div>
+          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    {/* Section: Drivers */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    {[
+      {
+        num: "01", cat: "Supply Side",
+        title: "Why Supply is Chronically Inelastic — and What That Means for Price Cycles",
+        paras: [
+          "The fundamental asymmetry in commodity markets is that demand can adjust relatively quickly — factories slow down, consumers switch fuels, countries alter diets — while supply responds with a lag measured in years, sometimes decades. Opening a new copper mine from discovery to first production takes 10–15 years and billions of dollars of capital. Planting new palm oil plantations and reaching maturity takes seven years. Developing a new deepwater oil field takes five to eight years.",
+          "This creates the classic commodity cycle. High prices incentivise investment. Investment takes years to bear fruit. By the time new supply arrives, the market has already rebalanced — and the new supply creates a glut that depresses prices for years. Then underinvestment follows. And the cycle repeats. The 2004–2011 commodity supercycle and the subsequent 2012–2020 bear market are textbook examples of this mechanism playing out across energy and metals simultaneously.",
+          "Supply is also subject to acute disruptions: pipeline explosions, mine strikes, droughts, hurricanes, sanctions, and export bans. These create price spikes whose duration is often inversely proportional to their severity — severe disruptions draw emergency production and demand destruction faster than mild ones. The analyst's job is to distinguish a temporary supply shock from a structural supply deficit.",
+        ],
+      },
+      {
+        num: "02", cat: "Demand Side",
+        title: "China, the Energy Transition, and the Structural Demand Reshaping",
+        paras: [
+          "For two decades, China was the dominant demand variable in virtually every commodity market. Its urbanisation and industrialisation — the largest in human history — drove demand for steel, copper, cement, energy, and agricultural imports to levels that overwhelmed global supply pipelines. The commodity supercycle of the 2000s was, in large part, a China story.",
+          "That story is now maturing. China's construction sector — the single largest consumer of steel and copper globally — is in structural contraction as the property bubble deflates. Chinese steel output may already be past its historical peak. The demand torch is partially passing to India, Southeast Asia, and sub-Saharan Africa, but none of these economies has the sheer scale to replicate China's impact in the near term.",
+          "Simultaneously, the energy transition is creating a split within commodity markets. Fossil fuel demand faces long-run secular pressure as electrification accelerates. But the metals required to build that electrified world — copper for wiring, lithium for batteries, nickel for cathodes, rare earths for magnets — face a structural demand surge. A single electric vehicle contains roughly four times as much copper as an equivalent combustion engine vehicle. A utility-scale wind farm requires seven times the mineral inputs per unit of electricity as a gas-fired power plant. The transition is not a commodity demand destroyer; it is a commodity demand redirector.",
+        ],
+      },
+      {
+        num: "03", cat: "Macro Drivers",
+        title: "The Dollar, Interest Rates, and Inflation: The Monetary Dimension",
+        paras: [
+          "Most commodities are priced in US dollars. This creates a direct mechanical link between the dollar's value and commodity prices: a stronger dollar makes commodities more expensive for non-dollar buyers, dampening demand and pressuring prices; a weaker dollar has the opposite effect. The DXY index and commodity indices show a strong negative correlation over medium-term horizons, with notable exceptions when commodity-specific supply shocks override the currency dynamic.",
+          "Interest rates matter through two channels. First, they affect the opportunity cost of holding physical inventories — high rates make it expensive to finance commodity stockpiles, discouraging inventory building. Second, and more importantly, rates affect global growth expectations, which are the primary driver of industrial commodity demand. Rate hike cycles, by cooling credit-driven growth, historically coincide with commodity bear markets.",
+          "Inflation creates a more nuanced dynamic. Commodity prices are simultaneously a cause of inflation (via energy and food costs) and a consequence of it (via money printing and negative real rates that push capital into hard assets). Gold is the clearest expression of this feedback loop: its price rises most strongly not when inflation is high per se, but when real interest rates — nominal rates minus inflation — are deeply negative.",
+        ],
+      },
+      {
+        num: "04", cat: "Geopolitics",
+        title: "Resource Nationalism, Sanctions, and the Weaponisation of Commodities",
+        paras: [
+          "Geography concentrates commodity production in ways that create structural geopolitical risk. The Middle East holds two-thirds of proven oil reserves. The Democratic Republic of Congo produces roughly 70% of the world's cobalt. Chile and Peru account for nearly 40% of global copper mine output. Russia and Ukraine together were responsible for 29% of global wheat exports before 2022.",
+          "Resource nationalism — governments seeking to capture a greater share of commodity rents through royalties, export taxes, and nationalisation — has been a recurring feature of high-price environments. Indonesia's 2022 nickel export ban, designed to force battery manufacturers to process ore domestically, sent nickel prices to record highs.",
+          "The most dramatic recent example is Russia's invasion of Ukraine in 2022, which simultaneously disrupted global energy markets, grain markets, fertiliser markets, and metal markets. It demonstrated how a single geopolitical event can create cascading commodity shocks across multiple markets simultaneously — and why analysts must assess not just commodity fundamentals but the geopolitical fragility of supply chains.",
+        ],
+      },
+      {
+        num: "05", cat: "Inventories & Positioning",
+        title: "Stocks-to-Use Ratios, Futures Curves, and Speculative Positioning",
+        paras: [
+          "In physical commodity markets, price is ultimately determined by the balance between supply and demand as reflected in inventory levels. The stocks-to-use ratio — the number of weeks of consumption held in storage — is the single most useful short-to-medium term price indicator in agricultural markets. When wheat stocks-to-use falls below eight weeks globally, prices become extremely sensitive to any supply disruption.",
+          "Futures markets allow these expectations to be expressed in forward prices. The shape of the futures curve — whether it is in backwardation (spot price above futures) or contango (futures above spot) — encodes the market's view on near-term scarcity. A deeply backwardated crude oil curve signals physical tightness. A contango structure signals oversupply and incentivises physical storage.",
+          "Speculative positioning — tracked via the CFTC's Commitment of Traders report — adds a short-term mean-reverting dynamic. When managed money is crowded long, small negative news can trigger violent liquidation. When speculators are max short, any positive catalyst sparks a short-covering rally. Extreme positioning can amplify price moves by 20–40% beyond what fundamentals alone would justify.",
+        ],
+      },
+      {
+        num: "06", cat: "Climate & Weather",
+        title: "El Niño, Droughts, and the Increasingly Material Role of Climate Risk",
+        paras: [
+          "Weather has always been the dominant short-term driver of agricultural commodity prices — but climate change is making it increasingly relevant for energy and metals as well. Droughts reduce hydroelectric generation, forcing gas and coal substitution. European drought in 2022 reduced river levels so severely that coal barges in the Rhine couldn't reach German power plants.",
+          "The El Niño-Southern Oscillation (ENSO) is the most reliably tradeable climate pattern. El Niño events — which occur every three to seven years — bring drought to Australia, Southeast Asia, and parts of South America while delivering excess moisture to the US corn belt. Traders who correctly identify an El Niño developing in May can position months ahead of market consensus.",
+          "Looking forward, physical climate risk is increasingly embedded in long-duration commodity valuations. Water scarcity threatens copper processing in Chile's Atacama Desert. Permafrost thaw risks disrupting Arctic oil infrastructure. These risks are not yet fully priced by most market participants — creating both analytical hazard and opportunity.",
+        ],
+      },
+    ].map(s => (
+      <div key={s.num} className="border-t border-gray-100 pt-6">
+        <div className="flex items-baseline gap-4 mb-3">
+          <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
+          <div>
+            <div className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider">{s.cat}</div>
+            <h3 className="font-bold text-[#191c1e] text-base leading-snug mt-0.5">{s.title}</h3>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {s.paras.map((p, i) => <p key={i}>{p}</p>)}
+        </div>
+      </div>
+    ))}
+
+    {/* Driver Table */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <div className="overflow-x-auto border border-gray-200 rounded-xl">
+      <table className="w-full text-xs border-collapse">
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50">
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px] w-32">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Risk Tags</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { name: "Crude Oil", supply: "OPEC+ quotas, US shale rig count, geopolitical outages, capex cycles", demand: "Global GDP, Chinese industrial activity, air travel, petrochemical feedstock", tags: [["geo","Geopolitical"],["macro","Dollar"],["demand","China Cycle"]] },
+            { name: "Natural Gas", supply: "LNG export capacity, pipeline infrastructure, US production volumes", demand: "Weather (heating/cooling), coal-to-gas switching, industrial demand, LNG imports", tags: [["supply","Storage Levels"],["geo","Russia/Ukraine"]] },
+            { name: "Copper", supply: "Mine grades (declining), labour strikes (Chile/Peru), concentrate availability", demand: "Chinese construction, energy transition (EVs, grids), global industrial production", tags: [["demand","EV Upside"],["geo","Resource Nationalism"],["supply","Long Lead Times"]] },
+            { name: "Iron Ore", supply: "Australian/Brazilian output (Vale, Rio, BHP), weather, port logistics", demand: "Chinese steel production, real estate construction, infrastructure policy", tags: [["demand","China Property"],["supply","Seaborne Supply"]] },
+            { name: "Gold", supply: "Mine production (stable), recycling supply, central bank sales", demand: "Real interest rates, USD direction, central bank buying, jewellery, ETF flows", tags: [["macro","Real Rates"],["macro","Dollar"],["geo","Risk-Off"]] },
+            { name: "Lithium", supply: "Brine/hard rock expansion, conversion capacity, Chinese processing", demand: "EV battery production, grid storage, cell chemistry shifts (LFP vs NMC)", tags: [["demand","EV Adoption"],["supply","China Dominance"]] },
+            { name: "Wheat", supply: "Black Sea production, US/EU/Australian harvests, acreage decisions", demand: "Population growth, food aid, biofuel mandates, animal feed", tags: [["supply","Drought"],["geo","Export Bans"]] },
+            { name: "Soybeans", supply: "US/Brazil/Argentina harvest, La Niña (key for South American crops)", demand: "Chinese crush demand (meal for pigs, oil for food), biodiesel mandates", tags: [["supply","La Niña"],["demand","China Protein"],["geo","US-China Trade"]] },
+            { name: "Coffee", supply: "Brazil biennial crop cycle, Colombian rain, El Niño in Vietnam (Robusta)", demand: "Global consumption growth, premiumisation, on-trade recovery", tags: [["supply","Brazil Frost"],["supply","El Niño"]] },
+            { name: "Nickel", supply: "Indonesian laterite production, stainless steel scrap, Philippines ore", demand: "Stainless steel (60%), EV battery cathodes (growing), alloy use", tags: [["geo","Indonesia Policy"],["demand","Battery Chemistry"]] },
+          ].map((row, i) => {
+            const tagColors: Record<string,string> = { supply: "bg-green-50 text-green-700", demand: "bg-amber-50 text-amber-700", macro: "bg-blue-50 text-blue-700", geo: "bg-red-50 text-red-700" };
+            return (
+              <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
+                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+                <td className="px-4 py-3 align-top border-b border-gray-100">
+                  <div className="flex flex-wrap gap-1">
+                    {(row.tags as [string,string][]).map(([type, label]) => (
+                      <span key={label} className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${tagColors[type]}`}>{label}</span>
+                    ))}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Conclusion */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <p>Good commodity analysis requires answering a set of structured questions for each market under review. First, where are we in the supply cycle? Is capacity being built out or mothballed? What does the futures curve backwardation or contango tell us about near-term physical tightness? Second, what is the demand trajectory on a 12-month, 3-year, and 10-year view — and what structural forces (policy, technology, demographics) are likely to inflect it?</p>
+    <p>Third, what is the macro environment doing to the commodity's key financial drivers — the dollar, real rates, credit conditions? Fourth, what geopolitical risks sit in the supply chain, and are they currently priced in or ignored? And fifth, what is speculative positioning telling you? Crowded longs with weak fundamentals are a warning; maximum shorts in a tightening physical market are an opportunity.</p>
+
+    {/* Watch list sidebar */}
+    <div className="border border-gray-200 rounded-xl overflow-hidden mt-4">
+      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+        <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Watch List: Key Indicators</p>
+      </div>
+      <ul className="divide-y divide-gray-50">
+        {[
+          "CFTC Commitment of Traders — weekly positioning data",
+          "LME & COMEX warehouse stock levels",
+          "Chinese Caixin PMI Manufacturing",
+          "API & EIA weekly crude inventory reports",
+          "ENSO forecasts (CPC / IRI) for climate-driven commodities",
+          "US Dollar Index (DXY)",
+          "US 10-year TIPS yield (real interest rates)",
+          "Baltic Dry Index (shipping demand signal)",
+          "USDA WASDE report — monthly grains & oilseeds",
+          "IEA & OPEC monthly oil market reports",
+        ].map(item => (
+          <li key={item} className="flex items-start gap-3 px-4 py-2.5 text-xs text-gray-600">
+            <span className="text-orange-500 font-bold mt-0.5">→</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <p className="text-[11px] text-gray-400 italic mt-4">For educational and informational purposes only. Not investment advice. Commodity markets involve significant risk of loss.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "commodity-price-drivers",
+    title: "The Raw World: What Actually Moves Commodity Prices",
+    date: "April 7, 2026",
+    tag: "Commodities",
+    paragraphs: [],
+    richContent: COMMODITY_POST_CONTENT,
+  },
   {
     slug: "ai-ecosystem-value-chain",
     title: "The AI Ecosystem: Mapping the Full Value Chain",
@@ -1509,6 +1721,7 @@ const TAG_STYLES: Record<string, string> = {
   "Tech / AI":    "bg-indigo-100 text-indigo-700",
   "Interview Prep": "bg-violet-100 text-violet-700",
   "Career Prep":  "bg-violet-100 text-violet-700",
+  "Commodities":  "bg-orange-100 text-orange-700",
 };
 
 function PostList({ posts }: { posts: InsightPost[] }) {
