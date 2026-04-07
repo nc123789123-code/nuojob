@@ -27,7 +27,6 @@ export interface DistressedSituation {
   cik?: string;
   edgarUrl?: string;
   headline?: string;           // from news RSS
-  likelyFirms: string[];       // buyside firms historically active in similar situations
   whyItMatters: string;
 }
 
@@ -53,14 +52,6 @@ const EDGAR_HEADERS = {
   "Accept": "application/json",
 };
 
-// Buyside firms known to be active in distressed / special situations
-const DISTRESSED_FIRMS: Record<string, string[]> = {
-  credit:      ["Apollo", "Oaktree", "Ares", "Centerbridge", "Bain Capital Credit"],
-  distressed:  ["Elliott Management", "Monarch Capital", "Aurelius", "Silver Point", "Solus", "Whitebox"],
-  special_sits:["KKR Credit", "HPS Investment Partners", "Sixth Street", "Angelo Gordon", "Marathon Asset Management"],
-  pe:          ["Blackstone", "Carlyle", "Apollo", "KKR"],
-};
-
 function getDaysAgo(dateStr: string): number {
   const d = new Date(dateStr);
   return Math.floor((Date.now() - d.getTime()) / 86_400_000);
@@ -68,27 +59,6 @@ function getDaysAgo(dateStr: string): number {
 
 function fmtCik(cik: string): string {
   return String(parseInt(cik, 10));
-}
-
-/** Infer likely buyside participants based on situation context */
-function inferLikelyFirms(company: string, headline: string): string[] {
-  const text = `${company} ${headline}`.toLowerCase();
-  const firms: string[] = [];
-  if (/retail|consumer|restaurant|fashion|apparel/i.test(text))
-    firms.push(...["Oaktree", "Monarch Capital", "Centerbridge"]);
-  else if (/energy|oil|gas|power|utility/i.test(text))
-    firms.push(...["Apollo", "Elliott Management", "Ares"]);
-  else if (/healthcare|pharma|hospital/i.test(text))
-    firms.push(...["Apollo", "Silver Point", "HPS Investment Partners"]);
-  else if (/real estate|reit|property/i.test(text))
-    firms.push(...["Oaktree", "Starwood Capital", "Blackstone"]);
-  else if (/tech|software|saas/i.test(text))
-    firms.push(...["Sixth Street", "HPS Investment Partners", "Blue Owl"]);
-  else if (/media|entertainment|telecom/i.test(text))
-    firms.push(...["Apollo", "Centerbridge", "Monarch Capital"]);
-  else
-    firms.push(...DISTRESSED_FIRMS.distressed.slice(0, 3));
-  return [...new Set(firms)].slice(0, 4);
 }
 
 function buildWhyItMatters(company: string, situationType: DistressedSituation["situationType"]): string {
@@ -198,7 +168,6 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
 
       const headline = await fetchNewsHeadline(company);
       const situationType = classifySituation(headline || company);
-      const likelyFirms = inferLikelyFirms(company, headline);
       const whyItMatters = buildWhyItMatters(company, situationType);
 
       const situation: DistressedSituation = {
@@ -210,7 +179,6 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
         cik: cik || undefined,
         edgarUrl,
         headline: headline || undefined,
-        likelyFirms,
         whyItMatters,
       };
       return situation;
