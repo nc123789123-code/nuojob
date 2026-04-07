@@ -184,7 +184,7 @@ function HomeContent() {
                 Market · Fund Intelligence · AI
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Pulse
+                Market Pulse
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 Live market analysis and fund signal intelligence in one place — AI-generated market briefs alongside SEC fundraising filings and hiring signals.
@@ -212,10 +212,10 @@ function HomeContent() {
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
-                Learn
+                Onlu Learning
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Learn
+                Onlu Learning
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
                 Career prep, market insights, and deep-dives on credit, AI, and macro — for practitioners and candidates who want to go deeper.
@@ -229,10 +229,10 @@ function HomeContent() {
                 AI-Powered · Firm-Specific
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                The Edge — Know Before You Walk In
+                Edge Prep
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Search any buyside firm and get a tailored interview prep guide — behavioral, technical, what they really value, and what gets candidates cut. Built for credit, PE, and hedge fund interviews.
+                Firm-specific interview prep, concept Q&A, and case studies — built for credit, PE, and special situations interviews. Search any buyside firm and get a guide covering strategy, culture, and what they actually test for.
               </p>
             </>
           )}
@@ -4097,7 +4097,7 @@ function OnluTableSection() {
     <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-xl font-bold text-[#1A2B4A]">Onlu Table</h2>
+        <h2 className="text-xl font-bold text-[#1A2B4A]">Onlu Events</h2>
         <p className="text-sm text-[#71787c] leading-relaxed">
           Small-group weekend coffee chats for finance and buyside professionals in NYC.
           Max 8 people per session — curated for meaningful conversation, not networking theatre.
