@@ -276,18 +276,20 @@ function HomeContent() {
                 Get the Interview Guide →
               </a>
             </div>
-            <NewsletterCTA
-              intent="signals_subscriber"
-              title="Hiring intelligence, not job board noise."
-              description="Early signals, fund activity, and firm-level context — for buyside recruiting across alternative asset managers."
-              cta="Subscribe"
-            />
           </>
         )}
         {topTab === "learn" && <LearnSection />}
 
         {topTab === "firmprep" && <EdgeSection />}
         {topTab === "table" && <OnluTableSection />}
+
+        {/* Newsletter — persistent across every tab */}
+        <NewsletterCTA
+          intent="signals_subscriber"
+          title="Weekly buyside intelligence, in your inbox."
+          description="Hiring signals, fund filings, distressed situations, and market context — delivered weekly. Free."
+          cta="Subscribe free"
+        />
       </main>
 
       {/* Monetization section — always visible */}
@@ -791,12 +793,6 @@ function PulseSection({
               View the Guide →
             </a>
           </div>
-          <NewsletterCTA
-            intent="signals_subscriber"
-            title="Get hiring signals before they become job postings."
-            description="New fund filings, early signals, and hiring intelligence across 28 alternative asset managers."
-            cta="Subscribe"
-          />
         </>
       )}
     </div>
