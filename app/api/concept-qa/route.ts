@@ -38,7 +38,7 @@ export async function GET(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 4000,
+      max_tokens: 2000,
       messages: [{
         role: "user",
         content: `You are a senior buyside professional explaining finance and investing concepts to a junior analyst preparing for interviews at hedge funds, private credit, PE, or equity research firms.

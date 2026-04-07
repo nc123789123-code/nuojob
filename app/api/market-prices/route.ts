@@ -34,7 +34,7 @@ const SYMBOLS = [
 ];
 
 let cache: { data: MarketTicker[]; ts: number } | null = null;
-const CACHE_TTL = 60 * 1000; // 1 minute
+const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
 export async function GET() {
   if (cache && Date.now() - cache.ts < CACHE_TTL) {
