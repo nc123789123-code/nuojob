@@ -1626,9 +1626,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── Credit Watch ────────────────────────────────────────────────────────────
 
 interface BondQuote {
-  cusip: string; description: string;
+  cusip?: string; description: string;
   lastPrice: number | null; lastYield: number | null;
-  lastTradeDate: string | null; coupon: number | null;
+  lastTradeDate?: string | null; coupon: number | null;
   maturity: string | null; rating: string | null;
 }
 interface EquityData {
@@ -1641,10 +1641,14 @@ interface Financials {
   enterpriseValue: number | null; leverage: number | null;
   interestCoverage: number | null;
 }
+interface DebtTranche {
+  name: string; amount: string;
+  seniority: number; priceHint: string; color: string;
+}
 interface CreditWatchResult {
-  company: string; bonds: BondQuote[];
+  company: string; isPublic: boolean; bonds: BondQuote[];
   equity: EquityData | null; financials: Financials | null;
-  edgarUrl: string | null; snapshot: string; disclaimer: string;
+  tranches: DebtTranche[]; snapshot: string; disclaimer: string;
 }
 
 function fmtB(n: number | null): string {
@@ -1747,15 +1751,12 @@ function CreditWatchSection() {
               {result.equity && (
                 <p className="text-xs text-gray-400 mt-0.5">{result.equity.ticker} · {result.equity.name}</p>
               )}
-            </div>
-            <div className="flex items-center gap-3">
-              {result.edgarUrl && (
-                <a href={result.edgarUrl} target="_blank" rel="noopener noreferrer"
-                  className="text-xs text-[#396477] hover:underline">SEC filings →</a>
+              {!result.isPublic && (
+                <span className="inline-block mt-1 text-[10px] font-medium bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Private / Unlisted</span>
               )}
-              <button onClick={() => { setResult(null); setInput(""); }}
-                className="text-xs text-gray-400 hover:text-gray-600">← New search</button>
             </div>
+            <button onClick={() => { setResult(null); setInput(""); }}
+              className="text-xs text-gray-400 hover:text-gray-600">← New search</button>
           </div>
 
           {/* Equity + Financials grid */}
@@ -1843,6 +1844,34 @@ function CreditWatchSection() {
           ) : (
             <div className="border border-gray-100 rounded-xl px-4 py-3 bg-gray-50">
               <p className="text-xs text-gray-400">No FINRA TRACE bond quotes found. Try searching the parent company name (e.g. "Michaels Companies" instead of "Michaels").</p>
+            </div>
+          )}
+
+          {/* AI Cap Structure */}
+          {result.tranches.length > 0 && (
+            <div className="border border-gray-200 rounded-xl overflow-hidden">
+              <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Capital Structure · AI Estimated</span>
+                <span className="text-[10px] text-gray-400">most senior → most junior</span>
+              </div>
+              <div className="divide-y divide-gray-50 px-4 py-1">
+                {result.tranches.sort((a, b) => a.seniority - b.seniority).map((t, i) => (
+                  <div key={i} className="py-3 flex items-center gap-3">
+                    <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${t.color}`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-[#191c1e] truncate">{t.name}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">{t.amount}</p>
+                    </div>
+                    <div className="flex-shrink-0 text-right">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                        t.priceHint.toLowerCase().includes("distressed") ? "bg-red-50 text-red-600" :
+                        t.priceHint === "par" || t.priceHint.includes("100") ? "bg-emerald-50 text-emerald-700" :
+                        "bg-amber-50 text-amber-700"
+                      }`}>{t.priceHint}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
