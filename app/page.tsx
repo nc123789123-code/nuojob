@@ -876,7 +876,7 @@ function FundsSection({
               </div>
             ))}
           </div>
-          {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of front-office hiring</p>}
+          {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of buyside hiring</p>}
         </>
       ) : (
         <OutreachPipeline records={outreachRecords} onBack={() => setSubTab("search")} />
@@ -2649,7 +2649,7 @@ function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): str
   if (hasSenior) {
     return `Senior hire posted at ${profile.name}. Senior additions typically precede a junior team build — watch for analyst and associate roles to follow.`;
   }
-  return `Active front-office hiring at ${profile.name}. Direct outreach may surface additional unlisted opportunities alongside posted roles.`;
+  return `Active hiring at ${profile.name}. Direct outreach may surface additional unlisted opportunities alongside posted roles.`;
 }
 
 function hiringTimeline(days: number): { label: string; cls: string } | null {
@@ -2668,7 +2668,7 @@ function generateEarlySignalNote(filing: FundFiling): string {
     return `Filed${amt ? ` ${amt}` : ""} raise ${days}d ago — currently in market. No roles posted yet. Teams deploying new capital typically hire within 1–3 quarters. Engaging now, before formal posting, gives the strongest edge.`;
   }
   if (status === "closed") {
-    return `Closed${amt ? ` ${amt}` : ""} fund ${days}d ago. Post-close build-out phase is the most common precursor to front-office hiring — often begins 1–2 quarters after closing.`;
+    return `Closed${amt ? ` ${amt}` : ""} fund ${days}d ago. Post-close build-out phase is the most common precursor to hiring — often begins 1–2 quarters after closing.`;
   }
   return `Form D filed ${days}d ago${amt ? ` (${amt})` : ""}. Capital activity on record — no roles posted yet. Worth monitoring for near-term hiring.`;
 }
@@ -3047,7 +3047,7 @@ function HiringSection({
               <div className="flex items-center gap-2 mb-4">
                 <h2 className="text-sm font-bold text-[#191c1e]">Active Signals</h2>
                 <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allRegistryProfiles.length}</span>
-                <span className="text-xs text-[#71787c]">Firms with open front-office roles</span>
+                <span className="text-xs text-[#71787c]">Firms actively hiring</span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {allRegistryProfiles.map((p) => (
@@ -3068,7 +3068,7 @@ function HiringSection({
           {otherRoles.length > 0 && (
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Other Front-Office Roles</h2>
+                <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
                 <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.length}</span>
                 <span className="text-xs text-[#71787c]">Outside the watch list</span>
               </div>
@@ -3104,7 +3104,7 @@ function HiringSection({
                 <span className="text-[10px] bg-[#e1ddf2]/70 text-[#5e5c6e] font-bold px-1.5 py-0.5 rounded border border-[#c7c4d8]/50">{earlySignalFirms.length}</span>
               </div>
               <p className="text-xs text-[#71787c] mb-4 max-w-2xl">
-                These firms have recent EDGAR capital activity but no roles posted yet. Capital raises typically precede front-office hiring by one to three quarters. Engaging before a formal process is the most effective approach.
+                These firms have recent EDGAR capital activity but no roles posted yet. Capital raises typically precede hiring by one to three quarters. Engaging before a formal process is the most effective approach.
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {earlySignalFirms.map(({ def: f, filing }) => (
@@ -3398,7 +3398,7 @@ function IntelSection() {
                 <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
                   {data.hiringPush.length}
                 </span>
-                <span className="text-xs text-[#71787c]">3+ front-office roles open</span>
+                <span className="text-xs text-[#71787c]">3+ roles open</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.hiringPush.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -3413,7 +3413,7 @@ function IntelSection() {
                 <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
                   {data.postRaise.length}
                 </span>
-                <span className="text-xs text-[#71787c]">Known firms with open front-office roles</span>
+                <span className="text-xs text-[#71787c]">Known firms with open roles</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.postRaise.map((p) => <FirmCard key={p.firmId} profile={p} />)}
