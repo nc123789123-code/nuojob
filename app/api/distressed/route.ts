@@ -31,6 +31,9 @@ export interface DistressedSituation {
   edgarUrl?: string;
   headline?: string;           // from news RSS
   whyItMatters: string;
+  bondPrice?: number | null;   // cents on the dollar from FINRA TRACE
+  bondYield?: number | null;   // YTM %
+  bondDesc?: string;           // bond description
 }
 
 interface EdgarHit {
@@ -129,6 +132,28 @@ async function fetchEdgar8K(query: string, days: number): Promise<EdgarHit[]> {
   return data?.hits?.hits ?? [];
 }
 
+async function fetchFinraBondPrice(company: string): Promise<{ price: number | null; yield: number | null; desc: string }> {
+  try {
+    const url = `https://services.finra.org/apps/marketdata/fixed-income/otc/search?symbol=${encodeURIComponent(company)}&sortfield=lastTradeDate&sorttype=1`;
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Onlu/1.0 research@onluintel.com" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return { price: null, yield: null, desc: "" };
+    const data = await res.json() as Array<Record<string, unknown>>;
+    if (!Array.isArray(data) || data.length === 0) return { price: null, yield: null, desc: "" };
+    // Pick the most recently traded bond
+    const b = data[0];
+    return {
+      price: b.lastPrice != null ? Number(b.lastPrice) : null,
+      yield: b.lastYield != null ? Number(b.lastYield) : null,
+      desc:  String(b.issueDesc ?? b.securityDescription ?? b.description ?? ""),
+    };
+  } catch {
+    return { price: null, yield: null, desc: "" };
+  }
+}
+
 async function fetchNewsHeadline(company: string): Promise<string> {
   try {
     const q = `${company} restructuring bankruptcy`;
@@ -195,7 +220,10 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
         ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${cik}&type=8-K&dateb=&owner=include&count=10`
         : undefined;
 
-      const headline = await fetchNewsHeadline(company);
+      const [headline, bond] = await Promise.all([
+        fetchNewsHeadline(company),
+        fetchFinraBondPrice(company),
+      ]);
       const situationType = classifySituation(headline || company);
       const whyItMatters = await buildWhyItMatters(company, situationType, headline || undefined);
 
@@ -209,6 +237,9 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
         edgarUrl,
         headline: headline || undefined,
         whyItMatters,
+        bondPrice: bond.price,
+        bondYield: bond.yield,
+        bondDesc:  bond.desc || undefined,
       };
       return situation;
     })

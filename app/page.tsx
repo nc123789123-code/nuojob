@@ -1622,27 +1622,177 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 
 
 
+// ─── Credit Watch ────────────────────────────────────────────────────────────
+
+interface BondQuote {
+  cusip: string; description: string;
+  lastPrice: number | null; lastYield: number | null;
+  lastTradeDate: string | null; coupon: number | null;
+  maturity: string | null; rating: string | null;
+}
+interface CreditWatchResult {
+  company: string; bonds: BondQuote[];
+  edgarUrl: string | null; snapshot: string; disclaimer: string;
+}
+
+function CreditWatchSection() {
+  const [query, setQuery] = useState("");
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState<CreditWatchResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function search(company: string) {
+    if (!company.trim()) return;
+    setLoading(true); setError(null); setResult(null); setQuery(company);
+    try {
+      const res = await fetch(`/api/credit-watch?company=${encodeURIComponent(company)}`);
+      const data = await res.json();
+      if (data.error) setError(data.error);
+      else setResult(data);
+    } catch { setError("Failed to load credit data."); }
+    finally { setLoading(false); }
+  }
+
+  const EXAMPLES = ["Michaels", "Envision Healthcare", "Bausch Health", "Revlon", "WeWork"];
+
+  return (
+    <div className="space-y-5">
+      <div className="text-center space-y-2">
+        <h2 className="text-lg font-bold text-[#191c1e]">Credit Watch</h2>
+        <p className="text-sm text-[#71787c] max-w-md mx-auto">Search any leveraged company — get bond prices, cap structure, and a credit analyst snapshot.</p>
+      </div>
+
+      {/* Search */}
+      <form onSubmit={e => { e.preventDefault(); search(input); }}
+        className="flex gap-2 max-w-lg mx-auto">
+        <input
+          value={input} onChange={e => setInput(e.target.value)}
+          placeholder="e.g. Michaels, Bausch Health, Caesars..."
+          className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]/40 bg-white"
+        />
+        <button type="submit" disabled={loading || !input.trim()}
+          className="px-5 py-2.5 bg-[#396477] text-white text-sm font-semibold rounded-xl hover:bg-[#2d5162] disabled:opacity-40 transition-colors flex-shrink-0">
+          {loading ? "…" : "Search"}
+        </button>
+      </form>
+
+      {/* Example chips */}
+      {!result && !loading && (
+        <div className="flex flex-wrap gap-2 justify-center">
+          {EXAMPLES.map(e => (
+            <button key={e} onClick={() => { setInput(e); search(e); }}
+              className="px-3 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full transition-colors">
+              {e}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Loading */}
+      {loading && (
+        <div className="text-center py-10 space-y-2">
+          <div className="w-6 h-6 border-2 border-[#396477] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-gray-400">Pulling bond prices and cap structure…</p>
+        </div>
+      )}
+
+      {/* Error */}
+      {error && <p className="text-center text-sm text-red-500">{error}</p>}
+
+      {/* Results */}
+      {result && (
+        <div className="space-y-4">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-[#191c1e]">{result.company}</h3>
+            {result.edgarUrl && (
+              <a href={result.edgarUrl} target="_blank" rel="noopener noreferrer"
+                className="text-xs text-[#396477] hover:underline">SEC filings →</a>
+            )}
+          </div>
+
+          {/* Bond prices */}
+          {result.bonds.length > 0 ? (
+            <div className="border border-gray-200 rounded-xl overflow-hidden">
+              <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+                <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">FINRA TRACE — Bond Prices</span>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {result.bonds.map((b, i) => (
+                  <div key={i} className="px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-[#191c1e] truncate">{b.description || b.cusip}</p>
+                      <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                        {b.coupon != null && <span className="text-[11px] text-gray-400">{b.coupon.toFixed(3)}% coupon</span>}
+                        {b.maturity && <span className="text-[11px] text-gray-400">matures {b.maturity}</span>}
+                        {b.rating && <span className="text-[11px] text-gray-400">{b.rating}</span>}
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      {b.lastPrice != null && (
+                        <p className={`text-sm font-bold ${b.lastPrice < 70 ? "text-red-600" : b.lastPrice < 90 ? "text-amber-600" : "text-emerald-600"}`}>
+                          {b.lastPrice.toFixed(2)}¢
+                        </p>
+                      )}
+                      {b.lastYield != null && (
+                        <p className="text-[11px] text-gray-400">YTM {b.lastYield.toFixed(2)}%</p>
+                      )}
+                      {b.lastTradeDate && (
+                        <p className="text-[10px] text-gray-300">{b.lastTradeDate}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="border border-gray-100 rounded-xl px-4 py-3 bg-gray-50">
+              <p className="text-xs text-gray-400">No FINRA TRACE bond quotes found for this issuer. Try the parent company name or a known ticker.</p>
+            </div>
+          )}
+
+          {/* Snapshot */}
+          <div className="border border-[#e8f0f4] bg-[#f7fbfd] rounded-xl px-5 py-4">
+            <div className="text-[10px] font-semibold text-[#396477] uppercase tracking-widest mb-2">Credit Snapshot</div>
+            <p className="text-sm text-[#374151] leading-relaxed">{result.snapshot}</p>
+          </div>
+
+          <p className="text-[10px] text-gray-300 text-center">{result.disclaimer}</p>
+
+          {/* Search again */}
+          <div className="text-center">
+            <button onClick={() => { setResult(null); setInput(""); }}
+              className="text-xs text-[#396477] hover:underline">Search another company</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Firm Prep Section ───────────────────────────────────────────────────────
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "credit">("firm");
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode toggle */}
-      <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit mx-auto mb-6">
-        {(["firm", "concept", "cases"] as const).map(m => (
+      <div className="flex flex-wrap gap-1 p-1 bg-gray-100 rounded-xl w-fit mx-auto mb-6">
+        {(["firm", "concept", "cases", "credit"] as const).map(m => (
           <button key={m} onClick={() => setMode(m)}
-            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
               mode === m ? "bg-white text-[#191c1e] shadow-sm" : "text-gray-500 hover:text-gray-700"
             }`}>
-            {m === "firm" ? "🏦 Firm Prep" : m === "concept" ? "📚 Concept Q&A" : "🔬 Case Library"}
+            {m === "firm" ? "🏦 Firm Prep" : m === "concept" ? "📚 Concept Q&A" : m === "cases" ? "🔬 Case Library" : "📡 Credit Watch"}
           </button>
         ))}
       </div>
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
+      {mode === "credit" && <CreditWatchSection />}
     </div>
   );
 }
@@ -2186,6 +2336,9 @@ interface DistressedSituation {
   headline?: string;
   likelyFirms: string[];
   whyItMatters: string;
+  bondPrice?: number | null;
+  bondYield?: number | null;
+  bondDesc?: string;
 }
 
 const SITUATION_STYLE: Record<string, { label: string; cls: string }> = {
@@ -2238,6 +2391,11 @@ function DistressedWatch() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-semibold text-sm text-[#191c1e]">{s.company}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
+                  {s.bondPrice != null && (
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${s.bondPrice < 70 ? "bg-red-50 text-red-600 border-red-200" : s.bondPrice < 90 ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"}`}>
+                      {s.bondPrice.toFixed(1)}¢{s.bondYield != null ? ` / ${s.bondYield.toFixed(1)}% YTM` : ""}
+                    </span>
+                  )}
                   <span className="text-[11px] text-gray-400 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
                 </div>
                 {s.headline && (
