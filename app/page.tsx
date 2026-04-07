@@ -1974,10 +1974,107 @@ const SENTIMENT_STYLE: Record<string, string> = {
   mixed: "bg-amber-50 text-amber-700 border-amber-200",
 };
 
+// ─── Market Charts ────────────────────────────────────────────────────────────
+
+function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
+  const equities = tickers.filter(t => ["S&P 500", "QQQ", "Russell 2K", "VIX"].includes(t.label));
+  const bonds    = tickers.filter(t => ["3M Yield", "10Y Yield"].includes(t.label));
+  const other    = tickers.filter(t => ["WTI", "Gold", "DXY"].includes(t.label));
+
+  const maxAbs = (arr: MarketTicker[]) => Math.max(...arr.map(t => Math.abs(t.changePct)), 0.01);
+
+  function BarChart({ items, title }: { items: MarketTicker[]; title: string }) {
+    const max = maxAbs(items);
+    return (
+      <div className="space-y-1.5">
+        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{title}</p>
+        {items.map(t => {
+          const pct = t.changePct;
+          const up = pct >= 0;
+          const barW = Math.round((Math.abs(pct) / max) * 100);
+          return (
+            <div key={t.symbol} className="flex items-center gap-2">
+              <span className="text-[11px] text-gray-500 w-16 flex-shrink-0 truncate">{t.label}</span>
+              <div className="flex-1 h-5 flex items-center">
+                <div className="relative w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className={`absolute top-0 h-full rounded-full transition-all ${up ? "bg-emerald-400 left-1/2" : "bg-red-400 right-1/2"}`}
+                    style={{ width: `${barW / 2}%` }}
+                  />
+                </div>
+              </div>
+              <span className={`text-[11px] font-semibold w-14 text-right flex-shrink-0 ${up ? "text-emerald-600" : "text-red-500"}`}>
+                {up ? "+" : ""}{pct.toFixed(2)}%
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Simple yield curve: plot 3M and 10Y yields
+  const y3m  = bonds.find(t => t.label === "3M Yield");
+  const y10y = bonds.find(t => t.label === "10Y Yield");
+  const inverted = y3m && y10y && y3m.price > y10y.price;
+
+  return (
+    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 border-b border-gray-100 flex items-center gap-2">
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Daily Performance</span>
+        <span className="ml-auto text-[11px] text-gray-400">% change today</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 px-5 py-4">
+        <BarChart items={equities} title="Equities" />
+        <BarChart items={other} title="Commodities / FX" />
+
+        {/* Yield Curve */}
+        <div className="space-y-1.5">
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Yield Curve</p>
+          {y3m && y10y ? (
+            <div className="space-y-2">
+              <svg viewBox="0 0 200 80" className="w-full" style={{ maxHeight: 80 }}>
+                {/* Grid lines */}
+                {[0, 25, 50, 75].map(y => (
+                  <line key={y} x1="20" y1={y + 5} x2="190" y2={y + 5} stroke="#f0f0f0" strokeWidth="1" />
+                ))}
+                {/* Yield curve line */}
+                <polyline
+                  points={`40,${75 - Math.min(y3m.price, 10) * 7} 160,${75 - Math.min(y10y.price, 10) * 7}`}
+                  fill="none"
+                  stroke={inverted ? "#ef4444" : "#396477"}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+                {/* Points */}
+                <circle cx="40"  cy={75 - Math.min(y3m.price, 10) * 7}  r="4" fill={inverted ? "#ef4444" : "#396477"} />
+                <circle cx="160" cy={75 - Math.min(y10y.price, 10) * 7} r="4" fill={inverted ? "#ef4444" : "#396477"} />
+                {/* Labels */}
+                <text x="40"  y="76" textAnchor="middle" fontSize="8" fill="#9ca3af">3M</text>
+                <text x="160" y="76" textAnchor="middle" fontSize="8" fill="#9ca3af">10Y</text>
+                <text x="40"  y={Math.max(6, 72 - Math.min(y3m.price, 10) * 7)} textAnchor="middle" fontSize="8" fill="#374151">{y3m.price.toFixed(2)}%</text>
+                <text x="160" y={Math.max(6, 72 - Math.min(y10y.price, 10) * 7)} textAnchor="middle" fontSize="8" fill="#374151">{y10y.price.toFixed(2)}%</text>
+              </svg>
+              <div className={`text-[10px] font-semibold px-2 py-1 rounded text-center ${inverted ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-700"}`}>
+                {inverted
+                  ? `⚠️ Inverted — 3M ${(y3m.price - y10y.price).toFixed(2)}% above 10Y`
+                  : `Normal — spread ${(y10y.price - y3m.price).toFixed(2)}%`}
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-gray-400">Yield data unavailable</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MarketSection() {
   const [analysis, setAnalysis] = useState<MarketAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [tickers, setTickers] = useState<MarketTicker[]>([]);
 
   useEffect(() => {
     fetch("/api/market")
@@ -1988,6 +2085,10 @@ function MarketSection() {
       })
       .catch(() => setError("Failed to load market brief."))
       .finally(() => setLoading(false));
+    fetch("/api/market-prices")
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (Array.isArray(d) && d.length) setTickers(d); })
+      .catch(() => {});
   }, []);
 
   if (loading) {
@@ -2014,8 +2115,9 @@ function MarketSection() {
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 space-y-6">
-      {/* Live Market Data */}
+      {/* Live Market Data + Charts */}
       <MarketDataPanel />
+      {tickers.length > 0 && <MarketCharts tickers={tickers} />}
 
       {/* Header */}
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
@@ -3079,6 +3181,33 @@ const STATIC_CASES: StaticCase[] = [
     interviewQ: "What does the SVB failure tell you about bank credit analysis and interest rate risk?",
     modelAnswer: "SVB illustrates that bank credit analysis must go beyond headline capital ratios to examine the quality and duration of asset portfolios. HTM accounting allowed SVB to avoid reporting losses that were economically real — a due diligence red flag. More fundamentally, it shows concentration risk: SVB's depositor base was unusually correlated — all tech, all uninsured — which meant a single narrative could trigger simultaneous withdrawals. For credit investors in bank paper, analysing deposit stability, duration gaps, and unrealised losses in the securities portfolio is as important as loan quality.",
     lessons: ["HTM vs AFS accounting treatment can mask real economic losses in bank portfolios", "Deposit concentration and correlation risk is as important as deposit size", "Duration mismatch between assets and liabilities is the oldest bank risk — and still lethal"],
+  },
+  {
+    deal: "Tricolor Auto Group Private Credit (2022–2023)", company: "Tricolor Auto Group", year: "2023", type: "credit",
+    size: "$500M+ in private credit facilities", keyPlayers: ["Goldman Sachs Asset Management", "Blue Owl Capital", "Atalaya Capital"],
+    snapshot: "Tricolor Auto Group, the largest Hispanic-focused used vehicle retailer and auto lender in the US, raised over $500M in private credit facilities to finance its auto loan portfolio. The deal is a textbook example of specialty finance private credit — asset-backed lending to a niche consumer credit platform serving an underbanked demographic. Investors were attracted to the portfolio's low correlation with mainstream credit and strong collateral backing from vehicle assets.",
+    mechanics: ["Asset-backed structure: auto loans are the collateral — lenders have direct claim on the underlying vehicle portfolio", "Advance rate (LTV on the portfolio) was key negotiating point — lenders diligenced default and recovery rates by vintage", "Specialty finance private credit: lenders underwrite the platform (management, underwriting standards, servicing) as much as the loans themselves", "Warehouse facility structure allowed Tricolor to originate loans, pool them, and draw down credit lines as the portfolio grew"],
+    interviewQ: "How do you underwrite a specialty finance private credit deal like Tricolor, and what are the key risks?",
+    modelAnswer: "Specialty finance underwriting requires analysing both the platform and the underlying asset pool. For Tricolor, you'd diligence the auto loan portfolio by vintage — looking at default rates, recovery rates on repossessed vehicles, and how performance held up in prior downturns. The platform analysis covers management track record, underwriting standards, servicing infrastructure, and concentration risk. Key risks include used vehicle price depreciation (which reduces collateral value), demographic concentration, and operational risk if the origination platform deteriorates. The asset-backed structure provides downside protection, but only if the collateral maintains value.",
+    lessons: ["Specialty finance private credit requires underwriting both the platform and the underlying asset portfolio", "Collateral quality — default rates, recovery rates, vintage analysis — is the foundation of asset-backed credit", "Demographic-focused lenders offer diversification from mainstream credit cycles but carry concentration risk"],
+  },
+  {
+    deal: "Envision Healthcare Chapter 11 (2023)", company: "Envision Healthcare", year: "2023", type: "distressed",
+    size: "$7.7B in liabilities", keyPlayers: ["KKR", "Apollo", "Centerbridge", "BlackRock Credit"],
+    snapshot: "Envision Healthcare, the largest physician staffing company in the US, filed Chapter 11 in May 2023 after KKR's 2018 $9.9B take-private failed to survive a combination of COVID-19 disruption and aggressive rate cuts by UnitedHealth Group (Optum). KKR lost its entire equity investment. The case is a defining example of private equity healthcare services gone wrong — and the danger of government/insurer reimbursement risk in leveraged buyouts.",
+    mechanics: ["KKR's 2018 LBO loaded ~$7B of debt onto a physician staffing business with inherently thin margins", "UnitedHealth's Optum division drove Envision out of network, slashing reimbursement rates by 40-50% — a key revenue driver", "COVID-19 eliminated elective procedure volume in 2020, destroying EBITDA precisely when the debt load was highest", "Emerged in late 2023 with debt cut from $7.7B to ~$3.1B; creditors received equity — KKR wiped out entirely"],
+    interviewQ: "What does the Envision Healthcare LBO failure teach you about healthcare services credit underwriting?",
+    modelAnswer: "Envision illustrates that healthcare services businesses face a unique risk that doesn't appear in financial models: payer reimbursement repricing. When UnitedHealth decided to push Envision out of network, revenue fell precipitously and there was nothing the company could do operationally to offset it. In healthcare LBO underwriting, you must stress-test the payer mix concentration and model scenarios where major payers reprice or terminate contracts. High leverage in a business with a dominant counterparty who controls your pricing is extremely dangerous — the LBO debt left no room to absorb the reimbursement shock.",
+    lessons: ["Payer concentration risk is a unique and often underweighted risk in healthcare services LBOs", "Leveraged buyouts of businesses where a single counterparty controls pricing are structurally fragile", "COVID-19 volume shocks combined with structural headwinds can create a perfect storm that no amount of financial engineering can fix"],
+  },
+  {
+    deal: "Pluralsight Creditor Takeover (2024)", company: "Pluralsight", year: "2024", type: "credit",
+    size: "$2.4B in debt", keyPlayers: ["Vista Equity Partners", "Blue Owl (Owl Rock)", "PSP Investments", "GIC"],
+    snapshot: "Pluralsight, a technology skills platform taken private by Vista Equity Partners in 2017 for $3.5B, underwent a creditor-led restructuring in 2024 after revenue growth stalled and the company couldn't service $2.4B of private credit debt. Private credit lenders including Blue Owl converted their debt to equity, effectively taking ownership of the business while wiping out Vista's equity. It is one of the clearest recent examples of private credit lenders becoming owners through restructuring.",
+    mechanics: ["Vista's 2017 take-private was underwritten on aggressive growth assumptions that didn't materialise as the edtech market matured", "Debt was held largely by direct lenders (private credit funds) rather than broadly syndicated — enabling a faster, private restructuring without court involvement", "Debt-to-equity conversion: lenders exchanged their debt claims for 100% of the equity, wiping out Vista's $1B+ equity investment", "Out-of-court process: because the debt was held by a small number of institutional lenders, the restructuring was negotiated privately and completed without Chapter 11"],
+    interviewQ: "What is a creditor-led takeover and how does private credit's hold-to-maturity structure enable it?",
+    modelAnswer: "A creditor-led takeover occurs when lenders convert their debt to equity through a restructuring, becoming the owners of the business. Private credit funds are uniquely positioned to execute these efficiently because they hold debt in concentrated, bilateral positions — unlike broadly syndicated loans held by hundreds of investors. With a small group of sophisticated lenders at the table, you can negotiate an out-of-court restructuring in weeks rather than months. The lenders effectively decide: is it better to foreclose and own the business, or continue as creditors? When the equity is underwater and the business has fundamental value, taking ownership and waiting for recovery is often the better outcome.",
+    lessons: ["Private credit's concentrated hold structure enables faster out-of-court restructurings vs broadly syndicated markets", "Debt-to-equity conversions give credit funds equity-like upside — blurring the line between credit and PE investing", "Aggressive LBO growth assumptions in software/edtech create fragile capital structures when growth disappoints"],
   },
 ];
 
