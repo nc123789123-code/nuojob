@@ -1,0 +1,236 @@
+/**
+ * Distressed Watch API
+ *
+ * Fetches recent Chapter 11 bankruptcy and restructuring filings from:
+ *   1. SEC EDGAR full-text search — 8-K filings mentioning "Chapter 11" / "bankruptcy"
+ *   2. Google News RSS — restructuring / distressed headlines for context
+ *
+ * Returns a list of distressed situations enriched with:
+ *   - Company name, industry hint, filing date
+ *   - Situation type (Chapter 11, out-of-court restructuring, distressed exchange)
+ *   - Likely buyside firms involved (based on strategy matching)
+ *   - Why it matters framing for the user
+ *
+ * Cached for 6 hours — restructuring situations don't move that fast.
+ */
+
+export const runtime = "nodejs";
+
+export interface DistressedSituation {
+  id: string;
+  company: string;
+  filingDate: string;          // YYYY-MM-DD
+  daysAgo: number;
+  situationType: "chapter11" | "restructuring" | "distressed_exchange" | "bankruptcy";
+  liabilities?: string;        // e.g. "$2.3B"
+  industry?: string;
+  cik?: string;
+  edgarUrl?: string;
+  headline?: string;           // from news RSS
+  likelyFirms: string[];       // buyside firms historically active in similar situations
+  whyItMatters: string;
+}
+
+interface EdgarHit {
+  _id: string;
+  _source?: {
+    adsh?: string;
+    display_names?: string[];
+    entity_name?: string;
+    file_date?: string;
+    form?: string;
+    ciks?: string[];
+    period_of_report?: string;
+  };
+}
+
+// Cache — 6 hours
+let cache: { data: DistressedSituation[]; ts: number } | null = null;
+const CACHE_TTL = 6 * 60 * 60 * 1000;
+
+const EDGAR_HEADERS = {
+  "User-Agent": "Onlu/1.0 research@onlu.com",
+  "Accept": "application/json",
+};
+
+// Buyside firms known to be active in distressed / special situations
+const DISTRESSED_FIRMS: Record<string, string[]> = {
+  credit:      ["Apollo", "Oaktree", "Ares", "Centerbridge", "Bain Capital Credit"],
+  distressed:  ["Elliott Management", "Monarch Capital", "Aurelius", "Silver Point", "Solus", "Whitebox"],
+  special_sits:["KKR Credit", "HPS Investment Partners", "Sixth Street", "Angelo Gordon", "Marathon Asset Management"],
+  pe:          ["Blackstone", "Carlyle", "Apollo", "KKR"],
+};
+
+function getDaysAgo(dateStr: string): number {
+  const d = new Date(dateStr);
+  return Math.floor((Date.now() - d.getTime()) / 86_400_000);
+}
+
+function fmtCik(cik: string): string {
+  return String(parseInt(cik, 10));
+}
+
+/** Infer likely buyside participants based on situation context */
+function inferLikelyFirms(company: string, headline: string): string[] {
+  const text = `${company} ${headline}`.toLowerCase();
+  const firms: string[] = [];
+  if (/retail|consumer|restaurant|fashion|apparel/i.test(text))
+    firms.push(...["Oaktree", "Monarch Capital", "Centerbridge"]);
+  else if (/energy|oil|gas|power|utility/i.test(text))
+    firms.push(...["Apollo", "Elliott Management", "Ares"]);
+  else if (/healthcare|pharma|hospital/i.test(text))
+    firms.push(...["Apollo", "Silver Point", "HPS Investment Partners"]);
+  else if (/real estate|reit|property/i.test(text))
+    firms.push(...["Oaktree", "Starwood Capital", "Blackstone"]);
+  else if (/tech|software|saas/i.test(text))
+    firms.push(...["Sixth Street", "HPS Investment Partners", "Blue Owl"]);
+  else if (/media|entertainment|telecom/i.test(text))
+    firms.push(...["Apollo", "Centerbridge", "Monarch Capital"]);
+  else
+    firms.push(...DISTRESSED_FIRMS.distressed.slice(0, 3));
+  return [...new Set(firms)].slice(0, 4);
+}
+
+function buildWhyItMatters(company: string, situationType: DistressedSituation["situationType"]): string {
+  if (situationType === "chapter11")
+    return `${company} filed Chapter 11 — creating DIP financing, creditor committee, and plan-of-reorganisation mandates. Distressed funds typically begin building positions within days of filing.`;
+  if (situationType === "distressed_exchange")
+    return `${company} pursuing a distressed exchange — out-of-court restructuring that avoids formal bankruptcy. Holders of discounted debt may convert to equity; credit funds active in secondary markets watch these closely.`;
+  return `${company} in restructuring — potential for new money financing, creditor advisory mandates, and post-reorg equity opportunities. Special situations desks at major credit managers will be tracking.`;
+}
+
+function classifySituation(text: string): DistressedSituation["situationType"] {
+  if (/chapter 11|chapter11|voluntary petition|bankruptcy petition/i.test(text)) return "chapter11";
+  if (/distressed exchange|exchange offer.*distressed|debt exchange/i.test(text)) return "distressed_exchange";
+  if (/out.of.court|amend.*extend|forbearance agreement|covenant waiver/i.test(text)) return "restructuring";
+  return "bankruptcy";
+}
+
+async function fetchEdgar8K(query: string, days: number): Promise<EdgarHit[]> {
+  const end = new Date();
+  const start = new Date();
+  start.setDate(start.getDate() - days);
+  const startdt = start.toISOString().split("T")[0];
+  const enddt = end.toISOString().split("T")[0];
+
+  const p = new URLSearchParams({
+    q: `"${query}"`,
+    forms: "8-K",
+    dateRange: "custom",
+    startdt,
+    enddt,
+  });
+
+  const res = await fetch(`https://efts.sec.gov/LATEST/search-index?${p}`, {
+    headers: EDGAR_HEADERS,
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!res.ok) return [];
+  const data = await res.json() as { hits?: { hits?: EdgarHit[] } };
+  return data?.hits?.hits ?? [];
+}
+
+async function fetchNewsHeadline(company: string): Promise<string> {
+  try {
+    const q = `${company} restructuring bankruptcy`;
+    const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    const xml = await res.text();
+    const match = xml.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
+    return match?.[1]?.trim() ?? "";
+  } catch { return ""; }
+}
+
+// Companies to skip — holding companies, SPACs, financial firms filing routine 8-Ks
+const SKIP_RE = /\b(trust|SPAC|acquisition corp|blank check|shell|LLC$|LP$)\b/i;
+
+async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
+  const queries = [
+    "Chapter 11",
+    "voluntary petition for relief",
+    "restructuring support agreement",
+    "distressed exchange offer",
+    "out-of-court restructuring",
+    "forbearance agreement",
+  ];
+
+  const results = await Promise.allSettled(
+    queries.map((q) => fetchEdgar8K(q, maxDays))
+  );
+
+  const seen = new Map<string, EdgarHit>();
+  for (const r of results) {
+    if (r.status !== "fulfilled") continue;
+    for (const hit of r.value) {
+      const key = hit._source?.adsh ?? hit._id;
+      if (!seen.has(key)) seen.set(key, hit);
+    }
+  }
+
+  // Deduplicate by company CIK (keep most recent per company)
+  const byCik = new Map<string, EdgarHit>();
+  for (const hit of seen.values()) {
+    const cik = hit._source?.ciks?.[0] ?? hit._id;
+    const existing = byCik.get(cik);
+    if (!existing || (hit._source?.file_date ?? "") > (existing._source?.file_date ?? "")) {
+      byCik.set(cik, hit);
+    }
+  }
+
+  const hits = Array.from(byCik.values()).slice(0, 30);
+
+  // Enrich with news headlines in parallel (cap at 15 to avoid rate limits)
+  const enriched = await Promise.allSettled(
+    hits.slice(0, 15).map(async (hit) => {
+      const src = hit._source ?? {};
+      const company = (src.display_names?.[0] ?? src.entity_name ?? "").replace(/\s*\(CIK\s*\d+\)\s*$/i, "").trim();
+      if (!company || company.length < 3) return null;
+      if (SKIP_RE.test(company)) return null;
+
+      const fileDate = src.file_date ?? "";
+      const daysAgo = fileDate ? getDaysAgo(fileDate) : maxDays;
+      if (daysAgo > maxDays) return null;
+
+      const cik = src.ciks?.[0] ? fmtCik(src.ciks[0]) : "";
+      const edgarUrl = cik
+        ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${cik}&type=8-K&dateb=&owner=include&count=10`
+        : undefined;
+
+      const headline = await fetchNewsHeadline(company);
+      const situationType = classifySituation(headline || company);
+      const likelyFirms = inferLikelyFirms(company, headline);
+      const whyItMatters = buildWhyItMatters(company, situationType);
+
+      return {
+        id: `distressed-${hit._id}`,
+        company,
+        filingDate: fileDate,
+        daysAgo,
+        situationType,
+        cik,
+        edgarUrl,
+        headline: headline || undefined,
+        likelyFirms,
+        whyItMatters,
+      } satisfies DistressedSituation;
+    })
+  );
+
+  return enriched
+    .filter((r): r is PromiseFulfilledResult<DistressedSituation> => r.status === "fulfilled" && r.value !== null)
+    .map((r) => r.value)
+    .sort((a, b) => a.daysAgo - b.daysAgo);
+}
+
+export async function GET() {
+  try {
+    if (cache && Date.now() - cache.ts < CACHE_TTL) {
+      return Response.json(cache.data);
+    }
+    const data = await fetchDistressed(60);
+    cache = { data, ts: Date.now() };
+    return Response.json(data);
+  } catch (e) {
+    return Response.json([], { status: 500 });
+  }
+}

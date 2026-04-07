@@ -2050,6 +2050,106 @@ function MarketSection() {
       <p className="text-center text-xs text-gray-400">
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
+
+      {/* Distressed Watch */}
+      <DistressedWatch />
+    </div>
+  );
+}
+
+// ─── Distressed Watch ────────────────────────────────────────────────────────
+
+interface DistressedSituation {
+  id: string;
+  company: string;
+  filingDate: string;
+  daysAgo: number;
+  situationType: "chapter11" | "restructuring" | "distressed_exchange" | "bankruptcy";
+  liabilities?: string;
+  industry?: string;
+  cik?: string;
+  edgarUrl?: string;
+  headline?: string;
+  likelyFirms: string[];
+  whyItMatters: string;
+}
+
+const SITUATION_STYLE: Record<string, { label: string; cls: string }> = {
+  chapter11:           { label: "Chapter 11", cls: "bg-red-50 text-red-600 border-red-200" },
+  distressed_exchange: { label: "Distressed Exchange", cls: "bg-orange-50 text-orange-600 border-orange-200" },
+  restructuring:       { label: "Restructuring", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  bankruptcy:          { label: "Bankruptcy", cls: "bg-red-50 text-red-600 border-red-200" },
+};
+
+function DistressedWatch() {
+  const [situations, setSituations] = useState<DistressedSituation[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/distressed")
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (Array.isArray(d)) setSituations(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
+        <span className="text-base">⚠️</span>
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Distressed Watch</span>
+        <span className="ml-1 text-[10px] text-gray-400">Chapter 11 · Restructuring · Special Situations</span>
+        {!loading && situations.length > 0 && (
+          <span className="ml-auto text-[10px] font-bold bg-red-50 text-red-500 border border-red-100 px-1.5 py-0.5 rounded-full">{situations.length} active</span>
+        )}
+      </div>
+
+      {loading && (
+        <div className="px-5 py-8 flex items-center gap-2 text-xs text-gray-400">
+          <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
+          Loading distressed situations…
+        </div>
+      )}
+
+      {!loading && situations.length === 0 && (
+        <div className="px-5 py-8 text-center text-xs text-gray-400">No new filings in the last 60 days.</div>
+      )}
+
+      {!loading && situations.length > 0 && (
+        <div className="divide-y divide-gray-50">
+          {situations.slice(0, 8).map(s => {
+            const style = SITUATION_STYLE[s.situationType] ?? SITUATION_STYLE.restructuring;
+            return (
+              <div key={s.id} className="px-5 py-4 space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-semibold text-sm text-[#191c1e]">{s.company}</span>
+                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
+                  <span className="text-[11px] text-gray-400 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
+                </div>
+                {s.headline && (
+                  <p className="text-xs text-[#41484c] leading-relaxed">{s.headline}</p>
+                )}
+                <p className="text-xs text-[#71787c] leading-relaxed">{s.whyItMatters}</p>
+                <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                  <span className="text-[10px] text-gray-400 font-medium">Likely active:</span>
+                  {s.likelyFirms.map(f => (
+                    <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#396477] border border-sky-100 rounded font-medium">{f}</span>
+                  ))}
+                  {s.edgarUrl && (
+                    <a href={s.edgarUrl} target="_blank" rel="noopener noreferrer"
+                      className="ml-auto text-[10px] text-[#396477] hover:underline">
+                      SEC filing →
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <div className="px-5 py-2.5 border-t border-gray-50 bg-gray-50/50">
+        <p className="text-[10px] text-gray-400">Sourced from SEC EDGAR 8-K filings. Not investment advice.</p>
+      </div>
     </div>
   );
 }
