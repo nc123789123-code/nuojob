@@ -1974,98 +1974,112 @@ const SENTIMENT_STYLE: Record<string, string> = {
   mixed: "bg-amber-50 text-amber-700 border-amber-200",
 };
 
-// ─── Market Charts ────────────────────────────────────────────────────────────
+// ─── Market Charts (30-day sparklines) ───────────────────────────────────────
+
+interface SymbolHistory {
+  symbol: string; label: string; isYield: boolean;
+  closes: number[]; timestamps: number[]; change30d: number;
+}
+
+function Sparkline({ closes, up, width = 200, height = 52 }: { closes: number[]; up: boolean; width?: number; height?: number }) {
+  if (closes.length < 2) return null;
+  const min = Math.min(...closes);
+  const max = Math.max(...closes);
+  const range = max - min || 1;
+  const pad = 4;
+  const pts = closes.map((c, i) => {
+    const x = pad + (i / (closes.length - 1)) * (width - pad * 2);
+    const y = pad + ((max - c) / range) * (height - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+
+  // Fill area under line
+  const first = `${pad},${height - pad}`;
+  const last  = `${(width - pad).toFixed(1)},${height - pad}`;
+  const fill  = up ? "rgba(52,211,153,0.12)" : "rgba(239,68,68,0.10)";
+  const stroke = up ? "#34d399" : "#ef4444";
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="w-full" style={{ height }}>
+      <polygon points={`${first} ${pts} ${last}`} fill={fill} />
+      <polyline points={pts} fill="none" stroke={stroke} strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
-  const equities = tickers.filter(t => ["S&P 500", "QQQ", "Russell 2K", "VIX"].includes(t.label));
-  const bonds    = tickers.filter(t => ["3M Yield", "10Y Yield"].includes(t.label));
-  const other    = tickers.filter(t => ["WTI", "Gold", "DXY"].includes(t.label));
+  const [history, setHistory] = useState<SymbolHistory[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const maxAbs = (arr: MarketTicker[]) => Math.max(...arr.map(t => Math.abs(t.changePct)), 0.01);
+  useEffect(() => {
+    fetch("/api/market-history")
+      .then(r => r.ok ? r.json() : [])
+      .then(d => { if (Array.isArray(d)) setHistory(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
-  function BarChart({ items, title }: { items: MarketTicker[]; title: string }) {
-    const max = maxAbs(items);
-    return (
-      <div className="space-y-1.5">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{title}</p>
-        {items.map(t => {
-          const pct = t.changePct;
-          const up = pct >= 0;
-          const barW = Math.round((Math.abs(pct) / max) * 100);
-          return (
-            <div key={t.symbol} className="flex items-center gap-2">
-              <span className="text-[11px] text-gray-500 w-16 flex-shrink-0 truncate">{t.label}</span>
-              <div className="flex-1 h-5 flex items-center">
-                <div className="relative w-full h-3 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className={`absolute top-0 h-full rounded-full transition-all ${up ? "bg-emerald-400 left-1/2" : "bg-red-400 right-1/2"}`}
-                    style={{ width: `${barW / 2}%` }}
-                  />
-                </div>
-              </div>
-              <span className={`text-[11px] font-semibold w-14 text-right flex-shrink-0 ${up ? "text-emerald-600" : "text-red-500"}`}>
-                {up ? "+" : ""}{pct.toFixed(2)}%
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
-  // Simple yield curve: plot 3M and 10Y yields
-  const y3m  = bonds.find(t => t.label === "3M Yield");
-  const y10y = bonds.find(t => t.label === "10Y Yield");
+  // Yield curve from live tickers
+  const y3m  = tickers.find(t => t.label === "3M Yield");
+  const y10y = tickers.find(t => t.label === "10Y Yield");
   const inverted = y3m && y10y && y3m.price > y10y.price;
+
+  // Labels for sparkline cards
+  const SHOW = ["S&P 500", "QQQ", "10Y Yield", "WTI", "Gold", "VIX"];
+
+  if (loading) return (
+    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
+      <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
+      Loading 30-day trends…
+    </div>
+  );
 
   return (
     <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
       <div className="px-5 pt-4 pb-3 border-b border-gray-100 flex items-center gap-2">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Daily Performance</span>
-        <span className="ml-auto text-[11px] text-gray-400">% change today</span>
+        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">30-Day Trend</span>
+        <span className="ml-auto text-[11px] text-gray-400">Daily closes · 1 month</span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 px-5 py-4">
-        <BarChart items={equities} title="Equities" />
-        <BarChart items={other} title="Commodities / FX" />
 
-        {/* Yield Curve */}
-        <div className="space-y-1.5">
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Yield Curve</p>
-          {y3m && y10y ? (
-            <div className="space-y-2">
-              <svg viewBox="0 0 200 80" className="w-full" style={{ maxHeight: 80 }}>
-                {/* Grid lines */}
-                {[0, 25, 50, 75].map(y => (
-                  <line key={y} x1="20" y1={y + 5} x2="190" y2={y + 5} stroke="#f0f0f0" strokeWidth="1" />
-                ))}
-                {/* Yield curve line */}
-                <polyline
-                  points={`40,${75 - Math.min(y3m.price, 10) * 7} 160,${75 - Math.min(y10y.price, 10) * 7}`}
-                  fill="none"
-                  stroke={inverted ? "#ef4444" : "#396477"}
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                {/* Points */}
-                <circle cx="40"  cy={75 - Math.min(y3m.price, 10) * 7}  r="4" fill={inverted ? "#ef4444" : "#396477"} />
-                <circle cx="160" cy={75 - Math.min(y10y.price, 10) * 7} r="4" fill={inverted ? "#ef4444" : "#396477"} />
-                {/* Labels */}
-                <text x="40"  y="76" textAnchor="middle" fontSize="8" fill="#9ca3af">3M</text>
-                <text x="160" y="76" textAnchor="middle" fontSize="8" fill="#9ca3af">10Y</text>
-                <text x="40"  y={Math.max(6, 72 - Math.min(y3m.price, 10) * 7)} textAnchor="middle" fontSize="8" fill="#374151">{y3m.price.toFixed(2)}%</text>
-                <text x="160" y={Math.max(6, 72 - Math.min(y10y.price, 10) * 7)} textAnchor="middle" fontSize="8" fill="#374151">{y10y.price.toFixed(2)}%</text>
-              </svg>
-              <div className={`text-[10px] font-semibold px-2 py-1 rounded text-center ${inverted ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-700"}`}>
-                {inverted
-                  ? `⚠️ Inverted — 3M ${(y3m.price - y10y.price).toFixed(2)}% above 10Y`
-                  : `Normal — spread ${(y10y.price - y3m.price).toFixed(2)}%`}
+      <div className="grid grid-cols-2 sm:grid-cols-3 divide-x divide-y divide-gray-100">
+        {SHOW.map(label => {
+          const h = history.find(d => d.label === label);
+          const live = tickers.find(t => t.label === label);
+          if (!h && !live) return null;
+          const up = h ? h.change30d >= 0 : (live?.changePct ?? 0) >= 0;
+          const pct = h ? h.change30d : (live?.changePct ?? 0);
+          const price = live ? (live.isYield ? `${live.price.toFixed(2)}%` : live.price >= 1000 ? live.price.toLocaleString("en-US", { maximumFractionDigits: 0 }) : live.price.toFixed(2)) : "—";
+
+          return (
+            <div key={label} className="px-4 py-3 space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-gray-500">{label}</span>
+                <span className={`text-[10px] font-bold ${up ? "text-emerald-600" : "text-red-500"}`}>
+                  {up ? "+" : ""}{pct.toFixed(2)}%
+                </span>
               </div>
+              <span className="text-sm font-bold text-[#191c1e]">{price}</span>
+              {h?.closes && h.closes.length > 1
+                ? <Sparkline closes={h.closes} up={up} />
+                : <div className="h-13 flex items-center justify-center text-[10px] text-gray-300">No history</div>
+              }
             </div>
-          ) : (
-            <p className="text-xs text-gray-400">Yield data unavailable</p>
-          )}
-        </div>
+          );
+        })}
       </div>
+
+      {/* Yield curve row */}
+      {y3m && y10y && (
+        <div className="border-t border-gray-100 px-5 py-3 flex items-center gap-3">
+          <span className="text-[11px] font-semibold text-gray-500">Yield Curve</span>
+          <div className={`text-[10px] font-semibold px-2 py-0.5 rounded ${inverted ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-700"}`}>
+            {inverted ? `⚠️ Inverted` : `Normal`}
+          </div>
+          <span className="text-[11px] text-gray-400">
+            3M {y3m.price.toFixed(2)}% · 10Y {y10y.price.toFixed(2)}% · spread {Math.abs(y10y.price - y3m.price).toFixed(2)}%
+          </span>
+        </div>
+      )}
     </div>
   );
 }
