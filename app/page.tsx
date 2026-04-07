@@ -1630,21 +1630,23 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode toggle */}
       <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit mx-auto mb-6">
-        {(["firm", "concept"] as const).map(m => (
+        {(["firm", "concept", "cases"] as const).map(m => (
           <button key={m} onClick={() => setMode(m)}
             className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
               mode === m ? "bg-white text-[#191c1e] shadow-sm" : "text-gray-500 hover:text-gray-700"
             }`}>
-            {m === "firm" ? "🏦 Firm Prep" : "📚 Concept Q&A"}
+            {m === "firm" ? "🏦 Firm Prep" : m === "concept" ? "📚 Concept Q&A" : "🔬 Case Library"}
           </button>
         ))}
       </div>
-      {mode === "firm" ? <FirmPrepSection /> : <ConceptQASection />}
+      {mode === "firm" && <FirmPrepSection />}
+      {mode === "concept" && <ConceptQASection />}
+      {mode === "cases" && <CaseLibrarySection />}
     </div>
   );
 }
@@ -2991,6 +2993,254 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
           {topRoles[0].classification.signal}
         </p>
       )}
+    </div>
+  );
+}
+
+// ─── Case Library ────────────────────────────────────────────────────────────
+
+interface StaticCase {
+  deal: string; company: string; year: string;
+  type: "distressed" | "lbo" | "credit" | "restructuring" | "ma";
+  size: string; keyPlayers: string[];
+  snapshot: string; mechanics: string[];
+  interviewQ: string; modelAnswer: string; lessons: string[];
+}
+
+const STATIC_CASES: StaticCase[] = [
+  {
+    deal: "Hertz Chapter 11 (2020)", company: "Hertz", year: "2020", type: "distressed",
+    size: "$19B in liabilities", keyPlayers: ["Centerbridge", "Warburg Pincus", "Dundon Capital"],
+    snapshot: "Hertz filed Chapter 11 in May 2020 after COVID-19 collapsed travel demand and left it unable to service $19B of debt backed by its car fleet. The case was notable for retail investors buying the stock post-filing — driving it to near-par despite expected wipe-out — and an unusual attempt to issue new equity in bankruptcy.",
+    mechanics: ["Fleet secured debt structured as ABS — cars were collateral, creating complex lien intercreditor issues", "Debtor-in-possession (DIP) financing provided liquidity to keep operations running through restructuring", "Equity retained surprising value as meme-stock buying inflated the share price mid-bankruptcy", "Emerged in 2021 with $5.9B of new equity from Knighthead/Certares and $2.7B in new debt"],
+    interviewQ: "Walk me through the Hertz restructuring — why did equity retain value when it typically gets wiped out in Chapter 11?",
+    modelAnswer: "Hertz was unusual because the retail trading frenzy post-filing drove the stock to prices implying a recovery to equity — which rarely happens in over-leveraged restructurings. The DIP lenders and secured creditors were made whole, and the reorganisation plan ultimately gave equity a sliver of value as the business recovered faster than expected post-COVID. It's a cautionary example of market irrationality in distressed situations.",
+    lessons: ["ABS-backed fleet debt creates unique lien structures requiring deep collateral analysis", "DIP financing priority and negotiation is central to any Chapter 11 process", "Market prices in distressed situations can diverge sharply from fundamental recovery analysis"],
+  },
+  {
+    deal: "Toys R Us Liquidation (2017)", company: "Toys R Us", year: "2017", type: "distressed",
+    size: "$5B in debt", keyPlayers: ["KKR", "Bain Capital", "Vornado Realty"],
+    snapshot: "Toys R Us filed Chapter 11 in 2017, weighed down by $5B of LBO debt from a 2005 buyout by KKR, Bain, and Vornado. Despite attempts to restructure, the business couldn't compete with Amazon and Walmart and liquidated in 2018 — eliminating 33,000 jobs. It became the defining cautionary tale of over-leveraged LBOs.",
+    mechanics: ["2005 LBO loaded $6.6B of debt onto the balance sheet, consuming all free cash flow in interest", "Debt maturity wall hit simultaneously with Amazon disrupting physical toy retail", "Secured lenders recovered near par; unsecured bondholders and trade creditors were largely wiped out", "Real estate was key value driver — Vornado's stake in the leases held residual value even in liquidation"],
+    interviewQ: "What went wrong with the Toys R Us LBO and what does it tell you about credit underwriting?",
+    modelAnswer: "The LBO was underwritten on the assumption that the business could sustain its cash flows, but the debt load left zero cushion to invest in e-commerce or compete on price with Amazon and Walmart. A core lesson is that LBO debt analysis must stress-test not just cyclical downturns but structural disruption — especially in retail. Lenders should have demanded lower leverage or maintenance covenants that would have forced a restructuring earlier, before the business deteriorated to the point of liquidation.",
+    lessons: ["High LBO leverage leaves no room to invest in the business during disruption", "Structural industry shifts (e-commerce) can be more damaging than cyclical downturns", "Secured vs unsecured recovery analysis is critical — same bankruptcy, very different outcomes by tranche"],
+  },
+  {
+    deal: "Twitter LBO (2022)", company: "Twitter / X", year: "2022", type: "lbo",
+    size: "$44B acquisition, $13B of debt", keyPlayers: ["Morgan Stanley", "Bank of America", "Barclays", "Apollo", "Ares"],
+    snapshot: "Elon Musk acquired Twitter for $44B in October 2022, financing it with $13B of leveraged loans and bonds underwritten by seven banks. The banks were unable to syndicate the debt — stuck holding it at a loss — in what became the largest hung debt deal since the 2008 financial crisis. The deal is a masterclass in LBO financing risk.",
+    mechanics: ["$13B debt package: $6.5B term loan, $3B secured bridge, $3B unsecured bridge — all held by banks unable to sell", "EBITDA declined sharply post-acquisition as advertisers fled; debt/EBITDA ballooned above 10x", "Banks marked the loans at ~60 cents on the dollar, crystallising ~$4B in paper losses", "Apollo and Ares provided $1.25B of preferred equity to help refinance some bank exposure in 2023"],
+    interviewQ: "Why were the banks unable to syndicate the Twitter debt and what does this tell you about hung deal risk?",
+    modelAnswer: "The banks committed to the financing before Musk's acquisition closed, but by the time they tried to sell the debt the credit market had deteriorated sharply with rising rates and recession fears. More importantly, Twitter's fundamentals deteriorated post-close as advertisers pulled spend, making the credit story harder to sell to institutional investors. The lesson is that commitment letters expose banks to market risk between signing and syndication — and that credit underwriting must account for business quality, not just leverage multiples.",
+    lessons: ["Underwriting risk: banks bear market risk between commitment and syndication", "Business quality matters as much as leverage ratio in credit underwriting", "Preferred equity from private credit firms is a common solution to rescue hung bank debt"],
+  },
+  {
+    deal: "WeWork Collapse (2023)", company: "WeWork", year: "2023", type: "restructuring",
+    size: "$18B in lease liabilities", keyPlayers: ["SoftBank", "King Street Capital", "Brigade Capital"],
+    snapshot: "WeWork filed Chapter 11 in November 2023 after burning through billions in SoftBank capital and failing to right-size its massive lease portfolio. Once valued at $47B, it emerged with ~$450M in equity value — a 99% wipeout. The case is a study in unsustainable unit economics masked by growth.",
+    mechanics: ["$18B in long-term lease obligations — fixed costs — against short-term flexible memberships — variable revenue", "Second lien noteholders (King Street, Brigade) converted debt to equity through the restructuring plan", "SoftBank, as the largest equity holder, was wiped out despite injecting $16B+ over the company's life", "Emerged with ~500 locations vs 800 pre-filing after rejecting uneconomic leases in bankruptcy"],
+    interviewQ: "What were the fundamental credit flaws in WeWork's business model?",
+    modelAnswer: "WeWork had a classic asset-liability mismatch: it signed 10-15 year leases creating fixed long-term obligations, then rented space on short 1-month to 12-month terms, creating highly variable revenue. In a downturn or demand shock, revenue disappears while lease payments continue. Combined with negative unit economics at most locations and an unsustainable cash burn rate, there was no scenario where the capital structure was serviceable without fundamental business model change.",
+    lessons: ["Asset-liability mismatch between fixed costs and variable revenue is a critical credit risk", "Revenue quality — recurring, contracted, sticky — matters as much as revenue size", "High valuation and brand hype can mask fundamentally broken unit economics for years"],
+  },
+  {
+    deal: "Revlon Chapter 11 (2022)", company: "Revlon", year: "2022", type: "distressed",
+    size: "$3.7B in debt", keyPlayers: ["Jefferies", "Citi", "Owl Rock (Blue Owl)"],
+    snapshot: "Revlon filed Chapter 11 in June 2022, unable to manage $3.7B of debt amid supply chain disruptions and competition from indie beauty brands. The case is also famous for Citibank's $900M operational error — accidentally sending lenders full loan repayment — and the ensuing legal battle over who had to return the money.",
+    mechanics: ["2020 term loan amendment allowed Revlon to transfer IP assets to an unrestricted subsidiary — the 'trap door' move — angering senior lenders", "The so-called J.Crew blocker provision was absent, enabling the IP transfer that subordinated lenders", "Citibank mistakenly sent $900M to lenders; courts initially ruled lenders could keep it (later reversed)", "Emerged in 2023 with debt reduced from $3.7B to ~$700M; equity went to creditors"],
+    interviewQ: "What is the significance of the Revlon trap door transaction and what should credit investors watch for?",
+    modelAnswer: "The Revlon IP transfer illustrated how covenant-lite loan documentation can allow management to move valuable assets out of the reach of senior creditors — known as a trap door or liability management transaction. Credit investors must scrutinise restricted payment baskets, unrestricted subsidiary permissions, and asset transfer covenants in loan documents. The absence of a J.Crew blocker — a provision specifically preventing IP transfers — was a critical documentation gap that sophisticated lenders now require.",
+    lessons: ["Covenant documentation is as important as financial metrics in credit underwriting", "Liability management transactions (LMTs) are a growing risk in covenant-lite markets", "Operational errors at custodians/agents can have massive legal consequences — Citi's $900M mistake"],
+  },
+  {
+    deal: "Energy Future Holdings (2014)", company: "Energy Future Holdings (TXU)", year: "2014", type: "lbo",
+    size: "$48B LBO — largest ever at the time", keyPlayers: ["KKR", "TPG", "Goldman Sachs", "Apollo", "Centerbridge"],
+    snapshot: "The $48B leveraged buyout of TXU (renamed Energy Future Holdings) in 2007 by KKR, TPG, and Goldman Sachs was the largest LBO in history. The thesis relied on natural gas prices staying high — they collapsed. The company filed Chapter 11 in 2014 with $42B in debt, wiping out equity entirely. KKR and TPG lost their entire $8B equity investment.",
+    mechanics: ["LBO thesis underwritten on natural gas at $7-8/MMBtu — shale revolution crashed it to $2-3", "Regulated utility (Oncor) ring-fenced from bankruptcy, creating complex inter-creditor disputes", "EFIH (holding company) and TCEH (operating company) had separate capital structures with different creditor groups", "Reorganisation took 4+ years due to tax disputes and creditor group conflicts"],
+    interviewQ: "What does the EFH LBO teach you about commodity risk in leveraged buyouts?",
+    modelAnswer: "EFH is the canonical example of commodity price risk destroying an LBO underwriting. The sponsors modelled natural gas prices using forward curves and recent history — both of which failed to anticipate the shale revolution. In commodity-linked businesses, LBO debt sizing must be stress-tested against a wide range of commodity scenarios, not just base cases. The structure also showed how complex multi-tranche capital structures across regulated and unregulated subsidiaries create massive inter-creditor complexity in restructuring.",
+    lessons: ["Never underwrite commodity-linked cash flows at spot or forward prices without severe stress tests", "Complex holding company structures create inter-creditor disputes that drag out restructurings", "Regulated utility assets can be ring-fenced, protecting value for specific creditor classes"],
+  },
+  {
+    deal: "J.Crew Uptiering (2017)", company: "J.Crew", year: "2017", type: "credit",
+    size: "$566M IP transfer", keyPlayers: ["Anchorage Capital", "GSO / Blackstone Credit", "Davidson Kempner"],
+    snapshot: "J.Crew executed a controversial liability management transaction in 2017, transferring its valuable intellectual property (brand trademarks) to an unrestricted subsidiary and then issuing new priority debt secured by that IP. This effectively subordinated existing term loan lenders without their consent — sparking a wave of similar transactions and counter-measures across credit markets.",
+    mechanics: ["Moved $250M of brand IP to an unrestricted subsidiary using a basket in the credit agreement", "New $566M of secured notes were issued against the IP, senior to existing term loans", "Existing lenders were subordinated without a vote — their collateral value was stripped away", "Led directly to J.Crew Blocker provisions now standard in new credit agreements"],
+    interviewQ: "What is a J.Crew blocker and why is it now standard in leveraged loan documentation?",
+    modelAnswer: "A J.Crew blocker is a provision in credit agreements that prevents borrowers from transferring material IP or other valuable assets to unrestricted subsidiaries — the mechanism J.Crew used to subordinate its existing lenders. Before 2017, many credit agreements had loose basket provisions that inadvertently permitted this. After J.Crew, lenders began requiring explicit restrictions on IP transfers and tighter definitions of unrestricted subsidiaries. It's now a standard checklist item in any leveraged loan due diligence.",
+    lessons: ["Credit documentation review — especially restricted payment and asset transfer baskets — is essential", "Liability management transactions can legally impair lenders without triggering a default", "Defensive provisions like J.Crew blockers and Chewy blockers emerged directly from real deal abuses"],
+  },
+  {
+    deal: "SVB Collapse (2023)", company: "Silicon Valley Bank", year: "2023", type: "restructuring",
+    size: "$209B in assets at failure", keyPlayers: ["FDIC", "First Citizens BancShares", "Apollo", "Centerbridge"],
+    snapshot: "Silicon Valley Bank failed in March 2023 — the second-largest US bank failure ever — after a classic bank run triggered by duration mismatch losses in its bond portfolio. Rising rates had crushed the mark-to-market value of its long-duration treasury holdings. When losses were disclosed, tech startups pulled deposits en masse, forcing a fire sale. The FDIC stepped in within 48 hours.",
+    mechanics: ["SVB held ~55% of assets in long-duration MBS and treasuries — extremely rate-sensitive", "Held-to-maturity (HTM) accounting masked $15B+ of unrealised losses from regulatory capital ratios", "Deposit base was concentrated in uninsured tech startups (>$250K) — highly correlated withdrawal risk", "FDIC resolution: First Citizens acquired deposits and loans; Apollo/Centerbridge acquired loan portfolios"],
+    interviewQ: "What does the SVB failure tell you about bank credit analysis and interest rate risk?",
+    modelAnswer: "SVB illustrates that bank credit analysis must go beyond headline capital ratios to examine the quality and duration of asset portfolios. HTM accounting allowed SVB to avoid reporting losses that were economically real — a due diligence red flag. More fundamentally, it shows concentration risk: SVB's depositor base was unusually correlated — all tech, all uninsured — which meant a single narrative could trigger simultaneous withdrawals. For credit investors in bank paper, analysing deposit stability, duration gaps, and unrealised losses in the securities portfolio is as important as loan quality.",
+    lessons: ["HTM vs AFS accounting treatment can mask real economic losses in bank portfolios", "Deposit concentration and correlation risk is as important as deposit size", "Duration mismatch between assets and liabilities is the oldest bank risk — and still lethal"],
+  },
+];
+
+const CASE_TYPE_STYLE: Record<string, { label: string; cls: string }> = {
+  distressed:    { label: "Distressed", cls: "bg-red-50 text-red-600 border-red-200" },
+  lbo:           { label: "LBO", cls: "bg-violet-50 text-violet-600 border-violet-200" },
+  credit:        { label: "Credit", cls: "bg-sky-50 text-[#396477] border-sky-200" },
+  restructuring: { label: "Restructuring", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  ma:            { label: "M&A", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+};
+
+interface AiCase {
+  deal: string; company: string; year: string;
+  type: string; size: string; keyPlayers: string[];
+  snapshot: string; mechanics: string[];
+  interviewQ: string; modelAnswer: string; lessons: string[];
+}
+
+function CaseLibrarySection() {
+  const [selected, setSelected] = useState<StaticCase | null>(null);
+  const [filter, setFilter] = useState<string>("all");
+  const [aiInput, setAiInput] = useState("");
+  const [aiCase, setAiCase] = useState<AiCase | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  const filters = ["all", "distressed", "lbo", "credit", "restructuring"];
+  const visible = filter === "all" ? STATIC_CASES : STATIC_CASES.filter(c => c.type === filter);
+
+  async function fetchAiCase() {
+    const deal = aiInput.trim();
+    if (!deal) return;
+    setAiLoading(true); setAiError(null); setAiCase(null);
+    try {
+      const r = await fetch(`/api/case-study?deal=${encodeURIComponent(deal)}`);
+      const d = await r.json();
+      if (!r.ok || d.error) throw new Error(d.error || "Failed");
+      setAiCase(d);
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : "Failed to generate case study");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  const displayCase = selected ?? (aiCase as unknown as StaticCase | null);
+
+  if (displayCase) {
+    const style = CASE_TYPE_STYLE[displayCase.type] ?? CASE_TYPE_STYLE.distressed;
+    return (
+      <div className="space-y-5">
+        <button onClick={() => { setSelected(null); setAiCase(null); }}
+          className="flex items-center gap-1.5 text-xs text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
+          ← Back to cases
+        </button>
+        <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-100">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
+              <span className="text-[11px] text-gray-400">{displayCase.year} · {displayCase.size}</span>
+            </div>
+            <h2 className="text-[#191c1e] text-lg font-bold">{displayCase.deal}</h2>
+            <p className="text-xs text-[#41484c] mt-2 leading-relaxed">{displayCase.snapshot}</p>
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {displayCase.keyPlayers.map(f => (
+                <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#396477] border border-sky-100 rounded font-medium">{f}</span>
+              ))}
+            </div>
+          </div>
+          <div className="px-6 py-4 border-b border-gray-100 space-y-2">
+            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Mechanics</p>
+            <ul className="space-y-1.5">
+              {displayCase.mechanics.map((m, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-[#396477] flex-shrink-0" />
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="px-6 py-4 border-b border-gray-100 bg-rose-50/30 space-y-3">
+            <p className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider">Interview Question</p>
+            <p className="text-sm font-medium text-[#191c1e] italic">&ldquo;{displayCase.interviewQ}&rdquo;</p>
+            <div className="bg-white border border-rose-100 rounded-lg px-4 py-3">
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Model Answer</p>
+              <p className="text-xs text-[#41484c] leading-relaxed">{displayCase.modelAnswer}</p>
+            </div>
+          </div>
+          <div className="px-6 py-4 space-y-2">
+            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Lessons</p>
+            <ul className="space-y-1.5">
+              {displayCase.lessons.map((l, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                  <span className="text-emerald-500 font-bold flex-shrink-0">{i + 1}.</span>
+                  {l}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-5">
+      {/* Filter pills */}
+      <div className="flex flex-wrap gap-1.5">
+        {filters.map(f => (
+          <button key={f} onClick={() => setFilter(f)}
+            className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all capitalize ${
+              filter === f ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+            }`}>
+            {f === "all" ? "All Cases" : CASE_TYPE_STYLE[f]?.label ?? f}
+          </button>
+        ))}
+      </div>
+
+      {/* Static case grid */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {visible.map(c => {
+          const style = CASE_TYPE_STYLE[c.type] ?? CASE_TYPE_STYLE.distressed;
+          return (
+            <button key={c.deal} onClick={() => setSelected(c)}
+              className="text-left border border-gray-200 bg-white rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
+                <span className="text-[11px] text-gray-400">{c.year}</span>
+              </div>
+              <p className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{c.company}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{c.size}</p>
+              <p className="text-xs text-[#71787c] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* AI on-demand */}
+      <div className="border border-dashed border-gray-300 rounded-xl px-5 py-5 space-y-3 bg-gray-50/50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Analyze Any Deal with AI</p>
+        <p className="text-xs text-gray-400">Enter any deal name — e.g. "Sears bankruptcy", "Dell go-private", "Envision Healthcare restructuring"</p>
+        <div className="flex gap-2">
+          <input
+            value={aiInput}
+            onChange={e => setAiInput(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && fetchAiCase()}
+            placeholder="e.g. Sears Chapter 11, Dell LBO, Envision Healthcare..."
+            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-[#396477] bg-white"
+          />
+          <button onClick={fetchAiCase} disabled={aiLoading || !aiInput.trim()}
+            className="px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] disabled:opacity-40 transition-colors flex-shrink-0">
+            {aiLoading ? "Generating…" : "Analyze →"}
+          </button>
+        </div>
+        {aiError && <p className="text-xs text-red-500">{aiError}</p>}
+        {aiLoading && (
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <div className="w-3 h-3 border border-gray-300 border-t-[#396477] rounded-full animate-spin" />
+            Building case study…
+          </div>
+        )}
+      </div>
     </div>
   );
 }
