@@ -40,12 +40,10 @@ export default function AboutPage() {
             <ul className="space-y-3 pl-1">
               {[
                 { label: "Hiring Watch", desc: "Curated job listings across hedge funds, private equity, private credit, and other alternative asset managers — filtered for relevance, updated daily." },
-                { label: "The Edge (AI)", desc: "AI-powered firm prep guides grounded in real Glassdoor interview data. Plus a Concept Q&A tool — type any finance concept (DCF, LBO, credit spreads) and get a structured buyside-lens walkthrough." },
-                { label: "Fund Signals (AI)", desc: "EDGAR filings and fundraising signals across 28+ alternative asset managers. Spot which firms may be hiring before roles are posted." },
-                { label: "Market Brief (AI)", desc: "AI-generated morning and evening market analysis across equities, fixed income, macro, and alternatives." },
-                { label: "Live Market Data", desc: "Real-time prices for S&P 500, QQQ, VIX, Treasury yields, DXY, WTI, and Gold — always visible at the top of the page." },
-                { label: "Onlu Table", desc: "Small-group weekend coffee chats for buyside professionals. Capped at 8 people — sign up to join the next session." },
-                { label: "Learn", desc: "Practical write-ups on credit markets, AI, macro, and career prep — including visual deep-dives like Fixed Income 101 and The AI Ecosystem." },
+                { label: "Market Pulse (AI)", desc: "Live market data, AI-generated market briefs, fund signals from SEC EDGAR filings, and distressed watch — all in one place." },
+                { label: "Edge Prep (AI)", desc: "Firm-specific interview prep, concept Q&A, case library (Hertz, Serta, J.Crew, Envision and more), and Credit Watch — search any leveraged company for bond prices and cap structure." },
+                { label: "Onlu Events", desc: "Small-group weekend coffee chats for buyside professionals. Capped at 8 people — sign up to join the next session." },
+                { label: "Onlu Learning", desc: "Practical write-ups on credit markets, AI, macro, and career prep — including visual deep-dives like Fixed Income 101 and The AI Ecosystem." },
               ].map((item) => (
                 <li key={item.label} className="flex items-start gap-2.5">
                   <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>

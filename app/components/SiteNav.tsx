@@ -11,20 +11,20 @@ export default function SiteNav() {
         </Link>
         <div className="w-px h-4 bg-[#c1c7cc]/50" />
         <nav className="flex items-center gap-1">
-          <Link href="/?tab=intel" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
-            Firm Intel
+          <Link href="/?tab=hiring" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Hiring Watch
           </Link>
-          <Link href="/" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
-            Fund Signals
+          <Link href="/?tab=pulse" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Market Pulse
           </Link>
-          <Link href="/#guide" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
-            Interview Guide
+          <Link href="/?tab=firmprep" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Edge Prep
           </Link>
-          <Link href="/?tab=career" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
-            Career Prep
+          <Link href="/?tab=table" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Onlu Events
           </Link>
-          <Link href="/?tab=insights" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
-            Insights
+          <Link href="/?tab=learn" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Onlu Learning
           </Link>
         </nav>
         <div className="ml-auto flex items-center gap-4">

@@ -12,10 +12,10 @@ export default function SiteFooter() {
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
           {[
             { href: "/?tab=hiring", label: "Hiring Watch" },
-            { href: "/?tab=funds", label: "Fund Signals" },
-            { href: "/?tab=firmprep", label: "The Edge" },
-            { href: "/?tab=market", label: "Market Brief" },
-            { href: "/?tab=learn", label: "Learn" },
+            { href: "/?tab=pulse", label: "Market Pulse" },
+            { href: "/?tab=firmprep", label: "Edge Prep" },
+            { href: "/?tab=table", label: "Onlu Events" },
+            { href: "/?tab=learn", label: "Onlu Learning" },
             { href: "/#guide", label: "Interview Guide" },
             { href: "/about", label: "About" },
             { href: "/contact", label: "Contact" },
