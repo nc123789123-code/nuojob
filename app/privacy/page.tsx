@@ -54,6 +54,7 @@ export default function PrivacyPage() {
               <li><span className="font-medium text-[#191c1e]">Stripe</span> — payment processing. Governed by <a href="https://stripe.com/privacy" className="text-[#396477] hover:underline" target="_blank" rel="noopener noreferrer">Stripe's Privacy Policy</a></li>
               <li><span className="font-medium text-[#191c1e]">Resend</span> — transactional and newsletter email delivery</li>
               <li><span className="font-medium text-[#191c1e]">Vercel</span> — hosting and infrastructure</li>
+              <li><span className="font-medium text-[#191c1e]">Anthropic</span> — AI-generated content (firm prep guides, concept answers, market snapshots). User search queries are sent to Anthropic's API; no account data or email is included</li>
               <li><span className="font-medium text-[#191c1e]">RapidAPI / external data providers</span> — job listing and market data aggregation (no personal data shared)</li>
             </ul>
             <p className="mt-2">These providers have their own privacy policies and security practices. We share only the minimum data necessary for each service to function.</p>
