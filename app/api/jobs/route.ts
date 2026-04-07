@@ -69,7 +69,10 @@ function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
 }
 
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
-const IRRELEVANT_TITLE_RE = /\b(IT support|information technology|software engineer|developer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR generalist|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative assistant|admin assistant|receptionist|payroll|benefits coordinator|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO specialist|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|product owner|project manager|scrum master|supply chain|logistics|procurement|purchasing|client service representative|fundraising coordinator|controller|comptroller|fund controller|financial controller|tax manager|tax analyst|tax associate|fund accountant|fund accounting|staff accountant|senior accountant|accounting manager)\b/i;
+const IRRELEVANT_TITLE_RE = /\b(IT support|information technology|software engineer|software developer|java developer|java engineer|javascript developer|python developer|full.?stack developer|frontend developer|backend developer|web developer|mobile developer|ios developer|android developer|cloud engineer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR generalist|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative assistant|admin assistant|receptionist|payroll|benefits coordinator|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO specialist|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|product owner|project manager|scrum master|supply chain|logistics|procurement|purchasing|client service representative|fundraising coordinator|controller|comptroller|fund controller|financial controller|tax manager|tax analyst|tax associate|fund accountant|fund accounting|staff accountant|senior accountant|accounting manager|program director|program manager|program coordinator|budget director|budget officer|budget deputy|deputy director|social worker|case manager|community organizer|public health|human services|child welfare|adult services|homeless|community development|city administrator|county administrator|government analyst)\b/i;
+
+/** Government / public-sector employers — never buyside relevant */
+const GOVT_CO_RE = /\b(dept\.|department of|city of|county of|state of|office of|bureau of|division of|government|federal|municipal|borough|district of|public school|unified school|school district|nypd|fdny|transit authority|housing authority|social services|health services|human services)\b/i;
 
 /** Finance/investment keywords — at least one must appear for the title to be considered buyside-relevant. */
 const FINANCE_KEYWORD_RE = /\b(credit|equity|fund|hedge|portfolio|investment|invest|analyst|quant|quantitative|fixed income|distressed|lending|capital|asset|securities|trading|research|finance|financial|private|debt|yield|arbitrage|macro|strategy|associate|vice president|VP|managing director|principal|director|origination|underwriting|structuring|valuation|due diligence|deal|transaction|leverage|loan|bond|CLO|ABS|CDO|rates|derivative|alternatives)\b/i;
@@ -84,6 +87,7 @@ const BUYSIDE_CO_RE = /\b(capital|credit|invest|fund|asset|management|mgmt|advis
 const KNOWN_BUYSIDE_FIRMS_RE = /\b(blackstone|kkr|citadel|bridgewater|point72|two sigma|de shaw|d\.e\. shaw|renaissance|millennium|balyasny|exoduspoint|exodus point|sculptor|och.ziff|elliott|third point|pershing square|starboard|jana partners|corvex|paulson|viking global|tiger global|coatue|dragoneer|d1 capital|appaloosa|baupost|greenlight|glenview|blue ridge|lone pine|sequoia|benchmark|founders fund|general catalyst|andreessen|a16z|accel|insight partners|thoma bravo|vista equity|francisco partners|warburg pincus|advent international|eqt|permira|cinven|apax|hgcapital|hg capital|stonepeak|starwood capital|apollo|ares|carlyle|tpg|silver lake|bain capital|advent|nea|lightspeed|battery ventures|kleiner|iconiq)\b/i;
 
 function isExternalJobValid(companyName: string, title: string): boolean {
+  if (GOVT_CO_RE.test(companyName)) return false;
   if (KNOWN_BUYSIDE_FIRMS_RE.test(companyName)) return true;
   if (BUYSIDE_CO_RE.test(companyName)) return true;
   // Accept if the title is highly specific to buyside roles (even at unknown firms)
@@ -95,7 +99,8 @@ function isExternalJobValid(companyName: string, title: string): boolean {
 
 /** For query-targeted APIs (JSearch, Active Jobs DB) — queries are already buyside-specific.
  *  Skip company name check; only filter out obvious non-finance titles. */
-function isQueryFilteredJobValid(title: string): boolean {
+function isQueryFilteredJobValid(title: string, company = ""): boolean {
+  if (GOVT_CO_RE.test(company)) return false;
   return !IRRELEVANT_TITLE_RE.test(title) && FINANCE_KEYWORD_RE.test(title);
 }
 
@@ -186,7 +191,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       if (days > maxDays) continue;
       // Only include jobs with a clear buy-side category
       // Adzuna queries are buyside-targeted — trust the query context; only filter obvious non-finance titles
-      if (!isQueryFilteredJobValid(hit.title)) continue;
+      if (!isQueryFilteredJobValid(hit.title, hit.company?.display_name || "")) continue;
       const classified = classifyTitle(hit.title);
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       const cat = classified
