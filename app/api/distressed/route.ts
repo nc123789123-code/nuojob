@@ -201,24 +201,26 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
       const likelyFirms = inferLikelyFirms(company, headline);
       const whyItMatters = buildWhyItMatters(company, situationType);
 
-      return {
+      const situation: DistressedSituation = {
         id: `distressed-${hit._id}`,
         company,
         filingDate: fileDate,
         daysAgo,
         situationType,
-        cik,
+        cik: cik || undefined,
         edgarUrl,
         headline: headline || undefined,
         likelyFirms,
         whyItMatters,
-      } satisfies DistressedSituation;
+      };
+      return situation;
     })
   );
 
   return enriched
-    .filter((r): r is PromiseFulfilledResult<DistressedSituation> => r.status === "fulfilled" && r.value !== null)
+    .filter((r): r is PromiseFulfilledResult<DistressedSituation | null> => r.status === "fulfilled")
     .map((r) => r.value)
+    .filter((v): v is DistressedSituation => v !== null)
     .sort((a, b) => a.daysAgo - b.daysAgo);
 }
 
