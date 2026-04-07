@@ -158,10 +158,10 @@ function HomeContent() {
           <div className="w-px h-4 bg-[#c1c7cc]/50" />
           <nav className="flex items-center gap-1">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
-            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="The Edge" badge="AI" />
-            <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Pulse" badge="AI" />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" badge="Events" />
-            <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Learn" badge="Blog" />
+            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" />
+            <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" />
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" />
+            <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" />
           </nav>
           <div className="ml-auto flex items-center gap-4">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
