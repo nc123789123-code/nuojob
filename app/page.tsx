@@ -3551,12 +3551,7 @@ function HiringSection({
             </section>
           )}
 
-          {allRegistryProfiles.length === 0 && (
-            <div className="text-center py-10 text-gray-400">
-              <p className="font-semibold text-gray-700 text-sm">No roles found at monitored firms</p>
-              <p className="text-xs mt-1.5 max-w-xs mx-auto">Try clearing the category filter.</p>
-            </div>
-          )}
+          {allRegistryProfiles.length === 0 && null}
 
           {/* Other roles (not in watchlist) */}
           {otherRoles.length > 0 && (
@@ -3699,12 +3694,7 @@ function HiringSection({
           </div>
         );
 
-        if (visibleRoles.length === 0) return (
-          <div className="text-center py-12 text-gray-400">
-            <p className="font-semibold text-gray-700 text-sm">No roles found</p>
-            <p className="text-xs mt-1.5">Try clearing the category filter.</p>
-          </div>
-        );
+        if (visibleRoles.length === 0) return null;
 
         return (
           <div className="space-y-8">
