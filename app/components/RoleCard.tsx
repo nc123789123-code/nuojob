@@ -27,7 +27,7 @@ const CATEGORY_BAR: Record<JobCategory, string> = {
   "Private Credit":     "bg-blue-600",
   "Public Credit":      "bg-sky-500",
   "Equity Research":    "bg-violet-500",
-  "General Investment Roles":   "bg-indigo-500",
+  "Other Finance Roles":   "bg-indigo-500",
   "Investment Banking": "bg-amber-500",
   "Quant":              "bg-pink-500",
   "IR / Ops":           "bg-emerald-500",
@@ -37,7 +37,7 @@ const CATEGORY_BADGE: Record<JobCategory, string> = {
   "Private Credit":     "bg-blue-50 text-blue-700 border-blue-100",
   "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
   "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
-  "General Investment Roles":   "bg-indigo-50 text-indigo-700 border-indigo-100",
+  "Other Finance Roles":   "bg-indigo-50 text-indigo-700 border-indigo-100",
   "Investment Banking": "bg-amber-50 text-amber-700 border-amber-100",
   "Quant":              "bg-pink-50 text-pink-700 border-pink-100",
   "IR / Ops":           "bg-emerald-50 text-emerald-700 border-emerald-100",
@@ -55,7 +55,7 @@ function deriveIntelBadges(signal: JobSignal): SignalBadgeVariant[] {
   if (signal.daysAgo <= 3) badges.push("fresh");
   if (src.isDirect) badges.push("direct");
   if (signal.id.startsWith("edgar-")) badges.push("inferred");
-  if (signal.category === "General Investment Roles" && (signal.signalTag === "Post-raise build-out" || signal.signalTag === "Fund scaling")) badges.push("buyside-preferred");
+  if (signal.category === "Other Finance Roles" && (signal.signalTag === "Post-raise build-out" || signal.signalTag === "Fund scaling")) badges.push("buyside-preferred");
 
   return badges.slice(0, 3); // cap at 3 badges to keep it clean
 }
@@ -90,7 +90,7 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
     if (category === "Public Credit") {
       return `Public credit role at ${firm}. Liquid credit markets — high yield, investment grade, or fixed income trading. Expect a market-driven workflow with daily P&L accountability, macro overlay, and strong emphasis on relative value across the capital structure.`;
     }
-    if (category === "General Investment Roles") {
+    if (category === "Other Finance Roles") {
       if (buildout) return `Buildout seat at ${firm} following a recent fund close. Expect to cover a sector or strategy with minimal inherited baggage — more autonomy and faster signal-to-PM loop. Typically the best timing to join a new fund.`;
       if (raising)  return `${firm} is in market or recently closed. Hiring is real, but process timing may track the fund close. Get into the pipeline now — don't wait for a job board to surface this.`;
       if (scaling)  return `Growth-phase hire at an established equity shop. The strategy is proven — you're entering a structured team with defined coverage. Less blank-slate autonomy, but clear mentorship and process discipline.`;
@@ -125,7 +125,7 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
       "Model speed and accuracy under time pressure — intraday decisions are common",
       "Familiarity with credit derivatives (CDS, CLOs, indices) at more sophisticated shops",
     ];
-    if (category === "General Investment Roles") return [
+    if (category === "Other Finance Roles") return [
       "Differentiated view — don't pitch large-cap consensus names",
       "Stock pitch: thesis, variant perception, and bear case clarity",
       "Position sizing logic: why this size, why now, what's the exit",
@@ -185,7 +185,7 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
   const interviewFocus = ((): string => {
     if (category === "Private Credit") return "Expect a case study (credit memo format) with a 2–3 day turnaround. Typical arc: associate/analyst screen → senior associate or PM → final. Key questions: walk through a deal end-to-end, pitch a credit idea, how do you think about downside scenarios in this sector.";
     if (category === "Public Credit") return "Expect a relative value exercise or trade idea presentation. They'll probe your macro framework, how you size positions, and how you'd manage drawdown. Faster-paced process than private credit — decisions often within 2–3 rounds.";
-    if (category === "General Investment Roles") return "Expect a stock pitch presentation (10–15 min, 1–3 names). Rounds typically: junior screen → senior PM → partner or CIO. They'll stress-test your assumptions hard — know the bear case more thoroughly than the bull.";
+    if (category === "Other Finance Roles") return "Expect a stock pitch presentation (10–15 min, 1–3 names). Rounds typically: junior screen → senior PM → partner or CIO. They'll stress-test your assumptions hard — know the bear case more thoroughly than the bull.";
     if (category === "Equity Research") return "Stock pitch + model walkthrough + a quick written note (sometimes same-day). Sector-specific deep dive is standard. They'll push hard on where your estimates differ from sell-side consensus and why.";
     if (category === "Investment Banking") return "Technical screens heavy on LBO mechanics, valuation multiples, and accounting. Expect a modeling test (often timed). Behavioral rounds will focus on deal experience, client situations, and how you handle pressure. Know the group's recent deal history cold.";
     if (category === "Quant") return "Technical screen (coding challenge, probability/statistics questions) + research presentation. Expect to walk through a signal you've developed, including decay analysis and backtest methodology. Clean code and scientific rigor matter as much as alpha.";

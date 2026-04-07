@@ -158,7 +158,7 @@ const CAT_RULES: Array<[RegExp, JobCategory]> = [
   [/equity research|research analyst|sell.?side|coverage analyst/i,                      "Equity Research"],
   [/quant|quantitative|systematic|algo/i,                                                 "Quant"],
   [/investor relation|fund oper|compliance.*fund/i,                                       "IR / Ops"],
-  [/equity|portfolio|investment analyst|hedge fund|asset manag|buy.?side|macro|long.?short|private equity|growth equity/i, "General Investment Roles"],
+  [/equity|portfolio|investment analyst|hedge fund|asset manag|buy.?side|macro|long.?short|private equity|growth equity/i, "Other Finance Roles"],
 ];
 
 function classify(title: string): JobCategory | null {
@@ -169,7 +169,7 @@ function classify(title: string): JobCategory | null {
 }
 
 function firmFallback(type: FirmType): JobCategory {
-  return type === "credit" ? "Private Credit" : "General Investment Roles";
+  return type === "credit" ? "Private Credit" : "Other Finance Roles";
 }
 
 interface GHJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }

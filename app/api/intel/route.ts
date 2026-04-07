@@ -80,7 +80,7 @@ function classifyTitleToCategory(title: string): JobCategory {
   if (/quant|quantitative|systematic|algo/i.test(t)) return "Quant";
   if (/investor relation|fund oper|compliance.*fund/i.test(t)) return "IR / Ops";
   if (/investment bank|m&a|mergers|leveraged finance.*(bank|group)/i.test(t)) return "Investment Banking";
-  return "General Investment Roles";
+  return "Other Finance Roles";
 }
 
 function fmtAmount(n?: number): string {

@@ -890,7 +890,7 @@ const JOB_CATEGORIES: Array<{ v: "all" | JobCategory; l: string }> = [
   { v: "Private Credit",     l: "Private Credit"     },
   { v: "Public Credit",      l: "Public Credit"      },
   { v: "Equity Research",    l: "Equity Research"    },
-  { v: "General Investment Roles",   l: "General Investment Roles"   },
+  { v: "Other Finance Roles",   l: "Other Finance Roles"   },
   { v: "Investment Banking", l: "Investment Banking" },
   { v: "Quant",              l: "Quant"              },
 ];
@@ -2961,7 +2961,7 @@ const FIRM_REGISTRY = [
   // ── Growth Equity / PE ─────────────────────────────────────────────────────
   {
     id: "clearlake", name: "Clearlake Capital", tier: 2 as const,
-    category: "General Investment Roles",
+    category: "Other Finance Roles",
     strategies: ["private_equity", "special_sits"],
     keywords: ["clearlake"],
     careersUrl: "https://www.clearlake.com/careers",
@@ -2969,7 +2969,7 @@ const FIRM_REGISTRY = [
   },
   {
     id: "advent", name: "Advent International", tier: 2 as const,
-    category: "General Investment Roles",
+    category: "Other Finance Roles",
     strategies: ["private_equity"],
     keywords: ["advent international", "advent"],
     careersUrl: "https://www.adventinternational.com/careers",

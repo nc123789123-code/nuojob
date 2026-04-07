@@ -402,12 +402,12 @@ const STRATEGY_ROLES: Record<string, Array<{ role: string; category: JobCategory
   special_sits:    [{ role: "Special Situations Analyst", category: "Private Credit" }, { role: "Investment Associate", category: "Private Credit" }],
   distressed:      [{ role: "Distressed Debt Analyst", category: "Private Credit" }, { role: "Restructuring Associate", category: "Private Credit" }],
   mezzanine:       [{ role: "Mezzanine Analyst", category: "Private Credit" }],
-  hedge_fund:      [{ role: "Equity Analyst", category: "General Investment Roles" }, { role: "Portfolio Manager", category: "General Investment Roles" }],
-  long_short:      [{ role: "Long/Short Equity Analyst", category: "Equity Research" }, { role: "Sector Specialist", category: "General Investment Roles" }],
-  macro:           [{ role: "Macro Analyst", category: "General Investment Roles" }, { role: "Fixed Income PM", category: "Public Credit" }],
+  hedge_fund:      [{ role: "Equity Analyst", category: "Other Finance Roles" }, { role: "Portfolio Manager", category: "Other Finance Roles" }],
+  long_short:      [{ role: "Long/Short Equity Analyst", category: "Equity Research" }, { role: "Sector Specialist", category: "Other Finance Roles" }],
+  macro:           [{ role: "Macro Analyst", category: "Other Finance Roles" }, { role: "Fixed Income PM", category: "Public Credit" }],
   quant:           [{ role: "Quantitative Researcher", category: "Quant" }, { role: "Systematic Trader", category: "Quant" }],
-  multi_strategy:  [{ role: "Investment Analyst", category: "General Investment Roles" }, { role: "Credit Analyst", category: "Private Credit" }],
-  other:           [{ role: "Investment Analyst", category: "General Investment Roles" }],
+  multi_strategy:  [{ role: "Investment Analyst", category: "Other Finance Roles" }, { role: "Credit Analyst", category: "Private Credit" }],
+  other:           [{ role: "Investment Analyst", category: "Other Finance Roles" }],
 };
 
 export function inferJobRoles(strategy: string, offeringStatus: string): Array<{ role: string; category: JobCategory }> {

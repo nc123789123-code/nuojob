@@ -69,7 +69,7 @@ function fetchT(url: string, init?: RequestInit, ms = 6000): Promise<Response> {
 }
 
 /** Titles that are never relevant to buy-side investing regardless of search query context. */
-const IRRELEVANT_TITLE_RE = /\b(IT support|information technology|software engineer|software developer|java developer|java engineer|javascript developer|python developer|full.?stack developer|frontend developer|backend developer|web developer|mobile developer|ios developer|android developer|cloud engineer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR generalist|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative assistant|admin assistant|receptionist|payroll|benefits coordinator|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO specialist|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|product owner|project manager|scrum master|supply chain|logistics|procurement|purchasing|client service representative|fundraising coordinator|controller|comptroller|fund controller|financial controller|tax manager|tax analyst|tax associate|fund accountant|fund accounting|staff accountant|senior accountant|accounting manager|program director|program manager|program coordinator|budget director|budget officer|budget deputy|deputy director|social worker|case manager|community organizer|public health|human services|child welfare|adult services|homeless|community development|city administrator|county administrator|government analyst)\b/i;
+const IRRELEVANT_TITLE_RE = /\b(IT support|information technology|software engineer|software developer|java developer|java engineer|java programmer|java architect|javascript developer|javascript engineer|python developer|python engineer|full.?stack developer|frontend developer|backend developer|web developer|mobile developer|ios developer|android developer|cloud engineer|devops|sysadmin|network engineer|cybersecurity|security engineer|data engineer|machine learning engineer|ML engineer|HR generalist|human resources|recruiter|talent acquisition|office manager|facilities|executive assistant|administrative assistant|admin assistant|administrator|administration manager|receptionist|payroll|benefits coordinator|legal counsel|paralegal|attorney|general counsel|marketing manager|content manager|social media|SEO specialist|sales manager|account executive|account manager|business development|customer success|customer support|help desk|product manager|product owner|project manager|scrum master|supply chain|logistics|procurement|purchasing|client service representative|fundraising coordinator|controller|comptroller|fund controller|financial controller|tax manager|tax analyst|tax associate|fund accountant|fund accounting|staff accountant|senior accountant|accounting manager|program director|program manager|program coordinator|budget director|budget officer|budget deputy|deputy director|social worker|case manager|community organizer|public health|human services|child welfare|adult services|homeless|community development|city administrator|county administrator|government analyst)\b/i;
 
 /** Government / public-sector employers — never buyside relevant */
 const GOVT_CO_RE = /\b(dept\.|department of|city of|county of|state of|office of|bureau of|division of|government|federal|municipal|borough|district of|public school|unified school|school district|nypd|fdny|transit authority|housing authority|social services|health services|human services)\b/i;
@@ -123,8 +123,8 @@ function classifyTitle(title: string): JobCategory | null {
   if (/quant|quantitative|systematic|algo|data scientist.*(fund|invest)/i.test(t)) return "Quant";
   // IR / Ops — excluded from display, return null
   if (/investor relation|fund admin|compliance.*fund|finance operation|operations manager|fund accounting/i.test(t)) return null;
-  // General Investment Roles (buy-side equity, macro, alternatives, catch-all)
-  if (/equity|portfolio|investment analyst|investment associate|investment professional|investment officer|hedge fund|fund manager|fund analyst|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity|principal.*invest|deal.*team|transaction.*team|underwriting|origination|due diligence|valuation analyst|financial analyst.*(fund|invest|capital|asset|credit)|associate.*(fund|capital|invest|credit|equity|asset)|analyst.*(fund|capital|invest|equity|alternative)|vice president.*(invest|credit|fund|asset|capital)|managing director.*(invest|credit|fund|asset|capital)|director.*(invest|credit|fund|asset|capital)/i.test(t)) return "General Investment Roles";
+  // Other Finance Roles (buy-side equity, macro, alternatives, catch-all)
+  if (/equity|portfolio|investment analyst|investment associate|investment professional|investment officer|hedge fund|fund manager|fund analyst|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity|principal.*invest|deal.*team|transaction.*team|underwriting|origination|due diligence|valuation analyst|financial analyst.*(fund|invest|capital|asset|credit)|associate.*(fund|capital|invest|credit|equity|asset)|analyst.*(fund|capital|invest|equity|alternative)|vice president.*(invest|credit|fund|asset|capital)|managing director.*(invest|credit|fund|asset|capital)|director.*(invest|credit|fund|asset|capital)/i.test(t)) return "Other Finance Roles";
   return null;
 }
 
@@ -145,11 +145,11 @@ const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
   { what: "distressed debt hedge fund analyst",       fallbackCat: "Private Credit"     },
   { what: "direct lending associate credit",          fallbackCat: "Private Credit"     },
   { what: "leveraged finance analyst investment bank", fallbackCat: "Investment Banking" },
-  // General Investment Roles
-  { what: "equity analyst buy side hedge fund",       fallbackCat: "General Investment Roles"   },
-  { what: "portfolio manager long short equity",      fallbackCat: "General Investment Roles"   },
-  { what: "investment analyst private equity fund",   fallbackCat: "General Investment Roles"   },
-  { what: "hedge fund analyst investment",            fallbackCat: "General Investment Roles"   },
+  // Other Finance Roles
+  { what: "equity analyst buy side hedge fund",       fallbackCat: "Other Finance Roles"   },
+  { what: "portfolio manager long short equity",      fallbackCat: "Other Finance Roles"   },
+  { what: "investment analyst private equity fund",   fallbackCat: "Other Finance Roles"   },
+  { what: "hedge fund analyst investment",            fallbackCat: "Other Finance Roles"   },
   // Equity Research
   { what: "equity research analyst sell side",        fallbackCat: "Equity Research"    },
   { what: "sector research analyst fund",             fallbackCat: "Equity Research"    },
@@ -158,9 +158,9 @@ const ADZUNA_QUERIES: Array<{ what: string; fallbackCat: JobCategory }> = [
   { what: "quantitative researcher systematic fund",  fallbackCat: "Quant"              },
   { what: "quantitative analyst trading strategies",  fallbackCat: "Quant"              },
   // Macro / PE
-  { what: "global macro analyst fund",                fallbackCat: "General Investment Roles"   },
-  { what: "private equity associate vice president",  fallbackCat: "General Investment Roles"   },
-  { what: "growth equity associate investment",       fallbackCat: "General Investment Roles"   },
+  { what: "global macro analyst fund",                fallbackCat: "Other Finance Roles"   },
+  { what: "private equity associate vice president",  fallbackCat: "Other Finance Roles"   },
+  { what: "growth equity associate investment",       fallbackCat: "Other Finance Roles"   },
   // IR / Ops
   { what: "investor relations alternative asset fund", fallbackCat: "IR / Ops"          },
   { what: "fund operations analyst asset management", fallbackCat: "IR / Ops"           },
@@ -195,7 +195,7 @@ async function fromAdzuna(appId: string, appKey: string, maxDays: number): Promi
       const classified = classifyTitle(hit.title);
       // Prefer fallbackCat when title gives a generic result that the query context overrides
       const cat = classified
-        ? (classified === "General Investment Roles" && fallbackCat !== "General Investment Roles" ? fallbackCat : classified)
+        ? (classified === "Other Finance Roles" && fallbackCat !== "Other Finance Roles" ? fallbackCat : classified)
         : fallbackCat;
       const desc = (hit.description || "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
@@ -441,7 +441,7 @@ const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
 function firmFallbackCat(type: FirmType): JobCategory {
   if (type === "credit") return "Private Credit";
-  return "General Investment Roles";
+  return "Other Finance Roles";
 }
 
 interface GreenhouseJob { id: number; title: string; updated_at: string; absolute_url: string; location?: { name?: string }; }
@@ -619,7 +619,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       if (!isQueryFilteredJobValid(job.title ?? "")) continue;
       const days = indeedDaysAgo(job, maxDays);
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.title ?? "") ?? "General Investment Roles";
+      const cat = classifyTitle(job.title ?? "") ?? "Other Finance Roles";
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-indeed-${key}`,
@@ -652,7 +652,7 @@ async function fromJobs14(apiKey: string, maxDays: number): Promise<JobSignal[]>
       const dateStr = job.datePosted ?? job.publishedAt ?? job.postedAt ?? "";
       const days = dateStr ? daysAgo(dateStr) : maxDays;
       if (days > maxDays) continue;
-      const cat = classifyTitle(job.title ?? "") ?? "General Investment Roles";
+      const cat = classifyTitle(job.title ?? "") ?? "Other Finance Roles";
       const desc = (job.description ?? "").replace(/<[^>]+>/g, "").slice(0, 130).trim();
       out.push({
         id: `jobs14-li-${key}`,
@@ -777,7 +777,7 @@ async function fromFantasticJobs(apiKey: string, maxDays: number): Promise<JobSi
       id: `fj-${key}`,
       firm: company,
       role: title,
-      category: cat ?? "General Investment Roles",
+      category: cat ?? "Other Finance Roles",
       location: fjLocation(job).split(",")[0].trim() || "—",
       daysAgo: days,
       signalTag: signalTagFromTitle(title),
