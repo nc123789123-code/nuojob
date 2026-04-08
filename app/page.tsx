@@ -277,9 +277,9 @@ function HomeContent() {
                 Capital raises predict hiring by 1–3 quarters. We track SEC filings, concurrent hiring patterns, and team changes across the buyside.
               </p>
               <div className="flex gap-8 mt-6">
-                <AnimatedStat value={28} label="Firms tracked" />
-                <AnimatedStat value={6} label="Data sources" />
-                <AnimatedStat value={48} suffix="h" label="Signal refresh" />
+                <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
+                <AnimatedStat value={4} label="Data sources" />
+                <AnimatedStat value={24} suffix="h" label="Signal refresh" />
               </div>
               {!userProfile && (
                 <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
@@ -5240,7 +5240,7 @@ function HiringSection({
 
       {(signals.length > 0 || !loading) && (
         <p className="text-center text-xs text-gray-400 py-1">
-          Sourced from firm career pages, SEC EDGAR · 28 firms monitored · Updated continuously
+          Sourced from firm career pages, SEC EDGAR · {FIRM_REGISTRY.length} firms monitored · Updated continuously
         </p>
       )}
     </div>
