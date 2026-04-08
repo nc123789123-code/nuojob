@@ -340,18 +340,26 @@ function HomeContent() {
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "pulse" && (
-          <PulseSection
-            pulseSubTab={pulseSubTab} setPulseSubTab={setPulseSubTab}
-            fundFilters={fundFilters} setFundFilters={setFundFilters}
-            fundFilings={fundFilings} fundTotal={fundTotal}
-            fundLoading={fundLoading} fundError={fundError}
-            records={records} updateRecord={updateRecord}
-            outreachRecords={outreachRecords}
-            fundSubTab={fundSubTab} setFundSubTab={setFundSubTab}
-            onExport={() => exportToCsv(fundFilings, records)}
-            jobSignals={jobSignals}
-            onViewJobs={() => setTopTab("hiring")}
-          />
+          <>
+            <PulseSection
+              pulseSubTab={pulseSubTab} setPulseSubTab={setPulseSubTab}
+              fundFilters={fundFilters} setFundFilters={setFundFilters}
+              fundFilings={fundFilings} fundTotal={fundTotal}
+              fundLoading={fundLoading} fundError={fundError}
+              records={records} updateRecord={updateRecord}
+              outreachRecords={outreachRecords}
+              fundSubTab={fundSubTab} setFundSubTab={setFundSubTab}
+              onExport={() => exportToCsv(fundFilings, records)}
+              jobSignals={jobSignals}
+              onViewJobs={() => setTopTab("hiring")}
+            />
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Get fund signals and market intel in your inbox."
+              description="SEC filings, hiring signals, and AI market briefs — free weekly digest."
+              cta="Subscribe free"
+            />
+          </>
         )}
         {topTab === "hiring" && (
           <>
@@ -399,7 +407,17 @@ function HomeContent() {
             />
           </>
         )}
-        {topTab === "table" && <OnluTableSection />}
+        {topTab === "table" && (
+          <>
+            <OnluTableSection />
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Stay in the loop on buyside catchups."
+              description="Get notified about upcoming events, hiring signals, and market intelligence. Free weekly digest."
+              cta="Subscribe free"
+            />
+          </>
+        )}
       </main>
 
       {/* Monetization section — always visible */}
@@ -4006,75 +4024,6 @@ function CaseLibrarySection() {
 
 // ─── Hiring Watch Section ─────────────────────────────────────────────────────
 
-function FirmAlertWidget() {
-  const [email, setEmail] = useState("");
-  const [firm, setFirm] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !firm.trim()) return;
-    setLoading(true); setError(null);
-    try {
-      const res = await fetch("/api/alert-subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), firm: firm.trim() }),
-      });
-      if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error || "Failed"); }
-      setDone(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-    } finally { setLoading(false); }
-  };
-
-  return (
-    <div className="bg-[#eef6f2] border border-[#c1d9ce]/50 rounded-xl px-5 py-5">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-[#191c1e] mb-0.5">Get alerted when a firm posts a new role</p>
-          <p className="text-xs text-[#71787c]">Enter a firm name and your email — we'll notify you the moment a matching role appears.</p>
-        </div>
-        {done ? (
-          <div className="flex items-center gap-2 text-emerald-700 text-sm font-medium bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 flex-shrink-0">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-            Alert set
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 flex-shrink-0">
-            <input
-              type="text"
-              value={firm}
-              onChange={(e) => setFirm(e.target.value)}
-              placeholder="Firm name (e.g. Ares)"
-              required
-              className="text-sm border border-[#c1d9ce] rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#6aab8e] w-40"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              required
-              className="text-sm border border-[#c1d9ce] rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#6aab8e] w-44"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors disabled:opacity-50 flex-shrink-0"
-            >
-              {loading ? "…" : "Set Alert"}
-            </button>
-          </form>
-        )}
-      </div>
-      {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-    </div>
-  );
-}
-
 function HiringSection({
   signals, loading, fundFilings, onViewSignals,
 }: {
@@ -4207,9 +4156,6 @@ function HiringSection({
               </div>
             </section>
           )}
-
-          {/* ── Firm Alert widget ── */}
-          <FirmAlertWidget />
 
           {/* ── Early Signals — the predictive layer ── */}
           {earlySignalFirms.length > 0 && (
