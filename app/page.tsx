@@ -241,7 +241,7 @@ function HomeContent() {
           <div className="ml-auto flex items-center gap-3">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
-            <Link href="/coaching" className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#152238] transition-colors">
+            <Link href="/coaching" className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-violet-100 text-violet-700 border border-violet-200 text-xs font-semibold rounded-lg hover:bg-violet-200 transition-colors">
               1-on-1 Coaching
             </Link>
           </div>

@@ -72,7 +72,7 @@ export default function CoachingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb]" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#f5f3ff]" style={{ fontFamily: "'Nunito', sans-serif" }}>
       {/* Nav */}
       <div className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
