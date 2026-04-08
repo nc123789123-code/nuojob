@@ -5675,12 +5675,13 @@ function ReferralSection() {
                 className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">Contact email or LinkedIn <span className="text-gray-300 font-normal">(optional — for us to reach you)</span></label>
+              <label className="block text-xs font-medium text-[#41484c] mb-1">Contact email or LinkedIn <span className="text-red-400">*</span></label>
               <input value={form.contact} onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
                 placeholder="email or linkedin.com/in/yourprofile"
+                required
                 className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             </div>
-            <button type="submit" disabled={submitting || !form.firm.trim() || !form.background.trim()}
+            <button type="submit" disabled={submitting || !form.firm.trim() || !form.background.trim() || !form.contact.trim()}
               className={`w-full py-3 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-40 ${
                 type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
               }`}>
