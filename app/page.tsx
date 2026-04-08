@@ -23,6 +23,11 @@ import {
 } from "@/app/types";
 import { exportToCsv } from "@/app/lib/export";
 
+interface JobMatch {
+  id: string; role: string; firm: string; location: string;
+  daysAgo: number; url: string; score: number; reason: string;
+}
+
 interface DailyIntel {
   todayCount: number;
   weekCount: number;
@@ -89,6 +94,25 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
+function useUserProfile() {
+  const [profile, setProfileState] = useState<string>("");
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("onlu-user-profile");
+      if (stored) setProfileState(stored);
+    } catch { /* ignore */ }
+  }, []);
+  const saveProfile = useCallback((text: string) => {
+    setProfileState(text);
+    try { localStorage.setItem("onlu-user-profile", text); } catch { /* ignore */ }
+  }, []);
+  const clearProfile = useCallback(() => {
+    setProfileState("");
+    try { localStorage.removeItem("onlu-user-profile"); } catch { /* ignore */ }
+  }, []);
+  return { profile, saveProfile, clearProfile };
+}
+
 type TopTab = "pulse" | "hiring" | "learn" | "firmprep" | "table";
 
 export default function Home() {
@@ -134,6 +158,7 @@ function HomeContent() {
   }, []);
 
   const { records, updateRecord } = useOutreachTracker();
+  const { profile: userProfile, saveProfile, clearProfile } = useUserProfile();
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const jobDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fundFetchedRef = useRef(false);
@@ -367,6 +392,9 @@ function HomeContent() {
               signals={jobSignals} loading={jobLoading}
               fundFilings={fundFilings}
               onViewSignals={() => setTopTab("pulse")}
+              userProfile={userProfile}
+              onSaveProfile={saveProfile}
+              onClearProfile={clearProfile}
             />
             <NewsletterCTA
               intent="signals_subscriber"
@@ -4240,8 +4268,11 @@ interface OutreachDraft {
 }
 
 function OutreachDraftSection() {
+  const { profile: savedProfile } = useUserProfile();
   const [firm, setFirm] = useState("");
-  const [background, setBackground] = useState("");
+  const [background, setBackground] = useState(() => {
+    try { return localStorage.getItem("onlu-user-profile") || ""; } catch { return ""; }
+  });
   const [signal, setSignal] = useState("");
   const [targetRole, setTargetRole] = useState("");
   const [loading, setLoading] = useState(false);
@@ -4293,14 +4324,9 @@ function OutreachDraftSection() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-bold text-[#1A2B4A]">Signal-Driven Outreach</p>
-            <p className="text-xs text-[#41484c] mt-0.5 leading-relaxed">Paste a recent signal (funding round, new product, expansion news) and your background. Claude drafts a message that references the specific signal and positions you as the direct solution — getting 3x more responses than generic applications.</p>
+            <p className="text-sm font-bold text-[#1A2B4A]">Targeted Outreach</p>
+            <p className="text-xs text-[#41484c] mt-0.5 leading-relaxed">Reference firm-specific activity — a capital raise, new mandate, or expansion — and connect your background directly to the context. Anchoring outreach to a signal improves response rates and gives you a credible reason to reach out.</p>
           </div>
-        </div>
-        <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-[#41484c]">
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />Target VP/MD level, not HR</span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />Send 2–4 weeks after announcement</span>
-          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-sky-500 rounded-full" />Reference the specific signal</span>
         </div>
       </div>
 
@@ -4333,6 +4359,9 @@ function OutreachDraftSection() {
             placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance, closed 12 LBO deals $50M–$500M, strong in credit analysis and deal execution. Currently looking to move to direct lending."
             className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
           />
+          {savedProfile && background === savedProfile && (
+            <p className="text-[11px] text-emerald-600 mt-1">Pre-filled from your saved profile</p>
+          )}
         </div>
 
         <div>
@@ -4438,16 +4467,24 @@ function OutreachDraftSection() {
 // ─── Hiring Watch Section ─────────────────────────────────────────────────────
 
 function HiringSection({
-  signals, loading, fundFilings, onViewSignals,
+  signals, loading, fundFilings, onViewSignals, userProfile, onSaveProfile, onClearProfile,
 }: {
   signals: JobSignal[];
   loading: boolean;
   fundFilings: FundFiling[];
   onViewSignals: () => void;
+  userProfile: string;
+  onSaveProfile: (t: string) => void;
+  onClearProfile: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou">("firms");
   const [compact, setCompact] = useState(false);
+  const [showProfilePanel, setShowProfilePanel] = useState(false);
+  const [profileDraft, setProfileDraft] = useState(userProfile);
+  const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
+  const [matchLoading, setMatchLoading] = useState(false);
+  const [matchError, setMatchError] = useState<string | null>(null);
 
   const filtered = categoryFilter === "all"
     ? signals
@@ -4473,8 +4510,63 @@ function HiringSection({
   // Other roles from outside the watchlist
   const otherRoles = intel.allRoles.filter((r) => !matchFirm(r.firm) && r.classification.frontOffice);
 
+  const frontOfficeJobs = intel.allRoles.filter(r => r.classification.frontOffice);
+
+  const runJobMatch = async () => {
+    if (!userProfile.trim() || !frontOfficeJobs.length) return;
+    setMatchLoading(true); setMatchError(null); setMatchResults(null);
+    try {
+      const res = await fetch("/api/job-match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profile: userProfile,
+          jobs: frontOfficeJobs.map(j => ({ id: j.id, role: j.role, firm: j.firm, location: j.location, daysAgo: j.daysAgo, url: j.edgarUrl || "" })),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Match failed");
+      setMatchResults(data.matches ?? []);
+    } catch (err) {
+      setMatchError(err instanceof Error ? err.message : "Failed");
+    } finally { setMatchLoading(false); }
+  };
+
   return (
     <div className="space-y-8 py-1">
+
+      {/* Profile panel */}
+      {showProfilePanel && (
+        <div className="bg-white border border-[#1A2B4A]/20 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm font-bold text-[#191c1e]">Your profile</p>
+            <button onClick={() => setShowProfilePanel(false)} className="text-gray-400 hover:text-gray-600 text-xs">Close</button>
+          </div>
+          <p className="text-xs text-gray-400 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. This is stored locally on your device and used to match roles and pre-fill outreach.</p>
+          <textarea
+            value={profileDraft}
+            onChange={e => setProfileDraft(e.target.value)}
+            rows={5}
+            placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance. Closed 12 LBO and recapitalisation transactions ranging from $50M to $500M. Strong in credit analysis, deal structuring, and sponsor relationships. Looking to move to a direct lending platform — ideally mid-market credit with origination involvement."
+            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 resize-none"
+          />
+          <div className="flex gap-2 mt-3">
+            <button
+              onClick={() => { onSaveProfile(profileDraft); setShowProfilePanel(false); setMatchResults(null); }}
+              disabled={!profileDraft.trim()}
+              className="px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] disabled:opacity-40 transition-colors">
+              Save profile
+            </button>
+            {userProfile && (
+              <button onClick={() => { onClearProfile(); setProfileDraft(""); setMatchResults(null); }}
+                className="px-4 py-2 text-xs font-medium text-red-500 hover:text-red-700 border border-red-200 rounded-lg transition-colors">
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
@@ -4482,8 +4574,14 @@ function HiringSection({
             Watch List
           </button>
           <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "roles" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
-            All Roles ({intel.allRoles.filter(r => r.classification.frontOffice).length})
+            All Roles ({frontOfficeJobs.length})
           </button>
+          {userProfile && (
+            <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "foryou" ? "bg-[#1A2B4A] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+              For You
+            </button>
+          )}
         </div>
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         {JOB_CATEGORIES.slice(0, 5).map((c) => (
@@ -4495,6 +4593,12 @@ function HiringSection({
           </button>
         ))}
         <div className="ml-auto flex items-center gap-2">
+          <button
+            onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(p => !p); }}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
+            {userProfile ? "Profile set" : "Set profile"}
+          </button>
           <button onClick={() => setCompact(c => !c)}
             title={compact ? "Card view" : "Compact view"}
             className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
@@ -4518,6 +4622,58 @@ function HiringSection({
               <div className="h-3 w-3/4 bg-[#f0f2f4] rounded" />
             </div>
           ))}
+        </div>
+      )}
+
+      {view === "foryou" && (
+        <div className="space-y-4">
+          {!userProfile && (
+            <div className="bg-gray-50 border border-gray-200 rounded-xl px-5 py-8 text-center">
+              <p className="text-sm font-semibold text-gray-600 mb-1">Set your profile to see matched roles</p>
+              <p className="text-xs text-gray-400 mb-4">Describe your background and we'll rank current openings by fit.</p>
+              <button onClick={() => { setShowProfilePanel(true); setView("firms"); }}
+                className="px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] transition-colors">
+                Set up profile
+              </button>
+            </div>
+          )}
+          {matchLoading && (
+            <div className="flex items-center gap-2 text-xs text-gray-400 py-6 justify-center">
+              <div className="w-4 h-4 border-2 border-gray-200 border-t-[#1A2B4A] rounded-full animate-spin" />
+              Matching roles to your profile…
+            </div>
+          )}
+          {matchError && <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{matchError}</p>}
+          {matchResults !== null && matchResults.length === 0 && (
+            <p className="text-sm text-gray-400 text-center py-8">No strong matches found — try updating your profile with more detail.</p>
+          )}
+          {matchResults && matchResults.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-[#191c1e]">Matched roles</p>
+                <span className="text-[10px] bg-[#1A2B4A]/10 text-[#1A2B4A] font-bold px-1.5 py-0.5 rounded">{matchResults.length}</span>
+                <button onClick={runJobMatch} className="ml-auto text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Refresh</button>
+              </div>
+              {matchResults.map((m, i) => (
+                <a key={m.id} href={m.url || "#"} target="_blank" rel="noopener noreferrer"
+                  className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3.5 hover:border-[#1A2B4A]/30 hover:shadow-sm transition-all group">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#1A2B4A]/10 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-[#1A2B4A]">{i + 1}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{m.role}</span>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${m.score >= 9 ? "bg-emerald-100 text-emerald-700" : m.score >= 7 ? "bg-sky-100 text-sky-700" : "bg-gray-100 text-gray-600"}`}>
+                        {m.score}/10
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#71787c]">{m.firm} · {m.location} · {m.daysAgo}d ago</p>
+                    <p className="text-[11px] text-[#41484c] mt-1 italic">{m.reason}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
