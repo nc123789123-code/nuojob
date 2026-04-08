@@ -38,6 +38,39 @@ const DEFAULT_JOB_FILTERS: JobFilters = {
   category: "all", dateRange: "45", signalTag: "all",
 };
 
+// ─── Animated counter hook ───────────────────────────────────────────────────
+function useCountUp(target: number, duration = 1200): number {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    let start: number | null = null;
+    let raf: number;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.floor(eased * target));
+      if (progress < 1) raf = requestAnimationFrame(step);
+      else setValue(target);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return value;
+}
+
+function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) {
+  const count = useCountUp(value);
+  return (
+    <div className="text-center counter-animate">
+      <div className="text-3xl sm:text-4xl font-extrabold text-[#191c1e] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        {count}{suffix}
+      </div>
+      <div className="text-[11px] font-medium text-[#71787c] mt-0.5 uppercase tracking-wider">{label}</div>
+    </div>
+  );
+}
+
 function useOutreachTracker() {
   const [records, setRecords] = useState<Record<string, OutreachRecord>>({});
   useEffect(() => {
@@ -192,10 +225,19 @@ function HomeContent() {
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
-                Hiring Intelligence · 28 firms monitored
+                Hiring Intelligence
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">See which firms may hire before roles are posted.</h1>
-              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Funds hire when capital moves. Hiring Watch tracks fundraising filings, concurrent hiring patterns, and senior team changes across 28 alternative asset managers.</p>
+              <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                Know before<br className="hidden sm:block" /> the role is posted.
+              </h1>
+              <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
+                Capital raises predict hiring by 1–3 quarters. We track SEC filings, concurrent hiring patterns, and team changes across the buyside.
+              </p>
+              <div className="flex gap-8 mt-6">
+                <AnimatedStat value={28} label="Firms tracked" />
+                <AnimatedStat value={6} label="Data sources" />
+                <AnimatedStat value={48} suffix="h" label="Signal refresh" />
+              </div>
             </>
           )}
           {topTab === "learn" && (
@@ -222,15 +264,67 @@ function HomeContent() {
           {/* Feature map — same order as top nav, active tab highlighted */}
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-2 max-w-3xl">
             {([
-              { icon: "🔍", label: "Hiring Watch",  desc: "Leading hiring indicators",     tab: "hiring"   as TopTab, color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60" },
-              { icon: "🎯", label: "Edge Prep",      desc: "Firm guides & case library",    tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50",           active: "border-rose-400 bg-rose-50/60" },
-              { icon: "📊", label: "Market Pulse",   desc: "Live prices & fund signals",    tab: "pulse"    as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50",               active: "border-sky-400 bg-sky-50/60" },
-              { icon: "🤝", label: "Onlu Events",    desc: "Buyside catchups",              tab: "table"    as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50",         active: "border-amber-400 bg-amber-50/60" },
-              { icon: "📚", label: "Onlu Learning",  desc: "Deep-dives on credit & macro",  tab: "learn"    as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50",      active: "border-violet-400 bg-violet-50/60" },
-            ] as Array<{ icon: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
+              {
+                icon: (
+                  <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="9" cy="9" r="5.5" />
+                    <path d="M13.5 13.5 17 17" />
+                    <path d="M7 9h4M9 7v4" strokeWidth="1.4" />
+                  </svg>
+                ),
+                iconColor: "text-emerald-600",
+                label: "Hiring Watch", desc: "Leading hiring indicators", tab: "hiring" as TopTab,
+                color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="14" height="14" rx="2.5" />
+                    <path d="M7 10l2.5 2.5L13 8" />
+                  </svg>
+                ),
+                iconColor: "text-rose-500",
+                label: "Edge Prep", desc: "Firm guides & case library", tab: "firmprep" as TopTab,
+                color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50", active: "border-rose-400 bg-rose-50/60",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="3,14 7,9 11,11 17,5" />
+                    <line x1="3" y1="17" x2="17" y2="17" />
+                  </svg>
+                ),
+                iconColor: "text-sky-500",
+                label: "Market Pulse", desc: "Live prices & fund signals", tab: "pulse" as TopTab,
+                color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50", active: "border-sky-400 bg-sky-50/60",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="10" cy="10" r="7" />
+                    <path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3" />
+                    <circle cx="10" cy="13" r="0.5" fill="currentColor" />
+                  </svg>
+                ),
+                iconColor: "text-amber-500",
+                label: "Onlu Events", desc: "Buyside catchups", tab: "table" as TopTab,
+                color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h8l4 4v8a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                    <path d="M12 4v4h4M7 11h6M7 14h4" />
+                  </svg>
+                ),
+                iconColor: "text-violet-500",
+                label: "Onlu Learning", desc: "Deep-dives on credit & macro", tab: "learn" as TopTab,
+                color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50", active: "border-violet-400 bg-violet-50/60",
+              },
+            ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                className={`text-left p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
-                <div className="text-base mb-1">{f.icon}</div>
+                className={`card-lift text-left p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
+                <div className={`mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
                 <div className={`text-[11px] font-bold mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
                 <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
               </button>
@@ -447,10 +541,10 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
   return (
     <button
       onClick={onClick}
-      className={`relative flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm transition-all ${
+      className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold transition-all whitespace-nowrap ${
         active
-          ? "bg-sky-100 text-[#396477] font-bold"
-          : "text-[#41484c] font-semibold hover:text-[#191c1e] hover:bg-[#f2f4f6]"
+          ? "text-[#396477]"
+          : "text-[#41484c] hover:text-[#191c1e]"
       }`}
     >
       {label}
@@ -458,6 +552,9 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
         <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none ${badgeStyle}`}>
           {badge}
         </span>
+      )}
+      {active && (
+        <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#396477]" />
       )}
     </button>
   );
@@ -641,7 +738,7 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
     : filing.offeringStatus === "closed" ? "Closed"
     : "Filed";
   return (
-    <button onClick={onClick} className="text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 hover:shadow-sm transition-all group">
+    <button onClick={onClick} className="card-lift text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 transition-all group">
       <div className="flex items-start justify-between gap-1 mb-2.5">
         <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
         <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${statusColor}`}>{statusLabel}</span>
@@ -3508,7 +3605,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
     .slice(0, 4);
 
   return (
-    <div className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 hover:shadow-[0_2px_12px_rgba(57,100,119,0.1)] transition-shadow">
+    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-5">
       {/* Firm header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
@@ -4274,7 +4371,7 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
   }
 
   return (
-    <div className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 hover:shadow-[0_2px_12px_rgba(57,100,119,0.1)] transition-shadow">
+    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
