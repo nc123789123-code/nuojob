@@ -3796,6 +3796,72 @@ const FIRM_REGISTRY = [
     careersUrl: "https://sixthstreet.com/careers",
     desc: "Multi-strategy credit platform with $75B+ AUM. Spans direct lending, asset-backed finance, TAO (tactical opportunities), and growth equity.",
   },
+
+  // ── [INVESTMENT BANKS — LEVERAGED FINANCE & CREDIT] ───────────────────────
+  {
+    id: "gs", name: "Goldman Sachs", tier: 1 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "special_sits", "structured_credit"],
+    keywords: ["goldman sachs", "goldman"],
+    careersUrl: "https://www.goldmansachs.com/careers",
+    desc: "Global investment bank with top-ranked leveraged finance, distressed debt, and special situations franchises. Active originator and underwriter for buyside credit clients.",
+  },
+  {
+    id: "ms", name: "Morgan Stanley", tier: 1 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "structured_credit"],
+    keywords: ["morgan stanley"],
+    careersUrl: "https://www.morganstanley.com/people/careers",
+    desc: "Bulge bracket with strong leveraged finance and fixed income divisions. Growing direct lending and private credit capabilities alongside traditional IB.",
+  },
+  {
+    id: "jpm", name: "JPMorgan", tier: 1 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "private_credit", "structured_credit"],
+    keywords: ["jpmorgan", "jp morgan", "chase"],
+    careersUrl: "https://careers.jpmorgan.com",
+    desc: "Largest US bank with dominant leveraged finance franchise and an expanding private credit platform (JPMAM). Significant recruiter for credit and structured products roles.",
+  },
+  {
+    id: "bofa", name: "Bank of America", tier: 1 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "structured_credit"],
+    keywords: ["bank of america", "bofa", "merrill lynch"],
+    careersUrl: "https://careers.bankofamerica.com",
+    desc: "Top-tier leveraged finance and high yield franchise. Merrill Lynch heritage gives strong equity and credit distribution capabilities.",
+  },
+  {
+    id: "citi", name: "Citi", tier: 1 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "structured_credit"],
+    keywords: ["citi", "citigroup", "citibank"],
+    careersUrl: "https://jobs.citi.com",
+    desc: "Global bulge bracket with active leveraged finance and credit markets businesses. Strong structured credit and securitisation capabilities.",
+  },
+  {
+    id: "barclays", name: "Barclays", tier: 2 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "structured_credit"],
+    keywords: ["barclays"],
+    careersUrl: "https://home.barclays/careers",
+    desc: "European bulge bracket with a leading leveraged finance and restructuring advisory practice. Active in high yield, loans, and structured credit.",
+  },
+  {
+    id: "jefferies", name: "Jefferies", tier: 2 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "special_sits"],
+    keywords: ["jefferies"],
+    careersUrl: "https://www.jefferies.com/careers",
+    desc: "Leading independent investment bank with a top-ranked leveraged finance and restructuring advisory franchise. Known for hiring talent from bulge brackets.",
+  },
+  {
+    id: "ubs", name: "UBS", tier: 2 as const,
+    category: "Investment Bank",
+    strategies: ["leveraged_finance", "structured_credit"],
+    keywords: ["ubs"],
+    careersUrl: "https://www.ubs.com/global/en/careers.html",
+    desc: "Swiss bulge bracket with global credit markets and leveraged finance capabilities. Strong wealth management platform feeds internal credit demand.",
+  },
 ];
 
 function matchFirm(firmName: string) {
@@ -5162,9 +5228,6 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
         {signalNote}
       </p>
 
-      {/* Recent news signals */}
-      <FirmNewsBar firmName={profile.name} />
-
       {/* Roles */}
       {topRoles.length > 0 && (
         <div className="space-y-1.5 pt-2 border-t border-[#f0f2f4]">
@@ -5597,6 +5660,7 @@ function OnluTableSection() {
 // ─── Referral Section ─────────────────────────────────────────────────────────
 
 function ReferralSection() {
+  const [purpose, setPurpose] = useState<"intro" | "coaching">("intro");
   const [type, setType] = useState<"seeking" | "offering">("seeking");
   const [form, setForm] = useState({ firm: "", roleType: "", background: "", contact: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
@@ -5604,43 +5668,48 @@ function ReferralSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firm.trim() || !form.background.trim()) return;
+    if (!form.background.trim() || !form.contact.trim()) return;
     setSubmitting(true);
     try {
       await fetch("/api/referral-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, ...form }),
+        body: JSON.stringify({ purpose, type, ...form }),
       });
       setDone(true);
     } finally { setSubmitting(false); }
   };
 
+  const isIntro = purpose === "intro";
+
   return (
     <div className="space-y-5 pt-4 border-t border-gray-100">
       <div>
-        <h3 className="text-base font-bold text-[#1A2B4A] mb-1">Referral Network</h3>
+        <h3 className="text-base font-bold text-[#1A2B4A] mb-1">Network & Coaching</h3>
         <p className="text-sm text-[#71787c] leading-relaxed">
-          Seeking an intro at a specific firm, or in a position to offer one? Submit below — we'll facilitate the connection anonymously.
+          Looking for a firm intro, or want to book a coaching session with someone who&apos;s been there? Submit below — we&apos;ll facilitate anonymously.
         </p>
       </div>
 
       {done ? (
         <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-5 py-5 text-center">
-          <p className="text-sm font-semibold text-emerald-700">Received — we&apos;ll follow up if there&apos;s a match.</p>
-          <p className="text-xs text-emerald-600 mt-1">Connections are facilitated by the Onlu team.</p>
+          <p className="text-sm font-semibold text-emerald-700">Received — we&apos;ll be in touch shortly.</p>
+          <p className="text-xs text-emerald-600 mt-1">{isIntro ? "Connections are facilitated by the Onlu team." : "We'll match you with a relevant coach within 1–2 days."}</p>
           <button onClick={() => { setDone(false); setForm({ firm: "", roleType: "", background: "", contact: "", message: "" }); }}
             className="mt-3 text-xs text-emerald-700 underline hover:text-emerald-900">Submit another</button>
         </div>
       ) : (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
-          {/* Type toggle */}
+          {/* Purpose toggle */}
           <div className="flex gap-2">
-            {([["seeking", "Looking for an intro"], ["offering", "Can offer an intro"]] as const).map(([v, label]) => (
-              <button key={v} onClick={() => setType(v)}
+            {([
+              ["intro", "Firm intro"],
+              ["coaching", "Coaching session"],
+            ] as const).map(([v, label]) => (
+              <button key={v} onClick={() => setPurpose(v)}
                 className={`flex-1 py-2.5 rounded-xl text-xs font-bold border-2 transition-all ${
-                  type === v
-                    ? v === "offering" ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-[#1A2B4A] bg-[#1A2B4A]/5 text-[#1A2B4A]"
+                  purpose === v
+                    ? v === "coaching" ? "border-violet-400 bg-violet-50 text-violet-700" : "border-[#1A2B4A] bg-[#1A2B4A]/5 text-[#1A2B4A]"
                     : "border-gray-200 text-gray-400 hover:border-gray-300"
                 }`}>
                 {label}
@@ -5648,32 +5717,63 @@ function ReferralSection() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">
-                  {type === "seeking" ? "Firm you want an intro to" : "Firm you're at"} <span className="text-red-400">*</span>
-                </label>
-                <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
-                  placeholder="e.g. Ares Management"
-                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
-                <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
-                  placeholder="e.g. Credit Analyst, Associate"
-                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
+          {/* Seeking / Offering sub-toggle (intro only) */}
+          {isIntro && (
+            <div className="flex gap-2">
+              {([["seeking", "Looking for an intro"], ["offering", "Can offer an intro"]] as const).map(([v, label]) => (
+                <button key={v} onClick={() => setType(v)}
+                  className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-all ${
+                    type === v
+                      ? v === "offering" ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-[#396477] bg-[#396477]/5 text-[#396477]"
+                      : "border-gray-200 text-gray-400 hover:border-gray-300"
+                  }`}>
+                  {label}
+                </button>
+              ))}
             </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {isIntro && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-[#41484c] mb-1">
+                    {type === "seeking" ? "Firm you want an intro to" : "Firm you're at"} <span className="text-red-400">*</span>
+                  </label>
+                  <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
+                    placeholder="e.g. Ares Management"
+                    className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#41484c] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
+                  <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
+                    placeholder="e.g. Credit Analyst, Associate"
+                    className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                </div>
+              </div>
+            )}
+            {!isIntro && (
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">What are you looking for? <span className="text-red-400">*</span></label>
+                <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
+                  placeholder="e.g. Mock interview for Ares credit analyst role"
+                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-[#41484c] mb-1">
-                {type === "seeking" ? "Your background" : "What you can offer"} <span className="text-red-400">*</span>
+                {isIntro
+                  ? (type === "seeking" ? "Your background" : "What you can offer")
+                  : "Your background & goals"
+                } <span className="text-red-400">*</span>
               </label>
               <textarea required value={form.background} onChange={e => setForm(f => ({ ...f, background: e.target.value }))}
                 rows={3}
-                placeholder={type === "seeking"
-                  ? "Brief overview of your background — experience, deal types, what you're looking for"
-                  : "What role/team are you in? What kind of candidate would be a good fit?"}
+                placeholder={isIntro
+                  ? (type === "seeking"
+                    ? "Brief overview — experience, deal types, what you're targeting"
+                    : "Your role/team and what kind of candidate would be a good fit")
+                  : "Where are you in your search? What's your background and what would you like to work on?"}
                 className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
             <div>
@@ -5685,12 +5785,12 @@ function ReferralSection() {
             </div>
             <button type="submit" disabled={submitting || !form.firm.trim() || !form.background.trim() || !form.contact.trim()}
               className={`w-full py-3 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-40 ${
-                type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
+                !isIntro ? "bg-violet-600 hover:bg-violet-700" : type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
               }`}>
-              {submitting ? "Submitting…" : type === "seeking" ? "Request intro →" : "Offer intro →"}
+              {submitting ? "Submitting…" : !isIntro ? "Request coaching →" : type === "seeking" ? "Request intro →" : "Offer intro →"}
             </button>
             <p className="text-[11px] text-gray-400 text-center">
-              Submissions are reviewed by the Onlu team. We'll reach out if there&apos;s a match.
+              {isIntro ? "We'll reach out if there's a match." : "We'll match you with a relevant professional within 1–2 days."}
             </p>
           </form>
         </div>
