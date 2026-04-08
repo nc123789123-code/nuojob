@@ -89,30 +89,38 @@ export async function POST(req: Request) {
     const encoded = Buffer.from(email).toString("base64url");
     const unsubUrl = `${baseUrl}/unsubscribe?e=${encoded}`;
 
-    const tasks: Promise<unknown>[] = [
-      resend.emails.send({
-        from: "Onlu <noreply@onluintel.com>",
-        to: email,
-        subject: welcome.subject,
-        html: welcome.html,
-        headers: {
-          "List-Unsubscribe": `<mailto:unsubscribe@onluintel.com>, <${unsubUrl}>`,
-          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-        },
-      }),
-      notifyAdmin(resend, email, intent),
-    ];
-
-    if (audienceId && audienceId !== "audience_id_placeholder") {
-      tasks.push(
-        resend.contacts.create({ email, audienceId, unsubscribed: false })
-      );
+    // Send welcome email
+    const emailResult = await resend.emails.send({
+      from: "Onlu <noreply@onluintel.com>",
+      to: email,
+      subject: welcome.subject,
+      html: welcome.html,
+      headers: {
+        "List-Unsubscribe": `<mailto:unsubscribe@onluintel.com>, <${unsubUrl}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      },
+    });
+    if (emailResult.error) {
+      console.error("[subscribe] email send error:", JSON.stringify(emailResult.error));
+      return NextResponse.json({ error: emailResult.error.message ?? "Email send failed" }, { status: 500 });
     }
 
-    await Promise.allSettled(tasks);
+    // Add to audience (non-blocking)
+    if (audienceId && audienceId !== "audience_id_placeholder") {
+      resend.contacts.create({ email, audienceId, unsubscribed: false })
+        .then(r => { if (r.error) console.error("[subscribe] audience error:", JSON.stringify(r.error)); })
+        .catch(e => console.error("[subscribe] audience exception:", e));
+    } else {
+      console.warn("[subscribe] no audienceId for intent:", intent, "— skipping audience add");
+    }
+
+    // Notify admin (non-blocking)
+    notifyAdmin(resend, email, intent).catch(() => {});
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Subscribe failed";
+    console.error("[subscribe] exception:", message);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
