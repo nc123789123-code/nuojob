@@ -2110,10 +2110,44 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 function EdgeSection() {
   const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
 
-  const tabs = [
-    { id: "firm" as const,    icon: "🏦", label: "Firm Prep",    desc: "Strategy, culture & interview guide for any buyside firm" },
-    { id: "concept" as const, icon: "📚", label: "Concept Q&A",  desc: "Ask any finance concept — explained the way interviewers think" },
-    { id: "cases" as const,   icon: "🔬", label: "Case Library", desc: "Real deal walkthroughs: LBOs, distressed, restructuring" },
+  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
+    {
+      id: "firm",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 17V8l7-5 7 5v9" />
+          <rect x="7" y="11" width="2.5" height="3" rx="0.5" />
+          <rect x="10.5" y="11" width="2.5" height="3" rx="0.5" />
+          <path d="M3 17h14" />
+        </svg>
+      ),
+      label: "Firm Prep",
+      desc: "Strategy, culture & interview guide for any buyside firm",
+    },
+    {
+      id: "concept",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="10" cy="10" r="7" />
+          <path d="M10 11V9.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2" />
+          <circle cx="10" cy="13.5" r="0.6" fill="currentColor" stroke="none" />
+        </svg>
+      ),
+      label: "Concept Q&A",
+      desc: "Ask any finance concept — explained the way interviewers think",
+    },
+    {
+      id: "cases",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 5h12a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z" />
+          <path d="M7 5V4a1 1 0 011-1h4a1 1 0 011 1v1" />
+          <path d="M7 10h6M7 13h4" />
+        </svg>
+      ),
+      label: "Case Library",
+      desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
+    },
   ];
 
   return (
@@ -2127,7 +2161,7 @@ function EdgeSection() {
                 ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-sm"
                 : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
             }`}>
-            <div className="text-xl mb-2">{t.icon}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-gray-400"}`}>{t.icon}</div>
             <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#191c1e]"}`}>{t.label}</div>
             <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
