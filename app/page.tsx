@@ -2011,16 +2011,27 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 
 function EdgeSection() {
   const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
+
+  const tabs = [
+    { id: "firm" as const,    icon: "🏦", label: "Firm Prep",    desc: "Strategy, culture & interview guide for any buyside firm" },
+    { id: "concept" as const, icon: "📚", label: "Concept Q&A",  desc: "Ask any finance concept — explained the way interviewers think" },
+    { id: "cases" as const,   icon: "🔬", label: "Case Library", desc: "Real deal walkthroughs: LBOs, distressed, restructuring" },
+  ];
+
   return (
     <div className="max-w-3xl mx-auto">
-      {/* Mode toggle */}
-      <div className="flex flex-wrap gap-1 p-1 bg-gray-100 rounded-xl w-fit mx-auto mb-6">
-        {(["firm", "concept", "cases"] as const).map(m => (
-          <button key={m} onClick={() => setMode(m)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-              mode === m ? "bg-white text-[#191c1e] shadow-sm" : "text-gray-500 hover:text-gray-700"
+      {/* Mode selector cards */}
+      <div className="grid grid-cols-3 gap-3 mb-8">
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setMode(t.id)}
+            className={`text-left p-4 rounded-xl border-2 transition-all ${
+              mode === t.id
+                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-sm"
+                : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
             }`}>
-            {m === "firm" ? "🏦 Firm Prep" : m === "concept" ? "📚 Concept Q&A" : "🔬 Case Library"}
+            <div className="text-xl mb-2">{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#191c1e]"}`}>{t.label}</div>
+            <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
       </div>
