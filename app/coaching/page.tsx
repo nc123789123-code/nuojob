@@ -87,16 +87,16 @@ export default function CoachingPage() {
       </div>
 
       {/* Hero */}
-      <div className="bg-[#1A2B4A] text-white">
+      <div className="bg-violet-100 border-b border-violet-200">
         <div className="max-w-3xl mx-auto px-5 py-16 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 text-white/80 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
-            <span className="w-1.5 h-1.5 bg-[#6aab8e] rounded-full" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-violet-200/60 text-violet-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
             1-on-1 Sessions
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4 text-[#1A2B4A]">
             Get into buyside.<br />With someone who&apos;s been there.
           </h1>
-          <p className="text-white/70 text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#41484c] text-base max-w-xl mx-auto leading-relaxed">
             One-on-one sessions with experienced credit and private equity professionals.
             Resume review, mock interviews, or full recruiting strategy — tailored to where you are right now.
           </p>
