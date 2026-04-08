@@ -5717,21 +5717,24 @@ function ReferralSection() {
             ))}
           </div>
 
-          {/* Seeking / Offering sub-toggle (intro only) */}
-          {isIntro && (
-            <div className="flex gap-2">
-              {([["seeking", "Looking for an intro"], ["offering", "Can offer an intro"]] as const).map(([v, label]) => (
-                <button key={v} onClick={() => setType(v)}
-                  className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-all ${
-                    type === v
-                      ? v === "offering" ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-[#396477] bg-[#396477]/5 text-[#396477]"
-                      : "border-gray-200 text-gray-400 hover:border-gray-300"
-                  }`}>
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Seeking / Offering sub-toggle */}
+          <div className="flex gap-2">
+            {(isIntro
+              ? [["seeking", "Looking for an intro"], ["offering", "Can offer an intro"]] as const
+              : [["seeking", "I want coaching"], ["offering", "I can coach"]] as const
+            ).map(([v, label]) => (
+              <button key={v} onClick={() => setType(v)}
+                className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-all ${
+                  type === v
+                    ? v === "offering"
+                      ? isIntro ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-violet-500 bg-violet-50 text-violet-700"
+                      : isIntro ? "border-[#396477] bg-[#396477]/5 text-[#396477]" : "border-violet-400 bg-violet-50 text-violet-600"
+                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                }`}>
+                {label}
+              </button>
+            ))}
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             {isIntro && (
@@ -5754,9 +5757,11 @@ function ReferralSection() {
             )}
             {!isIntro && (
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">What are you looking for? <span className="text-red-400">*</span></label>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">
+                  {type === "seeking" ? "What are you looking for?" : "What can you coach on?"} <span className="text-red-400">*</span>
+                </label>
                 <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
-                  placeholder="e.g. Mock interview for Ares credit analyst role"
+                  placeholder={type === "seeking" ? "e.g. Mock interview for Ares credit analyst role" : "e.g. Credit underwriting, LBO modelling, PE recruiting"}
                   className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
               </div>
             )}
@@ -5764,7 +5769,7 @@ function ReferralSection() {
               <label className="block text-xs font-medium text-[#41484c] mb-1">
                 {isIntro
                   ? (type === "seeking" ? "Your background" : "What you can offer")
-                  : "Your background & goals"
+                  : (type === "seeking" ? "Your background & goals" : "Your experience & availability")
                 } <span className="text-red-400">*</span>
               </label>
               <textarea required value={form.background} onChange={e => setForm(f => ({ ...f, background: e.target.value }))}
@@ -5773,7 +5778,9 @@ function ReferralSection() {
                   ? (type === "seeking"
                     ? "Brief overview — experience, deal types, what you're targeting"
                     : "Your role/team and what kind of candidate would be a good fit")
-                  : "Where are you in your search? What's your background and what would you like to work on?"}
+                  : (type === "seeking"
+                    ? "Where are you in your search? What's your background and what would you like to work on?"
+                    : "Your current role, years of experience, and how many sessions per month you can offer")}
                 className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
             <div>
@@ -5787,10 +5794,17 @@ function ReferralSection() {
               className={`w-full py-3 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-40 ${
                 !isIntro ? "bg-violet-600 hover:bg-violet-700" : type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
               }`}>
-              {submitting ? "Submitting…" : !isIntro ? "Request coaching →" : type === "seeking" ? "Request intro →" : "Offer intro →"}
+              {submitting ? "Submitting…"
+                : isIntro
+                  ? (type === "seeking" ? "Request intro →" : "Offer intro →")
+                  : (type === "seeking" ? "Request coaching →" : "Apply to coach →")}
             </button>
             <p className="text-[11px] text-gray-400 text-center">
-              {isIntro ? "We'll reach out if there's a match." : "We'll match you with a relevant professional within 1–2 days."}
+              {isIntro
+                ? "We'll reach out if there's a match."
+                : type === "seeking"
+                  ? "We'll match you with a relevant professional within 1–2 days."
+                  : "We'll review your profile and be in touch about onboarding."}
             </p>
           </form>
         </div>
