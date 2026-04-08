@@ -202,11 +202,25 @@ function HomeContent() {
                 See which firms may hire before roles are posted.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Funds don&apos;t post roles on a schedule — they hire when capital moves. Hiring Watch tracks leading indicators across 28 alternative asset managers: fundraising filings, concurrent hiring patterns, and senior team changes. Each signal includes an interpretation of what it likely means for near-term headcount.
+                Funds don&apos;t post roles on a schedule — they hire when capital moves. Hiring Watch tracks leading indicators across 28 alternative asset managers: fundraising filings, concurrent hiring patterns, and senior team changes.
               </p>
-              <p className="text-[#71787c] text-xs mt-2 max-w-xl">
-                Early signals — firms with fresh EDGAR filings but no roles posted yet — are the most actionable. Outreach before a formal process gives the strongest edge.
-              </p>
+
+              {/* Feature map */}
+              <div className="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
+                {[
+                  { icon: "📊", label: "Market Pulse", desc: "Live prices, fund signals & AI market briefs", tab: "pulse" as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50" },
+                  { icon: "🎯", label: "Edge Prep", desc: "Firm guides, concept Q&A & case library", tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50" },
+                  { icon: "📚", label: "Onlu Learning", desc: "Deep-dives on credit, AI & macro", tab: "learn" as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50" },
+                  { icon: "🎪", label: "Onlu Events", desc: "Exclusive buyside networking dinners", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50" },
+                ].map(f => (
+                  <button key={f.tab} onClick={() => setTopTab(f.tab)}
+                    className={`text-left p-3.5 rounded-xl border bg-white transition-all ${f.color}`}>
+                    <div className="text-lg mb-1.5">{f.icon}</div>
+                    <div className="text-xs font-bold text-[#191c1e] mb-1">{f.label}</div>
+                    <div className="text-[11px] text-gray-400 leading-snug">{f.desc}</div>
+                  </button>
+                ))}
+              </div>
             </>
           )}
           {topTab === "learn" && (
