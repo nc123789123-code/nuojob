@@ -94,6 +94,20 @@ function useOutreachTracker() {
   return { records, updateRecord };
 }
 
+function useFirstVisit() {
+  const [isFirst, setIsFirst] = useState(false);
+  useEffect(() => {
+    try {
+      if (!localStorage.getItem("onlu-visited")) setIsFirst(true);
+    } catch { /* ignore */ }
+  }, []);
+  const dismiss = useCallback(() => {
+    setIsFirst(false);
+    try { localStorage.setItem("onlu-visited", "1"); } catch { /* ignore */ }
+  }, []);
+  return { isFirst, dismiss };
+}
+
 function useUserProfile() {
   const [profile, setProfileState] = useState<string>("");
   useEffect(() => {
@@ -159,6 +173,8 @@ function HomeContent() {
 
   const { records, updateRecord } = useOutreachTracker();
   const { profile: userProfile, saveProfile, clearProfile } = useUserProfile();
+  const { isFirst, dismiss: dismissWelcome } = useFirstVisit();
+  const [showProfilePanel, setShowProfilePanel] = useState(false);
   const fundDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const jobDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fundFetchedRef = useRef(false);
@@ -263,6 +279,16 @@ function HomeContent() {
                 <AnimatedStat value={6} label="Data sources" />
                 <AnimatedStat value={48} suffix="h" label="Signal refresh" />
               </div>
+              {!userProfile && (
+                <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#1A2B4A] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
+                  <span className="text-xs text-[#41484c]">Set your profile to unlock <strong className="text-[#191c1e]">For You</strong> role matching</span>
+                  <button onClick={() => setShowProfilePanel(true)}
+                    className="text-[11px] font-bold text-[#1A2B4A] hover:underline flex-shrink-0">
+                    Set profile →
+                  </button>
+                </div>
+              )}
             </>
           )}
           {topTab === "learn" && (
@@ -298,7 +324,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-emerald-600",
-                label: "Hiring Watch", desc: "Leading hiring indicators", tab: "hiring" as TopTab,
+                label: "Hiring Watch", desc: "Who's hiring — before it's posted", tab: "hiring" as TopTab,
                 color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60",
               },
               {
@@ -309,7 +335,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-rose-500",
-                label: "Edge Prep", desc: "Firm guides & case library", tab: "firmprep" as TopTab,
+                label: "Edge Prep", desc: "Firm briefs, outreach & interview prep", tab: "firmprep" as TopTab,
                 color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50", active: "border-rose-400 bg-rose-50/60",
               },
               {
@@ -320,7 +346,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-sky-500",
-                label: "Market Pulse", desc: "Live prices & fund signals", tab: "pulse" as TopTab,
+                label: "Market Pulse", desc: "Live markets + fund raise signals", tab: "pulse" as TopTab,
                 color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50", active: "border-sky-400 bg-sky-50/60",
               },
               {
@@ -332,7 +358,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-amber-500",
-                label: "Onlu Events", desc: "Buyside catchups", tab: "table" as TopTab,
+                label: "Onlu Events", desc: "Buyside networking & meetups", tab: "table" as TopTab,
                 color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
               },
               {
@@ -343,7 +369,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-violet-500",
-                label: "Onlu Learning", desc: "Deep-dives on credit & macro", tab: "learn" as TopTab,
+                label: "Onlu Learning", desc: "Credit, macro & markets deep-dives", tab: "learn" as TopTab,
                 color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50", active: "border-violet-400 bg-violet-50/60",
               },
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
@@ -357,6 +383,45 @@ function HomeContent() {
           </div>
         </div>
       </div>
+
+      {/* First-visit welcome panel */}
+      {isFirst && (
+        <div className="bg-[#1A2B4A] text-white">
+          <div className="max-w-6xl mx-auto px-5 py-5 sm:py-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-bold uppercase tracking-widest text-white/50">Welcome to Onlu</span>
+                </div>
+                <p className="text-sm sm:text-base font-semibold text-white mb-4 max-w-2xl">
+                  Buyside hiring intelligence — see which firms are expanding before roles are posted, prep for interviews, and draft targeted outreach.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { step: "1", color: "bg-emerald-400/20 border-emerald-400/30 text-emerald-300", action: "Check Hiring Watch", desc: "See which firms are actively expanding based on capital raises and live job signals", tab: "hiring" as TopTab },
+                    { step: "2", color: "bg-violet-400/20 border-violet-400/30 text-violet-300", action: "Set your profile", desc: "Describe your background once — get matched to relevant roles and auto-fill outreach", tab: "hiring" as TopTab },
+                    { step: "3", color: "bg-rose-400/20 border-rose-400/30 text-rose-300", action: "Use Edge Prep", desc: "Firm-specific interview guides, concept Q&A, and outreach drafting anchored to firm signals", tab: "firmprep" as TopTab },
+                  ].map(item => (
+                    <button key={item.step} onClick={() => { setTopTab(item.tab); dismissWelcome(); }}
+                      className={`text-left p-3.5 rounded-xl border ${item.color} hover:bg-white/10 transition-colors`}>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className={`text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border ${item.color}`}>{item.step}</span>
+                        <span className="text-sm font-bold text-white">{item.action}</span>
+                      </div>
+                      <p className="text-[11px] text-white/60 leading-snug">{item.desc}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button onClick={dismissWelcome} className="text-white/40 hover:text-white/80 transition-colors flex-shrink-0 mt-1">
+                <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M3 3l10 10M13 3L3 13" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
         setTopTab("pulse");
@@ -395,6 +460,8 @@ function HomeContent() {
               userProfile={userProfile}
               onSaveProfile={saveProfile}
               onClearProfile={clearProfile}
+              showProfilePanel={showProfilePanel}
+              setShowProfilePanel={setShowProfilePanel}
             />
             <NewsletterCTA
               intent="signals_subscriber"
@@ -4468,6 +4535,7 @@ function OutreachDraftSection() {
 
 function HiringSection({
   signals, loading, fundFilings, onViewSignals, userProfile, onSaveProfile, onClearProfile,
+  showProfilePanel, setShowProfilePanel,
 }: {
   signals: JobSignal[];
   loading: boolean;
@@ -4476,11 +4544,12 @@ function HiringSection({
   userProfile: string;
   onSaveProfile: (t: string) => void;
   onClearProfile: () => void;
+  showProfilePanel: boolean;
+  setShowProfilePanel: (v: boolean) => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [view, setView] = useState<"firms" | "roles" | "foryou">("firms");
   const [compact, setCompact] = useState(false);
-  const [showProfilePanel, setShowProfilePanel] = useState(false);
   const [profileDraft, setProfileDraft] = useState(userProfile);
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
