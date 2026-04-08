@@ -2416,9 +2416,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "outreach">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
 
-  const tabs: { id: "firm" | "concept" | "cases" | "outreach"; icon: React.ReactNode; label: string; desc: string }[] = [
+  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "firm",
       icon: (
@@ -2456,23 +2456,12 @@ function EdgeSection() {
       label: "Case Library",
       desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
     },
-    {
-      id: "outreach",
-      icon: (
-        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 4h14a1 1 0 011 1v8a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z" />
-          <path d="M7 8h6M7 11h4" />
-        </svg>
-      ),
-      label: "Outreach",
-      desc: "AI-drafted cold messages using firm signals",
-    },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode selector cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-3 gap-3 mb-8">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
@@ -2489,7 +2478,6 @@ function EdgeSection() {
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
-      {mode === "outreach" && <OutreachDraftSection />}
     </div>
   );
 }
@@ -4658,7 +4646,7 @@ function HiringSection({
   setShowProfilePanel: (v: boolean) => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach">("firms");
   const [compact, setCompact] = useState(false);
   const [profileDraft, setProfileDraft] = useState(userProfile);
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
@@ -4761,6 +4749,10 @@ function HiringSection({
               For You
             </button>
           )}
+          <button onClick={() => setView("outreach")}
+            className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "outreach" ? "bg-[#396477] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            Outreach
+          </button>
         </div>
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         {JOB_CATEGORIES.slice(0, 5).map((c) => (
@@ -4855,6 +4847,8 @@ function HiringSection({
           )}
         </div>
       )}
+
+      {view === "outreach" && <OutreachDraftSection />}
 
       {view === "firms" && !loading && (
         <>
