@@ -238,10 +238,12 @@ function HomeContent() {
             <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" />
             <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" />
           </nav>
-          <div className="ml-auto flex items-center gap-4">
+          <div className="ml-auto flex items-center gap-3">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
-            <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
+            <Link href="/coaching" className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-[#1A2B4A] text-white text-xs font-semibold rounded-lg hover:bg-[#152238] transition-colors">
+              1-on-1 Coaching
+            </Link>
           </div>
         </div>
       </header>
