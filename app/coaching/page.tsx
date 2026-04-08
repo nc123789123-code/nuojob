@@ -75,13 +75,14 @@ export default function CoachingPage() {
     <div className="min-h-screen bg-[#f7f9fb]" style={{ fontFamily: "'Nunito', sans-serif" }}>
       {/* Nav */}
       <div className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="font-bold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+        <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-1.5">
+            <span className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="text-[10px] font-bold tracking-widest text-[#1A2B4A]/40 uppercase hidden sm:inline">Intel</span>
           </Link>
           <div className="w-px h-4 bg-gray-200" />
-          <span className="text-sm font-semibold text-[#1A2B4A]">Coaching</span>
-          <Link href="/" className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">← Back to platform</Link>
+          <span className="text-xs font-bold text-[#7c6fcd] uppercase tracking-widest">Coaching</span>
+          <Link href="/" className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">← Platform</Link>
         </div>
       </div>
 
@@ -178,14 +179,50 @@ export default function CoachingPage() {
         {/* Trust signals */}
         <div className="mt-12 grid grid-cols-3 gap-4 text-center">
           {[
-            { icon: "🔒", label: "Secure checkout", sub: "Powered by Stripe" },
-            { icon: "📅", label: "Book instantly", sub: "Calendar link after payment" },
-            { icon: "🎯", label: "Buyside-specific", sub: "Credit, PE, and AM focus" },
+            {
+              color: "bg-violet-50 border-violet-100",
+              iconBg: "bg-violet-100",
+              iconColor: "text-violet-500",
+              icon: (
+                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="4" y="9" width="12" height="8" rx="2"/>
+                  <path d="M7 9V6a3 3 0 016 0v3"/>
+                </svg>
+              ),
+              label: "Secure checkout",
+              sub: "Powered by Stripe",
+            },
+            {
+              color: "bg-sky-50 border-sky-100",
+              iconBg: "bg-sky-100",
+              iconColor: "text-sky-500",
+              icon: (
+                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="14" height="13" rx="2"/>
+                  <path d="M3 8h14M7 2v4M13 2v4"/>
+                </svg>
+              ),
+              label: "Book instantly",
+              sub: "Calendar link after payment",
+            },
+            {
+              color: "bg-emerald-50 border-emerald-100",
+              iconBg: "bg-emerald-100",
+              iconColor: "text-emerald-600",
+              icon: (
+                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="10" cy="10" r="7"/>
+                  <path d="M10 6v4l2.5 2.5"/>
+                </svg>
+              ),
+              label: "Buyside-specific",
+              sub: "Credit, PE, and AM focus",
+            },
           ].map(t => (
-            <div key={t.label} className="bg-white rounded-xl border border-gray-100 px-4 py-4">
-              <div className="text-xl mb-1">{t.icon}</div>
-              <p className="text-xs font-bold text-[#191c1e]">{t.label}</p>
-              <p className="text-[11px] text-gray-400">{t.sub}</p>
+            <div key={t.label} className={`rounded-xl border px-4 py-5 ${t.color}`}>
+              <div className={`w-9 h-9 rounded-full flex items-center justify-center mx-auto mb-3 ${t.iconBg} ${t.iconColor}`}>{t.icon}</div>
+              <p className="text-xs font-bold text-[#191c1e] mb-0.5">{t.label}</p>
+              <p className="text-[11px] text-gray-500">{t.sub}</p>
             </div>
           ))}
         </div>
