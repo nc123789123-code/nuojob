@@ -177,19 +177,15 @@ function HomeContent() {
 
       {/* Hero */}
       <div className="hero-gradient border-b border-sky-100/60">
-        <div className="max-w-6xl mx-auto px-5 py-10">
+        <div className="max-w-6xl mx-auto px-5 py-8">
           {topTab === "pulse" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Market Pulse
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Live market analysis and fund signal intelligence in one place — AI-generated market briefs alongside SEC fundraising filings and hiring signals.
-              </p>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Live market analysis and fund signal intelligence — AI-generated briefs alongside SEC fundraising filings and hiring signals.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -198,29 +194,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence · 28 firms monitored
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                See which firms may hire before roles are posted.
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Funds don&apos;t post roles on a schedule — they hire when capital moves. Hiring Watch tracks leading indicators across 28 alternative asset managers: fundraising filings, concurrent hiring patterns, and senior team changes.
-              </p>
-
-              {/* Feature map */}
-              <div className="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
-                {[
-                  { icon: "📊", label: "Market Pulse", desc: "Live prices, fund signals & AI market briefs", tab: "pulse" as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50" },
-                  { icon: "🎯", label: "Edge Prep", desc: "Firm guides, concept Q&A & case library", tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50" },
-                  { icon: "📚", label: "Onlu Learning", desc: "Deep-dives on credit, AI & macro", tab: "learn" as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50" },
-                  { icon: "🤝", label: "Onlu Events", desc: "Buyside catchups & community meetups", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50" },
-                ].map(f => (
-                  <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                    className={`text-left p-3.5 rounded-xl border bg-white transition-all ${f.color}`}>
-                    <div className="text-lg mb-1.5">{f.icon}</div>
-                    <div className="text-xs font-bold text-[#191c1e] mb-1">{f.label}</div>
-                    <div className="text-[11px] text-gray-400 leading-snug">{f.desc}</div>
-                  </button>
-                ))}
-              </div>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">See which firms may hire before roles are posted.</h1>
+              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Funds hire when capital moves. Hiring Watch tracks fundraising filings, concurrent hiring patterns, and senior team changes across 28 alternative asset managers.</p>
             </>
           )}
           {topTab === "learn" && (
@@ -229,12 +204,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Onlu Learning
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Career prep, market insights, and deep-dives on credit, AI, and macro — for practitioners and candidates who want to go deeper.
-              </p>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Career prep, market insights, and deep-dives on credit, AI, and macro — for practitioners and candidates who want to go deeper.</p>
             </>
           )}
           {topTab === "firmprep" && (
@@ -243,16 +214,28 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
-                Edge Prep
-              </h1>
-              <p className="text-[#41484c] text-sm mt-3 max-w-xl leading-relaxed">
-                Firm-specific interview prep, concept Q&A, and case studies — built for credit, PE, and special situations interviews. Search any buyside firm and get a guide covering strategy, culture, and what they actually test for.
-              </p>
+              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Edge Prep</h1>
+              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Firm-specific interview prep, concept Q&A, and case studies — built for credit, PE, and special situations interviews.</p>
             </>
           )}
 
-
+          {/* Feature map — visible on all tabs, current tab highlighted */}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-2 max-w-3xl">
+            {([
+              { icon: "🔍", label: "Hiring Watch", desc: "Leading hiring indicators", tab: "hiring" as TopTab, color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60" },
+              { icon: "📊", label: "Market Pulse", desc: "Live prices & fund signals", tab: "pulse" as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50", active: "border-sky-400 bg-sky-50/60" },
+              { icon: "🎯", label: "Edge Prep", desc: "Firm guides & case library", tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50", active: "border-rose-400 bg-rose-50/60" },
+              { icon: "📚", label: "Onlu Learning", desc: "Deep-dives on credit & macro", tab: "learn" as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50", active: "border-violet-400 bg-violet-50/60" },
+              { icon: "🤝", label: "Onlu Events", desc: "Buyside catchups", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60" },
+            ] as Array<{ icon: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
+              <button key={f.tab} onClick={() => setTopTab(f.tab)}
+                className={`text-left p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
+                <div className="text-base mb-1">{f.icon}</div>
+                <div className={`text-[11px] font-bold mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
+                <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
