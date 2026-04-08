@@ -2852,7 +2852,117 @@ function FirmPrepSection() {
           </section>
 
           <p className="text-center text-xs text-gray-400">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
+
+          {/* Anonymous feedback submission */}
+          <InterviewFeedbackForm firmName={prep.firm} />
         </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Interview Feedback Form ──────────────────────────────────────────────────
+
+function InterviewFeedbackForm({ firmName }: { firmName: string }) {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ roleType: "", round: "", difficulty: "", questions: "", tips: "", outcome: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.questions.trim()) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/interview-feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firm: firmName, ...form }),
+      });
+      setDone(true);
+    } finally { setSubmitting(false); }
+  };
+
+  if (done) return (
+    <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-4 text-center">
+      <p className="text-sm font-semibold text-emerald-700">Thank you — your feedback helps the community.</p>
+      <p className="text-xs text-emerald-600 mt-0.5">Submitted anonymously.</p>
+    </div>
+  );
+
+  return (
+    <div className="border border-dashed border-gray-200 rounded-xl overflow-hidden">
+      <button onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center gap-2">
+          <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-400" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 4v3m0 2v.5"/></svg>
+          <span className="text-xs font-semibold text-gray-500">Interviewed at {firmName}? Share what they asked</span>
+        </div>
+        <span className="text-gray-400 text-xs">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <form onSubmit={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-gray-100 pt-3 bg-gray-50/40">
+          <p className="text-[11px] text-gray-400">Anonymous — nothing you enter here is stored or tied to you.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div>
+              <label className="block text-[11px] font-medium text-gray-500 mb-1">Role type</label>
+              <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
+                placeholder="e.g. Credit Analyst"
+                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20" />
+            </div>
+            <div>
+              <label className="block text-[11px] font-medium text-gray-500 mb-1">Round</label>
+              <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
+                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+                <option value="">Select</option>
+                <option>Phone screen</option>
+                <option>First round</option>
+                <option>Case study</option>
+                <option>Superday</option>
+                <option>Final round</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-[11px] font-medium text-gray-500 mb-1">Difficulty</label>
+              <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
+                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+                <option value="">Select</option>
+                <option>Straightforward</option>
+                <option>Moderate</option>
+                <option>Hard</option>
+                <option>Very hard</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[11px] font-medium text-gray-500 mb-1">Questions asked <span className="text-red-400">*</span></label>
+            <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
+              rows={3} placeholder="What did they ask? Technical, behavioural, case walk-through…"
+              className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
+          </div>
+          <div>
+            <label className="block text-[11px] font-medium text-gray-500 mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+            <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
+              rows={2} placeholder="What would you do differently? What impressed them?"
+              className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
+          </div>
+          <div className="flex items-center gap-3">
+            <select value={form.outcome} onChange={e => setForm(f => ({ ...f, outcome: e.target.value }))}
+              className="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+              <option value="">Outcome (optional)</option>
+              <option>Offer received</option>
+              <option>Rejected</option>
+              <option>Withdrew</option>
+              <option>Pending</option>
+              <option>Prefer not to say</option>
+            </select>
+            <button type="submit" disabled={submitting || !form.questions.trim()}
+              className="ml-auto px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] disabled:opacity-40 transition-colors">
+              {submitting ? "Submitting…" : "Submit anonymously"}
+            </button>
+          </div>
+        </form>
       )}
     </div>
   );
@@ -5479,6 +5589,113 @@ function OnluTableSection() {
             We&apos;ll send a confirmation to <strong>{form.email}</strong> within 24 hours with location details and who else is joining.
           </p>
           <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
+        </div>
+      )}
+
+      {/* Referral board */}
+      <ReferralSection />
+    </div>
+  );
+}
+
+// ─── Referral Section ─────────────────────────────────────────────────────────
+
+function ReferralSection() {
+  const [type, setType] = useState<"seeking" | "offering">("seeking");
+  const [form, setForm] = useState({ firm: "", roleType: "", background: "", contact: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.firm.trim() || !form.background.trim()) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/referral-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, ...form }),
+      });
+      setDone(true);
+    } finally { setSubmitting(false); }
+  };
+
+  return (
+    <div className="space-y-5 pt-4 border-t border-gray-100">
+      <div>
+        <h3 className="text-base font-bold text-[#1A2B4A] mb-1">Referral Network</h3>
+        <p className="text-sm text-[#71787c] leading-relaxed">
+          Seeking an intro at a specific firm, or in a position to offer one? Submit below — we'll facilitate the connection anonymously.
+        </p>
+      </div>
+
+      {done ? (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-5 py-5 text-center">
+          <p className="text-sm font-semibold text-emerald-700">Received — we&apos;ll follow up if there&apos;s a match.</p>
+          <p className="text-xs text-emerald-600 mt-1">Connections are facilitated by the Onlu team.</p>
+          <button onClick={() => { setDone(false); setForm({ firm: "", roleType: "", background: "", contact: "", message: "" }); }}
+            className="mt-3 text-xs text-emerald-700 underline hover:text-emerald-900">Submit another</button>
+        </div>
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+          {/* Type toggle */}
+          <div className="flex gap-2">
+            {([["seeking", "Looking for an intro"], ["offering", "Can offer an intro"]] as const).map(([v, label]) => (
+              <button key={v} onClick={() => setType(v)}
+                className={`flex-1 py-2.5 rounded-xl text-xs font-bold border-2 transition-all ${
+                  type === v
+                    ? v === "offering" ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-[#1A2B4A] bg-[#1A2B4A]/5 text-[#1A2B4A]"
+                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                }`}>
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">
+                  {type === "seeking" ? "Firm you want an intro to" : "Firm you're at"} <span className="text-red-400">*</span>
+                </label>
+                <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
+                  placeholder="e.g. Ares Management"
+                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-[#41484c] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
+                <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
+                  placeholder="e.g. Credit Analyst, Associate"
+                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1">
+                {type === "seeking" ? "Your background" : "What you can offer"} <span className="text-red-400">*</span>
+              </label>
+              <textarea required value={form.background} onChange={e => setForm(f => ({ ...f, background: e.target.value }))}
+                rows={3}
+                placeholder={type === "seeking"
+                  ? "Brief overview of your background — experience, deal types, what you're looking for"
+                  : "What role/team are you in? What kind of candidate would be a good fit?"}
+                className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-[#41484c] mb-1">Contact email or LinkedIn <span className="text-gray-300 font-normal">(optional — for us to reach you)</span></label>
+              <input value={form.contact} onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
+                placeholder="email or linkedin.com/in/yourprofile"
+                className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+            </div>
+            <button type="submit" disabled={submitting || !form.firm.trim() || !form.background.trim()}
+              className={`w-full py-3 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-40 ${
+                type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
+              }`}>
+              {submitting ? "Submitting…" : type === "seeking" ? "Request intro →" : "Offer intro →"}
+            </button>
+            <p className="text-[11px] text-gray-400 text-center">
+              Submissions are reviewed by the Onlu team. We'll reach out if there&apos;s a match.
+            </p>
+          </form>
         </div>
       )}
     </div>
