@@ -63,7 +63,7 @@ function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: s
   const count = useCountUp(value);
   return (
     <div className="text-center counter-animate">
-      <div className="text-3xl sm:text-4xl font-extrabold text-[#191c1e] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="text-3xl sm:text-4xl font-extrabold text-[#191c1e] tracking-tight">
         {count}{suffix}
       </div>
       <div className="text-[11px] font-medium text-[#71787c] mt-0.5 uppercase tracking-wider">{label}</div>
@@ -227,7 +227,7 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
                 Know before<br className="hidden sm:block" /> the role is posted.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
