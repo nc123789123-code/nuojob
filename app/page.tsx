@@ -219,14 +219,14 @@ function HomeContent() {
             </>
           )}
 
-          {/* Feature map — visible on all tabs, current tab highlighted */}
+          {/* Feature map — same order as top nav, active tab highlighted */}
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-2 max-w-3xl">
             {([
-              { icon: "🔍", label: "Hiring Watch", desc: "Leading hiring indicators", tab: "hiring" as TopTab, color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60" },
-              { icon: "📊", label: "Market Pulse", desc: "Live prices & fund signals", tab: "pulse" as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50", active: "border-sky-400 bg-sky-50/60" },
-              { icon: "🎯", label: "Edge Prep", desc: "Firm guides & case library", tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50", active: "border-rose-400 bg-rose-50/60" },
-              { icon: "📚", label: "Onlu Learning", desc: "Deep-dives on credit & macro", tab: "learn" as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50", active: "border-violet-400 bg-violet-50/60" },
-              { icon: "🤝", label: "Onlu Events", desc: "Buyside catchups", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60" },
+              { icon: "🔍", label: "Hiring Watch",  desc: "Leading hiring indicators",     tab: "hiring"   as TopTab, color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60" },
+              { icon: "🎯", label: "Edge Prep",      desc: "Firm guides & case library",    tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50",           active: "border-rose-400 bg-rose-50/60" },
+              { icon: "📊", label: "Market Pulse",   desc: "Live prices & fund signals",    tab: "pulse"    as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50",               active: "border-sky-400 bg-sky-50/60" },
+              { icon: "🤝", label: "Onlu Events",    desc: "Buyside catchups",              tab: "table"    as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50",         active: "border-amber-400 bg-amber-50/60" },
+              { icon: "📚", label: "Onlu Learning",  desc: "Deep-dives on credit & macro",  tab: "learn"    as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50",      active: "border-violet-400 bg-violet-50/60" },
             ] as Array<{ icon: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
                 className={`text-left p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
