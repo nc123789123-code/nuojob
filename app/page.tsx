@@ -654,10 +654,10 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
   return (
     <button
       onClick={onClick}
-      className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold transition-all whitespace-nowrap ${
+      className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap transition-all ${
         active
-          ? "text-[#396477]"
-          : "text-[#41484c] hover:text-[#191c1e]"
+          ? "font-bold text-[#396477]"
+          : "font-medium text-[#5a6370] hover:text-[#191c1e]"
       }`}
     >
       {label}
@@ -667,7 +667,7 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
         </span>
       )}
       {active && (
-        <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#396477]" />
+        <span className="absolute bottom-0 left-3 right-3 h-[3px] rounded-full bg-[#396477]" />
       )}
     </button>
   );
@@ -2466,11 +2466,11 @@ function EdgeSection() {
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               mode === t.id
-                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-sm"
-                : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
+                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
+                : "border-gray-300 bg-white hover:border-[#396477]/50 hover:bg-[#f5fafb] hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-gray-400"}`}>{t.icon}</div>
-            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#191c1e]"}`}>{t.label}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
             <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
@@ -4737,20 +4737,20 @@ function HiringSection({
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
-          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "firms" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "firms" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-600 hover:text-gray-900"}`}>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "roles" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "roles" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-600 hover:text-gray-900"}`}>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "foryou" ? "bg-[#1A2B4A] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+              className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "foryou" ? "bg-[#1A2B4A] text-white shadow-sm" : "text-gray-600 hover:text-[#1A2B4A]"}`}>
               For You
             </button>
           )}
           <button onClick={() => setView("outreach")}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${view === "outreach" ? "bg-[#396477] text-white shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "outreach" ? "bg-[#396477] text-white shadow-sm" : "text-[#396477] hover:bg-[#396477]/10"}`}>
             Outreach
           </button>
         </div>
@@ -4766,7 +4766,7 @@ function HiringSection({
         <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"}`}>
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-[#eef4f7] text-[#396477] border-[#396477]/40 hover:border-[#396477]/70 hover:bg-[#e2ecf1]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
             {userProfile ? "Profile set" : "Set profile"}
           </button>
