@@ -34,31 +34,33 @@ export async function POST(req: Request) {
       max_tokens: 1200,
       messages: [{
         role: "user",
-        content: `You are a career coach who specializes in buyside job outreach for finance professionals. Your outreach messages have a 3x higher response rate because they reference specific signals and position the candidate as a direct solution to the firm's current need.
+        content: `You are a career coach who helps finance professionals land buyside roles through genuine, human outreach — not templated cold emails.
 
 FIRM: ${firm.trim()}
 CANDIDATE BACKGROUND: ${background.trim()}
 ${signal?.trim() ? `RECENT SIGNAL / NEWS: ${signal.trim()}` : ""}
 ${targetRole?.trim() ? `TARGET ROLE TYPE: ${targetRole.trim()}` : ""}
 
-Write a highly targeted cold outreach message for this candidate to send directly to a senior person (VP/MD level, not HR) at ${firm.trim()}.
+Write a warm, personal cold outreach message for this candidate to send to a senior person (VP/MD level) at ${firm.trim()}.
 
-RULES:
-- Open with a specific reference to the signal/news (if provided), or to the firm's known strategy/recent activity
-- Second sentence: connect their specific need to the candidate's exact background — make it feel like an obvious match
-- Keep total message to 5-7 sentences. No fluff, no "I hope this email finds you well"
-- End with one clear, low-friction CTA (15-min call, not "open to any opportunity")
-- The subject line must reference the specific signal or firm activity, not be generic
-- Write in a confident, direct tone — not sycophantic
-- Return ONLY valid JSON, no markdown
+TONE & STYLE:
+- Sound like a real person writing to another real person — not a cover letter, not a press release
+- It's okay to be slightly informal: a short, genuine sentence goes further than a polished one
+- Show genuine curiosity about the firm and what they're working on
+- Reference the signal or firm activity naturally, as if you've been following the firm — not as a sales hook
+- The candidate's background should come up organically, not as a credentials list
+- A little personality is good. Dry confidence beats aggressive enthusiasm every time
+- End with a low-key CTA: a 15-minute chat, not "I'd welcome the opportunity to discuss"
+- No opener like "I hope this finds you well", "My name is X and I am reaching out because"
+- Keep it to 4-6 sentences. Short messages get read. Long ones get skipped.
 
-Return this exact JSON:
+Return ONLY valid JSON, no markdown:
 {
-  "subject": "Subject line referencing specific signal/context",
-  "message": "Full message body, 5-7 sentences",
-  "followUp": "One sentence follow-up to send 5-7 days later if no reply",
-  "timingNote": "One sentence on optimal timing to send this (day of week, time, signal age window)",
-  "whyItWorks": "One sentence explaining why this message will get a higher response rate than a generic application"
+  "subject": "Subject line — specific, not generic, ideally feels like it comes from someone they'd want to hear from",
+  "message": "Full message body, 4-6 sentences, warm and direct",
+  "followUp": "One short, human follow-up line to send 5-7 days later if no reply",
+  "timingNote": "One sentence on best timing to send (day, time, signal window)",
+  "whyItWorks": "One sentence on why this lands better than a generic application"
 }`,
       }],
     });
