@@ -2321,9 +2321,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "outreach">("firm");
 
-  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
+  const tabs: { id: "firm" | "concept" | "cases" | "outreach"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "firm",
       icon: (
@@ -2361,12 +2361,23 @@ function EdgeSection() {
       label: "Case Library",
       desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
     },
+    {
+      id: "outreach",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 4h14a1 1 0 011 1v8a1 1 0 01-1 1H7l-4 3V5a1 1 0 011-1z" />
+          <path d="M7 8h6M7 11h4" />
+        </svg>
+      ),
+      label: "Outreach",
+      desc: "AI-drafted cold messages using firm signals",
+    },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode selector cards */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
@@ -2383,6 +2394,7 @@ function EdgeSection() {
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
+      {mode === "outreach" && <OutreachDraftSection />}
     </div>
   );
 }
@@ -4213,6 +4225,212 @@ function CaseLibrarySection() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// ─── Outreach Draft Section ───────────────────────────────────────────────────
+
+interface OutreachDraft {
+  subject: string;
+  message: string;
+  followUp: string;
+  timingNote: string;
+  whyItWorks: string;
+}
+
+function OutreachDraftSection() {
+  const [firm, setFirm] = useState("");
+  const [background, setBackground] = useState("");
+  const [signal, setSignal] = useState("");
+  const [targetRole, setTargetRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<OutreachDraft | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const firmSuggestions = [
+    "Ares Management", "Apollo Global", "Blackstone Credit", "KKR Credit",
+    "Blue Owl", "HPS Investment Partners", "Golub Capital", "Oak Hill Advisors",
+    "Oaktree Capital", "Cerberus Capital", "Elliott Management", "Baupost Group",
+    "Bridgewater Associates", "Citadel", "Point72", "Millennium Management",
+  ];
+
+  const handleGenerate = async () => {
+    if (!firm.trim() || !background.trim()) return;
+    setLoading(true); setError(null); setResult(null);
+    try {
+      const res = await fetch("/api/outreach-draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firm: firm.trim(), background: background.trim(), signal: signal.trim(), targetRole: targetRole.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to generate");
+      setResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally { setLoading(false); }
+  };
+
+  const handleCopy = () => {
+    if (!result) return;
+    const text = `Subject: ${result.subject}\n\n${result.message}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-[#1A2B4A]/5 border border-[#1A2B4A]/15 rounded-xl px-5 py-4">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#1A2B4A] flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 3h12a.7.7 0 01.7.7v6a.7.7 0 01-.7.7H5L2 13V3.7A.7.7 0 012 3z" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-[#1A2B4A]">Signal-Driven Outreach</p>
+            <p className="text-xs text-[#41484c] mt-0.5 leading-relaxed">Paste a recent signal (funding round, new product, expansion news) and your background. Claude drafts a message that references the specific signal and positions you as the direct solution — getting 3x more responses than generic applications.</p>
+          </div>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-3 text-[11px] text-[#41484c]">
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />Target VP/MD level, not HR</span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />Send 2–4 weeks after announcement</span>
+          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-sky-500 rounded-full" />Reference the specific signal</span>
+        </div>
+      </div>
+
+      {/* Inputs */}
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target firm <span className="text-red-400">*</span></label>
+          <input
+            value={firm}
+            onChange={e => setFirm(e.target.value)}
+            placeholder="e.g. Ares Management, Apollo, any buyside firm"
+            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
+          />
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {firmSuggestions.slice(0, 8).map(f => (
+              <button key={f} onClick={() => setFirm(f)}
+                className="text-[11px] px-2 py-0.5 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-500 transition-colors">
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Your background <span className="text-red-400">*</span></label>
+          <textarea
+            value={background}
+            onChange={e => setBackground(e.target.value)}
+            rows={3}
+            placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance, closed 12 LBO deals $50M–$500M, strong in credit analysis and deal execution. Currently looking to move to direct lending."
+            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">
+            Recent signal or news <span className="text-gray-400 font-normal">(optional but strongly recommended)</span>
+          </label>
+          <textarea
+            value={signal}
+            onChange={e => setSignal(e.target.value)}
+            rows={3}
+            placeholder="Paste a recent press release, funding announcement, expansion news, or any signal about this firm. e.g. 'Ares Management announced a $3.7B first close on its new direct lending fund targeting European mid-market...'"
+            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
+          />
+          <p className="text-[11px] text-gray-400 mt-1">Tip: use Hiring Watch or Market Pulse signals, or paste from the firm's newsroom / press release page</p>
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target role type <span className="text-gray-400 font-normal">(optional)</span></label>
+          <input
+            value={targetRole}
+            onChange={e => setTargetRole(e.target.value)}
+            placeholder="e.g. Credit Analyst, Associate — Direct Lending, Portfolio Manager"
+            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
+          />
+        </div>
+
+        <button
+          onClick={handleGenerate}
+          disabled={loading || !firm.trim() || !background.trim()}
+          className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] disabled:opacity-40 transition-colors flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              Drafting your outreach…
+            </>
+          ) : (
+            "Generate outreach message →"
+          )}
+        </button>
+        {error && <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
+      </div>
+
+      {/* Result */}
+      {result && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold text-[#191c1e] uppercase tracking-wider">Your outreach message</p>
+            <button onClick={handleCopy}
+              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition-colors">
+              {copied ? (
+                <><span className="text-emerald-600">✓</span> Copied</>
+              ) : (
+                <><svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 10V2h8"/></svg> Copy message</>
+              )}
+            </button>
+          </div>
+
+          {/* Subject */}
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Subject line</span>
+            </div>
+            <p className="px-4 py-3 text-sm font-semibold text-[#191c1e]">{result.subject}</p>
+          </div>
+
+          {/* Message body */}
+          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100">
+              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Message body</span>
+            </div>
+            <p className="px-4 py-4 text-sm text-[#41484c] leading-relaxed whitespace-pre-line">{result.message}</p>
+          </div>
+
+          {/* Follow-up */}
+          <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
+            <p className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Follow-up (5–7 days if no reply)</p>
+            <p className="text-sm text-[#41484c] leading-relaxed">{result.followUp}</p>
+          </div>
+
+          {/* Timing + Why it works */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
+              <p className="text-[11px] font-bold text-sky-700 uppercase tracking-wider mb-1">Timing</p>
+              <p className="text-xs text-[#41484c] leading-relaxed">{result.timingNote}</p>
+            </div>
+            <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+              <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">Why this works</p>
+              <p className="text-xs text-[#41484c] leading-relaxed">{result.whyItWorks}</p>
+            </div>
+          </div>
+
+          <button onClick={() => { setResult(null); setFirm(""); setBackground(""); setSignal(""); setTargetRole(""); }}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+            ← Start over
+          </button>
+        </div>
+      )}
     </div>
   );
 }
