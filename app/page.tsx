@@ -151,13 +151,13 @@ function HomeContent() {
     <div className="min-h-screen bg-[#f7f9fb]">
       {/* Nav */}
       <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
-        <div className="max-w-6xl mx-auto px-8 h-24 flex items-center gap-6">
+        <div className="max-w-6xl mx-auto px-3 sm:px-8 h-16 sm:h-24 flex items-center gap-2 sm:gap-6">
           <div className="flex items-center gap-3">
             <LogoMark size={64} />
             <span className="font-bold text-2xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </div>
-          <div className="w-px h-4 bg-[#c1c7cc]/50" />
-          <nav className="flex items-center gap-1">
+          <div className="w-px h-4 bg-[#c1c7cc]/50 hidden sm:block" />
+          <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" />
             <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" />
@@ -283,6 +283,12 @@ function HomeContent() {
               fundFilings={fundFilings}
               onViewSignals={() => setTopTab("pulse")}
             />
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Get hiring signals in your inbox every week."
+              description="Fund filings, early signals, and distressed situations — before the roles are posted. Free."
+              cta="Subscribe free"
+            />
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <p className="text-sm text-[#41484c]">
                 Found an active signal? <span className="font-medium">Prepare for the interview before you apply.</span>
@@ -293,18 +299,30 @@ function HomeContent() {
             </div>
           </>
         )}
-        {topTab === "learn" && <LearnSection />}
+        {topTab === "learn" && (
+          <>
+            <LearnSection />
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Weekly buyside intelligence, in your inbox."
+              description="Hiring signals, fund filings, distressed situations, and market context — delivered weekly. Free."
+              cta="Subscribe free"
+            />
+          </>
+        )}
 
-        {topTab === "firmprep" && <EdgeSection />}
+        {topTab === "firmprep" && (
+          <>
+            <EdgeSection />
+            <NewsletterCTA
+              intent="signals_subscriber"
+              title="Stay ahead — hiring signals straight to your inbox."
+              description="Know which firms are actively hiring before roles are posted. Free weekly digest."
+              cta="Subscribe free"
+            />
+          </>
+        )}
         {topTab === "table" && <OnluTableSection />}
-
-        {/* Newsletter — persistent across every tab */}
-        <NewsletterCTA
-          intent="signals_subscriber"
-          title="Weekly buyside intelligence, in your inbox."
-          description="Hiring signals, fund filings, distressed situations, and market context — delivered weekly. Free."
-          cta="Subscribe free"
-        />
       </main>
 
       {/* Monetization section — always visible */}
@@ -2682,9 +2700,18 @@ function DistressedWatch() {
       </div>
 
       {loading && (
-        <div className="px-5 py-8 flex items-center gap-2 text-xs text-gray-400">
-          <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
-          Loading distressed situations…
+        <div className="divide-y divide-gray-50">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="px-5 py-4 space-y-2 animate-pulse">
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-36 bg-gray-100 rounded" />
+                <div className="h-4 w-20 bg-gray-100 rounded-full" />
+                <div className="h-4 w-12 bg-gray-50 rounded ml-auto" />
+              </div>
+              <div className="h-3 w-full bg-gray-50 rounded" />
+              <div className="h-3 w-4/5 bg-gray-50 rounded" />
+            </div>
+          ))}
         </div>
       )}
 
@@ -2696,9 +2723,15 @@ function DistressedWatch() {
         <div className="divide-y divide-gray-50">
           {situations.slice(0, 8).map(s => {
             const style = SITUATION_STYLE[s.situationType] ?? SITUATION_STYLE.restructuring;
+            const severity = (s.situationType === "chapter11" || s.situationType === "bankruptcy")
+              ? { dot: "🔴", label: "Acute", cls: "text-red-500" }
+              : s.daysAgo <= 14
+              ? { dot: "🟡", label: "Developing", cls: "text-amber-500" }
+              : { dot: "⚪", label: "Monitoring", cls: "text-gray-400" };
             return (
               <div key={s.id} className="px-5 py-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
+                  <span title={severity.label} className="text-[11px]">{severity.dot}</span>
                   <span className="font-semibold text-sm text-[#191c1e]">{s.company}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
                   {s.bondPrice != null && (
@@ -3938,6 +3971,7 @@ function HiringSection({
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [view, setView] = useState<"firms" | "roles">("firms");
+  const [compact, setCompact] = useState(false);
 
   const filtered = categoryFilter === "all"
     ? signals
@@ -3984,9 +4018,19 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        <span className="ml-auto text-xs text-gray-400">
-          {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
-        </span>
+        <div className="ml-auto flex items-center gap-2">
+          <button onClick={() => setCompact(c => !c)}
+            title={compact ? "Card view" : "Compact view"}
+            className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
+            {compact
+              ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="3" y="14" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="14" width="7" height="7" strokeWidth="2" rx="1"/></svg>
+              : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
+            }
+          </button>
+          <span className="text-xs text-gray-400">
+            {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
+          </span>
+        </div>
       </div>
 
       {loading && (
@@ -4011,9 +4055,9 @@ function HiringSection({
                 <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allRegistryProfiles.length}</span>
                 <span className="text-xs text-[#71787c]">Firms actively hiring</span>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className={compact ? "space-y-1" : "grid gap-4 sm:grid-cols-2"}>
                 {allRegistryProfiles.map((p) => (
-                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={onViewSignals} />
+                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={onViewSignals} compact={compact} />
                 ))}
               </div>
             </section>
@@ -4219,15 +4263,32 @@ function WatchStatusBadge({ status }: { status: WatchStatus }) {
   );
 }
 
-function HiringFirmCard({ profile, fundFilings, onViewSignals }: {
+function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }: {
   profile: FirmIntelProfile;
   fundFilings: FundFiling[];
   onViewSignals: () => void;
+  compact?: boolean;
 }) {
   const filing = fundFilings.find((f) => matchFirm(f.entityName)?.id === profile.firmId);
   const topRoles = profile.openRoles.filter(r => r.classification.frontOffice).slice(0, 4);
   const watchStatus = getWatchStatus(profile.frontOfficeCount, filing);
   const signalNote = generateSignalNote(profile, filing);
+
+  if (compact) {
+    return (
+      <div className="bg-white border border-[#c1c7cc]/40 rounded-lg px-4 py-2.5 flex items-center gap-3 hover:border-[#396477]/40 transition-colors">
+        <WatchStatusBadge status={watchStatus} />
+        <span className="font-semibold text-sm text-[#191c1e] flex-1 truncate">{profile.name}</span>
+        <span className="text-xs text-[#396477] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
+        {filing && (
+          <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
+            className="text-[10px] font-semibold text-[#71787c] hover:text-[#396477] transition-colors flex-shrink-0">
+            signal ↗
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 hover:shadow-[0_2px_12px_rgba(57,100,119,0.1)] transition-shadow">
@@ -4251,7 +4312,7 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals }: {
         <span className="text-xs font-bold text-[#396477] flex-shrink-0 pt-0.5">{profile.frontOfficeCount} open</span>
       </div>
 
-      {/* Signal note — the interpretation layer */}
+      {/* Signal note */}
       <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
         {signalNote}
       </p>
