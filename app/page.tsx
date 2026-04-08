@@ -4736,6 +4736,47 @@ function WatchStatusBadge({ status }: { status: WatchStatus }) {
   );
 }
 
+interface FirmNewsItem { title: string; source: string; date: string; daysAgo: number; url: string; }
+
+function FirmNewsBar({ firmName }: { firmName: string }) {
+  const [items, setItems] = useState<FirmNewsItem[]>([]);
+  const [loaded, setLoaded] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (loaded) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      fetch(`/api/firm-news?firm=${encodeURIComponent(firmName)}`)
+        .then(r => r.ok ? r.json() : { items: [] })
+        .then(d => setItems(d.items ?? []))
+        .catch(() => {})
+        .finally(() => setLoaded(true));
+    }, { rootMargin: "100px" });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [firmName, loaded]);
+
+  return (
+    <div ref={ref} className="mb-3">
+      {items.length > 0 && (
+        <div className="space-y-1">
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Recent signals</p>
+          {items.slice(0, 2).map((item, i) => (
+            <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
+              className="flex items-start gap-2 group rounded-lg px-2.5 py-1.5 hover:bg-amber-50/60 transition-colors border border-transparent hover:border-amber-100">
+              <span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0 mt-1.5" />
+              <span className="text-[11px] text-[#41484c] group-hover:text-[#396477] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
+              <span className="text-[10px] text-gray-300 flex-shrink-0 mt-0.5 whitespace-nowrap">{item.daysAgo}d</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }: {
   profile: FirmIntelProfile;
   fundFilings: FundFiling[];
@@ -4789,6 +4830,9 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
       <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
         {signalNote}
       </p>
+
+      {/* Recent news signals */}
+      <FirmNewsBar firmName={profile.name} />
 
       {/* Roles */}
       {topRoles.length > 0 && (
