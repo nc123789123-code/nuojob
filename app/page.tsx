@@ -211,7 +211,7 @@ function HomeContent() {
                   { icon: "📊", label: "Market Pulse", desc: "Live prices, fund signals & AI market briefs", tab: "pulse" as TopTab, color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50" },
                   { icon: "🎯", label: "Edge Prep", desc: "Firm guides, concept Q&A & case library", tab: "firmprep" as TopTab, color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50" },
                   { icon: "📚", label: "Onlu Learning", desc: "Deep-dives on credit, AI & macro", tab: "learn" as TopTab, color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50" },
-                  { icon: "🎪", label: "Onlu Events", desc: "Exclusive buyside networking dinners", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50" },
+                  { icon: "🤝", label: "Onlu Events", desc: "Buyside catchups & community meetups", tab: "table" as TopTab, color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50" },
                 ].map(f => (
                   <button key={f.tab} onClick={() => setTopTab(f.tab)}
                     className={`text-left p-3.5 rounded-xl border bg-white transition-all ${f.color}`}>
