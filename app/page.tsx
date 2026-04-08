@@ -881,23 +881,30 @@ function PulseSection({
       <div className="flex items-center gap-1 p-1 bg-white border border-gray-200 rounded-xl w-fit">
         <button
           onClick={() => setPulseSubTab("market")}
-          className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
             pulseSubTab === "market"
               ? "bg-amber-50 text-amber-700 shadow-sm"
               : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
           }`}
         >
-          📊 Market Brief
+          <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="2,13 6,8 10,10 16,4" />
+            <line x1="2" y1="16" x2="16" y2="16" />
+          </svg>
+          Market Brief
         </button>
         <button
           onClick={() => setPulseSubTab("funds")}
-          className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
             pulseSubTab === "funds"
               ? "bg-sky-50 text-[#396477] shadow-sm"
               : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
           }`}
         >
-          🔍 Fund Signals
+          <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9h3l2-5 3 9 2-4h2" />
+          </svg>
+          Fund Signals
         </button>
       </div>
 
