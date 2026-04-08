@@ -4663,7 +4663,7 @@ function HiringSection({
         ))}
         <div className="ml-auto flex items-center gap-2">
           <button
-            onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(p => !p); }}
+            onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
             {userProfile ? "Profile set" : "Set profile"}
