@@ -2180,29 +2180,52 @@ function ConceptQASection() {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
+interface FirmEnrich {
+  name: string; headcount: number | null; location: string | null;
+  founded: number | null; industry: string | null;
+  website: string | null; linkedin: string | null; description: string | null;
+}
+
 function FirmPrepSection() {
   const [query, setQuery] = useState("");
   const [teamGroup, setTeamGroup] = useState("");
   const [loading, setLoading] = useState(false);
   const [prep, setPrep] = useState<InterviewPrep | null>(null);
+  const [enrich, setEnrich] = useState<FirmEnrich | null>(null);
   const [error, setError] = useState<string | null>(null);
-
 
   const search = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    setLoading(true); setError(null); setPrep(null);
+    setLoading(true); setError(null); setPrep(null); setEnrich(null);
     try {
       const group = teamGroup.trim();
       const params = new URLSearchParams({ firm: query.trim() });
       if (group) params.set("group", group);
-      const res = await fetch(`/api/interview-prep?${params}`);
-      const d = await res.json();
-      if (d.error) setError(`Error: ${d.error}`);
-      else { setPrep(d); }
+
+      // Fire both in parallel
+      const [prepRes, enrichRes] = await Promise.allSettled([
+        fetch(`/api/interview-prep?${params}`).then(r => r.json()),
+        fetch(`/api/firm-enrich?firm=${encodeURIComponent(query.trim())}`).then(r => r.json()),
+      ]);
+
+      if (prepRes.status === "fulfilled") {
+        if (prepRes.value.error) setError(`Error: ${prepRes.value.error}`);
+        else setPrep(prepRes.value);
+      } else {
+        setError("Something went wrong.");
+      }
+      if (enrichRes.status === "fulfilled" && !enrichRes.value.error && enrichRes.value.headcount) {
+        setEnrich(enrichRes.value);
+      }
     } catch (e) { setError(e instanceof Error ? e.message : "Something went wrong."); }
     finally { setLoading(false); }
   };
+
+  function fmtHeadcount(n: number): string {
+    if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+    return `${n}`;
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
@@ -2244,6 +2267,48 @@ function FirmPrepSection() {
             <h2 className="text-xl font-bold text-[#191c1e] mb-1">{prep.firm}</h2>
             <p className="text-xs font-semibold text-rose-600 mb-3">{prep.strategy}</p>
             <p className="text-sm text-[#41484c] leading-relaxed">{prep.overview}</p>
+
+            {/* Apollo enrichment stats bar */}
+            {enrich && (
+              <div className="mt-4 pt-4 border-t border-rose-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {enrich.headcount && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Employees</p>
+                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{fmtHeadcount(enrich.headcount)}</p>
+                  </div>
+                )}
+                {enrich.location && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">HQ</p>
+                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.location}</p>
+                  </div>
+                )}
+                {enrich.founded && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Founded</p>
+                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.founded}</p>
+                  </div>
+                )}
+                {enrich.industry && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Sector</p>
+                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.industry}</p>
+                  </div>
+                )}
+                {(enrich.website || enrich.linkedin) && (
+                  <div className="col-span-2 sm:col-span-4 flex gap-3 mt-1">
+                    {enrich.website && (
+                      <a href={enrich.website} target="_blank" rel="noopener noreferrer"
+                        className="text-[11px] text-[#396477] hover:underline">Website →</a>
+                    )}
+                    {enrich.linkedin && (
+                      <a href={enrich.linkedin} target="_blank" rel="noopener noreferrer"
+                        className="text-[11px] text-[#396477] hover:underline">LinkedIn →</a>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Culture */}
