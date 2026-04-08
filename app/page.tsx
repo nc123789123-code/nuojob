@@ -1828,7 +1828,195 @@ const COMMODITY_POST_CONTENT = (
   </div>
 );
 
+const NORTHEAST_ASIA_POST_CONTENT = (
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+    <p>For most of the past decade, global equity investors have had a simple playbook: buy the S&P 500 and ignore everything else. American exceptionalism in corporate earnings, turbocharged by the Magnificent Seven, made it hard to argue otherwise. But if you've been paying attention to Northeast Asia over the past eighteen months, you'll have noticed something stirring — a confluence of governance reform, AI-driven earnings cycles, and valuation gaps wide enough to drive a truck through.</p>
+    <p>China, Japan, and South Korea together represent roughly a quarter of global GDP and house some of the world's most technologically sophisticated companies. Yet their equity markets collectively trade at steep discounts to Wall Street. The question worth asking is no longer <em>why are they cheap?</em> — which has well-known structural answers — but rather <em>what's changing, and is the discount finally narrowing?</em></p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Where things stand: a snapshot of each market</h3>
+
+    <p><strong>Japan</strong> has been the darling of the international value crowd since the Tokyo Stock Exchange's landmark 2023 directive urging listed companies to get serious about capital efficiency. That campaign has teeth. The share of Japanese companies achieving an ROE above 8% with a price-to-book ratio above 1x has risen from around 37% in mid-2022 to 43% by mid-2025. Share buyback volumes roughly doubled in that period. The TOPIX trades at approximately 16x forward earnings — around 27% cheaper than the S&P 500 — and Japanese small caps are even more interesting at roughly 14x forward, a 38% discount to their US equivalents.</p>
+    <p><strong>China's</strong> story is messier but potentially more rewarding. The Hang Seng Index rose about 29% in 2025, its best year since 2017, driven by a mix of policy stimulus, DeepSeek's emergence in the AI race, and a long-overdue valuation catch-up. The Hang Seng's forward P/E sits around 11.8x — still well below its 10-year peak of 15.5x. Earnings growth has been sluggish (low-to-mid single digits), so the rally has been mostly about multiple expansion. For it to continue, earnings need to follow.</p>
+    <p><strong>South Korea</strong> has been the most dramatic performer. The KOSPI closed 2025 up 75.6% — its best year since 1987 and the highest-gaining major index globally — breaching 5,500 for the first time in early 2026. The drivers are twofold: the global AI-driven memory chip cycle (Samsung and SK Hynix together account for nearly 40% of the index) and sweeping corporate governance reforms under the Value-Up Program.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">2025 full-year index returns</p>
+      <p className="text-[11px] text-gray-400 mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#3266ad] inline-block" />US</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#1D9E75] inline-block" />Northeast Asia</span>
+      </div>
+      <div className="space-y-2">
+        {([
+          { label: "KOSPI", value: 75.6, color: "#1D9E75" },
+          { label: "Hang Seng", value: 27.8, color: "#1D9E75" },
+          { label: "Nikkei 225", value: 26.7, color: "#1D9E75" },
+          { label: "Nasdaq", value: 22.2, color: "#3266ad" },
+          { label: "S&P 500", value: 14.5, color: "#3266ad" },
+        ] as { label: string; value: number; color: string }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 85) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">+{item.value}%</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: Korea Times, CNBC, Yahoo Finance. Price returns in local currency.</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The valuation gap: why Asia trades cheaper</h3>
+
+    <p>The discount across Northeast Asia relative to the US isn't random. It reflects several deeply embedded structural factors.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Forward P/E ratios: Asia vs. the US</p>
+      <p className="text-[11px] text-gray-400 mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
+      <div className="space-y-2">
+        {([
+          { label: "Nikkei 225", value: 22.0, color: "#1D9E75" },
+          { label: "S&P 500", value: 21.0, color: "#3266ad" },
+          { label: "Shanghai Comp.", value: 16.4, color: "#1D9E75" },
+          { label: "TOPIX", value: 16.2, color: "#1D9E75" },
+          { label: "KOSPI", value: 14.0, color: "#1D9E75" },
+          { label: "Japan small-cap", value: 13.9, color: "#1D9E75" },
+          { label: "Hang Seng", value: 11.8, color: "#1D9E75" },
+        ] as { label: string; value: number; color: string }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-28 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 25) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}x</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: FactSet, LSEG IBES, Hennessy Funds, MacroMicro. Forward P/E = price / consensus NTM EPS.</p>
+    </div>
+
+    <p><strong>Corporate governance gaps.</strong> Historically, Japanese companies sat on mountains of cash and cross-shareholdings, prioritizing stability over shareholder returns. Korean chaebols — family-controlled conglomerates like Samsung, Hyundai, and LG — have often prioritized controlling-family interests over minority shareholders. Chinese state-owned enterprises answer to political imperatives that don't always align with profit maximization. Global investors have rationally demanded a discount for these agency problems.</p>
+    <p><strong>Geopolitical risk premia.</strong> China's market carries a permanent overhang from US-China tensions, Taiwan risk, and regulatory unpredictability. The US-China tariff truce, extended through November 2026, has helped, but the risk premium hasn't disappeared. Korea's proximity to North Korea and its export dependence on both US and Chinese demand create a different but real geopolitical haircut.</p>
+    <p><strong>Currency and macro headwinds.</strong> The yen's chronic weakness has been both a tailwind for exporters and a headwind for foreign investors in unhedged terms. The Bank of Japan is still early in its rate normalization — with roughly two more 25bp hikes priced through 2026 — and the impact on equity multiples remains uncertain.</p>
+    <p><strong>Sector composition.</strong> The US market's premium partly reflects its dominance in high-multiple sectors: software, platform businesses, and asset-light tech. Asian indices are heavier in industrials, financials, materials, and hardware — sectors that structurally command lower multiples. When you adjust for sector mix, some of the valuation gap shrinks — but not all of it.</p>
+
+    <div className="border-t-2 border-b border-t-[#0F6E56] border-b-gray-200 py-5 my-6 text-center">
+      <p className="text-base italic text-[#0F6E56] leading-snug max-w-lg mx-auto">"The old line that 'Asia is cheap for a reason' still applies. The difference in 2026 is that several of those reasons are being systematically dismantled."</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">What's changing: topics worth watching</h3>
+
+    <p className="font-semibold text-[#191c1e]">1. Governance reform is becoming real, not rhetorical</p>
+    <p>This is arguably the single most important structural story in Asian equities right now. Japan and Korea are both undertaking governance overhauls that are shifting from form to substance.</p>
+    <p>In Japan, the TSE is planning to reduce TOPIX constituents from roughly 1,700 to around 1,200 by end-2028, pressuring companies to improve capital efficiency or face index exclusion. In Korea, the Value-Up Program has moved from voluntary signaling to hard law. By end-2025, 174 companies had disclosed Corporate Value-Up Plans. The National Assembly cut dividend tax rates from up to 45% down to 14–30%. In February 2026, Parliament mandated treasury share cancellation — eliminating a mechanism chaebol owners long used to entrench control.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Corporate governance reform timeline</p>
+      <p className="text-[11px] text-gray-400 mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#D85A30] inline-block" />Japan</span>
+        <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#534AB7] inline-block" />South Korea</span>
+      </div>
+      <div className="relative pl-6">
+        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
+        {([
+          { date: "2023", color: "#D85A30", title: "TSE directive on capital efficiency", desc: "Tokyo Stock Exchange urges companies trading below 1x book to disclose improvement plans" },
+          { date: "Feb 2024", color: "#534AB7", title: "Korea launches Value-Up Program", desc: "Voluntary disclosure guidelines, tax incentives, and the Korea Value-Up Index for institutional benchmarking" },
+          { date: "2025", color: "#D85A30", title: "Japan shifts from form to substance", desc: "ROE >8% companies rise to 43%. Buybacks double. TSE announces TOPIX reduction to ~1,200 names by 2028" },
+          { date: "Mid-2025", color: "#534AB7", title: "Korea amends Commercial Act", desc: "Directors' fiduciary duty now explicitly extends to all shareholders — not just controlling families" },
+          { date: "Dec 2025", color: "#534AB7", title: "Dividend tax slashed", desc: "Korea cuts dividend tax from up to 45% down to 14–30%. 174 companies have filed Value-Up Plans" },
+          { date: "Feb 2026", color: "#534AB7", title: "Mandatory treasury share cancellation", desc: "Parliament eliminates chaebol use of treasury shares to entrench control. KOSPI breaks 5,500" },
+          { date: "Sep 2026 (upcoming)", color: "#534AB7", title: "Cumulative voting takes effect", desc: "Large listed companies must allow cumulative voting, giving minority shareholders real board representation" },
+        ] as { date: string; color: string; title: string; desc: string }[]).map(item => (
+          <div key={item.title} className="relative mb-5 last:mb-0">
+            <div className="absolute -left-4 top-1 w-3 h-3 rounded-full border-2 border-white" style={{ background: item.color }} />
+            <p className="text-[10px] uppercase tracking-wide text-gray-400">{item.date}</p>
+            <p className="text-xs font-bold text-[#191c1e] mt-0.5">{item.title}</p>
+            <p className="text-[11px] text-gray-500 leading-snug mt-0.5">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p className="font-semibold text-[#191c1e]">2. The AI and semiconductor cycle</p>
+    <p>Northeast Asia sits at the heart of the global AI hardware supply chain. Korea's memory chip duopoly (Samsung and SK Hynix) is mission-critical for AI data centers. Taiwan's TSMC dominates logic fabrication. Japan's materials and equipment companies — from photoresists to precision machinery — are indispensable upstream suppliers.</p>
+    <p>China is pursuing a different angle: domestic semiconductor self-sufficiency. Beijing's ambition to triple domestic chip production by 2026, combined with breakthroughs from companies like DeepSeek in large language models, has reinvigorated China's tech sector. The concentration risk, however, is real. Samsung and SK Hynix alone account for nearly 40% of the KOSPI — higher concentration than the Magnificent Seven in the S&P 500.</p>
+
+    <p className="font-semibold text-[#191c1e]">3. China's consumption pivot and property stabilization</p>
+    <p>China's GDP growth is projected around 4.5% for 2026, with the government gradually pivoting from export-and-infrastructure dependence toward domestic consumption. The property market remains the wild card. Targeted stabilization measures are underway, but the sector is far from healed. The deflation overhang is gradually lifting, but consumer confidence remains fragile.</p>
+
+    <p className="font-semibold text-[#191c1e]">4. Japan's fiscal expansion under Takaichi</p>
+    <p>Prime Minister Takaichi's administration has identified 17 industries as key growth drivers, including defence, AI, shipbuilding, and next-generation energy. Fiscal policy is turning more expansionary — abolishing the provisional gasoline tax, raising defense spending, and investing in advanced technology. This pro-growth stance, combined with gradual BOJ normalization, creates a reasonably constructive macro backdrop.</p>
+
+    <p className="font-semibold text-[#191c1e]">5. The US dollar and capital flows</p>
+    <p>Historically, periods of US dollar weakness have been bullish for Asian equities. As the dollar weakened through parts of 2025, capital flowed back toward emerging and Asian markets. If the Fed continues cutting rates while Asian central banks hold or tighten modestly, this tailwind could persist. A resurgent dollar on sticky US inflation would be the key risk to watch.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Sensitivity to global &amp; US markets</h3>
+
+    <p>Northeast Asian equities are not islands. They remain highly sensitive to global risk appetite. The pattern across recent market episodes is consistent: Asian indices amplify S&P 500 moves in both directions — falling harder in selloffs and rallying more sharply in recoveries.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4 overflow-x-auto">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">When the S&amp;P 500 moves, Asia amplifies it</p>
+      <p className="text-[11px] text-gray-400 mb-4">Index moves during key episodes (2025–2026)</p>
+      <table className="w-full text-[11px] border-collapse">
+        <thead>
+          <tr className="border-b border-gray-100">
+            <th className="text-left font-semibold text-gray-400 pb-2 pr-3">Episode</th>
+            {["S&P 500","Nikkei 225","KOSPI","Hang Seng"].map(h => (
+              <th key={h} className="text-right font-semibold text-gray-400 pb-2 px-2">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {([
+            { label: "Apr 2025 tariff selloff", vals: [-18, -22, -25, -15] },
+            { label: "Apr–Dec 2025 recovery", vals: [17.9, 61.9, 76.5, 28.7] },
+            { label: "Mar 2026 Iran oil shock", vals: [-8.0, -7.5, -10.1, -8.5] },
+            { label: "Apr 8 2026 ceasefire rally", vals: [1.6, 5.4, 6.9, 3.0] },
+          ] as { label: string; vals: number[] }[]).map(row => (
+            <tr key={row.label} className="border-b border-gray-50 last:border-0">
+              <td className="py-2 pr-3 text-gray-600 font-medium">{row.label}</td>
+              {row.vals.map((v, i) => (
+                <td key={i} className={`py-2 px-2 text-right font-bold tabular-nums rounded ${v >= 0 ? "text-emerald-600" : "text-red-500"}`}>
+                  {v > 0 ? "+" : ""}{v.toFixed(1)}%
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: CNBC, Yahoo Finance, OANDA. Approximate moves during each episode.</p>
+    </div>
+
+    <p><strong>Trade channel:</strong> All three economies are major exporters. A US recession or hard landing would ripple through Asian corporate earnings rapidly.</p>
+    <p><strong>Financial channel:</strong> Global risk-off episodes tend to hit Asian markets harder than US markets, reflecting their higher beta to global liquidity. The classic pattern: US sneezes, Asia catches a cold.</p>
+    <p><strong>Tech cycle linkage:</strong> The AI buildout is overwhelmingly driven by US hyperscaler capex. If US tech spending disappoints or AI revenue monetization falters, the downstream impact on Asian chip, equipment, and materials companies would be severe. This is not a decoupled trade.</p>
+    <p><strong>Policy divergence risk:</strong> The Bank of Japan is tightening while the Fed is easing. If BOJ hikes surprise to the upside, the yen could strengthen sharply, pressuring Japanese exporter earnings.</p>
+
+    <div className="bg-[#E1F5EE] rounded-xl px-5 py-4 my-4 text-[12px] leading-relaxed text-[#085041]">
+      <strong>Key takeaway:</strong> The KOSPI's beta to the S&P is highest among the three, reflecting its concentration in cyclical semiconductor names. The Hang Seng's sensitivity is amplified by its role as a proxy for China risk sentiment. The Nikkei tracks US moves closely but with added yen volatility. Diversification? Partial at best — these are risk-on markets that amplify, not dampen, US drawdowns.
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The bottom line</h3>
+
+    <p>The investment case for Northeast Asian equities in 2026 rests on a simple but powerful thesis: you're buying genuine structural reform, world-class technology exposure, and above-average earnings growth at a meaningful discount to the US. Japan at 16x forward earnings, Hong Kong at 12x, and Korea riding the strongest earnings growth cycle globally — these are not numbers you can easily find elsewhere.</p>
+    <p>The risks are real: geopolitical flashpoints, currency volatility, concentration in a few mega-cap names, and deep cyclical linkage to US demand. But for investors who've spent years paying 22x+ for the S&P 500, Northeast Asia offers a different kind of equation — one where the margin of safety is wider, the reform catalysts are tangible, and the market hasn't fully priced in how much is actually changing beneath the surface.</p>
+
+    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. All investing involves risk. Past performance is not indicative of future results.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "northeast-asia-trifecta-2026",
+    title: "The Northeast Asian Trifecta: Why China, Japan & Korea Deserve a Closer Look in 2026",
+    date: "April 8, 2026",
+    tag: "Macro",
+    paragraphs: [],
+    richContent: NORTHEAST_ASIA_POST_CONTENT,
+  },
   {
     slug: "ai-commodity-price-impact",
     title: "How AI Development Is Reshaping Commodity Markets",
