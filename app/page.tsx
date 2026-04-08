@@ -1998,7 +1998,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
   const filtered = activeTag === "All" ? posts : posts.filter(p => p.tag === activeTag);
 
   return (
-    <div className="max-w-2xl py-2">
+    <div className="max-w-3xl py-2">
       {/* Topic navigator */}
       <div className="mb-8 space-y-4">
         {/* Tag filter */}
@@ -2040,9 +2040,10 @@ function PostList({ posts }: { posts: InsightPost[] }) {
       </div>
 
       {/* Posts */}
-      <div className="space-y-16">
+      <div className="space-y-6">
         {filtered.map((post) => (
-          <article key={post.slug} id={`post-${post.slug}`}>
+          <article key={post.slug} id={`post-${post.slug}`}
+            className="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm">
             <header className="mb-6">
               {post.tag && (
                 <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
@@ -2059,7 +2060,6 @@ function PostList({ posts }: { posts: InsightPost[] }) {
                 <p key={i} className="text-[#41484c] text-sm leading-[1.75]">{p}</p>
               ))}
             </div>
-            <div className="mt-10 border-t border-[#c1c7cc]/30" />
           </article>
         ))}
       </div>
