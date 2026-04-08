@@ -2917,11 +2917,37 @@ function InterviewIntelSection() {
             </p>
             <div className="flex flex-wrap gap-3 mt-3">
               {[
-                { icon: "🔒", text: "100% anonymous" },
-                { icon: "👥", text: "Shared with subscribers, no names" },
-                { icon: "✉️", text: "Reviewed by the Onlu team" },
+                {
+                  icon: (
+                    <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2.5" y="6" width="9" height="6.5" rx="1.5"/>
+                      <path d="M4.5 6V4.5a2.5 2.5 0 015 0V6"/>
+                    </svg>
+                  ),
+                  text: "100% anonymous",
+                },
+                {
+                  icon: (
+                    <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="5" cy="5" r="2"/>
+                      <circle cx="9.5" cy="5" r="2"/>
+                      <path d="M1 12c0-1.7 1.8-3 4-3s4 1.3 4 3"/>
+                      <path d="M9.5 9c1.4 0 2.5.9 2.5 2"/>
+                    </svg>
+                  ),
+                  text: "Shared with subscribers, no names",
+                },
+                {
+                  icon: (
+                    <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="1.5" y="3" width="11" height="8" rx="1.5"/>
+                      <path d="M1.5 5l5 3.5 5-3.5"/>
+                    </svg>
+                  ),
+                  text: "Reviewed by the Onlu team",
+                },
               ].map(b => (
-                <span key={b.text} className="inline-flex items-center gap-1 text-[11px] text-violet-700 bg-violet-100 px-2.5 py-1 rounded-full font-medium">{b.icon} {b.text}</span>
+                <span key={b.text} className="inline-flex items-center gap-1.5 text-[11px] text-violet-700 bg-violet-100 px-2.5 py-1 rounded-full font-medium">{b.icon}{b.text}</span>
               ))}
             </div>
           </div>
