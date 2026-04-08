@@ -1339,6 +1339,154 @@ const AI_POST_CONTENT = (
   </div>
 );
 
+const AI_COMMODITY_POST_CONTENT = (
+  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
+
+    <p>The last great commodity supercycle was a China story. The next one may be an AI story. The buildout of artificial intelligence infrastructure — data centres, power grids, cooling systems, and the hardware stacks that run them — is creating a demand shock across several commodity markets that is only beginning to be understood. At the same time, AI is reshaping the supply side of commodity markets in ways that will compound over the next decade.</p>
+    <p>This is not a speculative thesis. It is already visible in power demand forecasts, copper order books, and water utility filings. The question for analysts is not whether AI will move commodity markets — it is which commodities, by how much, and over what timeframe.</p>
+
+    {/* Pull quote */}
+    <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
+      <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Training a single frontier AI model can consume more electricity than 100 US homes use in a year. Multiply that by thousands of models, millions of inference calls per day, and the demand curve becomes something commodity markets have not seen before."</p>
+    </div>
+
+    {/* Section 1 */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    {[
+      {
+        num: "01", cat: "Energy",
+        title: "Power: The Most Direct and Immediate Impact",
+        paras: [
+          "Data centres currently account for roughly 1–2% of global electricity consumption. By 2030, depending on the pace of AI deployment, estimates from the IEA and Goldman Sachs suggest that figure could reach 3–4% — with AI inference workloads as the primary driver. Unlike traditional enterprise computing, which runs on predictable schedules, AI inference is always-on: every ChatGPT query, every API call, every real-time recommendation system draws power continuously.",
+          "The implication for natural gas is significant. Renewable capacity is being added rapidly, but it cannot be dispatched on demand. When a hyperscaler needs 500MW of guaranteed baseload power for a new data centre campus, gas turbines are the answer — not solar panels. This is already showing up in US power market data: several grid operators have reversed previous forecasts of flat electricity demand and now project sustained growth through the end of the decade.",
+          "Nuclear power is experiencing a related renaissance. Microsoft signed a deal to restart Three Mile Island. Google has contracted for small modular reactor capacity. Amazon has acquired a data centre campus directly adjacent to a nuclear plant. Uranium, after a decade of bear market following Fukushima, has entered a structural bull cycle driven in part by AI's insatiable appetite for clean, firm, baseload power.",
+        ],
+      },
+      {
+        num: "02", cat: "Metals",
+        title: "Copper, Aluminium, and the Infrastructure Multiplier",
+        paras: [
+          "A hyperscale data centre is an extraordinarily copper-intensive structure. Power distribution systems, server racks, cooling infrastructure, fibre runs, and the transmission lines that connect the facility to the grid all require copper. Estimates suggest a large data centre campus (100–500MW) requires 20–40 tonnes of copper per megawatt of capacity — comparable to the copper intensity of offshore wind. With hundreds of new data centre campuses announced globally through 2027, the incremental copper demand from AI infrastructure alone could represent several hundred thousand tonnes per year.",
+          "Aluminium follows a similar logic. Liquid cooling systems — increasingly preferred over air cooling for high-density AI chips — use aluminium heat exchangers and manifolds. Transmission infrastructure upgrades, required to connect new data centre campuses to the grid, are heavily aluminium-intensive in overhead lines. And the chassis of every server rack, every network switch, every UPS system is aluminium.",
+          "The timing creates a problem: copper mine supply is structurally constrained. No major new mine has come online in the past decade without significant delays and cost overruns. Chilean grades are declining. The pipeline of projects that could add meaningful supply before 2030 is thin. AI-driven demand is arriving into a market that was already structurally tight due to the energy transition — the two demand shocks are compounding.",
+        ],
+      },
+      {
+        num: "03", cat: "Critical Minerals",
+        title: "Silicon, Rare Earths, and the Chip Supply Chain",
+        paras: [
+          "AI accelerators — Nvidia GPUs, Google TPUs, custom ASICs — require a specific set of critical minerals at scale. High-purity silicon for wafers. Cobalt and tantalum for capacitors. Indium for displays and transistors. Gallium and germanium for compound semiconductors. These are not commodities in the traditional sense — they do not trade on exchanges with transparent price discovery — but their supply dynamics are increasingly central to AI development timelines.",
+          "China controls refining capacity for many of these materials at levels that dwarf its share of raw ore production. It refines roughly 80% of the world's gallium, 60% of germanium, and dominates rare earth processing globally. When China imposed export controls on gallium and germanium in 2023 — framed as a response to US chip export restrictions — it demonstrated that the critical mineral supply chain is a geopolitical pressure point, not just a manufacturing input.",
+          "For commodity analysts, the actionable insight is that AI chip demand creates a new class of concentrated supply risk. Unlike copper or oil, where disruptions are priced into liquid futures markets, disruptions in gallium or high-purity quartz (used in chip furnaces) are invisible until they manifest as production delays — at which point the impact is transmitted indirectly through tech earnings and capex cuts.",
+        ],
+      },
+      {
+        num: "04", cat: "Water",
+        title: "The Hidden Commodity: Water Consumption at Scale",
+        paras: [
+          "Data centres are thirsty. Evaporative cooling towers — the dominant cooling method for large facilities — consume between 1 and 5 litres of water per kilowatt-hour of electricity consumed. A 100MW data centre running continuously can consume 1–5 billion litres of water per year. Microsoft's data centres consumed 1.7 billion litres of water in 2021; by 2022 that figure had grown to 6.4 billion litres, driven largely by AI workloads from ChatGPT training and inference.",
+          "This is creating direct conflicts with agricultural and municipal water users in regions where data centres are concentrated — Northern Virginia, Phoenix, central Iowa, the Netherlands. Water utilities in several of these areas have begun reporting increased industrial demand from hyperscalers as a material factor in their capacity planning. In drought-prone regions, regulators are starting to impose water use restrictions on new data centre permitting.",
+          "Water is not a commodity that trades globally, but it is a constraint that increasingly affects where AI infrastructure can be built, how quickly it can be permitted, and what its operating costs will be. For investors in agricultural commodities, the competition for water between AI data centres and irrigation in arid farming regions is an underappreciated long-term risk.",
+        ],
+      },
+    ].map(s => (
+      <div key={s.num} className="border-t border-gray-100 pt-6">
+        <div className="flex items-baseline gap-4 mb-3">
+          <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
+          <div>
+            <div className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider">{s.cat}</div>
+            <h3 className="font-bold text-[#191c1e] text-base leading-snug mt-0.5">{s.title}</h3>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {s.paras.map((p, i) => <p key={i}>{p}</p>)}
+        </div>
+      </div>
+    ))}
+
+    {/* Supply side */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base">How AI Changes Commodity Production</h3>
+    <p>The demand story gets most of the attention, but AI is also reshaping the supply side of commodity markets in ways that will matter over a longer horizon.</p>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+      {[
+        { icon: "⛏️", title: "Mining optimisation", desc: "AI-driven drilling and blast pattern optimisation is improving ore recovery rates at existing mines. Rio Tinto's autonomous haulage system has reduced fuel consumption and improved productivity at its Pilbara iron ore operations. This extends mine life and reduces the marginal cost of production — capping long-run prices." },
+        { icon: "🌾", title: "Precision agriculture", desc: "AI-powered crop monitoring, yield prediction, and variable-rate fertiliser application are improving agricultural productivity at the field level. Platforms like Climate Corporation (Bayer) and John Deere's See & Spray are beginning to show measurable yield improvements — adding supply at the margin for grains and oilseeds." },
+        { icon: "🛢️", title: "Seismic interpretation", desc: "AI models trained on seismic data are dramatically accelerating exploration timelines in oil and gas. Processes that took geophysicists months now take days. This is already changing how E&P companies allocate exploration capex — potentially bringing more reserves to market faster." },
+        { icon: "⚡", title: "Grid management", desc: "AI-based demand forecasting and grid balancing is improving the utilisation of renewable capacity, reducing the need for gas peaker plants as backup. Long-run, this structurally pressures gas demand for power generation — even as AI data centres increase overall electricity demand." },
+      ].map(c => (
+        <div key={c.title} className="border border-gray-200 rounded-xl p-4 bg-white">
+          <div className="text-xl mb-2">{c.icon}</div>
+          <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.title}</div>
+          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    {/* Matrix */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <div className="overflow-x-auto border border-gray-200 rounded-xl">
+      <table className="w-full text-xs border-collapse">
+        <thead>
+          <tr className="border-b border-gray-200 bg-gray-50">
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Demand Driver</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Supply Effect</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Net Bias</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { name: "Electricity / Gas", demand: "Data centre baseload power, always-on inference workloads", supply: "Better grid efficiency, more renewables dispatch", bias: "Bullish", color: "text-red-600" },
+            { name: "Copper", demand: "Data centre wiring, grid upgrades, cooling systems", supply: "AI optimises mine yields slightly", bias: "Strongly Bullish", color: "text-red-600" },
+            { name: "Uranium", demand: "Nuclear preferred for firm clean baseload by hyperscalers", supply: "Limited new mine supply pipeline", bias: "Strongly Bullish", color: "text-red-600" },
+            { name: "Aluminium", demand: "Liquid cooling, server chassis, transmission lines", supply: "Marginal efficiency gains in smelting", bias: "Bullish", color: "text-red-600" },
+            { name: "Water", demand: "Evaporative cooling at hyperscale facilities", supply: "AI improves irrigation efficiency in agriculture", bias: "Regional — Bullish in arid zones", color: "text-amber-600" },
+            { name: "Natural Gas", demand: "Peaker demand for data centre baseload", supply: "AI accelerates exploration; grid AI reduces peak demand", bias: "Mixed / Neutral", color: "text-gray-500" },
+            { name: "Wheat / Corn", demand: "No direct link", supply: "AI precision ag improves yields over time", bias: "Mildly Bearish long-run", color: "text-emerald-600" },
+            { name: "Gallium / Germanium", demand: "Compound semiconductors for AI chips", supply: "China-controlled; geopolitically constrained", bias: "Strongly Bullish", color: "text-red-600" },
+          ].map((row, i) => (
+            <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+              <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
+              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+              <td className={`px-4 py-3 font-semibold align-top border-b border-gray-100 ${row.color}`}>{row.bias}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Conclusion */}
+    <div className="flex items-center gap-3 my-6">
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
+      <div className="flex-1 h-px bg-gray-200" />
+    </div>
+
+    <p>The AI-commodity nexus is not a simple "AI is bullish for everything" story. It is a set of differentiated impacts that require commodity-by-commodity analysis. The clearest near-term trades are in power infrastructure (copper, uranium, natural gas for baseload) and critical minerals with concentrated supply chains (gallium, germanium, high-purity quartz). The supply-side improvements from AI — better mine optimisation, precision agriculture, faster seismic interpretation — are real but slower to materialise, with payoffs measured in years rather than quarters.</p>
+    <p>For buyside analysts, the practical implication is twofold. First, any thesis on copper or uranium now requires a view on AI capex cycles — not just Chinese construction or EV adoption. Second, the geopolitical dimension of critical minerals has become a first-order risk factor in AI chip production, which feeds back into the capex of the hyperscalers, which feeds back into the power and metals demand forecasts. The commodity and technology sectors, historically analysed in separate silos, are now structurally linked.</p>
+
+    <p className="text-[11px] text-gray-400 italic mt-2">For educational and informational purposes only. Not investment advice.</p>
+  </div>
+);
+
 const COMMODITY_POST_CONTENT = (
   <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
     {/* Intro */}
@@ -1544,6 +1692,14 @@ const COMMODITY_POST_CONTENT = (
 );
 
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "ai-commodity-price-impact",
+    title: "How AI Development Is Reshaping Commodity Markets",
+    date: "April 8, 2026",
+    tag: "Commodities",
+    paragraphs: [],
+    richContent: AI_COMMODITY_POST_CONTENT,
+  },
   {
     slug: "commodity-price-drivers",
     title: "The Raw World: What Actually Moves Commodity Prices",
