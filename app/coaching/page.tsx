@@ -228,7 +228,7 @@ export default function CoachingPage() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-8">
-          Questions? Email us at <a href="mailto:hello@onluintel.com" className="text-[#396477] hover:underline">hello@onluintel.com</a>
+          Questions? Email us at <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>
         </p>
       </div>
     </div>
