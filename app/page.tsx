@@ -2418,9 +2418,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "intel">("firm");
 
-  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
+  const tabs: { id: "firm" | "concept" | "cases" | "intel"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "firm",
       icon: (
@@ -2458,21 +2458,34 @@ function EdgeSection() {
       label: "Case Library",
       desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
     },
+    {
+      id: "intel",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" />
+          <path d="M10 9v4M10 7h.01" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      ),
+      label: "Interview Intel",
+      desc: "Anonymous interview experiences from the community",
+    },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode selector cards */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               mode === t.id
-                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
+                ? t.id === "intel"
+                  ? "border-violet-400 bg-violet-50 shadow-md"
+                  : "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
                 : "border-gray-300 bg-white hover:border-[#396477]/50 hover:bg-[#f5fafb] hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
-            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
+            <div className={`mb-2 ${mode === t.id ? t.id === "intel" ? "text-violet-600" : "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? t.id === "intel" ? "text-violet-700" : "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
             <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
@@ -2480,6 +2493,7 @@ function EdgeSection() {
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
+      {mode === "intel" && <InterviewIntelSection />}
     </div>
   );
 }
@@ -2847,6 +2861,146 @@ function FirmPrepSection() {
           <InterviewFeedbackForm firmName={prep.firm} />
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── Interview Intel Section (standalone tab) ────────────────────────────────
+
+function InterviewIntelSection() {
+  const [form, setForm] = useState({ firm: "", roleType: "", round: "", difficulty: "", questions: "", tips: "", outcome: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.firm.trim() || !form.questions.trim()) return;
+    setSubmitting(true);
+    try {
+      await fetch("/api/interview-feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      setDone(true);
+    } finally { setSubmitting(false); }
+  };
+
+  if (done) return (
+    <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-6 py-10 text-center">
+      <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg className="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+      </div>
+      <p className="text-sm font-bold text-emerald-700 mb-1">Thank you — your experience helps the community.</p>
+      <p className="text-xs text-emerald-600">Shared with subscribers with all identifying details removed.</p>
+      <button onClick={() => { setDone(false); setForm({ firm: "", roleType: "", round: "", difficulty: "", questions: "", tips: "", outcome: "" }); }}
+        className="mt-4 text-xs text-emerald-700 underline hover:text-emerald-900">Submit another</button>
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-violet-50 border border-violet-100 rounded-2xl px-5 py-5">
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 bg-violet-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg viewBox="0 0 20 20" fill="none" className="w-4.5 h-4.5 text-violet-600" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+              <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" /><path d="M10 9v4M10 7h.01" strokeWidth="2" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-[#1A2B4A] mb-1">Share your interview experience</h3>
+            <p className="text-xs text-[#41484c] leading-relaxed max-w-xl">
+              Interviewed at a buyside firm or investment bank? Share what they asked so others can prepare.
+              Submissions are <strong>completely anonymous</strong> — nothing is stored or tied to you.
+              We share insights with our subscriber community on a <strong>no-name basis</strong>.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-3">
+              {[
+                { icon: "🔒", text: "100% anonymous" },
+                { icon: "👥", text: "Shared with subscribers, no names" },
+                { icon: "✉️", text: "Reviewed by the Onlu team" },
+              ].map(b => (
+                <span key={b.text} className="inline-flex items-center gap-1 text-[11px] text-violet-700 bg-violet-100 px-2.5 py-1 rounded-full font-medium">{b.icon} {b.text}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+        <div>
+          <label className="block text-xs font-semibold text-[#41484c] mb-1">Firm <span className="text-red-400">*</span></label>
+          <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
+            placeholder="e.g. Ares Management, Goldman Sachs"
+            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div>
+            <label className="block text-xs font-semibold text-[#41484c] mb-1">Role type</label>
+            <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
+              placeholder="e.g. Credit Analyst"
+              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-[#41484c] mb-1">Round</label>
+            <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
+              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              <option value="">Select</option>
+              <option>Phone screen</option>
+              <option>First round</option>
+              <option>Case study</option>
+              <option>Superday</option>
+              <option>Final round</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-[#41484c] mb-1">Difficulty</label>
+            <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
+              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              <option value="">Select</option>
+              <option>Straightforward</option>
+              <option>Moderate</option>
+              <option>Hard</option>
+              <option>Very hard</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-[#41484c] mb-1">Questions asked <span className="text-red-400">*</span></label>
+          <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
+            rows={4} placeholder="What did they ask? Technical, behavioural, case walk-through — as much detail as you're comfortable sharing"
+            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-[#41484c] mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+          <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
+            rows={2} placeholder="What would you do differently? What seemed to impress them?"
+            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
+        </div>
+        <div className="flex items-center gap-3">
+          <div>
+            <label className="block text-xs font-semibold text-[#41484c] mb-1">Outcome <span className="text-gray-300 font-normal">(optional)</span></label>
+            <select value={form.outcome} onChange={e => setForm(f => ({ ...f, outcome: e.target.value }))}
+              className="text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              <option value="">Prefer not to say</option>
+              <option>Offer received</option>
+              <option>Rejected</option>
+              <option>Withdrew</option>
+              <option>Pending</option>
+            </select>
+          </div>
+          <button type="submit" disabled={submitting || !form.firm.trim() || !form.questions.trim()}
+            className="ml-auto px-5 py-2.5 bg-violet-600 text-white text-sm font-bold rounded-xl hover:bg-violet-700 disabled:opacity-40 transition-colors">
+            {submitting ? "Submitting…" : "Submit anonymously →"}
+          </button>
+        </div>
+        <p className="text-[11px] text-gray-400">
+          Your submission is completely anonymous. No account, IP, or personal data is collected or retained.
+        </p>
+      </form>
     </div>
   );
 }
