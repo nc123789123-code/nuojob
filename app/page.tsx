@@ -4675,6 +4675,344 @@ const FIRM_REGISTRY = [
     careersUrl: "https://www.valueact.com",
     desc: "SF-based constructivist activist fund with $15B+ AUM. Long-term fundamental equity with board-level engagement. Small team and highly selective hiring.",
   },
+
+  // ── Major funds missing from original list ─────────────────────────────────
+  {
+    id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["distressed", "private_credit", "special_sits"],
+    keywords: ["oaktree capital", "oaktree"],
+    careersUrl: "https://www.oaktreecapital.com/careers",
+    desc: "Howard Marks' distressed debt and credit-focused alternative asset manager with $170B+ AUM. Dominant in distressed debt, high yield, convertibles, and real assets.",
+  },
+  {
+    id: "bridgewater", name: "Bridgewater Associates", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["macro", "multi_strategy"],
+    keywords: ["bridgewater associates", "bridgewater"],
+    careersUrl: "https://www.bridgewater.com/careers",
+    desc: "World's largest hedge fund with $150B+ AUM. Global macro systematic strategies. Known for radical transparency culture and highly selective hiring.",
+  },
+  {
+    id: "two_sigma", name: "Two Sigma", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "multi_strategy"],
+    keywords: ["two sigma"],
+    careersUrl: "https://careers.twosigma.com",
+    desc: "Quantitative hedge fund with $60B+ AUM. Data-science-driven systematic strategies across equities, futures, and credit. Heavy engineering and research culture.",
+  },
+  {
+    id: "deshaw", name: "D.E. Shaw Group", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "multi_strategy"],
+    keywords: ["d.e. shaw", "de shaw", "d e shaw"],
+    careersUrl: "https://www.deshaw.com/careers",
+    desc: "Systematic and discretionary hedge fund with $60B+ AUM. Pioneered computational finance. Combines quant and fundamental across equities, credit, and macro.",
+  },
+  {
+    id: "aqr", name: "AQR Capital Management", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "multi_strategy"],
+    keywords: ["aqr capital", "aqr"],
+    careersUrl: "https://www.aqr.com/About-Us/Careers",
+    desc: "Quantitative asset manager with $100B+ AUM. Factor investing, risk premia, and systematic global macro. Strong academic culture — Cliff Asness founded.",
+  },
+  {
+    id: "balyasny", name: "Balyasny Asset Management", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["multi_strategy", "long_short"],
+    keywords: ["balyasny", "bam lp"],
+    careersUrl: "https://www.balyasny.com/careers",
+    desc: "Multi-strategy hedge fund with $20B+ AUM. Equity L/S, macro, commodities, and quant. Pod-based structure with significant capital per portfolio manager.",
+  },
+  {
+    id: "exoduspoint", name: "ExodusPoint Capital Management", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["multi_strategy"],
+    keywords: ["exoduspoint", "exodus point"],
+    careersUrl: "https://www.exoduspoint.com",
+    desc: "Multi-strategy hedge fund with $12B+ AUM founded by Michael Gelband. Macro, fixed income relative value, equities, and credit across a pod-based structure.",
+  },
+  {
+    id: "schonfeld", name: "Schonfeld Strategic Advisors", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["multi_strategy", "quant"],
+    keywords: ["schonfeld"],
+    careersUrl: "https://www.schonfeld.com/careers",
+    desc: "Multi-strategy hedge fund with $13B+ AUM. Quantitative and fundamental equity, macro, and commodities across a platform of independent portfolio managers.",
+  },
+  {
+    id: "verition", name: "Verition Fund Management", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["multi_strategy"],
+    keywords: ["verition"],
+    careersUrl: "https://www.verition.com",
+    desc: "Multi-strategy hedge fund. Event-driven, equity L/S, fixed income arb, and macro across a pod-based structure.",
+  },
+  {
+    id: "man_group", name: "Man Group", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "multi_strategy"],
+    keywords: ["man group", "man ahl", "man glenwood", "man numeric"],
+    careersUrl: "https://www.man.com/careers",
+    desc: "Listed alternative asset manager with $175B+ AUM. Quant (Man AHL, Man Numeric) and discretionary (Man GLG) strategies. One of the largest hedge fund managers globally.",
+  },
+  {
+    id: "brevan_howard", name: "Brevan Howard", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["macro"],
+    keywords: ["brevan howard"],
+    careersUrl: "https://www.brevanhoward.com/careers",
+    desc: "Global macro hedge fund with $35B+ AUM. Rates, FX, commodities, and credit macro strategies. One of the largest macro-focused managers in the world.",
+  },
+  {
+    id: "farallon", name: "Farallon Capital Management", tier: 1 as const,
+    category: "Hedge Fund",
+    strategies: ["multi_strategy", "special_sits"],
+    keywords: ["farallon capital", "farallon"],
+    careersUrl: "https://www.faralloncapital.com/careers",
+    desc: "Multi-strategy hedge fund with $40B+ AUM. Event-driven, credit, real estate, and direct investing. One of the largest and most enduring hedge funds globally.",
+  },
+  {
+    id: "anchorage", name: "Anchorage Capital Group", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["distressed", "special_sits"],
+    keywords: ["anchorage capital", "anchorage group"],
+    careersUrl: "https://www.anchoragecap.com",
+    desc: "Credit-focused hedge fund. Distressed debt, special situations, and credit opportunities across the capital structure.",
+  },
+  {
+    id: "varde", name: "Värde Partners", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["distressed", "private_credit"],
+    keywords: ["varde partners", "värde"],
+    careersUrl: "https://www.varde.com/careers",
+    desc: "Global alternative investment firm with $15B+ AUM. Credit and special situations including distressed debt, mortgages, and private lending.",
+  },
+  {
+    id: "graham_capital", name: "Graham Capital Management", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "macro"],
+    keywords: ["graham capital management", "graham capital"],
+    careersUrl: "https://www.grahamcapital.com/careers",
+    desc: "Systematic and discretionary global macro hedge fund. Trend-following, quantitative strategies, and discretionary macro across rates, FX, and commodities.",
+  },
+  {
+    id: "capstone", name: "Capstone Investment Advisors", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["quant", "multi_strategy"],
+    keywords: ["capstone investment advisors", "capstone investment"],
+    careersUrl: "https://www.capstoneco.com/careers",
+    desc: "Volatility and options-focused hedge fund. Systematic volatility strategies across equity, rates, and commodities.",
+  },
+  {
+    id: "greenlight", name: "Greenlight Capital", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["long_short", "special_sits"],
+    keywords: ["greenlight capital", "greenlight"],
+    careersUrl: "https://www.greenlightcapital.com",
+    desc: "Value-oriented long/short equity hedge fund run by David Einhorn. Concentrated fundamental equity with activist and short-selling capabilities.",
+  },
+  {
+    id: "appaloosa", name: "Appaloosa Management", tier: 2 as const,
+    category: "Hedge Fund",
+    strategies: ["distressed", "multi_strategy"],
+    keywords: ["appaloosa management", "appaloosa"],
+    careersUrl: "https://www.appaloosamanagement.com",
+    desc: "Multi-strategy hedge fund with $17B+ AUM run by David Tepper. Distressed debt, equities, and credit. One of the top-performing hedge funds historically.",
+  },
+  {
+    id: "brookfield", name: "Brookfield Asset Management", tier: 1 as const,
+    category: "PE",
+    strategies: ["real_assets", "private_credit", "private_equity"],
+    keywords: ["brookfield asset management", "brookfield"],
+    careersUrl: "https://www.brookfield.com/en/careers",
+    desc: "Global alternative asset manager with $900B+ AUM. Real estate, infrastructure, renewable power, private equity, and credit. One of the largest alternative managers globally.",
+  },
+  {
+    id: "hamilton_lane", name: "Hamilton Lane", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["hamilton lane"],
+    careersUrl: "https://www.hamiltonlane.com/en-US/Careers",
+    desc: "Private markets investment firm with $900B+ AUM. Fund of funds, co-investments, secondaries, and direct credit across PE, infrastructure, and real assets.",
+  },
+  {
+    id: "stepstone", name: "StepStone Group", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["stepstone group", "stepstone"],
+    careersUrl: "https://www.stepstonegroup.com/careers",
+    desc: "Global private markets investment firm with $650B+ AUM. Primaries, secondaries, co-investments, and infrastructure across private equity and credit.",
+  },
+  {
+    id: "pantheon", name: "Pantheon Ventures", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity"],
+    keywords: ["pantheon ventures", "pantheon"],
+    careersUrl: "https://www.pantheon.com/careers",
+    desc: "Global private equity fund of funds and secondary investor with $80B+ AUM. Primaries, secondaries, and co-investments across buyout, venture, and infrastructure.",
+  },
+  {
+    id: "hig", name: "H.I.G. Capital", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["h.i.g. capital", "hig capital", "h.i.g"],
+    careersUrl: "https://www.higcapital.com/careers",
+    desc: "Middle market private equity and credit firm with $60B+ AUM. Buyout, growth equity, real estate, and direct lending across North America and Europe.",
+  },
+  {
+    id: "new_mountain", name: "New Mountain Capital", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["new mountain capital", "new mountain"],
+    careersUrl: "https://www.newmountaincapital.com/careers",
+    desc: "Growth-oriented middle market PE firm with $45B+ AUM. Focuses on defensive growth sectors — healthcare, software, business services. Also has a BDC and credit platform.",
+  },
+  {
+    id: "audax", name: "Audax Group", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity", "private_credit"],
+    keywords: ["audax group", "audax private equity", "audax"],
+    careersUrl: "https://www.audaxprivateequity.com/careers",
+    desc: "Middle market private equity and private debt firm. Buy-and-build PE strategies with an active credit platform serving the middle market.",
+  },
+  {
+    id: "thl", name: "Thomas H. Lee Partners", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity"],
+    keywords: ["thomas h. lee", "thomas h lee", "thl partners", "thl credit"],
+    careersUrl: "https://www.thl.com/careers",
+    desc: "Boston-based middle market PE firm. Buyout-focused with deep sector expertise in financial services, healthcare, and technology-enabled businesses.",
+  },
+  {
+    id: "genstar", name: "Genstar Capital", tier: 2 as const,
+    category: "PE",
+    strategies: ["private_equity"],
+    keywords: ["genstar capital", "genstar"],
+    careersUrl: "https://www.genstarcapital.com/careers",
+    desc: "San Francisco-based middle market PE firm with $45B+ AUM. Software, financial services, industrial technology, and healthcare verticals.",
+  },
+  {
+    id: "global_infra", name: "Global Infrastructure Partners", tier: 2 as const,
+    category: "PE",
+    strategies: ["real_assets"],
+    keywords: ["global infrastructure partners", "gip infrastructure"],
+    careersUrl: "https://www.global-infra.com/careers",
+    desc: "Infrastructure-focused PE firm with $100B+ AUM (now part of BlackRock). Airports, ports, energy, transport, and digital infrastructure globally.",
+  },
+  {
+    id: "digitalbridge", name: "DigitalBridge", tier: 2 as const,
+    category: "PE",
+    strategies: ["real_assets", "private_equity"],
+    keywords: ["digitalbridge", "digital bridge", "colony capital"],
+    careersUrl: "https://www.digitalbridge.com/careers",
+    desc: "Digital infrastructure-focused alternative asset manager. Data centres, cell towers, fibre networks, and edge infrastructure globally.",
+  },
+  {
+    id: "riverstone", name: "Riverstone Holdings", tier: 2 as const,
+    category: "PE",
+    strategies: ["real_assets", "private_equity"],
+    keywords: ["riverstone holdings", "riverstone"],
+    careersUrl: "https://www.riverstonellc.com/en/careers",
+    desc: "Energy-focused PE firm with $40B+ AUM. Upstream oil & gas, midstream, power, and clean energy transition investments.",
+  },
+  {
+    id: "perella_weinberg", name: "Perella Weinberg Partners", tier: 2 as const,
+    category: "Bank",
+    strategies: ["special_sits"],
+    keywords: ["perella weinberg", "pwp"],
+    careersUrl: "https://www.pwpartners.com/careers",
+    desc: "Independent financial services firm. Advisory, restructuring, and asset management. Strong in M&A advisory and restructuring mandates.",
+  },
+  {
+    id: "centerview", name: "Centerview Partners", tier: 2 as const,
+    category: "Bank",
+    strategies: ["special_sits"],
+    keywords: ["centerview partners", "centerview"],
+    careersUrl: "https://www.centerviewpartners.com/careers",
+    desc: "Independent advisory boutique. Widely considered one of the most prestigious M&A and restructuring advisors. Highly selective analyst and associate hiring.",
+  },
+  {
+    id: "piper_sandler", name: "Piper Sandler", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["piper sandler", "piper jaffray"],
+    careersUrl: "https://www.pipersandler.com/careers",
+    desc: "Investment bank focused on middle market M&A, equity capital markets, and fixed income. Strong sector coverage in healthcare and financial services.",
+  },
+  {
+    id: "william_blair", name: "William Blair", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["william blair"],
+    careersUrl: "https://www.williamblair.com/Careers",
+    desc: "Global boutique investment bank and asset manager. Middle market M&A advisory, equity research, and growth-oriented asset management.",
+  },
+  {
+    id: "stifel", name: "Stifel Financial", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["stifel financial", "stifel"],
+    careersUrl: "https://www.stifel.com/Careers",
+    desc: "Full-service IB and wealth manager. Middle market equity and debt capital markets, M&A advisory, and institutional research.",
+  },
+  {
+    id: "mizuho", name: "Mizuho Financial Group", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["mizuho financial", "mizuho securities", "mizuho"],
+    careersUrl: "https://www.mizuhogroup.com/careers",
+    desc: "Major Japanese bank with a significant US IB presence. Leveraged finance, structured credit, DCM, and ECM in the Americas.",
+  },
+  {
+    id: "socgen", name: "Societe Generale", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["societe generale", "société générale", "socgen", "soc gen"],
+    careersUrl: "https://careers.societegenerale.com",
+    desc: "French universal bank with strong global markets, structured finance, and equity derivatives franchises. Major player in commodity finance.",
+  },
+  {
+    id: "natixis", name: "Natixis", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["natixis"],
+    careersUrl: "https://www.natixis.com/natixis/jcms/tki_5053/en/careers",
+    desc: "French corporate and investment bank. Structured finance, real assets, and global markets. Strong in infrastructure and aviation finance.",
+  },
+  {
+    id: "fti_consulting", name: "FTI Consulting", tier: 2 as const,
+    category: "Bank",
+    strategies: ["special_sits"],
+    keywords: ["fti consulting", "fti"],
+    careersUrl: "https://www.fticonsulting.com/careers",
+    desc: "Global business advisory firm with a major restructuring and economic consulting practice. Works on many of the largest distressed situations.",
+  },
+  {
+    id: "alvarez_marsal", name: "Alvarez & Marsal", tier: 2 as const,
+    category: "Bank",
+    strategies: ["special_sits"],
+    keywords: ["alvarez & marsal", "alvarez and marsal", "a&m"],
+    careersUrl: "https://www.alvarezandmarsal.com/careers",
+    desc: "Global restructuring and performance improvement firm. Leading turnaround advisor — frequently appointed as CRO or restructuring adviser in major bankruptcies.",
+  },
+  {
+    id: "kroll", name: "Kroll", tier: 2 as const,
+    category: "Bank",
+    strategies: ["special_sits"],
+    keywords: ["kroll", "duff & phelps", "duff and phelps"],
+    careersUrl: "https://www.kroll.com/en/careers",
+    desc: "Global financial advisory firm (formerly Duff & Phelps). Valuation, restructuring advisory, distressed debt, and financial due diligence.",
+  },
+  {
+    id: "raymond_james", name: "Raymond James", tier: 2 as const,
+    category: "Bank",
+    strategies: [],
+    keywords: ["raymond james"],
+    careersUrl: "https://www.raymondjames.com/careers",
+    desc: "Full-service investment bank and wealth manager. Middle market M&A, equity capital markets, fixed income, and institutional research.",
+  },
 ];
 
 function matchFirm(firmName: string) {
@@ -5533,6 +5871,7 @@ function HiringSection({
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
   const [matchError, setMatchError] = useState<string | null>(null);
+  const [showDebug, setShowDebug] = useState(false);
 
   const filtered = categoryFilter === "all"
     ? signals
@@ -5770,7 +6109,32 @@ function HiringSection({
                 <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
                 <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.length}</span>
                 <span className="text-xs text-[#71787c]">Outside the watch list</span>
+                <button onClick={() => setShowDebug(v => !v)}
+                  className="ml-auto text-[10px] text-gray-400 hover:text-[#396477] transition-colors font-medium">
+                  {showDebug ? "Hide" : "Which firms? →"}
+                </button>
               </div>
+
+              {/* Debug panel: unmatched firm names by count */}
+              {showDebug && (() => {
+                const counts = new Map<string, number>();
+                for (const r of otherRoles) counts.set(r.firm, (counts.get(r.firm) ?? 0) + 1);
+                const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+                return (
+                  <div className="mb-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs">
+                    <p className="font-bold text-amber-800 mb-2">Firms not in watchlist ({sorted.length} unique)</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {sorted.map(([firm, count]) => (
+                        <span key={firm} className="inline-flex items-center gap-1 bg-white border border-amber-200 text-amber-900 rounded-full px-2 py-0.5 font-medium">
+                          {firm}
+                          {count > 1 && <span className="text-amber-500 font-bold">×{count}</span>}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+
               <div className="space-y-2">
                 {otherRoles.slice(0, 12).map((r) => (
                   <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
