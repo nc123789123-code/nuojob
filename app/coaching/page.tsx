@@ -78,7 +78,6 @@ export default function CoachingPage() {
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-1.5">
             <span className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
-            <span className="text-[10px] font-bold tracking-widest text-[#1A2B4A]/40 uppercase hidden sm:inline">Intel</span>
           </Link>
           <div className="w-px h-4 bg-gray-200" />
           <span className="text-xs font-bold text-[#7c6fcd] uppercase tracking-widest">Coaching</span>
