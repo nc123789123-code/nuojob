@@ -238,7 +238,7 @@ function HomeContent() {
           <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" animal={
               // Eagle — scouts, watches
-              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-sky-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M10 8.5C8 8.5 4.5 7 2 9.5" /><path d="M10 8.5C12 8.5 15.5 7 18 9.5" />
                 <ellipse cx="10" cy="9.5" rx="2" ry="1.5" /><circle cx="10" cy="6.5" r="1.8" />
                 <path d="M11.5 6.5 L13.5 7" /><path d="M8 11 C9 13.5 11 13.5 12 11" />
@@ -246,7 +246,7 @@ function HomeContent() {
             } />
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" animal={
               // Owl — wisdom, prep
-              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-violet-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12C5 8.5 7 5 10 5C13 5 15 8.5 15 12C15 15 13 17 10 17C7 17 5 15 5 12z" />
                 <path d="M8 5 L6.5 3" /><path d="M12 5 L13.5 3" />
                 <circle cx="8.5" cy="10" r="2" /><circle cx="8.5" cy="10" r="0.8" fill="currentColor" stroke="none" />
@@ -256,7 +256,7 @@ function HomeContent() {
             } />
             <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" animal={
               // Bull — markets
-              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-rose-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="10" cy="12" rx="6" ry="5" />
                 <path d="M4 10 C2 7 3 5 5.5 7" /><path d="M16 10 C18 7 17 5 14.5 7" />
                 <ellipse cx="10" cy="15" rx="2.5" ry="1.2" />
@@ -268,7 +268,7 @@ function HomeContent() {
             } />
             <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" animal={
               // Bee — social, community
-              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-amber-500" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-amber-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" />
                 <ellipse cx="12" cy="7" rx="3.5" ry="2" transform="rotate(20 12 7)" />
                 <ellipse cx="10" cy="13.5" rx="3.5" ry="4.5" />
@@ -281,7 +281,7 @@ function HomeContent() {
             } />
             <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" animal={
               // Fox — clever, curious
-              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-orange-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 15C5 11 7 8 10 8C13 8 15 11 15 15" />
                 <path d="M5 14 L3 8 L7.5 12" /><path d="M15 14 L17 8 L12.5 12" />
                 <path d="M8 15C8 17 12 17 12 15" />
