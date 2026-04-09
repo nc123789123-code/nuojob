@@ -236,11 +236,60 @@ function HomeContent() {
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50 hidden sm:block" />
           <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
-            <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
-            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" />
-            <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" accent="text-amber-600" />
-            <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" />
+            <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" animal={
+              // Eagle — scouts, watches
+              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 8.5C8 8.5 4.5 7 2 9.5" /><path d="M10 8.5C12 8.5 15.5 7 18 9.5" />
+                <ellipse cx="10" cy="9.5" rx="2" ry="1.5" /><circle cx="10" cy="6.5" r="1.8" />
+                <path d="M11.5 6.5 L13.5 7" /><path d="M8 11 C9 13.5 11 13.5 12 11" />
+              </svg>
+            } />
+            <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" animal={
+              // Owl — wisdom, prep
+              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12C5 8.5 7 5 10 5C13 5 15 8.5 15 12C15 15 13 17 10 17C7 17 5 15 5 12z" />
+                <path d="M8 5 L6.5 3" /><path d="M12 5 L13.5 3" />
+                <circle cx="8.5" cy="10" r="2" /><circle cx="8.5" cy="10" r="0.8" fill="currentColor" stroke="none" />
+                <circle cx="11.5" cy="10" r="2" /><circle cx="11.5" cy="10" r="0.8" fill="currentColor" stroke="none" />
+                <path d="M9.5 12 L10 13 L10.5 12" />
+              </svg>
+            } />
+            <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" animal={
+              // Bull — markets
+              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                <ellipse cx="10" cy="12" rx="6" ry="5" />
+                <path d="M4 10 C2 7 3 5 5.5 7" /><path d="M16 10 C18 7 17 5 14.5 7" />
+                <ellipse cx="10" cy="15" rx="2.5" ry="1.2" />
+                <circle cx="8.8" cy="15" r="0.5" fill="currentColor" stroke="none" />
+                <circle cx="11.2" cy="15" r="0.5" fill="currentColor" stroke="none" />
+                <circle cx="7.5" cy="11" r="0.7" fill="currentColor" stroke="none" />
+                <circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" />
+              </svg>
+            } />
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" accent="text-amber-600" animal={
+              // Bee — social, community
+              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-amber-500" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                <ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" />
+                <ellipse cx="12" cy="7" rx="3.5" ry="2" transform="rotate(20 12 7)" />
+                <ellipse cx="10" cy="13.5" rx="3.5" ry="4.5" />
+                <line x1="6.8" y1="12.5" x2="13.2" y2="12.5" /><line x1="6.8" y1="15" x2="13.2" y2="15" />
+                <circle cx="10" cy="9.2" r="1.8" />
+                <path d="M9 8 L7.5 6.5" /><path d="M11 8 L12.5 6.5" />
+                <circle cx="7.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" />
+                <circle cx="12.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" />
+              </svg>
+            } />
+            <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" animal={
+              // Fox — clever, curious
+              <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-[#396477]" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 15C5 11 7 8 10 8C13 8 15 11 15 15" />
+                <path d="M5 14 L3 8 L7.5 12" /><path d="M15 14 L17 8 L12.5 12" />
+                <path d="M8 15C8 17 12 17 12 15" />
+                <circle cx="10" cy="15.2" r="0.6" fill="currentColor" stroke="none" />
+                <circle cx="8" cy="12" r="0.7" fill="currentColor" stroke="none" />
+                <circle cx="12" cy="12" r="0.7" fill="currentColor" stroke="none" />
+              </svg>
+            } />
           </nav>
           <div className="ml-auto flex items-center gap-3">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
@@ -654,7 +703,7 @@ function MarketDataPanel() {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
-function NavTab({ active, onClick, label, badge, accent }: { active: boolean; onClick: () => void; label: string; badge?: string; accent?: string }) {
+function NavTab({ active, onClick, label, badge, accent, animal }: { active: boolean; onClick: () => void; label: string; badge?: string; accent?: string; animal?: React.ReactNode }) {
   const badgeStyle = badge === "AI"
     ? "bg-violet-100 text-violet-600"
     : badge === "Blog"
@@ -671,7 +720,7 @@ function NavTab({ active, onClick, label, badge, accent }: { active: boolean; on
   return (
     <button
       onClick={onClick}
-      className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap transition-all ${
+      className={`group relative flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap transition-all ${
         active
           ? `font-bold ${activeText}`
           : "font-medium text-[#5a6370] hover:text-[#191c1e]"
@@ -685,6 +734,14 @@ function NavTab({ active, onClick, label, badge, accent }: { active: boolean; on
       )}
       {active && (
         <span className={`absolute bottom-0 left-3 right-3 h-[3px] rounded-full ${activeLine}`} />
+      )}
+      {animal && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-5 left-1/2 -translate-x-1/2 text-[13px] select-none opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out"
+        >
+          {animal}
+        </span>
       )}
     </button>
   );
