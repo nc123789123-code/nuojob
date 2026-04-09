@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SiteNav from "@/app/components/SiteNav";
 import SiteFooter from "@/app/components/SiteFooter";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About — Onlu",
@@ -8,98 +9,140 @@ export const metadata: Metadata = {
     "Onlu is an intelligence platform for buyside professionals — fund signals, hiring intel, live markets, AI-powered interview prep, and community.",
 };
 
+const FEATURES = [
+  {
+    label: "Hiring Watch",
+    href: "/?tab=hiring",
+    desc: "Curated roles across hedge funds, PE, private credit, and alt asset managers — filtered for relevance, refreshed daily.",
+  },
+  {
+    label: "Market Pulse",
+    href: "/?tab=pulse",
+    desc: "Live market data, AI briefs, SEC EDGAR fund signals, and distressed watch — in one place.",
+  },
+  {
+    label: "Edge Prep",
+    href: "/?tab=firmprep",
+    desc: "Firm-specific interview prep, concept Q&A, case walkthroughs, and a credit cap structure search tool.",
+  },
+  {
+    label: "Onlu Events",
+    href: "/?tab=table",
+    desc: "Small-group coffee chats for buyside professionals. Capped at 8 — intentionally.",
+  },
+  {
+    label: "Onlu Learning",
+    href: "/?tab=learn",
+    desc: "Practical write-ups on credit markets, macro, and career strategy — with visual deep-dives.",
+  },
+  {
+    label: "1-on-1 Coaching",
+    href: "/coaching",
+    desc: "Resume reviews, mock interviews, and career strategy sessions with buyside professionals.",
+  },
+];
+
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#f7f9fb] flex flex-col">
+    <div className="min-h-screen bg-[#f7f9fb] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
-      <main className="flex-1 max-w-2xl mx-auto px-5 py-14 w-full">
-        {/* Header */}
-        <div className="mb-10">
-          <p className="text-[11px] font-semibold text-[#71787c] uppercase tracking-widest mb-3">About</p>
-          <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug mb-4">
-            Onlu
-          </h1>
-          <p className="text-[#41484c] text-sm leading-relaxed">
-            Onlu is an intelligence platform for buyside professionals and candidates — combining fund signals, hiring intel, live market data, AI-powered interview prep, and community in one place.
-          </p>
+      <main className="flex-1 w-full">
+
+        {/* Hero */}
+        <div className="bg-[#1A2B4A] text-white">
+          <div className="max-w-2xl mx-auto px-5 py-20">
+            <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest mb-4">About Onlu</p>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6">
+              Built for the buyside.<br />
+              <span style={{ color: "#6aab8e" }}>Signal-first.</span>
+            </h1>
+            <p className="text-white/70 text-base leading-relaxed max-w-lg">
+              Most platforms show what is already visible. Onlu is built to surface signals earlier —
+              so you know which firms are raising, deploying, or likely to hire before the opportunity is broadly visible.
+            </p>
+          </div>
         </div>
 
-        <div className="space-y-10 text-[#41484c] text-sm leading-relaxed">
-          {/* Mission */}
-          <p>
-            Most platforms show what is already visible. Onlu is built to surface signals earlier — helping users identify which firms are raising capital, deploying, or likely to hire before opportunities become broadly visible.
-          </p>
-          <p>
-            The goal is not more noise. It is better prioritization, backed by real signals and practical context.
-          </p>
+        <div className="max-w-2xl mx-auto px-5 py-16 space-y-16">
 
-          {/* What's on the platform */}
+          {/* Thesis */}
+          <div className="space-y-4 text-[#41484c] text-sm leading-relaxed">
+            <p className="text-base font-bold text-[#191c1e]">The edge is not more information.</p>
+            <p>
+              It is knowing what to focus on, and when. Time is the scarcest resource in buyside recruiting —
+              and most tools are optimised for volume, not signal quality.
+            </p>
+            <p>
+              Onlu combines fund activity data, hiring intelligence, and practical prep tools in one place —
+              so candidates and professionals can spend less time searching and more time acting.
+            </p>
+          </div>
+
+          {/* Features */}
           <div>
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">What&apos;s on the platform</h2>
-            <ul className="space-y-3 pl-1">
-              {[
-                { label: "Hiring Watch", desc: "Curated job listings across hedge funds, private equity, private credit, and other alternative asset managers — filtered for relevance, updated daily." },
-                { label: "Market Pulse (AI)", desc: "Live market data, AI-generated market briefs, fund signals from SEC EDGAR filings, and distressed watch — all in one place." },
-                { label: "Edge Prep (AI)", desc: "Firm-specific interview prep, concept Q&A, case library (Hertz, Serta, J.Crew, Envision and more), and Credit Watch — search any leveraged company for bond prices and cap structure." },
-                { label: "Onlu Events", desc: "Small-group weekend coffee chats for buyside professionals. Capped at 8 people — sign up to join the next session." },
-                { label: "Onlu Learning", desc: "Practical write-ups on credit markets, AI, macro, and career prep — including visual deep-dives like Fixed Income 101 and The AI Ecosystem." },
-              ].map((item) => (
-                <li key={item.label} className="flex items-start gap-2.5">
-                  <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
-                  <span><span className="font-semibold text-[#191c1e]">{item.label}</span> — {item.desc}</span>
-                </li>
+            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-6">What&apos;s on the platform</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {FEATURES.map((f) => (
+                <Link key={f.label} href={f.href}
+                  className="group bg-white border border-gray-200 rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all">
+                  <p className="text-sm font-bold text-[#191c1e] group-hover:text-[#396477] transition-colors mb-1">{f.label}</p>
+                  <p className="text-xs text-gray-500 leading-snug">{f.desc}</p>
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Who it's for */}
           <div>
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">Who it&apos;s for</h2>
-            <ul className="space-y-2 pl-1">
+            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Who it&apos;s for</p>
+            <div className="space-y-3">
               {[
-                "candidates targeting roles at hedge funds, private equity, private credit, and other alternative asset managers",
-                "buyside professionals tracking fund activity, market moves, and hiring trends",
-                "anyone who wants a more informed, signal-first approach to finance",
+                { title: "Candidates", desc: "Targeting roles at hedge funds, PE, private credit, and alternative asset managers." },
+                { title: "Buyside professionals", desc: "Tracking fund activity, market moves, and hiring trends across the industry." },
+                { title: "Career switchers", desc: "Coming from banking or consulting and looking for a structured, signal-driven approach to breaking in." },
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2.5">
-                  <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
-                  <span>{item}</span>
-                </li>
+                <div key={item.title} className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#6aab8e] flex-shrink-0 mt-2" />
+                  <p className="text-sm text-[#41484c]">
+                    <span className="font-bold text-[#191c1e]">{item.title}</span> — {item.desc}
+                  </p>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Perspective */}
-          <div>
-            <h2 className="text-[#191c1e] text-base font-semibold mb-3">Our perspective</h2>
-            <p className="mb-3">Time is the scarcest resource in recruiting.</p>
-            <p className="mb-3">
-              The edge is not having more information. It is knowing what to focus on, and when.
-            </p>
-            <p>Onlu is built around that idea.</p>
-          </div>
-
-          {/* Founder bio */}
-          <div className="border-t border-[#c1c7cc]/40 pt-8">
-            <h2 className="text-[#191c1e] text-base font-semibold mb-4">Founder</h2>
-            <p>
-              Karlie Nuo Chen founded Onlu after spending years on the buyside across private credit, hybrid capital, and special situations — and noticing how fragmented the signal landscape was for both investors and candidates. Onlu is her attempt to fix that.
-            </p>
+          {/* Founder */}
+          <div className="border-t border-gray-100 pt-10">
+            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Founder</p>
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-[#1A2B4A]/10 flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-[#1A2B4A]" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                  <circle cx="10" cy="7" r="3.5" /><path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-[#191c1e] mb-1">Karlie Nuo Chen</p>
+                <p className="text-sm text-[#41484c] leading-relaxed">
+                  Karlie founded Onlu after spending years on the buyside across private credit, hybrid capital, and special situations —
+                  and noticing how fragmented the signal landscape was for both investors and candidates. Onlu is her attempt to fix that.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* CTA */}
-          <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4">
-            <p className="text-sm text-[#396477] font-medium">
-              Ready to explore fund signals and hiring intel?
-            </p>
-            <a
-              href="/"
-              className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center"
-            >
+          <div className="bg-[#1A2B4A] rounded-2xl px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="text-white font-bold text-base mb-1">Ready to get started?</p>
+              <p className="text-white/60 text-sm">Hiring signals, market intel, and interview prep — all in one place.</p>
+            </div>
+            <Link href="/"
+              className="flex-shrink-0 px-5 py-2.5 bg-white text-[#1A2B4A] text-sm font-bold rounded-xl hover:bg-gray-100 transition-colors text-center">
               Explore Onlu →
-            </a>
+            </Link>
           </div>
+
         </div>
       </main>
 
