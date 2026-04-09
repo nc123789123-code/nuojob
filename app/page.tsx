@@ -287,7 +287,7 @@ function HomeContent() {
               </p>
               <div className="flex gap-8 mt-6">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
-                <AnimatedStat value={jobLoading ? 120 : jobSignals.length} label="Roles posted" />
+                <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" />
                 <AnimatedStat value={4} label="Data sources" />
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" />
               </div>
