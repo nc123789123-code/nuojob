@@ -3520,7 +3520,7 @@ const FIRM_REGISTRY = [
     category: "Private Credit",
     strategies: ["private_credit", "direct_lending", "special_sits"],
     keywords: ["hps"],
-    careersUrl: "https://www.hpsinvest.com/careers",
+    careersUrl: "https://www.hpspartners.com/careers",
     desc: "Top-tier direct lending and private credit firm ($100B+ AUM); recently acquired by BlackRock. Known for large-ticket capital solutions and complex transactions.",
   },
   {
@@ -3554,7 +3554,7 @@ const FIRM_REGISTRY = [
     category: "Direct Lending",
     strategies: ["private_credit", "direct_lending", "structured_credit"],
     keywords: ["benefit street"],
-    careersUrl: "https://www.benefitstreetpartners.com",
+    careersUrl: "https://www.franklintempletoncareers.com/",
     desc: "Franklin Templeton-owned credit manager with $75B+ AUM. Specializes in direct lending, special situations, and structured credit solutions.",
   },
   {
@@ -3586,7 +3586,7 @@ const FIRM_REGISTRY = [
     category: "Direct Lending",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["crescent capital"],
-    careersUrl: "https://www.crescentcapitalgroup.com",
+    careersUrl: "https://www.crescentcap.com/careers/",
     desc: "Mid-market direct lender with $40B+ AUM. Active in senior secured and unitranche lending to sponsor-backed US middle market companies.",
   },
   {
@@ -3594,7 +3594,7 @@ const FIRM_REGISTRY = [
     category: "Direct Lending",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["monroe capital"],
-    careersUrl: "https://www.monroecapitalllc.com",
+    careersUrl: "https://monroecap.com/careers-2/",
     desc: "Lower middle market direct lender and credit manager specializing in senior and subordinated debt for sponsor-backed businesses.",
   },
   {
@@ -3602,7 +3602,7 @@ const FIRM_REGISTRY = [
     category: "Direct Lending",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["churchill asset", "churchill"],
-    careersUrl: "https://www.churchillam.com",
+    careersUrl: "https://careers.tiaa.org/nuveen",
     desc: "Nuveen-affiliated middle market direct lender; $50B+ AUM. Focused on senior, unitranche, and equity co-investments in sponsor-backed companies.",
   },
   {
@@ -3644,7 +3644,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "special_sits"],
     keywords: ["elliott management", "elliott"],
-    careersUrl: "https://www.elliottmgmt.com",
+    careersUrl: "https://www.elliottmgmt.com/Careers",
     desc: "Iconic activist and distressed credit manager ($70B+ AUM). Pursues complex situations including restructurings, sovereign debt, and special situations globally.",
   },
   {
@@ -3652,7 +3652,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["cerberus"],
-    careersUrl: "https://www.cerberuscapital.com",
+    careersUrl: "https://cerberus.wd1.myworkdayjobs.com/CerberusCareers",
     desc: "Distressed and value-oriented alternative asset manager with $60B+ AUM. Active in distressed debt, non-performing loans, and real estate credit.",
   },
   {
@@ -3660,7 +3660,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["fortress"],
-    careersUrl: "https://www.fortress.com/careers",
+    careersUrl: "https://careers.fortress.com/",
     desc: "Multi-strategy credit and PE manager ($48B+ AUM). Specializes in credit opportunities, distressed assets, real assets, and structured products.",
   },
   {
@@ -3676,7 +3676,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "special_sits", "structured_credit"],
     keywords: ["marathon asset"],
-    careersUrl: "https://www.marathonam.com",
+    careersUrl: "https://www.marathonfund.com/careers",
     desc: "Global opportunistic credit manager with $20B+ AUM. Invests across stressed/distressed credit, special situations, and structured products.",
   },
   {
@@ -3684,7 +3684,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "private_credit", "special_sits"],
     keywords: ["brigade capital"],
-    careersUrl: "https://www.brigadecapital.com",
+    careersUrl: "https://www.brigadecapital.com/careers",
     desc: "Opportunistic and event-driven credit manager focused on high yield, leveraged loans, distressed debt, and capital structure arbitrage situations.",
   },
   {
@@ -3724,7 +3724,7 @@ const FIRM_REGISTRY = [
     category: "Distressed",
     strategies: ["distressed", "special_sits", "private_credit"],
     keywords: ["canyon capital", "canyon partners"],
-    careersUrl: "https://www.canyonpartners.com",
+    careersUrl: "https://www.canyonpartners.com/careers/",
     desc: "Diversified credit manager with $25B+ AUM. Active across corporate distressed, real estate credit, and structured credit special situations.",
   },
   {
@@ -3784,7 +3784,7 @@ const FIRM_REGISTRY = [
     category: "BDC",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["prospect capital"],
-    careersUrl: "https://www.prospectstreet.com",
+    careersUrl: "https://prospectcap.com/careers",
     desc: "Large BDC ($10B+ net assets) providing flexible capital to US middle market companies across first lien, second lien, and equity co-investments.",
   },
   {
@@ -3792,7 +3792,7 @@ const FIRM_REGISTRY = [
     category: "BDC",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["main street capital"],
-    careersUrl: "https://www.mainstcapital.com",
+    careersUrl: "https://www.mainstcapital.com/contact/careers/open-positions",
     desc: "Houston-based BDC focused on lower middle market companies. Provides long-term debt and equity capital; strong track record with above-average returns.",
   },
   {
@@ -3816,7 +3816,7 @@ const FIRM_REGISTRY = [
     category: "BDC",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["gladstone"],
-    careersUrl: "https://www.gladstoneinvestment.com",
+    careersUrl: "https://www.gladstonecompanies.com/contact-us/careers",
     desc: "BDC and investment manager providing debt and equity capital to lower middle market companies across multiple sectors.",
   },
 
