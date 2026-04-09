@@ -16,9 +16,8 @@ export default function SiteFooter() {
             { href: "/?tab=firmprep", label: "Edge Prep" },
             { href: "/?tab=table", label: "Onlu Events" },
             { href: "/?tab=learn", label: "Onlu Learning" },
-            { href: "/#guide", label: "Interview Guide" },
+            { href: "/coaching", label: "Coaching" },
             { href: "/about", label: "About" },
-            { href: "/contact", label: "Contact" },
             { href: "/privacy", label: "Privacy" },
             { href: "/terms", label: "Terms" },
           ].map(({ href, label }) => (
@@ -26,6 +25,12 @@ export default function SiteFooter() {
               {label}
             </Link>
           ))}
+          <Link href="/donate" className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-600 font-semibold transition-colors">
+            <svg viewBox="0 0 14 14" fill="currentColor" className="w-3 h-3">
+              <path d="M12.07 2.55a3.5 3.5 0 0 0-4.95 0L7 2.67l-.12-.12a3.5 3.5 0 0 0-4.95 4.95l.12.12L7 12.67l4.95-4.95.12-.12a3.5 3.5 0 0 0 0-4.95z"/>
+            </svg>
+            Support Onlu
+          </Link>
         </nav>
       </div>
     </footer>

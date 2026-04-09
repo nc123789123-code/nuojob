@@ -241,6 +241,11 @@ function HomeContent() {
           <div className="ml-auto flex items-center gap-3">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
+            <Link href="/donate" title="Support Onlu" className="hidden sm:inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-rose-50 transition-colors">
+              <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                <path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/>
+              </svg>
+            </Link>
             <Link href="/coaching" className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-violet-100 text-violet-700 border border-violet-200 text-xs font-semibold rounded-lg hover:bg-violet-200 transition-colors">
               1-on-1 Coaching
             </Link>
