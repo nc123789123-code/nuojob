@@ -6,7 +6,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About — Onlu",
   description:
-    "Onlu is an intelligence platform for buyside professionals — fund signals, hiring intel, live markets, AI-powered interview prep, and community.",
+    "Onlu is an intelligence platform for finance professionals — fund signals, hiring intel, live markets, AI-powered interview prep, and community.",
 };
 
 const FEATURES = [
@@ -28,7 +28,7 @@ const FEATURES = [
   {
     label: "Onlu Events",
     href: "/?tab=table",
-    desc: "Small-group coffee chats for buyside professionals. Capped at 8 — intentionally.",
+    desc: "Small-group coffee chats for finance professionals. Capped at 8 — intentionally.",
   },
   {
     label: "Onlu Learning",
@@ -38,7 +38,7 @@ const FEATURES = [
   {
     label: "1-on-1 Coaching",
     href: "/coaching",
-    desc: "Resume reviews, mock interviews, and career strategy sessions with buyside professionals.",
+    desc: "Resume reviews, mock interviews, and career strategy sessions with finance professionals.",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function AboutPage() {
           <div className="max-w-2xl mx-auto px-5 py-20">
             <p className="text-[11px] font-bold text-[#6aab8e] uppercase tracking-widest mb-4">About Onlu</p>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 text-[#1A2B4A]">
-              Built for the buyside.<br />
+              Built for Wall Street.<br />
               <span style={{ color: "#6aab8e" }}>Signal-first.</span>
             </h1>
             <p className="text-[#41484c] text-base leading-relaxed max-w-lg">
@@ -70,7 +70,7 @@ export default function AboutPage() {
           <div className="space-y-4 text-[#41484c] text-sm leading-relaxed">
             <p className="text-base font-bold text-[#191c1e]">The edge is not more information.</p>
             <p>
-              It is knowing what to focus on, and when. Time is the scarcest resource in buyside recruiting —
+              It is knowing what to focus on, and when. Time is the scarcest resource in finance recruiting —
               and most tools are optimised for volume, not signal quality.
             </p>
             <p>
@@ -99,7 +99,7 @@ export default function AboutPage() {
             <div className="space-y-3">
               {[
                 { title: "Candidates", desc: "Targeting roles at hedge funds, PE, private credit, and alternative asset managers." },
-                { title: "Buyside professionals", desc: "Tracking fund activity, market moves, and hiring trends across the industry." },
+                { title: "Finance professionals", desc: "Tracking fund activity, market moves, and hiring trends across the industry." },
                 { title: "Career switchers", desc: "Coming from banking or consulting and looking for a structured, signal-driven approach to breaking in." },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
@@ -132,13 +132,13 @@ export default function AboutPage() {
           </div>
 
           {/* CTA */}
-          <div className="bg-[#1A2B4A] rounded-2xl px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="bg-[#eef6f0] border border-[#c6e8d4] rounded-2xl px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <p className="text-white font-bold text-base mb-1">Ready to get started?</p>
-              <p className="text-white/60 text-sm">Hiring signals, market intel, and interview prep — all in one place.</p>
+              <p className="text-[#1A2B4A] font-bold text-base mb-1">Ready to get started?</p>
+              <p className="text-[#41484c] text-sm">Hiring signals, market intel, and interview prep — all in one place.</p>
             </div>
             <Link href="/"
-              className="flex-shrink-0 px-5 py-2.5 bg-white text-[#1A2B4A] text-sm font-bold rounded-xl hover:bg-gray-100 transition-colors text-center">
+              className="flex-shrink-0 px-5 py-2.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] transition-colors text-center">
               Explore Onlu →
             </Link>
           </div>

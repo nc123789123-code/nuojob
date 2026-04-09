@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;" />
             <p style="font-size: 12px; color: #9ca3af; margin: 0;">
-              Onlu · Buyside intelligence &amp; community · <a href="https://onlu.io" style="color: #9ca3af;">onlu.io</a>
+              Onlu · Finance intelligence &amp; community · <a href="https://onlu.io" style="color: #9ca3af;">onlu.io</a>
             </p>
           </div>
         </div>

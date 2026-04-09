@@ -3,15 +3,15 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "Onlu — Buyside Intelligence",
+  title: "Onlu — Finance Intelligence",
   description:
-    "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for buyside professionals. Know where opportunities are before they're posted.",
+    "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for finance professionals. Know where opportunities are before they're posted.",
   metadataBase: new URL("https://onluintel.com"),
   alternates: { canonical: "https://onluintel.com" },
   openGraph: {
-    title: "Onlu — Buyside Intelligence",
+    title: "Onlu — Finance Intelligence",
     description:
-      "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for buyside professionals.",
+      "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for finance professionals.",
     url: "https://onluintel.com",
     siteName: "Onlu",
     locale: "en_US",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Onlu — Buyside Intelligence",
+    title: "Onlu — Finance Intelligence",
     description:
-      "Fund signals, hiring intel, live markets, and AI-powered interview prep for buyside professionals.",
+      "Fund signals, hiring intel, live markets, and AI-powered interview prep for finance professionals.",
   },
   robots: {
     index: true,

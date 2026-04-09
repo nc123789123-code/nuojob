@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
           <LogoMark size={20} />
-          <span className="text-[#71787c] text-xs">Onlu · Buyside intelligence</span>
+          <span className="text-[#71787c] text-xs">Onlu · Finance intelligence</span>
         </div>
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
           {[

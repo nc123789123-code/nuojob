@@ -279,7 +279,7 @@ function HomeContent() {
                 Know before<br className="hidden sm:block" /> the role is posted.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
-                Capital raises predict hiring by 1–3 quarters. We track SEC filings, concurrent hiring patterns, and team changes across the buyside.
+                Capital raises predict hiring by 1–3 quarters. We track SEC filings, concurrent hiring patterns, and team changes across Wall Street.
               </p>
               <div className="flex gap-8 mt-6">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
@@ -365,7 +365,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-amber-500",
-                label: "Onlu Events", desc: "Buyside networking & meetups", tab: "table" as TopTab,
+                label: "Onlu Events", desc: "Finance networking & meetups", tab: "table" as TopTab,
                 color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
               },
               {
@@ -401,7 +401,7 @@ function HomeContent() {
                   <span className="text-xs font-bold uppercase tracking-widest text-white/50">Welcome to Onlu</span>
                 </div>
                 <p className="text-sm sm:text-base font-semibold text-white mb-4 max-w-2xl">
-                  Buyside hiring intelligence — see which firms are expanding before roles are posted, prep for interviews, and draft targeted outreach.
+                  Hiring intelligence — see which firms are expanding before roles are posted, prep for interviews, and draft targeted outreach.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
@@ -491,7 +491,7 @@ function HomeContent() {
             <LearnSection />
             <NewsletterCTA
               intent="signals_subscriber"
-              title="Weekly buyside intelligence, in your inbox."
+              title="Weekly finance intelligence, in your inbox."
               description="Hiring signals, fund filings, distressed situations, and market context — delivered weekly. Free."
               cta="Subscribe free"
             />
@@ -514,7 +514,7 @@ function HomeContent() {
             <OnluTableSection />
             <NewsletterCTA
               intent="signals_subscriber"
-              title="Stay in the loop on buyside catchups."
+              title="Stay in the loop on finance catchups."
               description="Get notified about upcoming events, hiring signals, and market intelligence. Free weekly digest."
               cta="Subscribe free"
             />
@@ -2437,7 +2437,7 @@ function EdgeSection() {
         </svg>
       ),
       label: "Firm Prep",
-      desc: "Strategy, culture & interview guide for any buyside firm",
+      desc: "Strategy, culture & interview guide for any firm",
     },
     {
       id: "concept",
@@ -5377,7 +5377,7 @@ function OutreachDraftSection() {
           <input
             value={firm}
             onChange={e => setFirm(e.target.value)}
-            placeholder="e.g. Ares Management, Apollo, any buyside firm"
+            placeholder="e.g. Ares Management, Goldman Sachs, any firm"
             className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
           />
           <div className="flex flex-wrap gap-1.5 mt-2">
@@ -6348,7 +6348,7 @@ function OnluTableSection() {
       <div className="space-y-2">
         <h2 className="text-xl font-bold text-[#1A2B4A]">Onlu Events</h2>
         <p className="text-sm text-[#71787c] leading-relaxed">
-          Small-group weekend coffee chats for finance and buyside professionals in NYC.
+          Small-group weekend coffee chats for finance professionals in NYC.
           Max 8 people per session — curated for meaningful conversation, not networking theatre.
         </p>
       </div>

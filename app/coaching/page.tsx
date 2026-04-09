@@ -93,7 +93,7 @@ export default function CoachingPage() {
             1-on-1 Sessions
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4 text-[#1A2B4A]">
-            Get into buyside.<br />With someone who&apos;s been there.
+            Get into finance.<br />With someone who&apos;s been there.
           </h1>
           <p className="text-[#41484c] text-base max-w-xl mx-auto leading-relaxed">
             One-on-one sessions with experienced credit and private equity professionals.
@@ -214,7 +214,7 @@ export default function CoachingPage() {
                   <path d="M10 6v4l2.5 2.5"/>
                 </svg>
               ),
-              label: "Buyside-specific",
+              label: "Finance-focused",
               sub: "Credit, PE, and AM focus",
             },
           ].map(t => (

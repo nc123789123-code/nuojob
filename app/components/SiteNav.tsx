@@ -30,7 +30,7 @@ export default function SiteNav() {
         <div className="ml-auto flex items-center gap-4">
           <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
           <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
-          <span className="text-[#71787c] text-xs hidden md:block">Buyside intelligence</span>
+          <span className="text-[#71787c] text-xs hidden md:block">Finance intelligence</span>
         </div>
       </div>
     </header>
