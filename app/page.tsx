@@ -3508,23 +3508,7 @@ const FIRM_REGISTRY = [
     desc: "Largest private credit manager globally with $400B+ AUM. One of the most active direct lenders; consistently hiring across credit and direct lending.",
   },
   {
-    id: "apollo", name: "Apollo Global Management", tier: 1 as const,
-    category: "Private Credit",
-    strategies: ["private_credit", "distressed", "special_sits"],
-    keywords: ["apollo"],
-    careersUrl: "https://www.apollo.com/careers",
-    desc: "Hybrid value-investing platform deploying capital across credit, private equity, and real assets. Known for originating large, complex credit transactions.",
-  },
-  {
-    id: "blackstone", name: "Blackstone Credit", tier: 1 as const,
-    category: "Private Credit",
-    strategies: ["private_credit", "direct_lending", "structured_credit"],
-    keywords: ["blackstone"],
-    careersUrl: "https://www.blackstone.com/careers",
-    desc: "Blackstone's $300B+ credit platform spanning direct lending, CLOs, liquid credit, and insurance-linked strategies. One of the fastest-growing credit managers.",
-  },
-  {
-    id: "kkr", name: "KKR Credit", tier: 1 as const,
+    id: "kkr", name: "KKR", tier: 1 as const,
     category: "Private Credit",
     strategies: ["private_credit", "direct_lending", "special_sits"],
     keywords: ["kkr"],
@@ -3582,7 +3566,7 @@ const FIRM_REGISTRY = [
     desc: "Multi-strategy credit platform ($75B+ AUM) covering middle market direct lending, asset-backed credit, real estate, and special situations.",
   },
   {
-    id: "neuberger", name: "Neuberger Berman Credit", tier: 2 as const,
+    id: "neuberger", name: "Neuberger Berman", tier: 2 as const,
     category: "Direct Lending",
     strategies: ["private_credit", "direct_lending", "structured_credit"],
     keywords: ["neuberger berman", "neuberger"],
@@ -3630,15 +3614,7 @@ const FIRM_REGISTRY = [
     desc: "Global alternative asset manager with $40B+ in private finance. Active across US and European direct lending, CLOs, and structured credit.",
   },
   {
-    id: "carlyle_credit", name: "Carlyle Credit", tier: 2 as const,
-    category: "Direct Lending",
-    strategies: ["private_credit", "direct_lending", "distressed"],
-    keywords: ["carlyle credit", "carlyle"],
-    careersUrl: "https://www.carlyle.com/careers",
-    desc: "Global alternative credit platform within Carlyle ($50B+ AUM). Active across direct lending, CLOs, structured credit, and opportunistic credit.",
-  },
-  {
-    id: "first_eagle", name: "First Eagle Alternative Capital", tier: 2 as const,
+    id: "first_eagle", name: "First Eagle", tier: 2 as const,
     category: "Direct Lending",
     strategies: ["direct_lending", "private_credit"],
     keywords: ["first eagle"],
@@ -3648,14 +3624,6 @@ const FIRM_REGISTRY = [
 
   // ── [DISTRESSED / SPECIAL SITUATIONS] ─────────────────────────────────────
   {
-    id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
-    category: "Distressed",
-    strategies: ["distressed", "private_credit", "special_sits"],
-    keywords: ["oaktree"],
-    careersUrl: "https://www.oaktreecapital.com/careers",
-    desc: "Distressed debt pioneer founded by Howard Marks; $190B+ AUM across opportunistic credit, high yield, and emerging markets. Core distressed franchise.",
-  },
-  {
     id: "centerbridge", name: "Centerbridge Partners", tier: 1 as const,
     category: "Distressed",
     strategies: ["distressed", "special_sits", "private_credit"],
@@ -3664,7 +3632,7 @@ const FIRM_REGISTRY = [
     desc: "Multi-strategy firm with deep expertise in distressed and special situations. Known for high-complexity restructurings across the US and Europe.",
   },
   {
-    id: "bain_credit", name: "Bain Capital Credit", tier: 2 as const,
+    id: "bain_credit", name: "Bain Capital", tier: 2 as const,
     category: "Distressed",
     strategies: ["private_credit", "distressed", "special_sits"],
     keywords: ["bain capital credit", "bain capital"],
@@ -3886,7 +3854,7 @@ const FIRM_REGISTRY = [
     desc: "Value-oriented hedge fund with $30B+ AUM managed by Seth Klarman. Rare, high-impact hires focused on credit, special situations, and real assets.",
   },
   {
-    id: "silverlake", name: "Silver Lake Credit", tier: 2 as const,
+    id: "silverlake", name: "Silver Lake", tier: 2 as const,
     category: "Multi-Strategy",
     strategies: ["private_credit", "special_sits"],
     keywords: ["silver lake"],
@@ -3915,7 +3883,7 @@ const FIRM_REGISTRY = [
     id: "apollo", name: "Apollo Global Management", tier: 1 as const,
     category: "Private Credit",
     strategies: ["private_credit", "private_equity", "distressed"],
-    keywords: ["apollo global", "apollo management"],
+    keywords: ["apollo", "apollo global", "apollo management"],
     careersUrl: "https://www.apollo.com/careers",
     desc: "Hybrid value-investing platform with $650B+ AUM. Known for large-scale credit origination, insurance assets, and complex structured transactions.",
   },
@@ -3923,17 +3891,9 @@ const FIRM_REGISTRY = [
     id: "carlyle", name: "The Carlyle Group", tier: 1 as const,
     category: "Private Credit",
     strategies: ["private_equity", "private_credit", "real_assets"],
-    keywords: ["carlyle group", "carlyle"],
+    keywords: ["carlyle group", "carlyle credit", "carlyle"],
     careersUrl: "https://www.carlyle.com/careers",
     desc: "Global alternative asset manager with $425B+ AUM. Credit platform covers direct lending, structured credit, and opportunistic / distressed strategies.",
-  },
-  {
-    id: "oaktree", name: "Oaktree Capital Management", tier: 1 as const,
-    category: "Distressed",
-    strategies: ["distressed", "private_credit", "special_sits"],
-    keywords: ["oaktree"],
-    careersUrl: "https://www.oaktreecapital.com/careers",
-    desc: "Premier distressed and credit-focused manager founded by Howard Marks with $190B+ AUM. Dominant in distressed debt, high yield, and convertibles.",
   },
 
   // ── Real Assets / Infrastructure ──────────────────────────────────────────
@@ -3978,14 +3938,6 @@ const FIRM_REGISTRY = [
     keywords: ["advent international", "advent"],
     careersUrl: "https://www.adventinternational.com/careers",
     desc: "Global PE firm focused on buyouts with $25B+ in committed capital. Active across Europe, North America, and emerging markets.",
-  },
-  {
-    id: "sixthstreet", name: "Sixth Street Partners", tier: 2 as const,
-    category: "Private Credit",
-    strategies: ["private_credit", "direct_lending", "special_sits"],
-    keywords: ["sixth street"],
-    careersUrl: "https://sixthstreet.com/careers",
-    desc: "Multi-strategy credit platform with $75B+ AUM. Spans direct lending, asset-backed finance, TAO (tactical opportunities), and growth equity.",
   },
 
   // ── [INVESTMENT BANKS — LEVERAGED FINANCE & CREDIT] ───────────────────────
