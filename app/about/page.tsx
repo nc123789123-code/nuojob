@@ -82,22 +82,10 @@ export default function AboutPage() {
 
           {/* Founder bio */}
           <div className="border-t border-[#c1c7cc]/40 pt-8">
-            <h2 className="text-[#191c1e] text-base font-semibold mb-5">Founder</h2>
-            <p className="text-[#191c1e] font-semibold mb-4">Karlie Nuo Chen</p>
-            <div className="space-y-4">
-              <p>
-                Karlie Nuo Chen is the founder of Onlu, a platform delivering actionable intelligence across buyside recruiting, fund signals, and market analysis.
-              </p>
-              <p>
-                She brings a cross-cycle investing background spanning sell-side, banking, and principal investing roles. Karlie began her career at Goldman Sachs, where she worked in credit research and later in the Debt Financing Group, underwriting revolving credit facilities and term loans with a focus on downside protection, capital structure, and documentation. She then joined Capital One, where she worked on data-driven strategy and analytics initiatives supporting treasury and commercial banking leadership.
-              </p>
-              <p>
-                Most recently, Karlie has invested on the buyside across private credit, hybrid capital, and event-driven public credit. Her experience includes leading end-to-end underwriting, structuring, and portfolio monitoring across healthcare, business services, and complex special situations. She has evaluated over $100 million of investment opportunities, with a focus on scenarios where structure, documentation, and timing drive outcomes as much as fundamentals.
-              </p>
-              <p>
-                Karlie founded Onlu to address a gap she experienced firsthand: while information in alternative markets is abundant, actionable insight — around capital structure dynamics, fund behavior, and hiring signals — is often fragmented. Onlu bridges that gap by combining investment-focused analysis with practical tools for professionals navigating the buyside.
-              </p>
-            </div>
+            <h2 className="text-[#191c1e] text-base font-semibold mb-4">Founder</h2>
+            <p>
+              Karlie Nuo Chen founded Onlu after spending years on the buyside across private credit, hybrid capital, and special situations — and noticing how fragmented the signal landscape was for both investors and candidates. Onlu is her attempt to fix that.
+            </p>
           </div>
 
           {/* CTA */}
