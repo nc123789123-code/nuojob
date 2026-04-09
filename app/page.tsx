@@ -235,7 +235,7 @@ function HomeContent() {
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" />
             <NavTab active={topTab === "firmprep"} onClick={() => setTopTab("firmprep")} label="Edge Prep" badge="AI" />
             <NavTab active={topTab === "pulse"} onClick={() => setTopTab("pulse")} label="Market Pulse" badge="AI" />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" />
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" accent="text-amber-600" />
             <NavTab active={topTab === "learn"} onClick={() => setTopTab("learn")} label="Onlu Learning" />
           </nav>
           <div className="ml-auto flex items-center gap-3">
@@ -649,7 +649,7 @@ function MarketDataPanel() {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
-function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: () => void; label: string; badge?: string }) {
+function NavTab({ active, onClick, label, badge, accent }: { active: boolean; onClick: () => void; label: string; badge?: string; accent?: string }) {
   const badgeStyle = badge === "AI"
     ? "bg-violet-100 text-violet-600"
     : badge === "Blog"
@@ -658,12 +658,17 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
     ? "bg-rose-100 text-rose-600"
     : "bg-[#c3ecd7] text-[#416656]";
 
+  const activeText = accent ?? "text-[#396477]";
+  const activeLine = accent
+    ? accent.replace("text-", "bg-")
+    : "bg-[#396477]";
+
   return (
     <button
       onClick={onClick}
       className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap transition-all ${
         active
-          ? "font-bold text-[#396477]"
+          ? `font-bold ${activeText}`
           : "font-medium text-[#5a6370] hover:text-[#191c1e]"
       }`}
     >
@@ -674,7 +679,7 @@ function NavTab({ active, onClick, label, badge }: { active: boolean; onClick: (
         </span>
       )}
       {active && (
-        <span className="absolute bottom-0 left-3 right-3 h-[3px] rounded-full bg-[#396477]" />
+        <span className={`absolute bottom-0 left-3 right-3 h-[3px] rounded-full ${activeLine}`} />
       )}
     </button>
   );
