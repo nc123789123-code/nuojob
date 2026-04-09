@@ -2429,9 +2429,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "intel">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
 
-  const tabs: { id: "firm" | "concept" | "cases" | "intel"; icon: React.ReactNode; label: string; desc: string }[] = [
+  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "firm",
       icon: (
@@ -2469,34 +2469,21 @@ function EdgeSection() {
       label: "Case Library",
       desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
     },
-    {
-      id: "intel",
-      icon: (
-        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" />
-          <path d="M10 9v4M10 7h.01" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ),
-      label: "Interview Intel",
-      desc: "Anonymous interview experiences from the community",
-    },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode selector cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               mode === t.id
-                ? t.id === "intel"
-                  ? "border-violet-400 bg-violet-50 shadow-md"
-                  : "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
+                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
                 : "border-gray-300 bg-white hover:border-[#396477]/50 hover:bg-[#f5fafb] hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? t.id === "intel" ? "text-violet-600" : "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
-            <div className={`text-xs font-bold mb-1 ${mode === t.id ? t.id === "intel" ? "text-violet-700" : "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
             <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
@@ -2504,7 +2491,6 @@ function EdgeSection() {
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
-      {mode === "intel" && <InterviewIntelSection />}
     </div>
   );
 }
@@ -5479,7 +5465,7 @@ function HiringSection({
   setShowProfilePanel: (v: boolean) => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel">("firms");
   const [compact, setCompact] = useState(false);
   const [profileDraft, setProfileDraft] = useState(userProfile);
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
@@ -5586,9 +5572,13 @@ function HiringSection({
             className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "outreach" ? "bg-[#396477] text-white shadow-sm" : "text-[#396477] hover:bg-[#396477]/10"}`}>
             Outreach
           </button>
+          <button onClick={() => setView("intel")}
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "intel" ? "bg-violet-600 text-white shadow-sm" : "text-violet-600 hover:bg-violet-50"}`}>
+            Interview Intel
+          </button>
         </div>
-        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
-        {JOB_CATEGORIES.slice(0, 5).map((c) => (
+        {view !== "intel" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
+        {view !== "intel" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
@@ -5596,7 +5586,7 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        <div className="ml-auto flex items-center gap-2">
+        {view !== "intel" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-[#eef4f7] text-[#396477] border-[#396477]/40 hover:border-[#396477]/70 hover:bg-[#e2ecf1]"}`}>
@@ -5614,7 +5604,7 @@ function HiringSection({
           <span className="text-xs text-gray-400">
             {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
           </span>
-        </div>
+        </div>}
       </div>
 
       {loading && (
@@ -5682,6 +5672,8 @@ function HiringSection({
       )}
 
       {view === "outreach" && <OutreachDraftSection />}
+
+      {view === "intel" && <InterviewIntelSection />}
 
       {view === "firms" && !loading && (
         <>
