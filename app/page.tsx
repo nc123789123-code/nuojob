@@ -4738,7 +4738,7 @@ function getWatchStatus(foCount: number, filing?: FundFiling): WatchStatus {
   return "On the Radar";
 }
 
-function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): string {
+function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): string | null {
   const stratLabel = STRATEGY_LABELS[profile.strategies[0]] ?? profile.strategies[0];
   const hasSenior = profile.openRoles.some(r => ["md", "partner", "director"].includes(r.classification.seniority));
   const amt = filing?.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : null;
@@ -4762,7 +4762,7 @@ function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): str
   if (hasSenior) {
     return `Senior hire posted at ${profile.name}. Senior additions typically precede a junior team build — watch for analyst and associate roles to follow.`;
   }
-  return `Active hiring at ${profile.name}. Direct outreach may surface additional unlisted opportunities alongside posted roles.`;
+  return null;
 }
 
 function hiringTimeline(days: number): { label: string; cls: string } | null {
@@ -6026,9 +6026,11 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
       </div>
 
       {/* Signal note */}
-      <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
-        {signalNote}
-      </p>
+      {signalNote && (
+        <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
+          {signalNote}
+        </p>
+      )}
 
       {/* Roles */}
       {topRoles.length > 0 && (
