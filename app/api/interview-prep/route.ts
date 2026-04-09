@@ -184,7 +184,7 @@ Return ONLY valid JSON with NO trailing commas, NO comments:
   "redFlags": ["3 items — 1 sentence each: the red flag and what it signals"]
 }
 
-4 behavioral, 4 technical. Return only valid JSON.`,
+3 behavioral, 3 technical. Return only valid JSON.`,
       }],
     });
 
