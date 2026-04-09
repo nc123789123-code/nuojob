@@ -266,7 +266,7 @@ function HomeContent() {
                 <circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" />
               </svg>
             } />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" accent="text-amber-600" animal={
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" animal={
               // Bee — social, community
               <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 text-amber-500" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" />
@@ -6395,7 +6395,7 @@ function OnluTableSection() {
               <button
                 onClick={() => { setSelected(s); setSubmitted(false); }}
                 disabled={s.spotsLeft === 0}
-                className="mt-4 w-full py-2.5 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="mt-4 w-full py-2.5 bg-teal-100 border border-teal-200 text-teal-800 text-sm font-semibold rounded-xl hover:bg-teal-200 hover:border-teal-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
               </button>
