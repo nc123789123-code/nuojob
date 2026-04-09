@@ -115,19 +115,33 @@ export default function AboutPage() {
           {/* Founder */}
           <div className="border-t border-gray-100 pt-10">
             <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Founder</p>
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-[#1A2B4A]/10 flex items-center justify-center flex-shrink-0">
-                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-[#1A2B4A]" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                  <circle cx="10" cy="7" r="3.5" /><path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6" />
-                </svg>
+            <div className="bg-[#f7f9fb] border border-gray-200 rounded-2xl px-6 py-6">
+              <div className="flex items-start gap-4 mb-4">
+                {/* Initials avatar */}
+                <div className="w-12 h-12 rounded-full bg-[#1A2B4A] flex items-center justify-center flex-shrink-0">
+                  <span className="text-white text-sm font-bold tracking-wide">KNC</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-[#191c1e]">Karlie Nuo Chen</p>
+                  <p className="text-xs text-[#71787c] mt-0.5">Founder · New York</p>
+                  <a href="https://www.linkedin.com/in/karliechen" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 mt-2 text-[11px] text-[#396477] hover:underline font-medium">
+                    <svg viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3">
+                      <path d="M13.632 13.635h-2.37V9.922c0-.886-.018-2.025-1.234-2.025-1.235 0-1.424.964-1.424 1.96v3.778h-2.37V6H8.51v1.04h.03c.321-.609 1.105-1.232 2.252-1.232 2.409 0 2.855 1.587 2.855 3.648v4.179zM3.558 4.955a1.376 1.376 0 1 1 0-2.752 1.376 1.376 0 0 1 0 2.752zm1.188 8.68H2.37V6h2.376v7.635zM14.816 0H1.18C.528 0 0 .516 0 1.153v13.694C0 15.484.528 16 1.18 16h13.635c.652 0 1.185-.516 1.185-1.153V1.153C16 .516 15.467 0 14.815 0z"/>
+                    </svg>
+                    LinkedIn
+                  </a>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-bold text-[#191c1e] mb-1">Karlie Nuo Chen</p>
-                <p className="text-sm text-[#41484c] leading-relaxed">
-                  Karlie founded Onlu after spending years on the buyside across private credit, hybrid capital, and special situations —
-                  and noticing how fragmented the signal landscape was for both investors and candidates. Onlu is her attempt to fix that.
-                </p>
-              </div>
+
+              {/* Pull quote */}
+              <blockquote className="border-l-2 border-[#6aab8e] pl-4 mb-4 italic text-sm text-[#396477] leading-relaxed">
+                &ldquo;The signal was always there — it was just scattered across too many places. I built Onlu to put it in one room.&rdquo;
+              </blockquote>
+
+              <p className="text-sm text-[#41484c] leading-relaxed">
+                Karlie spent years on the buyside across private credit, hybrid capital, and special situations. She kept noticing the same problem: the best intelligence — which firms were raising, deploying, or quietly building out a team — was fragmented, delayed, or only accessible if you already had the right network. Onlu is her attempt to fix that for everyone.
+              </p>
             </div>
           </div>
 
