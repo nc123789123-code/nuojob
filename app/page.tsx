@@ -283,6 +283,7 @@ function HomeContent() {
               </p>
               <div className="flex gap-8 mt-6">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
+                <AnimatedStat value={jobLoading ? 0 : jobSignals.length} label="Roles posted" />
                 <AnimatedStat value={4} label="Data sources" />
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" />
               </div>
@@ -5992,8 +5993,10 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
   onViewSignals: () => void;
   compact?: boolean;
 }) {
+  const [expanded, setExpanded] = useState(false);
   const filing = fundFilings.find((f) => matchFirm(f.entityName)?.id === profile.firmId);
-  const topRoles = profile.openRoles.filter(r => r.classification.frontOffice).slice(0, 4);
+  const allFrontOfficeRoles = profile.openRoles.filter(r => r.classification.frontOffice);
+  const topRoles = expanded ? allFrontOfficeRoles : allFrontOfficeRoles.slice(0, 4);
   const watchStatus = getWatchStatus(profile.frontOfficeCount, filing);
   const signalNote = generateSignalNote(profile, filing);
 
@@ -6055,8 +6058,10 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
               <span className="text-[10px] text-[#71787c] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
-          {profile.frontOfficeCount > 4 && (
-            <p className="text-[11px] text-[#71787c] pt-0.5">+{profile.frontOfficeCount - 4} more</p>
+          {allFrontOfficeRoles.length > 4 && (
+            <button onClick={() => setExpanded(e => !e)} className="text-[11px] text-[#396477] font-semibold pt-0.5 hover:underline text-left">
+              {expanded ? "Show less ↑" : `+${allFrontOfficeRoles.length - 4} more →`}
+            </button>
           )}
         </div>
       )}
@@ -6379,7 +6384,7 @@ function OnluTableSection() {
               <button
                 onClick={() => { setSelected(s); setSubmitted(false); }}
                 disabled={s.spotsLeft === 0}
-                className="mt-4 w-full py-2.5 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="mt-4 w-full py-2.5 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
               </button>
@@ -6443,7 +6448,7 @@ function OnluTableSection() {
             </div>
             {error && <p className="text-sm text-rose-600">{error}</p>}
             <button type="submit" disabled={submitting}
-              className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+              className="w-full py-3 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
               {submitting ? "Submitting…" : "Request My Seat →"}
             </button>
             <p className="text-[11px] text-[#71787c] text-center">
