@@ -738,7 +738,7 @@ function NavTab({ active, onClick, label, badge, accent, animal }: { active: boo
       {animal && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-5 left-1/2 -translate-x-1/2 text-[13px] select-none opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out"
+          className="pointer-events-none select-none opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-out"
         >
           {animal}
         </span>
