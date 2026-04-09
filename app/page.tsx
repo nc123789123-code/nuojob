@@ -2862,7 +2862,7 @@ function FirmPrepSection() {
   );
 }
 
-// ─── Interview Intel Section (standalone tab) ────────────────────────────────
+// ─── Interview Feedback Section ──────────────────────────────────────────────
 
 function InterviewIntelSection() {
   const [form, setForm] = useState({ firm: "", roleType: "", round: "", difficulty: "", questions: "", tips: "", outcome: "" });
@@ -5568,15 +5568,21 @@ function HiringSection({
               For You
             </button>
           )}
-          <button onClick={() => setView("outreach")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "outreach" ? "bg-[#396477] text-white shadow-sm" : "text-[#396477] hover:bg-[#396477]/10"}`}>
-            Outreach
-          </button>
-          <button onClick={() => setView("intel")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "intel" ? "bg-violet-600 text-white shadow-sm" : "text-violet-600 hover:bg-violet-50"}`}>
-            Interview Intel
-          </button>
         </div>
+        <button onClick={() => setView("outreach")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "outreach" ? "bg-teal-100 border-teal-300 text-teal-800 shadow-sm" : "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100 hover:border-teal-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/><rect x="1.5" y="2" width="11" height="10" rx="1.5" opacity="0" />
+          </svg>
+          Outreach
+        </button>
+        <button onClick={() => setView("intel")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "intel" ? "bg-violet-100 border-violet-300 text-violet-800 shadow-sm" : "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100 hover:border-violet-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M2 3h10a1 1 0 011 1v5a1 1 0 01-1 1H8l-3 2v-2H2a1 1 0 01-1-1V4a1 1 0 011-1z"/>
+          </svg>
+          Interview Feedback
+        </button>
         {view !== "intel" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
         {view !== "intel" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
