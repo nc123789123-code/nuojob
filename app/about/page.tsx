@@ -50,14 +50,14 @@ export default function AboutPage() {
       <main className="flex-1 w-full">
 
         {/* Hero */}
-        <div className="bg-[#1A2B4A] text-white">
+        <div className="bg-[#eef6f0] border-b border-[#d4ece0]">
           <div className="max-w-2xl mx-auto px-5 py-20">
-            <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest mb-4">About Onlu</p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6">
+            <p className="text-[11px] font-bold text-[#6aab8e] uppercase tracking-widest mb-4">About Onlu</p>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 text-[#1A2B4A]">
               Built for the buyside.<br />
               <span style={{ color: "#6aab8e" }}>Signal-first.</span>
             </h1>
-            <p className="text-white/70 text-base leading-relaxed max-w-lg">
+            <p className="text-[#41484c] text-base leading-relaxed max-w-lg">
               Most platforms show what is already visible. Onlu is built to surface signals earlier —
               so you know which firms are raising, deploying, or likely to hire before the opportunity is broadly visible.
             </p>
