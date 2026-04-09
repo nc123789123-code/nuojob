@@ -2180,6 +2180,24 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
 const INDUSTRY_POSTS: InsightPost[] = [
   {
+    slug: "housing-construction-2026",
+    title: "US Residential Construction: Caught Between a Deficit and a Hard Place",
+    date: "April 9, 2026",
+    tag: "Real Estate",
+    paragraphs: [],
+    richContent: (
+      <div className="space-y-4 text-[#41484c] text-sm leading-[1.75]">
+        <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages. Estimates of the total deficit range from 1.5M units (NAHB) to 7M (NLIHC for affordable rental).</p>
+        <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#191c1e]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. Builder sentiment has remained below the 50 breakeven on the NAHB HMI for 20+ consecutive months. Mortgage rates have eased to ~6% but remain far above the sub-4% environment that locked millions of existing homeowners in place.</p>
+        <p>A data-driven walkthrough of starts, permits, builder sentiment, tariff impacts, affordability, and the structural supply constraints shaping the market through the end of the decade.</p>
+        <a href="/learn/housing-construction-2026" target="_blank" rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] transition-colors">
+          Read full article with charts →
+        </a>
+      </div>
+    ),
+  },
+  {
     slug: "northeast-asia-trifecta-2026",
     title: "The Northeast Asian Trifecta: Why China, Japan & Korea Deserve a Closer Look in 2026",
     date: "April 8, 2026",
@@ -2373,6 +2391,7 @@ const TAG_STYLES: Record<string, string> = {
   "Interview Prep": "bg-violet-100 text-violet-700",
   "Career Prep":  "bg-violet-100 text-violet-700",
   "Commodities":  "bg-orange-100 text-orange-700",
+  "Real Estate":  "bg-teal-100 text-teal-700",
 };
 
 function PostList({ posts }: { posts: InsightPost[] }) {
