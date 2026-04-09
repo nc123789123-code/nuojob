@@ -45,16 +45,20 @@ const DEFAULT_JOB_FILTERS: JobFilters = {
 
 // ─── Animated counter hook ───────────────────────────────────────────────────
 function useCountUp(target: number, duration = 1200): number {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(target);
+  const prevTarget = useRef(target);
   const ref = useRef<HTMLElement | null>(null);
   useEffect(() => {
+    const from = prevTarget.current;
+    prevTarget.current = target;
+    if (from === target) return;
     let start: number | null = null;
     let raf: number;
     const step = (ts: number) => {
       if (!start) start = ts;
       const progress = Math.min((ts - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.floor(eased * target));
+      setValue(Math.floor(from + eased * (target - from)));
       if (progress < 1) raf = requestAnimationFrame(step);
       else setValue(target);
     };
@@ -283,7 +287,7 @@ function HomeContent() {
               </p>
               <div className="flex gap-8 mt-6">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
-                <AnimatedStat value={jobLoading ? 0 : jobSignals.length} label="Roles posted" />
+                <AnimatedStat value={jobLoading ? 120 : jobSignals.length} label="Roles posted" />
                 <AnimatedStat value={4} label="Data sources" />
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" />
               </div>
