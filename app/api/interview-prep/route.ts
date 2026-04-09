@@ -1,4 +1,5 @@
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -143,7 +144,7 @@ export async function GET(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 3500,
+      max_tokens: 2000,
       messages: [{
         role: "user",
         content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"${group ? ` — specifically for the ${group} team/group` : ""}
@@ -187,8 +188,10 @@ Return ONLY valid JSON with NO trailing commas, NO comments:
       }],
     });
 
-    const raw = (msg.content[0] as { type: string; text: string }).text.replace(/```json\n?|\n?```/g, "").trim();
-    const json = JSON.parse(raw);
+    const text = (msg.content[0] as { type: string; text: string }).text;
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("No JSON found in response");
+    const json = JSON.parse(jsonMatch[0]);
     const result: InterviewPrep = { ...json, generatedAt: new Date().toISOString() };
 
     cache.set(key, { data: result, ts: Date.now() });

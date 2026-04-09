@@ -1,4 +1,5 @@
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -79,9 +80,10 @@ Return this exact JSON structure:
       }],
     });
 
-    const raw = (msg.content[0] as { type: string; text: string }).text
-      .replace(/```json\n?|\n?```/g, "").trim();
-    const json = JSON.parse(raw);
+    const text = (msg.content[0] as { type: string; text: string }).text;
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("No JSON found in response");
+    const json = JSON.parse(jsonMatch[0]);
     const result: ConceptAnswer = { ...json, generatedAt: new Date().toISOString() };
 
     cache.set(key, { data: result, ts: Date.now() });
