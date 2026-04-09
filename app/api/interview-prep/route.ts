@@ -144,7 +144,7 @@ export async function GET(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 2000,
+      max_tokens: 3000,
       messages: [{
         role: "user",
         content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"${group ? ` — specifically for the ${group} team/group` : ""}
@@ -184,7 +184,7 @@ Return ONLY valid JSON with NO trailing commas, NO comments:
   "redFlags": ["3 items — 1 sentence each: the red flag and what it signals"]
 }
 
-5 behavioral, 5 technical. Return only valid JSON.`,
+4 behavioral, 4 technical. Return only valid JSON.`,
       }],
     });
 
