@@ -330,10 +330,10 @@ function HomeContent() {
                 Hiring Intelligence
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-                Know before<br className="hidden sm:block" /> the role is posted.
+                Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
-                Capital raises predict hiring by 1–3 quarters. We track SEC filings, concurrent hiring patterns, and team changes across Wall Street.
+                Live roles from 60+ firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
               <div className="flex gap-8 mt-6">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />

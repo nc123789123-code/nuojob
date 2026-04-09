@@ -124,7 +124,7 @@ export default function AboutPage() {
                 <div className="flex-1">
                   <p className="text-sm font-bold text-[#191c1e]">Karlie Nuo Chen</p>
                   <p className="text-xs text-[#71787c] mt-0.5">Founder · New York</p>
-                  <a href="https://www.linkedin.com/in/karliechen" target="_blank" rel="noopener noreferrer"
+                  <a href="https://www.linkedin.com/in/nuochen/" target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 mt-2 text-[11px] text-[#396477] hover:underline font-medium">
                     <svg viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3">
                       <path d="M13.632 13.635h-2.37V9.922c0-.886-.018-2.025-1.234-2.025-1.235 0-1.424.964-1.424 1.96v3.778h-2.37V6H8.51v1.04h.03c.321-.609 1.105-1.232 2.252-1.232 2.409 0 2.855 1.587 2.855 3.648v4.179zM3.558 4.955a1.376 1.376 0 1 1 0-2.752 1.376 1.376 0 0 1 0 2.752zm1.188 8.68H2.37V6h2.376v7.635zM14.816 0H1.18C.528 0 0 .516 0 1.153v13.694C0 15.484.528 16 1.18 16h13.635c.652 0 1.185-.516 1.185-1.153V1.153C16 .516 15.467 0 14.815 0z"/>
