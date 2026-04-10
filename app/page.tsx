@@ -2557,7 +2557,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
               onClick={() => setActiveTag(tag)}
               className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
                 activeTag === tag
-                  ? "bg-[#191c1e] text-white border-[#191c1e]"
+                  ? "bg-slate-100 text-slate-800 border-slate-300"
                   : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
               }`}
             >
@@ -2718,11 +2718,11 @@ function EdgeSection() {
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               mode === t.id
-                ? "border-[#1A2B4A] bg-[#1A2B4A]/5 shadow-md"
-                : "border-gray-300 bg-white hover:border-[#396477]/50 hover:bg-[#f5fafb] hover:shadow-sm"
+                ? "border-indigo-300 bg-indigo-50 shadow-md"
+                : "border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#396477]/60"}`}>{t.icon}</div>
-            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#1A2B4A]" : "text-[#2d3748]"}`}>{t.label}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-indigo-600" : "text-gray-400"}`}>{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-indigo-700" : "text-[#2d3748]"}`}>{t.label}</div>
             <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
@@ -6687,15 +6687,15 @@ function HiringSection({
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
-          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "firms" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-600 hover:text-gray-900"}`}>
+          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "firms" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "roles" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-600 hover:text-gray-900"}`}>
+          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "roles" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "foryou" ? "bg-[#1A2B4A] text-white shadow-sm" : "text-gray-600 hover:text-[#1A2B4A]"}`}>
+              className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "foryou" ? "bg-sky-100 text-sky-800 shadow-sm" : "text-gray-500 hover:text-sky-700"}`}>
               For You
             </button>
           )}
@@ -7283,13 +7283,13 @@ function IntelSection() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => setView("firms")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-[#396477] text-white" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
         >
           Firms ({allFirms.length})
         </button>
         <button
           onClick={() => setView("roles")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-[#396477] text-white" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
         >
           All Roles ({data.allRoles.filter((r) => r.classification.frontOffice).length})
         </button>
@@ -7521,11 +7521,11 @@ function OnluTableSection() {
       {/* Mobile tab switcher */}
       <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 w-fit mb-6 sm:hidden">
         <button onClick={() => setMobileTab("events")}
-          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "events" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-500"}`}>
+          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "events" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500"}`}>
           Events
         </button>
         <button onClick={() => setMobileTab("network")}
-          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "network" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-500"}`}>
+          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "network" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500"}`}>
           Network & Coaching
         </button>
       </div>
