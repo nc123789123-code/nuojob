@@ -6018,6 +6018,248 @@ function OutreachDraftSection() {
   );
 }
 
+// ─── Capital Cycle Section ────────────────────────────────────────────────────
+
+interface CapitalSignal {
+  firmId: string;
+  name: string;
+  category?: string;
+  // Form D
+  filing?: FundFiling;
+  // Job signals
+  openFrontOffice: number;
+  // Computed
+  stage: "both" | "raising" | "deploying" | "roles_only";
+  strength: number; // 0–100
+  note: string;
+}
+
+function computeCapitalSignals(
+  filingByFirmId: Map<string, FundFiling>,
+  allRegistryProfiles: FirmIntelProfile[],
+): CapitalSignal[] {
+  const profileMap = new Map(allRegistryProfiles.map(p => [p.firmId, p]));
+  const seen = new Set<string>();
+  const results: CapitalSignal[] = [];
+
+  // Firms with Form D (with or without roles)
+  for (const [firmId, filing] of filingByFirmId) {
+    seen.add(firmId);
+    const def = FIRM_REGISTRY.find(f => f.id === firmId);
+    if (!def) continue;
+    const profile = profileMap.get(firmId);
+    const foCount = profile?.frontOfficeCount ?? 0;
+    const days = filing.daysSinceFiling;
+    const amt = filing.totalOfferingAmount ?? 0;
+
+    let strength = 35; // base: has Form D
+    if (amt >= 500_000_000) strength += 22;
+    else if (amt >= 100_000_000) strength += 14;
+    else if (amt >= 50_000_000) strength += 6;
+    if (foCount >= 3) strength += 30;
+    else if (foCount >= 1) strength += 16;
+    if (days <= 30) strength += 13;
+    else if (days <= 60) strength += 8;
+    else if (days <= 90) strength += 3;
+    else if (days > 180) strength -= 15;
+    strength = Math.max(0, Math.min(100, strength));
+
+    const stage: CapitalSignal["stage"] = foCount > 0
+      ? "both"
+      : days <= 90 ? "raising" : "deploying";
+
+    const amtStr = amt ? fmt(amt) : null;
+    const note = stage === "both"
+      ? `${amtStr ? amtStr + " raise" : "Capital raise"} filed ${days}d ago — ${foCount} front-office role${foCount !== 1 ? "s" : ""} now open. Highest-conviction window.`
+      : stage === "raising"
+      ? `${amtStr ? amtStr : "Capital"} raise filed ${days}d ago, still${filing.offeringStatus === "open" ? " in market" : " recent"}. No roles posted yet — typical hiring lag is 1–3 quarters. Ideal time to get on radar.`
+      : `${amtStr ? amtStr : "Capital"} raised ${days}d ago. Post-close build-out phase — hiring typically starts here. Watch for postings.`;
+
+    results.push({ firmId, name: def.name, category: def.category, filing, openFrontOffice: foCount, stage, strength, note });
+  }
+
+  // Firms with roles but no Form D
+  for (const profile of allRegistryProfiles) {
+    if (seen.has(profile.firmId)) continue;
+    if (profile.frontOfficeCount === 0) continue;
+    const foCount = profile.frontOfficeCount;
+    let strength = 20;
+    if (foCount >= 3) strength += 25;
+    else if (foCount >= 1) strength += 12;
+    strength = Math.min(100, strength);
+    results.push({
+      firmId: profile.firmId, name: profile.name, category: profile.category,
+      filing: undefined, openFrontOffice: foCount, stage: "roles_only", strength,
+      note: `${foCount} front-office role${foCount !== 1 ? "s" : ""} open — no Form D on record. Hiring signal only.`,
+    });
+  }
+
+  return results.sort((a, b) => b.strength - a.strength);
+}
+
+function CapitalCycleSection({
+  filingByFirmId, allRegistryProfiles, signals: _signals,
+  onViewFunds, onViewRoles,
+}: {
+  filingByFirmId: Map<string, FundFiling>;
+  allRegistryProfiles: FirmIntelProfile[];
+  signals: JobSignal[];
+  onViewFunds: () => void;
+  onViewRoles: () => void;
+}) {
+  const capitalSignals = useMemo(
+    () => computeCapitalSignals(filingByFirmId, allRegistryProfiles),
+    [filingByFirmId, allRegistryProfiles]
+  );
+
+  const both = capitalSignals.filter(s => s.stage === "both");
+  const raising = capitalSignals.filter(s => s.stage === "raising");
+  const deploying = capitalSignals.filter(s => s.stage === "deploying");
+  const rolesOnly = capitalSignals.filter(s => s.stage === "roles_only");
+
+  const STAGE_META = {
+    both:       { label: "Raise + Hiring",  cls: "bg-emerald-50 border-emerald-200 text-emerald-800",  dot: "bg-emerald-500", desc: "Both signals confirmed — highest conviction" },
+    raising:    { label: "In Market Now",   cls: "bg-amber-50 border-amber-200 text-amber-800",        dot: "bg-amber-500",   desc: "Raise filed ≤90d ago, no roles yet" },
+    deploying:  { label: "Post-Raise",      cls: "bg-sky-50 border-sky-200 text-sky-800",              dot: "bg-sky-500",     desc: "Capital deployed, build-out likely" },
+    roles_only: { label: "Hiring Signal",   cls: "bg-gray-50 border-gray-200 text-gray-700",           dot: "bg-gray-400",   desc: "Roles posted, no Form D on record" },
+  };
+
+  const StrengthBar = ({ v }: { v: number }) => (
+    <div className="h-1.5 w-16 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
+      <div className={`h-full rounded-full ${v >= 70 ? "bg-emerald-400" : v >= 45 ? "bg-amber-400" : "bg-sky-300"}`} style={{ width: `${v}%` }} />
+    </div>
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Pipeline summary */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {(["both", "raising", "deploying", "roles_only"] as const).map(stage => {
+          const count = capitalSignals.filter(s => s.stage === stage).length;
+          const m = STAGE_META[stage];
+          return (
+            <div key={stage} className={`rounded-xl border p-3 ${m.cls}`}>
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className={`w-2 h-2 rounded-full ${m.dot} flex-shrink-0`} />
+                <span className="text-[10px] font-bold uppercase tracking-wide">{m.label}</span>
+              </div>
+              <p className="text-2xl font-extrabold">{count}</p>
+              <p className="text-[10px] opacity-70 leading-snug mt-0.5">{m.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Highest conviction — both signals */}
+      {both.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <h2 className="text-sm font-bold text-[#191c1e]">Raise + Hiring — Highest Conviction</h2>
+            <span className="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">{both.length}</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {both.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+          </div>
+        </section>
+      )}
+
+      {/* In market now */}
+      {raising.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+            <h2 className="text-sm font-bold text-[#191c1e]">In Market Now — Engage Before Roles Post</h2>
+            <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{raising.length}</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {raising.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+          </div>
+        </section>
+      )}
+
+      {/* Post-raise */}
+      {deploying.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-sky-400" />
+            <h2 className="text-sm font-bold text-[#191c1e]">Post-Raise — Build-Out Phase</h2>
+            <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{deploying.length}</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {deploying.slice(0, 8).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+          </div>
+        </section>
+      )}
+
+      {/* Roles only */}
+      {rolesOnly.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
+            <h2 className="text-sm font-bold text-[#191c1e]">Hiring Signal Only</h2>
+            <span className="text-[10px] bg-gray-100 text-gray-600 font-bold px-1.5 py-0.5 rounded">{rolesOnly.length}</span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {rolesOnly.slice(0, 6).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+          </div>
+        </section>
+      )}
+
+      {/* Footer links */}
+      <div className="flex gap-4 pt-2 border-t border-gray-100">
+        <button onClick={onViewFunds} className="text-xs text-[#396477] font-semibold hover:underline">Browse all Form D filings →</button>
+        <button onClick={onViewRoles} className="text-xs text-[#396477] font-semibold hover:underline">See all open roles →</button>
+      </div>
+    </div>
+  );
+}
+
+function CapitalCard({ signal, meta }: {
+  signal: CapitalSignal;
+  meta: { label: string; cls: string; dot: string; desc: string };
+}) {
+  const amt = signal.filing?.totalOfferingAmount;
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap mb-1">
+            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
+            {signal.category && <FirmTypeBadge category={signal.category} />}
+          </div>
+          <p className="font-bold text-sm text-[#191c1e] truncate">{signal.name}</p>
+        </div>
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
+          {signal.openFrontOffice > 0 && (
+            <span className="text-xs font-bold text-emerald-600">{signal.openFrontOffice} open</span>
+          )}
+          {amt && <span className="text-[10px] text-[#71787c]">{fmt(amt)}</span>}
+        </div>
+      </div>
+      {signal.filing && (
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[10px] text-[#71787c]">{signal.filing.daysSinceFiling}d ago</span>
+          {signal.filing.offeringStatus === "open" && (
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded">In market</span>
+          )}
+          {signal.filing.offeringStatus === "closed" && (
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-gray-50 text-gray-500 border border-gray-200 rounded">Closed</span>
+          )}
+        </div>
+      )}
+      <p className="text-[11px] text-[#41484c] leading-relaxed">{signal.note}</p>
+      <div className="flex items-center gap-2 mt-2.5">
+        <span className="text-[10px] text-gray-400 font-medium">Signal</span>
+        <div className="h-1.5 flex-1 bg-gray-100 rounded-full overflow-hidden">
+          <div className={`h-full rounded-full transition-all ${signal.strength >= 70 ? "bg-emerald-400" : signal.strength >= 45 ? "bg-amber-400" : "bg-sky-300"}`} style={{ width: `${signal.strength}%` }} />
+        </div>
+        <span className="text-[10px] font-bold text-gray-500">{signal.strength}</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── Hiring Watch Section ─────────────────────────────────────────────────────
 
 function HiringSection({
@@ -6045,7 +6287,7 @@ function HiringSection({
   onExport: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "funds">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "funds" | "capital">("firms");
   const [compact, setCompact] = useState(false);
   const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
   const [profileDraft, setProfileDraft] = useState(userProfile);
@@ -6198,8 +6440,15 @@ function HiringSection({
           </svg>
           Fund Signals
         </button>
-        {view !== "intel" && view !== "funds" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && view !== "funds" && JOB_CATEGORIES.slice(0, 5).map((c) => (
+        <button onClick={() => setView("capital")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "capital" ? "bg-emerald-100 border-emerald-300 text-emerald-800 shadow-sm" : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/>
+          </svg>
+          Capital Cycle
+        </button>
+        {view !== "intel" && view !== "funds" && view !== "capital" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
+        {view !== "intel" && view !== "funds" && view !== "capital" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
@@ -6207,7 +6456,7 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        {view !== "intel" && view !== "funds" && <div className="ml-auto flex items-center gap-2">
+        {view !== "intel" && view !== "funds" && view !== "capital" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
@@ -6318,6 +6567,16 @@ function HiringSection({
             </a>
           </div>
         </>
+      )}
+
+      {view === "capital" && (
+        <CapitalCycleSection
+          filingByFirmId={filingByFirmId}
+          allRegistryProfiles={allRegistryProfiles}
+          signals={signals}
+          onViewFunds={() => setView("funds")}
+          onViewRoles={() => setView("roles")}
+        />
       )}
 
       {view === "firms" && !loading && (
