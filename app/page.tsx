@@ -5693,32 +5693,32 @@ function ResumeReviewSection() {
     <div className="space-y-6">
       {/* Input */}
       {!result && (
-        <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5 space-y-4">
           <div>
-            <h2 className="text-sm font-bold text-[#191c1e] mb-1">Finance Resume Review</h2>
-            <p className="text-xs text-gray-400">Paste your resume below. You&apos;ll get specific, blunt feedback on deal experience, bullet quality, formatting, and role positioning — from a buyside lens.</p>
+            <h2 className="text-sm font-bold text-indigo-900 mb-1">Finance Resume Review</h2>
+            <p className="text-xs text-indigo-400">Paste your resume below. You&apos;ll get specific, blunt feedback on deal experience, bullet quality, formatting, and role positioning — from a buyside lens.</p>
           </div>
           <div>
-            <label className="text-xs font-semibold text-[#41484c] mb-1.5 block">Target role <span className="text-gray-400 font-normal">(optional)</span></label>
+            <label className="text-xs font-semibold text-indigo-700 mb-1.5 block">Target role <span className="text-indigo-300 font-normal">(optional)</span></label>
             <input
               value={targetRole} onChange={e => setTargetRole(e.target.value)}
               placeholder="e.g. Direct Lending Analyst, PE Associate, Credit HF"
-              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20"
+              className="w-full text-sm border border-indigo-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 placeholder:text-indigo-300"
             />
           </div>
           <div>
-            <label className="text-xs font-semibold text-[#41484c] mb-1.5 block">Resume text</label>
+            <label className="text-xs font-semibold text-indigo-700 mb-1.5 block">Resume text</label>
             <textarea
               value={resume} onChange={e => setResume(e.target.value)}
               rows={12}
               placeholder="Paste your full resume here — work experience, education, skills. Plain text is fine."
-              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 resize-none font-mono text-xs leading-relaxed"
+              className="w-full text-sm border border-indigo-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none font-mono text-xs leading-relaxed placeholder:text-indigo-300"
             />
-            <p className="text-[10px] text-gray-400 mt-1">{resume.length > 0 ? `${resume.length} characters` : "Minimum ~500 characters"}</p>
+            <p className="text-[10px] text-indigo-400 mt-1">{resume.length > 0 ? `${resume.length} characters` : "Minimum ~500 characters"}</p>
           </div>
           <button
             onClick={submit} disabled={loading || resume.trim().length < 100}
-            className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
+            className="w-full py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
             {loading ? (
               <>
                 <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
@@ -5734,26 +5734,26 @@ function ResumeReviewSection() {
       {result && (
         <div className="space-y-4">
           {/* Header */}
-          <div className="bg-[#1A2B4A] text-white rounded-2xl p-5">
+          <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5">
             <div className="flex items-center gap-4">
               <ScoreRing score={result.overallScore} />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-white/50 font-semibold uppercase tracking-wider mb-1">Overall Score</p>
-                <p className="text-sm font-semibold leading-snug">{result.headline}</p>
-                {result.targetRole && <p className="text-[11px] text-white/50 mt-1">Positioning: {result.targetRole}</p>}
+                <p className="text-xs text-indigo-400 font-semibold uppercase tracking-wider mb-1">Overall Score</p>
+                <p className="text-sm font-semibold text-indigo-900 leading-snug">{result.headline}</p>
+                {result.targetRole && <p className="text-[11px] text-indigo-400 mt-1">Positioning: {result.targetRole}</p>}
               </div>
             </div>
           </div>
 
           {/* Top 3 Fixes */}
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-            <p className="text-xs font-bold text-amber-800 mb-2.5 flex items-center gap-1.5">
+            <p className="text-xs font-bold text-amber-700 mb-2.5 flex items-center gap-1.5">
               <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M8 2v6M8 11v2"/><circle cx="8" cy="8" r="6.5"/></svg>
               Top 3 Priority Fixes
             </p>
             <ol className="space-y-1.5">
               {result.topFixes.map((f, i) => (
-                <li key={i} className="text-xs text-amber-900 flex gap-2">
+                <li key={i} className="text-xs text-amber-800 flex gap-2">
                   <span className="font-bold flex-shrink-0">{i + 1}.</span>
                   <span>{f}</span>
                 </li>
@@ -5764,7 +5764,7 @@ function ResumeReviewSection() {
           {/* Categories */}
           <div className="grid gap-3 sm:grid-cols-2">
             {result.categories.map((cat) => (
-              <div key={cat.name} className="bg-white border border-gray-200 rounded-xl p-4">
+              <div key={cat.name} className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-xs font-bold text-[#191c1e]">{cat.name}</p>
                   <span className={`text-xs font-extrabold ${cat.score >= 75 ? "text-emerald-600" : cat.score >= 50 ? "text-amber-500" : "text-red-500"}`}>{cat.score}/100</span>
