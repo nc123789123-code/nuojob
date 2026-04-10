@@ -2115,6 +2115,225 @@ const NORTHEAST_ASIA_POST_CONTENT = (
   </div>
 );
 
+const HOUSING_POST_CONTENT = (
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+    <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Deficit That Won&apos;t Quit</h3>
+
+    <p>Estimates of the total housing deficit range from 1.5 million units (NAHB) to 7 million (NLIHC for affordable rental). The median US home is now roughly 40 years old, and over a third of the stock predates 1980 — meaning existing inventory is aging and demanding significant capital reinvestment.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Estimated US Housing Shortage</p>
+      <p className="text-[11px] text-gray-400 mb-4">Millions of units, by source methodology</p>
+      <div className="space-y-2">
+        {([
+          { label: "NAHB", value: 1.5, color: "#C84B31" },
+          { label: "Freddie Mac", value: 3.7, color: "#2D6A8F" },
+          { label: "Brookings", value: 4.9, color: "#6B8F71" },
+          { label: "NAR", value: 5.5, color: "#D4A84B" },
+          { label: "NLIHC", value: 7.0, color: "#7B5EA7" },
+        ] as { label: string; value: number; color: string }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 8) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}M</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: NAHB, Freddie Mac, Brookings, NAR, NLIHC.</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Where We Stand: Starts &amp; Permits</h3>
+
+    <p>Housing starts bounced to a ~1.49M seasonally adjusted annual rate in January 2026, but building permits — the leading indicator of near-term supply — fell 5.4% month-over-month and 5.8% year-over-year, signaling continued caution from builders.</p>
+
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
+      {([
+        { value: "1.49M", label: "Housing starts (Jan 2026 SAAR)" },
+        { value: "1.38M", label: "Building permits (Jan 2026 SAAR)" },
+        { value: "−5.8%", label: "Permits YoY decline" },
+        { value: "873K", label: "Single-family permits" },
+      ]).map(s => (
+        <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+          <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
+          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <p>Regional divergence is meaningful. The Midwest — Columbus, Indianapolis, Kansas City — is outperforming on relative affordability and tech investment, while previously hot markets like Texas and Florida are digesting pandemic-era overbuilding.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Builder Sentiment: 20+ Months Below Water</h3>
+
+    <p>The NAHB/Wells Fargo Housing Market Index has been stuck below the 50 breakeven threshold for over 20 consecutive months. Around 37% of builders are cutting prices — average discount of 6% — and nearly two-thirds are deploying other incentives to move inventory.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">NAHB Housing Market Index</p>
+      <p className="text-[11px] text-gray-400 mb-4">Above 50 = more builders see conditions as good than poor</p>
+      <div className="space-y-1.5">
+        {([
+          { label: "Jan 25", value: 47 },
+          { label: "Mar 25", value: 39 },
+          { label: "May 25", value: 34 },
+          { label: "Jul 25", value: 34 },
+          { label: "Sep 25", value: 41 },
+          { label: "Nov 25", value: 46 },
+          { label: "Jan 26", value: 37 },
+          { label: "Mar 26", value: 38 },
+        ] as { label: string; value: number }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-14 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 65) * 100}%`, background: item.value >= 50 ? "#6B8F71" : "rgba(200,75,49,0.75)" }} className="h-5 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-3 text-[11px] text-gray-400">
+        <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(200,75,49,0.75)" }} />Below 50 — negative</span>
+        <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#6B8F71]" />Above 50 — positive</span>
+      </div>
+    </div>
+
+    <div className="border-l-[3px] border-[#C84B31] bg-gradient-to-r from-[rgba(200,75,49,0.04)] to-transparent px-5 py-4 my-4 rounded-r-lg">
+      <p className="text-sm text-[#191c1e] italic">&ldquo;Affordability for buyers and builders remains a top concern. Many buyers remain on the fence waiting for lower interest rates and due to economic uncertainty.&rdquo;</p>
+      <p className="text-[11px] text-gray-400 mt-1.5">— NAHB Chairman Bill Owens, March 2026</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Tariff Tax on Housing Supply</h3>
+
+    <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#191c1e]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. The contradiction is stark: the same administration signaling a national housing emergency has imposed tariffs on the very materials needed to address the shortage.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Tariff Rates on Key Building Materials</p>
+      <p className="text-[11px] text-gray-400 mb-4">Effective rates as of early 2026</p>
+      <div className="space-y-2">
+        {([
+          { label: "Kitchen Cabinets", value: 50, color: "#2D6A8F" },
+          { label: "Steel / Copper / Aluminum", value: 50, color: "#6B8F71" },
+          { label: "Canadian Softwood Lumber", value: 45, color: "#C84B31" },
+          { label: "Upholstered Wood Products", value: 30, color: "#D4A84B" },
+          { label: "All Timber & Lumber (base)", value: 10, color: "#7B5EA7" },
+        ] as { label: string; value: number; color: string }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 60) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}%</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Source: Brookings, TPC, NAHB estimates.</p>
+    </div>
+
+    <div className="grid grid-cols-3 gap-3 my-4">
+      {([
+        { value: "$17.5K", label: "Added cost per new home" },
+        { value: "450K", label: "Fewer homes built through 2030 (est.)" },
+        { value: "~60%", label: "Builders reporting tariff cost increases" },
+      ]).map(s => (
+        <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+          <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
+          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
+        </div>
+      ))}
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Affordability Bind</h3>
+
+    <p>Mortgage rates have eased from their 2024 peaks to around 6% — the lowest in three years — but remain well above the sub-4% environment that locked millions of existing homeowners in place. The result: suppressed resale inventory pushes buyers toward new construction, but elevated costs make new homes a stretch for many.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">30-Year Fixed Mortgage Rate</p>
+      <p className="text-[11px] text-gray-400 mb-4">Annual average, percent</p>
+      <div className="space-y-1.5">
+        {([
+          { label: "2019", value: 3.94 },
+          { label: "2020", value: 3.11 },
+          { label: "2021", value: 2.96 },
+          { label: "2022", value: 5.34 },
+          { label: "2023", value: 6.81 },
+          { label: "2024", value: 6.72 },
+          { label: "2025", value: 6.50 },
+          { label: "Jan 2026", value: 6.06 },
+        ] as { label: string; value: number }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-16 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${(item.value / 8) * 100}%`, background: item.value > 5 ? "#C84B31" : "#2D6A8F" }} className="h-5 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}%</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Source: Freddie Mac Primary Mortgage Market Survey.</p>
+    </div>
+
+    <p>The market is bifurcated: the upper end holds, while lower and middle segments struggle. First-time buyers now form the majority of funded loans but face elevated price-to-income ratios. Builders are responding with smaller footprints and smart-home packages in affordable secondary metros.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Supply-Side Bottlenecks</h3>
+
+    <p>Beyond tariffs, three persistent constraints throttle the industry&apos;s ability to close the housing gap: a ~400K construction labor shortfall vs. the 2007 peak, 15–20% wage inflation in hot metros, and regulatory costs comprising roughly 25% of a new home&apos;s price.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Construction Employment Index</p>
+      <p className="text-[11px] text-gray-400 mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
+      <div className="space-y-1.5">
+        {([
+          { label: "2007", value: 100 },
+          { label: "2010", value: 58 },
+          { label: "2013", value: 64 },
+          { label: "2016", value: 76 },
+          { label: "2019", value: 84 },
+          { label: "2022", value: 90 },
+          { label: "2025", value: 88 },
+        ] as { label: string; value: number }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="w-10 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div style={{ width: `${item.value}%`, background: item.value === 100 ? "#2D6A8F" : "#C84B31" }} className="h-5 rounded flex items-center justify-end px-2">
+                <span className="text-white text-[10px] font-bold">{item.value}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Industry still ~12% below prior peak employment. Source: BLS.</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">What to Watch</h3>
+
+    <p>Several variables will determine whether this market improves or stagnates through the end of the decade.</p>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
+      {([
+        { title: "Mortgage Rates", body: "Every 100bps of decline restores ~15% of buying power. Mid-5% range unlocks meaningful demand." },
+        { title: "Tariff Policy", body: "Any exclusion process for building materials provides immediate supply-side relief." },
+        { title: "Regional Shifts", body: "Midwest and secondary metros outperforming; TX/FL digesting prior overbuilding." },
+        { title: "Construction Tech", body: "Modular, 3D printing, AI project management — promising but years from scale." },
+      ]).map(w => (
+        <div key={w.title} className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="text-xs font-bold text-[#191c1e] mb-1">{w.title}</div>
+          <div className="text-[12px] text-gray-500 leading-relaxed">{w.body}</div>
+        </div>
+      ))}
+    </div>
+
+    <p>The opportunity is immense. The execution challenges are daunting. For now, the market remains caught between a deficit and a hard place — building too few homes, at too high a cost, while the gap quietly grows.</p>
+
+    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. Sources: US Census Bureau, HUD, NAHB/Wells Fargo HMI, Brookings, Freddie Mac, NAR, BLS.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
   {
     slug: "housing-construction-2026",
@@ -2122,17 +2341,7 @@ const INDUSTRY_POSTS: InsightPost[] = [
     date: "April 9, 2026",
     tag: "Real Estate",
     paragraphs: [],
-    richContent: (
-      <div className="space-y-4 text-[#41484c] text-sm leading-[1.75]">
-        <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages. Estimates of the total deficit range from 1.5M units (NAHB) to 7M (NLIHC for affordable rental).</p>
-        <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#191c1e]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. Builder sentiment has remained below the 50 breakeven on the NAHB HMI for 20+ consecutive months. Mortgage rates have eased to ~6% but remain far above the sub-4% environment that locked millions of existing homeowners in place.</p>
-        <p>A data-driven walkthrough of starts, permits, builder sentiment, tariff impacts, affordability, and the structural supply constraints shaping the market through the end of the decade.</p>
-        <a href="/learn/housing-construction-2026" target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 mt-2 px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] transition-colors">
-          Read full article with charts →
-        </a>
-      </div>
-    ),
+    richContent: HOUSING_POST_CONTENT,
   },
   {
     slug: "northeast-asia-trifecta-2026",
