@@ -225,13 +225,13 @@ function HomeContent() {
     <div className="min-h-screen bg-[#f7f9fb]">
       {/* Nav */}
       <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
-        <div className="max-w-6xl mx-auto px-3 sm:px-8 h-16 sm:h-24 flex items-center gap-2 sm:gap-6">
+        <div className="max-w-6xl mx-auto px-3 sm:px-8 h-14 sm:h-24 flex items-center gap-2 sm:gap-6">
           <div className="flex items-center gap-3">
             <LogoMark size={64} />
             <span className="font-bold text-2xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50 hidden sm:block" />
-          <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
+          <nav className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
             <NavTab active={topTab === "hiring"} onClick={() => setTopTab("hiring")} label="Hiring Watch" animal={
               // Eagle — scouts, watches
               <svg viewBox="0 0 20 20" fill="none" className="w-6 h-6 text-sky-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
@@ -308,7 +308,7 @@ function HomeContent() {
 
       {/* Hero */}
       <div className="hero-gradient border-b border-sky-100/60">
-        <div className="max-w-6xl mx-auto px-5 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-5 sm:py-8">
           {topTab === "pulse" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
@@ -331,7 +331,7 @@ function HomeContent() {
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
                 Live roles from 60+ firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
-              <div className="flex gap-8 mt-6">
+              <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500" />
                 <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500" />
                 <AnimatedStat value={4} label="Data sources" color="text-violet-400" />
@@ -371,7 +371,7 @@ function HomeContent() {
           )}
 
           {/* Feature map — same order as top nav, active tab highlighted */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-2 max-w-3xl">
+          <div className="mt-4 sm:mt-6 grid grid-cols-5 gap-1.5 sm:gap-2 max-w-3xl">
             {([
               {
                 icon: (
@@ -432,9 +432,9 @@ function HomeContent() {
               },
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                className={`card-lift text-left p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
-                <div className={`mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
-                <div className={`text-[11px] font-bold mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
+                className={`card-lift text-left p-2 sm:p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
+                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
+                <div className={`text-[9px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
                 <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
               </button>
             ))}
@@ -483,7 +483,7 @@ function HomeContent() {
 
       {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={() => setTopTab("hiring")} onJobsClick={() => setTopTab("hiring")} />}
 
-      <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
+      <main className="max-w-6xl mx-auto px-5 py-5 space-y-4 pb-24 sm:pb-5">
         {topTab === "pulse" && (
           <>
             <PulseSection />
@@ -566,6 +566,26 @@ function HomeContent() {
       {/* Monetization section — always visible */}
       <GuideSection />
       <SiteFooter />
+
+      {/* Mobile bottom navigation */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur border-t border-[#c1c7cc]/40 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
+        <div className="flex items-stretch h-16 safe-bottom">
+          {([
+            { id: "hiring" as TopTab, label: "Hiring", color: "text-emerald-600", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5 17 17"/><path d="M7 9h4M9 7v4" strokeWidth="1.4"/></svg> },
+            { id: "firmprep" as TopTab, label: "Prep", color: "text-rose-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="14" height="14" rx="2.5"/><path d="M7 10l2.5 2.5L13 8"/></svg> },
+            { id: "pulse" as TopTab, label: "Markets", color: "text-sky-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="3,14 7,9 11,11 17,5"/><line x1="3" y1="17" x2="17" y2="17"/></svg> },
+            { id: "table" as TopTab, label: "Events", color: "text-amber-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3"/><circle cx="10" cy="13" r="0.5" fill="currentColor"/></svg> },
+            { id: "learn" as TopTab, label: "Learn", color: "text-violet-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h8l4 4v8a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M12 4v4h4M7 11h6M7 14h4"/></svg> },
+          ] as Array<{ id: TopTab; label: string; color: string; icon: React.ReactNode }>).map(t => (
+            <button key={t.id} onClick={() => setTopTab(t.id)}
+              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-gray-400"}`}>
+              {t.icon}
+              <span className="text-[10px] font-semibold leading-none">{t.label}</span>
+              {topTab === t.id && <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-current" />}
+            </button>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }
