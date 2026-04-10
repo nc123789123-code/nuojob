@@ -5097,6 +5097,7 @@ function buildIntelFromJobs(signals: JobSignal[]): IntelResponse {
         name: def.name,
         tier: def.tier,
         desc: def.desc,
+        category: def.category,
         strategies: def.strategies,
         openRoles: jobs as FirmIntelProfile["openRoles"],
         frontOfficeCount: foCount,
@@ -5126,6 +5127,7 @@ interface FirmIntelProfile {
   name: string;
   tier: 1 | 2 | 3;
   desc?: string;
+  category?: string;
   strategies: string[];
   openRoles: Array<{
     id: string;
@@ -5192,6 +5194,33 @@ function StrategyTag({ s }: { s: string }) {
   );
 }
 
+const FIRM_TYPE_COLORS: Record<string, string> = {
+  "Hedge Fund":        "bg-sky-50 text-sky-700 border-sky-200",
+  "Investment Bank":   "bg-indigo-50 text-indigo-700 border-indigo-200",
+  "Private Credit":    "bg-emerald-50 text-emerald-700 border-emerald-200",
+  "Direct Lending":    "bg-teal-50 text-teal-700 border-teal-200",
+  "Private Equity":    "bg-violet-50 text-violet-700 border-violet-200",
+  "Asset Manager":     "bg-amber-50 text-amber-700 border-amber-200",
+  "Multi-Strategy":    "bg-orange-50 text-orange-700 border-orange-200",
+  "CLO":               "bg-cyan-50 text-cyan-700 border-cyan-200",
+  "BDC":               "bg-lime-50 text-lime-700 border-lime-200",
+  "Distressed":        "bg-red-50 text-red-700 border-red-200",
+  "Ratings":           "bg-slate-50 text-slate-600 border-slate-200",
+  "Insurance AM":      "bg-purple-50 text-purple-700 border-purple-200",
+  "Pension":           "bg-blue-50 text-blue-700 border-blue-200",
+  "Wealth Management": "bg-rose-50 text-rose-700 border-rose-200",
+};
+
+function FirmTypeBadge({ category }: { category?: string }) {
+  if (!category) return null;
+  const cls = FIRM_TYPE_COLORS[category] ?? "bg-gray-50 text-gray-600 border-gray-200";
+  return (
+    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
+      {category}
+    </span>
+  );
+}
+
 function SeniorityBadge({ seniority, frontOffice }: { seniority: string; frontOffice: boolean }) {
   const isSenior = ["md", "partner", "director"].includes(seniority);
   const cls = !frontOffice
@@ -5216,9 +5245,10 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
       {/* Firm header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
             <TierBadge tier={profile.tier} />
             <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+            <FirmTypeBadge category={profile.category} />
           </div>
           <div className="flex flex-wrap gap-1">
             {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
@@ -6156,7 +6186,10 @@ function HiringSection({
                           </button>
                           {(() => { const t = hiringTimeline(filing!.daysSinceFiling); return t ? <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${t.cls}`}>{t.label}</span> : null; })()}
                         </div>
-                        <span className="font-bold text-[#191c1e] text-sm">{f.name}</span>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="font-bold text-[#191c1e] text-sm">{f.name}</span>
+                          <FirmTypeBadge category={f.category} />
+                        </div>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
                         </div>
@@ -6188,9 +6221,10 @@ function HiringSection({
               <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {onRadarFirms.map((f) => (
                   <div key={f.id} className="bg-white border border-[#c1c7cc]/30 rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <WatchStatusBadge status="On the Radar" />
                       <span className="font-semibold text-sm text-[#41484c] truncate">{f.name}</span>
+                      <FirmTypeBadge category={f.category} />
                     </div>
                     <div className="flex flex-wrap gap-1 mb-2">
                       {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
@@ -6384,7 +6418,10 @@ function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }
               </button>
             )}
           </div>
-          <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+            <FirmTypeBadge category={profile.category} />
+          </div>
           <div className="flex flex-wrap gap-1 mt-1">
             {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
           </div>
