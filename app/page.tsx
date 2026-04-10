@@ -147,14 +147,11 @@ function HomeContent() {
     ["pulse", "hiring", "learn", "firmprep", "table"].includes(initialTab) ? initialTab : "hiring"
   );
 
-  const [pulseSubTab, setPulseSubTab] = useState<"market" | "funds">("market");
-
   const [fundFilters, setFundFilters] = useState<SearchFilters>(DEFAULT_FUND_FILTERS);
   const [fundFilings, setFundFilings] = useState<FundFiling[]>([]);
   const [fundTotal, setFundTotal] = useState(0);
   const [fundLoading, setFundLoading] = useState(false);
   const [fundError, setFundError] = useState<string | null>(null);
-  const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
 
   const [jobFilters, setJobFilters] = useState<JobFilters>(DEFAULT_JOB_FILTERS);
   const [jobSignals, setJobSignals] = useState<JobSignal[]>([]);
@@ -319,7 +316,7 @@ function HomeContent() {
                 Market · Fund Intelligence · AI
               </div>
               <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Live market analysis and fund signal intelligence — AI-generated briefs alongside SEC fundraising filings and hiring signals.</p>
+              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Live market data and AI-generated briefs — equities, rates, credit, and macro intelligence in one place.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -484,26 +481,12 @@ function HomeContent() {
         </div>
       )}
 
-      {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={(id) => {
-        setTopTab("pulse");
-        setTimeout(() => document.getElementById(`fund-row-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
-      }} onJobsClick={() => setTopTab("hiring")} />}
+      {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={() => setTopTab("hiring")} onJobsClick={() => setTopTab("hiring")} />}
 
       <main className="max-w-6xl mx-auto px-5 py-5 space-y-4">
         {topTab === "pulse" && (
           <>
-            <PulseSection
-              pulseSubTab={pulseSubTab} setPulseSubTab={setPulseSubTab}
-              fundFilters={fundFilters} setFundFilters={setFundFilters}
-              fundFilings={fundFilings} fundTotal={fundTotal}
-              fundLoading={fundLoading} fundError={fundError}
-              records={records} updateRecord={updateRecord}
-              outreachRecords={outreachRecords}
-              fundSubTab={fundSubTab} setFundSubTab={setFundSubTab}
-              onExport={() => exportToCsv(fundFilings, records)}
-              jobSignals={jobSignals}
-              onViewJobs={() => setTopTab("hiring")}
-            />
+            <PulseSection />
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get fund signals and market intel in your inbox."
@@ -517,12 +500,16 @@ function HomeContent() {
             <HiringSection
               signals={jobSignals} loading={jobLoading}
               fundFilings={fundFilings}
-              onViewSignals={() => setTopTab("pulse")}
               userProfile={userProfile}
               onSaveProfile={saveProfile}
               onClearProfile={clearProfile}
               showProfilePanel={showProfilePanel}
               setShowProfilePanel={setShowProfilePanel}
+              fundFilters={fundFilters} setFundFilters={setFundFilters}
+              fundTotal={fundTotal} fundLoading={fundLoading} fundError={fundError}
+              records={records} updateRecord={updateRecord}
+              outreachRecords={outreachRecords}
+              onExport={() => exportToCsv(fundFilings, records)}
             />
             <NewsletterCTA
               intent="signals_subscriber"
@@ -1027,81 +1014,12 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
   );
 }
 
-// ─── Pulse Section (Market Brief + Fund Signals) ─────────────────────────────
+// ─── Pulse Section (Market Brief) ────────────────────────────────────────────
 
-function PulseSection({
-  pulseSubTab, setPulseSubTab,
-  fundFilters, setFundFilters, fundFilings, fundTotal, fundLoading, fundError,
-  records, updateRecord, outreachRecords, fundSubTab, setFundSubTab, onExport,
-  jobSignals, onViewJobs,
-}: {
-  pulseSubTab: "market" | "funds";
-  setPulseSubTab: (t: "market" | "funds") => void;
-  fundFilters: SearchFilters; setFundFilters: (f: SearchFilters) => void;
-  fundFilings: FundFiling[]; fundTotal: number; fundLoading: boolean; fundError: string | null;
-  records: Record<string, OutreachRecord>; updateRecord: (r: OutreachRecord) => void;
-  outreachRecords: OutreachRecord[];
-  fundSubTab: "search" | "pipeline"; setFundSubTab: (t: "search" | "pipeline") => void;
-  onExport: () => void; jobSignals: JobSignal[]; onViewJobs: () => void;
-}) {
+function PulseSection() {
   return (
     <div className="space-y-4">
-      {/* Sub-navigation */}
-      <div className="flex items-center gap-1 p-1 bg-white border border-gray-200 rounded-xl w-fit">
-        <button
-          onClick={() => setPulseSubTab("market")}
-          className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
-            pulseSubTab === "market"
-              ? "bg-amber-50 text-amber-700 shadow-sm"
-              : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
-          }`}
-        >
-          <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="2,13 6,8 10,10 16,4" />
-            <line x1="2" y1="16" x2="16" y2="16" />
-          </svg>
-          Market Brief
-        </button>
-        <button
-          onClick={() => setPulseSubTab("funds")}
-          className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all ${
-            pulseSubTab === "funds"
-              ? "bg-sky-50 text-[#396477] shadow-sm"
-              : "text-[#41484c] hover:text-[#191c1e] hover:bg-gray-50"
-          }`}
-        >
-          <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 9h3l2-5 3 9 2-4h2" />
-          </svg>
-          Fund Signals
-        </button>
-      </div>
-
-      {pulseSubTab === "market" && <MarketSection />}
-
-      {pulseSubTab === "funds" && (
-        <>
-          <FundsSection
-            filters={fundFilters} setFilters={setFundFilters}
-            filings={fundFilings} total={fundTotal}
-            loading={fundLoading} error={fundError}
-            records={records} updateRecord={updateRecord}
-            outreachRecords={outreachRecords}
-            subTab={fundSubTab} setSubTab={setFundSubTab}
-            onExport={onExport}
-            jobSignals={jobSignals}
-            onViewJobs={onViewJobs}
-          />
-          <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="text-sm text-[#396477]">
-              Spotted a target firm? <span className="font-medium">Prepare for the interview before they post the role.</span>
-            </p>
-            <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
-              View the Guide →
-            </a>
-          </div>
-        </>
-      )}
+      <MarketSection />
     </div>
   );
 }
@@ -5869,22 +5787,33 @@ function OutreachDraftSection() {
 // ─── Hiring Watch Section ─────────────────────────────────────────────────────
 
 function HiringSection({
-  signals, loading, fundFilings, onViewSignals, userProfile, onSaveProfile, onClearProfile,
+  signals, loading, fundFilings, userProfile, onSaveProfile, onClearProfile,
   showProfilePanel, setShowProfilePanel,
+  fundFilters, setFundFilters, fundTotal, fundLoading, fundError,
+  records, updateRecord, outreachRecords, onExport,
 }: {
   signals: JobSignal[];
   loading: boolean;
   fundFilings: FundFiling[];
-  onViewSignals: () => void;
   userProfile: string;
   onSaveProfile: (t: string) => void;
   onClearProfile: () => void;
   showProfilePanel: boolean;
   setShowProfilePanel: (v: boolean) => void;
+  fundFilters: SearchFilters;
+  setFundFilters: (f: SearchFilters) => void;
+  fundTotal: number;
+  fundLoading: boolean;
+  fundError: string | null;
+  records: Record<string, OutreachRecord>;
+  updateRecord: (r: OutreachRecord) => void;
+  outreachRecords: OutreachRecord[];
+  onExport: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "funds">("firms");
   const [compact, setCompact] = useState(false);
+  const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
   const [profileDraft, setProfileDraft] = useState(userProfile);
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
@@ -6002,8 +5931,15 @@ function HiringSection({
           </svg>
           Interview Feedback
         </button>
-        {view !== "intel" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && JOB_CATEGORIES.slice(0, 5).map((c) => (
+        <button onClick={() => setView("funds")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "funds" ? "bg-sky-100 border-sky-300 text-[#396477] shadow-sm" : "bg-sky-50 border-sky-200 text-[#396477] hover:bg-sky-100 hover:border-sky-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M1 7h2.5l1.5-4 2.5 7.5 1.5-3.5H12" />
+          </svg>
+          Fund Signals
+        </button>
+        {view !== "intel" && view !== "funds" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
+        {view !== "intel" && view !== "funds" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
@@ -6011,7 +5947,7 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        {view !== "intel" && <div className="ml-auto flex items-center gap-2">
+        {view !== "intel" && view !== "funds" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-[#eef4f7] text-[#396477] border-[#396477]/40 hover:border-[#396477]/70 hover:bg-[#e2ecf1]"}`}>
@@ -6100,6 +6036,30 @@ function HiringSection({
 
       {view === "intel" && <InterviewIntelSection />}
 
+      {view === "funds" && (
+        <>
+          <FundsSection
+            filters={fundFilters} setFilters={setFundFilters}
+            filings={fundFilings} total={fundTotal}
+            loading={fundLoading} error={fundError}
+            records={records} updateRecord={updateRecord}
+            outreachRecords={outreachRecords}
+            subTab={fundSubTab} setSubTab={setFundSubTab}
+            onExport={onExport}
+            jobSignals={signals}
+            onViewJobs={() => setView("roles")}
+          />
+          <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm text-[#396477]">
+              Spotted a target firm? <span className="font-medium">Prepare for the interview before they post the role.</span>
+            </p>
+            <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
+              View the Guide →
+            </a>
+          </div>
+        </>
+      )}
+
       {view === "firms" && !loading && (
         <>
           {/* Active + Near-Term Watch firms */}
@@ -6112,7 +6072,7 @@ function HiringSection({
               </div>
               <div className={compact ? "space-y-1" : "grid gap-4 sm:grid-cols-2"}>
                 {allRegistryProfiles.map((p) => (
-                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={onViewSignals} compact={compact} />
+                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={() => setView("funds")} compact={compact} />
                 ))}
               </div>
             </section>
@@ -6191,7 +6151,7 @@ function HiringSection({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <WatchStatusBadge status="Early Signal" />
-                          <button onClick={onViewSignals} className="text-[10px] font-semibold text-[#396477] hover:underline">
+                          <button onClick={() => setView("funds")} className="text-[10px] font-semibold text-[#396477] hover:underline">
                             Fund signal{filing!.totalOfferingAmount ? ` · ${fmt(filing!.totalOfferingAmount)}` : ""} ↗
                           </button>
                           {(() => { const t = hiringTimeline(filing!.daysSinceFiling); return t ? <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${t.cls}`}>{t.label}</span> : null; })()}
