@@ -6123,15 +6123,17 @@ function CapitalCycleSection({
 
   // 13F AUM: fetch for hedge funds / asset managers in the top signals
   const [aumByFirmId, setAumByFirmId] = useState<Map<string, number>>(new Map());
+  const [aumLoading, setAumLoading] = useState(false);
 
   useEffect(() => {
     const eligible = capitalSignals
       .filter(s => s.category && THIRTEENF_CATEGORIES.has(s.category))
-      .slice(0, 10); // cap at 10 concurrent fetches
+      .slice(0, 10);
 
     if (!eligible.length) return;
     let cancelled = false;
 
+    setAumLoading(true);
     Promise.allSettled(
       eligible.map(s =>
         fetch(`/api/fund-intelligence?firm=${encodeURIComponent(s.name)}`)
@@ -6145,7 +6147,8 @@ function CapitalCycleSection({
       for (const r of results) {
         if (r.status === "fulfilled" && r.value) map.set(r.value.firmId, r.value.aum);
       }
-      if (map.size > 0) setAumByFirmId(map);
+      setAumByFirmId(map);
+      setAumLoading(false);
     });
 
     return () => { cancelled = true; };
@@ -6165,6 +6168,29 @@ function CapitalCycleSection({
 
   return (
     <div className="space-y-6">
+      {/* Header — distinct from Fund Signals */}
+      <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-5 py-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-bold text-emerald-900 mb-1">Capital Cycle Intelligence</h2>
+            <p className="text-xs text-emerald-700 max-w-xl leading-relaxed">
+              Cross-references SEC Form D fundraising filings with live job postings across 179 watchlist firms.
+              Firms with <span className="font-semibold">both a recent raise and open roles</span> are the highest-conviction targets.
+              13F equity AUM is fetched live from EDGAR for hedge funds and asset managers.
+            </p>
+          </div>
+          {aumLoading && (
+            <div className="flex items-center gap-1.5 text-[10px] text-emerald-600 flex-shrink-0">
+              <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
+              Fetching 13F data…
+            </div>
+          )}
+          {!aumLoading && aumByFirmId.size > 0 && (
+            <span className="text-[10px] text-emerald-600 font-semibold flex-shrink-0">{aumByFirmId.size} 13F matched</span>
+          )}
+        </div>
+      </div>
+
       {/* Pipeline summary */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {(["both", "raising", "deploying", "roles_only"] as const).map(stage => {
