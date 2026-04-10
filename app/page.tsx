@@ -6097,6 +6097,15 @@ function computeCapitalSignals(
   return results.sort((a, b) => b.strength - a.strength);
 }
 
+// 13F AUM values are in $thousands — convert to readable string
+function fmtAum(thousands: number): string {
+  if (thousands >= 1_000_000) return `$${(thousands / 1_000_000).toFixed(1)}b AUM`;
+  if (thousands >= 1_000) return `$${Math.round(thousands / 1_000)}m AUM`;
+  return `$${thousands}k AUM`;
+}
+
+const THIRTEENF_CATEGORIES = new Set(["Hedge Fund", "Multi-Strategy", "Asset Manager"]);
+
 function CapitalCycleSection({
   filingByFirmId, allRegistryProfiles, signals: _signals,
   onViewFunds, onViewRoles,
@@ -6112,6 +6121,36 @@ function CapitalCycleSection({
     [filingByFirmId, allRegistryProfiles]
   );
 
+  // 13F AUM: fetch for hedge funds / asset managers in the top signals
+  const [aumByFirmId, setAumByFirmId] = useState<Map<string, number>>(new Map());
+
+  useEffect(() => {
+    const eligible = capitalSignals
+      .filter(s => s.category && THIRTEENF_CATEGORIES.has(s.category))
+      .slice(0, 10); // cap at 10 concurrent fetches
+
+    if (!eligible.length) return;
+    let cancelled = false;
+
+    Promise.allSettled(
+      eligible.map(s =>
+        fetch(`/api/fund-intelligence?firm=${encodeURIComponent(s.name)}`)
+          .then(r => r.ok ? r.json() : null)
+          .then(d => d?.totalAumThousands ? { firmId: s.firmId, aum: d.totalAumThousands as number } : null)
+          .catch(() => null)
+      )
+    ).then(results => {
+      if (cancelled) return;
+      const map = new Map<string, number>();
+      for (const r of results) {
+        if (r.status === "fulfilled" && r.value) map.set(r.value.firmId, r.value.aum);
+      }
+      if (map.size > 0) setAumByFirmId(map);
+    });
+
+    return () => { cancelled = true; };
+  }, [capitalSignals]);
+
   const both = capitalSignals.filter(s => s.stage === "both");
   const raising = capitalSignals.filter(s => s.stage === "raising");
   const deploying = capitalSignals.filter(s => s.stage === "deploying");
@@ -6123,12 +6162,6 @@ function CapitalCycleSection({
     deploying:  { label: "Post-Raise",      cls: "bg-sky-50 border-sky-200 text-sky-800",              dot: "bg-sky-500",     desc: "Capital deployed, build-out likely" },
     roles_only: { label: "Hiring Signal",   cls: "bg-gray-50 border-gray-200 text-gray-700",           dot: "bg-gray-400",   desc: "Roles posted, no Form D on record" },
   };
-
-  const StrengthBar = ({ v }: { v: number }) => (
-    <div className="h-1.5 w-16 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
-      <div className={`h-full rounded-full ${v >= 70 ? "bg-emerald-400" : v >= 45 ? "bg-amber-400" : "bg-sky-300"}`} style={{ width: `${v}%` }} />
-    </div>
-  );
 
   return (
     <div className="space-y-6">
@@ -6159,7 +6192,7 @@ function CapitalCycleSection({
             <span className="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">{both.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            {both.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+            {both.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
           </div>
         </section>
       )}
@@ -6173,7 +6206,7 @@ function CapitalCycleSection({
             <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{raising.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            {raising.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+            {raising.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
           </div>
         </section>
       )}
@@ -6187,7 +6220,7 @@ function CapitalCycleSection({
             <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{deploying.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            {deploying.slice(0, 8).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+            {deploying.slice(0, 8).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
           </div>
         </section>
       )}
@@ -6201,7 +6234,7 @@ function CapitalCycleSection({
             <span className="text-[10px] bg-gray-100 text-gray-600 font-bold px-1.5 py-0.5 rounded">{rolesOnly.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
-            {rolesOnly.slice(0, 6).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} />)}
+            {rolesOnly.slice(0, 6).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
           </div>
         </section>
       )}
@@ -6215,9 +6248,10 @@ function CapitalCycleSection({
   );
 }
 
-function CapitalCard({ signal, meta }: {
+function CapitalCard({ signal, meta, aum }: {
   signal: CapitalSignal;
   meta: { label: string; cls: string; dot: string; desc: string };
+  aum?: number;
 }) {
   const amt = signal.filing?.totalOfferingAmount;
   return (
@@ -6234,12 +6268,24 @@ function CapitalCard({ signal, meta }: {
           {signal.openFrontOffice > 0 && (
             <span className="text-xs font-bold text-emerald-600">{signal.openFrontOffice} open</span>
           )}
-          {amt && <span className="text-[10px] text-[#71787c]">{fmt(amt)}</span>}
+          {amt && <span className="text-[10px] text-[#71787c]">{fmt(amt)} raised</span>}
         </div>
       </div>
+
+      {/* 13F AUM pill — only for hedge funds / asset managers */}
+      {aum && (
+        <div className="inline-flex items-center gap-1 bg-sky-50 border border-sky-200 rounded-full px-2 py-0.5 mb-2">
+          <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5 text-sky-500 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+            <path d="M2 9l2.5-3 2 2 3-4" />
+          </svg>
+          <span className="text-[10px] font-bold text-sky-700">{fmtAum(aum)}</span>
+          <span className="text-[9px] text-sky-400">13F</span>
+        </div>
+      )}
+
       {signal.filing && (
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] text-[#71787c]">{signal.filing.daysSinceFiling}d ago</span>
+          <span className="text-[10px] text-[#71787c]">Form D · {signal.filing.daysSinceFiling}d ago</span>
           {signal.filing.offeringStatus === "open" && (
             <span className="text-[9px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded">In market</span>
           )}
