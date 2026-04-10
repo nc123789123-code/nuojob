@@ -58,7 +58,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col">{children}<Analytics /></body>
+      <body className="min-h-full flex flex-col">{children}<Analytics beforeSend={() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("onlu_dev") === "1") return null;
+        return null as never;
+      }} /></body>
     </html>
   );
 }
