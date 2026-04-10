@@ -45,9 +45,8 @@ const DEFAULT_JOB_FILTERS: JobFilters = {
 
 // ─── Animated counter hook ───────────────────────────────────────────────────
 function useCountUp(target: number, duration = 1200): number {
-  const [value, setValue] = useState(target);
-  const prevTarget = useRef(target);
-  const ref = useRef<HTMLElement | null>(null);
+  const [value, setValue] = useState(0);
+  const prevTarget = useRef(0);
   useEffect(() => {
     const from = prevTarget.current;
     prevTarget.current = target;
@@ -68,14 +67,14 @@ function useCountUp(target: number, duration = 1200): number {
   return value;
 }
 
-function AnimatedStat({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) {
+function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]" }: { value: number; suffix?: string; label: string; color?: string }) {
   const count = useCountUp(value);
   return (
     <div className="text-center counter-animate">
-      <div className="text-3xl sm:text-4xl font-extrabold text-[#191c1e] tracking-tight">
+      <div className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${color}`}>
         {count}{suffix}
       </div>
-      <div className="text-[11px] font-medium text-[#71787c] mt-0.5 uppercase tracking-wider">{label}</div>
+      <div className="text-[11px] font-medium text-[#71787c] mt-1 uppercase tracking-wider">{label}</div>
     </div>
   );
 }
@@ -336,10 +335,10 @@ function HomeContent() {
                 Live roles from 60+ firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
               <div className="flex gap-8 mt-6">
-                <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" />
-                <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" />
-                <AnimatedStat value={4} label="Data sources" />
-                <AnimatedStat value={24} suffix="h" label="Signal refresh" />
+                <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500" />
+                <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500" />
+                <AnimatedStat value={4} label="Data sources" color="text-violet-400" />
+                <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400" />
               </div>
               {!userProfile && (
                 <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
