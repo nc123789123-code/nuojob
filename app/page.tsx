@@ -1,7 +1,7 @@
 "use client";
 // v2
 
-import { useState, useEffect, useCallback, useRef, Suspense } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -5850,31 +5850,57 @@ function HiringSection({
   const [matchError, setMatchError] = useState<string | null>(null);
   const [showDebug, setShowDebug] = useState(false);
 
-  const filtered = categoryFilter === "all"
-    ? signals
-    : signals.filter((s) => s.category === categoryFilter);
+  const filtered = useMemo(
+    () => categoryFilter === "all" ? signals : signals.filter((s) => s.category === categoryFilter),
+    [categoryFilter, signals]
+  );
 
-  const intel = buildIntelFromJobs(filtered);
+  const intel = useMemo(() => buildIntelFromJobs(filtered), [filtered]);
 
-  const activeIds = new Set([...intel.hiringPush, ...intel.postRaise].map((f) => f.firmId));
-  const allRegistryProfiles = [...intel.hiringPush, ...intel.postRaise];
+  // Pre-build a firmId → FundFiling map so all downstream lookups are O(1)
+  const filingByFirmId = useMemo(() => {
+    const map = new Map<string, FundFiling>();
+    for (const fi of fundFilings) {
+      const match = matchFirm(fi.entityName);
+      if (match && !map.has(match.id)) map.set(match.id, fi);
+    }
+    return map;
+  }, [fundFilings]);
+
+  const activeIds = useMemo(
+    () => new Set([...intel.hiringPush, ...intel.postRaise].map((f) => f.firmId)),
+    [intel]
+  );
+  const allRegistryProfiles = useMemo(
+    () => [...intel.hiringPush, ...intel.postRaise],
+    [intel]
+  );
 
   // Early signals: firms in FIRM_REGISTRY with EDGAR filings but no posted roles
-  const earlySignalFirms = FIRM_REGISTRY
-    .filter((f) => !activeIds.has(f.id))
-    .map((f) => ({ def: f, filing: fundFilings.find((fi) => matchFirm(fi.entityName)?.id === f.id) }))
-    .filter(({ filing }) => !!filing);
+  const earlySignalFirms = useMemo(
+    () => FIRM_REGISTRY
+      .filter((f) => !activeIds.has(f.id))
+      .map((f) => ({ def: f, filing: filingByFirmId.get(f.id) }))
+      .filter((x): x is { def: typeof FIRM_REGISTRY[0]; filing: FundFiling } => !!x.filing),
+    [activeIds, filingByFirmId]
+  );
 
   // On the radar: no EDGAR filing either
-  const onRadarFirms = FIRM_REGISTRY.filter((f) => {
-    if (activeIds.has(f.id)) return false;
-    return !fundFilings.some((fi) => matchFirm(fi.entityName)?.id === f.id);
-  });
+  const onRadarFirms = useMemo(
+    () => FIRM_REGISTRY.filter((f) => !activeIds.has(f.id) && !filingByFirmId.has(f.id)),
+    [activeIds, filingByFirmId]
+  );
 
   // Other roles from outside the watchlist
-  const otherRoles = intel.allRoles.filter((r) => !matchFirm(r.firm) && r.classification.frontOffice);
+  const otherRoles = useMemo(
+    () => intel.allRoles.filter((r) => !matchFirm(r.firm) && r.classification.frontOffice),
+    [intel]
+  );
 
-  const frontOfficeJobs = intel.allRoles.filter(r => r.classification.frontOffice);
+  const frontOfficeJobs = useMemo(
+    () => intel.allRoles.filter(r => r.classification.frontOffice),
+    [intel]
+  );
 
   const runJobMatch = async () => {
     if (!userProfile.trim() || !frontOfficeJobs.length) return;
@@ -6102,7 +6128,7 @@ function HiringSection({
               </div>
               <div className={compact ? "space-y-1" : "grid gap-4 sm:grid-cols-2"}>
                 {allRegistryProfiles.map((p) => (
-                  <HiringFirmCard key={p.firmId} profile={p} fundFilings={fundFilings} onViewSignals={() => setView("funds")} compact={compact} />
+                  <HiringFirmCard key={p.firmId} profile={p} filingByFirmId={filingByFirmId} onViewSignals={() => setView("funds")} compact={compact} />
                 ))}
               </div>
             </section>
@@ -6375,14 +6401,14 @@ function FirmNewsBar({ firmName }: { firmName: string }) {
   );
 }
 
-function HiringFirmCard({ profile, fundFilings, onViewSignals, compact = false }: {
+function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = false }: {
   profile: FirmIntelProfile;
-  fundFilings: FundFiling[];
+  filingByFirmId: Map<string, FundFiling>;
   onViewSignals: () => void;
   compact?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const filing = fundFilings.find((f) => matchFirm(f.entityName)?.id === profile.firmId);
+  const filing = filingByFirmId.get(profile.firmId);
   const allFrontOfficeRoles = profile.openRoles.filter(r => r.classification.frontOffice);
   const topRoles = expanded ? allFrontOfficeRoles : allFrontOfficeRoles.slice(0, 4);
   const watchStatus = getWatchStatus(profile.frontOfficeCount, filing);
