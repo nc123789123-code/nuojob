@@ -7283,6 +7283,7 @@ function OnluTableSection() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mobileTab, setMobileTab] = useState<"events" | "network">("events");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -7307,48 +7308,60 @@ function OnluTableSection() {
   const reset = () => { setSelected(null); setSubmitted(false); setForm({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" }); };
 
   return (
-    <div className="max-w-3xl mx-auto px-1 py-6 space-y-8">
-      {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-xl font-bold text-[#1A2B4A]">Onlu Events</h2>
-        <p className="text-sm text-[#71787c] leading-relaxed">
-          Small-group weekend coffee chats for finance professionals in NYC.
-          Max 8 people per session — curated for meaningful conversation, not networking theatre.
-        </p>
+    <div className="max-w-5xl mx-auto px-1 py-6">
+      {/* Mobile tab switcher */}
+      <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 w-fit mb-6 sm:hidden">
+        <button onClick={() => setMobileTab("events")}
+          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "events" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-500"}`}>
+          Events
+        </button>
+        <button onClick={() => setMobileTab("network")}
+          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "network" ? "bg-white text-[#1A2B4A] shadow-sm" : "text-gray-500"}`}>
+          Network & Coaching
+        </button>
       </div>
 
-      {/* Session cards */}
-      {!selected && (
-        <div className="space-y-4">
-          {UPCOMING_SESSIONS.map((s) => (
-            <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1A2B4A]/8 text-[#1A2B4A]">{s.theme}</span>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-700"}`}>
-                      {s.spotsLeft} spot{s.spotsLeft !== 1 ? "s" : ""} left
-                    </span>
+      <div className="flex flex-col sm:flex-row gap-6 items-start">
+        {/* ── LEFT: Events ── */}
+        <div className={`flex-1 min-w-0 space-y-6 ${mobileTab === "network" ? "hidden sm:block" : ""}`}>
+          <div className="space-y-1">
+            <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Events</h2>
+            <p className="text-sm text-[#71787c] leading-relaxed">
+              Small-group coffee chats for finance professionals in NYC.
+              Max 8 people — curated conversation, not networking theatre.
+            </p>
+          </div>
+
+          {/* Session cards */}
+          {!selected && (
+            <div className="space-y-4">
+              {UPCOMING_SESSIONS.map((s) => (
+                <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1A2B4A]/8 text-[#1A2B4A]">{s.theme}</span>
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-700"}`}>
+                        {s.spotsLeft} spot{s.spotsLeft !== 1 ? "s" : ""} left
+                      </span>
+                    </div>
+                    <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
+                    <p className="text-xs text-[#71787c]">{s.time} · {s.location}</p>
+                    <p className="text-sm text-[#41484c] mt-2 leading-relaxed">{s.description}</p>
                   </div>
-                  <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
-                  <p className="text-xs text-[#71787c]">{s.time} · {s.location}</p>
-                  <p className="text-sm text-[#41484c] mt-2 leading-relaxed">{s.description}</p>
+                  <button
+                    onClick={() => { setSelected(s); setSubmitted(false); }}
+                    disabled={s.spotsLeft === 0}
+                    className="mt-4 w-full py-2.5 bg-teal-100 border border-teal-200 text-teal-800 text-sm font-semibold rounded-xl hover:bg-teal-200 hover:border-teal-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
+                  </button>
                 </div>
-              </div>
-              <button
-                onClick={() => { setSelected(s); setSubmitted(false); }}
-                disabled={s.spotsLeft === 0}
-                className="mt-4 w-full py-2.5 bg-teal-100 border border-teal-200 text-teal-800 text-sm font-semibold rounded-xl hover:bg-teal-200 hover:border-teal-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
-              </button>
+              ))}
+              <p className="text-[11px] text-[#71787c] text-center pt-1">
+                Sessions added every few weeks · NYC only for now · All levels welcome
+              </p>
             </div>
-          ))}
-          <p className="text-[11px] text-[#71787c] text-center pt-1">
-            Sessions added every few weeks · NYC only for now · All levels welcome
-          </p>
-        </div>
-      )}
+          )}
 
       {/* Signup form */}
       {selected && !submitted && (
@@ -7423,9 +7436,13 @@ function OnluTableSection() {
           <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
         </div>
       )}
+        </div>{/* end left column */}
 
-      {/* Referral board */}
-      <ReferralSection />
+        {/* ── RIGHT: Network & Coaching ── */}
+        <div className={`w-full sm:w-80 flex-shrink-0 ${mobileTab === "events" ? "hidden sm:block" : ""}`}>
+          <ReferralSection />
+        </div>
+      </div>{/* end flex row */}
     </div>
   );
 }
@@ -7456,9 +7473,9 @@ function ReferralSection() {
   const isIntro = purpose === "intro";
 
   return (
-    <div className="space-y-5 pt-4 border-t border-gray-100">
+    <div className="space-y-5">
       <div>
-        <h3 className="text-base font-bold text-[#1A2B4A] mb-1">Network & Coaching</h3>
+        <h3 className="text-lg font-bold text-[#1A2B4A] mb-1">Network & Coaching</h3>
         <p className="text-sm text-[#71787c] leading-relaxed">
           Looking for a firm intro, or want to book a coaching session with someone who&apos;s been there? Submit below — we&apos;ll facilitate anonymously.
         </p>
