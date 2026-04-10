@@ -6359,9 +6359,9 @@ function HiringSection({
   onExport: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "funds" | "capital">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "capital">("firms");
   const [compact, setCompact] = useState(false);
-  const [fundSubTab, setFundSubTab] = useState<"search" | "pipeline">("search");
+  const [fundSubTab, setFundSubTab] = useState<"cycle" | "search" | "pipeline">("cycle");
   const [profileDraft, setProfileDraft] = useState(userProfile);
   const [matchResults, setMatchResults] = useState<JobMatch[] | null>(null);
   const [matchLoading, setMatchLoading] = useState(false);
@@ -6505,22 +6505,15 @@ function HiringSection({
           </svg>
           Interview Feedback
         </button>
-        <button onClick={() => setView("funds")}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "funds" ? "bg-sky-100 border-sky-300 text-[#396477] shadow-sm" : "bg-sky-50 border-sky-200 text-[#396477] hover:bg-sky-100 hover:border-sky-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 7h2.5l1.5-4 2.5 7.5 1.5-3.5H12" />
-          </svg>
-          Fund Signals
-        </button>
-        <button onClick={() => setView("capital")}
+        <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }}
           className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "capital" ? "bg-emerald-100 border-emerald-300 text-emerald-800 shadow-sm" : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300"}`}>
           <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/>
           </svg>
-          Capital Cycle
+          Capital
         </button>
-        {view !== "intel" && view !== "funds" && view !== "capital" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && view !== "funds" && view !== "capital" && JOB_CATEGORIES.slice(0, 5).map((c) => (
+        {view !== "intel" && view !== "capital" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
+        {view !== "intel" && view !== "capital" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
@@ -6528,7 +6521,7 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        {view !== "intel" && view !== "funds" && view !== "capital" && <div className="ml-auto flex items-center gap-2">
+        {view !== "intel" && view !== "capital" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
@@ -6617,38 +6610,47 @@ function HiringSection({
 
       {view === "intel" && <InterviewIntelSection />}
 
-      {view === "funds" && (
-        <>
-          <FundsSection
-            filters={fundFilters} setFilters={setFundFilters}
-            filings={fundFilings} total={fundTotal}
-            loading={fundLoading} error={fundError}
-            records={records} updateRecord={updateRecord}
-            outreachRecords={outreachRecords}
-            subTab={fundSubTab} setSubTab={setFundSubTab}
-            onExport={onExport}
-            jobSignals={signals}
-            onViewJobs={() => setView("roles")}
-          />
-          <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <p className="text-sm text-[#396477]">
-              Spotted a target firm? <span className="font-medium">Prepare for the interview before they post the role.</span>
-            </p>
-            <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] transition-colors text-center">
-              View the Guide →
-            </a>
-          </div>
-        </>
-      )}
-
       {view === "capital" && (
-        <CapitalCycleSection
-          filingByFirmId={filingByFirmId}
-          allRegistryProfiles={allRegistryProfiles}
-          signals={signals}
-          onViewFunds={() => setView("funds")}
-          onViewRoles={() => setView("roles")}
-        />
+        <div className="space-y-4">
+          {/* Sub-tab switcher */}
+          <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 w-fit">
+            {([
+              { id: "cycle",    label: "Capital Cycle" },
+              { id: "search",   label: "Form D Search" },
+              { id: "pipeline", label: "Pipeline" },
+            ] as const).map(t => (
+              <button key={t.id} onClick={() => setFundSubTab(t.id)}
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${fundSubTab === t.id ? "bg-white text-emerald-800 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {fundSubTab === "cycle" && (
+            <CapitalCycleSection
+              filingByFirmId={filingByFirmId}
+              allRegistryProfiles={allRegistryProfiles}
+              signals={signals}
+              onViewFunds={() => setFundSubTab("search")}
+              onViewRoles={() => setView("roles")}
+            />
+          )}
+
+          {(fundSubTab === "search" || fundSubTab === "pipeline") && (
+            <FundsSection
+              filters={fundFilters} setFilters={setFundFilters}
+              filings={fundFilings} total={fundTotal}
+              loading={fundLoading} error={fundError}
+              records={records} updateRecord={updateRecord}
+              outreachRecords={outreachRecords}
+              subTab={fundSubTab === "pipeline" ? "pipeline" : "search"}
+              setSubTab={(t) => setFundSubTab(t === "pipeline" ? "pipeline" : "search")}
+              onExport={onExport}
+              jobSignals={signals}
+              onViewJobs={() => setView("roles")}
+            />
+          )}
+        </div>
       )}
 
       {view === "firms" && !loading && (
@@ -6663,7 +6665,7 @@ function HiringSection({
               </div>
               <div className={compact ? "space-y-1" : "grid gap-4 sm:grid-cols-2"}>
                 {allRegistryProfiles.map((p) => (
-                  <HiringFirmCard key={p.firmId} profile={p} filingByFirmId={filingByFirmId} onViewSignals={() => setView("funds")} compact={compact} />
+                  <HiringFirmCard key={p.firmId} profile={p} filingByFirmId={filingByFirmId} onViewSignals={() => { setView("capital"); setFundSubTab("cycle"); }} compact={compact} />
                 ))}
               </div>
             </section>
@@ -6742,7 +6744,7 @@ function HiringSection({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <WatchStatusBadge status="Early Signal" />
-                          <button onClick={() => setView("funds")} className="text-[10px] font-semibold text-[#396477] hover:underline">
+                          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className="text-[10px] font-semibold text-[#396477] hover:underline">
                             Fund signal{filing!.totalOfferingAmount ? ` · ${fmt(filing!.totalOfferingAmount)}` : ""} ↗
                           </button>
                           {(() => { const t = hiringTimeline(filing!.daysSinceFiling); return t ? <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${t.cls}`}>{t.label}</span> : null; })()}
