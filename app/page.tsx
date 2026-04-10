@@ -5927,24 +5927,24 @@ function HiringSection({
 
       {/* Profile panel */}
       {showProfilePanel && (
-        <div className="bg-white border border-[#1A2B4A]/20 rounded-2xl p-5 shadow-sm">
+        <div className="bg-violet-50 border border-violet-200 rounded-2xl p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold text-[#191c1e]">Your profile</p>
-            <button onClick={() => setShowProfilePanel(false)} className="text-gray-400 hover:text-gray-600 text-xs">Close</button>
+            <p className="text-sm font-bold text-violet-900">Your profile</p>
+            <button onClick={() => setShowProfilePanel(false)} className="text-violet-400 hover:text-violet-600 text-xs">Close</button>
           </div>
-          <p className="text-xs text-gray-400 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. This is stored locally on your device and used to match roles and pre-fill outreach.</p>
+          <p className="text-xs text-violet-500 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. This is stored locally on your device and used to match roles and pre-fill outreach.</p>
           <textarea
             value={profileDraft}
             onChange={e => setProfileDraft(e.target.value)}
             rows={5}
             placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance. Closed 12 LBO and recapitalisation transactions ranging from $50M to $500M. Strong in credit analysis, deal structuring, and sponsor relationships. Looking to move to a direct lending platform — ideally mid-market credit with origination involvement."
-            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 resize-none"
+            className="w-full text-sm border border-violet-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-violet-300 resize-none placeholder:text-violet-300"
           />
           <div className="flex gap-2 mt-3">
             <button
               onClick={() => { onSaveProfile(profileDraft); setShowProfilePanel(false); setMatchResults(null); }}
               disabled={!profileDraft.trim()}
-              className="px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] disabled:opacity-40 transition-colors">
+              className="px-4 py-2 bg-violet-600 text-white text-xs font-bold rounded-lg hover:bg-violet-700 disabled:opacity-40 transition-colors">
               Save profile
             </button>
             {userProfile && (
@@ -6006,7 +6006,7 @@ function HiringSection({
         {view !== "intel" && view !== "funds" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-[#1A2B4A] text-white border-[#1A2B4A]" : "bg-[#eef4f7] text-[#396477] border-[#396477]/40 hover:border-[#396477]/70 hover:bg-[#e2ecf1]"}`}>
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
             {userProfile ? "Profile set" : "Set profile"}
           </button>
