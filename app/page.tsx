@@ -2447,9 +2447,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases">("firm");
+  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "resume">("firm");
 
-  const tabs: { id: "firm" | "concept" | "cases"; icon: React.ReactNode; label: string; desc: string }[] = [
+  const tabs: { id: "firm" | "concept" | "cases" | "resume"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "firm",
       icon: (
@@ -2487,12 +2487,24 @@ function EdgeSection() {
       label: "Case Library",
       desc: "Real deal walkthroughs: LBOs, distressed, restructuring",
     },
+    {
+      id: "resume",
+      icon: (
+        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 2h7l4 4v12a1 1 0 01-1 1H5a1 1 0 01-1-1V3a1 1 0 011-1z" />
+          <path d="M12 2v4h4" />
+          <path d="M7 9h6M7 12h6M7 15h4" />
+        </svg>
+      ),
+      label: "Resume Review",
+      desc: "AI feedback on your finance resume",
+    },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
       {/* Mode selector cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {tabs.map(t => (
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
@@ -2509,6 +2521,7 @@ function EdgeSection() {
       {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
+      {mode === "resume" && <ResumeReviewSection />}
     </div>
   );
 }
@@ -5623,6 +5636,177 @@ function CaseLibrarySection() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// ─── Resume Review Section ────────────────────────────────────────────────────
+
+interface ReviewCategory { name: string; score: number; feedback: string; fixes: string[]; }
+interface ResumeReview {
+  overallScore: number; headline: string; targetRole: string;
+  categories: ReviewCategory[]; topFixes: string[]; strengths: string[];
+}
+
+function ScoreRing({ score }: { score: number }) {
+  const color = score >= 75 ? "text-emerald-600" : score >= 50 ? "text-amber-500" : "text-red-500";
+  const ring = score >= 75 ? "stroke-emerald-400" : score >= 50 ? "stroke-amber-400" : "stroke-red-400";
+  const r = 20, circ = 2 * Math.PI * r;
+  const dash = (score / 100) * circ;
+  return (
+    <div className="relative flex items-center justify-center w-16 h-16">
+      <svg className="w-16 h-16 -rotate-90" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r={r} fill="none" stroke="#e5e7eb" strokeWidth="4" />
+        <circle cx="24" cy="24" r={r} fill="none" className={ring} strokeWidth="4"
+          strokeDasharray={`${dash} ${circ}`} strokeLinecap="round" />
+      </svg>
+      <span className={`absolute text-sm font-extrabold ${color}`}>{score}</span>
+    </div>
+  );
+}
+
+function ResumeReviewSection() {
+  const [resume, setResume] = useState("");
+  const [targetRole, setTargetRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ResumeReview | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const submit = async () => {
+    if (!resume.trim()) return;
+    setLoading(true); setError(null); setResult(null);
+    try {
+      const res = await fetch("/api/resume-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume: resume.trim(), targetRole: targetRole.trim() || undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Review failed");
+      setResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally { setLoading(false); }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Input */}
+      {!result && (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+          <div>
+            <h2 className="text-sm font-bold text-[#191c1e] mb-1">Finance Resume Review</h2>
+            <p className="text-xs text-gray-400">Paste your resume below. You&apos;ll get specific, blunt feedback on deal experience, bullet quality, formatting, and role positioning — from a buyside lens.</p>
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-[#41484c] mb-1.5 block">Target role <span className="text-gray-400 font-normal">(optional)</span></label>
+            <input
+              value={targetRole} onChange={e => setTargetRole(e.target.value)}
+              placeholder="e.g. Direct Lending Analyst, PE Associate, Credit HF"
+              className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-[#41484c] mb-1.5 block">Resume text</label>
+            <textarea
+              value={resume} onChange={e => setResume(e.target.value)}
+              rows={12}
+              placeholder="Paste your full resume here — work experience, education, skills. Plain text is fine."
+              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 bg-[#f7f9fb] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 resize-none font-mono text-xs leading-relaxed"
+            />
+            <p className="text-[10px] text-gray-400 mt-1">{resume.length > 0 ? `${resume.length} characters` : "Minimum ~500 characters"}</p>
+          </div>
+          <button
+            onClick={submit} disabled={loading || resume.trim().length < 100}
+            className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
+            {loading ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
+                Reviewing…
+              </>
+            ) : "Review my resume →"}
+          </button>
+          {error && <p className="text-xs text-red-500">{error}</p>}
+        </div>
+      )}
+
+      {/* Results */}
+      {result && (
+        <div className="space-y-4">
+          {/* Header */}
+          <div className="bg-[#1A2B4A] text-white rounded-2xl p-5">
+            <div className="flex items-center gap-4">
+              <ScoreRing score={result.overallScore} />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-white/50 font-semibold uppercase tracking-wider mb-1">Overall Score</p>
+                <p className="text-sm font-semibold leading-snug">{result.headline}</p>
+                {result.targetRole && <p className="text-[11px] text-white/50 mt-1">Positioning: {result.targetRole}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Top 3 Fixes */}
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+            <p className="text-xs font-bold text-amber-800 mb-2.5 flex items-center gap-1.5">
+              <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M8 2v6M8 11v2"/><circle cx="8" cy="8" r="6.5"/></svg>
+              Top 3 Priority Fixes
+            </p>
+            <ol className="space-y-1.5">
+              {result.topFixes.map((f, i) => (
+                <li key={i} className="text-xs text-amber-900 flex gap-2">
+                  <span className="font-bold flex-shrink-0">{i + 1}.</span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* Categories */}
+          <div className="grid gap-3 sm:grid-cols-2">
+            {result.categories.map((cat) => (
+              <div key={cat.name} className="bg-white border border-gray-200 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-bold text-[#191c1e]">{cat.name}</p>
+                  <span className={`text-xs font-extrabold ${cat.score >= 75 ? "text-emerald-600" : cat.score >= 50 ? "text-amber-500" : "text-red-500"}`}>{cat.score}/100</span>
+                </div>
+                <div className="h-1 bg-gray-100 rounded-full mb-3 overflow-hidden">
+                  <div className={`h-full rounded-full transition-all ${cat.score >= 75 ? "bg-emerald-400" : cat.score >= 50 ? "bg-amber-400" : "bg-red-400"}`} style={{ width: `${cat.score}%` }} />
+                </div>
+                <p className="text-[11px] text-[#41484c] leading-relaxed mb-2.5">{cat.feedback}</p>
+                {cat.fixes.length > 0 && (
+                  <ul className="space-y-1">
+                    {cat.fixes.map((fix, i) => (
+                      <li key={i} className="text-[11px] text-[#396477] flex gap-1.5">
+                        <span className="flex-shrink-0 mt-0.5">→</span>
+                        <span>{fix}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Strengths */}
+          {result.strengths.length > 0 && (
+            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+              <p className="text-xs font-bold text-emerald-800 mb-2">What&apos;s working</p>
+              <ul className="space-y-1">
+                {result.strengths.map((s, i) => (
+                  <li key={i} className="text-xs text-emerald-900 flex gap-1.5">
+                    <span className="flex-shrink-0">✓</span>{s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <button onClick={() => { setResult(null); setResume(""); setTargetRole(""); }}
+            className="text-xs text-[#396477] font-semibold hover:underline">
+            ← Review another resume
+          </button>
+        </div>
+      )}
     </div>
   );
 }
