@@ -19,7 +19,26 @@ interface StaticJob {
 
 const STATIC_JOBS: StaticJob[] = [
   // Add only verified roles with direct job listing URLs here.
-  // All previous entries removed — they linked to generic /careers pages only.
+  {
+    firm: "Kerrisdale Capital",
+    role: "Research Analyst",
+    category: "Other Finance Roles",
+    location: "New York, NY",
+    dateAdded: "2026-04-11",
+    url: "https://www.kerrisdalecap.com/analyst-hiring",
+    signalTag: "New fund",
+    why: "Kerrisdale Capital is actively hiring research analysts. Concentrated equity L/S fund known for short-selling and activist theses. Apply directly via firm website.",
+  },
+  {
+    firm: "Deutsche Bank",
+    role: "Investment Banking / Capital Markets Professional",
+    category: "Investment Banking",
+    location: "New York, NY",
+    dateAdded: "2026-04-11",
+    url: "https://careers.db.com/professionals/search-roles/",
+    signalTag: "Post-raise build-out",
+    why: "Deutsche Bank posts roles on their own careers portal (not standard job boards). Check careers.db.com for current IB, leveraged finance, and credit openings.",
+  },
 ]
 
 /**
