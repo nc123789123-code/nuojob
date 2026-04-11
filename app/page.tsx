@@ -7865,85 +7865,80 @@ function HiringSection({
         </div>
       )}
 
-      {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
-          <button onClick={() => setView("firms")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "firms" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
+      {/* Navigation — unified tab bar + category filters */}
+      <div className="space-y-2">
+        {/* Row 1: all view tabs, same style, scrollable on mobile */}
+        <div className="flex overflow-x-auto gap-1 pb-0.5" style={{scrollbarWidth:"none"}}>
+          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1.5" y="4" width="11" height="8.5" rx="1.2"/><path d="M4.5 4V2.5a2.5 2.5 0 015 0V4"/></svg>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "roles" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
+          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="4" x2="12" y2="4"/><line x1="2" y1="7" x2="9" y2="7"/><line x1="2" y1="10" x2="11" y2="10"/></svg>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`px-3 py-1 rounded-md text-xs font-semibold transition-all ${view === "foryou" ? "bg-sky-100 text-sky-800 shadow-sm" : "text-gray-500 hover:text-sky-700"}`}>
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+              <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><path d="M1 12c0-2.2 2.2-4 5-4"/><path d="M10 8.5l1.5 1.5 2.5-2.5"/></svg>
               For You
             </button>
           )}
+          <div className="w-px bg-gray-200 self-stretch mx-0.5 flex-shrink-0" />
+          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/></svg>
+            Trends
+          </button>
+          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "capital" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/></svg>
+            Capital
+          </button>
+          <button onClick={() => setView("outreach")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "outreach" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/></svg>
+            Outreach
+          </button>
+          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/></svg>
+            Recruiters
+          </button>
+          <button onClick={() => setView("intel")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "intel" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h10a1 1 0 011 1v5a1 1 0 01-1 1H8l-3 2v-2H2a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
+            Feedback
+          </button>
         </div>
-        <button onClick={() => setView("trends")}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "trends" ? "bg-amber-100 border-amber-300 text-amber-800 shadow-sm" : "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100 hover:border-amber-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/>
-          </svg>
-          Trends
-        </button>
-        <button onClick={() => setView("outreach")}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "outreach" ? "bg-teal-100 border-teal-300 text-teal-800 shadow-sm" : "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100 hover:border-teal-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/><rect x="1.5" y="2" width="11" height="10" rx="1.5" opacity="0" />
-          </svg>
-          Outreach
-        </button>
-        <button onClick={() => setView("recruiters")}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "recruiters" ? "bg-orange-100 border-orange-300 text-orange-800 shadow-sm" : "bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100 hover:border-orange-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/>
-          </svg>
-          Recruiters
-        </button>
-        <button onClick={() => setView("intel")}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "intel" ? "bg-violet-100 border-violet-300 text-violet-800 shadow-sm" : "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100 hover:border-violet-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M2 3h10a1 1 0 011 1v5a1 1 0 01-1 1H8l-3 2v-2H2a1 1 0 01-1-1V4a1 1 0 011-1z"/>
-          </svg>
-          Interview Feedback
-        </button>
-        <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }}
-          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "capital" ? "bg-emerald-100 border-emerald-300 text-emerald-800 shadow-sm" : "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 hover:border-emerald-300"}`}>
-          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/>
-          </svg>
-          Capital
-        </button>
-        {view !== "intel" && view !== "capital" && view !== "recruiters" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && view !== "capital" && view !== "recruiters" && JOB_CATEGORIES.slice(0, 7).map((c) => (
-          <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
-            className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
-              categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
-            }`}>
-            {c.l}
-          </button>
-        ))}
-        {view !== "intel" && view !== "capital" && view !== "recruiters" && <div className="ml-auto flex items-center gap-2">
-          <button
-            onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
-            <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
-            {userProfile ? "Profile set" : "Set profile"}
-          </button>
-          <button onClick={() => setCompact(c => !c)}
-            title={compact ? "Card view" : "Compact view"}
-            className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
-            {compact
-              ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="3" y="14" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="14" width="7" height="7" strokeWidth="2" rx="1"/></svg>
-              : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
-            }
-          </button>
-          <span className="text-xs text-gray-400">
-            {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
-          </span>
-        </div>}
+
+        {/* Row 2: category filter pills + profile/compact controls (jobs views only) */}
+        {view !== "intel" && view !== "capital" && view !== "recruiters" && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {JOB_CATEGORIES.slice(0, 7).map((c) => (
+              <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
+                  categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                }`}>
+                {c.l}
+              </button>
+            ))}
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
+                <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
+                {userProfile ? "Profile set" : "Set profile"}
+              </button>
+              <button onClick={() => setCompact(c => !c)}
+                title={compact ? "Card view" : "Compact view"}
+                className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
+                {compact
+                  ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="3" y="14" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="14" width="7" height="7" strokeWidth="2" rx="1"/></svg>
+                  : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
+                }
+              </button>
+              <span className="text-xs text-gray-400">
+                {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {loading && (
