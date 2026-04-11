@@ -7447,25 +7447,27 @@ function MiniBar({ label, count, total, color }: { label: string; count: number;
 
 const HEADHUNTERS = [
   // ── PE / Buyout ──────────────────────────────────────────────────────────
-  { name: "Dynamics Search Partners", type: "PE", levels: "Analyst → VP", focus: "On-cycle PE recruiting — one of the most active shops placing IB analysts into megafund/UMM PE roles. Reach out early in your 1st year of banking.", color: "#1A2B4A" },
-  { name: "Amity Search Partners", type: "PE", levels: "Analyst → Associate", focus: "Active in on-cycle and off-cycle PE. Known for coverage of MF/LBO shops. Typically initiates outreach in summer of banking year 1.", color: "#1A2B4A" },
-  { name: "SG Partners", type: "PE", levels: "Analyst → Senior Associate", focus: "PE, growth equity, and VC. Strong relationships at mid-market and growth equity funds. Also covers some HF roles.", color: "#1A2B4A" },
-  { name: "Henkel Search Partners", type: "PE", levels: "Associate → VP", focus: "Focused on buyout/PE; works with both megafunds and UMM. Less volume than Dynamics but highly selective placements.", color: "#1A2B4A" },
-  { name: "Whistler Partners", type: "PE", levels: "Associate → Principal", focus: "Primarily off-cycle PE and growth equity. Good for folks who missed on-cycle or are targeting growth-oriented funds.", color: "#1A2B4A" },
-  { name: "Oxbridge Group", type: "PE", levels: "VP → Managing Director", focus: "Senior PE roles, operating partners, sector heads. Not for junior candidates — best engaged once you have 5–10+ years.", color: "#1A2B4A" },
+  { name: "Dynamics Search Partners", type: "PE", levels: "Analyst → VP", geo: "NY", focus: "On-cycle PE recruiting — one of the most active shops placing IB analysts into megafund/UMM PE roles. 300+ placements annually. Reach out early in your 1st year of banking.", website: "https://www.dspny.com/" },
+  { name: "Amity Search Partners", type: "PE", levels: "Analyst → Associate", geo: "NY", focus: "Active in on-cycle and off-cycle PE. Known for coverage of MF/LBO shops. Typically initiates outreach in summer of banking year 1.", website: "https://amitysearchpartners.com/" },
+  { name: "CPI", type: "PE", levels: "Analyst → Partner", geo: "NY / Chicago / LA", focus: "One of the largest buyside recruiting shops. Major megafund and UMM client list covering PE, credit, HF, and growth equity. Offices in NY, Chicago, LA, and SF.", website: "https://www.cpiny.com/" },
+  { name: "SG Partners", type: "PE", levels: "Analyst → Senior Associate", geo: "NY", focus: "PE, growth equity, and VC. One of the longest-running buyside recruiting shops. Strong relationships at mid-market and growth equity funds. Also covers HF roles.", website: "https://sgpartners.com/" },
+  { name: "Henkel Search Partners", type: "PE", levels: "Associate → VP", geo: "NY", focus: "Focused on buyout/PE; works with both megafunds and UMM. High-touch boutique — fewer searches than Dynamics or CPI but highly selective placements.", website: "https://www.henkelsp.com/" },
+  { name: "Gold Coast Search Partners", type: "PE", levels: "Associate → Principal", geo: "SF / NY", focus: "SF-based boutique covering PE, growth equity, and HF. Strong West Coast relationships. Good for candidates targeting tech-sector PE and growth funds.", website: "https://www.goldcoastsp.com/" },
+  { name: "Ratio Advisors", type: "PE", levels: "Analyst → Principal", geo: "NY / SF / Boston", focus: "Founded by former Amity partners. Covers PE, HF, and credit. Offices in NY, SF, and Boston; known for close candidate advisory relationships and off-cycle searches.", website: "https://ratioadvisors.com/" },
+  { name: "Oxbridge Group", type: "PE", levels: "VP → Managing Director", geo: "NY", focus: "Senior PE roles — operating partners, sector heads, fund leadership. Founded 1988. Not for junior candidates; best engaged once you have 5–10+ years of experience.", website: "https://www.oxbridgegroup.com/" },
+  { name: "Altus Partners", type: "PE", levels: "Analyst → Partner", geo: "London", focus: "The leading PE headhunter in Europe. Covers investment, IR, portfolio finance, and fund finance roles across European PE. 1,000+ successful searches since 2009.", website: "https://www.altus-partners.com/" },
   // ── Hedge Funds ──────────────────────────────────────────────────────────
-  { name: "Glocap Search", type: "HF", levels: "Analyst → PM", focus: "The most prominent HF-focused recruiter. Covers equity L/S, macro, multi-strat, and credit funds. Maintains broad relationships across Tiger Cubs, Surveyor, Balyasny, etc.", color: "#0F6E56" },
-  { name: "Bellcast Group", type: "HF", levels: "Analyst → Senior Analyst", focus: "HF-focused, strong with equity fundamental L/S roles. Known for covering funds that prefer not to post roles publicly.", color: "#0F6E56" },
-  { name: "Long Ridge Partners", type: "HF", levels: "Analyst → PM", focus: "Covers hedge funds, asset managers, and some PE. Active on both junior and senior placements.", color: "#0F6E56" },
-  { name: "Ratio Advisors", type: "HF", levels: "Associate → Senior Analyst", focus: "Boutique HF recruiter covering equity and credit strategies. Good for roles at smaller/specialist funds that Glocap doesn't prioritize.", color: "#0F6E56" },
+  { name: "Glocap Search", type: "HF", levels: "Analyst → PM", geo: "NY", focus: "The most prominent HF-focused recruiter. Covers equity L/S, macro, multi-strat, and credit funds. Maintains broad relationships across Tiger Cubs, Surveyor, Balyasny, ExodusPoint, and others.", website: "https://www.glocap.com/" },
+  { name: "Bellcast Partners", type: "HF", levels: "Analyst → Senior Analyst", geo: "NY", focus: "HF-focused, strong with equity fundamental L/S roles. Pre-MBA through Partner level. Known for covering funds that prefer not to post roles publicly.", website: "https://bellcastpartners.com/" },
+  { name: "Long Ridge Partners", type: "HF", levels: "Analyst → PM", geo: "NY", focus: "Covers hedge funds, asset managers, and some PE. Founded 2004. Active on both junior and senior placements across alternative investment strategies.", website: "https://www.longridgepartners.com/" },
+  { name: "Odyssey Search Partners", type: "HF", levels: "Analyst → Partner", geo: "NY", focus: "Covers PE, HF, family office, and credit. Founded 2010 by Adam Kahn and Anthony Keizner. 93% search success rate. Strong across junior investment roles.", website: "https://www.odysseysearchpartners.com/" },
   // ── Asset Management ──────────────────────────────────────────────────────
-  { name: "Sheffield Haworth", type: "AM", levels: "Associate → C-Suite", focus: "Specialist in asset and wealth management. Strong coverage of traditional managers (BlackRock, Vanguard, active boutiques) and distribution roles.", color: "#2D6A8F" },
-  { name: "Odyssey Search Partners", type: "AM", levels: "Analyst → Director", focus: "Covers AM, credit, and PE. Known for mid-market coverage across investment, product, and strategy roles.", color: "#2D6A8F" },
-  // ── Credit / Private Debt ─────────────────────────────────────────────────
-  { name: "Heidrick & Struggles", type: "Exec", levels: "Director → C-Suite", focus: "Global executive search with strong financial services coverage. Best for senior investment roles, CIO/PM, and fund leadership positions.", color: "#7B5EA7" },
-  { name: "Spencer Stuart", type: "Exec", levels: "VP → C-Suite", focus: "Senior executive and board-level search. Strong in alternative asset management leadership and LP-facing roles.", color: "#7B5EA7" },
-  { name: "Russell Reynolds Associates", type: "Exec", levels: "Director → C-Suite", focus: "Global executive search across financial services. Often retained for CIO, Head of PE/HF searches at large institutions.", color: "#7B5EA7" },
-  { name: "Korn Ferry", type: "Exec", levels: "VP → C-Suite", focus: "Broad financial services search. Covers investment management, banking, and insurance. Also has an 'Advance' division for mid-level roles.", color: "#7B5EA7" },
+  { name: "Sheffield Haworth", type: "AM", levels: "Associate → C-Suite", geo: "Global", focus: "Specialist in asset and wealth management. Covers traditional managers (BlackRock, Vanguard, active boutiques), distribution, and product roles globally. Strong in EMEA and Asia.", website: "https://www.sheffieldhaworth.com/" },
+  // ── Executive Search ─────────────────────────────────────────────────────
+  { name: "Heidrick & Struggles", type: "Exec", levels: "Director → C-Suite", geo: "Global", focus: "Global executive search with deep financial services coverage. Best for senior investment roles, CIO/PM appointments, and fund leadership. Works on retained searches for major institutions.", website: "https://www.heidrick.com/" },
+  { name: "Spencer Stuart", type: "Exec", levels: "VP → C-Suite", geo: "Global", focus: "Senior executive and board-level search. Strong in alternative asset management leadership, LP-facing roles, and succession planning at major fund managers.", website: "https://www.spencerstuart.com/" },
+  { name: "Russell Reynolds Associates", type: "Exec", levels: "Director → C-Suite", geo: "Global", focus: "Global executive search across financial services. Often retained for CIO, Head of PE/HF, and COO searches at large asset managers, sovereign funds, and endowments.", website: "https://www.russellreynolds.com/" },
+  { name: "Korn Ferry", type: "Exec", levels: "VP → C-Suite", geo: "Global", focus: "Broad financial services search. Covers investment management, banking, and insurance. Has an 'Advance' division for mid-level roles and a strong data/analytics capability.", website: "https://www.kornferry.com/" },
 ];
 
 const RECRUITER_TYPE_META: Record<string, { label: string; color: string; bg: string }> = {
@@ -7528,7 +7530,7 @@ function RecruitersSection() {
         {visible.map(h => {
           const meta = RECRUITER_TYPE_META[h.type];
           return (
-            <div key={h.name} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4">
+            <div key={h.name} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 hover:border-gray-300 hover:shadow-sm transition-all">
               <div className="flex-shrink-0 pt-0.5">
                 <span style={{ background: meta.bg, color: meta.color }} className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
                   {meta.label}
@@ -7538,8 +7540,16 @@ function RecruitersSection() {
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <p className="text-sm font-bold text-[#191c1e]">{h.name}</p>
                   <span className="text-[10px] text-gray-400 border border-gray-200 rounded px-1.5 py-0.5">{h.levels}</span>
+                  <span className="text-[10px] text-gray-400 border border-gray-100 bg-gray-50 rounded px-1.5 py-0.5">{h.geo}</span>
                 </div>
                 <p className="text-[11px] text-[#41484c] leading-relaxed">{h.focus}</p>
+                <a href={h.website} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] transition-colors">
+                  <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 6h8M7 3l3 3-3 3"/>
+                  </svg>
+                  Visit website
+                </a>
               </div>
             </div>
           );
