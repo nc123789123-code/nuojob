@@ -411,8 +411,16 @@ const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = 
   { slug: "stonepeak",               firm: "Stonepeak",                       type: "pe"     },
   { slug: "starwoodcapital",         firm: "Starwood Capital Group",          type: "pe"     },
   { slug: "hgcapital",               firm: "HgCapital",                       type: "pe"     },
-  // ── Neuberger ────────────────────────────────────────────────────────────
+  // ── Neuberger / multi-asset / IB ────────────────────────────────────────
   { slug: "neubergerberman",         firm: "Neuberger Berman",                type: "credit" },
+  { slug: "hamiltonlane",            firm: "Hamilton Lane",                   type: "pe"     },
+  { slug: "lazard",                  firm: "Lazard",                          type: "pe"     },
+  { slug: "jefferies",               firm: "Jefferies Financial Group",       type: "pe"     },
+  { slug: "macquarie",               firm: "Macquarie Asset Management",      type: "pe"     },
+  { slug: "cerberus",                firm: "Cerberus Capital Management",     type: "pe"     },
+  { slug: "harbourvest",             firm: "HarbourVest Partners",            type: "pe"     },
+  { slug: "icg",                     firm: "Intermediate Capital Group",      type: "credit" },
+  { slug: "goldsachs",               firm: "Goldman Sachs Asset Management",  type: "pe"     },
 ];
 
 const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
@@ -433,6 +441,10 @@ const LEVER_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
   { slug: "generalcatalyst",         firm: "General Catalyst",                type: "growth" },
   { slug: "a16z",                    firm: "Andreessen Horowitz",             type: "growth" },
   { slug: "kleinerperkins",          firm: "Kleiner Perkins",                 type: "growth" },
+  { slug: "balyasny",               firm: "Balyasny Asset Management",       type: "hedge"  },
+  { slug: "exoduspoint",            firm: "ExodusPoint Capital",              type: "hedge"  },
+  { slug: "greylock",               firm: "Greylock Partners",               type: "growth" },
+  { slug: "bessemervp",             firm: "Bessemer Venture Partners",       type: "growth" },
 ];
 
 /** Fallback category when classifyTitle returns null for a role at a known buyside firm. */
@@ -815,6 +827,12 @@ const WORKDAY_FIRMS: Array<{ tenant: string; board: string; version: string; fir
   { tenant: "blackstone",      board: "Blackstone",                version: "wd1",  firm: "Blackstone",              type: "pe"     },
   { tenant: "kkr",             board: "KKR",                       version: "wd1",  firm: "KKR",                     type: "pe"     },
   { tenant: "carlyle",         board: "TheCarlyleGroup",           version: "wd1",  firm: "The Carlyle Group",       type: "pe"     },
+  { tenant: "jpmorgan",        board: "JPMorganChase",             version: "wd5",  firm: "JPMorgan Chase",          type: "pe"     },
+  { tenant: "fidelity",        board: "FCAT",                      version: "wd5",  firm: "Fidelity Investments",    type: "pe"     },
+  { tenant: "vanguard",        board: "Vanguard",                  version: "wd1",  firm: "Vanguard",                type: "credit" },
+  { tenant: "alliancebernstein", board: "AllianceBernstein",       version: "wd1",  firm: "AllianceBernstein",       type: "credit" },
+  { tenant: "franklintempleton", board: "FranklinTempletonCareers", version: "wd5", firm: "Franklin Templeton",      type: "credit" },
+  { tenant: "nuveen",          board: "Nuveen",                    version: "wd1",  firm: "Nuveen",                  type: "credit" },
 ];
 
 function workdayDaysAgo(postedOn?: string): number {
@@ -897,6 +915,12 @@ const JSEARCH_QUERIES = [
   "private equity analyst",
   "distressed debt analyst",
   "quantitative analyst hedge fund",
+  "investment banking analyst associate",
+  "fixed income analyst asset management",
+  "macro strategist global markets",
+  "leveraged finance analyst associate",
+  "structured credit CLO analyst",
+  "special situations analyst credit",
 ];
 
 async function fromJSearch(apiKey: string, maxDays: number): Promise<JobSignal[]> {
@@ -1132,7 +1156,7 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    const [adzunaResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult] = await Promise.allSettled([
+    const [adzunaResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult, activeJobsResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
@@ -1142,6 +1166,7 @@ export async function GET(req: NextRequest) {
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromActiveJobsDB(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -1154,15 +1179,16 @@ export async function GET(req: NextRequest) {
         sources.push(name);
       }
     };
-    add(adzunaResult,   "adzuna");
-    add(edgarResult,    "edgar");
-    add(ghResult,       "greenhouse");
-    add(leverResult,    "lever");
-    add(ashbyResult,    "ashby");
-    add(workdayResult,  "workday");
-    add(jobs14Result,   "jobs14");
-    add(fjResult,       "linkedin");
-    add(jsearchResult,  "jsearch");
+    add(adzunaResult,     "adzuna");
+    add(edgarResult,      "edgar");
+    add(ghResult,         "greenhouse");
+    add(leverResult,      "lever");
+    add(ashbyResult,      "ashby");
+    add(workdayResult,    "workday");
+    add(jobs14Result,     "jobs14");
+    add(fjResult,         "linkedin");
+    add(jsearchResult,    "jsearch");
+    add(activeJobsResult, "activejobs");
 
     // Static curated jobs — always added
     const staticJobs = getStaticJobs(maxDays);
