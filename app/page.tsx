@@ -7353,7 +7353,7 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
       bySource[label] = (bySource[label] || 0) + 1;
     }
 
-    return { byCat, byTag, bySeniority, rec, topFirms, bySource, total: jobs.length };
+    return { byCat, byTag, bySeniority, rec, topFirms, total: jobs.length };
   }, [jobs]);
 
   if (loading) return (
@@ -7465,20 +7465,7 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
           </div>
         </div>
 
-        {/* Source Quality */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Data Source Quality</p>
-          <p className="text-[11px] text-gray-400 mb-4">Where roles were sourced from</p>
-          <div className="space-y-2">
-            {Object.entries(stats.bySource).sort((a, b) => b[1] - a[1]).map(([src, cnt]) => (
-              <MiniBar key={src} label={src} count={cnt} total={stats.total}
-                color={src === "Direct (career page)" ? "#0F6E56" : src === "EDGAR inferred" ? "#2D6A8F" : "#94a3b8"} />
-            ))}
-          </div>
-          <div className="mt-4 pt-3 border-t border-gray-50">
-            <p className="text-[11px] text-gray-400">Direct career page postings are confirmed open roles. EDGAR roles are inferred from capital raises.</p>
-          </div>
-        </div>
+
       </div>
     </div>
   );
