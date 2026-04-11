@@ -7443,6 +7443,116 @@ function MiniBar({ label, count, total, color }: { label: string; count: number;
   );
 }
 
+// ─── Recruiters / Headhunters Section ─────────────────────────────────────────
+
+const HEADHUNTERS = [
+  // ── PE / Buyout ──────────────────────────────────────────────────────────
+  { name: "Dynamics Search Partners", type: "PE", levels: "Analyst → VP", focus: "On-cycle PE recruiting — one of the most active shops placing IB analysts into megafund/UMM PE roles. Reach out early in your 1st year of banking.", color: "#1A2B4A" },
+  { name: "Amity Search Partners", type: "PE", levels: "Analyst → Associate", focus: "Active in on-cycle and off-cycle PE. Known for coverage of MF/LBO shops. Typically initiates outreach in summer of banking year 1.", color: "#1A2B4A" },
+  { name: "SG Partners", type: "PE", levels: "Analyst → Senior Associate", focus: "PE, growth equity, and VC. Strong relationships at mid-market and growth equity funds. Also covers some HF roles.", color: "#1A2B4A" },
+  { name: "Henkel Search Partners", type: "PE", levels: "Associate → VP", focus: "Focused on buyout/PE; works with both megafunds and UMM. Less volume than Dynamics but highly selective placements.", color: "#1A2B4A" },
+  { name: "Whistler Partners", type: "PE", levels: "Associate → Principal", focus: "Primarily off-cycle PE and growth equity. Good for folks who missed on-cycle or are targeting growth-oriented funds.", color: "#1A2B4A" },
+  { name: "Oxbridge Group", type: "PE", levels: "VP → Managing Director", focus: "Senior PE roles, operating partners, sector heads. Not for junior candidates — best engaged once you have 5–10+ years.", color: "#1A2B4A" },
+  // ── Hedge Funds ──────────────────────────────────────────────────────────
+  { name: "Glocap Search", type: "HF", levels: "Analyst → PM", focus: "The most prominent HF-focused recruiter. Covers equity L/S, macro, multi-strat, and credit funds. Maintains broad relationships across Tiger Cubs, Surveyor, Balyasny, etc.", color: "#0F6E56" },
+  { name: "Bellcast Group", type: "HF", levels: "Analyst → Senior Analyst", focus: "HF-focused, strong with equity fundamental L/S roles. Known for covering funds that prefer not to post roles publicly.", color: "#0F6E56" },
+  { name: "Long Ridge Partners", type: "HF", levels: "Analyst → PM", focus: "Covers hedge funds, asset managers, and some PE. Active on both junior and senior placements.", color: "#0F6E56" },
+  { name: "Ratio Advisors", type: "HF", levels: "Associate → Senior Analyst", focus: "Boutique HF recruiter covering equity and credit strategies. Good for roles at smaller/specialist funds that Glocap doesn't prioritize.", color: "#0F6E56" },
+  // ── Asset Management ──────────────────────────────────────────────────────
+  { name: "Sheffield Haworth", type: "AM", levels: "Associate → C-Suite", focus: "Specialist in asset and wealth management. Strong coverage of traditional managers (BlackRock, Vanguard, active boutiques) and distribution roles.", color: "#2D6A8F" },
+  { name: "Odyssey Search Partners", type: "AM", levels: "Analyst → Director", focus: "Covers AM, credit, and PE. Known for mid-market coverage across investment, product, and strategy roles.", color: "#2D6A8F" },
+  // ── Credit / Private Debt ─────────────────────────────────────────────────
+  { name: "Heidrick & Struggles", type: "Exec", levels: "Director → C-Suite", focus: "Global executive search with strong financial services coverage. Best for senior investment roles, CIO/PM, and fund leadership positions.", color: "#7B5EA7" },
+  { name: "Spencer Stuart", type: "Exec", levels: "VP → C-Suite", focus: "Senior executive and board-level search. Strong in alternative asset management leadership and LP-facing roles.", color: "#7B5EA7" },
+  { name: "Russell Reynolds Associates", type: "Exec", levels: "Director → C-Suite", focus: "Global executive search across financial services. Often retained for CIO, Head of PE/HF searches at large institutions.", color: "#7B5EA7" },
+  { name: "Korn Ferry", type: "Exec", levels: "VP → C-Suite", focus: "Broad financial services search. Covers investment management, banking, and insurance. Also has an 'Advance' division for mid-level roles.", color: "#7B5EA7" },
+];
+
+const RECRUITER_TYPE_META: Record<string, { label: string; color: string; bg: string }> = {
+  PE:   { label: "Private Equity",    color: "#1A2B4A", bg: "#1A2B4A18" },
+  HF:   { label: "Hedge Funds",       color: "#0F6E56", bg: "#0F6E5618" },
+  AM:   { label: "Asset Management",  color: "#2D6A8F", bg: "#2D6A8F18" },
+  Exec: { label: "Executive Search",  color: "#7B5EA7", bg: "#7B5EA718" },
+};
+
+function RecruitersSection() {
+  const [activeType, setActiveType] = useState<string>("all");
+  const types = ["all", "PE", "HF", "AM", "Exec"] as const;
+  const visible = activeType === "all" ? HEADHUNTERS : HEADHUNTERS.filter(h => h.type === activeType);
+
+  return (
+    <div className="space-y-5">
+      {/* Header */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <p className="text-sm font-bold text-[#191c1e] mb-1">Buyside Headhunters & Recruiters</p>
+        <p className="text-xs text-[#71787c] leading-relaxed">
+          Most senior buyside roles are never posted publicly — they're filled through relationships with specialist recruiters.
+          The firms below dominate placement across hedge funds, PE, and asset management. Proactively register with
+          the relevant ones <strong className="text-[#191c1e]">before</strong> you need them.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+          {([
+            { tip: "Register early", desc: "PE on-cycle starts Oct–Dec in your 1st banking year. HF recruiting is ongoing but best done 3–6 months before target start." },
+            { tip: "Send your materials", desc: "Send a clean resume + 1-page deal sheet / investment pitch. Make it easy for them to pitch you to clients." },
+            { tip: "Be specific", desc: "Tell recruiters exactly what you want — strategy, fund size, city. Vague candidates don't get prioritized." },
+            { tip: "Stay in touch", desc: "Check in every 4–6 weeks if you're actively searching. Roles move fast and visibility matters when a match comes up." },
+          ]).map(t => (
+            <div key={t.tip} className="bg-gray-50 border border-gray-100 rounded-lg p-3">
+              <p className="text-[11px] font-bold text-[#191c1e] mb-0.5">{t.tip}</p>
+              <p className="text-[10px] text-gray-500 leading-relaxed">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Filter tabs */}
+      <div className="flex flex-wrap gap-2">
+        {types.map(t => {
+          const meta = t === "all" ? null : RECRUITER_TYPE_META[t];
+          const isActive = activeType === t;
+          return (
+            <button key={t} onClick={() => setActiveType(t)}
+              className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
+                isActive
+                  ? "shadow-sm bg-[#1A2B4A] text-white border-[#1A2B4A]"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              }`}>
+              {t === "all" ? "All Recruiters" : meta!.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Cards */}
+      <div className="space-y-2">
+        {visible.map(h => {
+          const meta = RECRUITER_TYPE_META[h.type];
+          return (
+            <div key={h.name} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4">
+              <div className="flex-shrink-0 pt-0.5">
+                <span style={{ background: meta.bg, color: meta.color }} className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
+                  {meta.label}
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <p className="text-sm font-bold text-[#191c1e]">{h.name}</p>
+                  <span className="text-[10px] text-gray-400 border border-gray-200 rounded px-1.5 py-0.5">{h.levels}</span>
+                </div>
+                <p className="text-[11px] text-[#41484c] leading-relaxed">{h.focus}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="text-[10px] text-gray-400 italic text-center pt-2">
+        Headhunter coverage and specialties can shift over time. Treat this as a starting point and verify current focus directly.
+      </p>
+    </div>
+  );
+}
+
 function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: boolean }) {
   const stats = useMemo(() => {
     if (!jobs.length) return null;
@@ -7629,7 +7739,7 @@ function HiringSection({
   onExport: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "capital" | "trends">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "capital" | "trends" | "recruiters">("firms");
   const [compact, setCompact] = useState(false);
   const [fundSubTab, setFundSubTab] = useState<"cycle" | "search" | "pipeline">("cycle");
   const [profileDraft, setProfileDraft] = useState(userProfile);
@@ -7775,6 +7885,13 @@ function HiringSection({
           </svg>
           Outreach
         </button>
+        <button onClick={() => setView("recruiters")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "recruiters" ? "bg-orange-100 border-orange-300 text-orange-800 shadow-sm" : "bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100 hover:border-orange-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/>
+          </svg>
+          Recruiters
+        </button>
         <button onClick={() => setView("intel")}
           className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "intel" ? "bg-violet-100 border-violet-300 text-violet-800 shadow-sm" : "bg-violet-50 border-violet-200 text-violet-700 hover:bg-violet-100 hover:border-violet-300"}`}>
           <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -7789,8 +7906,8 @@ function HiringSection({
           </svg>
           Capital
         </button>
-        {view !== "intel" && view !== "capital" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && view !== "capital" && JOB_CATEGORIES.slice(0, 5).map((c) => (
+        {view !== "intel" && view !== "capital" && view !== "recruiters" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
+        {view !== "intel" && view !== "capital" && view !== "recruiters" && JOB_CATEGORIES.slice(0, 5).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
@@ -7798,7 +7915,7 @@ function HiringSection({
             {c.l}
           </button>
         ))}
-        {view !== "intel" && view !== "capital" && <div className="ml-auto flex items-center gap-2">
+        {view !== "intel" && view !== "capital" && view !== "recruiters" && <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
             className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
@@ -7884,6 +8001,8 @@ function HiringSection({
       )}
 
       {view === "outreach" && <OutreachDraftSection />}
+
+      {view === "recruiters" && <RecruitersSection />}
 
       {view === "intel" && <InterviewIntelSection />}
 
