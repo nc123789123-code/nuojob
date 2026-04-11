@@ -2336,6 +2336,145 @@ const HOUSING_POST_CONTENT = (
 
 const INDUSTRY_POSTS: InsightPost[] = [
   {
+    slug: "q1-2026-investor-letters",
+    title: "Q1 2026 Investor Letters: What the Shareholder Reports Reveal",
+    date: "April 11, 2026",
+    tag: "Fund Letters",
+    paragraphs: [],
+    richContent: (
+      <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+        <p>The Q1 2026 letter season ran from early January through late March, covering 2025 full-year results for most funds. Returns across the cohort were exceptionally wide — a hallmark of a concentrated, stock-picker-heavy universe — ranging from <strong className="text-[#191c1e]">−6.2% (Bristlemoon)</strong> to a remarkable <strong className="text-[#191c1e]">+187% (Hirschmann)</strong>. The median reported return for funds that disclosed figures was roughly 20%, but the distribution is skewed by a handful of small concentrated funds with outsized single-position wins.</p>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Return Distribution — Who Reported What</h3>
+
+        <p>Of the ~55 firms in this season&apos;s cohort, 35 disclosed returns. The spread is extreme: seven funds reported above 40%, while only three reported losses.</p>
+
+        <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Selected Reported Returns — Q1 2026 Letters</p>
+          <p className="text-[11px] text-gray-400 mb-4">Full-year 2025 returns where disclosed (sorted descending)</p>
+          <div className="space-y-1.5">
+            {([
+              { label: "Hirschmann", value: 187, color: "#C84B31" },
+              { label: "Silver Ring Partners", value: 109, color: "#C84B31" },
+              { label: "Arquitos Capital", value: 82, color: "#0F6E56" },
+              { label: "Jackson Peak", value: 82.9, color: "#0F6E56" },
+              { label: "Fairlight Fund", value: 66, color: "#0F6E56" },
+              { label: "Kathmandu Capital", value: 52, color: "#2D6A8F" },
+              { label: "Pernas Research", value: 54.3, color: "#2D6A8F" },
+              { label: "Blue Tower AM", value: 54.8, color: "#2D6A8F" },
+              { label: "Sohra Peak", value: 44.8, color: "#D4A84B" },
+              { label: "Immersion Investments", value: 45.4, color: "#D4A84B" },
+              { label: "Curreen Capital", value: 30.9, color: "#6B8F71" },
+              { label: "Salt Light Capital", value: 30.8, color: "#6B8F71" },
+              { label: "Hayden Capital", value: 22.3, color: "#6B8F71" },
+              { label: "1 Main Capital", value: 20.1, color: "#6B8F71" },
+              { label: "Lyrical AM", value: 17.9, color: "#7B5EA7" },
+              { label: "Upslope Capital", value: 14.8, color: "#7B5EA7" },
+              { label: "Greenlight Capital", value: 9, color: "#94a3b8" },
+              { label: "Diameter Capital", value: 8, color: "#94a3b8" },
+              { label: "Rowan Street", value: 11.1, color: "#94a3b8" },
+              { label: "Greystone Capital", value: 2.8, color: "#94a3b8" },
+              { label: "Wedgewood Partners", value: 4.3, color: "#94a3b8" },
+              { label: "Fundsmith", value: 0.8, color: "#94a3b8" },
+              { label: "Bristlemoon Capital", value: -6.2, color: "#ef4444" },
+            ] as { label: string; value: number; color: string }[]).map(item => (
+              <div key={item.label} className="flex items-center gap-2.5">
+                <span className="w-36 text-[11px] text-right text-gray-500 flex-shrink-0 truncate">{item.label}</span>
+                <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+                  <div style={{ width: `${Math.max((item.value / 200) * 100, 3)}%`, background: item.value < 0 ? "#ef4444" : item.color }} className="h-5 rounded flex items-center justify-end px-1.5">
+                    <span className="text-white text-[10px] font-bold whitespace-nowrap">{item.value > 0 ? "+" : ""}{item.value}%</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-gray-400 mt-3">Source: Publicly available investor letters compiled January–March 2026.</p>
+        </div>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Most-Mentioned Stocks Across Letters</h3>
+
+        <p>Cross-referencing disclosed positions reveals notable concentration in a handful of mega-cap tech names — consistent with 2024 market dynamics — alongside more idiosyncratic smaller-cap picks unique to individual managers.</p>
+
+        <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Stocks Cited in Multiple Letters</p>
+          <p className="text-[11px] text-gray-400 mb-4">Number of funds that disclosed a position</p>
+          <div className="space-y-2">
+            {([
+              { label: "META", funds: ["Pershing Square", "Rowan Street"], color: "#1A2B4A" },
+              { label: "TSLA", funds: ["JDP Capital", "Rowan Street", "Tsai Capital"], color: "#1A2B4A" },
+              { label: "GOOG", funds: ["Pershing Square", "Sequoia"], color: "#2D6A8F" },
+              { label: "AMZN", funds: ["Pershing Square", "Wedgewood"], color: "#2D6A8F" },
+              { label: "UMG", funds: ["Pershing Square", "Sequoia"], color: "#0F6E56" },
+              { label: "PAR", funds: ["Voss Capital", "Immersion Investments"], color: "#0F6E56" },
+              { label: "PLTR", funds: ["Legacy Ridge"], color: "#6B8F71" },
+              { label: "UBER", funds: ["Pershing Square"], color: "#6B8F71" },
+            ] as { label: string; funds: string[]; color: string }[]).map(item => (
+              <div key={item.label} className="flex items-start gap-2.5">
+                <span className="w-12 text-[11px] font-bold text-right text-gray-700 flex-shrink-0 pt-0.5">{item.label}</span>
+                <div className="flex-1">
+                  <div className="flex flex-wrap gap-1">
+                    {item.funds.map(f => (
+                      <span key={f} style={{ background: item.color + "18", color: item.color, border: `1px solid ${item.color}30` }} className="text-[10px] font-semibold px-2 py-0.5 rounded-full">{f}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Notable Theses & Short Ideas</h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
+          {([
+            { type: "LONG", firm: "Kerrisdale Capital", ticker: "TDS", desc: "Published a long thesis on Telephone and Data Systems. Kerrisdale argues the market undervalues TDS's wireless assets following the UScellular divestiture to T-Mobile.", color: "#0F6E56" },
+            { type: "SHORT", firm: "Kerrisdale Capital", ticker: "AFRM", desc: "Published a short thesis on Affirm Holdings. Argues BNPL growth is peaking and unit economics are challenged by rising credit losses and funding costs.", color: "#C84B31" },
+            { type: "ACTIVIST", firm: "Elliott Management", ticker: "Toyota", desc: "Elliott published a thesis on Toyota, pushing for capital return improvements and better alignment between the company's EV strategy and shareholder value.", color: "#7B5EA7" },
+            { type: "MACRO", firm: "Goldman Sachs", ticker: "Iran/Markets", desc: "Published a macro note on geopolitical risk from a potential Iran conflict — modeling oil price scenarios and transmission to credit spreads and equities.", color: "#2D6A8F" },
+            { type: "CRYPTO", firm: "Pantera Capital", ticker: "2026 Outlook", desc: "Navigating Crypto in 2026 — Pantera's annual letter outlines their view on Bitcoin, L1/L2 ecosystems, and DeFi catalysts heading into the halving cycle.", color: "#D4A84B" },
+            { type: "LONG", firm: "Semper Augustus", ticker: "BRK", desc: "Berkshire Hathaway remains Semper Augustus's largest disclosed holding. The letter reportedly discusses Buffett succession and capital allocation optionality.", color: "#0F6E56" },
+          ]).map(t => (
+            <div key={t.firm + t.ticker} className="bg-white border border-gray-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span style={{ background: t.color + "18", color: t.color }} className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">{t.type}</span>
+                <span className="text-xs font-bold text-[#191c1e]">{t.ticker}</span>
+                <span className="text-[10px] text-gray-400 ml-auto">{t.firm}</span>
+              </div>
+              <p className="text-[11px] text-gray-500 leading-relaxed">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Key Investor Interviews This Season</h3>
+
+        <div className="space-y-3 my-4">
+          {([
+            { name: "Jeremy Grantham", date: "January 26", desc: "Grantham's annual interview covered his continued bearish view on US equity valuations, the AI bubble risk, and the case for international diversification — particularly Japan and EM value.", color: "#2D6A8F" },
+            { name: "Howard Marks", date: "February 17", desc: "Marks discussed the credit cycle, arguing we are in a late-cycle environment where spread compression leaves little room for error. He emphasized selectivity and the importance of knowing what you don't know.", color: "#0F6E56" },
+            { name: "Ricky Sandler (Eminence Capital)", date: "January 8", desc: "Sandler shared his framework for navigating a high-multiple environment — focusing on companies with durable secular growth, strong FCF conversion, and management teams with a track record of capital allocation discipline.", color: "#7B5EA7" },
+          ]).map(i => (
+            <div key={i.name} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-3">
+              <div className="w-1 rounded-full flex-shrink-0 self-stretch" style={{ background: i.color }} />
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <p className="text-xs font-bold text-[#191c1e]">{i.name}</p>
+                  <p className="text-[10px] text-gray-400">{i.date}</p>
+                </div>
+                <p className="text-[11px] text-gray-500 leading-relaxed">{i.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">What Stands Out</h3>
+
+        <p>A few themes emerge from reading across the cohort. First, the best-performing funds were <strong className="text-[#191c1e]">highly concentrated</strong> — Hirschmann, Silver Ring, Arquitos, and Jackson Peak all ran very few positions, and their outperformance was driven by one or two names working. Second, mega-cap tech (META, TSLA, GOOG, AMZN) still dominates disclosed longs at larger funds, with Pershing Square and Sequoia both anchored in this cluster. Third, <strong className="text-[#191c1e]">Kerrisdale&apos;s short on Affirm</strong> and the macro note from Goldman on Iran risk reflect a broader concern about late-cycle credit stress and geopolitical tail risks entering 2026. Finally, the Howard Marks and Grantham interviews — published within weeks of each other — both flag the same concern: current valuations leave very little margin of safety.</p>
+
+        <p className="text-[11px] text-gray-400 italic mt-4">This post summarizes publicly available investor letters aggregated January–March 2026. Not investment advice. All returns are as self-reported by the respective funds.</p>
+      </div>
+    ),
+  },
+  {
     slug: "housing-construction-2026",
     title: "US Residential Construction: Caught Between a Deficit and a Hard Place",
     date: "April 9, 2026",
@@ -2538,6 +2677,7 @@ const TAG_STYLES: Record<string, string> = {
   "Career Prep":  "bg-violet-100 text-violet-700",
   "Commodities":  "bg-orange-100 text-orange-700",
   "Real Estate":  "bg-teal-100 text-teal-700",
+  "Fund Letters": "bg-rose-100 text-rose-700",
 };
 
 function PostList({ posts }: { posts: InsightPost[] }) {
