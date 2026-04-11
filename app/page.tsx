@@ -5761,7 +5761,7 @@ const FIRM_REGISTRY = [
     category: "Hedge Fund",
     strategies: ["long_short"],
     keywords: ["whale rock capital", "whale rock"],
-    careersUrl: "https://www.whalerokcapital.com",
+    careersUrl: "https://www.whalerockcapital.com",
     desc: "Technology-focused long/short equity hedge fund. Deep fundamental research across software, internet, and media with a long-biased orientation.",
   },
   {
@@ -7917,7 +7917,7 @@ function HiringSection({
           Capital
         </button>
         {view !== "intel" && view !== "capital" && view !== "recruiters" && <div className="w-px h-5 bg-gray-200 hidden sm:block" />}
-        {view !== "intel" && view !== "capital" && view !== "recruiters" && JOB_CATEGORIES.slice(0, 5).map((c) => (
+        {view !== "intel" && view !== "capital" && view !== "recruiters" && JOB_CATEGORIES.slice(0, 7).map((c) => (
           <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
               categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
