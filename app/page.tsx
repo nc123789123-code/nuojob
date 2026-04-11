@@ -341,25 +341,6 @@ function HomeContent() {
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400"
                   tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
               </div>
-              {/* Live source attribution */}
-              <div className="flex flex-wrap items-center gap-1.5 mt-3">
-                <span className="text-[10px] text-[#71787c] font-medium tracking-wide mr-0.5">Sources:</span>
-                {(() => {
-                  const SOURCE_LABELS: Record<string, string> = {
-                    greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", workday: "Workday",
-                    edgar: "SEC EDGAR", jsearch: "LinkedIn/Indeed", jobs14: "Indeed", linkedin: "LinkedIn",
-                    adzuna: "Adzuna", activejobs: "Active Jobs DB", curated: "Curated",
-                  };
-                  const display = jobSources.length > 0
-                    ? jobSources
-                    : ["greenhouse", "lever", "ashby", "workday", "edgar"];
-                  return display.map(s => (
-                    <span key={s} className="text-[10px] font-semibold px-1.5 py-0.5 bg-[#c3ecd7]/70 text-[#2d5a44] rounded-full">
-                      {SOURCE_LABELS[s] || s}
-                    </span>
-                  ));
-                })()}
-              </div>
               {!userProfile && (
                 <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
                   <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#1A2B4A] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
