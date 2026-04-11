@@ -2334,7 +2334,137 @@ const HOUSING_POST_CONTENT = (
   </div>
 );
 
+const FUND_LETTERS_POST_CONTENT = (
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+    <p>The first quarter of 2026 proved one of the most punishing in recent memory for markets — the S&P 500 posted its worst quarter since 2022, falling 4.6%, while tariff uncertainty, AI capex skepticism, and credit concerns rattled positioning across strategies. But a handful of major investors were well-prepared, and their letters offer an unusually candid window into how the best minds in the industry are thinking about what comes next.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Q1 2026 Performance Snapshot</h3>
+
+    <p>Returns across the major names were sharply divided. Macro-oriented funds and those with short books fared best; long-biased multi-strats had a rough quarter.</p>
+
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Reported / Estimated Q1 2026 Returns</p>
+      <p className="text-[11px] text-gray-400 mb-4">Selected funds — sourced from public reporting</p>
+      <div className="space-y-1.5">
+        {([
+          { label: "Greenlight Capital", value: 8.2, color: "#0F6E56" },
+          { label: "Palm Valley Cap Fund", value: 0.74, color: "#6B8F71" },
+          { label: "S&P 500 (benchmark)", value: -4.6, color: "#94a3b8" },
+          { label: "Balyasny Asset Mgmt", value: -3.8, color: "#ef4444" },
+          { label: "ExodusPoint Capital", value: -4.5, color: "#ef4444" },
+          { label: "Pershing Square (PSH)", value: -13.9, color: "#ef4444" },
+        ] as { label: string; value: number; color: string }[]).map(item => (
+          <div key={item.label} className="flex items-center gap-2.5">
+            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 truncate">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+              <div
+                style={{
+                  width: `${Math.max(Math.abs(item.value) / 20 * 100, 4)}%`,
+                  background: item.value < 0 ? "#ef4444" : item.color,
+                  marginLeft: item.value < 0 ? "auto" : undefined,
+                }}
+                className="h-5 rounded flex items-center justify-end px-1.5"
+              >
+                <span className="text-white text-[10px] font-bold whitespace-nowrap">{item.value > 0 ? "+" : ""}{item.value}%</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: Hedgeweek, HedgeCo, Reuters/Investing.com, public NAV disclosures.</p>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Greenlight Capital — Einhorn Turns Bearish, Gold Delivers</h3>
+
+    <p>David Einhorn's Greenlight Capital was one of the standout performers of the quarter, gaining <strong className="text-[#191c1e]">+8.2%</strong> versus the S&P 500's –4.3% — a 12.5-point alpha gap. The macro book was the key driver, led by a <strong className="text-[#191c1e]">19% surge in gold</strong>, which Greenlight holds through both physical bars and call options. The long portfolio was modestly negative (–1.3%), but shorts contributed +5.3% and macro added another +5.3%.</p>
+
+    <p>The more notable signal was a strategic shift in late February. Greenlight wrote that it had <em>"pivoted from conservative but not bearish, to bearish,"</em> cutting net long exposure to just 19% (86% long, 67% short) by quarter-end. Einhorn's letter stated: <em>"We suspect we are now in a bear market that is just starting."</em> With gold gaining another 6.2% in April, the positioning appears to have extended into the new quarter.</p>
+
+    <div className="grid grid-cols-3 gap-3 my-4">
+      {([
+        { label: "Q1 Return", value: "+8.2%", sub: "vs S&P –4.3%", color: "#0F6E56" },
+        { label: "Gold (Q1 gain)", value: "+19%", sub: "Key macro driver", color: "#D4A84B" },
+        { label: "Net Long at Q-End", value: "19%", sub: "86L / 67S", color: "#2D6A8F" },
+      ]).map(s => (
+        <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+          <p className="text-[10px] text-gray-400 mb-1">{s.label}</p>
+          <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
+          <p className="text-[10px] text-gray-400 mt-0.5">{s.sub}</p>
+        </div>
+      ))}
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Pershing Square — Ackman Absorbs a Tough Quarter</h3>
+
+    <p>Pershing Square Holdings (PSH) ended Q1 down <strong className="text-[#191c1e]">13.9% year-to-date</strong> through March 10, as its concentrated long book — heavily weighted toward mega-cap compounders — faced headwinds from the broader de-rating in high-multiple equities. The firm's February 2026 Annual Investor Presentation framed the year-to-date performance in the context of a longer-term compounding thesis, noting active share repurchases of PSH shares at a discount to NAV.</p>
+
+    <p>Separately, Ackman has been pursuing a major strategic initiative: a public listing of Pershing Square Capital Management itself on the NYSE, targeting a raise of $5–10 billion. A <em>Fortune</em> profile in March described Ackman's ambition to build a <em>"modern-day Berkshire Hathaway."</em> The Q1 drawdown complicates the IPO narrative in the short run, but PSH continues to trade at a material discount to NAV — which Ackman argues is the opportunity.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Howard Marks — A Warning on Private Credit</h3>
+
+    <p>Howard Marks published two significant memos in Q1. The first, <em>"AI Hurtles Ahead"</em> (February 2026), charted the progression of AI from basic assistance (Level 1, 2023) to fully autonomous agents (Level 3, early 2026) — a shift Marks described as moving faster than most investors had priced. He noted consulting Anthropic's Claude to write a tutorial on AI developments, calling the technology's acceleration "remarkable."</p>
+
+    <p>The more market-relevant memo arrived in April: <em>"What's Going on in Private Credit?"</em> Marks argued that the <strong className="text-[#191c1e]">$2 trillion direct lending market</strong> is now facing its first serious stress test since the GFC. The concerns:</p>
+
+    <div className="space-y-2 my-4">
+      {([
+        { icon: "⚠", label: "Too much capital, deployed too fast", desc: "Many direct lenders 'accepted too much money and invested it too fast, applying standards that were too low.'" },
+        { icon: "💻", label: "Software/AI exposure", desc: "AI has begun displacing the software sector's growth thesis — and many direct lending portfolios are overweight software borrowers." },
+        { icon: "📉", label: "Spread compression", desc: "A decade of spread tightening has left little margin of safety at current entry prices." },
+        { icon: "🛡", label: "Oaktree's own positioning", desc: "Oaktree reduced its direct lending and software exposure below peers, anticipating the correction." },
+      ]).map(item => (
+        <div key={item.label} className="flex gap-3 bg-white border border-gray-200 rounded-lg p-3.5">
+          <span className="text-base mt-0.5 flex-shrink-0">{item.icon}</span>
+          <div>
+            <p className="text-xs font-semibold text-[#191c1e]">{item.label}</p>
+            <p className="text-[11px] text-gray-500 mt-0.5">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p>Despite the warnings, Marks concluded there is <em>"no systemic problem"</em> in private credit — rather, a targeted correction in over-leveraged software and lower-quality direct lending vintages. Selective managers with higher underwriting standards should be fine.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Man Group — "Too Hard to Price"</h3>
+
+    <p>Man Group's Q1 2026 Hedge Fund Strategy Outlook was titled <em>"Too Hard to Price?"</em> — a phrase that captured the quarter's defining challenge. Three forces dominated: <strong className="text-[#191c1e]">geopolitics</strong> (tariffs, Middle East tensions), <strong className="text-[#191c1e]">monetary policy uncertainty</strong> (the next Fed chair, diverging rate paths), and <strong className="text-[#191c1e]">AI capex skepticism</strong> (concerns about uncertain business models priced into the market).</p>
+
+    <p>Man upgraded its outlook for three strategies heading into Q2: <strong className="text-[#191c1e]">Long-Biased Equity L/S</strong>, <strong className="text-[#191c1e]">Market Neutral Equity L/S</strong>, and <strong className="text-[#191c1e]">Merger Arbitrage</strong> (driven by record M&A activity). The only negative-rated strategy remains Distressed Credit — too early to offer attractive risk/reward. The core thesis: elevated dispersion and lower single-stock correlations create a fertile environment for active stock selection, even if calling market direction is difficult.</p>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Common Themes Across the Season</h3>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
+      {([
+        { theme: "Gold as Reserve Asset", desc: "Einhorn and others see gold displacing Treasuries as the default macro hedge, especially as fiscal credibility concerns mount.", color: "#D4A84B" },
+        { theme: "Private Credit Stress", desc: "Marks isn't alone — multiple managers flagged that direct lending vintages from 2021–2023 are increasingly showing cracks, particularly in software-heavy portfolios.", color: "#C84B31" },
+        { theme: "Bear Market Emerging?", desc: "Greenlight made the most direct call, but the cautious tone was widespread — net long exposures across L/S funds fell materially through March.", color: "#2D6A8F" },
+        { theme: "AI: Still Uncertain", desc: "Enthusiasm for AI remains high but market pricing is getting scrutinized. Man Group flagged uncertain business models; Marks charted AI's acceleration with genuine awe and caution.", color: "#7B5EA7" },
+        { theme: "Dispersion Over Direction", desc: "The consensus view: don't try to call the market. Instead, pick winners and losers — dispersion is historically elevated, rewarding skilled stock selection.", color: "#0F6E56" },
+        { theme: "Tariff Volatility", desc: "Policy uncertainty around tariffs was cited by virtually every letter as a key source of macro noise, with second-order effects on supply chains and credit conditions still playing out.", color: "#6B8F71" },
+      ]).map(t => (
+        <div key={t.theme} className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: t.color }} />
+            <p className="text-xs font-bold text-[#191c1e]">{t.theme}</p>
+          </div>
+          <p className="text-[11px] text-gray-500 leading-relaxed">{t.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <p className="text-[11px] text-gray-400 italic mt-4">This post summarizes publicly available investor letters, memos, and performance reports. Sources include Hedgeweek, Reuters, HedgeCo, Oaktree Capital, Man Group, and public NAV disclosures. Not investment advice.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "q1-2026-fund-letters-roundup",
+    title: "Q1 2026 Investor Letters: What the Top Funds Are Saying",
+    date: "April 11, 2026",
+    tag: "Fund Letters",
+    paragraphs: [],
+    richContent: FUND_LETTERS_POST_CONTENT,
+  },
   {
     slug: "housing-construction-2026",
     title: "US Residential Construction: Caught Between a Deficit and a Hard Place",
