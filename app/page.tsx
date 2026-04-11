@@ -67,10 +67,10 @@ function useCountUp(target: number, duration = 1200): number {
   return value;
 }
 
-function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]" }: { value: number; suffix?: string; label: string; color?: string }) {
+function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]", tooltip }: { value: number; suffix?: string; label: string; color?: string; tooltip?: string }) {
   const count = useCountUp(value);
   return (
-    <div className="text-center counter-animate">
+    <div className="text-center counter-animate" title={tooltip}>
       <div className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${color}`}>
         {count}{suffix}
       </div>
@@ -332,10 +332,33 @@ function HomeContent() {
                 Live roles from 60+ firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
-                <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500" />
-                <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500" />
-                <AnimatedStat value={4} label="Data sources" color="text-violet-400" />
-                <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400" />
+                <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500"
+                  tooltip="Buy-side firms in our curated watch list — hedge funds, PE, private credit, and growth equity" />
+                <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500"
+                  tooltip="Live open roles scraped from firm career pages (Greenhouse, Lever, Ashby, Workday) and aggregated from LinkedIn, Indeed, and Google Jobs" />
+                <AnimatedStat value={jobLoading ? 10 : Math.max(jobSources.length, 10)} label="Data sources" color="text-violet-400"
+                  tooltip="Greenhouse · Lever · Ashby · Workday · SEC EDGAR · LinkedIn · Indeed · Google Jobs · Adzuna · Active Jobs DB" />
+                <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400"
+                  tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
+              </div>
+              {/* Live source attribution */}
+              <div className="flex flex-wrap items-center gap-1.5 mt-3">
+                <span className="text-[10px] text-[#71787c] font-medium tracking-wide mr-0.5">Sources:</span>
+                {(() => {
+                  const SOURCE_LABELS: Record<string, string> = {
+                    greenhouse: "Greenhouse", lever: "Lever", ashby: "Ashby", workday: "Workday",
+                    edgar: "SEC EDGAR", jsearch: "LinkedIn/Indeed", jobs14: "Indeed", linkedin: "LinkedIn",
+                    adzuna: "Adzuna", activejobs: "Active Jobs DB", curated: "Curated",
+                  };
+                  const display = jobSources.length > 0
+                    ? jobSources
+                    : ["greenhouse", "lever", "ashby", "workday", "edgar"];
+                  return display.map(s => (
+                    <span key={s} className="text-[10px] font-semibold px-1.5 py-0.5 bg-[#c3ecd7]/70 text-[#2d5a44] rounded-full">
+                      {SOURCE_LABELS[s] || s}
+                    </span>
+                  ));
+                })()}
               </div>
               {!userProfile && (
                 <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
@@ -7885,23 +7908,23 @@ function HiringSection({
             </button>
           )}
           <div className="w-px bg-gray-200 self-stretch mx-0.5 flex-shrink-0" />
-          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-amber-500 text-white border-amber-500" : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 hover:border-amber-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/></svg>
             Trends
           </button>
-          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "capital" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "capital" ? "bg-emerald-600 text-white border-emerald-600" : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/></svg>
             Capital
           </button>
-          <button onClick={() => setView("outreach")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "outreach" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("outreach")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "outreach" ? "bg-teal-600 text-white border-teal-600" : "bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100 hover:border-teal-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/></svg>
             Outreach
           </button>
-          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-orange-500 text-white border-orange-500" : "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:border-orange-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/></svg>
             Recruiters
           </button>
-          <button onClick={() => setView("intel")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "intel" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("intel")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "intel" ? "bg-violet-600 text-white border-violet-600" : "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h10a1 1 0 011 1v5a1 1 0 01-1 1H8l-3 2v-2H2a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
             Feedback
           </button>
