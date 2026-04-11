@@ -7284,6 +7284,206 @@ function CapitalCard({ signal, meta, aum }: {
   );
 }
 
+// ─── Hiring Trends Analytics ──────────────────────────────────────────────────
+
+function inferSeniority(role: string): string {
+  const r = role.toLowerCase();
+  if (/\b(managing director|md)\b/.test(r)) return "MD";
+  if (/\b(partner|head of)\b/.test(r)) return "Partner / Head";
+  if (/\b(director)\b/.test(r)) return "Director";
+  if (/\b(vice president|vp )\b/.test(r)) return "VP";
+  if (/\b(associate|asc)\b/.test(r)) return "Associate";
+  if (/\b(analyst)\b/.test(r)) return "Analyst";
+  return "Other";
+}
+
+function MiniBar({ label, count, total, color }: { label: string; count: number; total: number; color: string }) {
+  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="w-36 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight truncate">{label}</span>
+      <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+        <div style={{ width: `${Math.max(pct, 2)}%`, background: color }} className="h-5 rounded transition-all flex items-center justify-end px-1.5">
+          <span className="text-white text-[10px] font-bold">{count}</span>
+        </div>
+      </div>
+      <span className="text-[10px] text-gray-400 w-8 text-right flex-shrink-0">{pct}%</span>
+    </div>
+  );
+}
+
+function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: boolean }) {
+  const stats = useMemo(() => {
+    if (!jobs.length) return null;
+
+    // By category
+    const byCat: Record<string, number> = {};
+    for (const j of jobs) { byCat[j.category || "Other"] = (byCat[j.category || "Other"] || 0) + 1; }
+
+    // By signal tag
+    const byTag: Record<string, number> = {};
+    for (const j of jobs) { byTag[j.signalTag || "Unknown"] = (byTag[j.signalTag || "Unknown"] || 0) + 1; }
+
+    // By seniority
+    const bySeniority: Record<string, number> = {};
+    for (const j of jobs) {
+      const s = inferSeniority(j.role);
+      bySeniority[s] = (bySeniority[s] || 0) + 1;
+    }
+
+    // By recency
+    const rec = { "Last 7d": 0, "8–14d": 0, "15–30d": 0, "30d+": 0 };
+    for (const j of jobs) {
+      if (j.daysAgo <= 7) rec["Last 7d"]++;
+      else if (j.daysAgo <= 14) rec["8–14d"]++;
+      else if (j.daysAgo <= 30) rec["15–30d"]++;
+      else rec["30d+"]++;
+    }
+
+    // Top firms
+    const firmCount: Record<string, number> = {};
+    for (const j of jobs) { firmCount[j.firm] = (firmCount[j.firm] || 0) + 1; }
+    const topFirms = Object.entries(firmCount).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+    // Source quality
+    const bySource: Record<string, number> = {};
+    for (const j of jobs) {
+      const src = j.source || "unknown";
+      const label = ["greenhouse", "lever", "ashby", "workday"].includes(src) ? "Direct (career page)" : src === "edgar" ? "EDGAR inferred" : "Aggregated";
+      bySource[label] = (bySource[label] || 0) + 1;
+    }
+
+    return { byCat, byTag, bySeniority, rec, topFirms, bySource, total: jobs.length };
+  }, [jobs]);
+
+  if (loading) return (
+    <div className="flex items-center justify-center py-16 text-gray-400 text-sm gap-2">
+      <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/></svg>
+      Loading job data…
+    </div>
+  );
+  if (!stats) return <div className="text-center py-12 text-gray-400 text-sm">No job data available yet.</div>;
+
+  const catColors: Record<string, string> = {
+    "Private Credit": "#0F6E56", "Public Credit": "#2D6A8F", "Investment Banking": "#1A2B4A",
+    "Equity Research": "#7B5EA7", "Quant": "#D4A84B", "IR / Ops": "#6B8F71", "Other Finance Roles": "#94a3b8",
+  };
+  const tagColors: Record<string, string> = {
+    "In-market raise": "#C84B31", "Post-raise build-out": "#0F6E56",
+    "Fund scaling": "#2D6A8F", "New fund": "#7B5EA7", "Unknown": "#94a3b8",
+  };
+  const seniorityColors: Record<string, string> = {
+    "MD": "#1A2B4A", "Partner / Head": "#0F6E56", "Director": "#2D6A8F",
+    "VP": "#7B5EA7", "Associate": "#D4A84B", "Analyst": "#6B8F71", "Other": "#94a3b8",
+  };
+  const recencyColors: Record<string, string> = {
+    "Last 7d": "#0F6E56", "8–14d": "#2D6A8F", "15–30d": "#D4A84B", "30d+": "#94a3b8",
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <div>
+          <h2 className="text-base font-bold text-[#191c1e]">Hiring Market Trends</h2>
+          <p className="text-[11px] text-gray-400 mt-0.5">Based on {stats.total} front-office roles currently tracked · refreshes daily</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {/* By Category */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Roles by Strategy</p>
+          <p className="text-[11px] text-gray-400 mb-4">Where hiring volume is concentrated</p>
+          <div className="space-y-2">
+            {Object.entries(stats.byCat).sort((a, b) => b[1] - a[1]).map(([cat, cnt]) => (
+              <MiniBar key={cat} label={cat} count={cnt} total={stats.total} color={catColors[cat] ?? "#94a3b8"} />
+            ))}
+          </div>
+        </div>
+
+        {/* By Seniority */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Role Seniority Mix</p>
+          <p className="text-[11px] text-gray-400 mb-4">Level distribution across all open roles</p>
+          <div className="space-y-2">
+            {(["Analyst","Associate","VP","Director","MD","Partner / Head","Other"] as const).map(lvl => {
+              const cnt = stats.bySeniority[lvl] || 0;
+              if (!cnt) return null;
+              return <MiniBar key={lvl} label={lvl} count={cnt} total={stats.total} color={seniorityColors[lvl]} />;
+            })}
+          </div>
+        </div>
+
+        {/* Top Hiring Firms */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Most Active Hirers</p>
+          <p className="text-[11px] text-gray-400 mb-4">Firms with the most open roles right now</p>
+          <div className="space-y-2">
+            {stats.topFirms.map(([firm, cnt], i) => (
+              <div key={firm} className="flex items-center gap-2.5">
+                <span className="text-[10px] text-gray-300 font-bold w-4 text-right flex-shrink-0">{i + 1}</span>
+                <span className="flex-1 text-[11px] text-gray-600 truncate">{firm}</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: Math.min(cnt, 8) }).map((_, k) => (
+                      <span key={k} className="w-1.5 h-4 rounded-sm bg-emerald-400 opacity-80" style={{ opacity: 0.4 + (k / Math.min(cnt, 8)) * 0.6 }} />
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-gray-400 w-5 text-right">{cnt}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* By Recency */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Posting Recency</p>
+          <p className="text-[11px] text-gray-400 mb-4">When these roles were posted</p>
+          <div className="space-y-2">
+            {Object.entries(stats.rec).map(([label, cnt]) => (
+              <MiniBar key={label} label={label} count={cnt} total={stats.total} color={recencyColors[label]} />
+            ))}
+          </div>
+          <div className="mt-4 pt-3 border-t border-gray-50">
+            <p className="text-[11px] text-gray-400">
+              <span className="font-semibold text-emerald-600">{stats.rec["Last 7d"]}</span> roles posted in the last week
+              {stats.rec["Last 7d"] > stats.rec["8–14d"] ? " — above prior week pace" : " — below prior week pace"}
+            </p>
+          </div>
+        </div>
+
+        {/* By Hiring Phase */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Hiring Phase Signal</p>
+          <p className="text-[11px] text-gray-400 mb-4">What stage of growth is driving hiring</p>
+          <div className="space-y-2">
+            {Object.entries(stats.byTag).sort((a, b) => b[1] - a[1]).map(([tag, cnt]) => (
+              <MiniBar key={tag} label={tag} count={cnt} total={stats.total} color={tagColors[tag] ?? "#94a3b8"} />
+            ))}
+          </div>
+        </div>
+
+        {/* Source Quality */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Data Source Quality</p>
+          <p className="text-[11px] text-gray-400 mb-4">Where roles were sourced from</p>
+          <div className="space-y-2">
+            {Object.entries(stats.bySource).sort((a, b) => b[1] - a[1]).map(([src, cnt]) => (
+              <MiniBar key={src} label={src} count={cnt} total={stats.total}
+                color={src === "Direct (career page)" ? "#0F6E56" : src === "EDGAR inferred" ? "#2D6A8F" : "#94a3b8"} />
+            ))}
+          </div>
+          <div className="mt-4 pt-3 border-t border-gray-50">
+            <p className="text-[11px] text-gray-400">Direct career page postings are confirmed open roles. EDGAR roles are inferred from capital raises.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Hiring Watch Section ─────────────────────────────────────────────────────
 
 function HiringSection({
@@ -7311,7 +7511,7 @@ function HiringSection({
   onExport: () => void;
 }) {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
-  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "capital">("firms");
+  const [view, setView] = useState<"firms" | "roles" | "foryou" | "outreach" | "intel" | "capital" | "trends">("firms");
   const [compact, setCompact] = useState(false);
   const [fundSubTab, setFundSubTab] = useState<"cycle" | "search" | "pipeline">("cycle");
   const [profileDraft, setProfileDraft] = useState(userProfile);
@@ -7443,6 +7643,13 @@ function HiringSection({
             </button>
           )}
         </div>
+        <button onClick={() => setView("trends")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "trends" ? "bg-amber-100 border-amber-300 text-amber-800 shadow-sm" : "bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100 hover:border-amber-300"}`}>
+          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/>
+          </svg>
+          Trends
+        </button>
         <button onClick={() => setView("outreach")}
           className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-bold transition-all ${view === "outreach" ? "bg-teal-100 border-teal-300 text-teal-800 shadow-sm" : "bg-teal-50 border-teal-200 text-teal-700 hover:bg-teal-100 hover:border-teal-300"}`}>
           <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -7603,6 +7810,10 @@ function HiringSection({
             />
           )}
         </div>
+      )}
+
+      {view === "trends" && (
+        <HiringTrendsSection jobs={filtered} loading={loading} />
       )}
 
       {view === "firms" && !loading && (
