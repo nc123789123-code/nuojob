@@ -1135,8 +1135,7 @@ export async function GET(req: NextRequest) {
     const rapidApiKey = process.env.RAPIDAPI_KEY   ?? "";
 
     // Run all sources in parallel
-    // Note: JSearch is over monthly quota; Active Jobs DB not subscribed — both skipped
-    const [adzunaResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult] = await Promise.allSettled([
+    const [adzunaResult, edgarResult, ghResult, leverResult, ashbyResult, workdayResult, jobs14Result, fjResult, jsearchResult] = await Promise.allSettled([
       adzunaId && adzunaKey ? fromAdzuna(adzunaId, adzunaKey, maxDays) : Promise.resolve([] as JobSignal[]),
       fromEdgar(maxDays),
       fromGreenhouse(maxDays),
@@ -1145,6 +1144,7 @@ export async function GET(req: NextRequest) {
       fromWorkday(maxDays),
       rapidApiKey ? fromJobs14(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
       rapidApiKey ? fromFantasticJobs(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
+      rapidApiKey ? fromJSearch(rapidApiKey, maxDays) : Promise.resolve([] as JobSignal[]),
     ]);
 
     const sources: string[] = [];
@@ -1157,14 +1157,15 @@ export async function GET(req: NextRequest) {
         sources.push(name);
       }
     };
-    add(adzunaResult,  "adzuna");
-    add(edgarResult,   "edgar");
-    add(ghResult,      "greenhouse");
-    add(leverResult,   "lever");
-    add(ashbyResult,   "ashby");
-    add(workdayResult, "workday");
-    add(jobs14Result,  "jobs14");
-    add(fjResult,      "linkedin");
+    add(adzunaResult,   "adzuna");
+    add(edgarResult,    "edgar");
+    add(ghResult,       "greenhouse");
+    add(leverResult,    "lever");
+    add(ashbyResult,    "ashby");
+    add(workdayResult,  "workday");
+    add(jobs14Result,   "jobs14");
+    add(fjResult,       "linkedin");
+    add(jsearchResult,  "jsearch");
 
     // Static curated jobs — always added
     const staticJobs = getStaticJobs(maxDays);
