@@ -375,7 +375,7 @@ function HomeContent() {
           )}
 
           {/* Feature map — same order as top nav, active tab highlighted */}
-          <div className="mt-4 sm:mt-6 grid grid-cols-5 gap-1.5 sm:gap-2 max-w-3xl">
+          <div className="mt-4 sm:mt-6 grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2 max-w-3xl">
             {([
               {
                 icon: (
@@ -438,7 +438,7 @@ function HomeContent() {
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
                 className={`card-lift text-left p-2 sm:p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
                 <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
-                <div className={`text-[9px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
+                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
                 <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
               </button>
             ))}
@@ -487,7 +487,7 @@ function HomeContent() {
 
       {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={() => setTopTab("hiring")} onJobsClick={() => setTopTab("hiring")} />}
 
-      <main className="max-w-6xl mx-auto px-5 py-5 space-y-4 pb-24 sm:pb-5">
+      <main className="max-w-6xl mx-auto px-3 sm:px-5 py-4 sm:py-5 space-y-4 pb-24 sm:pb-5">
         {topTab === "pulse" && (
           <>
             <PulseSection />
@@ -6361,7 +6361,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
     .slice(0, 4);
 
   return (
-    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-5">
+    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-4 sm:p-5">
       {/* Firm header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
@@ -7839,34 +7839,41 @@ function HiringSection({
 
       {/* Profile panel */}
       {showProfilePanel && (
-        <div className="bg-violet-50 border border-violet-200 rounded-2xl p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold text-violet-900">Your profile</p>
-            <button onClick={() => setShowProfilePanel(false)} className="text-violet-400 hover:text-violet-600 text-xs">Close</button>
-          </div>
-          <p className="text-xs text-violet-500 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. This is stored locally on your device and used to match roles and pre-fill outreach.</p>
-          <textarea
-            value={profileDraft}
-            onChange={e => setProfileDraft(e.target.value)}
-            rows={5}
-            placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance. Closed 12 LBO and recapitalisation transactions ranging from $50M to $500M. Strong in credit analysis, deal structuring, and sponsor relationships. Looking to move to a direct lending platform — ideally mid-market credit with origination involvement."
-            className="w-full text-sm border border-violet-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-violet-300 resize-none placeholder:text-violet-300"
-          />
-          <div className="flex gap-2 mt-3">
-            <button
-              onClick={() => { onSaveProfile(profileDraft); setShowProfilePanel(false); setMatchResults(null); }}
-              disabled={!profileDraft.trim()}
-              className="px-4 py-2 bg-violet-600 text-white text-xs font-bold rounded-lg hover:bg-violet-700 disabled:opacity-40 transition-colors">
-              Save profile
-            </button>
-            {userProfile && (
-              <button onClick={() => { onClearProfile(); setProfileDraft(""); setMatchResults(null); }}
-                className="px-4 py-2 text-xs font-medium text-red-500 hover:text-red-700 border border-red-200 rounded-lg transition-colors">
-                Clear
+        <>
+          {/* Mobile backdrop */}
+          <div className="fixed inset-0 bg-black/40 z-40 sm:hidden" onClick={() => setShowProfilePanel(false)} />
+          {/* Panel — bottom sheet on mobile, inline card on desktop */}
+          <div className="fixed bottom-0 left-0 right-0 z-50 sm:static sm:z-auto bg-white sm:bg-violet-50 border-t sm:border border-violet-200 rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl sm:shadow-sm">
+            {/* drag handle on mobile */}
+            <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4 sm:hidden" />
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold text-violet-900">Your profile</p>
+              <button onClick={() => setShowProfilePanel(false)} className="text-violet-400 hover:text-violet-600 text-xs p-1">Close ✕</button>
+            </div>
+            <p className="text-xs text-violet-500 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. Stored locally on your device.</p>
+            <textarea
+              value={profileDraft}
+              onChange={e => setProfileDraft(e.target.value)}
+              rows={5}
+              placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance. Closed 12 LBO transactions $50M–$500M. Looking to move to direct lending."
+              className="w-full text-sm border border-violet-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-violet-300 resize-none placeholder:text-violet-300"
+            />
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => { onSaveProfile(profileDraft); setShowProfilePanel(false); setMatchResults(null); }}
+                disabled={!profileDraft.trim()}
+                className="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 bg-violet-600 text-white text-xs font-bold rounded-lg hover:bg-violet-700 disabled:opacity-40 transition-colors">
+                Save profile
               </button>
-            )}
+              {userProfile && (
+                <button onClick={() => { onClearProfile(); setProfileDraft(""); setMatchResults(null); }}
+                  className="px-4 py-2.5 sm:py-2 text-xs font-medium text-red-500 hover:text-red-700 border border-red-200 rounded-lg transition-colors">
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Navigation — unified tab bar + category filters */}
@@ -7911,18 +7918,22 @@ function HiringSection({
           </button>
         </div>
 
-        {/* Row 2: category filter pills + profile/compact controls (jobs views only) */}
+        {/* Row 2: category filter pills + controls (jobs views only) */}
         {view !== "intel" && view !== "capital" && view !== "recruiters" && (
-          <div className="flex flex-wrap items-center gap-1.5">
-            {JOB_CATEGORIES.slice(0, 7).map((c) => (
-              <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all ${
-                  categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
-                }`}>
-                {c.l}
-              </button>
-            ))}
-            <div className="ml-auto flex items-center gap-2">
+          <div className="space-y-1.5">
+            {/* Category pills — scrollable on mobile */}
+            <div className="flex overflow-x-auto gap-1.5 pb-0.5" style={{scrollbarWidth:"none"}}>
+              {JOB_CATEGORIES.slice(0, 7).map((c) => (
+                <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all whitespace-nowrap flex-shrink-0 ${
+                    categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                  }`}>
+                  {c.l}
+                </button>
+              ))}
+            </div>
+            {/* Controls row */}
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
                 className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
@@ -7937,8 +7948,8 @@ function HiringSection({
                   : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
                 }
               </button>
-              <span className="text-xs text-gray-400">
-                {loading ? "Loading…" : `${allRegistryProfiles.length} firms hiring · ${earlySignalFirms.length} early signals`}
+              <span className="text-xs text-gray-400 ml-auto">
+                {loading ? "Loading…" : `${allRegistryProfiles.length} firms · ${earlySignalFirms.length} signals`}
               </span>
             </div>
           </div>
@@ -8234,11 +8245,11 @@ function HiringSection({
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
                     <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[#71787c]">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#71787c]">
                     <span className="font-medium text-[#41484c]">{r.firm}</span>
-                    <span>·</span><span>{r.location}</span>
+                    <span className="hidden xs:inline">·</span><span>{r.location}</span>
                     <span>·</span><span>{r.daysAgo}d ago</span>
-                    {r.source && <><span>·</span><span className="capitalize">{r.source}</span></>}
+                    {r.source && <><span className="hidden xs:inline">·</span><span className="hidden xs:inline capitalize">{r.source}</span></>}
                   </div>
                   {r.classification.signal && (
                     <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
@@ -8377,7 +8388,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
   }
 
   return (
-    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-5">
+    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-4 sm:p-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
