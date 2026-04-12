@@ -7761,6 +7761,7 @@ function HiringSection({
   const [matchLoading, setMatchLoading] = useState(false);
   const [matchError, setMatchError] = useState<string | null>(null);
   const [showDebug, setShowDebug] = useState(false);
+  const [showAllJobs, setShowAllJobs] = useState(false);
 
   const filtered = useMemo(
     () => categoryFilter === "all" ? signals : signals.filter((s) => s.category === categoryFilter),
@@ -8074,112 +8075,134 @@ function HiringSection({
       )}
 
       {view === "firms" && !loading && (() => {
-        // Build one unified sorted list
+        // ── Section 1: all open roles (watchlist + other) ───────────────
+        const allJobs = frontOfficeJobs.filter(r => r.classification.seniority !== "other");
+        const visibleJobs = showAllJobs ? allJobs : allJobs.slice(0, 18);
+
+        // ── Section 2: firm directory ────────────────────────────────────
         type FirmRow = {
           id: string; name: string; category?: string; strategies: string[];
           careersUrl?: string; filing?: FundFiling;
           roleCount: number; signalType: "both" | "hiring" | "raising" | "radar";
         };
-        const rows: FirmRow[] = [];
-
-        // Firms with open roles
+        const firmRows: FirmRow[] = [];
         for (const p of allRegistryProfiles) {
           const fd = FIRM_REGISTRY.find(x => x.id === p.firmId);
           const filing = filingByFirmId.get(p.firmId);
-          rows.push({ id: p.firmId, name: p.name, category: p.category, strategies: p.strategies,
+          firmRows.push({ id: p.firmId, name: p.name, category: p.category, strategies: p.strategies,
             careersUrl: fd?.careersUrl, filing, roleCount: p.frontOfficeCount,
             signalType: filing ? "both" : "hiring" });
         }
-        // EDGAR signal, no roles yet
         for (const { def: f, filing } of earlySignalFirms) {
-          rows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
+          firmRows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
             careersUrl: f.careersUrl, filing, roleCount: 0, signalType: "raising" });
         }
-        // Watched, no signal
         for (const f of onRadarFirms) {
-          rows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
+          firmRows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
             careersUrl: f.careersUrl, roleCount: 0, signalType: "radar" });
         }
-
         const ORDER = { both: 0, hiring: 1, raising: 2, radar: 3 } as const;
-        rows.sort((a, b) => ORDER[a.signalType] - ORDER[b.signalType] || b.roleCount - a.roleCount);
-
+        firmRows.sort((a, b) => ORDER[a.signalType] - ORDER[b.signalType] || b.roleCount - a.roleCount);
         const DOT_CLS = { both: "bg-emerald-500", hiring: "bg-sky-500", raising: "bg-amber-400", radar: "bg-gray-300" } as const;
 
         return (
-          <div className="space-y-4">
-            {/* Legend */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-500">
-              {([ ["both","bg-emerald-500","Fund raise + open roles"],
-                   ["hiring","bg-sky-500","Hiring now"],
-                   ["raising","bg-amber-400","Raising capital — no roles yet"],
-                   ["radar","bg-gray-300","Watching"] ] as const).map(([type, dot, label]) => (
-                <span key={type} className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />
-                  {label}
-                </span>
-              ))}
-            </div>
+          <div className="space-y-8">
 
-            {/* Unified firm list */}
-            <div className="space-y-1">
-              {rows.map((row) => (
-                <div key={row.id} className="bg-white border border-[#c1c7cc]/40 rounded-xl px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-3 hover:border-[#396477]/30 transition-colors">
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${DOT_CLS[row.signalType]}`} />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="font-semibold text-sm text-[#191c1e]">{row.name}</span>
-                      {row.category && <FirmTypeBadge category={row.category} />}
-                      {row.strategies.slice(0, 1).map(s => <StrategyTag key={s} s={s} />)}
+            {/* ── Open Roles grid ── */}
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Open Roles</h2>
+                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length}</span>
+                <span className="text-xs text-[#71787c]">Click to apply</span>
+              </div>
+              {allJobs.length === 0 ? (
+                <p className="text-sm text-gray-400 py-4">No open roles found yet — check back soon.</p>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                    {visibleJobs.map((r) => (
+                      <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col bg-white border border-[#c1c7cc]/40 rounded-xl p-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
+                        {/* firm + seniority */}
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <span className="text-xs font-semibold text-[#396477] truncate">{r.firm}</span>
+                          <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                        </div>
+                        {/* role title */}
+                        <p className="text-sm font-bold text-[#191c1e] leading-snug group-hover:text-[#396477] transition-colors line-clamp-2 mb-2 flex-1">
+                          {r.role}
+                        </p>
+                        {/* meta row */}
+                        <div className="flex items-center justify-between gap-2 mt-auto">
+                          <span className="text-xs text-[#71787c] truncate">{r.location}</span>
+                          <span className="text-xs text-gray-400 flex-shrink-0">{r.daysAgo}d ago</span>
+                        </div>
+                        {/* apply button */}
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <span className="text-xs font-bold text-[#396477] group-hover:underline">Apply →</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                  {allJobs.length > 18 && (
+                    <button onClick={() => setShowAllJobs(v => !v)}
+                      className="mt-4 w-full py-2.5 text-xs font-semibold text-[#396477] border border-[#396477]/30 rounded-xl hover:bg-[#396477]/5 transition-colors">
+                      {showAllJobs ? "Show less" : `Show all ${allJobs.length} roles`}
+                    </button>
+                  )}
+                </>
+              )}
+            </section>
+
+            {/* ── Firm Directory ── */}
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <h2 className="text-sm font-bold text-[#191c1e]">Firm Directory</h2>
+                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{firmRows.length}</span>
+              </div>
+              {/* Legend */}
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-400 mb-3">
+                {([["bg-emerald-500","Raise + Hiring"],["bg-sky-500","Hiring"],["bg-amber-400","Raising capital"],["bg-gray-300","Watching"]] as const).map(([dot, label]) => (
+                  <span key={label} className="flex items-center gap-1.5"><span className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />{label}</span>
+                ))}
+              </div>
+              <div className="space-y-1">
+                {firmRows.map((row) => (
+                  <div key={row.id} className="bg-white border border-[#c1c7cc]/40 rounded-xl px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-3 hover:border-[#396477]/30 transition-colors">
+                    <span className={`w-2 h-2 rounded-full flex-shrink-0 ${DOT_CLS[row.signalType]}`} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-semibold text-sm text-[#191c1e]">{row.name}</span>
+                        {row.category && <FirmTypeBadge category={row.category} />}
+                        {row.strategies.slice(0, 1).map(s => <StrategyTag key={s} s={s} />)}
+                      </div>
+                      {row.filing && (
+                        <span className="text-[10px] text-amber-700 font-medium">
+                          {row.filing.totalOfferingAmount ? `${fmt(row.filing.totalOfferingAmount)} raised` : "Form D filed"} · {row.filing.daysSinceFiling}d ago
+                        </span>
+                      )}
                     </div>
-                    {row.filing && (
-                      <span className="text-[10px] text-amber-700 font-medium">
-                        {row.filing.totalOfferingAmount ? `${fmt(row.filing.totalOfferingAmount)} raised` : "Form D filed"} · {row.filing.daysSinceFiling}d ago
-                      </span>
+                    {row.roleCount > 0 ? (
+                      <button onClick={() => setView("roles")}
+                        className="flex-shrink-0 text-xs font-bold text-[#396477] hover:underline whitespace-nowrap">
+                        {row.roleCount} role{row.roleCount !== 1 ? "s" : ""}
+                      </button>
+                    ) : (
+                      <span className="flex-shrink-0 text-[11px] text-gray-300 w-8 text-center">—</span>
+                    )}
+                    {row.careersUrl ? (
+                      <a href={row.careersUrl} target="_blank" rel="noopener noreferrer"
+                        className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
+                        Careers →
+                      </a>
+                    ) : (
+                      <span className="flex-shrink-0 w-16" />
                     )}
                   </div>
-                  {row.roleCount > 0 ? (
-                    <button onClick={() => setView("roles")}
-                      className="flex-shrink-0 text-xs font-bold text-[#396477] hover:underline whitespace-nowrap">
-                      {row.roleCount} role{row.roleCount !== 1 ? "s" : ""}
-                    </button>
-                  ) : (
-                    <span className="flex-shrink-0 text-[11px] text-gray-300 w-10 text-center">—</span>
-                  )}
-                  {row.careersUrl ? (
-                    <a href={row.careersUrl} target="_blank" rel="noopener noreferrer"
-                      className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
-                      Careers →
-                    </a>
-                  ) : (
-                    <span className="flex-shrink-0 w-16" />
-                  )}
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </section>
 
-            {/* Other roles outside the watchlist */}
-            {otherRoles.length > 0 && (
-              <section className="pt-2">
-                <div className="flex items-center gap-2 mb-2">
-                  <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.length}</span>
-                  <span className="text-xs text-[#71787c]">Outside the watch list</span>
-                </div>
-                <div className="space-y-1">
-                  {otherRoles.slice(0, 10).map((r) => (
-                    <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-2.5 hover:border-[#396477]/30 transition-all group">
-                      <div className="flex-1 min-w-0">
-                        <span className="font-medium text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{r.role}</span>
-                        <span className="text-xs text-[#71787c] ml-2">{r.firm}</span>
-                      </div>
-                      <span className="flex-shrink-0 text-xs text-gray-400">{r.daysAgo}d ago</span>
-                    </a>
-                  ))}
-                </div>
-              </section>
-            )}
           </div>
         );
       })()}
