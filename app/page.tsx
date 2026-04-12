@@ -8075,133 +8075,127 @@ function HiringSection({
       )}
 
       {view === "firms" && !loading && (() => {
-        // ── Section 1: all open roles (watchlist + other) ───────────────
         const allJobs = frontOfficeJobs.filter(r => r.classification.seniority !== "other");
-        const visibleJobs = showAllJobs ? allJobs : allJobs.slice(0, 18);
 
-        // ── Section 2: firm directory ────────────────────────────────────
-        type FirmRow = {
-          id: string; name: string; category?: string; strategies: string[];
-          careersUrl?: string; filing?: FundFiling;
-          roleCount: number; signalType: "both" | "hiring" | "raising" | "radar";
-        };
-        const firmRows: FirmRow[] = [];
-        for (const p of allRegistryProfiles) {
-          const fd = FIRM_REGISTRY.find(x => x.id === p.firmId);
-          const filing = filingByFirmId.get(p.firmId);
-          firmRows.push({ id: p.firmId, name: p.name, category: p.category, strategies: p.strategies,
-            careersUrl: fd?.careersUrl, filing, roleCount: p.frontOfficeCount,
-            signalType: filing ? "both" : "hiring" });
+        // Group jobs by firm, sorted by count desc
+        const jobsByFirm = new Map<string, typeof allJobs>();
+        for (const job of allJobs) {
+          if (!jobsByFirm.has(job.firm)) jobsByFirm.set(job.firm, []);
+          jobsByFirm.get(job.firm)!.push(job);
         }
+        const hiringGroups = Array.from(jobsByFirm.entries())
+          .sort((a, b) => b[1].length - a[1].length);
+        const visibleGroups = showAllJobs ? hiringGroups : hiringGroups.slice(0, 10);
+
+        // Firms tracked but not currently hiring
+        const hiringNames = new Set(hiringGroups.map(([n]) => n.toLowerCase()));
+        type RadarFirm = { id: string; name: string; category?: string; strategies: string[]; careersUrl?: string; filing?: FundFiling; signal: "raising" | "radar" };
+        const radarFirms: RadarFirm[] = [];
         for (const { def: f, filing } of earlySignalFirms) {
-          firmRows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
-            careersUrl: f.careersUrl, filing, roleCount: 0, signalType: "raising" });
+          if (!hiringNames.has(f.name.toLowerCase()))
+            radarFirms.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies, careersUrl: f.careersUrl, filing, signal: "raising" });
         }
         for (const f of onRadarFirms) {
-          firmRows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
-            careersUrl: f.careersUrl, roleCount: 0, signalType: "radar" });
+          if (!hiringNames.has(f.name.toLowerCase()))
+            radarFirms.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies, careersUrl: f.careersUrl, signal: "radar" });
         }
-        const ORDER = { both: 0, hiring: 1, raising: 2, radar: 3 } as const;
-        firmRows.sort((a, b) => ORDER[a.signalType] - ORDER[b.signalType] || b.roleCount - a.roleCount);
-        const DOT_CLS = { both: "bg-emerald-500", hiring: "bg-sky-500", raising: "bg-amber-400", radar: "bg-gray-300" } as const;
 
         return (
-          <div className="space-y-8">
+          <div className="space-y-6">
 
-            {/* ── Open Roles grid ── */}
+            {/* ── Hiring Now ── */}
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Open Roles</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length}</span>
-                <span className="text-xs text-[#71787c]">Click to apply</span>
+                <h2 className="text-sm font-bold text-[#191c1e]">Hiring Now</h2>
+                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
+                <span className="text-[10px] text-[#71787c]">{hiringGroups.length} firms</span>
               </div>
               {allJobs.length === 0 ? (
                 <p className="text-sm text-gray-400 py-4">No open roles found yet — check back soon.</p>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                    {visibleJobs.map((r) => (
-                      <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-                        className="flex flex-col bg-white border border-[#c1c7cc]/40 rounded-xl p-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
-                        {/* firm + seniority */}
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <span className="text-xs font-semibold text-[#396477] truncate">{r.firm}</span>
-                          <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
+                  <div className="space-y-2">
+                    {visibleGroups.map(([firmName, jobs]) => {
+                      const regFirm = FIRM_REGISTRY.find(f => f.name.toLowerCase() === firmName.toLowerCase());
+                      const careersUrl = regFirm?.careersUrl;
+                      const filing = regFirm ? filingByFirmId.get(regFirm.id) : undefined;
+                      return (
+                        <div key={firmName} className="bg-white border border-[#c1c7cc]/40 rounded-xl overflow-hidden">
+                          {/* Firm header bar */}
+                          <div className="flex items-center gap-2 px-4 py-2.5 bg-[#f8fafb] border-b border-[#c1c7cc]/30">
+                            <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-sm text-[#191c1e]">{firmName}</span>
+                              {filing && (
+                                <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded">
+                                  {filing.totalOfferingAmount ? `${fmt(filing.totalOfferingAmount)} raised` : "Form D"}
+                                </span>
+                              )}
+                              <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                                {jobs.length} open
+                              </span>
+                            </div>
+                            {careersUrl && (
+                              <a href={careersUrl} target="_blank" rel="noopener noreferrer"
+                                className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2.5 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
+                                All jobs →
+                              </a>
+                            )}
+                          </div>
+                          {/* Job rows */}
+                          <div className="divide-y divide-gray-100">
+                            {jobs.map(job => (
+                              <a key={job.id} href={job.edgarUrl || careersUrl || "#"} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#396477]/5 group transition-colors">
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors leading-snug">{job.role}</p>
+                                  <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                                    <SeniorityBadge seniority={job.classification.seniority} frontOffice={job.classification.frontOffice} />
+                                    {job.location && <span className="text-xs text-gray-400">{job.location}</span>}
+                                    {job.location && <span className="text-gray-200">·</span>}
+                                    <span className="text-xs text-gray-400">{job.daysAgo}d ago</span>
+                                  </div>
+                                </div>
+                                <span className="text-xs font-bold text-[#396477] flex-shrink-0 group-hover:underline">Apply →</span>
+                              </a>
+                            ))}
+                          </div>
                         </div>
-                        {/* role title */}
-                        <p className="text-sm font-bold text-[#191c1e] leading-snug group-hover:text-[#396477] transition-colors line-clamp-2 mb-2 flex-1">
-                          {r.role}
-                        </p>
-                        {/* meta row */}
-                        <div className="flex items-center justify-between gap-2 mt-auto">
-                          <span className="text-xs text-[#71787c] truncate">{r.location}</span>
-                          <span className="text-xs text-gray-400 flex-shrink-0">{r.daysAgo}d ago</span>
-                        </div>
-                        {/* apply button */}
-                        <div className="mt-3 pt-3 border-t border-gray-100">
-                          <span className="text-xs font-bold text-[#396477] group-hover:underline">Apply →</span>
-                        </div>
-                      </a>
-                    ))}
+                      );
+                    })}
                   </div>
-                  {allJobs.length > 18 && (
+                  {hiringGroups.length > 10 && (
                     <button onClick={() => setShowAllJobs(v => !v)}
-                      className="mt-4 w-full py-2.5 text-xs font-semibold text-[#396477] border border-[#396477]/30 rounded-xl hover:bg-[#396477]/5 transition-colors">
-                      {showAllJobs ? "Show less" : `Show all ${allJobs.length} roles`}
+                      className="mt-3 w-full py-2.5 text-xs font-semibold text-[#396477] border border-[#396477]/30 rounded-xl hover:bg-[#396477]/5 transition-colors">
+                      {showAllJobs ? "Show less" : `Show all ${hiringGroups.length} firms`}
                     </button>
                   )}
                 </>
               )}
             </section>
 
-            {/* ── Firm Directory ── */}
-            <section>
-              <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Firm Directory</h2>
-                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{firmRows.length}</span>
-              </div>
-              {/* Legend */}
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-400 mb-3">
-                {([["bg-emerald-500","Raise + Hiring"],["bg-sky-500","Hiring"],["bg-amber-400","Raising capital"],["bg-gray-300","Watching"]] as const).map(([dot, label]) => (
-                  <span key={label} className="flex items-center gap-1.5"><span className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />{label}</span>
-                ))}
-              </div>
-              <div className="space-y-1">
-                {firmRows.map((row) => (
-                  <div key={row.id} className="bg-white border border-[#c1c7cc]/40 rounded-xl px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-3 hover:border-[#396477]/30 transition-colors">
-                    <span className={`w-2 h-2 rounded-full flex-shrink-0 ${DOT_CLS[row.signalType]}`} />
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-semibold text-sm text-[#191c1e]">{row.name}</span>
-                        {row.category && <FirmTypeBadge category={row.category} />}
-                        {row.strategies.slice(0, 1).map(s => <StrategyTag key={s} s={s} />)}
-                      </div>
-                      {row.filing && (
-                        <span className="text-[10px] text-amber-700 font-medium">
-                          {row.filing.totalOfferingAmount ? `${fmt(row.filing.totalOfferingAmount)} raised` : "Form D filed"} · {row.filing.daysSinceFiling}d ago
-                        </span>
+            {/* ── Firms on Radar (no current openings) ── */}
+            {radarFirms.length > 0 && (
+              <section>
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-sm font-bold text-[#191c1e]">On Radar</h2>
+                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{radarFirms.length}</span>
+                  <span className="text-[10px] text-gray-400">Tracked · no current openings</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {radarFirms.map(f => (
+                    <div key={f.id} className="flex items-center gap-1.5 bg-white border border-[#c1c7cc]/40 rounded-lg px-2.5 py-1.5 hover:border-[#396477]/30 transition-colors">
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.signal === "raising" ? "bg-amber-400" : "bg-gray-300"}`} />
+                      <span className="text-xs font-medium text-[#41484c]">{f.name}</span>
+                      {f.filing && <span className="text-[10px] text-amber-600 font-medium">↑{f.filing.daysSinceFiling}d</span>}
+                      {f.careersUrl && (
+                        <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
+                          className="text-[10px] text-[#396477] hover:underline font-semibold">→</a>
                       )}
                     </div>
-                    {row.roleCount > 0 ? (
-                      <button onClick={() => setView("roles")}
-                        className="flex-shrink-0 text-xs font-bold text-[#396477] hover:underline whitespace-nowrap">
-                        {row.roleCount} role{row.roleCount !== 1 ? "s" : ""}
-                      </button>
-                    ) : (
-                      <span className="flex-shrink-0 text-[11px] text-gray-300 w-8 text-center">—</span>
-                    )}
-                    {row.careersUrl ? (
-                      <a href={row.careersUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
-                        Careers →
-                      </a>
-                    ) : (
-                      <span className="flex-shrink-0 w-16" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
 
           </div>
         );
