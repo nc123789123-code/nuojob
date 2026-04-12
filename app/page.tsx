@@ -8073,159 +8073,116 @@ function HiringSection({
         <HiringTrendsSection jobs={filtered} loading={loading} />
       )}
 
-      {view === "firms" && !loading && (
-        <>
-          {/* Active + Near-Term Watch firms */}
-          {allRegistryProfiles.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-sm font-bold text-[#191c1e]">Active Signals</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allRegistryProfiles.length}</span>
-                <span className="text-xs text-[#71787c]">Firms actively hiring</span>
-              </div>
-              <div className={compact ? "space-y-1" : "grid gap-4 sm:grid-cols-2"}>
-                {allRegistryProfiles.map((p) => (
-                  <HiringFirmCard key={p.firmId} profile={p} filingByFirmId={filingByFirmId} onViewSignals={() => { setView("capital"); setFundSubTab("cycle"); }} compact={compact} />
-                ))}
-              </div>
-            </section>
-          )}
+      {view === "firms" && !loading && (() => {
+        // Build one unified sorted list
+        type FirmRow = {
+          id: string; name: string; category?: string; strategies: string[];
+          careersUrl?: string; filing?: FundFiling;
+          roleCount: number; signalType: "both" | "hiring" | "raising" | "radar";
+        };
+        const rows: FirmRow[] = [];
 
-          {allRegistryProfiles.length === 0 && null}
+        // Firms with open roles
+        for (const p of allRegistryProfiles) {
+          const fd = FIRM_REGISTRY.find(x => x.id === p.firmId);
+          const filing = filingByFirmId.get(p.firmId);
+          rows.push({ id: p.firmId, name: p.name, category: p.category, strategies: p.strategies,
+            careersUrl: fd?.careersUrl, filing, roleCount: p.frontOfficeCount,
+            signalType: filing ? "both" : "hiring" });
+        }
+        // EDGAR signal, no roles yet
+        for (const { def: f, filing } of earlySignalFirms) {
+          rows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
+            careersUrl: f.careersUrl, filing, roleCount: 0, signalType: "raising" });
+        }
+        // Watched, no signal
+        for (const f of onRadarFirms) {
+          rows.push({ id: f.id, name: f.name, category: f.category, strategies: f.strategies,
+            careersUrl: f.careersUrl, roleCount: 0, signalType: "radar" });
+        }
 
-          {/* Other roles (not in watchlist) */}
-          {otherRoles.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
-                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.length}</span>
-                <span className="text-xs text-[#71787c]">Outside the watch list</span>
-                <button onClick={() => setShowDebug(v => !v)}
-                  className="ml-auto text-[10px] text-gray-400 hover:text-[#396477] transition-colors font-medium">
-                  {showDebug ? "Hide" : "Which firms? →"}
-                </button>
-              </div>
+        const ORDER = { both: 0, hiring: 1, raising: 2, radar: 3 } as const;
+        rows.sort((a, b) => ORDER[a.signalType] - ORDER[b.signalType] || b.roleCount - a.roleCount);
 
-              {/* Debug panel: unmatched firm names by count */}
-              {showDebug && (() => {
-                const counts = new Map<string, number>();
-                for (const r of otherRoles) counts.set(r.firm, (counts.get(r.firm) ?? 0) + 1);
-                const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-                return (
-                  <div className="mb-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs">
-                    <p className="font-bold text-amber-800 mb-2">Firms not in watchlist ({sorted.length} unique)</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {sorted.map(([firm, count]) => (
-                        <span key={firm} className="inline-flex items-center gap-1 bg-white border border-amber-200 text-amber-900 rounded-full px-2 py-0.5 font-medium">
-                          {firm}
-                          {count > 1 && <span className="text-amber-500 font-bold">×{count}</span>}
-                        </span>
-                      ))}
+        const DOT_CLS = { both: "bg-emerald-500", hiring: "bg-sky-500", raising: "bg-amber-400", radar: "bg-gray-300" } as const;
+
+        return (
+          <div className="space-y-4">
+            {/* Legend */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-500">
+              {([ ["both","bg-emerald-500","Fund raise + open roles"],
+                   ["hiring","bg-sky-500","Hiring now"],
+                   ["raising","bg-amber-400","Raising capital — no roles yet"],
+                   ["radar","bg-gray-300","Watching"] ] as const).map(([type, dot, label]) => (
+                <span key={type} className="flex items-center gap-1.5">
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            {/* Unified firm list */}
+            <div className="space-y-1">
+              {rows.map((row) => (
+                <div key={row.id} className="bg-white border border-[#c1c7cc]/40 rounded-xl px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-3 hover:border-[#396477]/30 transition-colors">
+                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${DOT_CLS[row.signalType]}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="font-semibold text-sm text-[#191c1e]">{row.name}</span>
+                      {row.category && <FirmTypeBadge category={row.category} />}
+                      {row.strategies.slice(0, 1).map(s => <StrategyTag key={s} s={s} />)}
                     </div>
-                  </div>
-                );
-              })()}
-
-              <div className="space-y-2">
-                {otherRoles.slice(0, 12).map((r) => (
-                  <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                        <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-[#71787c]">
-                        <span className="font-medium text-[#41484c]">{r.firm}</span>
-                        <span>·</span><span>{r.location}</span>
-                        <span>·</span><span>{r.daysAgo}d ago</span>
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* ── Early Signals — the predictive layer ── */}
-          {earlySignalFirms.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-sm font-bold text-[#191c1e]">Early Signals</h2>
-                <span className="text-[10px] bg-[#e1ddf2]/70 text-[#5e5c6e] font-bold px-1.5 py-0.5 rounded border border-[#c7c4d8]/50">{earlySignalFirms.length}</span>
-              </div>
-              <p className="text-xs text-[#71787c] mb-4 max-w-2xl">
-                These firms have recent EDGAR capital activity but no roles posted yet. Capital raises typically precede hiring by one to three quarters. Engaging before a formal process is the most effective approach.
-              </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {earlySignalFirms.map(({ def: f, filing }) => (
-                  <div key={f.id} className="bg-white border border-[#c7c4d8]/50 rounded-xl p-4">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <WatchStatusBadge status="Early Signal" />
-                          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className="text-[10px] font-semibold text-[#396477] hover:underline">
-                            Fund signal{filing!.totalOfferingAmount ? ` · ${fmt(filing!.totalOfferingAmount)}` : ""} ↗
-                          </button>
-                          {(() => { const t = hiringTimeline(filing!.daysSinceFiling); return t ? <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${t.cls}`}>{t.label}</span> : null; })()}
-                        </div>
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-bold text-[#191c1e] text-sm">{f.name}</span>
-                          <FirmTypeBadge category={f.category} />
-                        </div>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
-                        </div>
-                      </div>
-                      {f.careersUrl && (
-                        <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
-                          className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-0.5 rounded hover:bg-[#396477] hover:text-white transition-colors mt-0.5">
-                          Careers →
-                        </a>
-                      )}
-                    </div>
-                    <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2">
-                      {generateEarlySignalNote(filing!)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* On the Radar */}
-          {onRadarFirms.length > 0 && (
-            <section>
-              <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-sm font-bold text-[#191c1e]">On the Radar</h2>
-                <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{onRadarFirms.length}</span>
-              </div>
-              <p className="text-xs text-[#71787c] mb-3">Monitored firms with no current signal. These managers hire, but often through headhunters or proprietary pipelines — check career pages directly.</p>
-              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {onRadarFirms.map((f) => (
-                  <div key={f.id} className="bg-white border border-[#c1c7cc]/30 rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <WatchStatusBadge status="On the Radar" />
-                      <span className="font-semibold text-sm text-[#41484c] truncate">{f.name}</span>
-                      <FirmTypeBadge category={f.category} />
-                    </div>
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
-                    </div>
-                    <p className="text-[11px] text-[#71787c] leading-relaxed mb-2">{f.desc}</p>
-                    {f.careersUrl && (
-                      <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
-                        className="text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-0.5 rounded hover:bg-[#396477] hover:text-white transition-colors inline-block">
-                        Careers →
-                      </a>
+                    {row.filing && (
+                      <span className="text-[10px] text-amber-700 font-medium">
+                        {row.filing.totalOfferingAmount ? `${fmt(row.filing.totalOfferingAmount)} raised` : "Form D filed"} · {row.filing.daysSinceFiling}d ago
+                      </span>
                     )}
                   </div>
-                ))}
-              </div>
-            </section>
-          )}
-        </>
-      )}
+                  {row.roleCount > 0 ? (
+                    <button onClick={() => setView("roles")}
+                      className="flex-shrink-0 text-xs font-bold text-[#396477] hover:underline whitespace-nowrap">
+                      {row.roleCount} role{row.roleCount !== 1 ? "s" : ""}
+                    </button>
+                  ) : (
+                    <span className="flex-shrink-0 text-[11px] text-gray-300 w-10 text-center">—</span>
+                  )}
+                  {row.careersUrl ? (
+                    <a href={row.careersUrl} target="_blank" rel="noopener noreferrer"
+                      className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
+                      Careers →
+                    </a>
+                  ) : (
+                    <span className="flex-shrink-0 w-16" />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Other roles outside the watchlist */}
+            {otherRoles.length > 0 && (
+              <section className="pt-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-sm font-bold text-[#191c1e]">Other Roles</h2>
+                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{otherRoles.length}</span>
+                  <span className="text-xs text-[#71787c]">Outside the watch list</span>
+                </div>
+                <div className="space-y-1">
+                  {otherRoles.slice(0, 10).map((r) => (
+                    <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-2.5 hover:border-[#396477]/30 transition-all group">
+                      <div className="flex-1 min-w-0">
+                        <span className="font-medium text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{r.role}</span>
+                        <span className="text-xs text-[#71787c] ml-2">{r.firm}</span>
+                      </div>
+                      <span className="flex-shrink-0 text-xs text-gray-400">{r.daysAgo}d ago</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        );
+      })()}
 
       {view === "roles" && !loading && (() => {
         const visibleRoles = intel.allRoles.filter(
