@@ -193,15 +193,35 @@ function HomeContent() {
   }, []);
 
   const fetchJobs = useCallback(async (f: JobFilters) => {
+    const params = new URLSearchParams({ dateRange: f.dateRange, category: f.category, signalTag: f.signalTag });
+    const cacheKey = `jobs_cache_${params}`;
+    const CACHE_TTL = 5 * 60 * 1000; // 5 min
+
+    // Serve from sessionStorage instantly, then refresh in background
+    try {
+      const cached = sessionStorage.getItem(cacheKey);
+      if (cached) {
+        const { data, ts } = JSON.parse(cached) as { data: { signals: JobSignal[]; total: number; sources: string[] }; ts: number };
+        if (Date.now() - ts < CACHE_TTL) {
+          setJobSignals(data.signals); setJobTotal(data.total); setJobSources(data.sources);
+          setJobLoading(false);
+          return; // cache is fresh — skip network call
+        }
+        // Stale: show cached immediately, fetch fresh in background
+        setJobSignals(data.signals); setJobTotal(data.total); setJobSources(data.sources);
+      }
+    } catch { /* sessionStorage unavailable */ }
+
     setJobLoading(true); setJobError(null);
     try {
-      const params = new URLSearchParams({ dateRange: f.dateRange, category: f.category, signalTag: f.signalTag });
       const res = await fetch(`/api/jobs?${params}`);
       const text = await res.text();
       let data: { signals?: JobSignal[]; total?: number; sources?: string[]; error?: string };
       try { data = JSON.parse(text); } catch { throw new Error("Jobs service unavailable"); }
       if (!res.ok) throw new Error(data.error || "Search failed");
-      setJobSignals(data.signals || []); setJobTotal(data.total || 0); setJobSources(data.sources || []);
+      const signals = data.signals || [], total = data.total || 0, sources = data.sources || [];
+      setJobSignals(signals); setJobTotal(total); setJobSources(sources);
+      try { sessionStorage.setItem(cacheKey, JSON.stringify({ data: { signals, total, sources }, ts: Date.now() })); } catch { /* quota */ }
     } catch (err) { setJobError(err instanceof Error ? err.message : "Failed"); }
     finally { setJobLoading(false); }
   }, []);

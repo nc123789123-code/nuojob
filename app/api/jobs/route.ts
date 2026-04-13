@@ -1230,7 +1230,9 @@ export async function GET(req: NextRequest) {
     // Sort by score descending (score already encodes source quality + recency + seniority)
     filtered.sort((a, b) => b.score - a.score);
 
-    return Response.json({ signals: filtered, total: filtered.length, sources });
+    return Response.json({ signals: filtered, total: filtered.length, sources }, {
+      headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate=600" },
+    });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return Response.json({ error: msg, signals: [], total: 0, sources: [] }, { status: 500 });

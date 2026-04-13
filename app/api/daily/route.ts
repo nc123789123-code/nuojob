@@ -222,7 +222,7 @@ export async function GET() {
       topFunds,
       topJobs: topJobs.slice(0, 6),
       lastUpdated: new Date().toISOString(),
-    });
+    }, { headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate=600" } });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : String(e);
     return Response.json({ error: msg, todayCount: 0, weekCount: 0, topFunds: [], topJobs: [], lastUpdated: new Date().toISOString() }, { status: 500 });

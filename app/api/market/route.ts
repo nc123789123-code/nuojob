@@ -123,5 +123,7 @@ Be precise and analytical. No filler. Return only the JSON.`,
   };
 
   cache = { data: result, ts: now };
-  return Response.json(result);
+  return Response.json(result, {
+    headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate=600" },
+  });
 }

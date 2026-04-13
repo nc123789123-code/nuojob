@@ -80,7 +80,9 @@ export async function GET() {
     });
 
     cache = { data: tickers, ts: Date.now() };
-    return Response.json(tickers);
+    return Response.json(tickers, {
+      headers: { "Cache-Control": "s-maxage=60, stale-while-revalidate=300" },
+    });
   } catch {
     return Response.json([], { status: 200 });
   }
