@@ -3,13 +3,13 @@ import "./globals.css";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
 
 export const metadata: Metadata = {
-  title: "Onlu — Finance Intelligence",
+  title: "Onlu — Finance Career Intelligence",
   description:
     "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for finance professionals. Know where opportunities are before they're posted.",
   metadataBase: new URL("https://onluintel.com"),
   alternates: { canonical: "https://onluintel.com" },
   openGraph: {
-    title: "Onlu — Finance Intelligence",
+    title: "Onlu — Finance Career Intelligence",
     description:
       "Fund signals, hiring intel, live markets, AI-powered interview prep, and community for finance professionals.",
     url: "https://onluintel.com",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Onlu — Finance Intelligence",
+    title: "Onlu — Finance Career Intelligence",
     description:
       "Fund signals, hiring intel, live markets, and AI-powered interview prep for finance professionals.",
   },

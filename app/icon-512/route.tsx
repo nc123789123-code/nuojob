@@ -9,26 +9,33 @@ export async function GET() {
         style={{
           width: 512,
           height: 512,
-          background: "#1A2B4A",
           borderRadius: "112px",
+          background: "white",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "column",
-          gap: 12,
         }}
       >
-        <div style={{
-          width: 256, height: 256, borderRadius: "50%",
-          background: "linear-gradient(160deg, #9ecfc0 0%, #c4b0de 50%, #f0b2a0 100%)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          border: "6px solid rgba(255,255,255,0.3)",
-        }}>
-          <span style={{ color: "#1A2B4A", fontSize: 100, fontWeight: 800, letterSpacing: "-3px" }}>O</span>
+        {/* Pastel circle matching the LogoMark */}
+        <div
+          style={{
+            width: 384,
+            height: 384,
+            borderRadius: "50%",
+            overflow: "hidden",
+            background: "white",
+            display: "flex",
+            position: "relative",
+            border: "14px solid #e8a898",
+          }}
+        >
+          {/* Salmon — bottom */}
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "52%", background: "#f0b2a0" }} />
+          {/* Lavender — middle */}
+          <div style={{ position: "absolute", bottom: "34%", left: 0, right: 0, height: "13%", background: "#c4b0de" }} />
+          {/* Mint — top */}
+          <div style={{ position: "absolute", bottom: "47%", left: 0, right: 0, height: "13%", background: "#9ecfc0" }} />
         </div>
-        <span style={{ color: "#ffffff", fontSize: 52, fontWeight: 700, letterSpacing: "6px", marginTop: 8 }}>
-          ONLU
-        </span>
       </div>
     ),
     { width: 512, height: 512 }
