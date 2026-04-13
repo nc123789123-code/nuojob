@@ -10,6 +10,21 @@ const AUDIENCE_MAP: Record<Intent, string | undefined> = {
   guide_interest: process.env.RESEND_AUDIENCE_GUIDE,
 };
 
+/** Add email to Beehiiv publication (newsletter subscribers only, non-blocking) */
+async function addToBeehiiv(email: string) {
+  const apiKey = process.env.BEEHIIV_API_KEY;
+  const pubId  = process.env.BEEHIIV_PUBLICATION_ID;
+  if (!apiKey || !pubId) return;
+  try {
+    const res = await fetch(`https://api.beehiiv.com/v2/publications/${pubId}/subscriptions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({ email, reactivate_existing: true, send_welcome_email: false }),
+    });
+    if (!res.ok) console.error("[beehiiv] subscribe failed:", res.status, await res.text());
+  } catch (e) { console.error("[beehiiv] exception:", e); }
+}
+
 function getWelcomeEmail(intent: Intent, email: string): { subject: string; html: string } {
   const baseUrl = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
   const encoded = Buffer.from(email).toString("base64url");
@@ -106,13 +121,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: emailResult.error.message ?? "Email send failed" }, { status: 500 });
     }
 
-    // Add to audience (non-blocking)
+    // Add to Beehiiv (newsletter subscribers only, non-blocking)
+    if (intent === "signals_subscriber") {
+      addToBeehiiv(email).catch(() => {});
+    }
+
+    // Add to Resend audience as backup (non-blocking)
     if (audienceId && audienceId !== "audience_id_placeholder") {
       resend.contacts.create({ email, audienceId, unsubscribed: false })
         .then(r => { if (r.error) console.error("[subscribe] audience error:", JSON.stringify(r.error)); })
         .catch(e => console.error("[subscribe] audience exception:", e));
-    } else {
-      console.warn("[subscribe] no audienceId for intent:", intent, "— skipping audience add");
     }
 
     // Notify admin (non-blocking)

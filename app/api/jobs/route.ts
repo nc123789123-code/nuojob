@@ -370,7 +370,6 @@ type FirmType = "pe" | "hedge" | "credit" | "growth";
 // Additional one-off entries here are kept for backwards compatibility.
 const GREENHOUSE_FIRMS: Array<{ slug: string; firm: string; type: FirmType }> = [
   // ── Tier 1 mega-platforms ────────────────────────────────────────────────
-  { slug: "kkr",                     firm: "KKR",                             type: "pe"     },
   { slug: "aresmgmt",                firm: "Ares Management",                 type: "credit" },
   { slug: "apollo-global-management", firm: "Apollo Global Management",        type: "credit" },
   { slug: "oaktree",                 firm: "Oaktree Capital Management",      type: "credit" },
