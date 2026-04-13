@@ -83,10 +83,10 @@ export default function ThisWeekPage() {
   useEffect(() => {
     Promise.allSettled([
       fetch("/api/daily").then(r => r.json()),
-      fetch("/api/jobs?dateRange=7&category=all&signalTag=all").then(r => r.json()),
+      fetch("/api/jobs?dateRange=14&category=all&signalTag=all").then(r => r.json()),
     ]).then(([d, j]) => {
       if (d.status === "fulfilled") setDaily(d.value);
-      if (j.status === "fulfilled") setJobs((j.value.signals || []).filter((s: JobSignal) => s.classification?.frontOffice));
+      if (j.status === "fulfilled") setJobs(j.value.signals || []);
     }).finally(() => setLoading(false));
   }, []);
 
