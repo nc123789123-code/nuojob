@@ -355,9 +355,9 @@ function HomeContent() {
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500"
                   tooltip="Buy-side firms in our curated watch list — hedge funds, PE, private credit, and growth equity" />
                 <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500"
-                  tooltip="Live open roles scraped from firm career pages (Greenhouse, Lever, Ashby, Workday) and aggregated from LinkedIn, Indeed, and Google Jobs" />
+                  tooltip="Live open roles aggregated from firm career pages and major job boards" />
                 <AnimatedStat value={jobLoading ? 10 : Math.max(jobSources.length, 10)} label="Data sources" color="text-violet-400"
-                  tooltip="Greenhouse · Lever · Ashby · Workday · SEC EDGAR · LinkedIn · Indeed · Google Jobs · Adzuna · Active Jobs DB" />
+                  tooltip="Career pages, job boards, and SEC EDGAR filings" />
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400"
                   tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
               </div>
@@ -510,7 +510,7 @@ function HomeContent() {
       <main className="max-w-6xl mx-auto px-3 sm:px-5 py-4 sm:py-5 space-y-4 pb-24 sm:pb-5">
         {topTab === "pulse" && (
           <>
-            <PulseSection />
+            <PulseSection daily={daily} dailyLoading={dailyLoading} />
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get fund signals and market intel in your inbox."
@@ -1060,9 +1060,140 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
 
 // ─── Pulse Section (Market Brief) ────────────────────────────────────────────
 
-function PulseSection() {
+// ─── CPI Widget ───────────────────────────────────────────────────────────────
+
+interface CpiDataPoint { date: string; value: number; yoy?: number; mom?: number; }
+interface CpiResponse { latest: CpiDataPoint; history: CpiDataPoint[]; fetchedAt: string; }
+
+function CpiWidget() {
+  const [data, setData] = useState<CpiResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/cpi")
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const fmtMonth = (d: string) => {
+    const [y, m] = d.split("-");
+    return new Date(parseInt(y), parseInt(m) - 1).toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+  };
+
+  if (loading) return (
+    <div className="bg-white border border-sky-100 rounded-xl px-5 py-4 animate-pulse">
+      <div className="h-3 bg-sky-50 rounded w-20 mb-3" />
+      <div className="h-8 bg-sky-50 rounded w-16 mb-2" />
+      <div className="h-3 bg-sky-50 rounded w-32" />
+    </div>
+  );
+
+  if (!data) return null;
+
+  const { latest, history } = data;
+  const yoyColor = !latest.yoy ? "text-gray-500" : latest.yoy > 3 ? "text-red-500" : latest.yoy > 2 ? "text-amber-500" : "text-emerald-600";
+  const momColor = !latest.mom ? "text-gray-500" : latest.mom > 0.4 ? "text-red-500" : latest.mom > 0.2 ? "text-amber-500" : "text-emerald-600";
+
+  // Sparkline
+  const vals = history.slice(-7).map(d => d.value);
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const range = max - min || 1;
+  const W = 72, H = 28;
+  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * W},${H - ((v - min) / range) * H}`).join(" ");
+
+  return (
+    <div className="bg-white border border-sky-100 rounded-xl px-5 py-4">
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <p className="text-[11px] font-semibold text-sky-600 uppercase tracking-widest">CPI-U</p>
+          <p className="text-[10px] text-gray-400">{fmtMonth(latest.date)} · All Items</p>
+        </div>
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="opacity-60">
+          <polyline points={pts} fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+        </svg>
+      </div>
+      <p className="text-2xl font-bold text-[#191c1e] mb-2">{latest.value.toFixed(1)}</p>
+      <div className="flex gap-4">
+        {latest.yoy !== undefined && (
+          <div>
+            <p className="text-[10px] text-gray-400 mb-0.5">YoY</p>
+            <p className={`text-sm font-bold ${yoyColor}`}>{latest.yoy > 0 ? "+" : ""}{latest.yoy.toFixed(2)}%</p>
+          </div>
+        )}
+        {latest.mom !== undefined && (
+          <div>
+            <p className="text-[10px] text-gray-400 mb-0.5">MoM</p>
+            <p className={`text-sm font-bold ${momColor}`}>{latest.mom > 0 ? "+" : ""}{latest.mom.toFixed(2)}%</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Capital Raise Mini ───────────────────────────────────────────────────────
+
+function CapitalRaiseMini({ daily, loading }: { daily: DailyIntel | null; loading: boolean }) {
+  if (loading) return (
+    <div className="bg-white border border-amber-100 rounded-xl px-5 py-4 animate-pulse">
+      <div className="h-3 bg-amber-50 rounded w-28 mb-3" />
+      {[...Array(3)].map((_, i) => <div key={i} className="h-4 bg-amber-50 rounded mb-2" />)}
+    </div>
+  );
+
+  const funds = daily?.topFunds?.slice(0, 5) ?? [];
+
+  return (
+    <div className="bg-white border border-amber-100 rounded-xl px-5 py-4">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-[11px] font-semibold text-amber-600 uppercase tracking-widest">Capital Raises</p>
+        <div className="flex items-center gap-1.5">
+          {daily?.todayCount ? (
+            <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 font-semibold px-1.5 py-0.5 rounded-full">
+              {daily.todayCount} today
+            </span>
+          ) : null}
+          {daily?.weekCount ? (
+            <span className="text-[10px] text-gray-400">{daily.weekCount} this week</span>
+          ) : null}
+        </div>
+      </div>
+      {funds.length === 0 ? (
+        <p className="text-xs text-gray-400 py-2">No recent Form D filings</p>
+      ) : (
+        <div className="space-y-2">
+          {funds.map((f) => (
+            <Link key={f.id} href={`/fund/${f.cik}`} className="flex items-center justify-between gap-2 group">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
+                <span className="text-xs font-medium text-[#191c1e] truncate group-hover:text-[#396477] transition-colors">{f.entityName}</span>
+              </div>
+              <div className="flex items-center gap-1.5 flex-shrink-0 text-right">
+                {f.totalOfferingAmount ? <span className="text-[11px] font-semibold text-amber-700">{fmt(f.totalOfferingAmount)}</span> : null}
+                <span className="text-[10px] text-gray-400">{f.daysSinceFiling}d ago</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+      <div className="mt-3 pt-2.5 border-t border-amber-50">
+        <button onClick={() => window.location.href = "/?tab=hiring"} className="text-[11px] font-semibold text-amber-700 hover:underline">
+          View all capital signals →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PulseSection({ daily, dailyLoading }: { daily: DailyIntel | null; dailyLoading: boolean }) {
   return (
     <div className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <CpiWidget />
+        <CapitalRaiseMini daily={daily} loading={dailyLoading} />
+      </div>
       <MarketSection />
     </div>
   );
@@ -1267,35 +1398,11 @@ function JobsSection({
 
       {error && <ErrorBox message={error} />}
 
-      {/* Source badges */}
-      {!loading && sources.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] text-gray-400 font-medium uppercase tracking-wide">Sources:</span>
-          {sources.map((src) => {
-            const meta = SOURCE_LABELS[src] || { label: src, color: "bg-gray-50 text-gray-600 border-gray-200" };
-            return (
-              <span key={src} className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${meta.color}`}>
-                {meta.label}
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Setup prompt (EDGAR-only mode) */}
-      {edgarOnly && (
-        <div className="bg-sky-50 border border-sky-100 rounded-lg px-4 py-3 text-xs text-[#396477]">
-          <p className="font-semibold mb-1">Add real job board data</p>
-          <p className="mb-2">Currently showing inferred roles from SEC EDGAR signals only. To include live listings from Adzuna and The Muse, add API keys to <code className="bg-sky-100 px-1 py-0.5 rounded font-mono">.env.local</code>:</p>
-          <pre className="bg-sky-100 rounded px-3 py-2 font-mono text-[11px] leading-relaxed overflow-x-auto">{`ADZUNA_APP_ID=your_id       # developer.adzuna.com (free)\nADZUNA_APP_KEY=your_key`}</pre>
-        </div>
-      )}
-
       {/* Inferred-only notice */}
       {!edgarOnly && sources.length > 0 && (
         <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-2.5 text-xs text-amber-800 flex items-start gap-2">
           <span className="mt-0.5">ℹ</span>
-          <span>EDGAR-inferred roles are included alongside live listings. They signal likely hiring based on recent capital raises — not scraped from job boards.</span>
+          <span>Some roles are inferred from recent capital raises — they signal likely hiring, not confirmed postings.</span>
         </div>
       )}
 
@@ -1366,7 +1473,7 @@ function JobsSection({
 
       {signals.length > 0 && (
         <p className="text-center text-xs text-gray-400 py-1">
-          Capital signals from <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Live listings from Greenhouse, Lever, Adzuna, The Muse
+          Hiring signals aggregated from 60+ firm career pages and SEC EDGAR capital activity
         </p>
       )}
     </>
