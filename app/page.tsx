@@ -8350,7 +8350,6 @@ function HiringSection({
                     <span className="font-medium text-[#41484c]">{r.firm}</span>
                     <span className="hidden xs:inline">·</span><span>{r.location}</span>
                     <span>·</span><span>{r.daysAgo}d ago</span>
-                    {r.source && <><span className="hidden xs:inline">·</span><span className="hidden xs:inline capitalize">{r.source}</span></>}
                   </div>
                   {r.classification.signal && (
                     <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
@@ -8401,7 +8400,7 @@ function HiringSection({
 
       {(signals.length > 0 || !loading) && (
         <p className="text-center text-xs text-gray-400 py-1">
-          Sourced from firm career pages, SEC EDGAR · {FIRM_REGISTRY.length} firms monitored · Updated continuously
+          {FIRM_REGISTRY.length} firms monitored · Updated continuously
         </p>
       )}
     </div>
@@ -8724,12 +8723,6 @@ function IntelSection() {
                     <span>{r.location}</span>
                     <span>·</span>
                     <span>{r.daysAgo}d ago</span>
-                    {r.source && (
-                      <>
-                        <span>·</span>
-                        <span className="capitalize">{r.source}</span>
-                      </>
-                    )}
                   </div>
                   {r.classification.signal && (
                     <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">
@@ -8746,7 +8739,7 @@ function IntelSection() {
       )}
 
       <p className="text-[11px] text-[#71787c] text-center pt-2">
-        Sourced from career pages, SEC EDGAR, Indeed, and LinkedIn · Grouped by firm · Updated every 30 min
+        Grouped by firm · Updated every 30 min
       </p>
     </div>
   );
