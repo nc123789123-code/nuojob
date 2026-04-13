@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import LogoMark from "@/app/components/LogoMark";
 
 /* ── Tab color palette (matches main app) ──────────────────────────────── */
 const TABS = {
@@ -76,7 +77,10 @@ export default function LandingPage() {
       {/* Nav */}
       <header className="bg-white border-b border-[#c1c7cc]/40 sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link href="/" className="font-bold text-xl text-[#1A2B4A] tracking-tight">Onlu</Link>
+          <Link href="/" className="flex items-center gap-2">
+            <LogoMark size={28} />
+            <span className="font-bold text-xl text-[#1A2B4A] tracking-tight">Onlu</span>
+          </Link>
           <div className="flex items-center gap-2">
             {/* 5 tab dots */}
             <div className="hidden sm:flex items-center gap-1 mr-2">
@@ -341,7 +345,10 @@ export default function LandingPage() {
       <footer className="border-t border-[#c1c7cc]/30 bg-[#f8fafb]">
         <div className="max-w-5xl mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="font-bold text-[#1A2B4A]">Onlu</span>
+            <div className="flex items-center gap-2">
+              <LogoMark size={22} />
+              <span className="font-bold text-[#1A2B4A]">Onlu</span>
+            </div>
             <div className="flex items-center gap-1">
               {Object.values(TABS).map((t, i) => (
                 <span key={i} className={`w-1.5 h-1.5 rounded-full ${t.dot}`} />

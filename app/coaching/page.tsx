@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import LogoMark from "@/app/components/LogoMark";
 import type { SessionType } from "../api/coaching-checkout/route";
 
 const SESSIONS: { type: SessionType; label: string; price: number; duration: string; desc: string; bullets: string[] }[] = [
@@ -76,7 +77,8 @@ export default function CoachingPage() {
       {/* Nav */}
       <div className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-1.5">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoMark size={26} />
             <span className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </Link>
           <div className="w-px h-4 bg-gray-200" />

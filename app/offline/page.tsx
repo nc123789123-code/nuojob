@@ -1,9 +1,11 @@
+import LogoMark from "@/app/components/LogoMark";
+
 export default function OfflinePage() {
   return (
     <div className="min-h-screen bg-[#f2f4f6] flex items-center justify-center px-4">
       <div className="text-center max-w-sm">
-        <div className="w-16 h-16 rounded-2xl bg-[#1A2B4A] flex items-center justify-center mx-auto mb-6">
-          <span className="text-white text-2xl font-black">O</span>
+        <div className="flex justify-center mb-6">
+          <LogoMark size={64} />
         </div>
         <h1 className="text-xl font-bold text-[#191c1e] mb-2">You&apos;re offline</h1>
         <p className="text-sm text-[#71787c] mb-6 leading-relaxed">
