@@ -43,13 +43,10 @@ function fmt(n?: number): string {
 
 function weekLabel(): string {
   const now = new Date();
-  const day = now.getDay();
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - ((day + 6) % 7));
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
+  const start = new Date(now);
+  start.setDate(now.getDate() - 13);
   const opts: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
-  return `${monday.toLocaleDateString("en-US", opts)} – ${sunday.toLocaleDateString("en-US", opts)}, ${now.getFullYear()}`;
+  return `${start.toLocaleDateString("en-US", opts)} – ${now.toLocaleDateString("en-US", opts)}, ${now.getFullYear()}`;
 }
 
 function ShareButton({ platform, url, text }: { platform: "linkedin" | "twitter"; url: string; text: string }) {
