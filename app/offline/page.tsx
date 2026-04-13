@@ -1,3 +1,4 @@
+"use client";
 import LogoMark from "@/app/components/LogoMark";
 
 export default function OfflinePage() {
