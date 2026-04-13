@@ -505,12 +505,10 @@ function HomeContent() {
         </div>
       )}
 
-      {topTab === "pulse" && <DailyIntelBar daily={daily} loading={dailyLoading} onFundClick={() => setTopTab("hiring")} onJobsClick={() => setTopTab("hiring")} />}
-
       <main className="max-w-6xl mx-auto px-3 sm:px-5 py-4 sm:py-5 space-y-4 pb-24 sm:pb-5">
         {topTab === "pulse" && (
           <>
-            <PulseSection daily={daily} dailyLoading={dailyLoading} />
+            <PulseSection />
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get fund signals and market intel in your inbox."
@@ -1079,124 +1077,103 @@ function CpiWidget() {
 
   const fmtMonth = (d: string) => {
     const [y, m] = d.split("-");
-    return new Date(parseInt(y), parseInt(m) - 1).toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+    return new Date(parseInt(y), parseInt(m) - 1).toLocaleDateString("en-US", { month: "short" });
+  };
+  const fmtMonthYear = (d: string) => {
+    const [y, m] = d.split("-");
+    return new Date(parseInt(y), parseInt(m) - 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
   };
 
   if (loading) return (
-    <div className="bg-white border border-sky-100 rounded-xl px-5 py-4 animate-pulse">
-      <div className="h-3 bg-sky-50 rounded w-20 mb-3" />
-      <div className="h-8 bg-sky-50 rounded w-16 mb-2" />
-      <div className="h-3 bg-sky-50 rounded w-32" />
+    <div className="bg-white border border-gray-200 rounded-xl p-5 animate-pulse">
+      <div className="flex gap-8 mb-4">
+        {[...Array(3)].map((_, i) => <div key={i} className="space-y-1"><div className="h-3 bg-gray-100 rounded w-10" /><div className="h-6 bg-gray-100 rounded w-14" /></div>)}
+      </div>
+      <div className="h-20 bg-gray-50 rounded" />
     </div>
   );
 
   if (!data) return null;
 
   const { latest, history } = data;
-  const yoyColor = !latest.yoy ? "text-gray-500" : latest.yoy > 3 ? "text-red-500" : latest.yoy > 2 ? "text-amber-500" : "text-emerald-600";
-  const momColor = !latest.mom ? "text-gray-500" : latest.mom > 0.4 ? "text-red-500" : latest.mom > 0.2 ? "text-amber-500" : "text-emerald-600";
+  // Use last 12 months for bar chart
+  const bars = history.slice(-12);
+  const yoyVals = bars.map(d => d.yoy ?? 0);
+  const maxYoy = Math.max(...yoyVals.map(Math.abs), 0.1);
 
-  // Sparkline
-  const vals = history.slice(-7).map(d => d.value);
-  const min = Math.min(...vals), max = Math.max(...vals);
-  const range = max - min || 1;
-  const W = 72, H = 28;
-  const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * W},${H - ((v - min) / range) * H}`).join(" ");
+  const yoyColor = (v?: number) => !v ? "#94a3b8" : v > 4 ? "#ef4444" : v > 3 ? "#f97316" : v > 2 ? "#f59e0b" : "#22c55e";
+  const yoyTextColor = !latest.yoy ? "text-gray-400" : latest.yoy > 4 ? "text-red-500" : latest.yoy > 3 ? "text-orange-500" : latest.yoy > 2 ? "text-amber-500" : "text-emerald-500";
+  const momTextColor = !latest.mom ? "text-gray-400" : latest.mom > 0.4 ? "text-red-500" : latest.mom > 0.2 ? "text-amber-500" : "text-emerald-500";
 
   return (
-    <div className="bg-white border border-sky-100 rounded-xl px-5 py-4">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bg-white border border-gray-200 rounded-xl p-5">
+      {/* Header row */}
+      <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
         <div>
-          <p className="text-[11px] font-semibold text-sky-600 uppercase tracking-widest">CPI-U</p>
-          <p className="text-[10px] text-gray-400">{fmtMonth(latest.date)} · All Items</p>
+          <p className="text-xs font-semibold text-sky-600 uppercase tracking-widest mb-0.5">CPI Inflation</p>
+          <p className="text-[11px] text-gray-400">{fmtMonthYear(latest.date)} · All Urban Consumers</p>
         </div>
-        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="opacity-60">
-          <polyline points={pts} fill="none" stroke="#38bdf8" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-        </svg>
+        <div className="flex gap-6">
+          <div>
+            <p className="text-[10px] text-gray-400 mb-0.5">Index</p>
+            <p className="text-lg font-bold text-[#191c1e]">{latest.value.toFixed(1)}</p>
+          </div>
+          {latest.yoy !== undefined && (
+            <div>
+              <p className="text-[10px] text-gray-400 mb-0.5">Year-over-year</p>
+              <p className={`text-lg font-bold ${yoyTextColor}`}>{latest.yoy > 0 ? "+" : ""}{latest.yoy.toFixed(2)}%</p>
+            </div>
+          )}
+          {latest.mom !== undefined && (
+            <div>
+              <p className="text-[10px] text-gray-400 mb-0.5">Month-over-month</p>
+              <p className={`text-lg font-bold ${momTextColor}`}>{latest.mom > 0 ? "+" : ""}{latest.mom.toFixed(2)}%</p>
+            </div>
+          )}
+          <div>
+            <p className="text-[10px] text-gray-400 mb-0.5">Fed target</p>
+            <p className="text-lg font-bold text-gray-400">2.0%</p>
+          </div>
+        </div>
       </div>
-      <p className="text-2xl font-bold text-[#191c1e] mb-2">{latest.value.toFixed(1)}</p>
-      <div className="flex gap-4">
-        {latest.yoy !== undefined && (
-          <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">YoY</p>
-            <p className={`text-sm font-bold ${yoyColor}`}>{latest.yoy > 0 ? "+" : ""}{latest.yoy.toFixed(2)}%</p>
-          </div>
-        )}
-        {latest.mom !== undefined && (
-          <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">MoM</p>
-            <p className={`text-sm font-bold ${momColor}`}>{latest.mom > 0 ? "+" : ""}{latest.mom.toFixed(2)}%</p>
-          </div>
-        )}
+
+      {/* YoY bar chart */}
+      <div>
+        <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
+        <div className="flex items-end gap-1 h-20">
+          {bars.map((pt) => {
+            const v = pt.yoy ?? 0;
+            const barH = Math.abs(v) / maxYoy;
+            const color = yoyColor(v);
+            return (
+              <div key={pt.date} className="flex-1 flex flex-col items-center gap-0.5 group relative">
+                <div className="flex-1 flex items-end w-full">
+                  <div
+                    className="w-full rounded-t-sm transition-opacity group-hover:opacity-80"
+                    style={{ height: `${Math.max(barH * 100, 4)}%`, backgroundColor: color }}
+                  />
+                </div>
+                {/* tooltip on hover */}
+                <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-[#191c1e] text-white text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
+                  {fmtMonth(pt.date)}: {v > 0 ? "+" : ""}{v.toFixed(2)}%
+                </div>
+                <span className="text-[9px] text-gray-400 leading-none">{fmtMonth(pt.date)}</span>
+              </div>
+            );
+          })}
+        </div>
+        {/* Fed target reference line label */}
+        <div className="flex items-center gap-1.5 mt-2">
+          <div className="w-3 h-px border-t border-dashed border-gray-300" />
+          <span className="text-[10px] text-gray-400">Fed 2% target</span>
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── Capital Raise Mini ───────────────────────────────────────────────────────
-
-function CapitalRaiseMini({ daily, loading }: { daily: DailyIntel | null; loading: boolean }) {
-  if (loading) return (
-    <div className="bg-white border border-amber-100 rounded-xl px-5 py-4 animate-pulse">
-      <div className="h-3 bg-amber-50 rounded w-28 mb-3" />
-      {[...Array(3)].map((_, i) => <div key={i} className="h-4 bg-amber-50 rounded mb-2" />)}
-    </div>
-  );
-
-  const funds = daily?.topFunds?.slice(0, 5) ?? [];
-
-  return (
-    <div className="bg-white border border-amber-100 rounded-xl px-5 py-4">
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-[11px] font-semibold text-amber-600 uppercase tracking-widest">Capital Raises</p>
-        <div className="flex items-center gap-1.5">
-          {daily?.todayCount ? (
-            <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 font-semibold px-1.5 py-0.5 rounded-full">
-              {daily.todayCount} today
-            </span>
-          ) : null}
-          {daily?.weekCount ? (
-            <span className="text-[10px] text-gray-400">{daily.weekCount} this week</span>
-          ) : null}
-        </div>
-      </div>
-      {funds.length === 0 ? (
-        <p className="text-xs text-gray-400 py-2">No recent Form D filings</p>
-      ) : (
-        <div className="space-y-2">
-          {funds.map((f) => (
-            <Link key={f.id} href={`/fund/${f.cik}`} className="flex items-center justify-between gap-2 group">
-              <div className="flex items-center gap-1.5 min-w-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
-                <span className="text-xs font-medium text-[#191c1e] truncate group-hover:text-[#396477] transition-colors">{f.entityName}</span>
-              </div>
-              <div className="flex items-center gap-1.5 flex-shrink-0 text-right">
-                {f.totalOfferingAmount ? <span className="text-[11px] font-semibold text-amber-700">{fmt(f.totalOfferingAmount)}</span> : null}
-                <span className="text-[10px] text-gray-400">{f.daysSinceFiling}d ago</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-      <div className="mt-3 pt-2.5 border-t border-amber-50">
-        <button onClick={() => window.location.href = "/?tab=hiring"} className="text-[11px] font-semibold text-amber-700 hover:underline">
-          View all capital signals →
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function PulseSection({ daily, dailyLoading }: { daily: DailyIntel | null; dailyLoading: boolean }) {
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <CpiWidget />
-        <CapitalRaiseMini daily={daily} loading={dailyLoading} />
-      </div>
-      <MarketSection />
-    </div>
-  );
+function PulseSection() {
+  return <MarketSection />;
 }
 
 function FundsSection({
@@ -3819,6 +3796,9 @@ function MarketSection() {
       {/* Live Market Data + Charts */}
       <MarketDataPanel />
       {tickers.length > 0 && <MarketCharts tickers={tickers} />}
+
+      {/* CPI Inflation */}
+      <CpiWidget />
 
       {/* Header */}
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
