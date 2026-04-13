@@ -349,15 +349,13 @@ function HomeContent() {
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
-                Live roles from 60+ firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
+                Live roles from 200+ buy-side firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500"
                   tooltip="Buy-side firms in our curated watch list — hedge funds, PE, private credit, and growth equity" />
                 <AnimatedStat value={jobLoading ? 80 : jobSignals.length} label="Roles posted" color="text-emerald-500"
-                  tooltip="Live open roles aggregated from firm career pages and major job boards" />
-                <AnimatedStat value={jobLoading ? 10 : Math.max(jobSources.length, 10)} label="Data sources" color="text-violet-400"
-                  tooltip="Career pages, job boards, and SEC EDGAR filings" />
+                  tooltip="Live open roles aggregated from buy-side firm career pages" />
                 <AnimatedStat value={24} suffix="h" label="Signal refresh" color="text-amber-400"
                   tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
               </div>
@@ -1140,29 +1138,28 @@ function CpiWidget() {
       {/* YoY bar chart */}
       <div>
         <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
-        <div className="flex items-end gap-1 h-20">
+        {/* Bar chart — fixed 96px chart area, labels row below */}
+        <div className="flex items-end gap-[3px]" style={{ height: 96 }}>
           {bars.map((pt) => {
             const v = pt.yoy ?? 0;
-            const barH = Math.abs(v) / maxYoy;
+            const px = Math.max(Math.round((Math.abs(v) / maxYoy) * 92), 4);
             const color = yoyColor(v);
             return (
-              <div key={pt.date} className="flex-1 flex flex-col items-center gap-0.5 group relative">
-                <div className="flex-1 flex items-end w-full">
-                  <div
-                    className="w-full rounded-t-sm transition-opacity group-hover:opacity-80"
-                    style={{ height: `${Math.max(barH * 100, 4)}%`, backgroundColor: color }}
-                  />
-                </div>
-                {/* tooltip on hover */}
+              <div key={pt.date} className="flex-1 flex items-end group relative" style={{ height: 96 }}>
                 <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-[#191c1e] text-white text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-10">
                   {fmtMonth(pt.date)}: {v > 0 ? "+" : ""}{v.toFixed(2)}%
                 </div>
-                <span className="text-[9px] text-gray-400 leading-none">{fmtMonth(pt.date)}</span>
+                <div className="w-full rounded-t-sm" style={{ height: px, backgroundColor: color }} />
               </div>
             );
           })}
         </div>
-        {/* Fed target reference line label */}
+        {/* Month labels */}
+        <div className="flex gap-[3px] mt-1">
+          {bars.map((pt) => (
+            <span key={pt.date} className="flex-1 text-[9px] text-gray-400 text-center leading-none">{fmtMonth(pt.date)}</span>
+          ))}
+        </div>
         <div className="flex items-center gap-1.5 mt-2">
           <div className="w-3 h-px border-t border-dashed border-gray-300" />
           <span className="text-[10px] text-gray-400">Fed 2% target</span>

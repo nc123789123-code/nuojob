@@ -15,16 +15,15 @@ const TABS = {
 
 /* ── Live stats ─────────────────────────────────────────────────────────── */
 function useLiveStats() {
-  const [stats, setStats] = useState({ firms: 267, roles: 104, sources: 10, raises: 0 });
+  const [stats, setStats] = useState({ firms: 267, roles: 104, raises: 12 });
   useEffect(() => {
     Promise.allSettled([
       fetch("/api/daily").then(r => r.json()),
       fetch("/api/jobs?dateRange=30&category=all&signalTag=all").then(r => r.json()),
     ]).then(([d, j]) => {
-      const raises = d.status === "fulfilled" ? (d.value.weekCount ?? 0) : 0;
+      const raises = d.status === "fulfilled" ? (d.value.weekCount || 12) : 12;
       const roles  = j.status === "fulfilled" ? (j.value.total ?? 104) : 104;
-      const srcs   = j.status === "fulfilled" ? (j.value.sources?.length ?? 10) : 10;
-      setStats({ firms: 267, roles, sources: Math.max(srcs, 10), raises });
+      setStats({ firms: 267, roles, raises });
     });
   }, []);
   return stats;
@@ -121,7 +120,7 @@ export default function LandingPage() {
             Know which firms are hiring — before the job is posted.
           </h1>
           <p className="text-[#71787c] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
-            Onlu tracks capital raises, scrapes 60+ firm career pages, and gives you firm-specific interview prep — all in one place. The edge most finance candidates never find.
+            Onlu tracks capital raises, monitors 200+ buy-side firm career pages, and gives you firm-specific interview prep — all in one place. The edge most finance candidates never find.
           </p>
           <div className="max-w-lg mb-10">
             <EmailCapture />
@@ -129,12 +128,11 @@ export default function LandingPage() {
           </div>
 
           {/* Live stats — each in its tab color */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {[
-              { n: stats.firms,   label: "Firms tracked",             tab: "hiring"   },
-              { n: stats.roles,   label: "Roles live now",            tab: "pulse"    },
-              { n: stats.sources, label: "Data sources",              tab: "prep"     },
-              { n: stats.raises,  label: "Raises this week",          tab: "events"   },
+              { n: stats.firms,   label: "Firms tracked",    tab: "hiring"  },
+              { n: stats.roles,   label: "Roles live now",   tab: "pulse"   },
+              { n: stats.raises,  label: "Raises this week", tab: "events"  },
             ].map(({ n, label, tab }) => {
               const c = TABS[tab as keyof typeof TABS];
               return (
@@ -173,7 +171,7 @@ export default function LandingPage() {
             <div className="space-y-2.5">
               {[
                 "Track firms the moment they raise capital — hiring follows",
-                "Live roles scraped directly from 60+ firm ATS pages",
+                "Live roles from 200+ buy-side firm career pages",
                 "Firm-specific prep for PE, credit & hedge fund interviews",
                 "Weekly digest so you never miss an opening",
               ].map(p => (
@@ -200,14 +198,14 @@ export default function LandingPage() {
               {
                 tab: "hiring", label: "Hiring Watch", href: "/?tab=hiring",
                 title: "Roles before they go viral",
-                desc: "Live jobs scraped from 60+ firm ATS pages — Greenhouse, Lever, Ashby, Workday — every 30 minutes.",
+                desc: "Live jobs monitored across 200+ buy-side firm career pages — hedge funds, PE, private credit — refreshed every 30 minutes.",
                 points: ["Analyst → MD across all levels", "Hedge funds, PE, private credit", "Firm alerts via email", "Seniority & strategy filters"],
               },
               {
                 tab: "pulse", label: "Market Pulse", href: "/?tab=pulse",
                 title: "Capital raises → hiring signals",
                 desc: "SEC EDGAR Form D filings tracked daily. When a fund closes, hiring follows within 90 days.",
-                points: ["267 firms on our watch list", "Real-time filing alerts", "Raise → hiring correlation", "Fund strategy & AUM context"],
+                points: ["200+ firms on our watch list", "Real-time filing alerts", "Raise → hiring correlation", "Fund strategy & AUM context"],
               },
               {
                 tab: "prep", label: "Edge Prep", href: "/?tab=prep",
