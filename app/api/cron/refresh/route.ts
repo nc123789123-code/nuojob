@@ -111,6 +111,7 @@ export async function GET(req: NextRequest) {
                   <a href="${baseUrl}/unsubscribe?e=${encoded}" style="color:#bbb;text-decoration:underline">Unsubscribe</a>
                 </p>
               </div>`,
+            tags: [{ name: "type", value: "alert" }],
           });
           alertsSent++;
         });

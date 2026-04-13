@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
           </div>
         </div>
       `,
+      tags: [{ name: "type", value: "table-signup" }],
     });
 
     // Send admin notification

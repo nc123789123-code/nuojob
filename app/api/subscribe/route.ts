@@ -99,6 +99,7 @@ export async function POST(req: Request) {
         "List-Unsubscribe": `<mailto:unsubscribe@onluintel.com>, <${unsubUrl}>`,
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
       },
+      tags: [{ name: "type", value: "welcome" }, { name: "intent", value: intent }],
     });
     if (emailResult.error) {
       console.error("[subscribe] email send error:", JSON.stringify(emailResult.error));

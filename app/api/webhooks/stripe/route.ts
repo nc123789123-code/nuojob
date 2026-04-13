@@ -29,6 +29,7 @@ async function sendGuideEmail(email: string) {
         </p>
       </div>
     `,
+    tags: [{ name: "type", value: "guide-delivery" }],
   });
 }
 
@@ -77,6 +78,7 @@ async function sendCoachingConfirmation(email: string, sessionType: string) {
         </p>
       </div>
     `,
+    tags: [{ name: "type", value: "coaching-confirm" }],
   });
 }
 

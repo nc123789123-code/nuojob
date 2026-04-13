@@ -222,6 +222,7 @@ Reply with only the intro text. No labels or bullets.`,
               "List-Unsubscribe": `<mailto:unsubscribe@onluintel.com>, <${unsubUrl}>`,
               "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
             },
+            tags: [{ name: "type", value: "newsletter" }],
           });
           sent++;
         } catch { /* skip individual failures */ }

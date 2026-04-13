@@ -66,6 +66,7 @@ export async function POST(req: Request) {
               <a href="${baseUrl}/unsubscribe?e=${encoded}" style="color:#bbb;text-decoration:underline">Unsubscribe</a>
             </p>
           </div>`,
+        tags: [{ name: "type", value: "alert-confirm" }],
       })
     );
 
