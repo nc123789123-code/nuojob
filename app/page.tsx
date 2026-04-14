@@ -3790,14 +3790,7 @@ function MarketSection() {
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 space-y-6">
-      {/* Live Market Data + Charts */}
-      <MarketDataPanel />
-      {tickers.length > 0 && <MarketCharts tickers={tickers} />}
-
-      {/* CPI Inflation */}
-      <CpiWidget />
-
-      {/* Header */}
+      {/* AI Brief */}
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
@@ -3832,6 +3825,11 @@ function MarketSection() {
       <p className="text-center text-xs text-gray-400">
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
+
+      {/* Live Markets */}
+      <MarketDataPanel />
+      {tickers.length > 0 && <MarketCharts tickers={tickers} />}
+      <CpiWidget />
 
       {/* Distressed Watch */}
       <DistressedWatch />
