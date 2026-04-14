@@ -27,7 +27,7 @@ const SENIORITY_MAP: Array<[RegExp, JobClassification["seniority"]]> = [
 ];
 
 const STRATEGY_PATTERNS: Array<[RegExp, string]> = [
-  [/\b(private credit|direct lend|leveraged finance|lev fin|unitranche)\b/i, "private_credit"],
+  [/\b(private credit|direct lend|leveraged finance|lev fin|unitranche|private debt|middle market credit|first lien|second lien|mezzanine|mezz|sponsor finance|credit fund|opportunistic credit|illiquid credit|alternative credit|portfolio monitor|loan monitor|credit underwrit|debt underwrit)\b/i, "private_credit"],
   [/\b(distress|restructur|special situations?|special sits?|credit opportunit)\b/i, "distressed"],
   [/\b(private equity|buyout|lbo|growth equity)\b/i,                "private_equity"],
   [/\b(hedge fund|long.?short|event.?driven)\b/i,                    "hedge_fund"],

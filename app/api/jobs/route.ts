@@ -113,10 +113,10 @@ function classifyTitle(title: string): JobCategory | null {
   const t = title.toLowerCase();
   // Investment Banking (sell-side advisory)
   if (/investment bank|m&a\b|mergers.*acquisitions|equity capital market|debt capital market|\becm\b|\bdcm\b|corporate.*advisory|leveraged finance.*(bank|group|analyst|associate)/i.test(t)) return "Investment Banking";
-  // Private Credit (illiquid/direct lending)
-  if (/private credit|direct lending|distressed|special situations|special sits|mezzanine|\bmezz\b|structured credit|structured finance|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit|direct.*lend|credit.*origination|asset.*backed|asset-backed|abs\b|clo\b|private.*debt/i.test(t)) return "Private Credit";
+  // Private Credit (illiquid/direct lending) — checked before Public Credit to avoid misclassification
+  if (/private credit|direct lend|distressed|special situations|special sits|mezzanine|\bmezz\b|structured credit|structured finance|unitranche|loan origination|credit.*fund|credit.*partner|leveraged.*credit|direct.*lend|credit.*origination|asset.?backed|abs\b|clo\b|private.*debt|private.*loan|credit.*opportunit|opportunistic credit|subordinated|junior.*debt|senior.*debt|first.*lien|second.*lien|underwriting.*(credit|loan|debt)|origination.*(credit|loan|debt)|portfolio.*monitor|loan.*monitor|credit.*underwrit|debt.*underwrit|middle market.*credit|sponsor.*finance|fund.*finance.*credit|alternative.*credit|illiquid.*credit/i.test(t)) return "Private Credit";
   // Public Credit (liquid markets)
-  if (/high yield|fixed income|investment grade|credit research|credit trading|credit analyst|bond.*fund|bond.*analyst|public credit|securit.*credit|\brates\b.*credit|\brates\b.*analyst|municipal|munis|sovereign/i.test(t)) return "Public Credit";
+  if (/high yield|fixed income|investment grade|credit research|credit trading|bond.*fund|bond.*analyst|public credit|securit.*credit|\brates\b.*analyst|municipal|munis|sovereign|credit analyst|bond.*portfolio|credit.*portfolio|liquid.*credit|traded.*credit|market.*credit/i.test(t)) return "Public Credit";
   // Equity Research (sell-side / fundamental research)
   if (/equity research|research analyst|sell.?side|coverage analyst|securities research|sector research/i.test(t)) return "Equity Research";
   // Quant
@@ -124,7 +124,7 @@ function classifyTitle(title: string): JobCategory | null {
   // IR / Ops — excluded from display, return null
   if (/investor relation|fund admin|compliance.*fund|finance operation|operations manager|fund accounting/i.test(t)) return null;
   // Other Finance Roles (buy-side equity, macro, alternatives, catch-all)
-  if (/equity|portfolio|investment analyst|investment associate|investment professional|investment officer|hedge fund|fund manager|fund analyst|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity|principal.*invest|deal.*team|transaction.*team|underwriting|origination|due diligence|valuation analyst|financial analyst.*(fund|invest|capital|asset|credit)|associate.*(fund|capital|invest|credit|equity|asset)|analyst.*(fund|capital|invest|equity|alternative)|vice president.*(invest|credit|fund|asset|capital)|managing director.*(invest|credit|fund|asset|capital)|director.*(invest|credit|fund|asset|capital)/i.test(t)) return "Other Finance Roles";
+  if (/equity|portfolio|investment analyst|investment associate|investment professional|investment officer|hedge fund|fund manager|fund analyst|asset manag|buy.?side|macro|global macro|alternative invest|alternatives.*fund|multi.?asset|long.?short|private equity|growth equity|principal.*invest|deal.*team|transaction.*team|due diligence|valuation analyst|financial analyst.*(fund|invest|capital|asset|credit)|associate.*(fund|capital|invest|equity|asset)|analyst.*(fund|capital|invest|equity|alternative)|vice president.*(invest|fund|asset|capital)|managing director.*(invest|fund|asset|capital)|director.*(invest|fund|asset|capital)/i.test(t)) return "Other Finance Roles";
   return null;
 }
 
