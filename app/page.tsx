@@ -8821,19 +8821,6 @@ function OnluTableSection() {
             </p>
           </div>
 
-          {/* Onlu Coffee teaser */}
-          <a href="/coffee"
-            className="flex items-center justify-between gap-3 bg-[#faf7f2] border border-amber-200/60 rounded-xl px-4 py-3 hover:border-amber-300 transition-colors group">
-            <div className="flex items-center gap-3">
-              <span className="text-xl">☕</span>
-              <div>
-                <p className="text-sm font-semibold text-[#1A2B4A]">Onlu Coffee — coming soon</p>
-                <p className="text-xs text-[#71787c]">Curated 1:1 coffee matches for buyside professionals</p>
-              </div>
-            </div>
-            <span className="text-xs text-[#8B5E3C] font-semibold group-hover:underline whitespace-nowrap">Learn more →</span>
-          </a>
-
           {/* Session cards */}
           {!selected && (
             <div className="space-y-4">
