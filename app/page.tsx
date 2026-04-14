@@ -1099,9 +1099,9 @@ function CpiWidget() {
   const yoyVals = bars.map(d => d.yoy ?? 0);
   const maxYoy = Math.max(...yoyVals.map(Math.abs), 0.1);
 
-  const yoyColor = (v?: number) => !v ? "#c4b0de" : v > 4 ? "#f0b2a0" : v > 3 ? "#f5c5a3" : v > 2 ? "#f7d4a0" : "#9ecfc0";
-  const yoyTextColor = !latest.yoy ? "text-gray-400" : latest.yoy > 4 ? "text-rose-400" : latest.yoy > 3 ? "text-orange-300" : latest.yoy > 2 ? "text-amber-400" : "text-emerald-400";
-  const momTextColor = !latest.mom ? "text-gray-400" : latest.mom > 0.4 ? "text-rose-400" : latest.mom > 0.2 ? "text-amber-400" : "text-emerald-400";
+  const yoyColor = (v?: number) => !v ? "#c4b0de" : v > 4 ? "#a8c4e0" : v > 3 ? "#b8d4e8" : v > 2 ? "#c4b0de" : "#9ecfc0";
+  const yoyTextColor = !latest.yoy ? "text-gray-400" : latest.yoy > 4 ? "text-sky-400" : latest.yoy > 3 ? "text-sky-300" : latest.yoy > 2 ? "text-violet-400" : "text-emerald-400";
+  const momTextColor = !latest.mom ? "text-gray-400" : latest.mom > 0.4 ? "text-sky-400" : latest.mom > 0.2 ? "text-violet-400" : "text-emerald-400";
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5">
