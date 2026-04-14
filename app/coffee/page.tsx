@@ -53,7 +53,7 @@ export default function CoffeePage() {
             <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] relative top-px">Intel</span>
           </Link>
           <div className="flex items-center gap-4">
-            <a href="#products" className="hidden sm:inline text-xs text-[#71787c] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">Products</a>
+            <a href="#how" className="hidden sm:inline text-xs text-[#71787c] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">How it works</a>
             <a href="#who" className="hidden sm:inline text-xs text-[#71787c] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">Who it&apos;s for</a>
             <a href="#join" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-colors">
               Join waitlist
@@ -64,7 +64,6 @@ export default function CoffeePage() {
 
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-5 pt-20 pb-12 sm:pt-28 sm:pb-16 relative">
-        {/* Warm glow */}
         <div className="absolute right-0 top-1/3 w-80 h-80 rounded-full bg-[#6aab8e]/10 blur-[80px] pointer-events-none" />
         <div className="absolute right-1/4 top-2/3 w-40 h-40 rounded-full bg-[#8B5E3C]/10 blur-[60px] pointer-events-none" />
 
@@ -73,16 +72,20 @@ export default function CoffeePage() {
           <div className="w-9 h-9 bg-[#1A2B4A] rounded-xl flex items-center justify-center text-lg">☕</div>
           <span className="text-[11px] font-bold tracking-[2px] uppercase text-[#8B5E3C]">Onlu Coffee</span>
           <span className="w-px h-4 bg-[#c1c7cc]" />
-          <span className="text-[11px] text-[#71787c]">Our first product</span>
+          <span className="text-[11px] text-[#71787c]">By Onlu Intel · NYC</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight text-[#1A2B4A] max-w-3xl mb-6">
-          The right conversation<br />with the{" "}
-          <span style={{ color: "#6aab8e" }}>right person.</span>
+          The finance network where no one asks{" "}
+          <span style={{ color: "#6aab8e" }}>what you&apos;re buying.</span>
         </h1>
 
-        <p className="text-[#71787c] text-base sm:text-lg max-w-xl leading-relaxed mb-10 font-light">
-          Onlu Intel connects buyside professionals for curated 1:1 coffees, intimate dinners, and real idea exchange. No noise. No conferences. Just signal.
+        <p className="text-[#71787c] text-base sm:text-lg max-w-xl leading-relaxed mb-4 font-light">
+          Curated 1:1 coffees for buyside professionals — credit, PE, restructuring, macro.
+          Conversations structured around ideas, frameworks, and careers. Not deals. Not positions.
+        </p>
+        <p className="text-[#71787c] text-sm max-w-xl leading-relaxed mb-10 font-light">
+          Compliance-safe by design. Interesting by default.
         </p>
 
         <div className="flex items-center gap-5 flex-wrap mb-14">
@@ -90,14 +93,14 @@ export default function CoffeePage() {
             className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-all hover:-translate-y-0.5 hover:shadow-lg">
             Request early access →
           </a>
-          <span className="text-sm text-[#71787c]"><strong className="text-[#191c1e]">280+</strong> on the waitlist</span>
+          <span className="text-sm text-[#71787c]">Launching in NYC</span>
         </div>
 
         {/* Product chips */}
-        <div id="products" className="flex gap-3 flex-wrap">
+        <div className="flex gap-3 flex-wrap">
           {[
-            { icon: "☕", label: "Onlu Coffee", badge: "LIVE", active: true },
-            { icon: "🍽", label: "Onlu Table",  badge: "SOON", active: false },
+            { icon: "☕", label: "Onlu Coffee", badge: "NOW",  active: true  },
+            { icon: "🪑", label: "Onlu Table",  badge: "SOON", active: false },
             { icon: "🎙", label: "Onlu Room",   badge: "2027", active: false },
           ].map(({ icon, label, badge, active }) => (
             <div key={label}
@@ -123,15 +126,15 @@ export default function CoffeePage() {
         <div className="w-60 bg-white rounded-3xl border border-[#c1c7cc]/40 shadow-xl p-4 shrink-0">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <div className="flex items-center justify-between mb-0.5">
-            <span className="text-base font-bold text-[#191c1e]">Coffee matches</span>
+            <span className="text-base font-bold text-[#191c1e]">Your matches</span>
             <div className="w-7 h-7 bg-[#1A2B4A] rounded-lg flex items-center justify-center text-xs">☕</div>
           </div>
           <p className="text-[10px] text-[#71787c] mb-3">3 new this week · NYC</p>
 
           {[
-            { initials: "SL", name: "Sarah L.", role: "PM, Intl Small Cap · Fidelity", tags: ["Japan equities", "Value"], color: "#1A2B4A", cta: true },
-            { initials: "MK", name: "Michael K.", role: "Analyst, EM · Capital Group", tags: ["Asia industrials", "GARP"], color: "#8B5E3C", cta: false },
-            { initials: "RW", name: "Rachel W.", role: "Allocator · Endowment", tags: ["Intl equity", "Due diligence"], color: "#6b7b8d", cta: false },
+            { initials: "JL", name: "James L.", role: "Credit Analyst · Ares Management", tags: ["Private credit", "LBO"], color: "#1A2B4A", cta: true },
+            { initials: "RK", name: "Rachel K.", role: "VP Restructuring · Lazard", tags: ["Special sits", "Ch.11"], color: "#396477", cta: false },
+            { initials: "MW", name: "Marcus W.", role: "PE Associate · Apollo", tags: ["Distressed", "Credit"], color: "#6b7b8d", cta: false },
           ].map(({ initials, name, role, tags, color, cta }) => (
             <div key={initials} className="bg-[#faf7f2] rounded-xl p-3 mb-2 border border-[#c1c7cc]/20">
               <div className="flex items-center gap-2 mb-2">
@@ -165,14 +168,14 @@ export default function CoffeePage() {
 
           <div className="bg-[#1A2B4A] rounded-xl p-3.5 mb-2 text-white">
             <p className="text-[9px] font-bold uppercase tracking-widest opacity-50 mb-1.5">☕ Onlu Coffee</p>
-            <p className="text-[10px] uppercase tracking-widest opacity-60 mb-1">Apr 22 · 4:00 PM</p>
-            <p className="text-sm font-bold mb-0.5">Coffee w/ Sarah L.</p>
-            <p className="text-[10px] opacity-60">Urbanspace · Midtown East</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-60 mb-1">Apr 22 · 8:30 AM</p>
+            <p className="text-sm font-bold mb-0.5">Coffee w/ James L.</p>
+            <p className="text-[10px] opacity-60">Blue Bottle · FiDi</p>
           </div>
 
           {[
-            { icon: "🍽", label: "Onlu Table", date: "Apr 28 · 7:00 PM", title: "EM Allocators Dinner", meta: "8 seats · West Village" },
-            { icon: "☕", label: "Onlu Coffee", date: "May 2 · 8:30 AM", title: "Coffee w/ James T.", meta: "Blue Bottle · FiDi" },
+            { icon: "☕", label: "Onlu Coffee", date: "Apr 29 · 4:00 PM", title: "Coffee w/ Rachel K.", meta: "Bluestone Lane · Midtown" },
+            { icon: "🪑", label: "Onlu Table",  date: "May 6 · 6:30 PM",  title: "Credit markets Q2", meta: "8 seats · West Village" },
           ].map(({ icon, label, date, title, meta }) => (
             <div key={title} className="bg-[#faf7f2] rounded-xl p-3.5 mb-2 border border-[#c1c7cc]/20">
               <p className="text-[9px] font-bold uppercase tracking-widest text-[#8B5E3C] mb-1.5">{icon} {label}</p>
@@ -186,16 +189,16 @@ export default function CoffeePage() {
         {/* Phone 3 — Chat */}
         <div className="w-60 bg-white rounded-3xl border border-[#c1c7cc]/40 shadow-xl p-4 shrink-0 hidden sm:block">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
-          <p className="text-base font-bold text-[#191c1e] mb-0.5">Sarah L.</p>
-          <p className="text-[10px] text-[#71787c] mb-4">PM, Intl Small Cap · Fidelity</p>
+          <p className="text-base font-bold text-[#191c1e] mb-0.5">James L.</p>
+          <p className="text-[10px] text-[#71787c] mb-4">Credit Analyst · Ares Management</p>
 
-          <p className="text-[9px] text-[#71787c] text-center mb-3">Today, 2:14 PM</p>
+          <p className="text-[9px] text-[#71787c] text-center mb-3">Today, 9:02 AM</p>
 
           {[
-            { text: "Hey — saw you cover Japanese industrials. Looked at any sub-¥50B construction equipment names?", sent: false },
-            { text: "Yes — a couple with interesting owner-operator dynamics. Want to compare notes over coffee?", sent: true },
-            { text: "Thursday works. Grand Central area?", sent: false },
-            { text: "Urbanspace, 4pm?", sent: true },
+            { text: "Curious how you think about covenant packages in the current rate environment — maintenance vs incurrence.", sent: false },
+            { text: "Lenders have been getting more protective lately. Happy to walk through how we frame it. Coffee this week?", sent: true },
+            { text: "Thursday morning works. FiDi area?", sent: false },
+            { text: "Blue Bottle on Stone St — 8:30?", sent: true },
             { text: "Done ✓", sent: false },
           ].map((msg, i) => (
             <div key={i}
@@ -213,15 +216,15 @@ export default function CoffeePage() {
       <div className="max-w-5xl mx-auto px-5"><hr className="border-[#c1c7cc]/30" /></div>
 
       {/* How it works */}
-      <section className="max-w-5xl mx-auto px-5 py-16">
-        <p className="text-[11px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] mb-4">How Onlu Coffee works</p>
+      <section id="how" className="max-w-5xl mx-auto px-5 py-16">
+        <p className="text-[11px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] mb-4">How it works</p>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A2B4A] tracking-tight mb-10 max-w-md leading-snug">
-          Less algorithm.<br />More intention.
+          Structured enough to be safe.<br />Open enough to be useful.
         </h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {[
-            { n: "01", title: "Apply & get verified", desc: "We verify your background and match you with professionals in your vertical. No recruiters, no sales pitches, no noise." },
-            { n: "02", title: "Get matched weekly",   desc: "Curated intros based on strategy, geography, and coverage overlap. People you'd actually want to sit down with." },
+            { n: "01", title: "Apply & get verified", desc: "We check you work in finance. No recruiters, no sales professionals, no one fishing for deal flow. Just practitioners." },
+            { n: "02", title: "Get matched weekly",   desc: "Matched based on sector, strategy, and career stage. Conversations stay around frameworks, macro, and careers — never active deals or positions." },
             { n: "03", title: "Grab coffee",          desc: "Accept a match, pick a spot, meet in person. One real conversation beats a hundred LinkedIn messages." },
           ].map(({ n, title, desc }) => (
             <div key={n} className="bg-white border border-[#c1c7cc]/40 rounded-2xl p-7 hover:-translate-y-1 transition-transform hover:shadow-md">
@@ -231,6 +234,19 @@ export default function CoffeePage() {
             </div>
           ))}
         </div>
+
+        {/* Compliance note */}
+        <div className="mt-8 bg-white border border-[#c1c7cc]/40 rounded-2xl px-6 py-5 flex items-start gap-4">
+          <span className="text-2xl shrink-0">🔒</span>
+          <div>
+            <p className="text-sm font-bold text-[#191c1e] mb-1">Designed around compliance</p>
+            <p className="text-sm text-[#71787c] font-light leading-relaxed">
+              Every session is structured around ideas, sector frameworks, and career paths — not active deals or current positions.
+              Think of it like a conference panel, just with 2 people and better coffee.
+              Your compliance team won&apos;t have a problem with it.
+            </p>
+          </div>
+        </div>
       </section>
 
       <div className="max-w-5xl mx-auto px-5"><hr className="border-[#c1c7cc]/30" /></div>
@@ -239,14 +255,14 @@ export default function CoffeePage() {
       <section id="who" className="max-w-5xl mx-auto px-5 py-16">
         <p className="text-[11px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] mb-4">Who it&apos;s for</p>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A2B4A] tracking-tight mb-10 max-w-md leading-snug">
-          Built for the buyside.<br />Starting with NYC.
+          Built for buyside finance.<br />Starting with credit &amp; PE.
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: "📊", title: "Equity Analysts",    desc: "Compare notes on coverage, share variant perceptions, find idea sparring partners." },
-            { icon: "🌏", title: "International PMs",  desc: "Connect with peers running EM, Japan, Europe, or global mandates." },
-            { icon: "🏛️", title: "Allocators",         desc: "Endowments, family offices, and consultants sourcing differentiated managers." },
-            { icon: "🔄", title: "Career Movers",      desc: "Pivoting from sell-side, credit, or banking? Meet people who've done it." },
+            { icon: "📋", title: "Credit Investors",   desc: "Private credit, direct lending, CLOs — find peers who think about leverage and recovery the same way you do." },
+            { icon: "🏗️", title: "Restructuring",      desc: "Bankers, advisors, and distressed investors. Meet people who understand what a waterfall actually means." },
+            { icon: "💼", title: "PE & Special Sits",  desc: "Associate to partner. Compare notes on sourcing, underwriting, and what the market is actually pricing." },
+            { icon: "🔄", title: "Career Switchers",   desc: "Moving from banking or consulting to the buyside? Meet practitioners who made the same move." },
           ].map(({ icon, title, desc }) => (
             <div key={title} className="bg-white border border-[#c1c7cc]/40 rounded-2xl p-6 text-center hover:-translate-y-1 transition-transform hover:shadow-md">
               <div className="text-3xl mb-4">{icon}</div>
@@ -261,7 +277,7 @@ export default function CoffeePage() {
 
       {/* Roadmap */}
       <section className="max-w-5xl mx-auto px-5 py-16">
-        <p className="text-[11px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] mb-4">The Onlu Intel platform</p>
+        <p className="text-[11px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] mb-4">What&apos;s coming</p>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#1A2B4A] tracking-tight mb-10 max-w-md leading-snug">
           One network.<br />Multiple ways to connect.
         </h2>
@@ -269,15 +285,15 @@ export default function CoffeePage() {
           {[
             {
               icon: "☕", title: "Onlu Coffee", status: "● Launching now", featured: true,
-              desc: "Curated 1:1 intros with buyside peers. Weekly matches, your city, your schedule. The simplest way to expand your network with intention.",
+              desc: "Curated 1:1 coffees with buyside peers. Weekly matches, your city, your schedule. No deal talk — just real conversation.",
             },
             {
-              icon: "🍽", title: "Onlu Table", status: "Coming Q3 2026", featured: false,
-              desc: "Intimate dinners of 6–8 people, organised by theme. Japan small caps, EM macro, credit-to-equity pivots — real conversations over real food.",
+              icon: "🪑", title: "Onlu Table", status: "Coming soon", featured: false,
+              desc: "Small-group sessions of 6–8 people around a theme. Credit markets, PE careers, macro — structured conversation, not networking theatre.",
             },
             {
               icon: "🎙", title: "Onlu Room", status: "Coming 2027", featured: false,
-              desc: "Deep-dive sessions and closed-door panels. 20 people, one topic, no recordings. The kind of room you'd want to be in.",
+              desc: "Closed-door sessions. 20 people, one topic, no recordings. The kind of room you actually want to be in.",
             },
           ].map(({ icon, title, status, featured, desc }) => (
             <div key={title}
@@ -303,7 +319,8 @@ export default function CoffeePage() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4A] tracking-tight leading-tight mb-4">
           Your next coffee could<br />change your career.
         </h2>
-        <p className="text-[#71787c] text-base mb-8 font-light">Launching in NYC. Request access below.</p>
+        <p className="text-[#71787c] text-base mb-2 font-light">Launching in NYC. Credit, PE, and restructuring first.</p>
+        <p className="text-[#71787c] text-sm mb-8 font-light">No deal talk. No compliance issues. Just the right people.</p>
         <div className="max-w-md mx-auto">
           <EmailCapture />
           <p className="text-xs text-[#71787c] mt-3">No spam · Unsubscribe anytime</p>
@@ -323,7 +340,7 @@ export default function CoffeePage() {
             <Link href="/privacy" className="hover:text-[#191c1e] transition-colors">Privacy</Link>
             <Link href="/about" className="hover:text-[#191c1e] transition-colors">About</Link>
           </div>
-          <p className="text-xs text-[#71787c]">© 2026 Onlu Intel. NYC first, then everywhere.</p>
+          <p className="text-xs text-[#71787c]">© 2026 Onlu Intel. NYC first.</p>
         </div>
       </footer>
 
