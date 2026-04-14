@@ -129,10 +129,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: emailResult.error.message ?? "Email send failed" }, { status: 500 });
     }
 
-    // Add to Beehiiv (newsletter subscribers only, non-blocking)
-    if (intent === "signals_subscriber") {
-      addToBeehiiv(email).catch(() => {});
-    }
+    // Add to Beehiiv (all subscribers, blocking so it appears in logs)
+    await addToBeehiiv(email);
 
     // Add to Resend audience as backup (non-blocking)
     if (audienceId && audienceId !== "audience_id_placeholder") {
