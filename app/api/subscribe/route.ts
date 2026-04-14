@@ -14,14 +14,22 @@ const AUDIENCE_MAP: Record<Intent, string | undefined> = {
 async function addToBeehiiv(email: string) {
   const apiKey = process.env.BEEHIIV_API_KEY;
   const pubId  = process.env.BEEHIIV_PUBLICATION_ID;
-  if (!apiKey || !pubId) return;
+  if (!apiKey || !pubId) {
+    console.error("[beehiiv] missing env vars — BEEHIIV_API_KEY or BEEHIIV_PUBLICATION_ID not set");
+    return;
+  }
   try {
     const res = await fetch(`https://api.beehiiv.com/v2/publications/${pubId}/subscriptions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify({ email, reactivate_existing: true, send_welcome_email: false }),
     });
-    if (!res.ok) console.error("[beehiiv] subscribe failed:", res.status, await res.text());
+    const body = await res.text();
+    if (!res.ok) {
+      console.error(`[beehiiv] subscribe failed: ${res.status}`, body);
+    } else {
+      console.log(`[beehiiv] subscribed: ${email}`);
+    }
   } catch (e) { console.error("[beehiiv] exception:", e); }
 }
 
