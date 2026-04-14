@@ -8816,7 +8816,7 @@ function OnluTableSection() {
           <div className="space-y-1">
             <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Table</h2>
             <p className="text-sm text-[#71787c] leading-relaxed">
-              Small-group dinners for finance professionals in NYC.
+              Small-group sessions for finance professionals in NYC.
               Max 8 people — curated conversation, not networking theatre.
             </p>
           </div>
