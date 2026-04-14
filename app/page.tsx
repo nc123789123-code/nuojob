@@ -7293,7 +7293,7 @@ function fmtAum(thousands: number): string {
   return `$${thousands}k AUM`;
 }
 
-const THIRTEENF_CATEGORIES = new Set(["Hedge Fund", "Multi-Strategy", "Asset Manager"]);
+const THIRTEENF_CATEGORIES = new Set(["Hedge Fund", "Multi-Strategy", "Asset Manager", "Private Equity", "Credit", "Private Credit", "Venture Capital", "Family Office", "Endowment", "Sovereign Wealth", "Quant", "Long/Short Equity", "Global Macro", "Event Driven", "Distressed", "Special Situations"]);
 
 function CapitalCycleSection({
   filingByFirmId, allRegistryProfiles, signals: _signals,
