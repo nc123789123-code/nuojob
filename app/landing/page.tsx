@@ -104,7 +104,7 @@ export default function LandingPage() {
               { tab: "hiring",   label: "Hiring Watch" },
               { tab: "pulse",    label: "Market Pulse" },
               { tab: "prep",     label: "Edge Prep" },
-              { tab: "events",   label: "Events" },
+              { tab: "events",   label: "Table" },
               { tab: "learning", label: "Learning" },
             ].map(({ tab, label }) => {
               const c = TABS[tab as keyof typeof TABS];
@@ -241,8 +241,8 @@ export default function LandingPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               {
-                tab: "events", label: "Onlu Events", href: "/?tab=events",
-                title: "Small-table finance dinners",
+                tab: "events", label: "Onlu Table", href: "/?tab=table",
+                title: "Small-group finance sessions",
                 desc: "Intimate 8-person sessions with practitioners. No pitch decks — just honest conversations about markets, careers, and what actually matters.",
                 points: ["Curated attendees from buy-side firms", "Structured themes each session", "Real relationships, not networking theater"],
               },
