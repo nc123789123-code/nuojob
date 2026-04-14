@@ -282,7 +282,7 @@ function HomeContent() {
                 <circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" />
               </svg>
             } />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Events" animal={
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" animal={
               // Bee — social, community
               <svg viewBox="0 0 20 20" fill="none" className="w-6 h-6 text-amber-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" />
@@ -438,7 +438,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-amber-500",
-                label: "Onlu Events", desc: "Finance networking & meetups", tab: "table" as TopTab,
+                label: "Onlu Table", desc: "Small-group finance dinners & catchups", tab: "table" as TopTab,
                 color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
               },
               {
@@ -8814,12 +8814,25 @@ function OnluTableSection() {
         {/* ── LEFT: Events ── */}
         <div className={`flex-1 min-w-0 space-y-6 ${mobileTab === "network" ? "hidden sm:block" : ""}`}>
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Events</h2>
+            <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Table</h2>
             <p className="text-sm text-[#71787c] leading-relaxed">
-              Small-group coffee chats for finance professionals in NYC.
+              Small-group dinners for finance professionals in NYC.
               Max 8 people — curated conversation, not networking theatre.
             </p>
           </div>
+
+          {/* Onlu Coffee teaser */}
+          <a href="/coffee"
+            className="flex items-center justify-between gap-3 bg-[#faf7f2] border border-amber-200/60 rounded-xl px-4 py-3 hover:border-amber-300 transition-colors group">
+            <div className="flex items-center gap-3">
+              <span className="text-xl">☕</span>
+              <div>
+                <p className="text-sm font-semibold text-[#1A2B4A]">Onlu Coffee — coming soon</p>
+                <p className="text-xs text-[#71787c]">Curated 1:1 coffee matches for buyside professionals</p>
+              </div>
+            </div>
+            <span className="text-xs text-[#8B5E3C] font-semibold group-hover:underline whitespace-nowrap">Learn more →</span>
+          </a>
 
           {/* Session cards */}
           {!selected && (
