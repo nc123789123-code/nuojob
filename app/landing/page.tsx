@@ -78,7 +78,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={28} />
-            <span className="font-bold text-xl text-[#1A2B4A] tracking-tight">Onlu</span>
+            <span className="font-bold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
           </Link>
           <div className="flex items-center gap-2">
             {/* 5 tab dots */}
@@ -345,7 +345,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <LogoMark size={22} />
-              <span className="font-bold text-[#1A2B4A]">Onlu</span>
+              <span className="font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
             </div>
             <div className="flex items-center gap-1">
               {Object.values(TABS).map((t, i) => (

@@ -108,7 +108,7 @@ export default function ThisWeekPage() {
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <LogoMark size={24} />
-            <span className="text-sm font-bold text-[#191c1e]">Onlu</span>
+            <span className="text-sm font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
           </a>
           <span className="text-xs text-[#71787c]">Weekly Pulse</span>
         </div>
