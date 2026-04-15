@@ -2,6 +2,7 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 import Anthropic from "@anthropic-ai/sdk";
+import { unstable_cache } from "next/cache";
 
 export interface PrepQuestion {
   question: string;
@@ -105,25 +106,18 @@ function summarizeInterviews(interviews: GDInterview[]): string {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
-const cache = new Map<string, { data: InterviewPrep; ts: number }>();
-const CACHE_TTL = 24 * 60 * 60 * 1000;
+const generatePrep = unstable_cache(
+  async (firm: string, group: string): Promise<InterviewPrep> => {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
+    const rapidApiKey = process.env.RAPIDAPI_KEY ?? "";
+    return generatePrepInner(firm, group, apiKey, rapidApiKey);
+  },
+  ["interview-prep"],
+  { revalidate: 86400 } // 24h
+);
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const firm = (searchParams.get("firm") || "").trim();
-  const group = (searchParams.get("group") || "").trim();
-  if (!firm) return Response.json({ error: "Missing firm name" }, { status: 400 });
-
-  const key = `${firm.toLowerCase()}|${group.toLowerCase()}`;
-  const cached = cache.get(key);
-  if (cached && Date.now() - cached.ts < CACHE_TTL) return Response.json(cached.data);
-
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return Response.json({ error: "ANTHROPIC_API_KEY not set" }, { status: 500 });
-
-  const rapidApiKey = process.env.RAPIDAPI_KEY ?? "";
-
-  try {
+async function generatePrepInner(firm: string, group: string, apiKey: string, rapidApiKey: string): Promise<InterviewPrep> {
     const short = firm.replace(/\b(LP|LLC|Ltd|Inc|Corp|Fund|Partners|Capital|Management|Advisors?|Group)\b.*/i, "").trim().slice(0, 40);
 
     // Fetch news + Glassdoor data in parallel
@@ -193,8 +187,16 @@ Return ONLY valid JSON with NO trailing commas, NO comments:
     if (!jsonMatch) throw new Error("No JSON found in response");
     const json = JSON.parse(jsonMatch[0]);
     const result: InterviewPrep = { ...json, generatedAt: new Date().toISOString() };
+    return result;
+}
 
-    cache.set(key, { data: result, ts: Date.now() });
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const firm = searchParams.get("firm") || "";
+    const group = searchParams.get("group") || "";
+    if (!firm.trim()) return Response.json({ error: "firm is required" }, { status: 400 });
+    const result = await generatePrep(firm.trim(), group.trim());
     return Response.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
