@@ -1,6 +1,7 @@
 export const runtime = "nodejs";
 
 import Anthropic from "@anthropic-ai/sdk";
+import { checkRateLimit, rateLimitResponse } from "@/app/lib/rateLimit";
 
 export interface OutreachDraft {
   subject: string;
@@ -11,6 +12,9 @@ export interface OutreachDraft {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit(`outreach:${ip}`, 10, 60_000)) return rateLimitResponse(); // 10/min per IP
+
   const body = await req.json().catch(() => ({}));
   const { firm, background, signal, targetRole } = body as {
     firm: string;

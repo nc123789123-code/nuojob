@@ -3,6 +3,7 @@ export const maxDuration = 60;
 
 import Anthropic from "@anthropic-ai/sdk";
 import { unstable_cache } from "next/cache";
+import { checkRateLimit, rateLimitResponse } from "@/app/lib/rateLimit";
 
 export interface PrepQuestion {
   question: string;
@@ -191,6 +192,9 @@ Return ONLY valid JSON, no trailing commas:
 }
 
 export async function GET(req: Request) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit(`prep:${ip}`, 10, 60_000)) return rateLimitResponse(); // 10/min per IP
+
   try {
     const { searchParams } = new URL(req.url);
     const firm = searchParams.get("firm") || "";

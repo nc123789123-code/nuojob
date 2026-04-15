@@ -2,6 +2,7 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 import Anthropic from "@anthropic-ai/sdk";
+import { checkRateLimit, rateLimitResponse } from "@/app/lib/rateLimit";
 
 export interface ReviewCategory {
   name: string;
@@ -21,6 +22,9 @@ export interface ResumeReview {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit(`resume:${ip}`, 5, 60_000)) return rateLimitResponse(); // 5/min per IP
+
   let body: { resume: string; targetRole?: string };
   try {
     body = await req.json();
