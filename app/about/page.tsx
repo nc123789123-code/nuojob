@@ -122,7 +122,7 @@ export default function AboutPage() {
                   <span className="text-white text-sm font-bold tracking-wide">KNC</span>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-bold text-[#191c1e]">Karlie Nuo Chen</p>
+                  <p className="text-sm font-bold text-[#191c1e]">Karlie C.</p>
                   <p className="text-xs text-[#71787c] mt-0.5">Founder · New York</p>
                 </div>
               </div>
