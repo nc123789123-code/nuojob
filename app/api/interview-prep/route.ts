@@ -186,7 +186,7 @@ Return ONLY valid JSON, no trailing commas:
       raw += "]".repeat(Math.max(0, opens)) + "}".repeat(Math.max(0, objs));
       json = JSON.parse(raw);
     }
-    const result: InterviewPrep = { ...json, generatedAt: new Date().toISOString() };
+    const result: InterviewPrep = { ...(json as InterviewPrep), generatedAt: new Date().toISOString() };
     return result;
 }
 
