@@ -3,7 +3,8 @@ import { FundFiling, OfferingStatus, EdgarSearchHit } from "@/app/types";
 import { detectStrategy, scoreFiling, getDaysSince } from "@/app/lib/scoring";
 import { fetchNewsSignals } from "@/app/lib/news";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
+export const maxDuration = 55;
 
 const EDGAR_SEARCH_URL = "https://efts.sec.gov/LATEST/search-index";
 const EDGAR_ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data";
@@ -12,6 +13,16 @@ const HEADERS = {
   "User-Agent": "Onlu/1.0 research@onlu.com",
   "Accept": "application/json, text/xml",
 };
+
+async function fetchWithTimeout(url: string, options: RequestInit & { next?: { revalidate?: number } }, ms = 8000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
 
 const STRATEGY_QUERIES: Record<string, string[]> = {
   all: ["credit fund", "credit partners", "hedge fund", "direct lending", "special situations", "credit opportunities", "private equity fund", "investment fund"],
@@ -44,7 +55,7 @@ function extractXml(xml: string, tag: string): string | undefined {
 async function fetchFormDDetails(cik: string, accessionNo: string) {
   try {
     const url = `${EDGAR_ARCHIVE_URL}/${cik}/${accessionNo.replace(/-/g, "")}/primary_doc.xml`;
-    const res = await fetch(url, { headers: HEADERS, next: { revalidate: 3600 } });
+    const res = await fetchWithTimeout(url, { headers: HEADERS, next: { revalidate: 3600 } }, 8000);
     if (!res.ok) return { offeringStatus: "unknown" as OfferingStatus };
 
     const xml = await res.text();
@@ -135,7 +146,7 @@ interface SubmissionsResp {
 async function fetchSubmissions(cik: string): Promise<{ phone?: string; businessCity?: string; website?: string; stateOfIncorporation?: string }> {
   try {
     const padded = cik.padStart(10, "0");
-    const res = await fetch(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS, next: { revalidate: 3600 } });
+    const res = await fetchWithTimeout(`https://data.sec.gov/submissions/CIK${padded}.json`, { headers: HEADERS, next: { revalidate: 3600 } }, 8000);
     if (!res.ok) return {};
     const data = await res.json() as SubmissionsResp;
     const city = data.business?.city || data.mailing?.city;
@@ -173,10 +184,10 @@ export async function GET(req: NextRequest) {
     const searchResults = await Promise.allSettled(
       terms.map(async (term) => {
         const params = new URLSearchParams({ q: `"${term}"`, forms: "D", dateRange: "custom", startdt: startDate, enddt: endDate, from: "0" });
-        const res = await fetch(`${EDGAR_SEARCH_URL}?${params}`, {
+        const res = await fetchWithTimeout(`${EDGAR_SEARCH_URL}?${params}`, {
           headers: HEADERS,
           next: { revalidate: 1800 },
-        });
+        }, 10000);
         if (!res.ok) return [];
         const data = await res.json();
         return data?.hits?.hits || [];
@@ -220,8 +231,8 @@ export async function GET(req: NextRequest) {
       return { id: accessionNo, entityName, cik, fileDate: src.file_date || "", formType, accessionNo, strategy: s, strategyLabel: label, offeringStatus: "unknown" as OfferingStatus };
     });
 
-    // Fetch XML details + submissions data in parallel — keep batch small to avoid edge timeouts
-    const XML_BATCH = 20;
+    // Fetch XML details + submissions data in parallel — keep batch small to avoid EDGAR rate limits
+    const XML_BATCH = 10;
     const detailedRaw = await Promise.all(
       partial.slice(0, XML_BATCH).map(async (f) => {
         const [details, subs] = await Promise.all([
