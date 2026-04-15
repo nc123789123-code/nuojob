@@ -148,6 +148,18 @@ export default function GuideDownloadPage() {
             Private credit · Special situations · Distressed debt<br />
             Case-based frameworks for buy-side interviews.
           </p>
+
+          {/* PDF download — link arrives via email */}
+          <div className="mt-6 bg-[#0f172a] rounded-xl px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="text-white font-semibold text-sm mb-0.5">Download the PDF</p>
+              <p className="text-slate-400 text-xs">Your personal download link was emailed to you after purchase. Check your inbox.</p>
+            </div>
+            <a href="mailto:research@onluintel.com?subject=Guide download link"
+              className="flex-shrink-0 inline-block px-4 py-2 bg-[#6aab8e] text-white text-xs font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors text-center">
+              Resend link →
+            </a>
+          </div>
         </div>
 
         {/* Sections */}

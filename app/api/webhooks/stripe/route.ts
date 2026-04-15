@@ -1,28 +1,33 @@
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { generateGuideToken } from "@/app/lib/guideToken";
 
 export const runtime = "nodejs";
 
 async function sendGuideEmail(email: string) {
   const resend = new Resend(process.env.RESEND_API_KEY!);
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
+  const token = generateGuideToken(email);
+  const downloadUrl = `${baseUrl}/api/download-guide?t=${token}`;
+
   await resend.emails.send({
     from: "Onlu <noreply@onluintel.com>",
     to: email,
-    subject: "Your Credit Interview Guide — access inside",
+    subject: "Your Credit Interview Guide — download inside",
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
         <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Your guide is ready.</h2>
         <p style="color:#555;line-height:1.6">
-          Thank you for your purchase. Your <strong>Credit Interview Guide</strong> is attached below.
+          Thank you for your purchase. Click the button below to download your
+          <strong>Credit Interview Guide</strong> PDF.
         </p>
         <p style="color:#555;line-height:1.6">
-          The guide is designed to help you think like a credit investor in interviews — not just memorise technicals.
-          Work through the case examples and frameworks before your next conversation.
+          The link is valid for 7 days. If it expires, just reply to this email and we'll send a new one.
         </p>
-        <a href="${process.env.NEXT_PUBLIC_URL || "https://onluintel.com"}/guide-download"
+        <a href="${downloadUrl}"
            style="display:inline-block;margin-top:16px;padding:12px 24px;background:#0f172a;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
-          Access Your Guide →
+          Download PDF →
         </a>
         <p style="margin-top:24px;color:#888;font-size:12px">
           Questions? Reply to this email and we'll get back to you.
