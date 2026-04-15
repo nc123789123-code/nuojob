@@ -86,7 +86,7 @@ function buildEmail(
   <!-- Header -->
   <div style="padding:28px 24px 0">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#396477">Onlu Intelligence</div>
-    <h1 style="font-size:20px;font-weight:700;margin:6px 0 2px;color:#111827;line-height:1.2">Weekly Brief</h1>
+    <h1 style="font-size:20px;font-weight:700;margin:6px 0 2px;color:#111827;line-height:1.2">Bi-Weekly Brief</h1>
     <div style="font-size:12px;color:#9ca3af">${weekLabel}</div>
   </div>
 
@@ -201,7 +201,7 @@ Reply with only the intro text. No labels or bullets.`,
   // 4. Build and send
   const now       = new Date();
   const weekLabel = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-  const subject   = `Onlu Weekly — ${now.toLocaleDateString("en-US", { month: "short", day: "numeric" })}: Signals & Market Brief`;
+  const subject   = `Onlu Bi-Weekly — ${now.toLocaleDateString("en-US", { month: "short", day: "numeric" })}: Signals & Market Brief`;
   const baseUrl   = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
 
   let sent = 0;

@@ -124,7 +124,7 @@ export default function LandingPage() {
           </p>
           <div className="max-w-lg mb-10">
             <EmailCapture />
-            <p className="text-gray-400 text-xs mt-2">Free weekly digest · No spam · Unsubscribe anytime</p>
+            <p className="text-gray-400 text-xs mt-2">Free bi-weekly digest · No spam · Unsubscribe anytime</p>
           </div>
 
           {/* Live stats — each in its tab color */}
@@ -173,7 +173,7 @@ export default function LandingPage() {
                 "Track firms the moment they raise capital — hiring follows",
                 "Live roles from 200+ buy-side firm career pages",
                 "Firm-specific prep for PE, credit & hedge fund interviews",
-                "Weekly digest so you never miss an opening",
+                "Bi-weekly digest so you never miss an opening",
               ].map(p => (
                 <div key={p} className="flex items-start gap-2.5 text-sm text-[#41484c]">
                   <span className="text-emerald-500 mt-0.5 flex-shrink-0 font-bold">✓</span>{p}
@@ -327,7 +327,7 @@ export default function LandingPage() {
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A] mb-3">Start with the signals.</h2>
         <p className="text-[#71787c] text-base mb-8 max-w-xl mx-auto">
-          Free weekly digest. No credit card. Unsubscribe anytime.
+          Free bi-weekly digest. No credit card. Unsubscribe anytime.
         </p>
         <div className="flex justify-center mb-6">
           <div className="w-full max-w-md">

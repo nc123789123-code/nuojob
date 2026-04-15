@@ -117,10 +117,6 @@ export default function AboutPage() {
             <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Founder</p>
             <div className="bg-[#f7f9fb] border border-gray-200 rounded-2xl px-6 py-6">
               <div className="flex items-start gap-4 mb-4">
-                {/* Initials avatar */}
-                <div className="w-12 h-12 rounded-full bg-[#1A2B4A] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm font-bold tracking-wide">KNC</span>
-                </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-[#191c1e]">Karlie C.</p>
                   <p className="text-xs text-[#71787c] mt-0.5">Founder · New York</p>

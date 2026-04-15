@@ -510,7 +510,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get fund signals and market intel in your inbox."
-              description="SEC filings, hiring signals, and AI market briefs — free weekly digest."
+              description="SEC filings, hiring signals, and AI market briefs — free bi-weekly digest."
               cta="Subscribe free"
             />
           </>
@@ -553,7 +553,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Weekly finance intelligence, in your inbox."
-              description="Hiring signals, fund filings, distressed situations, and market context — delivered weekly. Free."
+              description="Hiring signals, fund filings, distressed situations, and market context — delivered bi-weekly. Free."
               cta="Subscribe free"
             />
           </>

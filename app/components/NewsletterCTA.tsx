@@ -63,7 +63,7 @@ export default function NewsletterCTA({
   return (
     <div className={`${bg} rounded-xl px-6 py-7 text-center`}>
       <p className={`text-[11px] font-semibold ${labelColor} uppercase tracking-widest mb-2`}>
-        Weekly Intelligence
+        Bi-Weekly Intelligence
       </p>
       <h3 className={`${headingColor} font-semibold text-lg tracking-tight`}>{title}</h3>
       <p className={`${descColor} text-sm mt-1.5 max-w-sm mx-auto leading-relaxed`}>{description}</p>
