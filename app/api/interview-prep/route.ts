@@ -138,44 +138,31 @@ async function generatePrepInner(firm: string, group: string, apiKey: string, ra
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 2000,
+      max_tokens: 2500,
       messages: [{
         role: "user",
         content: `You are a senior buyside professional. Generate a firm-specific interview prep guide for: "${firm}"${group ? ` — specifically for the ${group} team/group` : ""}
 
-BUSINESS NEWS: ${newsHeadlines.length > 0 ? newsHeadlines.join(" | ") : "none"}
-CULTURE NEWS: ${cultureHeadlines.length > 0 ? cultureHeadlines.join(" | ") : "none"}
-${glassdoorContext ? `\n${glassdoorContext}\n\nIMPORTANT: Incorporate the real Glassdoor questions above into the behavioral and technical sections where relevant. Label them with "(reported)" if directly using them.` : ""}
+NEWS: ${newsHeadlines.length > 0 ? newsHeadlines.join(" | ") : "none"}
+${glassdoorContext ? `\n${glassdoorContext}\n\nIncorporate real Glassdoor questions where relevant. Label with "(reported)".` : ""}
 
-STRICT RULES:
-- Never name specific individuals
-- No fabricated dates or deals
-- Be specific to ${firm}'s actual strategy — no generic finance advice
-- Keep each string field concise (1-3 sentences max)
+RULES: No individual names. No fabricated dates/deals. Be specific to ${firm}. Keep all fields SHORT (1-2 sentences max).
 
-Return ONLY valid JSON with NO trailing commas, NO comments:
+Return ONLY valid JSON, no trailing commas:
 {
   "firm": "${firm}",
-  "strategy": "2 sentences: strategy, AUM, key markets",
-  "overview": "3 sentences: what makes them distinctive, investment edge, what succeeds there",
-  "culture": "3 sentences: pace, collaboration style, performance expectations",
-  "recentDevelopments": ["3 items — 1-2 sentences each: what happened and why it matters for the interview"],
+  "strategy": "1-2 sentences: strategy and key markets",
+  "overview": "2 sentences: what makes them distinctive and what succeeds there",
+  "culture": "2 sentences: pace and performance expectations",
+  "recentDevelopments": ["3 items — 1 sentence each"],
   "behavioral": [
-    {
-      "question": "firm-specific behavioral question",
-      "context": "2 sentences: what they are diagnosing and why this firm cares",
-      "tip": "2 sentences: what to lead with and how to close tied to this firm"
-    }
+    {"question": "firm-specific question","context": "1-2 sentences: what they diagnose","tip": "1-2 sentences: how to answer well"}
   ],
   "technical": [
-    {
-      "question": "strategy-specific technical question",
-      "context": "2 sentences: skill being tested and how it maps to their work",
-      "tip": "3 sentences: step-by-step framework, key metrics, what separates good from great"
-    }
+    {"question": "strategy-specific question","context": "1 sentence: skill tested","tip": "2 sentences: framework and key metric"}
   ],
-  "whatTheyValue": ["4 traits — 1 sentence each: the trait and how it shows up"],
-  "redFlags": ["3 items — 1 sentence each: the red flag and what it signals"]
+  "whatTheyValue": ["4 traits — 1 sentence each"],
+  "redFlags": ["3 items — 1 sentence each"]
 }
 
 3 behavioral, 3 technical. Return only valid JSON.`,
@@ -185,7 +172,20 @@ Return ONLY valid JSON with NO trailing commas, NO comments:
     const text = (msg.content[0] as { type: string; text: string }).text;
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error("No JSON found in response");
-    const json = JSON.parse(jsonMatch[0]);
+    let json: Record<string, unknown>;
+    try {
+      json = JSON.parse(jsonMatch[0]);
+    } catch {
+      // Truncated response — strip the last incomplete element and close open structures
+      let raw = jsonMatch[0].trimEnd();
+      // Remove trailing incomplete string/object/array element
+      raw = raw.replace(/,\s*"[^"]*$/, "").replace(/,\s*\{[^}]*$/, "");
+      // Close any unclosed arrays/objects
+      const opens = (raw.match(/\[/g) || []).length - (raw.match(/\]/g) || []).length;
+      const objs  = (raw.match(/\{/g) || []).length - (raw.match(/\}/g) || []).length;
+      raw += "]".repeat(Math.max(0, opens)) + "}".repeat(Math.max(0, objs));
+      json = JSON.parse(raw);
+    }
     const result: InterviewPrep = { ...json, generatedAt: new Date().toISOString() };
     return result;
 }
