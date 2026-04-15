@@ -591,15 +591,32 @@ function HomeContent() {
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur border-t border-[#c1c7cc]/40 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
         <div className="flex items-stretch h-16 safe-bottom">
           {([
-            { id: "hiring" as TopTab, label: "Hiring", color: "text-emerald-600", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5 17 17"/><path d="M7 9h4M9 7v4" strokeWidth="1.4"/></svg> },
-            { id: "firmprep" as TopTab, label: "Prep", color: "text-rose-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="14" height="14" rx="2.5"/><path d="M7 10l2.5 2.5L13 8"/></svg> },
-            { id: "pulse" as TopTab, label: "Markets", color: "text-sky-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="3,14 7,9 11,11 17,5"/><line x1="3" y1="17" x2="17" y2="17"/></svg> },
-            { id: "table" as TopTab, label: "Events", color: "text-amber-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3"/><circle cx="10" cy="13" r="0.5" fill="currentColor"/></svg> },
-            { id: "learn" as TopTab, label: "Learn", color: "text-violet-500", icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h8l4 4v8a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M12 4v4h4M7 11h6M7 14h4"/></svg> },
-          ] as Array<{ id: TopTab; label: string; color: string; icon: React.ReactNode }>).map(t => (
+            { id: "hiring" as TopTab, label: "Hiring", color: "text-emerald-600",
+              icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5 17 17"/><path d="M7 9h4M9 7v4" strokeWidth="1.4"/></svg>,
+              animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-sky-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M10 8.5C8 8.5 4.5 7 2 9.5" /><path d="M10 8.5C12 8.5 15.5 7 18 9.5" /><ellipse cx="10" cy="9.5" rx="2" ry="1.5" /><circle cx="10" cy="6.5" r="1.8" /><path d="M11.5 6.5 L13.5 7" /><path d="M8 11 C9 13.5 11 13.5 12 11" /></svg> },
+            { id: "firmprep" as TopTab, label: "Prep", color: "text-rose-500",
+              icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="14" height="14" rx="2.5"/><path d="M7 10l2.5 2.5L13 8"/></svg>,
+              animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-violet-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12C5 8.5 7 5 10 5C13 5 15 8.5 15 12C15 15 13 17 10 17C7 17 5 15 5 12z" /><path d="M8 5 L6.5 3" /><path d="M12 5 L13.5 3" /><circle cx="8.5" cy="10" r="2" /><circle cx="8.5" cy="10" r="0.8" fill="currentColor" stroke="none" /><circle cx="11.5" cy="10" r="2" /><circle cx="11.5" cy="10" r="0.8" fill="currentColor" stroke="none" /><path d="M9.5 12 L10 13 L10.5 12" /></svg> },
+            { id: "pulse" as TopTab, label: "Markets", color: "text-sky-500",
+              icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="3,14 7,9 11,11 17,5"/><line x1="3" y1="17" x2="17" y2="17"/></svg>,
+              animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-rose-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="10" cy="12" rx="6" ry="5" /><path d="M4 10 C2 7 3 5 5.5 7" /><path d="M16 10 C18 7 17 5 14.5 7" /><ellipse cx="10" cy="15" rx="2.5" ry="1.2" /><circle cx="8.8" cy="15" r="0.5" fill="currentColor" stroke="none" /><circle cx="11.2" cy="15" r="0.5" fill="currentColor" stroke="none" /><circle cx="7.5" cy="11" r="0.7" fill="currentColor" stroke="none" /><circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" /></svg> },
+            { id: "table" as TopTab, label: "Table", color: "text-amber-500",
+              icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3"/><circle cx="10" cy="13" r="0.5" fill="currentColor"/></svg>,
+              animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-amber-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" /><ellipse cx="12" cy="7" rx="3.5" ry="2" transform="rotate(20 12 7)" /><ellipse cx="10" cy="13.5" rx="3.5" ry="4.5" /><line x1="6.8" y1="12.5" x2="13.2" y2="12.5" /><line x1="6.8" y1="15" x2="13.2" y2="15" /><circle cx="10" cy="9.2" r="1.8" /><path d="M9 8 L7.5 6.5" /><path d="M11 8 L12.5 6.5" /><circle cx="7.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" /><circle cx="12.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" /></svg> },
+            { id: "learn" as TopTab, label: "Learn", color: "text-violet-500",
+              icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h8l4 4v8a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M12 4v4h4M7 11h6M7 14h4"/></svg>,
+              animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-orange-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="11.5" r="5.5" /><path d="M5 8.5 L3 2 L8.5 6.5 Z" /><path d="M15 8.5 L17 2 L11.5 6.5 Z" /><circle cx="8" cy="11" r="1.4" /><circle cx="8" cy="11" r="0.6" fill="currentColor" stroke="none" /><circle cx="12" cy="11" r="1.4" /><circle cx="12" cy="11" r="0.6" fill="currentColor" stroke="none" /><ellipse cx="10" cy="14" rx="2" ry="1.2" /><circle cx="10" cy="13.2" r="0.55" fill="currentColor" stroke="none" /></svg> },
+          ] as Array<{ id: TopTab; label: string; color: string; icon: React.ReactNode; animal: React.ReactNode }>).map(t => (
             <button key={t.id} onClick={() => setTopTab(t.id)}
               className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-gray-400"}`}>
-              {t.icon}
+              <span className="relative w-5 h-5">
+                <span className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ${topTab === t.id ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}>
+                  {t.icon}
+                </span>
+                <span className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ${topTab === t.id ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}>
+                  {t.animal}
+                </span>
+              </span>
               <span className="text-[10px] font-semibold leading-none">{t.label}</span>
               {topTab === t.id && <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-current" />}
             </button>
@@ -8772,7 +8789,6 @@ function OnluTableSection() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [mobileTab, setMobileTab] = useState<"events" | "network">("events");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -8798,21 +8814,9 @@ function OnluTableSection() {
 
   return (
     <div className="max-w-5xl mx-auto px-1 py-6">
-      {/* Mobile tab switcher */}
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 w-fit mb-6 sm:hidden">
-        <button onClick={() => setMobileTab("events")}
-          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "events" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500"}`}>
-          Events
-        </button>
-        <button onClick={() => setMobileTab("network")}
-          className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${mobileTab === "network" ? "bg-white text-slate-700 shadow-sm" : "text-gray-500"}`}>
-          Network & Coaching
-        </button>
-      </div>
-
       <div className="flex flex-col sm:flex-row gap-6 items-start">
         {/* ── LEFT: Events ── */}
-        <div className={`flex-1 min-w-0 space-y-6 ${mobileTab === "network" ? "hidden sm:block" : ""}`}>
+        <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
             <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Table</h2>
             <p className="text-sm text-[#71787c] leading-relaxed">
@@ -8928,7 +8932,7 @@ function OnluTableSection() {
         </div>{/* end left column */}
 
         {/* ── RIGHT: Network & Coaching ── */}
-        <div className={`w-full sm:w-80 flex-shrink-0 ${mobileTab === "events" ? "hidden sm:block" : ""}`}>
+        <div className="w-full sm:w-80 flex-shrink-0">
           <ReferralSection />
         </div>
       </div>{/* end flex row */}
