@@ -1,6 +1,8 @@
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
+import { unstable_cache } from "next/cache";
+
 const HEADERS = {
   "User-Agent": "Onlu/1.0 research@onlu.com",
   "Accept": "application/json, text/xml, application/xml",
@@ -46,8 +48,7 @@ const KNOWN_CIKS: Record<string, string> = {
   "franklin templeton": "0000038487",
 };
 
-const cache = new Map<string, { data: ThirteenFData | null; ts: number }>();
-const CACHE_TTL = 6 * 60 * 60 * 1000; // 6h
+// Cache handled by unstable_cache (6h)
 
 function lookupKnownCik(firmName: string): string | null {
   const lower = firmName.toLowerCase();
@@ -148,6 +149,33 @@ function parseXml(xml: string): ThirteenFPosition[] {
   return entries;
 }
 
+async function fetchIntelligence(cacheKey: string, firmName: string, cikParam: string): Promise<ThirteenFData | null> {
+  let cik = cikParam;
+  if (!cik && firmName) {
+    cik = lookupKnownCik(firmName) ?? await findCikBySearch(firmName) ?? "";
+  }
+  if (!cik) return null;
+
+  const latest = await getLatest13FAccession(cik);
+  if (!latest) return null;
+
+  const positions = await parseInfoTable(cik, latest.accession);
+  if (!positions.length) return null;
+
+  const totalAum = positions.reduce((s, p) => s + p.value, 0);
+  return {
+    cik,
+    firmName: firmName || cik,
+    filedDate: latest.filed,
+    periodOfReport: latest.period,
+    totalAumThousands: totalAum,
+    topPositions: positions.slice(0, 10),
+    positionCount: positions.length,
+  };
+}
+
+const getCachedIntelligence = unstable_cache(fetchIntelligence, ["fund-intelligence"], { revalidate: 21600 }); // 6h
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const firmName = (searchParams.get("firm") || "").trim();
@@ -155,49 +183,14 @@ export async function GET(req: Request) {
   if (!firmName && !cikParam) return Response.json({ error: "Missing firm or cik param" }, { status: 400 });
 
   const cacheKey = cikParam || firmName.toLowerCase();
-  const cached = cache.get(cacheKey);
-  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    if (cached.data === null) return Response.json({ error: "No 13F filings found" }, { status: 404 });
-    return Response.json(cached.data);
-  }
 
   try {
-    let cik = cikParam;
-    if (!cik && firmName) {
-      cik = lookupKnownCik(firmName) ?? await findCikBySearch(firmName) ?? "";
-    }
-    if (!cik) {
-      cache.set(cacheKey, { data: null, ts: Date.now() });
-      return Response.json({ error: "No 13F filings found for this firm" }, { status: 404 });
-    }
-
-    const latest = await getLatest13FAccession(cik);
-    if (!latest) {
-      cache.set(cacheKey, { data: null, ts: Date.now() });
-      return Response.json({ error: "No 13F-HR in submission history" }, { status: 404 });
-    }
-
-    const positions = await parseInfoTable(cik, latest.accession);
-    if (!positions.length) {
-      cache.set(cacheKey, { data: null, ts: Date.now() });
-      return Response.json({ error: "Could not parse infotable" }, { status: 404 });
-    }
-
-    const totalAum = positions.reduce((s, p) => s + p.value, 0);
-    const result: ThirteenFData = {
-      cik,
-      firmName: firmName || cik,
-      filedDate: latest.filed,
-      periodOfReport: latest.period,
-      totalAumThousands: totalAum,
-      topPositions: positions.slice(0, 10),
-      positionCount: positions.length,
-    };
-
-    cache.set(cacheKey, { data: result, ts: Date.now() });
-    return Response.json(result);
+    const result = await getCachedIntelligence(cacheKey, firmName, cikParam);
+    if (!result) return Response.json({ error: "No 13F filings found for this firm" }, { status: 404 });
+    return Response.json(result, {
+      headers: { "Cache-Control": "s-maxage=21600, stale-while-revalidate=3600" },
+    });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Unknown error";
-    return Response.json({ error: msg }, { status: 500 });
+    return Response.json({ error: err instanceof Error ? err.message : "Unknown error" }, { status: 500 });
   }
 }

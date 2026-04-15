@@ -15,6 +15,7 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
+import { unstable_cache } from "next/cache";
 
 export const runtime = "nodejs";
 export const maxDuration = 45;
@@ -49,9 +50,7 @@ interface EdgarHit {
   };
 }
 
-// Cache — 6 hours
-let cache: { data: DistressedSituation[]; ts: number } | null = null;
-const CACHE_TTL = 6 * 60 * 60 * 1000;
+// Cache handled by unstable_cache (6h)
 
 const EDGAR_HEADERS = {
   "User-Agent": "Onlu/1.0 research@onlu.com",
@@ -168,7 +167,7 @@ async function fetchNewsHeadline(company: string): Promise<string> {
 // Companies to skip — holding companies, SPACs, financial firms filing routine 8-Ks
 const SKIP_RE = /\b(trust|SPAC|acquisition corp|blank check|shell|LLC$|LP$)\b/i;
 
-async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
+async function fetchDistressedInner(maxDays = 60): Promise<DistressedSituation[]> {
   const queries = [
     "Chapter 11",
     "voluntary petition for relief",
@@ -252,15 +251,19 @@ async function fetchDistressed(maxDays = 60): Promise<DistressedSituation[]> {
     .sort((a, b) => a.daysAgo - b.daysAgo);
 }
 
+const getDistressedData = unstable_cache(
+  () => fetchDistressedInner(60),
+  ["distressed"],
+  { revalidate: 21600 } // 6h
+);
+
 export async function GET() {
   try {
-    if (cache && Date.now() - cache.ts < CACHE_TTL) {
-      return Response.json(cache.data);
-    }
-    const data = await fetchDistressed(60);
-    cache = { data, ts: Date.now() };
-    return Response.json(data);
-  } catch (e) {
+    const data = await getDistressedData();
+    return Response.json(data, {
+      headers: { "Cache-Control": "s-maxage=21600, stale-while-revalidate=3600" },
+    });
+  } catch {
     return Response.json([], { status: 500 });
   }
 }

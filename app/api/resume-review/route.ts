@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 2500,
+      max_tokens: 1800,
       messages: [{
         role: "user",
         content: `You are a senior buyside recruiter and former investment professional who has reviewed hundreds of finance resumes at top-tier funds. You give blunt, specific, actionable feedback.

@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 1200,
+      max_tokens: 800,
       messages: [{
         role: "user",
         content: `You are a career coach who helps finance professionals land buyside roles through genuine, human outreach — not templated cold emails.

@@ -1,5 +1,7 @@
 export const runtime = "nodejs";
 
+import { unstable_cache } from "next/cache";
+
 interface YFQuote {
   symbol: string;
   shortName?: string;
@@ -18,7 +20,7 @@ export interface MarketTicker {
   price: number;
   change: number;
   changePct: number;
-  isYield: boolean; // true for treasury yields (display as %)
+  isYield: boolean;
 }
 
 const SYMBOLS = [
@@ -33,55 +35,48 @@ const SYMBOLS = [
   { symbol: "GC=F",     label: "Gold",       isYield: false },
 ];
 
-let cache: { data: MarketTicker[]; ts: number } | null = null;
-const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
-
-export async function GET() {
-  if (cache && Date.now() - cache.ts < CACHE_TTL) {
-    return Response.json(cache.data);
-  }
-
+async function fetchPrices(): Promise<MarketTicker[]> {
   const apiKey = process.env.RAPIDAPI_KEY ?? "";
-  if (!apiKey) return Response.json([], { status: 200 });
+  if (!apiKey) return [];
 
   const symbolList = SYMBOLS.map(s => s.symbol).join(",");
+  const res = await fetch(
+    `https://yahoo-finance-real-time1.p.rapidapi.com/market/get-quotes?symbols=${encodeURIComponent(symbolList)}&region=US&lang=en-US`,
+    {
+      headers: {
+        "X-RapidAPI-Key": apiKey,
+        "X-RapidAPI-Host": "yahoo-finance-real-time1.p.rapidapi.com",
+      },
+      signal: AbortSignal.timeout(6000),
+    }
+  );
 
+  if (!res.ok) return [];
+
+  const data = await res.json() as YFResp;
+  const results: YFQuote[] = data?.quoteResponse?.result
+    ?? (data as unknown as { result?: YFQuote[] })?.result
+    ?? [];
+
+  return SYMBOLS.flatMap(({ symbol, label, isYield }) => {
+    const q = results.find(r => r.symbol === symbol);
+    if (!q || q.regularMarketPrice == null) return [];
+    return [{
+      symbol, label, isYield,
+      price: q.regularMarketPrice,
+      change: q.regularMarketChange ?? 0,
+      changePct: q.regularMarketChangePercent ?? 0,
+    }];
+  });
+}
+
+const getCachedPrices = unstable_cache(fetchPrices, ["market-prices"], { revalidate: 900 }); // 15min
+
+export async function GET() {
   try {
-    const res = await fetch(
-      `https://yahoo-finance-real-time1.p.rapidapi.com/market/get-quotes?symbols=${encodeURIComponent(symbolList)}&region=US&lang=en-US`,
-      {
-        headers: {
-          "X-RapidAPI-Key": apiKey,
-          "X-RapidAPI-Host": "yahoo-finance-real-time1.p.rapidapi.com",
-        },
-        signal: AbortSignal.timeout(6000),
-      }
-    );
-
-    if (!res.ok) return Response.json([], { status: 200 });
-
-    const data = await res.json() as YFResp;
-    // yahoo-finance-real-time1 may nest differently — handle both shapes
-    const results: YFQuote[] = data?.quoteResponse?.result
-      ?? (data as unknown as { result?: YFQuote[] })?.result
-      ?? [];
-
-    const tickers: MarketTicker[] = SYMBOLS.flatMap(({ symbol, label, isYield }) => {
-      const q = results.find(r => r.symbol === symbol);
-      if (!q || q.regularMarketPrice == null) return [];
-      return [{
-        symbol,
-        label,
-        price: q.regularMarketPrice,
-        change: q.regularMarketChange ?? 0,
-        changePct: q.regularMarketChangePercent ?? 0,
-        isYield,
-      }];
-    });
-
-    cache = { data: tickers, ts: Date.now() };
+    const tickers = await getCachedPrices();
     return Response.json(tickers, {
-      headers: { "Cache-Control": "s-maxage=60, stale-while-revalidate=300" },
+      headers: { "Cache-Control": "s-maxage=900, stale-while-revalidate=300" },
     });
   } catch {
     return Response.json([], { status: 200 });
