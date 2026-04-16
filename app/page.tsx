@@ -404,7 +404,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-emerald-600",
-                label: "Hiring Watch", desc: "Who's hiring — before it's posted", tab: "hiring" as TopTab,
+                label: "Hiring Watch", desc: "Live roles + firm hiring signals", tab: "hiring" as TopTab,
                 color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60",
               },
               {
@@ -474,7 +474,7 @@ function HomeContent() {
                   <span className="text-xs font-bold uppercase tracking-widest text-white/50">Welcome to Onlu</span>
                 </div>
                 <p className="text-sm sm:text-base font-semibold text-white mb-4 max-w-2xl">
-                  Hiring intelligence — see which firms are expanding before roles are posted, prep for interviews, and draft targeted outreach.
+                  Hiring intelligence — track which firms are actively expanding, prep for their interviews, and draft targeted outreach.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
@@ -534,7 +534,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get hiring signals in your inbox every week."
-              description="Fund filings, early signals, and distressed situations — before the roles are posted. Free."
+              description="Fund filings, early signals, and distressed situations — as firms are actively raising and building. Free."
               cta="Subscribe free"
             />
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -565,7 +565,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Stay ahead — hiring signals straight to your inbox."
-              description="Know which firms are actively hiring before roles are posted. Free weekly digest."
+              description="Know which firms are actively building teams. Free bi-weekly digest."
               cta="Subscribe free"
             />
           </>

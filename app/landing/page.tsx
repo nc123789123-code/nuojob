@@ -117,7 +117,7 @@ export default function LandingPage() {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-[#1A2B4A] max-w-3xl mb-5">
-            Know which firms are hiring — before the job is posted.
+            Know which firms are actively building teams — and walk into every interview prepared.
           </h1>
           <p className="text-[#71787c] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
             Onlu tracks capital raises, monitors 200+ buy-side firm career pages, and gives you firm-specific interview prep — all in one place. The edge most finance candidates never find.
@@ -173,7 +173,7 @@ export default function LandingPage() {
                 "Track firms the moment they raise capital — hiring follows",
                 "Live roles from 200+ buy-side firm career pages",
                 "Firm-specific prep for PE, credit & hedge fund interviews",
-                "Bi-weekly digest so you never miss an opening",
+                "Bi-weekly digest covering raises, roles, and signals",
               ].map(p => (
                 <div key={p} className="flex items-start gap-2.5 text-sm text-[#41484c]">
                   <span className="text-emerald-500 mt-0.5 flex-shrink-0 font-bold">✓</span>{p}
@@ -197,7 +197,7 @@ export default function LandingPage() {
             {[
               {
                 tab: "hiring", label: "Hiring Watch", href: "/?tab=hiring",
-                title: "Roles before they go viral",
+                title: "Live roles across 200+ buy-side firms",
                 desc: "Live jobs monitored across 200+ buy-side firm career pages — hedge funds, PE, private credit — refreshed every 30 minutes.",
                 points: ["Analyst → MD across all levels", "Hedge funds, PE, private credit", "Firm alerts via email", "Seniority & strategy filters"],
               },
