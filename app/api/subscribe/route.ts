@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { buildGuideEmail } from "@/app/lib/guideEmail";
 
 export const runtime = "nodejs";
 
@@ -63,24 +64,8 @@ function getWelcomeEmail(intent: Intent, email: string): { subject: string; html
   }
 
   return {
-    subject: "Credit Interview Guide — sample + table of contents",
-    html: `
-      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
-        <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">Here's your sample.</h2>
-        <p style="color:#555;line-height:1.6">
-          Thanks for your interest in the Credit Interview Guide.
-          The sample and table of contents are attached.
-        </p>
-        <p style="color:#555;line-height:1.6">
-          The full guide covers case-based examples, restructuring scenarios, and interview-ready
-          frameworks designed to help you think like a credit investor — not just recite answers.
-        </p>
-        <a href="${baseUrl}/#guide"
-           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#0f172a;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
-          Get the Full Guide →
-        </a>
-        ${footer}
-      </div>`,
+    subject: "Your Credit Interview Guide — sample inside",
+    html: buildGuideEmail(email),
   };
 }
 
