@@ -112,28 +112,6 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Founder */}
-          <div className="border-t border-gray-100 pt-10">
-            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Founder</p>
-            <div className="bg-[#f7f9fb] border border-gray-200 rounded-2xl px-6 py-6">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="flex-1">
-                  <p className="text-sm font-bold text-[#191c1e]">Karlie C.</p>
-                  <p className="text-xs text-[#71787c] mt-0.5">Founder · New York</p>
-                </div>
-              </div>
-
-              {/* Pull quote */}
-              <blockquote className="border-l-2 border-[#6aab8e] pl-4 mb-4 italic text-sm text-[#396477] leading-relaxed">
-                &ldquo;The signal was always there — it was just scattered across too many places. I built Onlu to put it in one room.&rdquo;
-              </blockquote>
-
-              <p className="text-sm text-[#41484c] leading-relaxed">
-                Karlie spent years on the buyside across private credit, hybrid capital, and special situations. She kept noticing the same problem: the best intelligence — which firms were raising, deploying, or quietly building out a team — was fragmented, delayed, or only accessible if you already had the right network. Onlu is her attempt to fix that for everyone.
-              </p>
-            </div>
-          </div>
-
           {/* CTA */}
           <div className="bg-[#eef6f0] border border-[#c6e8d4] rounded-2xl px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
