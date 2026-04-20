@@ -8741,28 +8741,20 @@ function IntelSection() {
 
 interface TableSession {
   id: string;
-  date: string;          // e.g. "Saturday, April 19"
-  time: string;          // e.g. "11:00 AM – 1:00 PM ET"
-  location: string;      // e.g. "NYC – Midtown"
-  theme: string;         // e.g. "Private Credit & Direct Lending"
+  dateISO: string;       // for auto-filtering past events
+  date: string;
+  time: string;
+  location: string;
+  theme: string;
   capacity: number;
   spotsLeft: number;
   description: string;
 }
 
-const UPCOMING_SESSIONS: TableSession[] = [
-  {
-    id: "apr-19-credit",
-    date: "Saturday, April 19",
-    time: "11:00 AM – 1:00 PM ET",
-    location: "NYC – Midtown",
-    theme: "Private Credit & Direct Lending",
-    capacity: 8,
-    spotsLeft: 6,
-    description: "Small-group coffee chat for professionals in private credit, direct lending, and special situations. Compare notes on deal flow, career paths, and what's moving the market.",
-  },
+const ALL_SESSIONS: TableSession[] = [
   {
     id: "apr-26-pe",
+    dateISO: "2026-04-26",
     date: "Saturday, April 26",
     time: "10:30 AM – 12:30 PM ET",
     location: "NYC – Flatiron",
@@ -8773,6 +8765,7 @@ const UPCOMING_SESSIONS: TableSession[] = [
   },
   {
     id: "may-3-multi",
+    dateISO: "2026-05-03",
     date: "Saturday, May 3",
     time: "11:00 AM – 1:00 PM ET",
     location: "NYC – Lower Manhattan",
@@ -8781,7 +8774,22 @@ const UPCOMING_SESSIONS: TableSession[] = [
     spotsLeft: 7,
     description: "Open table for hedge fund analysts and multi-strat PMs. Topics: market structure, pod dynamics, career mobility, and what's interesting right now.",
   },
+  {
+    id: "may-17-credit",
+    dateISO: "2026-05-17",
+    date: "Saturday, May 17",
+    time: "11:00 AM – 1:00 PM ET",
+    location: "NYC – Midtown",
+    theme: "Private Credit & Direct Lending",
+    capacity: 8,
+    spotsLeft: 8,
+    description: "Small-group coffee chat for professionals in private credit, direct lending, and special situations. Compare notes on deal flow, career paths, and what's moving the market.",
+  },
 ];
+
+const UPCOMING_SESSIONS = ALL_SESSIONS.filter(
+  (s) => new Date(s.dateISO) >= new Date(new Date().toDateString())
+);
 
 function OnluTableSection() {
   const [selected, setSelected] = useState<TableSession | null>(null);
