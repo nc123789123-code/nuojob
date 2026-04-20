@@ -8800,7 +8800,7 @@ function OnluTableSection() {
   useEffect(() => {
     fetch("/api/admin/sessions")
       .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (Array.isArray(data)) setSessions(data); })
+      .then((data) => { if (Array.isArray(data) && data.length > 0) setSessions(data); })
       .catch(() => {});
   }, []);
   const [submitted, setSubmitted] = useState(false);
