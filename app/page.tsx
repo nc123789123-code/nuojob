@@ -8792,9 +8792,17 @@ const UPCOMING_SESSIONS = ALL_SESSIONS.filter(
 );
 
 function OnluTableSection() {
-  const [selected, setSelected] = useState<TableSession | null>(null);
-  const [form, setForm] = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
+  const [sessions, setSessions]   = useState<TableSession[]>(UPCOMING_SESSIONS);
+  const [selected, setSelected]   = useState<TableSession | null>(null);
+  const [form, setForm]           = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/sessions")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => { if (Array.isArray(data)) setSessions(data); })
+      .catch(() => {});
+  }, []);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -8836,7 +8844,7 @@ function OnluTableSection() {
           {/* Session cards */}
           {!selected && (
             <div className="space-y-4">
-              {UPCOMING_SESSIONS.map((s) => (
+              {sessions.map((s) => (
                 <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
