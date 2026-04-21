@@ -8788,14 +8788,16 @@ const ALL_SESSIONS: TableSession[] = [
 ];
 
 const UPCOMING_SESSIONS = ALL_SESSIONS.filter(
-  (s) => new Date(s.dateISO) >= new Date(new Date().toDateString())
+  (s) => s.dateISO >= new Date().toISOString().slice(0, 10)
 );
 
 function OnluTableSection() {
-  const [sessions, setSessions]   = useState<TableSession[]>(UPCOMING_SESSIONS);
-  const [selected, setSelected]   = useState<TableSession | null>(null);
-  const [form, setForm]           = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
+  const [sessions, setSessions]     = useState<TableSession[]>(UPCOMING_SESSIONS);
+  const [selected, setSelected]     = useState<TableSession | null>(null);
+  const [form, setForm]             = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted]   = useState(false);
+  const [error, setError]           = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/sessions")
@@ -8803,8 +8805,6 @@ function OnluTableSection() {
       .then((data) => { if (Array.isArray(data) && data.length > 0) setSessions(data); })
       .catch(() => {});
   }, []);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
