@@ -2578,7 +2578,154 @@ const FUND_LETTERS_POST_CONTENT = (
   </div>
 );
 
+const ABF_POST_CONTENT = (
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+    <p>For a decade, the private credit story was a direct lending story. Banks pulled back after the Global Financial Crisis, regulation tightened, and middle-market sponsors needed a new balance sheet to call. Direct lending funds filled that gap, institutionalized it, and turned it into a $1.5-trillion-plus asset class. The second decade looks different. The flows, the fundraising, and the structural conversation have all shifted toward a parallel market: asset-based finance — loans collateralized not by a borrower&apos;s future EBITDA, but by pools of tangible assets or contractual cash flows. It now sits at the center of nearly every 2026 outlook letter, and a recent SuperReturn Private Credit audience poll found that institutional investors consider ABF the most attractive corner of private credit heading into the year.</p>
+
+    {/* Stat band */}
+    <div className="grid grid-cols-3 gap-0 border border-gray-200 rounded-xl overflow-hidden my-6">
+      {[
+        { label: "Market Size — Today", num: "$5.2T", caption: "Private ABF AUM est., growing to ~$7.7T by 2027 per KKR. DealCatalyst sees a path to $20T over the next decade." },
+        { label: "Specialty Finance Fundraising", num: "~$35B", caption: "Target size of the ten largest specialty finance funds currently in market, per With Intelligence." },
+        { label: "Private Credit 10Y Return", num: "9.0%", caption: "Annualized with 2.9% volatility, vs ~5.5% for leveraged loans and ~5.2% for high yield, per JPMAM." },
+      ].map((s, i) => (
+        <div key={i} className={`p-5 bg-white ${i < 2 ? "border-r border-gray-200" : ""}`}>
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">{s.label}</p>
+          <p className="text-3xl font-bold text-[#1A2B4A] tracking-tight">{s.num}</p>
+          <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">{s.caption}</p>
+        </div>
+      ))}
+    </div>
+
+    <p>The headline numbers have done a lot of the marketing work. KKR pegs the private ABF market at around $5.2 trillion today and expects it to reach roughly $7.7 trillion by 2027. DealCatalyst cites a more aggressive path — a $20-trillion ABF market over the next decade. Whatever the right midpoint is, the direction is unambiguous: ABF is no longer the boutique corner of private credit. It is becoming the asset class itself.</p>
+
+    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#41484c] my-4">
+      &ldquo;The easy beta of the last cycle is gone. Returns today are driven by the ability to originate with precision, structure with creativity, and manage risk with discipline.&rdquo;
+      <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-400 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
+    </blockquote>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What ABF Actually Is</h3>
+    <p>Asset-based finance is an umbrella for privately originated loans secured by diversified pools of collateral — consumer receivables, auto loans, residential and commercial mortgages, equipment leases, royalty streams, fund finance lines, trade receivables, and an expanding frontier of esoteric assets like music catalogs, data-center leases, and litigation payouts. It is the private-market cousin of public securitization, but structured bilaterally and held by a single lender or small club.</p>
+    <p>The distinction from direct lending is the part that matters for portfolio construction. Direct lending is corporate credit: one borrower, one enterprise value, one bullet maturity. ABF is structured credit: many underlying obligors, observable collateral with value independent of any single operating business, and a self-amortizing profile where principal is returned over the life of the loan rather than at the end. JPMorgan&apos;s private bank estimates that a typical ABF investment structured as a finance lease aims to return roughly three-quarters of principal within the first three years.</p>
+
+    {/* Comparison table */}
+    <div className="border border-gray-200 rounded-xl overflow-hidden my-6">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
+      </div>
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="bg-[#1A2B4A] text-white">
+            <th className="text-left px-4 py-3 font-semibold">Dimension</th>
+            <th className="text-left px-4 py-3 font-semibold border-l border-white/20">Direct Lending</th>
+            <th className="text-left px-4 py-3 font-semibold border-l border-white/20">Asset-Based Finance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            ["Credit risk", "Concentrated on one borrower's EBITDA", "Diversified across many obligors or assets"],
+            ["Collateral", "Corporate assets tied to operations", "Tangible assets or contractual receivables"],
+            ["Amortization", "Bullet — principal back at maturity", "Self-amortizing — returns through life of loan"],
+            ["Duration", "5–7 years typical", "Often shorter; compressed by amortization"],
+            ["Cycle behavior", "Tracks corporate credit cycle", "Decoupled; tied to asset performance"],
+            ["Return profile", "Spread over SOFR + fees + OID", "~200–250 bps over comparable public ABS"],
+          ].map(([dim, dl, abf], i) => (
+            <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+              <td className="px-4 py-3 font-semibold text-[#1A2B4A]">{dim}</td>
+              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{dl}</td>
+              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{abf}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Why Now — Four Structural Drivers</h3>
+    <p>The ABF narrative is not about a rate cycle or a single macro view. Four separate forces are pointing in the same direction, each on its own enough to reshape allocator behavior.</p>
+
+    <div className="grid grid-cols-2 gap-3 my-4">
+      {[
+        { num: "01", color: "border-[#d99968]", title: "Bank retrenchment becomes permanent", body: "Basel IV and tighter US capital treatment make balance-sheet lending structurally more expensive for banks. Forward-flow agreements are shifting specialty portfolios to private credit. The partnership model is now the default." },
+        { num: "02", color: "border-[#7d8f66]", title: "Insurance capital finds its shape", body: "Insurers need long-dated, investment-grade cash flows — exactly what ABF produces. Apollo, KKR, Brookfield, and Carlyle have all built insurance-linked origination platforms, creating captive demand for ABF paper." },
+        { num: "03", color: "border-[#8a76a0]", title: "Decoupled from the corporate cycle", body: "Allocators worried about late-cycle leveraged loans — rising PIK, falling coverage, cov-lite docs — want credit that doesn't depend on PE-owned EBITDA holding up. Cambridge Associates is explicitly favoring ABF over direct lending for 2026." },
+        { num: "04", color: "border-[#6d8391]", title: "Complexity protects spread", body: "ABF requires origination infrastructure, servicing, data pipes, and legal structuring capacity that a generalist direct lender can't spin up. Those barriers translate directly into wider, more durable spreads — the opposite of what's happening in the upper middle market." },
+      ].map((d) => (
+        <div key={d.num} className={`bg-gray-50 border border-gray-200 border-t-4 ${d.color} rounded-xl p-4`}>
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1">{d.num}</p>
+          <p className="font-semibold text-[#1A2B4A] text-sm mb-1.5">{d.title}</p>
+          <p className="text-xs text-[#41484c] leading-relaxed">{d.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Sub-Segments Allocators Are Sorting Between</h3>
+    <p>&ldquo;ABF&rdquo; is doing a lot of work as a label. Underneath it sits a set of sub-markets with very different risk profiles and return expectations.</p>
+
+    <div className="grid grid-cols-3 gap-2 my-4">
+      {[
+        { color: "bg-[#d99968]", name: "Consumer Finance", desc: "Auto loans, credit card receivables, BNPL. High volume, data-driven underwriting." },
+        { color: "bg-[#7d8f66]", name: "Residential Mortgage", desc: "Non-QM, jumbo, seconds, HELOCs. Rate-sensitive, deep secondary liquidity." },
+        { color: "bg-[#8a76a0]", name: "Commercial & Equipment", desc: "Equipment leases, small-ticket CRE, fleet financing. Tangible collateral." },
+        { color: "bg-[#6d8391]", name: "Fund Finance", desc: "NAV lending, subscription lines, GP financing. Tightest spreads, best counterparties." },
+        { color: "bg-[#b89a5a]", name: "Contractual Cash Flow", desc: "Royalties, pharma, litigation finance, data-center leases. The esoteric frontier." },
+        { color: "bg-[#b87878]", name: "Real Asset-Linked", desc: "Energy infrastructure, mineral rights, agricultural assets. Long-dated, insurance-matched." },
+      ].map((s) => (
+        <div key={s.name} className="bg-white border border-gray-200 rounded-xl p-3">
+          <div className={`w-2 h-2 rounded-full ${s.color} mb-2`} />
+          <p className="font-semibold text-[#1A2B4A] text-xs mb-1">{s.name}</p>
+          <p className="text-[11px] text-gray-500 leading-snug">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Scandal That Almost Derailed the Story — And Didn&apos;t</h3>
+    <p>No ABF conversation in 2026 is complete without Tricolor and First Brands. Tricolor, a subprime auto lender, collapsed into bankruptcy in September 2025 after evidence emerged that the same vehicles had been pledged as collateral on multiple loans. First Brands followed shortly after. JPMorgan, Barclays, and a long list of private credit managers were exposed.</p>
+    <p>The more careful read — from Cambridge Associates, Rithm Capital, and KBRA — is that both failures were idiosyncratic, driven by fraud and weak lender controls rather than systemic ABF flaws. The lesson is not that ABF is broken. It is that the discipline of ABF — separate servicing, independent verification, sole-lender control, asset-level daily monitoring — is what distinguishes good ABF from expensive unsecured lending in a trench coat.</p>
+
+    {/* Risk callout */}
+    <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-semibold text-rose-600 uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
+      <div className="space-y-2 text-xs text-[#41484c]">
+        <p><strong className="text-[#191c1e]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
+        <p><strong className="text-[#191c1e]">Data infrastructure.</strong> Is reporting asset-level and daily, or pool-level and monthly? Managers with proprietary monitoring systems will charge for it — and earn it.</p>
+        <p><strong className="text-[#191c1e]">Origination depth.</strong> Is the manager originating directly, partnering with a bank under forward-flow, or buying finished paper? Each model has a different risk profile and fee structure.</p>
+        <p><strong className="text-[#191c1e]">Alignment.</strong> How much first-loss or vertical slice is the manager holding? Skin in the game matters more in ABF because diversification of the underlying pool makes manager incentives the primary quality signal.</p>
+      </div>
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Key Players</h3>
+    <div className="grid grid-cols-3 gap-2 my-3">
+      {[["Apollo","Atlas SP"],["KKR","Private ABF"],["Blackstone","BXCI ABF"],["Carlyle","Opportunistic Cr."],["Ares","Alt. Credit"],["Brookfield","Structured Cr."],["Nomura CM","Multi-mgr ABF"],["Janus / VPC","Specialty ABF"],["Rithm","Collateral control"]].map(([firm, platform]) => (
+        <div key={firm} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+          <span className="text-xs font-semibold text-[#1A2B4A]">{firm}</span>
+          <span className="text-[10px] text-gray-400">{platform}</span>
+        </div>
+      ))}
+    </div>
+
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What to Read from the Shift</h3>
+    <p>The broader signal embedded in the ABF rotation is about where private credit is in its own cycle. Direct lending matured, spreads compressed, documentation weakened, and the marginal capital deployed into the upper middle market is now earning a return difficult to distinguish from the BSL market. ABF is where the complexity premium still exists — and where the frontier of the asset class is still being defined.</p>
+    <p>For allocators, naming exposure to &ldquo;ABF&rdquo; the way one might have named exposure to &ldquo;direct lending&rdquo; in 2018 is not going to be enough. Sub-strategy selection matters. Servicer quality matters. And manager selection — specifically the ability to distinguish between a disciplined, control-oriented ABF shop and a yield-chasing pool buyer — is about to become one of the highest-leverage decisions in a credit portfolio.</p>
+
+    {/* Closing */}
+    <div className="bg-[#1A2B4A] rounded-xl p-5 mt-6">
+      <p className="text-xs font-semibold text-[#6aab8e] uppercase tracking-widest mb-2">The short version</p>
+      <p className="text-white text-sm leading-relaxed">ABF is not a fad driven by one rate cycle. It is a structural re-plumbing of where non-bank credit gets made, who holds it, and how it is returned. The capital is early, the infrastructure is still being built, and the managers who win are going to be the ones who treat collateral control and data as the product — not the yield.</p>
+    </div>
+
+    <p className="text-[11px] text-gray-400 italic mt-4">Sources: Carlyle 2026 Credit Outlook; JPMorgan Private Bank (Mar &apos;26); KKR Insights; Cambridge Associates; Rithm Capital white paper (Dec &apos;25); With Intelligence Private Credit Outlook 2026; Janus Henderson / VPC. Not investment advice.</p>
+  </div>
+);
+
 const INDUSTRY_POSTS: InsightPost[] = [
+  {
+    slug: "abf-eating-private-credit",
+    title: "Why Asset-Based Finance Is Eating Private Credit's Lunch",
+    date: "April 21, 2026",
+    tag: "Private Credit",
+    paragraphs: [],
+    richContent: ABF_POST_CONTENT,
+  },
   {
     slug: "q1-2026-fund-letters-roundup",
     title: "Q1 2026 Investor Letters: What the Top Funds Are Saying",
@@ -2791,6 +2938,7 @@ const TAG_STYLES: Record<string, string> = {
   "Commodities":  "bg-orange-100 text-orange-700",
   "Real Estate":  "bg-teal-100 text-teal-700",
   "Fund Letters": "bg-rose-100 text-rose-700",
+  "Private Credit": "bg-emerald-100 text-emerald-700",
 };
 
 function PostList({ posts }: { posts: InsightPost[] }) {
