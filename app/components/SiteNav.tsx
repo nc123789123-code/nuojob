@@ -28,6 +28,7 @@ export default function SiteNav() {
           </Link>
         </nav>
         <div className="ml-auto flex items-center gap-4">
+          <span className="hidden sm:inline text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full tracking-wide">Free · No login</span>
           <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
           <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
           <span className="text-[#71787c] text-xs hidden md:block">Finance intelligence</span>

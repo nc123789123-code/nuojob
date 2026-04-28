@@ -348,6 +348,10 @@ function HomeContent() {
               <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
+                <span className="text-[10px] text-[#71787c]">Just open and use</span>
+              </div>
               <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
                 Live roles from 200+ buy-side firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
               </p>
