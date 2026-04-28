@@ -8905,37 +8905,37 @@ interface TableSession {
 
 const ALL_SESSIONS: TableSession[] = [
   {
-    id: "apr-26-pe",
+    id: "apr-26-open",
     dateISO: "2026-04-26",
     date: "Saturday, April 26",
     time: "10:30 AM – 12:30 PM ET",
     location: "NYC – Flatiron",
-    theme: "Private Equity & Growth",
+    theme: "Finance Professionals",
     capacity: 8,
     spotsLeft: 5,
-    description: "For PE associates, analysts, and growth equity investors. Casual conversation on portfolio company dynamics, deal sourcing, and buyside career moves.",
+    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
   },
   {
-    id: "may-3-multi",
+    id: "may-3-open",
     dateISO: "2026-05-03",
     date: "Saturday, May 3",
     time: "11:00 AM – 1:00 PM ET",
     location: "NYC – Lower Manhattan",
-    theme: "Hedge Funds & Multi-Strategy",
+    theme: "Finance Professionals",
     capacity: 8,
     spotsLeft: 7,
-    description: "Open table for hedge fund analysts and multi-strat PMs. Topics: market structure, pod dynamics, career mobility, and what's interesting right now.",
+    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
   },
   {
-    id: "may-17-credit",
+    id: "may-17-open",
     dateISO: "2026-05-17",
     date: "Saturday, May 17",
     time: "11:00 AM – 1:00 PM ET",
     location: "NYC – Midtown",
-    theme: "Private Credit & Direct Lending",
+    theme: "Finance Professionals",
     capacity: 8,
     spotsLeft: 8,
-    description: "Small-group coffee chat for professionals in private credit, direct lending, and special situations. Compare notes on deal flow, career paths, and what's moving the market.",
+    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
   },
 ];
 
@@ -8988,8 +8988,8 @@ function OnluTableSection() {
           <div className="space-y-1">
             <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Table</h2>
             <p className="text-sm text-[#71787c] leading-relaxed">
-              Small-group sessions for finance professionals in NYC.
-              Max 8 people — curated conversation, not networking theatre.
+              Small-group coffee chats in NYC — open to anyone in finance.
+              Max 8 people. No agenda, no pitches. Just conversation.
             </p>
           </div>
 
