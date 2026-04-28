@@ -31,6 +31,7 @@ export default function SiteNav() {
           <span className="hidden sm:inline text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full tracking-wide">Free · No login</span>
           <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
           <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
+          <a href="GOOGLE_FORM_URL" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] border border-[#396477]/30 px-2 py-0.5 rounded-full transition-colors">Give feedback</a>
           <span className="text-[#71787c] text-xs hidden md:block">Finance intelligence</span>
         </div>
       </div>

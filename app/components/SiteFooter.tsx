@@ -20,6 +20,7 @@ export default function SiteFooter() {
             { href: "/about", label: "About" },
             { href: "/privacy", label: "Privacy" },
             { href: "/terms", label: "Terms" },
+            { href: "GOOGLE_FORM_URL", label: "Share Feedback" },
           ].map(({ href, label }) => (
             <Link key={label} href={href} className="text-xs text-[#71787c] hover:text-[#191c1e] transition-colors">
               {label}
