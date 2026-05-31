@@ -1642,22 +1642,9 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
 // ─── The Edge: wrapper with mode toggle ──────────────────────────────────────
 
 function EdgeSection() {
-  const [mode, setMode] = useState<"firm" | "concept" | "cases" | "resume">("firm");
+  const [mode, setMode] = useState<"concept" | "cases" | "resume">("concept");
 
-  const tabs: { id: "firm" | "concept" | "cases" | "resume"; icon: React.ReactNode; label: string; desc: string }[] = [
-    {
-      id: "firm",
-      icon: (
-        <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 17V8l7-5 7 5v9" />
-          <rect x="7" y="11" width="2.5" height="3" rx="0.5" />
-          <rect x="10.5" y="11" width="2.5" height="3" rx="0.5" />
-          <path d="M3 17h14" />
-        </svg>
-      ),
-      label: "Firm Prep",
-      desc: "Strategy, culture & interview guide for any firm",
-    },
+  const tabs: { id: "concept" | "cases" | "resume"; icon: React.ReactNode; label: string; desc: string }[] = [
     {
       id: "concept",
       icon: (
@@ -1713,7 +1700,6 @@ function EdgeSection() {
           </button>
         ))}
       </div>
-      {mode === "firm" && <FirmPrepSection />}
       {mode === "concept" && <ConceptQASection />}
       {mode === "cases" && <CaseLibrarySection />}
       {mode === "resume" && <ResumeReviewSection />}
