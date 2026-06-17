@@ -6,116 +6,142 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Inter',sans-serif;background:#0f172a;overflow:hidden;width:100vw;height:100vh;}
+  body{font-family:'Inter',sans-serif;background:#f5f3ef;overflow:hidden;width:100vw;height:100vh;}
   .deck{width:100%;height:100%;position:relative;}
-  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:52px 80px;opacity:0;transition:opacity 0.3s ease;}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:52px 80px;opacity:0;transition:opacity 0.35s ease;}
   .slide.active{display:flex;opacity:1;}
-  .nav{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:100;}
-  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.2s;}
-  .dot.active{background:#6aab8e;transform:scale(1.3);}
-  .slide-num{position:fixed;bottom:28px;right:40px;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:1px;}
-  .hint{position:fixed;top:24px;right:32px;font-size:11px;color:rgba(255,255,255,0.15);letter-spacing:0.5px;}
+
+  /* Nav */
+  .nav{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:100;}
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(26,43,74,0.15);cursor:pointer;transition:all 0.2s;}
+  .dot.active{background:#6aab8e;transform:scale(1.4);}
+  .slide-num{position:fixed;bottom:26px;right:36px;font-size:10px;color:rgba(26,43,74,0.3);letter-spacing:1px;font-weight:600;}
+  .hint{position:fixed;top:22px;right:28px;font-size:10px;color:rgba(26,43,74,0.2);letter-spacing:0.5px;}
+
+  /* Logo SVG inline */
+  .logo-mark svg{display:block;}
 
   /* ── SLIDE 1: TITLE ── */
-  #s1{background:linear-gradient(135deg,#0f172a 0%,#1a2b4a 60%,#1e3a5a 100%);}
-  #s1 .glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,#396477 0%,transparent 70%);opacity:0.1;top:-150px;right:-150px;pointer-events:none;}
-  #s1 .eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#6aab8e;margin-bottom:18px;}
-  #s1 h1{font-size:80px;font-weight:900;color:#fff;letter-spacing:-3px;line-height:1;margin-bottom:18px;}
-  #s1 .sub{font-size:20px;font-weight:400;color:rgba(255,255,255,0.5);max-width:580px;text-align:center;line-height:1.55;}
-  #s1 .meta{margin-top:44px;display:flex;gap:20px;align-items:center;}
-  #s1 .url{font-size:13px;font-weight:600;color:#6aab8e;letter-spacing:1px;border:1px solid #6aab8e40;padding:8px 20px;border-radius:20px;}
-  #s1 .date{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:1px;}
+  #s1{background:linear-gradient(145deg,#eef7f3 0%,#f0ecf8 40%,#fdf0ec 100%);}
+  #s1 .logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:36px;}
+  #s1 .logo-name{font-size:56px;font-weight:900;color:#1a2b4a;letter-spacing:-2px;}
+  #s1 .eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9ecfc0;margin-bottom:16px;}
+  #s1 .sub{font-size:18px;font-weight:400;color:#64748b;max-width:520px;text-align:center;line-height:1.6;}
+  #s1 .pills{margin-top:36px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  #s1 .pill{font-size:11px;font-weight:600;padding:6px 16px;border-radius:20px;letter-spacing:0.3px;}
+  #s1 .pill.green{background:#d4f0e6;color:#2d7a5f;}
+  #s1 .pill.lav{background:#ede8f8;color:#6b52b0;}
+  #s1 .pill.peach{background:#fde8e2;color:#b85a42;}
+  #s1 .url-row{margin-top:28px;font-size:12px;font-weight:600;color:#9ecfc0;letter-spacing:1px;}
 
   /* ── SLIDE 2: PROBLEM ── */
-  #s2{background:#0f172a;}
-  #s2 .label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f97316;margin-bottom:24px;}
-  #s2 h2{font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:44px;text-align:center;line-height:1.15;}
-  #s2 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;width:100%;max-width:920px;}
-  #s2 .card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:28px 22px;}
-  #s2 .card .icon{font-size:28px;margin-bottom:12px;}
-  #s2 .card .ctitle{font-size:14px;font-weight:700;color:#fff;margin-bottom:8px;}
-  #s2 .card .cdesc{font-size:12px;color:#94a3b8;line-height:1.65;}
-  #s2 .card .example{margin-top:10px;font-size:11px;color:#475569;font-style:italic;}
+  #s2{background:linear-gradient(145deg,#fef7f4 0%,#fdeee8 100%);}
+  #s2 .label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#d07a5a;margin-bottom:20px;}
+  #s2 h2{font-size:36px;font-weight:800;color:#1a2b4a;letter-spacing:-0.8px;margin-bottom:40px;text-align:center;line-height:1.2;}
+  #s2 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:900px;}
+  #s2 .card{background:#fff;border:1px solid #f0d5cb;border-radius:18px;padding:26px 22px;box-shadow:0 2px 16px rgba(208,122,90,0.06);}
+  #s2 .card .icon{font-size:26px;margin-bottom:12px;}
+  #s2 .card .ctitle{font-size:13.5px;font-weight:700;color:#1a2b4a;margin-bottom:8px;}
+  #s2 .card .cdesc{font-size:12px;color:#64748b;line-height:1.7;}
+  #s2 .card .example{margin-top:10px;font-size:11px;color:#b07060;font-style:italic;padding-top:10px;border-top:1px solid #f5e5df;}
 
   /* ── SLIDE 3: SOLUTION ── */
-  #s3{background:linear-gradient(160deg,#0f172a 0%,#0d1f35 100%);}
-  #s3 .label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#6aab8e;margin-bottom:24px;}
-  #s3 h2{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:36px;text-align:center;}
+  #s3{background:linear-gradient(145deg,#f0f7f4 0%,#eaf4f0 60%,#f5f0fb 100%);}
+  #s3 .label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2d7a5f;margin-bottom:20px;}
+  #s3 h2{font-size:34px;font-weight:800;color:#1a2b4a;letter-spacing:-0.8px;margin-bottom:32px;text-align:center;}
   #s3 .features{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:860px;}
-  #s3 .feat{display:flex;gap:16px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:14px;padding:20px;}
+  #s3 .feat{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid #d4ede4;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(100,180,140,0.07);}
   #s3 .feat .emoji{font-size:22px;flex-shrink:0;margin-top:2px;}
-  #s3 .feat .ftitle{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
-  #s3 .feat .fdesc{font-size:11.5px;color:#94a3b8;line-height:1.6;}
-  #s3 .feat .ftag{display:inline-block;margin-top:6px;font-size:10px;font-weight:600;color:#6aab8e;background:#6aab8e15;border:1px solid #6aab8e30;padding:2px 8px;border-radius:10px;}
-  #s3 .badge{margin-top:28px;display:inline-flex;align-items:center;gap:10px;background:#6aab8e15;border:1px solid #6aab8e40;color:#6aab8e;font-size:12px;font-weight:700;padding:8px 22px;border-radius:20px;}
+  #s3 .feat .ftitle{font-size:13px;font-weight:700;color:#1a2b4a;margin-bottom:4px;}
+  #s3 .feat .fdesc{font-size:11.5px;color:#64748b;line-height:1.65;}
+  #s3 .feat .ftag{display:inline-block;margin-top:7px;font-size:10px;font-weight:600;color:#2d7a5f;background:#d4f0e6;padding:2px 9px;border-radius:10px;}
+  #s3 .badge{margin-top:24px;display:inline-flex;align-items:center;gap:10px;background:#d4f0e6;color:#2d7a5f;font-size:12px;font-weight:700;padding:8px 22px;border-radius:20px;}
 
   /* ── SLIDE 4: TRACTION ── */
-  #s4{background:#0f172a;}
-  #s4 .label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#a78bfa;margin-bottom:24px;}
-  #s4 h2{font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:40px;text-align:center;}
-  #s4 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%;max-width:900px;margin-bottom:36px;}
-  #s4 .stat{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:24px 16px;text-align:center;}
-  #s4 .stat .num{font-size:42px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;}
-  #s4 .stat .unit{font-size:12px;font-weight:600;color:#6aab8e;margin-top:4px;}
-  #s4 .stat .slabel{font-size:10.5px;color:#64748b;margin-top:5px;line-height:1.4;}
-  #s4 .timeline{width:100%;max-width:900px;display:flex;align-items:center;}
+  #s4{background:linear-gradient(145deg,#f4f6fb 0%,#edf0f8 100%);}
+  #s4 .label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#4a67a8;margin-bottom:20px;}
+  #s4 h2{font-size:36px;font-weight:800;color:#1a2b4a;letter-spacing:-0.8px;margin-bottom:36px;text-align:center;}
+  #s4 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;width:100%;max-width:880px;margin-bottom:32px;}
+  #s4 .stat{background:#fff;border:1px solid #d4daf0;border-radius:16px;padding:22px 14px;text-align:center;box-shadow:0 2px 12px rgba(74,103,168,0.07);}
+  #s4 .stat .num{font-size:40px;font-weight:900;color:#1a2b4a;letter-spacing:-2px;line-height:1;}
+  #s4 .stat .unit{font-size:11px;font-weight:700;color:#6aab8e;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;}
+  #s4 .stat .slabel{font-size:10.5px;color:#94a3b8;margin-top:5px;line-height:1.4;}
+  #s4 .timeline{width:100%;max-width:880px;display:flex;align-items:center;background:#fff;border:1px solid #d4daf0;border-radius:16px;padding:20px 28px;box-shadow:0 2px 12px rgba(74,103,168,0.05);}
   #s4 .titem{flex:1;text-align:center;}
-  #s4 .titem .tdate{font-size:9.5px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
-  #s4 .titem .tevent{font-size:11.5px;font-weight:600;color:#e2e8f0;line-height:1.3;}
-  #s4 .titem.now .tevent{color:#6aab8e;}
-  #s4 .tline{width:32px;height:1px;background:#334155;flex-shrink:0;}
+  #s4 .titem .tdate{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+  #s4 .titem .tevent{font-size:11px;font-weight:600;color:#1a2b4a;line-height:1.3;}
+  #s4 .titem.now .tevent{color:#6aab8e;font-weight:800;}
+  #s4 .tline{width:28px;height:1px;background:#e2e8f0;flex-shrink:0;}
 
   /* ── SLIDE 5: OPPORTUNITY ── */
-  #s5{background:linear-gradient(135deg,#0f172a 0%,#120a2e 100%);}
-  #s5 .label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#f59e0b;margin-bottom:24px;}
-  #s5 h2{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:40px;text-align:center;line-height:1.15;}
-  #s5 .opps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:880px;margin-bottom:36px;}
-  #s5 .opp{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:24px 20px;}
-  #s5 .opp .otitle{font-size:13px;font-weight:700;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-  #s5 .opp .odesc{font-size:12px;color:#94a3b8;line-height:1.65;}
-  #s5 .opp .onum{font-size:22px;font-weight:900;color:#f59e0b;}
-  #s5 .use-of-funds{width:100%;max-width:880px;background:#1e293b;border:1px solid #f59e0b30;border-radius:14px;padding:20px 28px;}
-  #s5 .use-of-funds .uf-title{font-size:11px;font-weight:700;color:#f59e0b;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;}
-  #s5 .use-of-funds .uf-items{display:flex;gap:32px;}
-  #s5 .uf-item .uf-label{font-size:11px;color:#64748b;margin-bottom:3px;}
-  #s5 .uf-item .uf-val{font-size:13px;font-weight:700;color:#e2e8f0;}
+  #s5{background:linear-gradient(145deg,#fffbf0 0%,#fef6e0 100%);}
+  #s5 .label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#b07a20;margin-bottom:20px;}
+  #s5 h2{font-size:34px;font-weight:800;color:#1a2b4a;letter-spacing:-0.8px;margin-bottom:36px;text-align:center;line-height:1.15;}
+  #s5 .opps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:880px;margin-bottom:24px;}
+  #s5 .opp{background:#fff;border:1px solid #f0e0b0;border-radius:16px;padding:24px 20px;box-shadow:0 2px 12px rgba(176,122,32,0.06);}
+  #s5 .opp .onum{font-size:36px;font-weight:900;color:#d4900a;letter-spacing:-1px;margin-bottom:6px;}
+  #s5 .opp .otitle{font-size:13px;font-weight:700;color:#1a2b4a;margin-bottom:8px;}
+  #s5 .opp .odesc{font-size:11.5px;color:#64748b;line-height:1.65;}
+  #s5 .use-of-funds{width:100%;max-width:880px;background:#fff;border:1px solid #f0e0b0;border-radius:14px;padding:18px 24px;box-shadow:0 2px 12px rgba(176,122,32,0.05);}
+  #s5 .uf-title{font-size:10px;font-weight:700;color:#b07a20;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+  #s5 .uf-items{display:flex;gap:0;}
+  #s5 .uf-item{flex:1;padding:0 20px 0 0;}
+  #s5 .uf-item:not(:last-child){border-right:1px solid #f0e8d0;margin-right:20px;}
+  #s5 .uf-label{font-size:10.5px;color:#94a3b8;margin-bottom:3px;}
+  #s5 .uf-val{font-size:12.5px;font-weight:700;color:#1a2b4a;}
 
   /* ── SLIDE 6: ASK ── */
-  #s6{background:linear-gradient(135deg,#0d1f2e 0%,#0f172a 50%,#0a1f12 100%);}
-  #s6 .label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#6aab8e;margin-bottom:24px;}
-  #s6 h2{font-size:46px;font-weight:900;color:#fff;letter-spacing:-1.5px;margin-bottom:12px;text-align:center;line-height:1.1;}
-  #s6 .sub{font-size:16px;color:rgba(255,255,255,0.4);margin-bottom:40px;text-align:center;}
+  #s6{background:linear-gradient(145deg,#eef7f3 0%,#e8f5f0 60%,#f0ecf8 100%);}
+  #s6 .label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2d7a5f;margin-bottom:20px;}
+  #s6 .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  #s6 .logo-row .lname{font-size:28px;font-weight:900;color:#1a2b4a;letter-spacing:-1px;}
+  #s6 h2{font-size:38px;font-weight:800;color:#1a2b4a;letter-spacing:-1px;margin-bottom:10px;text-align:center;line-height:1.15;}
+  #s6 .sub{font-size:15px;color:#94a3b8;margin-bottom:36px;text-align:center;}
   #s6 .asks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:860px;}
-  #s6 .ask{border-radius:16px;padding:24px 20px;text-align:center;}
-  #s6 .ask.users{background:#6aab8e15;border:1px solid #6aab8e30;}
-  #s6 .ask.network{background:#396477 15;border:1px solid #39647730;}
-  #s6 .ask.invest{background:#f59e0b10;border:1.5px solid #f59e0b40;}
-  #s6 .ask .anum{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;}
-  #s6 .ask.users .anum{color:#6aab8e;}
-  #s6 .ask.network .anum{color:#60a5fa;}
-  #s6 .ask.invest .anum{color:#f59e0b;}
-  #s6 .ask .atitle{font-size:15px;font-weight:800;color:#fff;margin-bottom:8px;}
-  #s6 .ask .adesc{font-size:12px;color:#94a3b8;line-height:1.65;}
-  #s6 .contact{margin-top:36px;font-size:13px;color:rgba(255,255,255,0.35);}
-  #s6 .contact strong{color:#6aab8e;}
+  #s6 .ask{border-radius:18px;padding:26px 22px;}
+  #s6 .ask.users{background:#d4f0e6;border:1px solid #a8dfc8;}
+  #s6 .ask.network{background:#dce8f5;border:1px solid #b0cceb;}
+  #s6 .ask.invest{background:#fef3d0;border:1px solid #f0d880;}
+  #s6 .ask .anum{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+  #s6 .ask.users .anum{color:#2d7a5f;}
+  #s6 .ask.network .anum{color:#3a6898;}
+  #s6 .ask.invest .anum{color:#a07820;}
+  #s6 .ask .atitle{font-size:15px;font-weight:800;color:#1a2b4a;margin-bottom:8px;}
+  #s6 .ask .adesc{font-size:12px;color:#4a5568;line-height:1.7;}
+  #s6 .contact{margin-top:32px;font-size:13px;color:#94a3b8;}
+  #s6 .contact strong{color:#1a2b4a;font-weight:700;}
+
+  /* Shared logo SVG */
+  .onlu-logo{display:inline-block;}
 </style>
 </head>
 <body>
 <div class="deck">
 
-  <!-- SLIDE 1 -->
+  <!-- SLIDE 1: TITLE -->
   <div class="slide active" id="s1">
-    <div class="glow"></div>
-    <div class="eyebrow">Demo Day · June 2026</div>
-    <h1>Onlu</h1>
-    <div class="sub">Free finance intelligence for students and early-career professionals — built by someone who works in the industry</div>
-    <div class="meta">
-      <div class="url">onluintel.com</div>
-      <div class="date">June 17, 2026</div>
+    <div class="eyebrow">Demo Day · June 17, 2026</div>
+    <div class="logo-wrap">
+      <svg width="72" height="72" viewBox="0 0 28 28" fill="none">
+        <defs><clipPath id="c1"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
+        <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c1)"/>
+        <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c1)"/>
+        <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c1)"/>
+        <circle cx="14" cy="14" r="12.5" stroke="#e8a898" stroke-width="1.2" fill="none"/>
+      </svg>
+      <div class="logo-name">Onlu</div>
     </div>
+    <div class="sub">Free finance intelligence for students and early-career professionals — built by a private credit practitioner</div>
+    <div class="pills">
+      <div class="pill green">💼 Hiring Watch</div>
+      <div class="pill lav">📊 Market Pulse</div>
+      <div class="pill peach">🎯 Edge Prep</div>
+      <div class="pill green">📚 Learning + Table</div>
+    </div>
+    <div class="url-row">onluintel.com</div>
   </div>
 
-  <!-- SLIDE 2 -->
+  <!-- SLIDE 2: PROBLEM -->
   <div class="slide" id="s2">
     <div class="label">The Problem</div>
     <h2>Finance information is expensive, scattered,<br/>and locked inside closed networks.</h2>
@@ -124,24 +150,24 @@
         <div class="icon">💸</div>
         <div class="ctitle">Paywalled intelligence</div>
         <div class="cdesc">A Bloomberg terminal costs $25,000/year. Institutional research is inaccessible. Students and junior professionals fly blind while senior folks have every data point.</div>
-        <div class="example">→ "I had no idea Ares was hiring until the role was filled."</div>
+        <div class="example">"I had no idea Ares was hiring until the role was already filled."</div>
       </div>
       <div class="card">
         <div class="icon">🔍</div>
         <div class="ctitle">Fragmented information</div>
-        <div class="cdesc">Hiring signals, market trends, interview prep, and industry news are scattered across LinkedIn, Reddit, newsletters, firm sites, and Slack groups with no single home.</div>
-        <div class="example">→ Professionals spend hours weekly just aggregating info.</div>
+        <div class="cdesc">Hiring signals, market trends, interview prep, and industry news are scattered across LinkedIn, Reddit, newsletters, and firm websites — no single home.</div>
+        <div class="example">Professionals spend hours weekly just aggregating basic intel.</div>
       </div>
       <div class="card">
         <div class="icon">🚪</div>
         <div class="ctitle">Closed networks</div>
-        <div class="cdesc">The best intelligence — which firms are actively deploying, who's hiring, what's actually happening in deals — travels through insider alumni networks most people can't access.</div>
-        <div class="example">→ First-generation finance professionals are most disadvantaged.</div>
+        <div class="cdesc">The best intelligence — which firms are deploying, who's actually hiring, what's moving in deals — travels through alumni networks most people can't access.</div>
+        <div class="example">First-generation finance professionals are most disadvantaged.</div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 3 -->
+  <!-- SLIDE 3: SOLUTION -->
   <div class="slide" id="s3">
     <div class="label">The Solution</div>
     <h2>One free platform. No login. Open to everyone.</h2>
@@ -150,7 +176,7 @@
         <div class="emoji">💼</div>
         <div>
           <div class="ftitle">Hiring Watch</div>
-          <div class="fdesc">Real-time hiring signals from PE, direct lending, and hedge funds — including which strategies are actively deploying capital and building teams. Updated weekly.</div>
+          <div class="fdesc">Real-time hiring signals from PE, direct lending, and hedge funds — including which strategies are actively deploying and building teams. Updated weekly.</div>
           <div class="ftag">Updated weekly</div>
         </div>
       </div>
@@ -158,7 +184,7 @@
         <div class="emoji">📊</div>
         <div>
           <div class="ftitle">Market Pulse</div>
-          <div class="fdesc">Curated deal flow, fund performance trends, credit spreads, and macro signals — written for finance professionals, not retail investors.</div>
+          <div class="fdesc">Curated deal flow, fund performance, credit spreads, and macro signals — written for finance professionals, not retail investors.</div>
           <div class="ftag">Bi-weekly digest</div>
         </div>
       </div>
@@ -174,7 +200,7 @@
         <div class="emoji">📚</div>
         <div>
           <div class="ftitle">Onlu Learning + Table</div>
-          <div class="fdesc">Deep-dive articles on private credit, ABF, commodities, and macro — each with its own SEO-indexed URL. Plus recurring small-group coffee chats in NYC.</div>
+          <div class="fdesc">12 deep-dive articles on private credit, ABF, commodities, macro — each Google-indexed. Plus recurring small-group coffee chats in NYC.</div>
           <div class="ftag">12 articles live · 3 sessions upcoming</div>
         </div>
       </div>
@@ -182,10 +208,10 @@
     <div class="badge">✓ Free &nbsp;·&nbsp; ✓ No login &nbsp;·&nbsp; ✓ Live at onluintel.com</div>
   </div>
 
-  <!-- SLIDE 4 -->
+  <!-- SLIDE 4: TRACTION -->
   <div class="slide" id="s4">
     <div class="label">Traction</div>
-    <h2>Idea to live product in 4 weeks, solo.</h2>
+    <h2>Idea to live product in 4 weeks, built solo.</h2>
     <div class="stats">
       <div class="stat">
         <div class="num">4</div>
@@ -205,7 +231,7 @@
       <div class="stat">
         <div class="num">$0</div>
         <div class="unit">raised</div>
-        <div class="slabel">bootstrapped, no outside capital</div>
+        <div class="slabel">fully bootstrapped so far</div>
       </div>
     </div>
     <div class="timeline">
@@ -221,7 +247,7 @@
       <div class="tline"></div>
       <div class="titem">
         <div class="tdate">May 2026</div>
-        <div class="tevent">First coffee chat</div>
+        <div class="tevent">First coffee chat hosted</div>
       </div>
       <div class="tline"></div>
       <div class="titem">
@@ -236,48 +262,58 @@
     </div>
   </div>
 
-  <!-- SLIDE 5 -->
+  <!-- SLIDE 5: OPPORTUNITY -->
   <div class="slide" id="s5">
     <div class="label">The Opportunity</div>
     <h2>A large, underserved audience with real willingness to pay.</h2>
     <div class="opps">
       <div class="opp">
-        <div class="otitle"><span class="onum">2M+</span></div>
-        <div class="ctitle" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">Finance students in the US</div>
-        <div class="odesc">Business and finance enrollment at US universities exceeds 2 million. Most lack access to professional-grade tools and intelligence during recruiting.</div>
+        <div class="onum">2M+</div>
+        <div class="otitle">Finance students in the US</div>
+        <div class="odesc">Business and finance enrollment at US universities exceeds 2 million. Most lack access to professional-grade tools and intelligence during recruiting season.</div>
       </div>
       <div class="opp">
-        <div class="otitle"><span class="onum">$25K</span></div>
-        <div class="ctitle" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">Bloomberg terminal cost per year</div>
-        <div class="odesc">Professional data tools are prohibitively expensive. Even a $20/month freemium offering represents a 99% cost reduction for the same core intelligence.</div>
+        <div class="onum">$25K</div>
+        <div class="otitle">Bloomberg terminal per year</div>
+        <div class="odesc">Professional data tools are prohibitively expensive. Even a $20/month freemium offering is a 99% cost reduction with comparable core intelligence for early-career use cases.</div>
       </div>
       <div class="opp">
-        <div class="otitle"><span class="onum">High</span></div>
-        <div class="ctitle" style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;">Intent audience</div>
-        <div class="odesc">Users come to Onlu with a clear job-seeking or career-building intent — the highest-value signal for premium subscriptions, coaching, and B2B firm partnerships.</div>
+        <div class="onum">High</div>
+        <div class="otitle">Intent, low competition</div>
+        <div class="odesc">Users arrive with job-seeking or career-building intent — the highest-value signal for premium subscriptions, coaching, and B2B partnerships with firms and universities.</div>
       </div>
     </div>
     <div class="use-of-funds">
       <div class="uf-title">Revenue paths (not yet activated)</div>
       <div class="uf-items">
-        <div class="uf-item"><div class="uf-label">Premium tier</div><div class="uf-val">$15–25/mo for deeper signals</div></div>
-        <div class="uf-item"><div class="uf-label">Coaching</div><div class="uf-val">1:1 interview prep sessions</div></div>
-        <div class="uf-item"><div class="uf-label">University partnerships</div><div class="uf-val">Career center licensing</div></div>
+        <div class="uf-item"><div class="uf-label">Premium tier</div><div class="uf-val">$15–25/mo deeper signals</div></div>
+        <div class="uf-item"><div class="uf-label">1:1 Coaching</div><div class="uf-val">Interview prep sessions</div></div>
+        <div class="uf-item"><div class="uf-label">University licensing</div><div class="uf-val">Career center partnerships</div></div>
         <div class="uf-item"><div class="uf-label">Firm partnerships</div><div class="uf-val">Sponsored hiring signals</div></div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 6 -->
+  <!-- SLIDE 6: ASK -->
   <div class="slide" id="s6">
     <div class="label">How You Can Help</div>
+    <div class="logo-row">
+      <svg width="40" height="40" viewBox="0 0 28 28" fill="none">
+        <defs><clipPath id="c6"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
+        <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c6)"/>
+        <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c6)"/>
+        <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c6)"/>
+        <circle cx="14" cy="14" r="12.5" stroke="#e8a898" stroke-width="1.2" fill="none"/>
+      </svg>
+      <div class="lname">Onlu</div>
+    </div>
     <h2>We're open to conversations.</h2>
     <div class="sub">Users, partners, and early investors — all welcome.</div>
     <div class="asks">
       <div class="ask users">
         <div class="anum">Use it</div>
         <div class="atitle">Try Onlu today</div>
-        <div class="adesc">Open onluintel.com — no login, no friction. Check hiring signals in your sector, read a market deep-dive, join the next coffee chat.</div>
+        <div class="adesc">Open onluintel.com — no login, no friction. Check hiring signals, read a market deep-dive, join a June coffee chat in NYC.</div>
       </div>
       <div class="ask network">
         <div class="anum">Share it</div>
@@ -287,10 +323,10 @@
       <div class="ask invest">
         <div class="anum">Back it</div>
         <div class="atitle">Early-stage investment</div>
-        <div class="adesc">We're exploring a small pre-seed round to accelerate growth — data infrastructure, marketing, and a first hire. If you're interested in backing a practitioner-built fintech, let's talk.</div>
+        <div class="adesc">Exploring a small pre-seed round — data infrastructure, marketing, first hire. If you're interested in backing a practitioner-built fintech, let's talk today.</div>
       </div>
     </div>
-    <div class="contact">onluintel.com &nbsp;·&nbsp; <strong>Open to connect after this session</strong></div>
+    <div class="contact"><strong>onluintel.com</strong> &nbsp;·&nbsp; Open to connect after this session</div>
   </div>
 
 </div>
