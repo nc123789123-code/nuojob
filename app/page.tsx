@@ -335,8 +335,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Live market data and AI-generated briefs — equities, rates, credit, and macro intelligence in one place.</p>
+              <h1 className="text-[#191c1e] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <p className="text-[#41484c] text-base mt-2 max-w-xl leading-relaxed">Markets, fund signals, and macro intel — in one place.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -345,15 +345,15 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              <h1 className="text-[#191c1e] text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
                 <span className="text-[10px] text-[#71787c]">Just open and use</span>
               </div>
-              <p className="text-[#41484c] text-sm mt-3 max-w-lg leading-relaxed">
-                Live roles from 200+ buy-side firm career pages — hedge funds, PE, and private credit — surfaced alongside SEC capital activity so you can see who&apos;s raising and hiring in the same place.
+              <p className="text-[#41484c] text-base mt-3 max-w-lg leading-relaxed">
+                200+ buy-side firms tracked. See who&apos;s raising capital and hiring — in one place.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
                 <AnimatedStat value={FIRM_REGISTRY.length} label="Firms tracked" color="text-sky-500"
@@ -381,8 +381,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
-              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Career prep, market insights, and deep-dives on credit, AI, and macro — for practitioners and candidates who want to go deeper.</p>
+              <h1 className="text-[#191c1e] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <p className="text-[#41484c] text-base mt-2 max-w-xl leading-relaxed">Deep-dives on credit, macro, and markets — for practitioners and candidates.</p>
             </>
           )}
           {topTab === "firmprep" && (
@@ -391,8 +391,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug">Edge Prep</h1>
-              <p className="text-[#41484c] text-sm mt-2 max-w-xl leading-relaxed">Firm-specific interview prep, concept Q&A, and case studies — built for credit, PE, and special situations interviews.</p>
+              <h1 className="text-[#191c1e] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Edge Prep</h1>
+              <p className="text-[#41484c] text-base mt-2 max-w-xl leading-relaxed">Interview prep for credit, PE, and special situations — concept Q&A, cases, and resume review.</p>
             </>
           )}
 
@@ -477,14 +477,14 @@ function HomeContent() {
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xs font-bold uppercase tracking-widest text-white/50">Welcome to Onlu</span>
                 </div>
-                <p className="text-sm sm:text-base font-semibold text-white mb-4 max-w-2xl">
-                  Hiring intelligence — track which firms are actively expanding, prep for their interviews, and draft targeted outreach.
+                <p className="text-base sm:text-lg font-semibold text-white mb-4 max-w-2xl">
+                  Track who&apos;s hiring. Prep for the interview. All free.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
-                    { step: "1", color: "bg-emerald-400/20 border-emerald-400/30 text-emerald-300", action: "Check Hiring Watch", desc: "See which firms are actively expanding based on capital raises and live job signals", tab: "hiring" as TopTab },
-                    { step: "2", color: "bg-violet-400/20 border-violet-400/30 text-violet-300", action: "Set your profile", desc: "Describe your background once — get matched to relevant roles and auto-fill outreach", tab: "hiring" as TopTab },
-                    { step: "3", color: "bg-rose-400/20 border-rose-400/30 text-rose-300", action: "Use Edge Prep", desc: "Firm-specific interview guides, concept Q&A, and outreach drafting anchored to firm signals", tab: "firmprep" as TopTab },
+                    { step: "1", color: "bg-emerald-400/20 border-emerald-400/30 text-emerald-300", action: "Check Hiring Watch", desc: "Which firms are hiring and raising capital — live.", tab: "hiring" as TopTab },
+                    { step: "2", color: "bg-violet-400/20 border-violet-400/30 text-violet-300", action: "Set your profile", desc: "Set your background once. Get matched roles instantly.", tab: "hiring" as TopTab },
+                    { step: "3", color: "bg-rose-400/20 border-rose-400/30 text-rose-300", action: "Use Edge Prep", desc: "Firm interview guides, concept Q&A, and resume review.", tab: "firmprep" as TopTab },
                   ].map(item => (
                     <button key={item.step} onClick={() => { setTopTab(item.tab); dismissWelcome(); }}
                       className={`text-left p-3.5 rounded-xl border ${item.color} hover:bg-white/10 transition-colors`}>
@@ -514,7 +514,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get fund signals and market intel in your inbox."
-              description="SEC filings, hiring signals, and AI market briefs — free bi-weekly digest."
+              description="Fund signals and market intel. Free, bi-weekly."
               cta="Subscribe free"
             />
           </>
@@ -538,7 +538,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Get hiring signals in your inbox every week."
-              description="Fund filings, early signals, and distressed situations — as firms are actively raising and building. Free."
+              description="Fund filings and early signals — as firms raise and hire. Free."
               cta="Subscribe free"
             />
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -557,7 +557,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Weekly finance intelligence, in your inbox."
-              description="Hiring signals, fund filings, distressed situations, and market context — delivered bi-weekly. Free."
+              description="Fund signals and market intel, bi-weekly. Free."
               cta="Subscribe free"
             />
           </>
@@ -580,7 +580,7 @@ function HomeContent() {
             <NewsletterCTA
               intent="signals_subscriber"
               title="Stay in the loop on finance catchups."
-              description="Get notified about upcoming events, hiring signals, and market intelligence. Free weekly digest."
+              description="Upcoming sessions, hiring signals, and market intel. Free."
               cta="Subscribe free"
             />
           </>
@@ -1225,7 +1225,7 @@ function FundsSection({
 
       <div className="space-y-1 mb-1">
         <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
-          Search SEC Form D filings from private funds. Capital raises are leading indicators of hiring — firms that close a new vehicle typically build headcount within one to three quarters. Use Hiring Watch to see whether any are currently posting roles.
+          SEC Form D filings — capital raises are leading indicators of hiring.
         </p>
       </div>
 
@@ -7553,10 +7553,9 @@ function OnluTableSection() {
         {/* ── LEFT: Events ── */}
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-[#1A2B4A]">Onlu Table</h2>
-            <p className="text-sm text-[#71787c] leading-relaxed">
-              Small-group coffee chats in NYC — open to anyone in finance.
-              Max 8 people. No agenda, no pitches. Just conversation.
+            <h2 className="text-2xl font-bold text-[#1A2B4A]">Onlu Table</h2>
+            <p className="text-base text-[#71787c] leading-relaxed">
+              Small-group coffee chats in NYC. Max 8 people. No agenda, no pitches.
             </p>
           </div>
 
