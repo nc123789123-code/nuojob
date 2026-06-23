@@ -2576,6 +2576,7 @@ interface DealCard {
   dealSize?: string;
   sector?: string;
   valuationNote: string;
+  valuationSource: "reported" | "watch";
   summary: string;
   keyTakeaway: string;
 }
