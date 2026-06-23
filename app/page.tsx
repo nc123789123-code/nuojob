@@ -2555,8 +2555,123 @@ function MarketSection() {
       {tickers.length > 0 && <MarketCharts tickers={tickers} />}
       <CpiWidget />
 
+      {/* Deal Flow */}
+      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+        <DealsWatch />
+      </div>
+
       {/* Distressed Watch */}
       <DistressedWatch />
+    </div>
+  );
+}
+
+// ─── Deal Flow ───────────────────────────────────────────────────────────────
+
+interface DealCard {
+  id: string;
+  company: string;
+  counterparty?: string;
+  dealType: "ma" | "ipo" | "debt";
+  dealSize?: string;
+  sector?: string;
+  valuationNote: string;
+  summary: string;
+  keyTakeaway: string;
+}
+
+interface DealsAnalysis {
+  deals: DealCard[];
+  date: string;
+  generatedAt: string;
+}
+
+const DEAL_TYPE_STYLE: Record<string, { label: string; cls: string }> = {
+  ma:   { label: "M&A",  cls: "bg-violet-50 text-violet-700 border-violet-200" },
+  ipo:  { label: "IPO",  cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  debt: { label: "Debt", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+};
+
+function DealsWatch() {
+  const [data, setData] = useState<DealsAnalysis | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/deals")
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const updatedTime = data
+    ? new Date(data.generatedAt).toLocaleTimeString("en-US", {
+        hour: "numeric", minute: "2-digit", timeZoneName: "short", timeZone: "America/New_York",
+      })
+    : null;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-lg font-bold text-[#396477]">Deal Flow</h2>
+          <p className="text-xs text-[#64748b] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
+        </div>
+        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+          <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          Analyzing deal flow…
+        </div>
+      )}
+
+      {!loading && (!data || data.deals.length === 0) && (
+        <p className="text-sm text-gray-400 py-4">No recent deal headlines found.</p>
+      )}
+
+      {data && data.deals.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {data.deals.map(deal => {
+            const style = DEAL_TYPE_STYLE[deal.dealType] ?? DEAL_TYPE_STYLE.ma;
+            return (
+              <div key={deal.id} className="bg-white border border-gray-200 rounded-xl px-5 py-4 space-y-3 hover:border-gray-300 transition-colors">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-[#396477] text-base leading-tight truncate">{deal.company}</p>
+                    {deal.counterparty && (
+                      <p className="text-xs text-[#64748b] mt-0.5">← {deal.counterparty}</p>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${style.cls}`}>{style.label}</span>
+                    {deal.dealSize && <span className="text-xs font-semibold text-[#396477]">{deal.dealSize}</span>}
+                  </div>
+                </div>
+
+                {deal.sector && (
+                  <span className="inline-block text-[10px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{deal.sector}</span>
+                )}
+
+                <p className="text-sm text-[#64748b] leading-relaxed">{deal.summary}</p>
+
+                <div className="bg-[#f0f7f4] border border-[#c8e6da] rounded-lg px-3 py-2.5">
+                  <p className="text-[10px] font-bold text-[#396477] uppercase tracking-wider mb-1">Valuation</p>
+                  <p className="text-sm text-[#396477] leading-snug">{deal.valuationNote}</p>
+                </div>
+
+                <div className="flex items-start gap-2 pt-0.5">
+                  <span className="w-1 h-1 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
+                  <p className="text-xs text-[#64748b] italic leading-relaxed">{deal.keyTakeaway}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
     </div>
   );
 }
