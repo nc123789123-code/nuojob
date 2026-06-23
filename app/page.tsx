@@ -2560,6 +2560,11 @@ function MarketSection() {
         <DealsWatch />
       </div>
 
+      {/* Earnings Calendar */}
+      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+        <EarningsWatch />
+      </div>
+
       {/* Distressed Watch */}
       <DistressedWatch />
     </div>
@@ -2680,6 +2685,126 @@ function DealsWatch() {
       )}
 
       <p className="text-xs text-gray-400">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
+    </div>
+  );
+}
+
+// ─── Earnings Calendar ───────────────────────────────────────────────────────
+
+interface EarningsEntry {
+  symbol: string;
+  name: string;
+  reportDate: string;
+  reportDay: string;
+  time: "pre-market" | "post-market" | "unknown";
+  epsForecast?: string;
+  lastYearEPS?: string;
+  fiscalQuarterEnding?: string;
+}
+
+interface EarningsCalendar {
+  entries: EarningsEntry[];
+  generatedAt: string;
+}
+
+const EARNINGS_TIME_STYLE: Record<string, string> = {
+  "pre-market":  "bg-sky-50 text-sky-700 border-sky-200",
+  "post-market": "bg-violet-50 text-violet-700 border-violet-200",
+  "unknown":     "bg-gray-50 text-gray-500 border-gray-200",
+};
+
+function EarningsWatch() {
+  const [data, setData] = useState<EarningsCalendar | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/earnings")
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const todayISO = new Date().toISOString().split("T")[0];
+  const tomorrowISO = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+
+  function relativeDay(dateISO: string): string {
+    if (dateISO === todayISO) return "Today";
+    if (dateISO === tomorrowISO) return "Tomorrow";
+    return new Date(dateISO + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-lg font-bold text-[#396477]">Earnings This Week</h2>
+          <p className="text-xs text-[#64748b] mt-0.5">Upcoming earnings releases · EPS estimates</p>
+        </div>
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+          <div className="w-4 h-4 border-2 border-sky-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          Loading earnings calendar…
+        </div>
+      )}
+
+      {!loading && (!data || data.entries.length === 0) && (
+        <p className="text-sm text-gray-400 py-2">No upcoming earnings found.</p>
+      )}
+
+      {data && data.entries.length > 0 && (() => {
+        const byDate: Record<string, EarningsEntry[]> = {};
+        for (const e of data.entries) {
+          if (!byDate[e.reportDate]) byDate[e.reportDate] = [];
+          byDate[e.reportDate].push(e);
+        }
+        return (
+          <div className="space-y-6">
+            {Object.entries(byDate).sort(([a], [b]) => a.localeCompare(b)).map(([dateISO, entries]) => (
+              <div key={dateISO}>
+                <h3 className="text-xs font-semibold text-[#396477] uppercase tracking-wider mb-3">{relativeDay(dateISO)}</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {entries.map(e => {
+                    const forecastNum = parseFloat(e.epsForecast ?? "");
+                    const lastNum = parseFloat(e.lastYearEPS ?? "");
+                    const epsChange = !isNaN(forecastNum) && !isNaN(lastNum) ? forecastNum - lastNum : null;
+                    return (
+                      <div key={e.symbol} className="border border-gray-200 bg-gray-50 rounded-lg px-4 py-3 space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
+                            <p className="text-xs text-[#64748b] mt-1 truncate leading-tight">{e.name}</p>
+                          </div>
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex-shrink-0 ${EARNINGS_TIME_STYLE[e.time]}`}>
+                            {e.time === "pre-market" ? "Pre" : e.time === "post-market" ? "Post" : "TBD"}
+                          </span>
+                        </div>
+                        {e.epsForecast && (
+                          <div className="flex items-center gap-2 text-xs text-[#64748b]">
+                            <span>EPS est: <span className="font-semibold text-[#191c1e]">${e.epsForecast}</span></span>
+                            {epsChange !== null && (
+                              <span className={epsChange >= 0 ? "text-emerald-600 font-semibold" : "text-red-500 font-semibold"}>
+                                {epsChange >= 0 ? "▲" : "▼"} vs last yr
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {e.fiscalQuarterEnding && (
+                          <p className="text-[10px] text-gray-400">Q ending {e.fiscalQuarterEnding}</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+
+      <p className="text-xs text-gray-400">Source: Nasdaq earnings calendar. Refreshes every 6 hours.</p>
     </div>
   );
 }
