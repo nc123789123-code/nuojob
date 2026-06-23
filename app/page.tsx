@@ -1224,7 +1224,7 @@ function FundsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-[#64748b] leading-relaxed max-w-2xl">
           SEC Form D filings — capital raises are leading indicators of hiring.
         </p>
       </div>
@@ -1349,10 +1349,10 @@ function JobsSection({
       {!loading && atSignalFirms.length > 0 && (
         <div className="flex items-center justify-between gap-3 bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
           <div>
-            <p className="text-sm font-semibold text-[#396477]">
+            <p className="text-base font-semibold text-[#396477]">
               {atSignalFirms.length} role{atSignalFirms.length !== 1 ? "s" : ""} at firms with active fund signals
             </p>
-            <p className="text-xs text-[#71787c] mt-0.5">
+            <p className="text-sm text-[#64748b] mt-0.5">
               These firms are raising or recently closed. Signal firms are shown first.
             </p>
           </div>
@@ -1366,8 +1366,8 @@ function JobsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-sm text-gray-600 leading-relaxed max-w-2xl">
-          Curated roles across private credit, restructuring, and leveraged finance — filtered for relevance. Roles at firms with active fund signals are shown first.
+        <p className="text-base text-[#64748b] leading-relaxed max-w-2xl">
+          Curated roles across private credit, restructuring, and leveraged finance. Signal firms shown first.
         </p>
       </div>
 
@@ -1419,8 +1419,8 @@ function JobsSection({
       {!loading && signals.length === 0 && !error && (
         <div className="text-center py-14 text-gray-400">
           <div className="text-3xl mb-3">📊</div>
-          <p className="font-semibold text-gray-700 text-sm">No hiring signals found</p>
-          <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
+          <p className="font-semibold text-gray-600 text-base">No hiring signals found</p>
+          <p className="text-sm mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
         </div>
       )}
 
@@ -1467,7 +1467,7 @@ function JobsSection({
       )}
 
       {signals.length > 0 && (
-        <p className="text-center text-xs text-gray-400 py-1">
+        <p className="text-center text-sm text-gray-400 py-1">
           Hiring signals aggregated from 60+ firm career pages and SEC EDGAR capital activity
         </p>
       )}
@@ -2520,7 +2520,7 @@ function MarketSection() {
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
           <span className="text-xs text-gray-400">Updated {updatedTime}</span>
         </div>
-        <p className="text-[#191c1e] text-lg font-semibold leading-snug">{analysis.headline}</p>
+        <p className="text-[#396477] text-xl font-semibold leading-snug">{analysis.headline}</p>
       </div>
 
       {/* Sections */}
@@ -2528,15 +2528,15 @@ function MarketSection() {
         {analysis.sections.map((sec) => (
           <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-[#191c1e] text-sm">{sec.title}</h3>
+              <h3 className="font-semibold text-[#396477] text-base">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#41484c] text-xs leading-relaxed">{sec.summary}</p>
-            <ul className="space-y-1">
+            <p className="text-[#64748b] text-sm leading-relaxed">{sec.summary}</p>
+            <ul className="space-y-1.5">
               {sec.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#64748b]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
                   {b}
                 </li>
@@ -2546,7 +2546,7 @@ function MarketSection() {
         ))}
       </div>
 
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-sm text-gray-400">
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
 
@@ -2644,7 +2644,7 @@ function DistressedWatch() {
               <div key={s.id} className="px-5 py-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span title={severity.label} className="text-[11px]">{severity.dot}</span>
-                  <span className="font-semibold text-sm text-[#191c1e]">{s.company}</span>
+                  <span className="font-semibold text-base text-[#396477]">{s.company}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
                   {s.bondPrice != null && (
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${s.bondPrice < 70 ? "bg-red-50 text-red-600 border-red-200" : s.bondPrice < 90 ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"}`}>
@@ -2654,9 +2654,9 @@ function DistressedWatch() {
                   <span className="text-[11px] text-gray-400 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
                 </div>
                 {s.headline && (
-                  <p className="text-xs text-[#41484c] leading-relaxed">{s.headline}</p>
+                  <p className="text-sm text-[#64748b] leading-relaxed">{s.headline}</p>
                 )}
-                <p className="text-xs text-[#71787c] leading-relaxed">{s.whyItMatters}</p>
+                <p className="text-sm text-[#64748b] leading-relaxed">{s.whyItMatters}</p>
                 <div className="flex items-center justify-end pt-0.5">
                   {s.edgarUrl && (
                     <a href={s.edgarUrl} target="_blank" rel="noopener noreferrer"
