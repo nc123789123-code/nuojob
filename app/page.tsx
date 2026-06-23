@@ -2528,13 +2528,13 @@ function MarketSection() {
         {analysis.sections.map((sec) => (
           <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-bold text-[#396477] text-lg">{sec.title}</h3>
+              <h3 className="font-bold text-[#396477] text-xl">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#64748b] text-base leading-relaxed">{sec.summary}</p>
-            <ul className="space-y-1.5">
+            <p className="text-[#64748b] text-lg leading-relaxed">{sec.summary}</p>
+            <ul className="space-y-2">
               {sec.bullets.map((b, i) => (
                 <li key={i} className="flex items-start gap-2 text-base text-[#64748b]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
