@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <title>Onlu — Demo</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Inter',sans-serif;overflow:hidden;width:100vw;height:100vh;background:#f8f6f2;touch-action:none;}
   .deck{width:100%;height:100%;position:relative;touch-action:none;}
@@ -37,8 +39,8 @@
   #s1 .logo-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
   #s1 .logo-ring::before{content:'';position:absolute;inset:-12px;border-radius:50%;background:linear-gradient(135deg,#9ecfc0,#c4b0de,#f0b2a0);opacity:0.3;filter:blur(8px);}
   #s1 .logo-name{font-size:clamp(60px,10vw,110px);font-weight:900;color:#2d6a7e;letter-spacing:-4px;line-height:1;}
-  #s1 .eyebrow{font-size:clamp(12px,1.6vw,16px);font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#9ecfc0;}
-  #s1 .sub{font-size:clamp(18px,3vw,32px);font-weight:400;color:#64748b;max-width:680px;text-align:center;line-height:1.4;margin-bottom:clamp(24px,3.5vw,40px);}
+  #s1 .eyebrow{font-size:clamp(12px,1.6vw,16px);font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#9ecfc0;margin-bottom:clamp(16px,2.5vw,28px);}
+  #s1 .sub{font-size:clamp(18px,3vw,32px);font-weight:400;color:#64748b;max-width:680px;text-align:center;line-height:1.5;margin-bottom:clamp(24px,3.5vw,40px);}
   #s1 .pills{display:flex;gap:clamp(8px,1.5vw,14px);flex-wrap:wrap;justify-content:center;margin-bottom:clamp(20px,3vw,34px);}
   #s1 .pill{font-size:clamp(14px,1.8vw,19px);font-weight:600;padding:clamp(9px,1.1vw,14px) clamp(18px,2.2vw,30px);border-radius:40px;display:flex;align-items:center;gap:8px;}
   #s1 .pill.green{background:linear-gradient(135deg,#d4f0e6,#c0e8d8);color:#2d7a5f;box-shadow:0 2px 12px rgba(100,180,140,0.2);}
@@ -63,7 +65,7 @@
   #s2 .card:nth-child(2) .icon-wrap{background:#ede8f8;}
   #s2 .card:nth-child(3) .icon-wrap{background:#d4f0e6;}
   #s2 .ctitle{font-size:clamp(18px,2.5vw,30px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(8px,1.2vw,14px);}
-  #s2 .cdesc{font-size:clamp(13px,1.8vw,21px);color:#64748b;line-height:1.55;}
+  #s2 .cdesc{font-size:clamp(13px,1.8vw,21px);color:#64748b;line-height:1.5;}
 
   /* ── SLIDE 3: SOLUTION ── */
   #s3{background:linear-gradient(135deg,#eef7f3 0%,#f0f7f4 50%,#f5f0fb 100%);}
@@ -80,7 +82,7 @@
   #s3 .feat:nth-child(4)::after{background:linear-gradient(180deg,#c4b0de,#8b70c0);}
   #s3 .emoji-wrap{width:clamp(44px,5.5vw,62px);height:clamp(44px,5.5vw,62px);border-radius:16px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,3.2vw,36px);flex-shrink:0;}
   #s3 .ftitle{font-size:clamp(18px,2.4vw,28px);font-weight:800;color:#2d6a7e;margin-bottom:5px;}
-  #s3 .fdesc{font-size:clamp(13px,1.7vw,20px);color:#64748b;}
+  #s3 .fdesc{font-size:clamp(13px,1.7vw,20px);color:#64748b;line-height:1.5;}
   #s3 .badge{margin-top:clamp(20px,2.8vw,34px);display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#d4f0e6,#c0e8d8);color:#2d7a5f;font-size:clamp(15px,2vw,22px);font-weight:700;padding:clamp(11px,1.4vw,17px) clamp(28px,3.5vw,44px);border-radius:40px;box-shadow:0 4px 20px rgba(100,180,140,0.2);}
 
   /* ── SLIDE 4: TRACTION ── */
@@ -98,7 +100,7 @@
   #s4 .stat:nth-child(4)::before{background:linear-gradient(90deg,#a0c8de,#6a98b8);}
   #s4 .num{font-size:clamp(52px,8.5vw,96px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;line-height:1;}
   #s4 .unit{font-size:clamp(13px,1.7vw,19px);font-weight:700;color:#6aab8e;margin-top:8px;text-transform:uppercase;letter-spacing:0.5px;}
-  #s4 .slabel{font-size:clamp(11px,1.4vw,16px);color:#94a3b8;margin-top:6px;}
+  #s4 .slabel{font-size:clamp(11px,1.4vw,16px);font-weight:500;color:#94a3b8;margin-top:6px;}
   #s4 .timeline{width:100%;max-width:960px;display:flex;align-items:center;background:#fff;border-radius:20px;padding:clamp(16px,2.2vw,28px) clamp(22px,3vw,42px);box-shadow:0 4px 24px rgba(74,103,168,0.06);}
   #s4 .titem{flex:1;text-align:center;position:relative;}
   #s4 .titem .tdate{font-size:clamp(10px,1.3vw,15px);font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
@@ -121,7 +123,7 @@
   #s5 .opp:nth-child(3)::before{background:linear-gradient(90deg,#c4b0de,#9b80d0);}
   #s5 .onum{font-size:clamp(52px,8.5vw,88px);font-weight:900;color:#d4900a;letter-spacing:-3px;margin-bottom:10px;line-height:1;}
   #s5 .otitle{font-size:clamp(15px,2vw,24px);font-weight:800;color:#2d6a7e;margin-bottom:8px;}
-  #s5 .odesc{font-size:clamp(12px,1.6vw,19px);color:#64748b;}
+  #s5 .odesc{font-size:clamp(12px,1.6vw,19px);color:#64748b;line-height:1.5;}
   #s5 .paths{width:100%;max-width:960px;background:#fff;border-radius:20px;padding:clamp(16px,2.2vw,26px) clamp(28px,3.5vw,44px);box-shadow:0 4px 24px rgba(176,122,32,0.07);display:flex;align-items:center;}
   #s5 .path-item{flex:1;text-align:center;padding:0 8px;}
   #s5 .path-item:not(:last-child){border-right:1px solid #f0e8d0;}
@@ -135,7 +137,7 @@
   #s6 .label{color:#2d7a5f;} #s6 .label::before{background:#2d7a5f;}
   #s6 .logo-lockup{display:flex;align-items:center;gap:clamp(10px,1.5vw,16px);margin-bottom:clamp(10px,1.5vw,16px);}
   #s6 .lname{font-size:clamp(28px,4.5vw,48px);font-weight:900;color:#2d6a7e;letter-spacing:-1.5px;}
-  #s6 h2{font-size:clamp(44px,8vw,92px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;margin-bottom:clamp(6px,1vw,12px);text-align:center;line-height:1.0;}
+  #s6 h2{font-size:clamp(44px,8vw,92px);font-weight:900;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(6px,1vw,12px);text-align:center;line-height:1.0;}
   #s6 .sub{font-size:clamp(16px,2.2vw,26px);color:#94a3b8;margin-bottom:clamp(22px,3.5vw,42px);text-align:center;}
   #s6 .asks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,22px);width:100%;max-width:940px;}
   #s6 .ask{border-radius:24px;padding:clamp(24px,3.2vw,44px) clamp(20px,2.8vw,34px);position:relative;overflow:hidden;}
@@ -151,7 +153,7 @@
   #s6 .ask.network .anum{color:#3a6898;}
   #s6 .ask.invest .anum{color:#a07820;}
   #s6 .atitle{font-size:clamp(20px,3.2vw,40px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(8px,1.2vw,14px);}
-  #s6 .adesc{font-size:clamp(13px,1.8vw,22px);color:#4a5568;line-height:1.5;}
+  #s6 .adesc{font-size:clamp(13px,1.8vw,22px);color:#64748b;line-height:1.5;}
   #s6 .contact{margin-top:clamp(18px,2.5vw,32px);font-size:clamp(14px,1.8vw,20px);color:#94a3b8;display:flex;align-items:center;gap:10px;}
   #s6 .contact strong{color:#2d6a7e;font-weight:700;}
   #s6 .contact .dot-sep{width:4px;height:4px;border-radius:50%;background:#cbd5e1;display:inline-block;}
@@ -175,8 +177,8 @@
     <div class="blob b2"></div>
     <div class="blob b3"></div>
     <div class="content">
-      <div class="eyebrow" style="font-size:clamp(12px,1.6vw,16px);font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#9ecfc0;margin-bottom:clamp(16px,2.5vw,28px);">Demo Day · June 2026</div>
-      <div class="logo-lockup" style="display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2vw,24px);margin-bottom:clamp(20px,3vw,36px);">
+      <div class="eyebrow">Demo Day · June 2026</div>
+      <div class="logo-lockup">
         <div class="logo-ring">
           <svg width="clamp(80px,11vw,120px)" height="clamp(80px,11vw,120px)" viewBox="0 0 28 28" fill="none" style="width:clamp(80px,11vw,120px);height:clamp(80px,11vw,120px);filter:drop-shadow(0 8px 24px rgba(158,207,192,0.4))">
             <defs><clipPath id="c1"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
