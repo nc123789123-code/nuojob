@@ -2658,9 +2658,11 @@ function DealsWatch() {
 
                 <div className="bg-[#f0f7f4] border border-[#c8e6da] rounded-lg px-3 py-2.5">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-[10px] font-bold text-[#396477] uppercase tracking-wider">Valuation</p>
-                    {deal.valuationSource === "estimated" && (
-                      <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-amber-100 text-amber-700 border border-amber-200 rounded-full">Est.</span>
+                    <p className="text-[10px] font-bold text-[#396477] uppercase tracking-wider">
+                      {deal.valuationSource === "reported" ? "Valuation" : "What to Watch"}
+                    </p>
+                    {deal.valuationSource === "watch" && (
+                      <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-amber-100 text-amber-700 border border-amber-200 rounded-full">Terms pending</span>
                     )}
                   </div>
                   <p className="text-sm text-[#396477] leading-snug">{deal.valuationNote}</p>
