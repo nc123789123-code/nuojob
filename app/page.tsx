@@ -2700,6 +2700,8 @@ interface EarningsEntry {
   epsForecast?: string;
   lastYearEPS?: string;
   fiscalQuarterEnding?: string;
+  marketCap?: string;
+  blurb?: string;
 }
 
 interface EarningsCalendar {
@@ -2772,17 +2774,28 @@ function EarningsWatch() {
                     const epsChange = !isNaN(forecastNum) && !isNaN(lastNum) ? forecastNum - lastNum : null;
                     return (
                       <div key={e.symbol} className="border border-gray-200 bg-gray-50 rounded-lg px-4 py-3 space-y-2">
+                        {/* Header row */}
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
+                            <div className="flex items-baseline gap-2">
+                              <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
+                              {e.marketCap && (
+                                <span className="text-[10px] font-semibold text-[#396477] bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded">{e.marketCap}</span>
+                              )}
+                            </div>
                             <p className="text-xs text-[#64748b] mt-1 truncate leading-tight">{e.name}</p>
                           </div>
                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex-shrink-0 ${EARNINGS_TIME_STYLE[e.time]}`}>
                             {e.time === "pre-market" ? "Pre" : e.time === "post-market" ? "Post" : "TBD"}
                           </span>
                         </div>
+                        {/* Blurb */}
+                        {e.blurb && (
+                          <p className="text-[11px] text-[#64748b] italic leading-tight">{e.blurb}</p>
+                        )}
+                        {/* EPS */}
                         {e.epsForecast && (
-                          <div className="flex items-center gap-2 text-xs text-[#64748b]">
+                          <div className="flex items-center gap-2 text-xs text-[#64748b] border-t border-gray-200 pt-2">
                             <span>EPS est: <span className="font-semibold text-[#191c1e]">${e.epsForecast}</span></span>
                             {epsChange !== null && (
                               <span className={epsChange >= 0 ? "text-emerald-600 font-semibold" : "text-red-500 font-semibold"}>
@@ -2790,9 +2803,6 @@ function EarningsWatch() {
                               </span>
                             )}
                           </div>
-                        )}
-                        {e.fiscalQuarterEnding && (
-                          <p className="text-[10px] text-gray-400">Q ending {e.fiscalQuarterEnding}</p>
                         )}
                       </div>
                     );
