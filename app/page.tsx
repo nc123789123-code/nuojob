@@ -335,8 +335,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#191c1e] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#41484c] text-lg mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
+              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -345,14 +345,14 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#191c1e] text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+              <h1 className="text-[#396477] text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
                 <span className="text-[10px] text-[#71787c]">Just open and use</span>
               </div>
-              <p className="text-[#41484c] text-lg mt-3 max-w-lg leading-relaxed">
+              <p className="text-[#64748b] text-lg mt-3 max-w-lg leading-relaxed">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
@@ -381,8 +381,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#191c1e] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
-              <p className="text-[#41484c] text-lg mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
+              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
             </>
           )}
           {topTab === "firmprep" && (
@@ -391,8 +391,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#191c1e] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Edge Prep</h1>
-              <p className="text-[#41484c] text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
+              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Edge Prep</h1>
+              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
 
@@ -1526,75 +1526,63 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
 import { InsightPost, CAREER_POSTS, INDUSTRY_POSTS, TAG_STYLES } from "@/app/lib/posts";
 function PostList({ posts }: { posts: InsightPost[] }) {
   const [activeTag, setActiveTag] = useState<string>("All");
+  const [expanded, setExpanded] = useState<string | null>(null);
   const tags = ["All", ...Array.from(new Set(posts.map(p => p.tag).filter(Boolean))) as string[]];
   const filtered = activeTag === "All" ? posts : posts.filter(p => p.tag === activeTag);
 
   return (
     <div className="max-w-3xl py-2">
-      {/* Topic navigator */}
-      <div className="mb-8 space-y-4">
-        {/* Tag filter */}
-        <div className="flex flex-wrap gap-2">
-          {tags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => setActiveTag(tag)}
-              className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
-                activeTag === tag
-                  ? "bg-slate-100 text-slate-800 border-slate-300"
-                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
-              }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-        {/* Jump links */}
-        <div className="border border-gray-100 rounded-xl px-4 py-3 bg-gray-50/60">
-          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Jump to</p>
-          <div className="space-y-1.5">
-            {filtered.map(post => (
-              <Link
-                key={post.slug}
-                href={`/learn/${post.slug}`}
-                className="flex items-center gap-2 text-xs text-[#41484c] hover:text-[#191c1e] transition-colors group"
-              >
-                {post.tag && (
-                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
-                    {post.tag}
-                  </span>
-                )}
-                <span className="group-hover:underline underline-offset-2">{post.title}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
+      {/* Tag filter */}
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tags.map(tag => (
+          <button
+            key={tag}
+            onClick={() => { setActiveTag(tag); setExpanded(null); }}
+            className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
+              activeTag === tag
+                ? "bg-[#396477]/10 text-[#396477] border-[#396477]/30"
+                : "bg-white text-gray-400 border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
       </div>
 
-      {/* Posts */}
-      <div className="space-y-6">
+      {/* WSJ-style accordion list */}
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm divide-y divide-gray-100 overflow-hidden">
         {filtered.map((post) => (
-          <article key={post.slug} id={`post-${post.slug}`}
-            className="bg-white border border-gray-100 rounded-2xl p-6 sm:p-8 shadow-sm">
-            <header className="mb-6">
+          <div key={post.slug}>
+            <button
+              onClick={() => setExpanded(expanded === post.slug ? null : post.slug)}
+              className="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-gray-50/70 transition-colors group"
+            >
               {post.tag && (
-                <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-600"}`}>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-500"}`}>
                   {post.tag}
                 </span>
               )}
-              <Link href={`/learn/${post.slug}`} className="hover:underline underline-offset-2">
-                <h2 className="text-[#191c1e] text-xl font-bold tracking-tight leading-snug mb-2">
-                  {post.title}
-                </h2>
-              </Link>
-              <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
-            </header>
-            <div className="space-y-4">
-              {post.richContent ?? post.paragraphs.map((p, i) => (
-                <p key={i} className="text-[#41484c] text-sm leading-[1.75]">{p}</p>
-              ))}
-            </div>
-          </article>
+              <h2 className="flex-1 text-[#396477] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
+                {post.title}
+              </h2>
+              <time className="text-[11px] text-gray-300 flex-shrink-0 hidden sm:block">{post.date}</time>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                className={`w-4 h-4 text-gray-300 flex-shrink-0 transition-transform duration-200 ${expanded === post.slug ? "rotate-180" : ""}`}>
+                <path d="M4 6l4 4 4-4"/>
+              </svg>
+            </button>
+            {expanded === post.slug && (
+              <div className="px-5 pb-5 pt-1 bg-gray-50/50 border-t border-gray-100">
+                <p className="text-[#64748b] text-sm leading-relaxed mb-3">
+                  {post.paragraphs[0]}
+                </p>
+                <Link href={`/learn/${post.slug}`}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-[#396477] hover:text-[#2d5060] transition-colors">
+                  Read full article →
+                </Link>
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </div>
@@ -7553,8 +7541,8 @@ function OnluTableSection() {
         {/* ── LEFT: Events ── */}
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-3xl font-bold text-[#1A2B4A]">Onlu Table</h2>
-            <p className="text-lg text-[#71787c] leading-relaxed">
+            <h2 className="text-3xl font-bold text-[#396477]">Onlu Table</h2>
+            <p className="text-lg text-[#64748b] leading-relaxed">
               Small-group coffee chats in NYC. No agenda.
             </p>
           </div>
