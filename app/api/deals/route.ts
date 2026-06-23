@@ -11,7 +11,7 @@ export interface DealCard {
   dealSize?: string;
   sector?: string;
   valuationNote: string;
-  valuationSource: "reported" | "estimated";
+  valuationSource: "reported" | "watch";
   summary: string;
   keyTakeaway: string;
 }
@@ -24,23 +24,18 @@ export interface DealsAnalysis {
 
 interface RssItem { title: string; description: string; }
 
-async function fetchItems(query: string, count = 5): Promise<RssItem[]> {
+async function fetchItems(query: string, count = 6): Promise<RssItem[]> {
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
     const xml = await res.text();
-
-    // Parse <item> blocks to get both title and description
     const items: RssItem[] = [];
-    const itemBlocks = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
-    for (const block of itemBlocks.slice(0, count)) {
+    for (const block of [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, count)) {
       const body = block[1];
-      const titleMatch = body.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) ||
-                         body.match(/<title>(.*?)<\/title>/);
-      const descMatch  = body.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) ||
-                         body.match(/<description>(.*?)<\/description>/);
+      const titleMatch = body.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) || body.match(/<title>(.*?)<\/title>/);
+      const descMatch  = body.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) || body.match(/<description>(.*?)<\/description>/);
       const title = titleMatch?.[1]?.trim() ?? "";
-      const description = descMatch?.[1]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300) ?? "";
+      const description = descMatch?.[1]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 400) ?? "";
       if (title) items.push({ title, description });
     }
     return items;
@@ -58,9 +53,9 @@ function formatItems(label: string, items: RssItem[]): string {
 
 async function buildDeals(dateStr: string): Promise<DealsAnalysis> {
   const [maItems, ipoItems, debtItems] = await Promise.all([
-    fetchItems("merger acquisition buyout deal announced 2026", 5),
-    fetchItems("IPO initial public offering S-1 listing 2026", 5),
-    fetchItems("bond offering leveraged loan debt issuance high-yield 2026", 5),
+    fetchItems("major merger acquisition billion deal announced 2026", 6),
+    fetchItems("IPO billion valuation initial public offering 2026", 6),
+    fetchItems("billion bond offering leveraged loan high-yield debt issuance 2026", 6),
   ]);
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -79,40 +74,37 @@ async function buildDeals(dateStr: string): Promise<DealsAnalysis> {
     messages: [
       {
         role: "user",
-        content: `You are a senior buy-side analyst writing deal intelligence cards for junior analysts. Date: ${dateStr}.
+        content: `You are a senior buy-side analyst. Date: ${dateStr}.
 
-CRITICAL RULE: The "valuationNote" field must ALWAYS contain specific metrics — never say "unknown" or "not disclosed".
-- If the deal terms are in the headlines/context: use the reported figures.
-- If terms are NOT reported: use your knowledge of typical sector multiples and recent comps to give an ESTIMATED range. Label it as estimated. For example: "Terms not disclosed; comparable software M&A trades at 15-25x EV/EBITDA — deal likely priced in that range given [rationale]."
+Select and analyze only MAJOR deals (minimum ~$500M deal size or clearly significant). Exclude small, minor, or unclear transactions.
 
-News items (title + context snippet):
+NEWS ITEMS (title + context):
 ${input}
+
+VALUATION RULES — very important:
+1. If deal terms (size, multiple, premium, yield, spread) are EXPLICITLY stated in the headlines or context: report those exact figures. Set valuationSource = "reported".
+2. If terms are NOT in the news: do NOT fabricate specific multiples or valuations. Instead explain what metrics analysts will watch when terms emerge (e.g. "Terms not yet disclosed. Analysts will focus on EV/EBITDA vs. sector comps and premium to unaffected share price"). Set valuationSource = "watch".
+3. NEVER invent specific numbers (like "12x EV/EBITDA" or "$4.2bn") that are not in the source material.
 
 Return ONLY valid JSON:
 {
   "deals": [
     {
       "id": "unique-slug",
-      "company": "Target/issuer name",
-      "counterparty": "Acquirer or lead underwriter",
+      "company": "Target or issuer name",
+      "counterparty": "Acquirer or lead bank (only if mentioned)",
       "dealType": "ma|ipo|debt",
-      "dealSize": "$Xbn or null",
-      "sector": "sector name",
-      "valuationNote": "ALWAYS fill this. Reported: state exact figures (EV/EBITDA, premium to unaffected, P/E, yield, spread vs SOFR/Treasuries). Estimated: give sector comp range with reasoning.",
-      "valuationSource": "reported|estimated",
-      "summary": "2 crisp sentences: what happened and strategic rationale",
-      "keyTakeaway": "1 sentence buy-side signal for a junior analyst"
+      "dealSize": "Only if explicitly stated in the news — otherwise omit",
+      "sector": "sector",
+      "valuationNote": "If reported: exact figures from the news. If not: what metrics analysts will track and why this deal matters structurally.",
+      "valuationSource": "reported|watch",
+      "summary": "2 sentences: what happened and why it matters",
+      "keyTakeaway": "1 sentence: what this signals for the broader market or sector"
     }
   ]
 }
 
-Rules:
-- Include up to 6 deals, mix of types
-- Skip genuinely unidentifiable headlines
-- valuationNote is REQUIRED and must be substantive — never leave it as "terms not disclosed" alone
-- For M&A: EV/EBITDA multiple + premium to unaffected share price
-- For IPO: EV/Revenue or forward P/E + how it compares to sector peers
-- For debt: coupon or spread (vs SOFR or Treasuries) + rating + use of proceeds context`,
+Include 4–6 deals. Only major transactions. No small deals.`,
       },
     ],
   });
