@@ -69,42 +69,43 @@ async function buildDeals(dateStr: string): Promise<DealsAnalysis> {
 
   const client = new Anthropic({ apiKey });
   const msg = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-6",
     max_tokens: 2000,
     messages: [
       {
         role: "user",
-        content: `You are a senior buy-side analyst. Date: ${dateStr}.
+        content: `You are extracting deal information ONLY from the news snippets below. Date: ${dateStr}.
 
-Select and analyze only MAJOR deals (minimum ~$500M deal size or clearly significant). Exclude small, minor, or unclear transactions.
+STRICT RULES:
+- Use ONLY information explicitly stated in the provided headlines and context snippets. Do NOT use your training knowledge to fill in details, add context, or infer facts not present in the text.
+- If a deal's size, terms, or valuation are not mentioned in the text, do not guess them.
+- If you are not certain a deal is real and current from the text alone, skip it.
+- Only include significant deals (clearly $500M+ or described as major). Skip small, speculative, or vague items.
+- For dealSize: only include if an explicit dollar figure appears in the text.
+- For valuationNote: if terms are in the text, quote them. If not, say "Terms not yet disclosed — watch for [relevant metric e.g. EV/EBITDA, deal premium, yield spread] when announced." Set valuationSource = "watch".
 
-NEWS ITEMS (title + context):
+NEWS ITEMS:
 ${input}
 
-VALUATION RULES — very important:
-1. If deal terms (size, multiple, premium, yield, spread) are EXPLICITLY stated in the headlines or context: report those exact figures. Set valuationSource = "reported".
-2. If terms are NOT in the news: do NOT fabricate specific multiples or valuations. Instead explain what metrics analysts will watch when terms emerge (e.g. "Terms not yet disclosed. Analysts will focus on EV/EBITDA vs. sector comps and premium to unaffected share price"). Set valuationSource = "watch".
-3. NEVER invent specific numbers (like "12x EV/EBITDA" or "$4.2bn") that are not in the source material.
-
-Return ONLY valid JSON:
+Return ONLY valid JSON, no markdown:
 {
   "deals": [
     {
-      "id": "unique-slug",
-      "company": "Target or issuer name",
-      "counterparty": "Acquirer or lead bank (only if mentioned)",
+      "id": "slug",
+      "company": "company name from the text",
+      "counterparty": "only if named in the text",
       "dealType": "ma|ipo|debt",
-      "dealSize": "Only if explicitly stated in the news — otherwise omit",
-      "sector": "sector",
-      "valuationNote": "If reported: exact figures from the news. If not: what metrics analysts will track and why this deal matters structurally.",
+      "dealSize": "only if explicitly in the text",
+      "sector": "sector if inferable from company name",
+      "valuationNote": "reported terms from text, or 'Terms not yet disclosed — watch for X'",
       "valuationSource": "reported|watch",
-      "summary": "2 sentences: what happened and why it matters",
-      "keyTakeaway": "1 sentence: what this signals for the broader market or sector"
+      "summary": "2 sentences based only on what the text says",
+      "keyTakeaway": "1 sentence market implication"
     }
   ]
 }
 
-Include 4–6 deals. Only major transactions. No small deals.`,
+Return an empty deals array if no clearly major, real deals are identifiable from the text.`,
       },
     ],
   });
@@ -120,7 +121,7 @@ Include 4–6 deals. Only major transactions. No small deals.`,
   };
 }
 
-const getCachedDeals = unstable_cache(buildDeals, ["deals-v3"], { revalidate: 21600 }); // 6h
+const getCachedDeals = unstable_cache(buildDeals, ["deals-v4"], { revalidate: 21600 }); // 6h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
