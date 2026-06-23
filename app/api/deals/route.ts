@@ -120,7 +120,7 @@ Include 4–6 deals. Only major transactions. No small deals.`,
   };
 }
 
-const getCachedDeals = unstable_cache(buildDeals, ["deals"], { revalidate: 21600 }); // 6h
+const getCachedDeals = unstable_cache(buildDeals, ["deals-v3"], { revalidate: 21600 }); // 6h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
