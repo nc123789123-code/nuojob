@@ -2520,7 +2520,7 @@ function MarketSection() {
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
           <span className="text-xs text-gray-400">Updated {updatedTime}</span>
         </div>
-        <p className="text-[#396477] text-xl font-semibold leading-snug">{analysis.headline}</p>
+        <p className="text-[#396477] text-2xl font-bold leading-snug">{analysis.headline}</p>
       </div>
 
       {/* Sections */}
@@ -2528,15 +2528,15 @@ function MarketSection() {
         {analysis.sections.map((sec) => (
           <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-[#396477] text-base">{sec.title}</h3>
+              <h3 className="font-bold text-[#396477] text-lg">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#64748b] text-sm leading-relaxed">{sec.summary}</p>
+            <p className="text-[#64748b] text-base leading-relaxed">{sec.summary}</p>
             <ul className="space-y-1.5">
               {sec.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#64748b]">
+                <li key={i} className="flex items-start gap-2 text-base text-[#64748b]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
                   {b}
                 </li>
