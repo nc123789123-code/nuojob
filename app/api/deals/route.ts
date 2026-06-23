@@ -77,12 +77,11 @@ async function buildDeals(dateStr: string): Promise<DealsAnalysis> {
         content: `You are extracting deal information ONLY from the news snippets below. Date: ${dateStr}.
 
 STRICT RULES:
-- Use ONLY information explicitly stated in the provided headlines and context snippets. Do NOT use your training knowledge to fill in details, add context, or infer facts not present in the text.
-- If a deal's size, terms, or valuation are not mentioned in the text, do not guess them.
-- If you are not certain a deal is real and current from the text alone, skip it.
-- Only include significant deals (clearly $500M+ or described as major). Skip small, speculative, or vague items.
+- Use ONLY information explicitly stated in the provided headlines and context. Do NOT use training knowledge to add facts not in the text.
+- Include any clearly identified deal involving a named company — do not filter by size unless a deal is obviously trivial (under $50M or clearly minor).
 - For dealSize: only include if an explicit dollar figure appears in the text.
-- For valuationNote: if terms are in the text, quote them. If not, say "Terms not yet disclosed — watch for [relevant metric e.g. EV/EBITDA, deal premium, yield spread] when announced." Set valuationSource = "watch".
+- For valuationNote: quote reported terms if present. If not: "Terms not yet disclosed — analysts will watch [relevant metric]." Set valuationSource = "watch".
+- Never invent specific numbers not in the source text.
 
 NEWS ITEMS:
 ${input}
@@ -96,8 +95,8 @@ Return ONLY valid JSON, no markdown:
       "counterparty": "only if named in the text",
       "dealType": "ma|ipo|debt",
       "dealSize": "only if explicitly in the text",
-      "sector": "sector if inferable from company name",
-      "valuationNote": "reported terms from text, or 'Terms not yet disclosed — watch for X'",
+      "sector": "sector if clear from company name",
+      "valuationNote": "reported terms, or 'Terms not yet disclosed — watch for X'",
       "valuationSource": "reported|watch",
       "summary": "2 sentences based only on what the text says",
       "keyTakeaway": "1 sentence market implication"
@@ -105,7 +104,7 @@ Return ONLY valid JSON, no markdown:
   ]
 }
 
-Return an empty deals array if no clearly major, real deals are identifiable from the text.`,
+Include all clearly identifiable deals (target 5–8). Return empty array only if truly no real deals found.`,
       },
     ],
   });
@@ -121,7 +120,7 @@ Return an empty deals array if no clearly major, real deals are identifiable fro
   };
 }
 
-const getCachedDeals = unstable_cache(buildDeals, ["deals-v4"], { revalidate: 21600 }); // 6h
+const getCachedDeals = unstable_cache(buildDeals, ["deals-v5"], { revalidate: 21600 }); // 6h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
