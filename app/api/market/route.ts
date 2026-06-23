@@ -59,7 +59,7 @@ async function buildBrief(session: "morning" | "evening", dateStr: string): Prom
     max_tokens: 900,
     messages: [{
       role: "user",
-      content: `Buy-side ${session === "morning" ? "pre-market" : "post-close"} brief. Date: ${dateStr}.\nHeadlines:\n${headlines}\n\nReturn ONLY JSON:\n{"headline":"one sharp sentence","sections":[{"title":"U.S. Equity","summary":"2 sentences","bullets":["pt","pt","pt"],"sentiment":"positive|negative|neutral|mixed"},{"title":"Fixed Income","summary":"...","bullets":[...],"sentiment":"..."},{"title":"Macro & Fed","summary":"...","bullets":[...],"sentiment":"..."},{"title":"Alternatives","summary":"...","bullets":[...],"sentiment":"..."}]}`,
+      content: `Buy-side ${session === "morning" ? "pre-market" : "post-close"} brief. Date: ${dateStr}.\nHeadlines:\n${headlines}\n\nReturn ONLY JSON. Keep summaries to 1 sentence. Max 2 bullets per section, each under 10 words.\n{"headline":"one sharp sentence","sections":[{"title":"U.S. Equity","summary":"1 sentence","bullets":["short pt","short pt"],"sentiment":"positive|negative|neutral|mixed"},{"title":"Fixed Income","summary":"...","bullets":[...],"sentiment":"..."},{"title":"Macro & Fed","summary":"...","bullets":[...],"sentiment":"..."},{"title":"Alternatives","summary":"...","bullets":[...],"sentiment":"..."}]}`,
     }],
   });
 
@@ -69,7 +69,7 @@ async function buildBrief(session: "morning" | "evening", dateStr: string): Prom
   return { session, date: dateStr, headline: json.headline, sections: json.sections, generatedAt: new Date().toISOString() };
 }
 
-const getCachedBrief = unstable_cache(buildBrief, ["market"], { revalidate: 10800 }); // 3h
+const getCachedBrief = unstable_cache(buildBrief, ["market-v2"], { revalidate: 10800 }); // 3h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
