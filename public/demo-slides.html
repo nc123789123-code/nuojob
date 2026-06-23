@@ -15,12 +15,12 @@
   .slide.active{opacity:1;pointer-events:auto;}
 
   /* Arrow nav */
-  .arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:100;background:rgba(255,255,255,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(45,106,126,0.12);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#2d6a7e;box-shadow:0 2px 14px rgba(0,0,0,0.08);transition:opacity 0.2s,background 0.2s;-webkit-tap-highlight-color:transparent;opacity:0.55;}
-  .arrow:hover{opacity:1;background:rgba(255,255,255,0.9);}
-  .arrow.prev{left:14px;}
-  .arrow.next{right:14px;}
+  .arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(45,106,126,0.2);border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#2d6a7e;box-shadow:0 4px 18px rgba(0,0,0,0.12);transition:opacity 0.2s,background 0.2s,transform 0.15s;-webkit-tap-highlight-color:transparent;opacity:0.8;}
+  .arrow:hover,.arrow:active{opacity:1;background:#fff;transform:translateY(-50%) scale(1.08);}
+  .arrow.prev{left:16px;}
+  .arrow.next{right:16px;}
   .arrow.hidden{opacity:0!important;pointer-events:none;}
-  @media(max-width:640px){.arrow{width:34px;height:34px;opacity:0.45;}}
+  @media(max-width:640px){.arrow{width:42px;height:42px;opacity:0.85;}}
 
   /* Decorative blobs */
   .blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;}
