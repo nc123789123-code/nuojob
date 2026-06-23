@@ -1,5 +1,6 @@
 export const runtime = "nodejs";
 
+import Anthropic from "@anthropic-ai/sdk";
 import { unstable_cache } from "next/cache";
 
 export interface EarningsEntry {
@@ -11,6 +12,8 @@ export interface EarningsEntry {
   epsForecast?: string;
   lastYearEPS?: string;
   fiscalQuarterEnding?: string;
+  marketCap?: string;
+  blurb?: string;
 }
 
 export interface EarningsCalendar {
@@ -47,6 +50,7 @@ async function fetchForDate(dateISO: string): Promise<EarningsEntry[]> {
         epsForecast: r.epsForecast && r.epsForecast !== "N/A" ? r.epsForecast : undefined,
         lastYearEPS: r.lastYearEPS && r.lastYearEPS !== "N/A" ? r.lastYearEPS : undefined,
         fiscalQuarterEnding: r.fiscalQuarterEnding && r.fiscalQuarterEnding !== "N/A" ? r.fiscalQuarterEnding : undefined,
+        marketCap: r.marketCap && r.marketCap !== "N/A" ? r.marketCap : undefined,
       }));
   } catch {
     return [];
@@ -71,7 +75,32 @@ function getBusinessDates(count = 5): string[] {
   return dates;
 }
 
+async function addBlurbs(entries: EarningsEntry[], apiKey: string): Promise<void> {
+  if (!entries.length) return;
+  const list = entries.map(e => `${e.symbol}: ${e.name}`).join("\n");
+  try {
+    const client = new Anthropic({ apiKey });
+    const msg = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 800,
+      messages: [{
+        role: "user",
+        content: `Return ONLY valid JSON — no markdown. For each company write a 4-6 word description of what the business does (what it sells/makes, not the brand name). Format: {"SYMBOL":"description",...}\n\n${list}`,
+      }],
+    });
+    const raw = (msg.content[0] as { type: string; text: string }).text
+      .replace(/```json\n?|\n?```/g, "").trim();
+    const map: Record<string, string> = JSON.parse(raw);
+    for (const e of entries) {
+      if (map[e.symbol]) e.blurb = map[e.symbol];
+    }
+  } catch {
+    // blurbs are optional — gracefully skip on error
+  }
+}
+
 async function buildEarnings(): Promise<EarningsCalendar> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   const dates = getBusinessDates(5);
   const results = await Promise.all(dates.map(fetchForDate));
   const all = results.flat();
@@ -90,10 +119,13 @@ async function buildEarnings(): Promise<EarningsCalendar> {
     entries.push(...withForecast.slice(0, 8), ...rest.slice(0, 2));
   }
 
-  return { entries: entries.slice(0, 40), generatedAt: new Date().toISOString() };
+  const trimmed = entries.slice(0, 40);
+  if (apiKey) await addBlurbs(trimmed, apiKey);
+
+  return { entries: trimmed, generatedAt: new Date().toISOString() };
 }
 
-const getCachedEarnings = unstable_cache(buildEarnings, ["earnings-v1"], { revalidate: 21600 }); // 6h
+const getCachedEarnings = unstable_cache(buildEarnings, ["earnings-v2"], { revalidate: 21600 }); // 6h
 
 export async function GET() {
   try {
