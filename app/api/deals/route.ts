@@ -11,6 +11,7 @@ export interface DealCard {
   dealSize?: string;
   sector?: string;
   valuationNote: string;
+  valuationSource: "reported" | "estimated";
   summary: string;
   keyTakeaway: string;
 }
@@ -21,71 +22,97 @@ export interface DealsAnalysis {
   generatedAt: string;
 }
 
-async function fetchHeadlines(query: string, count = 5): Promise<string[]> {
+interface RssItem { title: string; description: string; }
+
+async function fetchItems(query: string, count = 5): Promise<RssItem[]> {
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
     const xml = await res.text();
-    const cdata = [...xml.matchAll(/<title><!\[CDATA\[(.*?)\]\]><\/title>/g)]
-      .slice(1, count + 1)
-      .map((m) => m[1].trim());
-    if (cdata.length > 0) return cdata;
-    return [...xml.matchAll(/<title>(.*?)<\/title>/g)]
-      .slice(1, count + 1)
-      .map((m) => m[1].trim());
+
+    // Parse <item> blocks to get both title and description
+    const items: RssItem[] = [];
+    const itemBlocks = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+    for (const block of itemBlocks.slice(0, count)) {
+      const body = block[1];
+      const titleMatch = body.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) ||
+                         body.match(/<title>(.*?)<\/title>/);
+      const descMatch  = body.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) ||
+                         body.match(/<description>(.*?)<\/description>/);
+      const title = titleMatch?.[1]?.trim() ?? "";
+      const description = descMatch?.[1]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300) ?? "";
+      if (title) items.push({ title, description });
+    }
+    return items;
   } catch {
     return [];
   }
 }
 
+function formatItems(label: string, items: RssItem[]): string {
+  if (!items.length) return `${label}: none`;
+  return `${label}:\n` + items.map((it, i) =>
+    `  ${i + 1}. ${it.title}${it.description ? `\n     Context: ${it.description}` : ""}`
+  ).join("\n");
+}
+
 async function buildDeals(dateStr: string): Promise<DealsAnalysis> {
-  const [maHeadlines, ipoHeadlines, debtHeadlines] = await Promise.all([
-    fetchHeadlines("merger acquisition deal signed 2026", 5),
-    fetchHeadlines("IPO initial public offering S-1 filing 2026", 5),
-    fetchHeadlines("bond offering leveraged loan debt issuance high yield 2026", 5),
+  const [maItems, ipoItems, debtItems] = await Promise.all([
+    fetchItems("merger acquisition buyout deal announced 2026", 5),
+    fetchItems("IPO initial public offering S-1 listing 2026", 5),
+    fetchItems("bond offering leveraged loan debt issuance high-yield 2026", 5),
   ]);
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("Missing API key");
 
-  const headlines = [
-    `M&A: ${maHeadlines.join(" | ") || "none"}`,
-    `IPO: ${ipoHeadlines.join(" | ") || "none"}`,
-    `DEBT: ${debtHeadlines.join(" | ") || "none"}`,
-  ].join("\n");
+  const input = [
+    formatItems("M&A", maItems),
+    formatItems("IPO", ipoItems),
+    formatItems("DEBT ISSUANCE", debtItems),
+  ].join("\n\n");
 
   const client = new Anthropic({ apiKey });
   const msg = await client.messages.create({
     model: "claude-haiku-4-5-20251001",
-    max_tokens: 1600,
+    max_tokens: 2000,
     messages: [
       {
         role: "user",
-        content: `You are a buy-side analyst writing deal cards for junior finance professionals. Date: ${dateStr}.
+        content: `You are a senior buy-side analyst writing deal intelligence cards for junior analysts. Date: ${dateStr}.
 
-Analyze these headlines and return structured deal cards with concise valuation commentary.
+CRITICAL RULE: The "valuationNote" field must ALWAYS contain specific metrics — never say "unknown" or "not disclosed".
+- If the deal terms are in the headlines/context: use the reported figures.
+- If terms are NOT reported: use your knowledge of typical sector multiples and recent comps to give an ESTIMATED range. Label it as estimated. For example: "Terms not disclosed; comparable software M&A trades at 15-25x EV/EBITDA — deal likely priced in that range given [rationale]."
 
-Headlines:
-${headlines}
+News items (title + context snippet):
+${input}
 
-Return ONLY valid JSON (no markdown, no explanation):
+Return ONLY valid JSON:
 {
   "deals": [
     {
-      "id": "short-unique-slug",
-      "company": "Target or issuer name",
-      "counterparty": "Acquirer or lead bank (omit if unknown)",
+      "id": "unique-slug",
+      "company": "Target/issuer name",
+      "counterparty": "Acquirer or lead underwriter",
       "dealType": "ma|ipo|debt",
-      "dealSize": "$Xbn or $Xmn (omit if unknown)",
-      "sector": "sector (e.g. Technology, Healthcare, Energy)",
-      "valuationNote": "Specific valuation metric: for M&A include EV/EBITDA and premium to unaffected; for IPO include EV/Revenue or P/E and comparable comps; for debt include coupon, spread to Treasuries or SOFR, rating if known",
-      "summary": "2 crisp sentences covering what the deal is and why it happened",
-      "keyTakeaway": "1 sentence buy-side implication for a junior analyst — what does this signal about the market?"
+      "dealSize": "$Xbn or null",
+      "sector": "sector name",
+      "valuationNote": "ALWAYS fill this. Reported: state exact figures (EV/EBITDA, premium to unaffected, P/E, yield, spread vs SOFR/Treasuries). Estimated: give sector comp range with reasoning.",
+      "valuationSource": "reported|estimated",
+      "summary": "2 crisp sentences: what happened and strategic rationale",
+      "keyTakeaway": "1 sentence buy-side signal for a junior analyst"
     }
   ]
 }
 
-Include up to 6 deals (mix of types). Skip vague headlines. Only include clearly identified, real deals.`,
+Rules:
+- Include up to 6 deals, mix of types
+- Skip genuinely unidentifiable headlines
+- valuationNote is REQUIRED and must be substantive — never leave it as "terms not disclosed" alone
+- For M&A: EV/EBITDA multiple + premium to unaffected share price
+- For IPO: EV/Revenue or forward P/E + how it compares to sector peers
+- For debt: coupon or spread (vs SOFR or Treasuries) + rating + use of proceeds context`,
       },
     ],
   });
