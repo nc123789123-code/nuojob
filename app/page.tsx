@@ -352,7 +352,7 @@ function HomeContent() {
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
                 <span className="text-[10px] text-[#71787c]">Just open and use</span>
               </div>
-              <p className="text-[#64748b] text-lg mt-3 max-w-lg leading-relaxed">
+              <p className="text-[#396477] text-xl sm:text-2xl font-semibold mt-3 max-w-lg leading-snug">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
@@ -391,8 +391,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Edge Prep</h1>
-              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
+              <h1 className="text-[#396477] text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">Edge Prep</h1>
+              <p className="text-[#64748b] text-xl sm:text-2xl mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
 
