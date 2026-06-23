@@ -7,8 +7,8 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Inter',sans-serif;overflow:hidden;width:100vw;height:100vh;background:#f8f6f2;}
-  .deck{width:100%;height:100%;position:relative;}
+  body{font-family:'Inter',sans-serif;overflow:hidden;width:100vw;height:100vh;background:#f8f6f2;touch-action:none;}
+  .deck{width:100%;height:100%;position:relative;touch-action:none;}
   .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:clamp(24px,4vw,56px) clamp(28px,6vw,80px);opacity:0;transition:opacity 0.3s ease;overflow:hidden;}
   .slide.active{display:flex;opacity:1;}
 
@@ -18,7 +18,7 @@
 
   /* Nav */
   .nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:100;padding:12px 20px;}
-  .dot{width:8px;height:8px;border-radius:50%;background:rgba(45,106,126,0.18);cursor:pointer;transition:all 0.25s;-webkit-tap-highlight-color:transparent;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(45,106,126,0.18);cursor:pointer;transition:all 0.25s;-webkit-tap-highlight-color:transparent;padding:12px;margin:-12px;box-sizing:content-box;}
   .dot.active{background:#6aab8e;width:24px;border-radius:4px;}
   .slide-num{position:fixed;bottom:20px;right:24px;font-size:12px;color:rgba(45,106,126,0.3);letter-spacing:1px;font-weight:700;}
   .hint{position:fixed;top:18px;right:24px;font-size:11px;color:rgba(45,106,126,0.22);letter-spacing:0.5px;}
@@ -388,12 +388,27 @@
       else document.exitFullscreen();
     }
   });
-  let tx = 0, ty = 0;
-  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  // Swipe navigation
+  let tx = 0, ty = 0, moved = false;
+  document.addEventListener('touchstart', e => {
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; moved = false;
+  }, { passive: false });
+  document.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - tx;
+    if (Math.abs(dx) > 10) { e.preventDefault(); moved = true; }
+  }, { passive: false });
   document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) dx < 0 ? go(current + 1) : go(current - 1);
-  }, { passive: true });
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 25 && Math.abs(dy) < 80) {
+      dx < 0 ? go(current + 1) : go(current - 1);
+    } else if (!moved) {
+      // Tap navigation: right side = next, left side = prev
+      const x = e.changedTouches[0].clientX;
+      if (e.target.closest('.nav')) return;
+      x > window.innerWidth * 0.4 ? go(current + 1) : go(current - 1);
+    }
+  }, { passive: false });
 </script>
 </body>
 </html>
