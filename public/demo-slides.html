@@ -7,111 +7,161 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Inter',sans-serif;background:#f5f3ef;overflow:hidden;width:100vw;height:100vh;}
+  body{font-family:'Inter',sans-serif;overflow:hidden;width:100vw;height:100vh;background:#f8f6f2;}
   .deck{width:100%;height:100%;position:relative;}
-  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:clamp(28px,5vw,60px) clamp(24px,7vw,80px);opacity:0;transition:opacity 0.3s ease;}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:clamp(24px,4vw,56px) clamp(28px,6vw,80px);opacity:0;transition:opacity 0.3s ease;overflow:hidden;}
   .slide.active{display:flex;opacity:1;}
 
-  /* Nav dots */
-  .nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:100;padding:10px 16px;}
-  .dot{width:10px;height:10px;border-radius:50%;background:rgba(45,106,126,0.2);cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
-  .dot.active{background:#6aab8e;transform:scale(1.4);}
-  .slide-num{position:fixed;bottom:20px;right:20px;font-size:12px;color:rgba(45,106,126,0.35);letter-spacing:1px;font-weight:600;}
-  .hint{position:fixed;top:16px;right:20px;font-size:11px;color:rgba(45,106,126,0.25);letter-spacing:0.5px;}
+  /* Decorative blobs */
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;}
+  .content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;}
+
+  /* Nav */
+  .nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:100;padding:12px 20px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(45,106,126,0.18);cursor:pointer;transition:all 0.25s;-webkit-tap-highlight-color:transparent;}
+  .dot.active{background:#6aab8e;width:24px;border-radius:4px;}
+  .slide-num{position:fixed;bottom:20px;right:24px;font-size:12px;color:rgba(45,106,126,0.3);letter-spacing:1px;font-weight:700;}
+  .hint{position:fixed;top:18px;right:24px;font-size:11px;color:rgba(45,106,126,0.22);letter-spacing:0.5px;}
+
+  /* ── SHARED LABEL ── */
+  .label{font-size:clamp(11px,1.4vw,15px);font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:clamp(16px,2.5vw,28px);display:inline-flex;align-items:center;gap:8px;}
+  .label::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;}
 
   /* ── SLIDE 1: TITLE ── */
-  #s1{background:linear-gradient(145deg,#eef7f3 0%,#f0ecf8 40%,#fdf0ec 100%);}
-  #s1 .logo-wrap{display:flex;align-items:center;gap:clamp(10px,2vw,18px);margin-bottom:clamp(20px,3vw,32px);}
-  #s1 .logo-name{font-size:clamp(64px,11vw,110px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;}
-  #s1 .eyebrow{font-size:clamp(13px,1.8vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9ecfc0;margin-bottom:clamp(14px,2vw,22px);}
-  #s1 .sub{font-size:clamp(22px,3.8vw,38px);font-weight:400;color:#64748b;max-width:700px;text-align:center;line-height:1.35;}
-  #s1 .pills{margin-top:clamp(28px,3.5vw,44px);display:flex;gap:clamp(10px,1.8vw,20px);flex-wrap:wrap;justify-content:center;}
-  #s1 .pill{font-size:clamp(16px,2.2vw,22px);font-weight:600;padding:clamp(10px,1.2vw,16px) clamp(20px,2.5vw,34px);border-radius:36px;}
-  #s1 .pill.green{background:#d4f0e6;color:#2d7a5f;}
-  #s1 .pill.lav{background:#ede8f8;color:#6b52b0;}
-  #s1 .pill.peach{background:#fde8e2;color:#b85a42;}
-  #s1 .url-row{margin-top:clamp(20px,2.5vw,36px);font-size:clamp(13px,1.6vw,17px);font-weight:700;color:#9ecfc0;letter-spacing:1px;}
+  #s1{background:linear-gradient(135deg,#e8f5f0 0%,#f0ebf8 45%,#fdeee8 100%);}
+  #s1 .b1{width:500px;height:500px;background:#9ecfc0;opacity:0.18;top:-180px;right:-120px;}
+  #s1 .b2{width:400px;height:400px;background:#c4b0de;opacity:0.15;bottom:-150px;left:-100px;}
+  #s1 .b3{width:300px;height:300px;background:#f0b2a0;opacity:0.13;bottom:0;right:10%;}
+
+  #s1 .logo-lockup{display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.5vw,28px);margin-bottom:clamp(20px,3vw,36px);}
+  #s1 .logo-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+  #s1 .logo-ring::before{content:'';position:absolute;inset:-12px;border-radius:50%;background:linear-gradient(135deg,#9ecfc0,#c4b0de,#f0b2a0);opacity:0.3;filter:blur(8px);}
+  #s1 .logo-name{font-size:clamp(60px,10vw,110px);font-weight:900;color:#2d6a7e;letter-spacing:-4px;line-height:1;}
+  #s1 .eyebrow{font-size:clamp(12px,1.6vw,16px);font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#9ecfc0;}
+  #s1 .sub{font-size:clamp(18px,3vw,32px);font-weight:400;color:#64748b;max-width:680px;text-align:center;line-height:1.4;margin-bottom:clamp(24px,3.5vw,40px);}
+  #s1 .pills{display:flex;gap:clamp(8px,1.5vw,14px);flex-wrap:wrap;justify-content:center;margin-bottom:clamp(20px,3vw,34px);}
+  #s1 .pill{font-size:clamp(14px,1.8vw,19px);font-weight:600;padding:clamp(9px,1.1vw,14px) clamp(18px,2.2vw,30px);border-radius:40px;display:flex;align-items:center;gap:8px;}
+  #s1 .pill.green{background:linear-gradient(135deg,#d4f0e6,#c0e8d8);color:#2d7a5f;box-shadow:0 2px 12px rgba(100,180,140,0.2);}
+  #s1 .pill.lav{background:linear-gradient(135deg,#ede8f8,#e0d8f4);color:#6b52b0;box-shadow:0 2px 12px rgba(180,160,220,0.2);}
+  #s1 .pill.peach{background:linear-gradient(135deg,#fde8e2,#f8d8d0);color:#b85a42;box-shadow:0 2px 12px rgba(240,178,160,0.2);}
+  #s1 .url{font-size:clamp(13px,1.6vw,18px);font-weight:700;color:#9ecfc0;letter-spacing:2px;padding:clamp(8px,1vw,12px) clamp(20px,2.5vw,32px);border:1.5px solid #9ecfc0;border-radius:40px;}
 
   /* ── SLIDE 2: PROBLEM ── */
-  #s2{background:linear-gradient(145deg,#fef7f4 0%,#fdeee8 100%);}
-  #s2 .label{font-size:clamp(13px,1.6vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#d07a5a;margin-bottom:clamp(20px,3vw,32px);}
-  #s2 h2{font-size:clamp(36px,6.5vw,78px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(28px,4vw,56px);text-align:center;line-height:1.1;}
-  #s2 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,26px);width:100%;max-width:980px;}
-  #s2 .card{background:#fff;border:1px solid #f0d5cb;border-radius:22px;padding:clamp(26px,3.5vw,46px) clamp(20px,2.8vw,36px);box-shadow:0 2px 20px rgba(208,122,90,0.07);}
-  #s2 .card .icon{font-size:clamp(34px,5vw,54px);margin-bottom:clamp(14px,1.8vw,22px);}
-  #s2 .card .ctitle{font-size:clamp(20px,2.8vw,32px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(10px,1.2vw,16px);}
-  #s2 .card .cdesc{font-size:clamp(15px,2vw,23px);color:#64748b;line-height:1.5;}
+  #s2{background:linear-gradient(135deg,#fff8f5 0%,#fdeee8 100%);}
+  #s2 .b1{width:500px;height:500px;background:#f0b2a0;opacity:0.15;top:-160px;right:-100px;}
+  #s2 .b2{width:350px;height:350px;background:#fde8e2;opacity:0.25;bottom:-120px;left:-80px;}
+  #s2 .label{color:#d07a5a;} #s2 .label::before{background:#d07a5a;}
+  #s2 h2{font-size:clamp(32px,5.5vw,68px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(28px,4vw,52px);text-align:center;line-height:1.1;}
+  #s2 .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,24px);width:100%;max-width:980px;}
+  #s2 .card{background:#fff;border-radius:24px;padding:clamp(24px,3vw,42px) clamp(20px,2.5vw,34px);box-shadow:0 4px 32px rgba(208,122,90,0.08);position:relative;overflow:hidden;}
+  #s2 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+  #s2 .card:nth-child(1)::before{background:linear-gradient(90deg,#f0b2a0,#fde8e2);}
+  #s2 .card:nth-child(2)::before{background:linear-gradient(90deg,#c4b0de,#ede8f8);}
+  #s2 .card:nth-child(3)::before{background:linear-gradient(90deg,#9ecfc0,#d4f0e6);}
+  #s2 .icon-wrap{width:clamp(48px,6vw,68px);height:clamp(48px,6vw,68px);border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:clamp(14px,2vw,22px);font-size:clamp(24px,3.5vw,36px);}
+  #s2 .card:nth-child(1) .icon-wrap{background:#fde8e2;}
+  #s2 .card:nth-child(2) .icon-wrap{background:#ede8f8;}
+  #s2 .card:nth-child(3) .icon-wrap{background:#d4f0e6;}
+  #s2 .ctitle{font-size:clamp(18px,2.5vw,30px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(8px,1.2vw,14px);}
+  #s2 .cdesc{font-size:clamp(13px,1.8vw,21px);color:#64748b;line-height:1.55;}
 
   /* ── SLIDE 3: SOLUTION ── */
-  #s3{background:linear-gradient(145deg,#f0f7f4 0%,#eaf4f0 60%,#f5f0fb 100%);}
-  #s3 .label{font-size:clamp(13px,1.6vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2d7a5f;margin-bottom:clamp(20px,3vw,32px);}
-  #s3 h2{font-size:clamp(36px,6.5vw,78px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(24px,3.5vw,44px);text-align:center;}
-  #s3 .features{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,22px);width:100%;max-width:940px;}
-  #s3 .feat{display:flex;gap:clamp(16px,2.2vw,26px);align-items:center;background:#fff;border:1px solid #d4ede4;border-radius:20px;padding:clamp(22px,3vw,36px) clamp(20px,2.5vw,32px);box-shadow:0 2px 12px rgba(100,180,140,0.07);}
-  #s3 .feat .emoji{font-size:clamp(32px,4.5vw,50px);flex-shrink:0;}
-  #s3 .feat .ftitle{font-size:clamp(20px,2.8vw,32px);font-weight:800;color:#2d6a7e;margin-bottom:6px;}
-  #s3 .feat .fdesc{font-size:clamp(15px,2vw,22px);color:#64748b;}
-  #s3 .badge{margin-top:clamp(22px,3vw,38px);display:inline-flex;align-items:center;gap:12px;background:#d4f0e6;color:#2d7a5f;font-size:clamp(16px,2.2vw,24px);font-weight:700;padding:clamp(12px,1.4vw,18px) clamp(26px,3.5vw,40px);border-radius:36px;}
+  #s3{background:linear-gradient(135deg,#eef7f3 0%,#f0f7f4 50%,#f5f0fb 100%);}
+  #s3 .b1{width:450px;height:450px;background:#9ecfc0;opacity:0.15;top:-150px;left:-100px;}
+  #s3 .b2{width:350px;height:350px;background:#c4b0de;opacity:0.12;bottom:-100px;right:-80px;}
+  #s3 .label{color:#2d7a5f;} #s3 .label::before{background:#2d7a5f;}
+  #s3 h2{font-size:clamp(32px,5.5vw,68px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(22px,3.5vw,40px);text-align:center;}
+  #s3 .features{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.8vw,20px);width:100%;max-width:940px;}
+  #s3 .feat{display:flex;gap:clamp(14px,2vw,22px);align-items:center;background:#fff;border-radius:20px;padding:clamp(20px,2.8vw,32px) clamp(18px,2.5vw,28px);box-shadow:0 3px 20px rgba(100,180,140,0.09);position:relative;overflow:hidden;}
+  #s3 .feat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:2px 0 0 2px;}
+  #s3 .feat:nth-child(1)::after{background:linear-gradient(180deg,#9ecfc0,#6aab8e);}
+  #s3 .feat:nth-child(2)::after{background:linear-gradient(180deg,#9eb8de,#6a8aab);}
+  #s3 .feat:nth-child(3)::after{background:linear-gradient(180deg,#f0b2a0,#d07a5a);}
+  #s3 .feat:nth-child(4)::after{background:linear-gradient(180deg,#c4b0de,#8b70c0);}
+  #s3 .emoji-wrap{width:clamp(44px,5.5vw,62px);height:clamp(44px,5.5vw,62px);border-radius:16px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,3.2vw,36px);flex-shrink:0;}
+  #s3 .ftitle{font-size:clamp(18px,2.4vw,28px);font-weight:800;color:#2d6a7e;margin-bottom:5px;}
+  #s3 .fdesc{font-size:clamp(13px,1.7vw,20px);color:#64748b;}
+  #s3 .badge{margin-top:clamp(20px,2.8vw,34px);display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#d4f0e6,#c0e8d8);color:#2d7a5f;font-size:clamp(15px,2vw,22px);font-weight:700;padding:clamp(11px,1.4vw,17px) clamp(28px,3.5vw,44px);border-radius:40px;box-shadow:0 4px 20px rgba(100,180,140,0.2);}
 
   /* ── SLIDE 4: TRACTION ── */
-  #s4{background:linear-gradient(145deg,#f4f6fb 0%,#edf0f8 100%);}
-  #s4 .label{font-size:clamp(13px,1.6vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#4a67a8;margin-bottom:clamp(20px,3vw,32px);}
-  #s4 h2{font-size:clamp(34px,6vw,72px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(24px,4vw,48px);text-align:center;}
-  #s4 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,22px);width:100%;max-width:940px;margin-bottom:clamp(26px,3.5vw,46px);}
-  #s4 .stat{background:#fff;border:1px solid #d4daf0;border-radius:20px;padding:clamp(24px,3.5vw,44px) clamp(8px,1vw,16px);text-align:center;box-shadow:0 2px 12px rgba(74,103,168,0.07);}
-  #s4 .stat .num{font-size:clamp(56px,9vw,100px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;line-height:1;}
-  #s4 .stat .unit{font-size:clamp(14px,1.8vw,20px);font-weight:700;color:#6aab8e;margin-top:10px;text-transform:uppercase;letter-spacing:0.5px;}
-  #s4 .stat .slabel{font-size:clamp(12px,1.5vw,17px);color:#94a3b8;margin-top:8px;}
-  #s4 .timeline{width:100%;max-width:940px;display:flex;align-items:center;background:#fff;border:1px solid #d4daf0;border-radius:18px;padding:clamp(18px,2.2vw,28px) clamp(24px,3.5vw,44px);box-shadow:0 2px 12px rgba(74,103,168,0.05);}
-  #s4 .titem{flex:1;text-align:center;}
-  #s4 .titem .tdate{font-size:clamp(11px,1.4vw,16px);font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-  #s4 .titem .tevent{font-size:clamp(14px,1.8vw,20px);font-weight:700;color:#2d6a7e;}
+  #s4{background:linear-gradient(135deg,#f2f4fb 0%,#edf0f8 100%);}
+  #s4 .b1{width:500px;height:500px;background:#a0b0de;opacity:0.12;top:-180px;right:-120px;}
+  #s4 .b2{width:350px;height:350px;background:#9ecfc0;opacity:0.1;bottom:-100px;left:-80px;}
+  #s4 .label{color:#4a67a8;} #s4 .label::before{background:#4a67a8;}
+  #s4 h2{font-size:clamp(32px,5.5vw,68px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(22px,3.5vw,42px);text-align:center;}
+  #s4 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,22px);width:100%;max-width:960px;margin-bottom:clamp(20px,3vw,36px);}
+  #s4 .stat{background:#fff;border-radius:22px;padding:clamp(22px,3.2vw,42px) clamp(8px,1vw,16px);text-align:center;box-shadow:0 4px 24px rgba(74,103,168,0.08);position:relative;overflow:hidden;}
+  #s4 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+  #s4 .stat:nth-child(1)::before{background:linear-gradient(90deg,#9ecfc0,#6aab8e);}
+  #s4 .stat:nth-child(2)::before{background:linear-gradient(90deg,#c4b0de,#9b80d0);}
+  #s4 .stat:nth-child(3)::before{background:linear-gradient(90deg,#f0b2a0,#d07a5a);}
+  #s4 .stat:nth-child(4)::before{background:linear-gradient(90deg,#a0c8de,#6a98b8);}
+  #s4 .num{font-size:clamp(52px,8.5vw,96px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;line-height:1;}
+  #s4 .unit{font-size:clamp(13px,1.7vw,19px);font-weight:700;color:#6aab8e;margin-top:8px;text-transform:uppercase;letter-spacing:0.5px;}
+  #s4 .slabel{font-size:clamp(11px,1.4vw,16px);color:#94a3b8;margin-top:6px;}
+  #s4 .timeline{width:100%;max-width:960px;display:flex;align-items:center;background:#fff;border-radius:20px;padding:clamp(16px,2.2vw,28px) clamp(22px,3vw,42px);box-shadow:0 4px 24px rgba(74,103,168,0.06);}
+  #s4 .titem{flex:1;text-align:center;position:relative;}
+  #s4 .titem .tdate{font-size:clamp(10px,1.3vw,15px);font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  #s4 .titem .tevent{font-size:clamp(12px,1.6vw,19px);font-weight:700;color:#2d6a7e;}
+  #s4 .titem.now .tdate{color:#6aab8e;}
   #s4 .titem.now .tevent{color:#6aab8e;}
-  #s4 .tline{width:24px;height:1px;background:#e2e8f0;flex-shrink:0;}
+  #s4 .tline{width:clamp(20px,2.5vw,36px);height:2px;background:linear-gradient(90deg,#d4f0e6,#d4daf0);flex-shrink:0;}
 
   /* ── SLIDE 5: OPPORTUNITY ── */
-  #s5{background:linear-gradient(145deg,#fffbf0 0%,#fef6e0 100%);}
-  #s5 .label{font-size:clamp(13px,1.6vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#b07a20;margin-bottom:clamp(20px,3vw,32px);}
-  #s5 h2{font-size:clamp(36px,6.5vw,78px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(28px,4vw,48px);text-align:center;line-height:1.1;}
-  #s5 .opps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,26px);width:100%;max-width:940px;margin-bottom:clamp(20px,2.5vw,34px);}
-  #s5 .opp{background:#fff;border:1px solid #f0e0b0;border-radius:20px;padding:clamp(26px,3.5vw,46px) clamp(18px,2.5vw,32px);box-shadow:0 2px 12px rgba(176,122,32,0.06);}
-  #s5 .opp .onum{font-size:clamp(56px,9vw,88px);font-weight:900;color:#d4900a;letter-spacing:-3px;margin-bottom:12px;line-height:1;}
-  #s5 .opp .otitle{font-size:clamp(17px,2.2vw,26px);font-weight:800;color:#2d6a7e;margin-bottom:8px;}
-  #s5 .opp .odesc{font-size:clamp(14px,1.8vw,20px);color:#64748b;}
-  #s5 .paths{width:100%;max-width:940px;background:#fff;border:1px solid #f0e0b0;border-radius:18px;padding:clamp(18px,2.2vw,28px) clamp(28px,3.5vw,42px);box-shadow:0 2px 12px rgba(176,122,32,0.05);display:flex;align-items:center;}
-  #s5 .path-item{flex:1;text-align:center;}
+  #s5{background:linear-gradient(135deg,#fffcf0 0%,#fef8e4 100%);}
+  #s5 .b1{width:500px;height:500px;background:#f0d080;opacity:0.12;top:-180px;right:-100px;}
+  #s5 .b2{width:350px;height:350px;background:#f0b2a0;opacity:0.1;bottom:-100px;left:-80px;}
+  #s5 .label{color:#b07a20;} #s5 .label::before{background:#b07a20;}
+  #s5 h2{font-size:clamp(32px,5.5vw,68px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(24px,3.8vw,46px);text-align:center;line-height:1.1;}
+  #s5 .opps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,24px);width:100%;max-width:960px;margin-bottom:clamp(18px,2.5vw,30px);}
+  #s5 .opp{background:#fff;border-radius:22px;padding:clamp(24px,3.2vw,44px) clamp(18px,2.5vw,32px);box-shadow:0 4px 28px rgba(176,122,32,0.08);position:relative;overflow:hidden;}
+  #s5 .opp::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+  #s5 .opp:nth-child(1)::before{background:linear-gradient(90deg,#f0c050,#d4900a);}
+  #s5 .opp:nth-child(2)::before{background:linear-gradient(90deg,#9ecfc0,#6aab8e);}
+  #s5 .opp:nth-child(3)::before{background:linear-gradient(90deg,#c4b0de,#9b80d0);}
+  #s5 .onum{font-size:clamp(52px,8.5vw,88px);font-weight:900;color:#d4900a;letter-spacing:-3px;margin-bottom:10px;line-height:1;}
+  #s5 .otitle{font-size:clamp(15px,2vw,24px);font-weight:800;color:#2d6a7e;margin-bottom:8px;}
+  #s5 .odesc{font-size:clamp(12px,1.6vw,19px);color:#64748b;}
+  #s5 .paths{width:100%;max-width:960px;background:#fff;border-radius:20px;padding:clamp(16px,2.2vw,26px) clamp(28px,3.5vw,44px);box-shadow:0 4px 24px rgba(176,122,32,0.07);display:flex;align-items:center;}
+  #s5 .path-item{flex:1;text-align:center;padding:0 8px;}
   #s5 .path-item:not(:last-child){border-right:1px solid #f0e8d0;}
-  #s5 .path-label{font-size:clamp(11px,1.4vw,16px);color:#94a3b8;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
-  #s5 .path-val{font-size:clamp(16px,2.2vw,24px);font-weight:800;color:#2d6a7e;}
+  #s5 .path-label{font-size:clamp(10px,1.3vw,15px);color:#94a3b8;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+  #s5 .path-val{font-size:clamp(15px,2vw,23px);font-weight:800;color:#2d6a7e;}
 
   /* ── SLIDE 6: ASK ── */
-  #s6{background:linear-gradient(145deg,#eef7f3 0%,#e8f5f0 60%,#f0ecf8 100%);}
-  #s6 .label{font-size:clamp(13px,1.6vw,18px);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2d7a5f;margin-bottom:clamp(14px,2vw,22px);}
-  #s6 .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:clamp(12px,1.5vw,18px);}
-  #s6 .logo-row .lname{font-size:clamp(28px,4.5vw,46px);font-weight:900;color:#2d6a7e;letter-spacing:-1px;}
-  #s6 h2{font-size:clamp(44px,8vw,88px);font-weight:800;color:#2d6a7e;letter-spacing:-2px;margin-bottom:clamp(8px,1vw,14px);text-align:center;line-height:1.0;}
-  #s6 .sub{font-size:clamp(18px,2.5vw,28px);color:#94a3b8;margin-bottom:clamp(24px,3.5vw,44px);text-align:center;}
-  #s6 .asks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,24px);width:100%;max-width:920px;}
-  #s6 .ask{border-radius:22px;padding:clamp(26px,3.5vw,46px) clamp(20px,2.8vw,34px);}
-  #s6 .ask.users{background:#d4f0e6;border:1px solid #a8dfc8;}
-  #s6 .ask.network{background:#dce8f5;border:1px solid #b0cceb;}
-  #s6 .ask.invest{background:#fef3d0;border:1px solid #f0d880;}
-  #s6 .ask .anum{font-size:clamp(12px,1.5vw,16px);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:clamp(10px,1.2vw,16px);}
+  #s6{background:linear-gradient(135deg,#eaf7f2 0%,#e8f5f0 50%,#f0ebf8 100%);}
+  #s6 .b1{width:500px;height:500px;background:#9ecfc0;opacity:0.15;top:-160px;right:-100px;}
+  #s6 .b2{width:400px;height:400px;background:#c4b0de;opacity:0.12;bottom:-120px;left:-80px;}
+  #s6 .label{color:#2d7a5f;} #s6 .label::before{background:#2d7a5f;}
+  #s6 .logo-lockup{display:flex;align-items:center;gap:clamp(10px,1.5vw,16px);margin-bottom:clamp(10px,1.5vw,16px);}
+  #s6 .lname{font-size:clamp(28px,4.5vw,48px);font-weight:900;color:#2d6a7e;letter-spacing:-1.5px;}
+  #s6 h2{font-size:clamp(44px,8vw,92px);font-weight:900;color:#2d6a7e;letter-spacing:-3px;margin-bottom:clamp(6px,1vw,12px);text-align:center;line-height:1.0;}
+  #s6 .sub{font-size:clamp(16px,2.2vw,26px);color:#94a3b8;margin-bottom:clamp(22px,3.5vw,42px);text-align:center;}
+  #s6 .asks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,22px);width:100%;max-width:940px;}
+  #s6 .ask{border-radius:24px;padding:clamp(24px,3.2vw,44px) clamp(20px,2.8vw,34px);position:relative;overflow:hidden;}
+  #s6 .ask::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+  #s6 .ask.users{background:linear-gradient(135deg,#d4f0e6,#c8ead8);}
+  #s6 .ask.users::before{background:linear-gradient(90deg,#6aab8e,#9ecfc0);}
+  #s6 .ask.network{background:linear-gradient(135deg,#dce8f8,#ccdcf0);}
+  #s6 .ask.network::before{background:linear-gradient(90deg,#6a98c8,#a0c0e0);}
+  #s6 .ask.invest{background:linear-gradient(135deg,#fef3d0,#feeab8);}
+  #s6 .ask.invest::before{background:linear-gradient(90deg,#d4900a,#f0c050);}
+  #s6 .anum{font-size:clamp(11px,1.4vw,15px);font-weight:700;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:clamp(10px,1.3vw,16px);}
   #s6 .ask.users .anum{color:#2d7a5f;}
   #s6 .ask.network .anum{color:#3a6898;}
   #s6 .ask.invest .anum{color:#a07820;}
-  #s6 .ask .atitle{font-size:clamp(22px,3.5vw,40px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(10px,1.2vw,14px);}
-  #s6 .ask .adesc{font-size:clamp(15px,2vw,23px);color:#4a5568;line-height:1.5;}
-  #s6 .contact{margin-top:clamp(22px,2.8vw,38px);font-size:clamp(15px,2vw,21px);color:#94a3b8;}
+  #s6 .atitle{font-size:clamp(20px,3.2vw,40px);font-weight:800;color:#2d6a7e;margin-bottom:clamp(8px,1.2vw,14px);}
+  #s6 .adesc{font-size:clamp(13px,1.8vw,22px);color:#4a5568;line-height:1.5;}
+  #s6 .contact{margin-top:clamp(18px,2.5vw,32px);font-size:clamp(14px,1.8vw,20px);color:#94a3b8;display:flex;align-items:center;gap:10px;}
   #s6 .contact strong{color:#2d6a7e;font-weight:700;}
+  #s6 .contact .dot-sep{width:4px;height:4px;border-radius:50%;background:#cbd5e1;display:inline-block;}
 
-  /* Mobile overrides */
+  /* Mobile */
   @media(max-width:640px){
     #s2 .cards,#s5 .opps,#s6 .asks{grid-template-columns:1fr;}
     #s3 .features{grid-template-columns:1fr;}
     #s4 .stats{grid-template-columns:repeat(2,1fr);}
-    #s4 .timeline{display:none;}
-    #s5 .paths{display:none;}
+    #s4 .timeline,#s5 .paths{display:none;}
     .hint{display:none;}
   }
 </style>
@@ -121,188 +171,187 @@
 
   <!-- SLIDE 1: TITLE -->
   <div class="slide active" id="s1">
-    <div class="eyebrow">Demo Day · June 2026</div>
-    <div class="logo-wrap">
-      <svg width="80" height="80" viewBox="0 0 28 28" fill="none">
-        <defs><clipPath id="c1"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
-        <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c1)"/>
-        <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c1)"/>
-        <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c1)"/>
-        <circle cx="14" cy="14" r="12.5" stroke="#e8a898" stroke-width="1.2" fill="none"/>
-      </svg>
-      <div class="logo-name">Onlu</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="content">
+      <div class="eyebrow" style="font-size:clamp(12px,1.6vw,16px);font-weight:600;letter-spacing:4px;text-transform:uppercase;color:#9ecfc0;margin-bottom:clamp(16px,2.5vw,28px);">Demo Day · June 2026</div>
+      <div class="logo-lockup" style="display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2vw,24px);margin-bottom:clamp(20px,3vw,36px);">
+        <div class="logo-ring">
+          <svg width="clamp(80px,11vw,120px)" height="clamp(80px,11vw,120px)" viewBox="0 0 28 28" fill="none" style="width:clamp(80px,11vw,120px);height:clamp(80px,11vw,120px);filter:drop-shadow(0 8px 24px rgba(158,207,192,0.4))">
+            <defs><clipPath id="c1"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
+            <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c1)"/>
+            <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c1)"/>
+            <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c1)"/>
+            <circle cx="14" cy="14" r="12.5" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="logo-name">Onlu</div>
+      </div>
+      <div class="sub">Free finance intelligence.<br/>No login. Built by a practitioner.</div>
+      <div class="pills">
+        <div class="pill green">💼 Hiring Watch</div>
+        <div class="pill lav">📊 Market Pulse</div>
+        <div class="pill peach">🎯 Edge Prep</div>
+        <div class="pill green">📚 Learning + Table</div>
+      </div>
+      <div class="url">onluintel.com</div>
     </div>
-    <div class="sub">Free finance intelligence.<br/>No login. Built by a practitioner.</div>
-    <div class="pills">
-      <div class="pill green">💼 Hiring Watch</div>
-      <div class="pill lav">📊 Market Pulse</div>
-      <div class="pill peach">🎯 Edge Prep</div>
-      <div class="pill green">📚 Learning + Table</div>
-    </div>
-    <div class="url-row">onluintel.com</div>
   </div>
 
   <!-- SLIDE 2: PROBLEM -->
   <div class="slide" id="s2">
-    <div class="label">The Problem</div>
-    <h2>Finance intel is broken<br/>for early-career professionals.</h2>
-    <div class="cards">
-      <div class="card">
-        <div class="icon">🔎</div>
-        <div class="ctitle">Career search</div>
-        <div class="cdesc">No signal on who's hiring. Roles filled before you even see them.</div>
-      </div>
-      <div class="card">
-        <div class="icon">📰</div>
-        <div class="ctitle">Market intel</div>
-        <div class="cdesc">Deal flow and data locked behind paywalls. Nothing built for juniors.</div>
-      </div>
-      <div class="card">
-        <div class="icon">🚪</div>
-        <div class="ctitle">Closed networks</div>
-        <div class="cdesc">Best intel travels through alumni networks most can't access.</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="content">
+      <div class="label">The Problem</div>
+      <h2>Finance intel is broken<br/>for early-career professionals.</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="icon-wrap">🔎</div>
+          <div class="ctitle">Career search</div>
+          <div class="cdesc">No signal on who's hiring. Roles filled before you even see them.</div>
+        </div>
+        <div class="card">
+          <div class="icon-wrap">📰</div>
+          <div class="ctitle">Market intel</div>
+          <div class="cdesc">Deal flow locked behind paywalls. Nothing built for juniors.</div>
+        </div>
+        <div class="card">
+          <div class="icon-wrap">🚪</div>
+          <div class="ctitle">Closed networks</div>
+          <div class="cdesc">Best intel travels through alumni networks most can't access.</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- SLIDE 3: SOLUTION -->
   <div class="slide" id="s3">
-    <div class="label">The Solution</div>
-    <h2>One free platform. No login.</h2>
-    <div class="features">
-      <div class="feat">
-        <div class="emoji">💼</div>
-        <div>
-          <div class="ftitle">Hiring Watch</div>
-          <div class="fdesc">Who's hiring. Updated weekly.</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="content">
+      <div class="label">The Solution</div>
+      <h2>One free platform. No login.</h2>
+      <div class="features">
+        <div class="feat">
+          <div class="emoji-wrap">💼</div>
+          <div>
+            <div class="ftitle">Hiring Watch</div>
+            <div class="fdesc">Who's hiring. Updated weekly.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="emoji-wrap">📊</div>
+          <div>
+            <div class="ftitle">Market Pulse</div>
+            <div class="fdesc">Deals, spreads, macro. For juniors.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="emoji-wrap">🎯</div>
+          <div>
+            <div class="ftitle">Edge Prep</div>
+            <div class="fdesc">Interview prep. Cases. Resume review.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="emoji-wrap">📚</div>
+          <div>
+            <div class="ftitle">Learning + Table</div>
+            <div class="fdesc">12 deep-dives. Coffee chats in NYC.</div>
+          </div>
         </div>
       </div>
-      <div class="feat">
-        <div class="emoji">📊</div>
-        <div>
-          <div class="ftitle">Market Pulse</div>
-          <div class="fdesc">Deals, spreads, macro. For juniors.</div>
-        </div>
-      </div>
-      <div class="feat">
-        <div class="emoji">🎯</div>
-        <div>
-          <div class="ftitle">Edge Prep</div>
-          <div class="fdesc">Interview prep. Cases. Resume review.</div>
-        </div>
-      </div>
-      <div class="feat">
-        <div class="emoji">📚</div>
-        <div>
-          <div class="ftitle">Learning + Table</div>
-          <div class="fdesc">12 deep-dives. Coffee chats in NYC.</div>
-        </div>
-      </div>
+      <div class="badge">✓ Free &nbsp;·&nbsp; ✓ No login &nbsp;·&nbsp; ✓ onluintel.com</div>
     </div>
-    <div class="badge">✓ Free &nbsp;·&nbsp; ✓ No login &nbsp;·&nbsp; ✓ onluintel.com</div>
   </div>
 
   <!-- SLIDE 4: TRACTION -->
   <div class="slide" id="s4">
-    <div class="label">Traction</div>
-    <h2>Built solo. Live in 4 weeks.</h2>
-    <div class="stats">
-      <div class="stat">
-        <div class="num">4</div>
-        <div class="unit">weeks</div>
-        <div class="slabel">idea to product</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="content">
+      <div class="label">Traction</div>
+      <h2>Built solo. Live in 4 weeks.</h2>
+      <div class="stats">
+        <div class="stat"><div class="num">4</div><div class="unit">weeks</div><div class="slabel">idea to product</div></div>
+        <div class="stat"><div class="num">12</div><div class="unit">articles</div><div class="slabel">Google-indexed</div></div>
+        <div class="stat"><div class="num">3</div><div class="unit">sessions</div><div class="slabel">upcoming Table chats</div></div>
+        <div class="stat"><div class="num">$0</div><div class="unit">raised</div><div class="slabel">fully bootstrapped</div></div>
       </div>
-      <div class="stat">
-        <div class="num">12</div>
-        <div class="unit">articles</div>
-        <div class="slabel">Google-indexed</div>
+      <div class="timeline">
+        <div class="titem"><div class="tdate">Mar 2026</div><div class="tevent">Build begins</div></div>
+        <div class="tline"></div>
+        <div class="titem"><div class="tdate">Apr 2026</div><div class="tevent">Goes live</div></div>
+        <div class="tline"></div>
+        <div class="titem"><div class="tdate">May 2026</div><div class="tevent">First coffee chat</div></div>
+        <div class="tline"></div>
+        <div class="titem"><div class="tdate">Jun 2026</div><div class="tevent">SEO launch</div></div>
+        <div class="tline"></div>
+        <div class="titem now"><div class="tdate">Today</div><div class="tevent">Demo Day 🌱</div></div>
       </div>
-      <div class="stat">
-        <div class="num">3</div>
-        <div class="unit">sessions</div>
-        <div class="slabel">upcoming Table chats</div>
-      </div>
-      <div class="stat">
-        <div class="num">$0</div>
-        <div class="unit">raised</div>
-        <div class="slabel">fully bootstrapped</div>
-      </div>
-    </div>
-    <div class="timeline">
-      <div class="titem"><div class="tdate">Mar 2026</div><div class="tevent">Build begins</div></div>
-      <div class="tline"></div>
-      <div class="titem"><div class="tdate">Apr 2026</div><div class="tevent">Goes live</div></div>
-      <div class="tline"></div>
-      <div class="titem"><div class="tdate">May 2026</div><div class="tevent">First coffee chat</div></div>
-      <div class="tline"></div>
-      <div class="titem"><div class="tdate">Jun 2026</div><div class="tevent">SEO launch</div></div>
-      <div class="tline"></div>
-      <div class="titem now"><div class="tdate">Today</div><div class="tevent">Demo Day 🌱</div></div>
     </div>
   </div>
 
   <!-- SLIDE 5: OPPORTUNITY -->
   <div class="slide" id="s5">
-    <div class="label">The Opportunity</div>
-    <h2>2M+ students.<br/>Zero tools built for them.</h2>
-    <div class="opps">
-      <div class="opp">
-        <div class="onum">2M+</div>
-        <div class="otitle">Finance students in the US</div>
-        <div class="odesc">No professional-grade tools for recruiting.</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="content">
+      <div class="label">The Opportunity</div>
+      <h2>2M+ students.<br/>Zero tools built for them.</h2>
+      <div class="opps">
+        <div class="opp"><div class="onum">2M+</div><div class="otitle">Finance students in the US</div><div class="odesc">No professional-grade tools for recruiting.</div></div>
+        <div class="opp"><div class="onum">$0</div><div class="otitle">Free entry-level intel today</div><div class="odesc">Onlu is first-mover in this gap.</div></div>
+        <div class="opp"><div class="onum">4</div><div class="otitle">Revenue paths ready</div><div class="odesc">Premium · Coaching · Universities · Firms</div></div>
       </div>
-      <div class="opp">
-        <div class="onum">$0</div>
-        <div class="otitle">Free entry-level intel today</div>
-        <div class="odesc">Onlu is first-mover in this gap.</div>
+      <div class="paths">
+        <div class="path-item"><div class="path-label">Premium</div><div class="path-val">$15–25/mo</div></div>
+        <div class="path-item"><div class="path-label">Coaching</div><div class="path-val">1:1 sessions</div></div>
+        <div class="path-item"><div class="path-label">Universities</div><div class="path-val">Career centers</div></div>
+        <div class="path-item"><div class="path-label">Firms</div><div class="path-val">Sponsored signals</div></div>
       </div>
-      <div class="opp">
-        <div class="onum">4</div>
-        <div class="otitle">Revenue paths ready</div>
-        <div class="odesc">Premium · Coaching · Universities · Firms</div>
-      </div>
-    </div>
-    <div class="paths">
-      <div class="path-item"><div class="path-label">Premium</div><div class="path-val">$15–25/mo</div></div>
-      <div class="path-item"><div class="path-label">Coaching</div><div class="path-val">1:1 sessions</div></div>
-      <div class="path-item"><div class="path-label">Universities</div><div class="path-val">Career centers</div></div>
-      <div class="path-item"><div class="path-label">Firms</div><div class="path-val">Sponsored signals</div></div>
     </div>
   </div>
 
   <!-- SLIDE 6: ASK -->
   <div class="slide" id="s6">
-    <div class="label">How You Can Help</div>
-    <div class="logo-row">
-      <svg width="44" height="44" viewBox="0 0 28 28" fill="none">
-        <defs><clipPath id="c6"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
-        <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c6)"/>
-        <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c6)"/>
-        <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c6)"/>
-        <circle cx="14" cy="14" r="12.5" stroke="#e8a898" stroke-width="1.2" fill="none"/>
-      </svg>
-      <div class="lname">Onlu</div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="content">
+      <div class="label">How You Can Help</div>
+      <div class="logo-lockup">
+        <svg width="44" height="44" viewBox="0 0 28 28" fill="none" style="filter:drop-shadow(0 4px 12px rgba(158,207,192,0.35))">
+          <defs><clipPath id="c6"><circle cx="14" cy="14" r="12.5"/></clipPath></defs>
+          <path d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z" fill="#f0b2a0" clip-path="url(#c6)"/>
+          <path d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z" fill="#c4b0de" clip-path="url(#c6)"/>
+          <path d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z" fill="#9ecfc0" clip-path="url(#c6)"/>
+          <circle cx="14" cy="14" r="12.5" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" fill="none"/>
+        </svg>
+        <div class="lname">Onlu</div>
+      </div>
+      <h2>Let's talk.</h2>
+      <div class="sub">Users · Partners · Early investors</div>
+      <div class="asks">
+        <div class="ask users">
+          <div class="anum">Use it</div>
+          <div class="atitle">Try Onlu</div>
+          <div class="adesc">onluintel.com — open now. No login.</div>
+        </div>
+        <div class="ask network">
+          <div class="anum">Share it</div>
+          <div class="atitle">Send to one person</div>
+          <div class="adesc">A student. A junior analyst. One intro.</div>
+        </div>
+        <div class="ask invest">
+          <div class="anum">Back it</div>
+          <div class="atitle">Pre-seed</div>
+          <div class="adesc">Practitioner-built. Let's talk today.</div>
+        </div>
+      </div>
+      <div class="contact"><strong>onluintel.com</strong><span class="dot-sep"></span>Open to connect after</div>
     </div>
-    <h2>Let's talk.</h2>
-    <div class="sub">Users · Partners · Early investors</div>
-    <div class="asks">
-      <div class="ask users">
-        <div class="anum">Use it</div>
-        <div class="atitle">Try Onlu</div>
-        <div class="adesc">onluintel.com — open now. No login.</div>
-      </div>
-      <div class="ask network">
-        <div class="anum">Share it</div>
-        <div class="atitle">Send to one person</div>
-        <div class="adesc">A student. A junior analyst. One intro.</div>
-      </div>
-      <div class="ask invest">
-        <div class="anum">Back it</div>
-        <div class="atitle">Pre-seed</div>
-        <div class="adesc">Practitioner-built. Let's talk today.</div>
-      </div>
-    </div>
-    <div class="contact"><strong>onluintel.com</strong> &nbsp;·&nbsp; Open to connect after</div>
   </div>
 
 </div>
@@ -316,14 +365,12 @@
   const nav = document.getElementById('nav');
   const slideNum = document.getElementById('slideNum');
   let current = 0;
-
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
     dot.addEventListener('click', () => go(i));
     nav.appendChild(dot);
   });
-
   function go(n) {
     slides[current].classList.remove('active');
     nav.children[current].classList.remove('active');
@@ -333,8 +380,6 @@
     slideNum.textContent = (current + 1) + ' / ' + slides.length;
   }
   go(0);
-
-  // Keyboard navigation
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(current + 1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(current - 1);
@@ -343,20 +388,11 @@
       else document.exitFullscreen();
     }
   });
-
-  // Touch swipe navigation
-  let touchStartX = 0, touchStartY = 0;
-  document.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
+  let tx = 0, ty = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
   document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-      if (dx < 0) go(current + 1);
-      else go(current - 1);
-    }
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) dx < 0 ? go(current + 1) : go(current - 1);
   }, { passive: true });
 </script>
 </body>
