@@ -2550,6 +2550,11 @@ function MarketSection() {
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
 
+      {/* Daily Finance News */}
+      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+        <DailyNews />
+      </div>
+
       {/* Live Markets */}
       <MarketDataPanel />
       {tickers.length > 0 && <MarketCharts tickers={tickers} />}
@@ -2572,6 +2577,92 @@ function MarketSection() {
 
       {/* Distressed Watch */}
       <DistressedWatch />
+    </div>
+  );
+}
+
+// ─── Daily Finance News ──────────────────────────────────────────────────────
+
+interface NewsItem {
+  id: string;
+  headline: string;
+  source: string;
+  category: "markets" | "economy" | "banking" | "companies" | "policy" | "global";
+  takeaway: string;
+}
+
+interface NewsResponse {
+  items: NewsItem[];
+  generatedAt: string;
+}
+
+const NEWS_CAT: Record<string, { label: string; cls: string }> = {
+  markets:   { label: "Markets",   cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  economy:   { label: "Economy",   cls: "bg-teal-50 text-teal-700 border-teal-200" },
+  banking:   { label: "Banking",   cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  companies: { label: "Companies", cls: "bg-violet-50 text-violet-700 border-violet-200" },
+  policy:    { label: "Policy",    cls: "bg-slate-100 text-slate-600 border-slate-200" },
+  global:    { label: "Global",    cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+};
+
+function DailyNews() {
+  const [data, setData] = useState<NewsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/daily-news")
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const updatedTime = data
+    ? new Date(data.generatedAt).toLocaleTimeString("en-US", {
+        hour: "numeric", minute: "2-digit", timeZoneName: "short", timeZone: "America/New_York",
+      })
+    : null;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-lg font-bold text-[#396477]">Today in Finance</h2>
+          <p className="text-xs text-[#64748b] mt-0.5">Top stories curated for finance professionals</p>
+        </div>
+        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+          <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          Curating today's headlines…
+        </div>
+      )}
+
+      {!loading && (!data || data.items.length === 0) && (
+        <p className="text-sm text-gray-400 py-2">No news available right now.</p>
+      )}
+
+      {data && data.items.length > 0 && (
+        <div className="divide-y divide-gray-100">
+          {data.items.map((item) => {
+            const cat = NEWS_CAT[item.category] ?? NEWS_CAT.markets;
+            return (
+              <div key={item.id} className="py-3 first:pt-0 last:pb-0 space-y-1.5">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
+                  {item.source && <span className="text-[10px] text-gray-400 font-medium">{item.source}</span>}
+                </div>
+                <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
+                <p className="text-xs text-[#64748b] leading-relaxed">{item.takeaway}</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400">AI-curated from live headlines. Not investment advice. Refreshes every 2 hours.</p>
     </div>
   );
 }
