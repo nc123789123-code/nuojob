@@ -2585,9 +2585,17 @@ interface HistoryItem {
   category: "market" | "company" | "figure" | "policy" | "crisis";
 }
 
+interface BornToday {
+  name: string;
+  birthYear: number;
+  role: string;
+  significance: string;
+}
+
 interface TodayHistory {
   monthDay: string;
   items: HistoryItem[];
+  bornToday?: BornToday;
   generatedAt: string;
 }
 
@@ -2652,6 +2660,19 @@ function TodayInHistory() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Born Today */}
+      {data?.bornToday && (
+        <div className="flex items-start gap-4 bg-violet-50 border border-violet-200 rounded-xl px-5 py-4">
+          <div className="text-2xl flex-shrink-0 mt-0.5">🎂</div>
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold text-violet-500 uppercase tracking-wider mb-1">Born Today · {data.bornToday.birthYear}</p>
+            <p className="font-bold text-[#191c1e] text-base leading-tight">{data.bornToday.name}</p>
+            <p className="text-xs text-violet-700 font-medium mt-0.5 mb-1">{data.bornToday.role}</p>
+            <p className="text-xs text-[#64748b] leading-relaxed">{data.bornToday.significance}</p>
+          </div>
         </div>
       )}
 
