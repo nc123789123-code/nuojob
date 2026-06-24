@@ -2777,13 +2777,13 @@ function EarningsWatch() {
                         {/* Header row */}
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <div className="flex items-baseline gap-2">
-                              <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
-                              {e.marketCap && (
-                                <span className="text-[10px] font-semibold text-[#396477] bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded">{e.marketCap}</span>
-                              )}
-                            </div>
+                            <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
                             <p className="text-xs text-[#64748b] mt-1 truncate leading-tight">{e.name}</p>
+                            {e.marketCap && (
+                              <p className="text-[11px] text-[#64748b] mt-0.5">
+                                <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#396477]">{e.marketCap}</span>
+                              </p>
+                            )}
                           </div>
                           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border flex-shrink-0 ${EARNINGS_TIME_STYLE[e.time]}`}>
                             {e.time === "pre-market" ? "Pre" : e.time === "post-market" ? "Post" : "TBD"}
