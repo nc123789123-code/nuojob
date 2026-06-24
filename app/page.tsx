@@ -2555,6 +2555,11 @@ function MarketSection() {
       {tickers.length > 0 && <MarketCharts tickers={tickers} />}
       <CpiWidget />
 
+      {/* Today in History */}
+      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+        <TodayInHistory />
+      </div>
+
       {/* Deal Flow */}
       <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
         <DealsWatch />
@@ -2567,6 +2572,90 @@ function MarketSection() {
 
       {/* Distressed Watch */}
       <DistressedWatch />
+    </div>
+  );
+}
+
+// ─── Today in History ────────────────────────────────────────────────────────
+
+interface HistoryItem {
+  year: number;
+  headline: string;
+  detail: string;
+  category: "market" | "company" | "figure" | "policy" | "crisis";
+}
+
+interface TodayHistory {
+  monthDay: string;
+  items: HistoryItem[];
+  generatedAt: string;
+}
+
+const HISTORY_CAT: Record<string, { label: string; cls: string; dot: string }> = {
+  market:  { label: "Market",   cls: "bg-amber-50 text-amber-700 border-amber-200",    dot: "bg-amber-400" },
+  company: { label: "Company",  cls: "bg-sky-50 text-sky-700 border-sky-200",          dot: "bg-sky-400" },
+  figure:  { label: "Figure",   cls: "bg-violet-50 text-violet-700 border-violet-200", dot: "bg-violet-400" },
+  policy:  { label: "Policy",   cls: "bg-teal-50 text-teal-700 border-teal-200",       dot: "bg-teal-400" },
+  crisis:  { label: "Crisis",   cls: "bg-red-50 text-red-600 border-red-200",          dot: "bg-red-400" },
+};
+
+function TodayInHistory() {
+  const [data, setData] = useState<TodayHistory | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/history")
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && !d.error) setData(d); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <h2 className="text-lg font-bold text-[#396477]">Today in Financial History</h2>
+        {data && <p className="text-xs text-[#64748b] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-[#64748b] py-3">
+          <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+          Loading historical facts…
+        </div>
+      )}
+
+      {!loading && (!data || data.items.length === 0) && (
+        <p className="text-sm text-gray-400 py-2">No historical data available.</p>
+      )}
+
+      {data && data.items.length > 0 && (
+        <div className="space-y-0">
+          {data.items.map((item, i) => {
+            const cat = HISTORY_CAT[item.category] ?? HISTORY_CAT.market;
+            return (
+              <div key={i} className="flex gap-4 group">
+                {/* Timeline spine */}
+                <div className="flex flex-col items-center">
+                  <div className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ${cat.dot}`} />
+                  {i < data.items.length - 1 && <div className="w-px flex-1 bg-gray-200 my-1" />}
+                </div>
+                {/* Content */}
+                <div className="pb-5 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span className="text-lg font-extrabold text-[#191c1e] leading-none">{item.year}</span>
+                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
+                  </div>
+                  <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
+                  <p className="text-xs text-[#64748b] mt-1 leading-relaxed">{item.detail}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400">AI-generated historical context. Refreshes daily.</p>
     </div>
   );
 }
