@@ -50,11 +50,24 @@ async function fetchForDate(dateISO: string): Promise<EarningsEntry[]> {
         epsForecast: r.epsForecast && r.epsForecast !== "N/A" ? r.epsForecast : undefined,
         lastYearEPS: r.lastYearEPS && r.lastYearEPS !== "N/A" ? r.lastYearEPS : undefined,
         fiscalQuarterEnding: r.fiscalQuarterEnding && r.fiscalQuarterEnding !== "N/A" ? r.fiscalQuarterEnding : undefined,
-        marketCap: r.marketCap && r.marketCap !== "N/A" ? r.marketCap : undefined,
+        marketCap: r.marketCap && r.marketCap !== "N/A" ? formatMktCap(r.marketCap) : undefined,
       }));
   } catch {
     return [];
   }
+}
+
+function formatMktCap(raw: string): string {
+  const cleaned = raw.replace(/[$,\s]/g, "").toUpperCase();
+  let val: number;
+  if (cleaned.endsWith("T"))      val = parseFloat(cleaned) * 1e12;
+  else if (cleaned.endsWith("B")) val = parseFloat(cleaned) * 1e9;
+  else if (cleaned.endsWith("M")) val = parseFloat(cleaned) * 1e6;
+  else                            val = parseFloat(cleaned);
+  if (isNaN(val)) return raw;
+  if (val >= 1e12) return `$${(val / 1e12).toFixed(2)}T`;
+  if (val >= 1e9)  return `$${(val / 1e9).toFixed(1)}B`;
+  return `$${Math.round(val / 1e6)}M`;
 }
 
 function getBusinessDates(count = 5): string[] {
@@ -125,7 +138,7 @@ async function buildEarnings(): Promise<EarningsCalendar> {
   return { entries: trimmed, generatedAt: new Date().toISOString() };
 }
 
-const getCachedEarnings = unstable_cache(buildEarnings, ["earnings-v2"], { revalidate: 21600 }); // 6h
+const getCachedEarnings = unstable_cache(buildEarnings, ["earnings-v3"], { revalidate: 21600 }); // 6h
 
 export async function GET() {
   try {
