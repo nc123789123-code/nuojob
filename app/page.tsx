@@ -311,13 +311,14 @@ function HomeContent() {
           <div className="ml-auto flex items-center gap-3">
             <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
             <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
-            <Link href="/donate" title="Support Onlu" className="hidden sm:inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-rose-50 transition-colors">
+            <Link href="/donate" title="Support Onlu" className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-rose-50 transition-colors">
               <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
                 <path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/>
               </svg>
             </Link>
-            <Link href="/coaching" className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-violet-100 text-violet-700 border border-violet-200 text-xs font-semibold rounded-lg hover:bg-violet-200 transition-colors">
-              1-on-1 Coaching
+            <Link href="/coaching" className="inline-flex items-center gap-1 px-3 py-1.5 bg-violet-100 text-violet-700 border border-violet-200 text-xs font-semibold rounded-lg hover:bg-violet-200 transition-colors">
+              <span className="sm:hidden">Coach</span>
+              <span className="hidden sm:inline">1-on-1 Coaching</span>
             </Link>
           </div>
         </div>
@@ -395,6 +396,18 @@ function HomeContent() {
               <p className="text-[#64748b] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
+
+          {/* Coaching + Donate CTA — mobile prominent */}
+          <div className="flex gap-2 mt-4 sm:hidden">
+            <Link href="/coaching" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm">
+              <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="8" cy="5" r="2.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M11 8l1.5 1.5-1.5 1.5"/></svg>
+              1-on-1 Coaching
+            </Link>
+            <Link href="/donate" className="flex items-center justify-center gap-1.5 px-4 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-sm font-semibold rounded-xl transition-colors">
+              <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 flex-shrink-0"><path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/></svg>
+              Support
+            </Link>
+          </div>
 
           {/* Feature map — same order as top nav, active tab highlighted */}
           <div className="mt-4 sm:mt-6 grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2 max-w-3xl">
