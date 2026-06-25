@@ -30,14 +30,21 @@ async function buildHistory(monthDay: string): Promise<TodayHistory> {
 
   const client = new Anthropic({ apiKey });
   const msg = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-6",
     max_tokens: 1100,
     messages: [{
       role: "user",
-      content: `You are a financial historian. For ${monthDay}:
+      content: `You are a financial historian with extremely high standards for date accuracy.
 
-1. List 4 notable things that happened on this date in financial history. Mix: major market events, company milestones, policy shifts, financial crises.
-2. Name the single most notable finance or business figure born on this date (any year).
+For ${monthDay}, provide:
+1. Up to 4 notable financial/business events that occurred on EXACTLY this calendar date.
+2. The most notable finance or business figure born on EXACTLY this calendar date.
+
+CRITICAL RULES:
+- Only include an event if you are CERTAIN it occurred on this exact calendar date (month and day). Do NOT include events that happened "around" this date, the day before, or the day after.
+- If you are unsure of the exact date, OMIT the item entirely. It is better to return 2 verified facts than 4 dubious ones.
+- Do NOT include events where the notable action happened on a different date (e.g. a vote on the 23rd announced on the 24th counts only if the announcement itself is the historic moment).
+- For bornToday: only include if you are certain of the exact birth date.
 
 Return ONLY valid JSON — no markdown:
 {
@@ -45,7 +52,7 @@ Return ONLY valid JSON — no markdown:
   "bornToday":{"name":"Full Name","birthYear":1930,"role":"Short title/role, e.g. Fed Chairman 1979–87","significance":"1-2 sentences on their impact on finance or business."}
 }
 
-Rules: only well-documented facts; items sorted most recent first; vary item categories; if no notable finance figure was born on this date, omit bornToday.`,
+Sort items most recent first. Vary categories. Omit bornToday if not certain.`,
     }],
   });
 
@@ -60,7 +67,7 @@ Rules: only well-documented facts; items sorted most recent first; vary item cat
   };
 }
 
-const getCachedHistory = unstable_cache(buildHistory, ["history-v2"], { revalidate: 86400 }); // 24h
+const getCachedHistory = unstable_cache(buildHistory, ["history-v3"], { revalidate: 86400 }); // 24h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
