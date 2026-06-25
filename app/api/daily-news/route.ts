@@ -61,17 +61,23 @@ async function buildNews(): Promise<NewsResponse> {
 
   const client = new Anthropic({ apiKey });
   const msg = await client.messages.create({
-    model: "claude-haiku-4-5-20251001",
+    model: "claude-sonnet-4-6",
     max_tokens: 1400,
     messages: [{
       role: "user",
-      content: `You are a financial news editor. From the headlines below, pick the 8 most newsworthy, non-duplicate stories. Rewrite each as a clean headline and add a 1-sentence takeaway for a finance professional.
+      content: `You are a financial news editor. From the headlines below, pick the 8 most newsworthy, non-duplicate stories.
+
+STRICT RULES:
+- Use ONLY information explicitly present in the provided headlines and descriptions below. Do NOT add any facts, figures, names, or context from your training knowledge.
+- The headline you write must be a clean restatement of what the source text says — not an expansion of it.
+- The takeaway must be grounded solely in what the text states. If the text doesn't explain the significance, write a generic factual takeaway rather than inventing one.
+- If a headline is ambiguous or thin on detail, keep your rewrite equally brief rather than filling in gaps.
 
 HEADLINES:
 ${input}
 
 Return ONLY valid JSON — no markdown:
-{"items":[{"id":"unique-slug","headline":"Clean rewritten headline","source":"Publication name from the title suffix","category":"markets|economy|banking|companies|policy|global","takeaway":"One sentence on why this matters to finance pros."}]}
+{"items":[{"id":"unique-slug","headline":"Clean rewritten headline based only on the source text","source":"Publication name from the title suffix","category":"markets|economy|banking|companies|policy|global","takeaway":"One sentence grounded only in what the source text states."}]}
 
 Deduplicate aggressively. Prefer concrete, market-moving stories over opinion or fluff.`,
     }],
@@ -83,7 +89,7 @@ Deduplicate aggressively. Prefer concrete, market-moving stories over opinion or
   return { items: (json.items ?? []).slice(0, 8), generatedAt: new Date().toISOString() };
 }
 
-const getCachedNews = unstable_cache(buildNews, ["daily-news-v1"], { revalidate: 7200 }); // 2h
+const getCachedNews = unstable_cache(buildNews, ["daily-news-v2"], { revalidate: 7200 }); // 2h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
