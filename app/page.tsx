@@ -2587,8 +2587,8 @@ interface NewsItem {
   id: string;
   headline: string;
   source: string;
+  pubDate: string;
   category: "markets" | "economy" | "banking" | "companies" | "policy" | "global";
-  takeaway: string;
 }
 
 interface NewsResponse {
@@ -2628,7 +2628,7 @@ function DailyNews() {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h2 className="text-lg font-bold text-[#396477]">Today in Finance</h2>
-          <p className="text-xs text-[#64748b] mt-0.5">Top stories curated for finance professionals</p>
+          <p className="text-xs text-[#64748b] mt-0.5">Live headlines direct from financial news sources</p>
         </div>
         {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
       </div>
@@ -2648,21 +2648,27 @@ function DailyNews() {
         <div className="divide-y divide-gray-100">
           {data.items.map((item) => {
             const cat = NEWS_CAT[item.category] ?? NEWS_CAT.markets;
+            const minsAgo = item.pubDate
+              ? Math.round((Date.now() - new Date(item.pubDate).getTime()) / 60000)
+              : null;
+            const timeLabel = minsAgo === null ? "" :
+              minsAgo < 60 ? `${minsAgo}m ago` :
+              minsAgo < 1440 ? `${Math.round(minsAgo / 60)}h ago` : "";
             return (
-              <div key={item.id} className="py-3 first:pt-0 last:pb-0 space-y-1.5">
+              <div key={item.id} className="py-3 first:pt-0 last:pb-0 space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
                   {item.source && <span className="text-[10px] text-gray-400 font-medium">{item.source}</span>}
+                  {timeLabel && <span className="text-[10px] text-gray-300">{timeLabel}</span>}
                 </div>
                 <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
-                <p className="text-xs text-[#64748b] leading-relaxed">{item.takeaway}</p>
               </div>
             );
           })}
         </div>
       )}
 
-      <p className="text-xs text-gray-400">AI-curated from live headlines. Not investment advice. Refreshes every 2 hours.</p>
+      <p className="text-xs text-gray-400">Headlines pulled directly from Google News RSS. Not investment advice.</p>
     </div>
   );
 }
