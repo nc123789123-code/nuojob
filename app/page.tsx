@@ -335,8 +335,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
+              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <p className="text-[#64748b] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -345,14 +345,14 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#396477] text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
                 <span className="text-[10px] text-[#71787c]">Just open and use</span>
               </div>
-              <p className="text-[#396477] text-xl sm:text-2xl font-semibold mt-3 max-w-lg leading-snug">
+              <p className="text-[#396477] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
@@ -381,8 +381,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#396477] text-4xl sm:text-5xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
-              <p className="text-[#64748b] text-lg mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
+              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <p className="text-[#64748b] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
             </>
           )}
           {topTab === "firmprep" && (
@@ -391,8 +391,8 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#396477] text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">Edge Prep</h1>
-              <p className="text-[#64748b] text-xl sm:text-2xl mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
+              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
+              <p className="text-[#64748b] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
 
@@ -2520,7 +2520,7 @@ function MarketSection() {
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
           <span className="text-xs text-gray-400">Updated {updatedTime}</span>
         </div>
-        <p className="text-[#396477] text-2xl font-bold leading-snug">{analysis.headline}</p>
+        <p className="text-[#396477] text-lg font-bold leading-snug">{analysis.headline}</p>
       </div>
 
       {/* Sections */}
@@ -2528,15 +2528,15 @@ function MarketSection() {
         {analysis.sections.map((sec) => (
           <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-bold text-[#396477] text-xl">{sec.title}</h3>
+              <h3 className="font-semibold text-[#396477] text-base">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#64748b] text-lg leading-relaxed">{sec.summary}</p>
+            <p className="text-[#64748b] text-sm leading-relaxed">{sec.summary}</p>
             <ul className="space-y-2">
               {sec.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-base text-[#64748b]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#64748b]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
                   {b}
                 </li>
@@ -2627,7 +2627,7 @@ function DailyNews() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-lg font-bold text-[#396477]">Today in Finance</h2>
+          <h2 className="text-base font-bold text-[#396477]">Today in Finance</h2>
           <p className="text-xs text-[#64748b] mt-0.5">Live headlines direct from financial news sources</p>
         </div>
         {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
@@ -2719,7 +2719,7 @@ function TodayInHistory() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-bold text-[#396477]">Today in Financial History</h2>
+        <h2 className="text-base font-bold text-[#396477]">Today in Financial History</h2>
         {data && <p className="text-xs text-[#64748b] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
       </div>
 
@@ -2827,7 +2827,7 @@ function DealsWatch() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-lg font-bold text-[#396477]">Deal Flow</h2>
+          <h2 className="text-base font-bold text-[#396477]">Deal Flow</h2>
           <p className="text-xs text-[#64748b] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
         </div>
         {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
@@ -2947,7 +2947,7 @@ function EarningsWatch() {
     <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-lg font-bold text-[#396477]">Earnings This Week</h2>
+          <h2 className="text-base font-bold text-[#396477]">Earnings This Week</h2>
           <p className="text-xs text-[#64748b] mt-0.5">Upcoming earnings releases · EPS estimates</p>
         </div>
       </div>
