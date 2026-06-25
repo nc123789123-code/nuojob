@@ -2610,7 +2610,7 @@ function DailyNews() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/daily-news")
+    fetch(`/api/daily-news?t=${Date.now()}`)
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d && !d.error) setData(d); })
       .catch(() => {})
