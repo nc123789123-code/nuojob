@@ -89,7 +89,7 @@ Deduplicate aggressively. Prefer concrete, market-moving stories over opinion or
   return { items: (json.items ?? []).slice(0, 8), generatedAt: new Date().toISOString() };
 }
 
-const getCachedNews = unstable_cache(buildNews, ["daily-news-v2"], { revalidate: 7200 }); // 2h
+const getCachedNews = unstable_cache(buildNews, ["daily-news-v3"], { revalidate: 7200 }); // 2h
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -98,7 +98,7 @@ export async function GET() {
   try {
     const result = await getCachedNews();
     return Response.json(result, {
-      headers: { "Cache-Control": "s-maxage=7200, stale-while-revalidate=900" },
+      headers: { "Cache-Control": "no-store" },
     });
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });
