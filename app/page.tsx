@@ -6027,6 +6027,17 @@ function CaseLibrarySection() {
           </div>
         )}
       </div>
+
+      {/* Coaching CTA */}
+      <div className="bg-violet-50 border border-violet-200 rounded-xl px-5 py-4 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-bold text-violet-800">Want expert guidance on this?</p>
+          <p className="text-xs text-violet-600 mt-0.5">Book a 1-on-1 session with a finance professional.</p>
+        </div>
+        <Link href="/coaching" className="flex-shrink-0 px-4 py-2 bg-violet-600 text-white text-xs font-semibold rounded-lg hover:bg-violet-700 transition-colors">
+          Book a session →
+        </Link>
+      </div>
     </div>
   );
 }
