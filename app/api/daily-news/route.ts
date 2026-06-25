@@ -1,14 +1,11 @@
 export const runtime = "nodejs";
-export const revalidate = 7200; // Next.js route-level cache: 2h, resets on every deploy
-
-import Anthropic from "@anthropic-ai/sdk";
 
 export interface NewsItem {
   id: string;
   headline: string;
   source: string;
+  pubDate: string;
   category: "markets" | "economy" | "banking" | "companies" | "policy" | "global";
-  takeaway: string;
 }
 
 export interface NewsResponse {
@@ -16,79 +13,78 @@ export interface NewsResponse {
   generatedAt: string;
 }
 
-interface RssItem { title: string; description: string; }
+interface RawItem { title: string; source: string; pubDate: string; }
 
-async function fetchRss(query: string, count = 4): Promise<RssItem[]> {
+async function fetchRss(
+  query: string,
+  category: NewsItem["category"],
+  count = 4
+): Promise<(RawItem & { category: NewsItem["category"] })[]> {
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
     const xml = await res.text();
-    const items: RssItem[] = [];
+    const out: (RawItem & { category: NewsItem["category"] })[] = [];
     for (const block of [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, count)) {
       const body = block[1];
-      const titleM = body.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) || body.match(/<title>(.*?)<\/title>/);
-      const descM  = body.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/) || body.match(/<description>(.*?)<\/description>/);
-      const title = titleM?.[1]?.trim() ?? "";
-      const description = descM?.[1]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 300) ?? "";
-      if (title) items.push({ title, description });
+      const titleRaw =
+        body.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ||
+        body.match(/<title>(.*?)<\/title>/)?.[1] || "";
+      const sourceRaw =
+        body.match(/<source[^>]*>([^<]+)<\/source>/)?.[1] ||
+        body.match(/<title><!\[CDATA\[.*? - ([^-\]]+)\]\]><\/title>/)?.[1] || "";
+      const pubDate = body.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
+
+      // Strip " - Source Name" suffix Google appends to titles
+      const title = titleRaw.replace(/\s-\s[^-]+$/, "").trim();
+      const source = sourceRaw.trim();
+
+      if (title.length > 10) out.push({ title, source, pubDate, category });
     }
-    return items;
+    return out;
   } catch {
     return [];
   }
 }
 
 export async function GET() {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
+  const feeds = await Promise.all([
+    fetchRss("US stock market S&P 500 Nasdaq today", "markets", 5),
+    fetchRss("US economy inflation jobs Federal Reserve today", "economy", 4),
+    fetchRss("bank financial lending credit today", "banking", 3),
+    fetchRss("merger acquisition IPO earnings corporate today", "companies", 5),
+    fetchRss("Treasury SEC regulation finance policy today", "policy", 3),
+    fetchRss("global finance China Europe emerging markets today", "global", 3),
+  ]);
 
-  try {
-    const [markets, economy, banking, companies, policy, global] = await Promise.all([
-      fetchRss("stock market Wall Street S&P Nasdaq today", 4),
-      fetchRss("US economy inflation GDP jobs Federal Reserve today", 4),
-      fetchRss("bank lending credit finance today", 3),
-      fetchRss("earnings merger acquisition corporate deal today", 4),
-      fetchRss("Treasury regulation SEC finance policy today", 3),
-      fetchRss("global finance China Europe emerging markets today", 3),
-    ]);
+  const all = feeds.flat();
 
-    const allRaw = [...markets, ...economy, ...banking, ...companies, ...policy, ...global];
-    const input = allRaw.map((it, i) =>
-      `[${i}] ${it.title}${it.description ? ` — ${it.description}` : ""}`
-    ).join("\n");
+  // Deduplicate by normalised title prefix
+  const seen = new Set<string>();
+  const deduped = all.filter(item => {
+    const key = item.title.toLowerCase().slice(0, 50);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 
-    const client = new Anthropic({ apiKey });
-    const msg = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1400,
-      messages: [{
-        role: "user",
-        content: `You are a financial news editor. From the headlines below, pick the 8 most newsworthy, non-duplicate stories.
+  // Sort by recency
+  const sorted = deduped.sort((a, b) => {
+    const ta = a.pubDate ? new Date(a.pubDate).getTime() : 0;
+    const tb = b.pubDate ? new Date(b.pubDate).getTime() : 0;
+    return tb - ta;
+  });
 
-STRICT RULES:
-- Use ONLY information explicitly present in the provided headlines and descriptions below. Do NOT add any facts, figures, names, or context from your training knowledge.
-- The headline you write must be a clean restatement of what the source text says — not an expansion of it.
-- The takeaway must be grounded solely in what the text states. If the text doesn't explain the significance, write a generic factual takeaway rather than inventing one.
-- If a headline is ambiguous or thin on detail, keep your rewrite equally brief rather than filling in gaps.
+  const items: NewsItem[] = sorted.slice(0, 10).map((item, i) => ({
+    id: `news-${i}`,
+    headline: item.title,
+    source: item.source,
+    pubDate: item.pubDate,
+    category: item.category,
+  }));
 
-HEADLINES:
-${input}
-
-Return ONLY valid JSON — no markdown:
-{"items":[{"id":"unique-slug","headline":"Clean rewritten headline based only on the source text","source":"Publication name from the title suffix","category":"markets|economy|banking|companies|policy|global","takeaway":"One sentence grounded only in what the source text states."}]}
-
-Deduplicate aggressively. Prefer concrete, market-moving stories over opinion or fluff.`,
-      }],
-    });
-
-    const raw = (msg.content[0] as { type: string; text: string }).text
-      .replace(/```json\n?|\n?```/g, "").trim();
-    const json = JSON.parse(raw);
-    return Response.json(
-      { items: (json.items ?? []).slice(0, 8), generatedAt: new Date().toISOString() },
-      { headers: { "Cache-Control": "no-store" } }
-    );
-  } catch (e) {
-    return Response.json({ error: String(e) }, { status: 500 });
-  }
+  return Response.json(
+    { items, generatedAt: new Date().toISOString() },
+    { headers: { "Cache-Control": "no-store" } }
+  );
 }
