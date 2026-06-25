@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
+export const revalidate = 7200; // Next.js route-level cache: 2h, resets on every deploy
 
 import Anthropic from "@anthropic-ai/sdk";
-import { unstable_cache } from "next/cache";
 
 export interface NewsItem {
   id: string;
@@ -38,34 +38,32 @@ async function fetchRss(query: string, count = 4): Promise<RssItem[]> {
   }
 }
 
-async function buildNews(): Promise<NewsResponse> {
+export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error("Missing API key");
+  if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
 
-  const [markets, economy, banking, companies, policy, global] = await Promise.all([
-    fetchRss("stock market Wall Street S&P Nasdaq today", 4),
-    fetchRss("US economy inflation GDP jobs Federal Reserve today", 4),
-    fetchRss("bank lending credit finance today", 3),
-    fetchRss("earnings merger acquisition corporate deal today", 4),
-    fetchRss("Treasury regulation SEC finance policy today", 3),
-    fetchRss("global finance China Europe emerging markets today", 3),
-  ]);
+  try {
+    const [markets, economy, banking, companies, policy, global] = await Promise.all([
+      fetchRss("stock market Wall Street S&P Nasdaq today", 4),
+      fetchRss("US economy inflation GDP jobs Federal Reserve today", 4),
+      fetchRss("bank lending credit finance today", 3),
+      fetchRss("earnings merger acquisition corporate deal today", 4),
+      fetchRss("Treasury regulation SEC finance policy today", 3),
+      fetchRss("global finance China Europe emerging markets today", 3),
+    ]);
 
-  const allRaw = [
-    ...markets, ...economy, ...banking, ...companies, ...policy, ...global,
-  ];
+    const allRaw = [...markets, ...economy, ...banking, ...companies, ...policy, ...global];
+    const input = allRaw.map((it, i) =>
+      `[${i}] ${it.title}${it.description ? ` — ${it.description}` : ""}`
+    ).join("\n");
 
-  const input = allRaw.map((it, i) =>
-    `[${i}] ${it.title}${it.description ? ` — ${it.description}` : ""}`
-  ).join("\n");
-
-  const client = new Anthropic({ apiKey });
-  const msg = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1400,
-    messages: [{
-      role: "user",
-      content: `You are a financial news editor. From the headlines below, pick the 8 most newsworthy, non-duplicate stories.
+    const client = new Anthropic({ apiKey });
+    const msg = await client.messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1400,
+      messages: [{
+        role: "user",
+        content: `You are a financial news editor. From the headlines below, pick the 8 most newsworthy, non-duplicate stories.
 
 STRICT RULES:
 - Use ONLY information explicitly present in the provided headlines and descriptions below. Do NOT add any facts, figures, names, or context from your training knowledge.
@@ -80,26 +78,16 @@ Return ONLY valid JSON — no markdown:
 {"items":[{"id":"unique-slug","headline":"Clean rewritten headline based only on the source text","source":"Publication name from the title suffix","category":"markets|economy|banking|companies|policy|global","takeaway":"One sentence grounded only in what the source text states."}]}
 
 Deduplicate aggressively. Prefer concrete, market-moving stories over opinion or fluff.`,
-    }],
-  });
-
-  const raw = (msg.content[0] as { type: string; text: string }).text
-    .replace(/```json\n?|\n?```/g, "").trim();
-  const json = JSON.parse(raw);
-  return { items: (json.items ?? []).slice(0, 8), generatedAt: new Date().toISOString() };
-}
-
-const getCachedNews = unstable_cache(buildNews, ["daily-news-v3"], { revalidate: 7200 }); // 2h
-
-export async function GET() {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
-
-  try {
-    const result = await getCachedNews();
-    return Response.json(result, {
-      headers: { "Cache-Control": "no-store" },
+      }],
     });
+
+    const raw = (msg.content[0] as { type: string; text: string }).text
+      .replace(/```json\n?|\n?```/g, "").trim();
+    const json = JSON.parse(raw);
+    return Response.json(
+      { items: (json.items ?? []).slice(0, 8), generatedAt: new Date().toISOString() },
+      { headers: { "Cache-Control": "no-store" } }
+    );
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });
   }
