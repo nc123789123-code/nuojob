@@ -24,61 +24,155 @@ export interface TodayHistory {
   generatedAt: string;
 }
 
-async function buildHistory(monthDay: string): Promise<TodayHistory> {
+const FINANCE_KEYWORDS = [
+  "economist", "banker", "investor", "financier", "trader", "fund",
+  "hedge", "chairman", "ceo", "chief executive", "federal reserve",
+  "treasury", "secretary of the treasury", "finance minister",
+  "venture", "capitalist", "stockbroker", "billionaire", "business",
+  "entrepreneur", "industrialist", "philanthropist", "wall street",
+  "banker", "insurance", "asset manager", "private equity",
+];
+
+interface WikiBirth {
+  text: string;
+  year: number;
+  pages: Array<{ title: string; extract?: string; description?: string }>;
+}
+
+async function fetchBornToday(month: number, day: number, client: Anthropic): Promise<BornToday | undefined> {
+  try {
+    const url = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/births/${month}/${day}`;
+    const res = await fetch(url, {
+      headers: { "User-Agent": "OnluIntel/1.0 (onluintel.com)" },
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) return undefined;
+
+    const data = await res.json() as { births?: WikiBirth[] };
+    const births: WikiBirth[] = data.births ?? [];
+
+    // Filter for finance/business people and sort by prominence (has description) then recency
+    const candidates = births.filter(b => {
+      const combined = [
+        b.text,
+        b.pages?.[0]?.extract ?? "",
+        b.pages?.[0]?.description ?? "",
+      ].join(" ").toLowerCase();
+      return FINANCE_KEYWORDS.some(kw => combined.includes(kw));
+    });
+
+    if (!candidates.length) return undefined;
+
+    // Pick the most prominent (prefer ones with a description)
+    const ranked = candidates.sort((a, b) => {
+      const aHasDesc = !!(a.pages?.[0]?.description);
+      const bHasDesc = !!(b.pages?.[0]?.description);
+      if (aHasDesc && !bHasDesc) return -1;
+      if (!aHasDesc && bHasDesc) return 1;
+      return b.year - a.year; // more recent birth = more likely well-known in modern finance
+    });
+
+    const pick = ranked[0];
+    const name = pick.pages?.[0]?.title ?? pick.text.split(",")[0].trim();
+    const extract = pick.pages?.[0]?.extract ?? pick.text;
+    const description = pick.pages?.[0]?.description ?? "";
+
+    // Ask Claude to write role + significance from the Wikipedia extract
+    const msg = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 200,
+      messages: [{
+        role: "user",
+        content: `Based on this Wikipedia extract, write a short finance-focused bio for ${name} (born ${pick.year}).
+
+Extract: "${extract.slice(0, 600)}"
+Description: "${description}"
+
+Return ONLY valid JSON, no markdown:
+{"role":"Short title/role, e.g. Fed Chairman 1979–87 (max 8 words)","significance":"1-2 sentences on their finance or business impact."}`,
+      }],
+    });
+
+    const raw = (msg.content[0] as { type: string; text: string }).text
+      .replace(/```json\n?|\n?```/g, "").trim();
+    const bio = JSON.parse(raw);
+
+    return {
+      name,
+      birthYear: pick.year,
+      role: bio.role ?? description,
+      significance: bio.significance ?? extract.split(".")[0] + ".",
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+async function buildHistory(monthDay: string, month: number, day: number): Promise<TodayHistory> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("Missing API key");
 
   const client = new Anthropic({ apiKey });
-  const msg = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1100,
-    messages: [{
-      role: "user",
-      content: `You are a financial historian with extremely high standards for date accuracy.
 
-For ${monthDay}, provide:
-1. Up to 4 notable financial/business events that occurred on EXACTLY this calendar date.
-2. The most notable finance or business figure born on EXACTLY this calendar date.
+  // Run events + born-today in parallel
+  const [eventsResult, bornToday] = await Promise.all([
+    client.messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 900,
+      messages: [{
+        role: "user",
+        content: `You are a financial historian with extremely high standards for date accuracy.
+
+For ${monthDay}, provide up to 4 notable financial/business events that occurred on EXACTLY this calendar date.
 
 CRITICAL RULES:
-- Only include an event if you are CERTAIN it occurred on this exact calendar date (month and day). Do NOT include events that happened "around" this date, the day before, or the day after.
-- If you are unsure of the exact date, OMIT the item entirely. It is better to return 2 verified facts than 4 dubious ones.
-- Do NOT include events where the notable action happened on a different date (e.g. a vote on the 23rd announced on the 24th counts only if the announcement itself is the historic moment).
-- For bornToday: only include if you are certain of the exact birth date.
+- Only include an event if you are CERTAIN it occurred on this exact calendar date (month and day).
+- If you are unsure of the exact date, OMIT it. Better to return 2 verified facts than 4 dubious ones.
+- Do NOT include events that happened "around" this date.
 
 Return ONLY valid JSON — no markdown:
-{
-  "items":[{"year":1987,"headline":"Short punchy headline, max 8 words","detail":"1-2 sentences of context and why it mattered.","category":"market|company|figure|policy|crisis"}],
-  "bornToday":{"name":"Full Name","birthYear":1930,"role":"Short title/role, e.g. Fed Chairman 1979–87","significance":"1-2 sentences on their impact on finance or business."}
-}
+{"items":[{"year":1987,"headline":"Short punchy headline, max 8 words","detail":"1-2 sentences of context and why it mattered.","category":"market|company|figure|policy|crisis"}]}
 
-Sort items most recent first. Vary categories. Omit bornToday if not certain.`,
-    }],
-  });
+Sort items most recent first. Vary categories.`,
+      }],
+    }),
+    fetchBornToday(month, day, client),
+  ]);
 
-  const raw = (msg.content[0] as { type: string; text: string }).text
+  const raw = (eventsResult.content[0] as { type: string; text: string }).text
     .replace(/```json\n?|\n?```/g, "").trim();
   const json = JSON.parse(raw);
+
   return {
     monthDay,
     items: (json.items ?? []).slice(0, 4),
-    bornToday: json.bornToday ?? undefined,
+    bornToday,
     generatedAt: new Date().toISOString(),
   };
 }
 
-const getCachedHistory = unstable_cache(buildHistory, ["history-v3"], { revalidate: 86400 }); // 24h
+function getCacheKey(month: number, day: number) {
+  return `history-v4-${month}-${day}`;
+}
 
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
 
-  const monthDay = new Date().toLocaleDateString("en-US", {
-    timeZone: "America/New_York", month: "long", day: "numeric",
-  });
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const monthDay = now.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
+  const cacheKey = getCacheKey(month, day);
+  const getCachedHistory = unstable_cache(
+    () => buildHistory(monthDay, month, day),
+    [cacheKey],
+    { revalidate: 86400 },
+  );
 
   try {
-    const result = await getCachedHistory(monthDay);
+    const result = await getCachedHistory();
     return Response.json(result, {
       headers: { "Cache-Control": "s-maxage=86400, stale-while-revalidate=3600" },
     });
