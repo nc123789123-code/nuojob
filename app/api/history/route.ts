@@ -38,16 +38,15 @@ interface WikiBirth {
   pages: Array<{ title: string; extract?: string; description?: string }>;
 }
 
-// Module-level in-memory cache per calendar day
+// Only cache successful non-empty responses
 const dayCache = new Map<string, TodayHistory>();
 
 function extractJson(text: string): unknown {
-  // Strip markdown fences then try direct parse; fallback to first {...} block
   const stripped = text.replace(/```json\n?|\n?```/g, "").trim();
   try { return JSON.parse(stripped); } catch { /* fall through */ }
   const match = stripped.match(/\{[\s\S]*\}/);
   if (match) return JSON.parse(match[0]);
-  throw new Error("No valid JSON found in response");
+  throw new Error("No JSON in response");
 }
 
 async function fetchBornToday(month: number, day: number, client: Anthropic): Promise<BornToday | undefined> {
@@ -55,7 +54,7 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
     const url = `https://en.wikipedia.org/api/rest_v1/feed/onthisday/births/${month}/${day}`;
     const res = await fetch(url, {
       headers: { "User-Agent": "OnluIntel/1.0 (onluintel.com)" },
-      signal: AbortSignal.timeout(6000),
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return undefined;
 
@@ -63,106 +62,66 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
     const births: WikiBirth[] = data.births ?? [];
 
     const candidates = births.filter(b => {
-      const combined = [
-        b.text,
-        b.pages?.[0]?.extract ?? "",
-        b.pages?.[0]?.description ?? "",
-      ].join(" ").toLowerCase();
+      const combined = [b.text, b.pages?.[0]?.extract ?? "", b.pages?.[0]?.description ?? ""].join(" ").toLowerCase();
       return FINANCE_KEYWORDS.some(kw => combined.includes(kw));
     });
-
     if (!candidates.length) return undefined;
 
-    const ranked = [...candidates].sort((a, b) => {
-      const aDesc = !!(a.pages?.[0]?.description);
-      const bDesc = !!(b.pages?.[0]?.description);
-      if (aDesc && !bDesc) return -1;
-      if (!aDesc && bDesc) return 1;
-      return b.year - a.year;
-    });
+    const pick = [...candidates].sort((a, b) => {
+      const aD = !!(a.pages?.[0]?.description), bD = !!(b.pages?.[0]?.description);
+      return aD === bD ? b.year - a.year : aD ? -1 : 1;
+    })[0];
 
-    const pick = ranked[0];
     const name = pick.pages?.[0]?.title ?? pick.text.split(",")[0].trim();
-    const extract = pick.pages?.[0]?.extract ?? pick.text;
+    const extract = (pick.pages?.[0]?.extract ?? pick.text).slice(0, 500);
     const description = pick.pages?.[0]?.description ?? "";
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 220,
+      max_tokens: 180,
       messages: [{
         role: "user",
-        content: `Based on this Wikipedia extract, write a short finance-focused bio for ${name} (born ${pick.year}).
-
-Extract: "${extract.slice(0, 600)}"
-Description: "${description}"
-
-Return ONLY a raw JSON object with no markdown fences:
-{"role":"Short title/role (max 8 words)","significance":"1-2 sentences on their finance or business impact."}`,
+        content: `Write a finance bio for ${name} (born ${pick.year}) based on: "${extract}" / "${description}"
+Return raw JSON only: {"role":"title/role max 8 words","significance":"1-2 sentences on finance impact."}`,
       }],
     });
 
-    const raw = (msg.content[0] as { type: string; text: string }).text;
-    const bio = extractJson(raw) as { role?: string; significance?: string };
-
-    return {
-      name,
-      birthYear: pick.year,
-      role: bio.role ?? description,
-      significance: bio.significance ?? (extract.split(".")[0] + "."),
-    };
+    const bio = extractJson((msg.content[0] as { type: string; text: string }).text) as { role?: string; significance?: string };
+    return { name, birthYear: pick.year, role: bio.role ?? description, significance: bio.significance ?? extract.split(".")[0] + "." };
   } catch {
     return undefined;
-  }
-}
-
-async function fetchEvents(monthDay: string, client: Anthropic): Promise<HistoryItem[]> {
-  try {
-    const msg = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 900,
-      messages: [{
-        role: "user",
-        content: `You are a financial historian with extremely high standards for date accuracy.
-
-For ${monthDay}, provide up to 4 notable financial/business events that occurred on EXACTLY this calendar date.
-
-CRITICAL RULES:
-- Only include an event if you are CERTAIN it occurred on this exact calendar date (month and day).
-- If you are unsure of the exact date, OMIT it. Better to return 2 verified facts than 4 dubious ones.
-- Do NOT include events that happened "around" this date or in the same week.
-
-Return ONLY a raw JSON object with no markdown fences:
-{"items":[{"year":1987,"headline":"Short punchy headline, max 8 words","detail":"1-2 sentences of context and why it mattered.","category":"market|company|figure|policy|crisis"}]}
-
-Sort items most recent first. Vary categories.`,
-      }],
-    });
-
-    const raw = (msg.content[0] as { type: string; text: string }).text;
-    const json = extractJson(raw) as { items?: HistoryItem[] };
-    return (json.items ?? []).slice(0, 4);
-  } catch {
-    return [];
   }
 }
 
 async function buildHistory(monthDay: string, month: number, day: number): Promise<TodayHistory> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) throw new Error("Missing API key");
-
   const client = new Anthropic({ apiKey });
 
-  const [items, bornToday] = await Promise.all([
-    fetchEvents(monthDay, client),
+  const [eventsMsg, bornToday] = await Promise.all([
+    client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 700,
+      messages: [{
+        role: "user",
+        content: `You are a precise financial historian. List up to 4 real financial/business events on EXACTLY ${monthDay} (this exact month and day only).
+
+Rules:
+- Include ONLY events you are certain happened on this specific date
+- Omit any event if unsure of exact date
+- Return at least 1-2 events you are confident about
+
+Return raw JSON only:
+{"items":[{"year":1987,"headline":"8 words max","detail":"1-2 sentences why it mattered.","category":"market|company|figure|policy|crisis"}]}`,
+      }],
+    }),
     fetchBornToday(month, day, client),
   ]);
 
-  return {
-    monthDay,
-    items,
-    bornToday,
-    generatedAt: new Date().toISOString(),
-  };
+  const json = extractJson((eventsMsg.content[0] as { type: string; text: string }).text) as { items?: HistoryItem[] };
+  const items = (json.items ?? []).slice(0, 4);
+
+  return { monthDay, items, bornToday, generatedAt: new Date().toISOString() };
 }
 
 export async function GET() {
@@ -177,27 +136,18 @@ export async function GET() {
 
   const cached = dayCache.get(cacheKey);
   if (cached) {
-    return Response.json(cached, {
-      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" },
-    });
+    return Response.json(cached, { headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" } });
   }
 
   try {
     const result = await buildHistory(monthDay, month, day);
-    dayCache.clear();
-    dayCache.set(cacheKey, result);
-    return Response.json(result, {
-      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" },
-    });
+    // Only cache if we actually got events — don't lock in an empty result
+    if (result.items.length > 0) {
+      dayCache.clear();
+      dayCache.set(cacheKey, result);
+    }
+    return Response.json(result, { headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" } });
   } catch (e) {
-    // Return empty-but-valid response so the UI doesn't hard-fail
-    const fallback: TodayHistory = {
-      monthDay,
-      items: [],
-      generatedAt: new Date().toISOString(),
-    };
-    return Response.json(fallback, {
-      headers: { "Cache-Control": "no-store" },
-    });
+    return Response.json({ error: String(e) }, { status: 500 });
   }
 }
