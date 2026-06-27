@@ -38,8 +38,17 @@ interface WikiBirth {
   pages: Array<{ title: string; extract?: string; description?: string }>;
 }
 
-// Module-level cache — persists within a serverless instance, one entry per calendar day
+// Module-level in-memory cache per calendar day
 const dayCache = new Map<string, TodayHistory>();
+
+function extractJson(text: string): unknown {
+  // Strip markdown fences then try direct parse; fallback to first {...} block
+  const stripped = text.replace(/```json\n?|\n?```/g, "").trim();
+  try { return JSON.parse(stripped); } catch { /* fall through */ }
+  const match = stripped.match(/\{[\s\S]*\}/);
+  if (match) return JSON.parse(match[0]);
+  throw new Error("No valid JSON found in response");
+}
 
 async function fetchBornToday(month: number, day: number, client: Anthropic): Promise<BornToday | undefined> {
   try {
@@ -64,11 +73,11 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
 
     if (!candidates.length) return undefined;
 
-    const ranked = candidates.sort((a, b) => {
-      const aHasDesc = !!(a.pages?.[0]?.description);
-      const bHasDesc = !!(b.pages?.[0]?.description);
-      if (aHasDesc && !bHasDesc) return -1;
-      if (!aHasDesc && bHasDesc) return 1;
+    const ranked = [...candidates].sort((a, b) => {
+      const aDesc = !!(a.pages?.[0]?.description);
+      const bDesc = !!(b.pages?.[0]?.description);
+      if (aDesc && !bDesc) return -1;
+      if (!aDesc && bDesc) return 1;
       return b.year - a.year;
     });
 
@@ -79,7 +88,7 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
 
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 200,
+      max_tokens: 220,
       messages: [{
         role: "user",
         content: `Based on this Wikipedia extract, write a short finance-focused bio for ${name} (born ${pick.year}).
@@ -87,34 +96,28 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
 Extract: "${extract.slice(0, 600)}"
 Description: "${description}"
 
-Return ONLY valid JSON, no markdown:
-{"role":"Short title/role, e.g. Fed Chairman 1979–87 (max 8 words)","significance":"1-2 sentences on their finance or business impact."}`,
+Return ONLY a raw JSON object with no markdown fences:
+{"role":"Short title/role (max 8 words)","significance":"1-2 sentences on their finance or business impact."}`,
       }],
     });
 
-    const raw = (msg.content[0] as { type: string; text: string }).text
-      .replace(/```json\n?|\n?```/g, "").trim();
-    const bio = JSON.parse(raw);
+    const raw = (msg.content[0] as { type: string; text: string }).text;
+    const bio = extractJson(raw) as { role?: string; significance?: string };
 
     return {
       name,
       birthYear: pick.year,
       role: bio.role ?? description,
-      significance: bio.significance ?? extract.split(".")[0] + ".",
+      significance: bio.significance ?? (extract.split(".")[0] + "."),
     };
   } catch {
     return undefined;
   }
 }
 
-async function buildHistory(monthDay: string, month: number, day: number): Promise<TodayHistory> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error("Missing API key");
-
-  const client = new Anthropic({ apiKey });
-
-  const [eventsResult, bornToday] = await Promise.all([
-    client.messages.create({
+async function fetchEvents(monthDay: string, client: Anthropic): Promise<HistoryItem[]> {
+  try {
+    const msg = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 900,
       messages: [{
@@ -128,22 +131,35 @@ CRITICAL RULES:
 - If you are unsure of the exact date, OMIT it. Better to return 2 verified facts than 4 dubious ones.
 - Do NOT include events that happened "around" this date or in the same week.
 
-Return ONLY valid JSON — no markdown:
+Return ONLY a raw JSON object with no markdown fences:
 {"items":[{"year":1987,"headline":"Short punchy headline, max 8 words","detail":"1-2 sentences of context and why it mattered.","category":"market|company|figure|policy|crisis"}]}
 
 Sort items most recent first. Vary categories.`,
       }],
-    }),
+    });
+
+    const raw = (msg.content[0] as { type: string; text: string }).text;
+    const json = extractJson(raw) as { items?: HistoryItem[] };
+    return (json.items ?? []).slice(0, 4);
+  } catch {
+    return [];
+  }
+}
+
+async function buildHistory(monthDay: string, month: number, day: number): Promise<TodayHistory> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw new Error("Missing API key");
+
+  const client = new Anthropic({ apiKey });
+
+  const [items, bornToday] = await Promise.all([
+    fetchEvents(monthDay, client),
     fetchBornToday(month, day, client),
   ]);
 
-  const raw = (eventsResult.content[0] as { type: string; text: string }).text
-    .replace(/```json\n?|\n?```/g, "").trim();
-  const json = JSON.parse(raw);
-
   return {
     monthDay,
-    items: (json.items ?? []).slice(0, 4),
+    items,
     bornToday,
     generatedAt: new Date().toISOString(),
   };
@@ -159,7 +175,6 @@ export async function GET() {
   const monthDay = now.toLocaleDateString("en-US", { month: "long", day: "numeric" });
   const cacheKey = `${month}-${day}`;
 
-  // Serve from in-memory cache if same calendar day
   const cached = dayCache.get(cacheKey);
   if (cached) {
     return Response.json(cached, {
@@ -169,13 +184,20 @@ export async function GET() {
 
   try {
     const result = await buildHistory(monthDay, month, day);
-    // Store and evict any stale day entries
     dayCache.clear();
     dayCache.set(cacheKey, result);
     return Response.json(result, {
       headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" },
     });
   } catch (e) {
-    return Response.json({ error: String(e) }, { status: 500 });
+    // Return empty-but-valid response so the UI doesn't hard-fail
+    const fallback: TodayHistory = {
+      monthDay,
+      items: [],
+      generatedAt: new Date().toISOString(),
+    };
+    return Response.json(fallback, {
+      headers: { "Cache-Control": "no-store" },
+    });
   }
 }
