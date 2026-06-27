@@ -1,7 +1,6 @@
 export const runtime = "nodejs";
 
 import Anthropic from "@anthropic-ai/sdk";
-import { unstable_cache } from "next/cache";
 
 export interface HistoryItem {
   year: number;
@@ -30,7 +29,7 @@ const FINANCE_KEYWORDS = [
   "treasury", "secretary of the treasury", "finance minister",
   "venture", "capitalist", "stockbroker", "billionaire", "business",
   "entrepreneur", "industrialist", "philanthropist", "wall street",
-  "banker", "insurance", "asset manager", "private equity",
+  "insurance", "asset manager", "private equity",
 ];
 
 interface WikiBirth {
@@ -38,6 +37,9 @@ interface WikiBirth {
   year: number;
   pages: Array<{ title: string; extract?: string; description?: string }>;
 }
+
+// Module-level cache — persists within a serverless instance, one entry per calendar day
+const dayCache = new Map<string, TodayHistory>();
 
 async function fetchBornToday(month: number, day: number, client: Anthropic): Promise<BornToday | undefined> {
   try {
@@ -51,7 +53,6 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
     const data = await res.json() as { births?: WikiBirth[] };
     const births: WikiBirth[] = data.births ?? [];
 
-    // Filter for finance/business people and sort by prominence (has description) then recency
     const candidates = births.filter(b => {
       const combined = [
         b.text,
@@ -63,13 +64,12 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
 
     if (!candidates.length) return undefined;
 
-    // Pick the most prominent (prefer ones with a description)
     const ranked = candidates.sort((a, b) => {
       const aHasDesc = !!(a.pages?.[0]?.description);
       const bHasDesc = !!(b.pages?.[0]?.description);
       if (aHasDesc && !bHasDesc) return -1;
       if (!aHasDesc && bHasDesc) return 1;
-      return b.year - a.year; // more recent birth = more likely well-known in modern finance
+      return b.year - a.year;
     });
 
     const pick = ranked[0];
@@ -77,7 +77,6 @@ async function fetchBornToday(month: number, day: number, client: Anthropic): Pr
     const extract = pick.pages?.[0]?.extract ?? pick.text;
     const description = pick.pages?.[0]?.description ?? "";
 
-    // Ask Claude to write role + significance from the Wikipedia extract
     const msg = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 200,
@@ -114,7 +113,6 @@ async function buildHistory(monthDay: string, month: number, day: number): Promi
 
   const client = new Anthropic({ apiKey });
 
-  // Run events + born-today in parallel
   const [eventsResult, bornToday] = await Promise.all([
     client.messages.create({
       model: "claude-sonnet-4-6",
@@ -128,7 +126,7 @@ For ${monthDay}, provide up to 4 notable financial/business events that occurred
 CRITICAL RULES:
 - Only include an event if you are CERTAIN it occurred on this exact calendar date (month and day).
 - If you are unsure of the exact date, OMIT it. Better to return 2 verified facts than 4 dubious ones.
-- Do NOT include events that happened "around" this date.
+- Do NOT include events that happened "around" this date or in the same week.
 
 Return ONLY valid JSON — no markdown:
 {"items":[{"year":1987,"headline":"Short punchy headline, max 8 words","detail":"1-2 sentences of context and why it mattered.","category":"market|company|figure|policy|crisis"}]}
@@ -151,10 +149,6 @@ Sort items most recent first. Vary categories.`,
   };
 }
 
-function getCacheKey(month: number, day: number) {
-  return `history-v4-${month}-${day}`;
-}
-
 export async function GET() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return Response.json({ error: "Missing API key" }, { status: 500 });
@@ -163,18 +157,23 @@ export async function GET() {
   const month = now.getMonth() + 1;
   const day = now.getDate();
   const monthDay = now.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+  const cacheKey = `${month}-${day}`;
 
-  const cacheKey = getCacheKey(month, day);
-  const getCachedHistory = unstable_cache(
-    () => buildHistory(monthDay, month, day),
-    [cacheKey],
-    { revalidate: 86400 },
-  );
+  // Serve from in-memory cache if same calendar day
+  const cached = dayCache.get(cacheKey);
+  if (cached) {
+    return Response.json(cached, {
+      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" },
+    });
+  }
 
   try {
-    const result = await getCachedHistory();
+    const result = await buildHistory(monthDay, month, day);
+    // Store and evict any stale day entries
+    dayCache.clear();
+    dayCache.set(cacheKey, result);
     return Response.json(result, {
-      headers: { "Cache-Control": "s-maxage=86400, stale-while-revalidate=3600" },
+      headers: { "Cache-Control": "s-maxage=3600, stale-while-revalidate=1800" },
     });
   } catch (e) {
     return Response.json({ error: String(e) }, { status: 500 });
