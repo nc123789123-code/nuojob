@@ -30,6 +30,11 @@
   .nav{display:none;}
   .slide-num{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:12px;color:rgba(45,106,126,0.3);letter-spacing:1px;font-weight:700;}
   .hint{position:fixed;top:18px;right:24px;font-size:11px;color:rgba(45,106,126,0.22);letter-spacing:0.5px;}
+  .site-badge{position:fixed;bottom:16px;right:20px;z-index:200;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(45,106,126,0.18);border-radius:30px;padding:5px 14px 5px 10px;box-shadow:0 2px 12px rgba(45,106,126,0.1);}
+  .site-badge .sb-dot{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#2d7a5f,#396477);flex-shrink:0;}
+  .site-badge .sb-text{font-size:clamp(11px,1.2vw,13px);font-weight:800;color:#2d6a7e;letter-spacing:0.5px;white-space:nowrap;}
+  .site-badge .sb-sep{color:rgba(45,106,126,0.3);font-size:10px;margin:0 2px;}
+  .site-badge .sb-alt{font-size:clamp(10px,1.1vw,12px);font-weight:700;color:#9ecfc0;letter-spacing:0.5px;}
 
   /* ── SHARED LABEL ── */
   .label{font-size:clamp(11px,1.4vw,15px);font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:clamp(16px,2.5vw,28px);display:inline-flex;align-items:center;gap:8px;}
@@ -372,6 +377,12 @@
 <div class="nav" id="nav"></div>
 <div class="slide-num" id="slideNum"></div>
 <div class="hint">← → or swipe · F fullscreen</div>
+<div class="site-badge">
+  <div class="sb-dot"></div>
+  <span class="sb-text">onluintel.com</span>
+  <span class="sb-sep">·</span>
+  <span class="sb-alt">onlu.ai</span>
+</div>
 <button class="arrow prev" id="btnPrev" aria-label="Previous slide">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
 </button>
