@@ -97,6 +97,10 @@
   #s3 .ftitle{font-size:clamp(18px,2.4vw,28px);font-weight:800;color:#2d6a7e;margin-bottom:5px;}
   #s3 .fdesc{font-size:clamp(13px,1.7vw,20px);color:#3d4f5c;line-height:1.5;}
   #s3 .badge{margin-top:clamp(20px,2.8vw,34px);display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#d4f0e6,#c0e8d8);color:#2d7a5f;font-size:clamp(15px,2vw,22px);font-weight:700;padding:clamp(11px,1.4vw,17px) clamp(28px,3.5vw,44px);border-radius:40px;box-shadow:0 4px 20px rgba(100,180,140,0.2);}
+  #s3 .cta-row{margin-top:clamp(18px,2.5vw,30px);display:flex;align-items:center;justify-content:center;gap:clamp(20px,3vw,40px);flex-wrap:wrap;}
+  #s3 .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  #s3 .qr-wrap img{width:clamp(90px,10vw,130px);height:clamp(90px,10vw,130px);border-radius:12px;border:2px solid #d4f0e6;padding:6px;background:#fff;box-shadow:0 4px 16px rgba(45,106,126,0.1);}
+  #s3 .qr-label{font-size:clamp(11px,1.3vw,14px);font-weight:700;color:#2d7a5f;letter-spacing:0.5px;text-transform:uppercase;}
 
   /* ── SLIDE 4: TRACTION ── */
   #s4{background:linear-gradient(135deg,#f2f4fb 0%,#edf0f8 100%);}
@@ -202,7 +206,9 @@
     #s3 .emoji-wrap{width:38px;height:38px;flex-shrink:0;}
     #s3 .ftitle{font-size:15px;margin-bottom:3px;}
     #s3 .fdesc{font-size:12px;}
-    #s3 .badge{font-size:13px;padding:10px 18px;margin-top:14px;}
+    #s3 .badge{font-size:13px;padding:10px 18px;margin-top:0;}
+    #s3 .qr-wrap{display:none;}
+    #s3 .cta-row{margin-top:14px;gap:12px;}
 
     /* Slide 4 */
     #s4 h2{font-size:28px;margin-bottom:14px;letter-spacing:-1px;}
@@ -336,7 +342,13 @@
           </div>
         </div>
       </div>
-      <div class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d7a5f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Free &nbsp;·&nbsp; No login &nbsp;·&nbsp; <strong style="color:#2d7a5f">onluintel.com</strong> &nbsp;·&nbsp; <strong style="color:#2d7a5f">onlu.ai</strong></div>
+      <div class="cta-row">
+        <div class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d7a5f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Free &nbsp;·&nbsp; No login &nbsp;·&nbsp; <strong style="color:#2d7a5f">onluintel.com</strong> &nbsp;·&nbsp; <strong style="color:#2d7a5f">onlu.ai</strong></div>
+        <div class="qr-wrap">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&color=2d6a7e&bgcolor=ffffff&data=https%3A%2F%2Fonluintel.com&qzone=1&format=png" alt="Scan to open onluintel.com" loading="eager"/>
+          <span class="qr-label">Scan to try now</span>
+        </div>
+      </div>
     </div>
   </div>
 
