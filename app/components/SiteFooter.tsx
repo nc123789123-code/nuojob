@@ -17,6 +17,7 @@ export default function SiteFooter() {
             { href: "/?tab=table", label: "Onlu Events" },
             { href: "/?tab=learn", label: "Onlu Learning" },
             { href: "/coaching", label: "Coaching" },
+            { href: "/universities", label: "Universities" },
             { href: "/about", label: "About" },
             { href: "/privacy", label: "Privacy" },
             { href: "/terms", label: "Terms" },
