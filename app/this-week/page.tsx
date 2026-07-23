@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import LogoMark from "@/app/components/LogoMark";
+import Gate from "@/app/components/Gate";
 
 interface TopJob {
   role: string;
@@ -140,6 +141,7 @@ export default function ThisWeekPage() {
           )}
         </div>
 
+        <Gate level="email" title="See who's hiring this week" description="Enter your email to unlock the firm-by-firm hiring breakdown and this week's capital raises. Free.">
         {/* Hiring Now */}
         {!loading && firmGroups.length > 0 && (
           <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
@@ -210,6 +212,7 @@ export default function ThisWeekPage() {
             </div>
           </div>
         )}
+        </Gate>
 
         {/* Share block */}
         <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 p-5 shadow-sm">
