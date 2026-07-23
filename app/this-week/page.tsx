@@ -103,9 +103,9 @@ export default function ThisWeekPage() {
   const pageUrl = `${baseUrl}/this-week`;
 
   return (
-    <div className="min-h-screen bg-[#0A0710]">
+    <div className="min-h-screen bg-[#14111D]">
       {/* Header */}
-      <div className="bg-[#14101E] border-b border-[#2A2438]/40">
+      <div className="bg-[#201B2E] border-b border-[#38324E]/40">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <LogoMark size={24} />
@@ -118,7 +118,7 @@ export default function ThisWeekPage() {
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
 
         {/* Hero card */}
-        <div className="bg-[#14101E] rounded-2xl border border-[#2A2438]/40 overflow-hidden shadow-sm">
+        <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
           <div className="bg-[#171226] px-6 py-5">
             <p className="text-[#c3ecd7] text-xs font-semibold uppercase tracking-widest mb-1">Finance Hiring Pulse</p>
             <h1 className="text-white text-xl font-bold">{weekLabel()}</h1>
@@ -126,7 +126,7 @@ export default function ThisWeekPage() {
           {loading ? (
             <div className="px-6 py-8 text-center text-sm text-[#8A8398]">Loading signals…</div>
           ) : (
-            <div className="grid grid-cols-3 divide-x divide-[#2A2438]/30">
+            <div className="grid grid-cols-3 divide-x divide-[#38324E]/30">
               {[
                 { label: "Firms Hiring", value: totalFirmsHiring },
                 { label: "Roles Posted", value: totalRoles },
@@ -144,12 +144,12 @@ export default function ThisWeekPage() {
         <Gate level="email" title="See who's hiring this week" description="Enter your email to unlock the firm-by-firm hiring breakdown and this week's capital raises. Free.">
         {/* Hiring Now */}
         {!loading && firmGroups.length > 0 && (
-          <div className="bg-[#14101E] rounded-2xl border border-[#2A2438]/40 overflow-hidden shadow-sm">
-            <div className="px-5 py-3.5 border-b border-[#2A2438]/30 flex items-center gap-2">
+          <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#38324E]/30 flex items-center gap-2">
               <span className="text-sm font-bold text-[#F4F0FA]">Hiring Now</span>
               <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">{totalFirmsHiring} firms</span>
             </div>
-            <div className="divide-y divide-[#2A2438]/20">
+            <div className="divide-y divide-[#38324E]/20">
               {firmGroups.map(([firmName, firmJobs]) => (
                 <div key={firmName} className="px-5 py-3.5">
                   <div className="flex items-center justify-between mb-2">
@@ -173,7 +173,7 @@ export default function ThisWeekPage() {
               ))}
             </div>
             {totalFirmsHiring > 8 && (
-              <div className="px-5 py-3 border-t border-[#2A2438]/20 bg-[#14101E]">
+              <div className="px-5 py-3 border-t border-[#38324E]/20 bg-[#201B2E]">
                 <a href="/" className="text-xs font-semibold text-[#A78BFA] hover:underline">
                   +{totalFirmsHiring - 8} more firms on the platform →
                 </a>
@@ -185,12 +185,12 @@ export default function ThisWeekPage() {
         <Gate level="pro" title="Capital raises — a Pro signal" description="Live Form D capital-raise signals are part of Onlu Pro — $5/mo, cancel anytime.">
         {/* Capital Raises */}
         {!loading && topFunds.length > 0 && (
-          <div className="bg-[#14101E] rounded-2xl border border-[#2A2438]/40 overflow-hidden shadow-sm">
-            <div className="px-5 py-3.5 border-b border-[#2A2438]/30 flex items-center gap-2">
+          <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#38324E]/30 flex items-center gap-2">
               <span className="text-sm font-bold text-[#F4F0FA]">Capital Raises</span>
               <span className="text-[10px] bg-[#2A2113] text-[#F5B544] font-bold px-1.5 py-0.5 rounded">EDGAR Form D</span>
             </div>
-            <div className="divide-y divide-[#2A2438]/20">
+            <div className="divide-y divide-[#38324E]/20">
               {topFunds.map((fund, i) => (
                 <div key={i} className="px-5 py-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2 min-w-0">
@@ -206,7 +206,7 @@ export default function ThisWeekPage() {
                 </div>
               ))}
             </div>
-            <div className="px-5 py-3 border-t border-[#2A2438]/20 bg-[#14101E]">
+            <div className="px-5 py-3 border-t border-[#38324E]/20 bg-[#201B2E]">
               <a href="/?tab=capital" className="text-xs font-semibold text-[#A78BFA] hover:underline">
                 View all capital signals →
               </a>
@@ -216,7 +216,7 @@ export default function ThisWeekPage() {
         </Gate>
 
         {/* Share block */}
-        <div className="bg-[#14101E] rounded-2xl border border-[#2A2438]/40 p-5 shadow-sm">
+        <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 p-5 shadow-sm">
           <p className="text-sm font-bold text-[#F4F0FA] mb-1">Share this week&apos;s signals</p>
           <p className="text-xs text-[#9A93AC] mb-4">Help your network know where the opportunities are.</p>
           <div className="flex flex-wrap gap-2">
@@ -230,7 +230,7 @@ export default function ThisWeekPage() {
           <p className="text-white font-bold text-sm mb-1">See the full picture</p>
           <p className="text-[#c3ecd7] text-xs mb-4">Live roles, fund signals, market data, and interview prep — all in one place.</p>
           <a href="/"
-            className="inline-block bg-[#14101E] text-[#A78BFA] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
+            className="inline-block bg-[#201B2E] text-[#A78BFA] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
             Open Onlu →
           </a>
         </div>

@@ -7,20 +7,20 @@ interface Props {
 }
 
 const CATEGORY_STYLE: Record<JobCategory, string> = {
-  "Private Credit":     "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]",
-  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]",
-  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
-  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#2A2438]",
-  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
-  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#2A2438]",
-  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+  "Private Credit":     "bg-[#0F2033] text-[#A78BFA] border-[#38324E]",
+  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#38324E]",
+  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",
+  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#38324E]",
+  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
+  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#38324E]",
+  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
 };
 
 const SIGNAL_STYLE: Record<JobSignalTag, string> = {
-  "In-market raise":     "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
-  "Post-raise build-out":"bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
-  "Fund scaling":        "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]",
-  "New fund":            "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",
+  "In-market raise":     "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
+  "Post-raise build-out":"bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
+  "Fund scaling":        "bg-[#0F2033] text-[#A78BFA] border-[#38324E]",
+  "New fund":            "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",
 };
 
 function agoLabel(days: number): string {
@@ -32,19 +32,19 @@ function agoLabel(days: number): string {
 }
 
 function sourceInfo(id: string): { label: string; style: string } {
-  if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]"   };
-  if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]"       };
-  if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]"       };
-  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]"        };
-  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#1A1428]/70 text-[#9A93AC] border-[#c7c4d8]/50" };
-  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]"        };
+  if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]"   };
+  if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#38324E]"       };
+  if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]"       };
+  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-[#0F2033] text-[#A78BFA] border-[#38324E]"        };
+  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#2A2338]/70 text-[#9A93AC] border-[#c7c4d8]/50" };
+  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-[#0F2033] text-[#A78BFA] border-[#38324E]"        };
   if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#171226] text-white border-[#2d5162]"       };
   if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#171226] text-white border-[#2d5162]"       };
-  return { label: "Board", style: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]" };
+  return { label: "Board", style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]" };
 }
 
 function ScoreBadge({ score }: { score: number }) {
-  const bg   = score >= 80 ? "bg-[#F43F5E]" : score >= 65 ? "bg-[#F59E0B]" : score >= 50 ? "bg-yellow-400" : "bg-[#14101E]";
+  const bg   = score >= 80 ? "bg-[#F43F5E]" : score >= 65 ? "bg-[#F59E0B]" : score >= 50 ? "bg-yellow-400" : "bg-[#201B2E]";
   const text = score >= 50 ? "text-white" : "text-[#9A93AC]";
   return (
     <div className={`w-8 h-8 rounded-lg ${bg} flex items-center justify-center flex-shrink-0`}>
@@ -56,7 +56,7 @@ function ScoreBadge({ score }: { score: number }) {
 export default function JobRow({ signal }: Props) {
   const src = sourceInfo(signal.id);
   return (
-    <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-3 border-b border-[#2A2438] last:border-0 items-center hover:bg-[#14101E]/60 transition-colors group">
+    <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-3 border-b border-[#38324E] last:border-0 items-center hover:bg-[#201B2E]/60 transition-colors group">
       {/* Score */}
       <ScoreBadge score={signal.score} />
 

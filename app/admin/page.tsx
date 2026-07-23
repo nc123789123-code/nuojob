@@ -29,7 +29,7 @@ export default function AdminPage() {
   const submit = (e: React.FormEvent) => { e.preventDefault(); load(token); };
 
   return (
-    <div className="min-h-screen bg-[#14101E] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#201B2E] flex items-center justify-center px-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-xl font-bold text-[#F4F0FA]">Onlu Admin</h1>
@@ -37,7 +37,7 @@ export default function AdminPage() {
         </div>
 
         {!stats && (
-          <form onSubmit={submit} className="bg-[#14101E] rounded-2xl border border-[#2A2438] p-6 space-y-4">
+          <form onSubmit={submit} className="bg-[#201B2E] rounded-2xl border border-[#38324E] p-6 space-y-4">
             <div>
               <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Admin token</label>
               <input
@@ -45,7 +45,7 @@ export default function AdminPage() {
                 value={token}
                 onChange={e => setToken(e.target.value)}
                 placeholder="Enter your admin token"
-                className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20"
+                className="w-full border border-[#38324E] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20"
               />
             </div>
             {error && <p className="text-sm text-rose-500">{error}</p>}
@@ -66,11 +66,11 @@ export default function AdminPage() {
 
             {/* Breakdown */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#14101E] rounded-2xl border border-[#2A2438] p-5 text-center">
+              <div className="bg-[#201B2E] rounded-2xl border border-[#38324E] p-5 text-center">
                 <p className="text-xs text-[#9A93AC] mb-1">Fund Signals</p>
                 <p className="text-3xl font-bold text-[#F4F0FA]">{stats.subscribers.signals}</p>
               </div>
-              <div className="bg-[#14101E] rounded-2xl border border-[#2A2438] p-5 text-center">
+              <div className="bg-[#201B2E] rounded-2xl border border-[#38324E] p-5 text-center">
                 <p className="text-xs text-[#9A93AC] mb-1">Guide</p>
                 <p className="text-3xl font-bold text-[#F4F0FA]">{stats.subscribers.guide}</p>
               </div>

@@ -80,8 +80,8 @@ function buildEmail(
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#14101E">
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:580px;margin:32px auto;background:#14101E;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
+<body style="margin:0;padding:0;background:#201B2E">
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:580px;margin:32px auto;background:#201B2E;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
 
   <!-- Header -->
   <div style="padding:28px 24px 0">

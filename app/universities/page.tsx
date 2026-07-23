@@ -45,7 +45,7 @@ const FEATURES = [
 const TIERS = [
   {
     badge: "Free",
-    badgeCls: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+    badgeCls: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
     price: "$0",
     unit: "/ student",
     desc: "Share a link. Students sign up instantly. No contract needed.",
@@ -53,7 +53,7 @@ const TIERS = [
   },
   {
     badge: "Student Pro",
-    badgeCls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
+    badgeCls: "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",
     price: "$5",
     unit: "/ month",
     desc: "Students upgrade individually — no school purchase required.",
@@ -69,7 +69,7 @@ const TIERS = [
   },
   {
     badge: "Sponsored Issue",
-    badgeCls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
+    badgeCls: "bg-[#2E1620] text-[#FB7185] border-[#38324E]",
     price: "$100",
     unit: "/ issue",
     desc: "Sponsor our daily jobs digest sent to your students and alumni.",
@@ -86,11 +86,11 @@ const STATS = [
 
 export default function UniversitiesPage() {
   return (
-    <div className="min-h-screen bg-[#0A0710] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#14111D] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       {/* Hero */}
-      <section className="bg-[#1E1633] border-b border-[#2A2438]">
+      <section className="bg-[#1E1633] border-b border-[#38324E]">
         <div className="max-w-3xl mx-auto px-5 py-16 sm:py-20 text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
             <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
@@ -107,7 +107,7 @@ export default function UniversitiesPage() {
             <a href="#contact" className="px-6 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors">
               Get Free Access for Your School
             </a>
-            <Link href="/" className="px-6 py-3 rounded-lg bg-[#14101E] text-[#F4F0FA] text-sm font-bold border border-[#2A2438]/50 hover:bg-[#14101E] transition-colors">
+            <Link href="/" className="px-6 py-3 rounded-lg bg-[#201B2E] text-[#F4F0FA] text-sm font-bold border border-[#38324E]/50 hover:bg-[#201B2E] transition-colors">
               See the Platform →
             </Link>
           </div>
@@ -115,7 +115,7 @@ export default function UniversitiesPage() {
       </section>
 
       {/* Logos bar */}
-      <div className="bg-[#14101E] border-b border-[#2A2438]">
+      <div className="bg-[#201B2E] border-b border-[#38324E]">
         <div className="max-w-4xl mx-auto px-5 py-7 text-center">
           <p className="text-[11px] font-bold text-[#8A8398] uppercase tracking-widest mb-4">
             Our readers prepare for roles at
@@ -138,8 +138,8 @@ export default function UniversitiesPage() {
         </div>
         <div className="grid sm:grid-cols-2 gap-5">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-7 hover:shadow-[0_8px_32px_rgba(57,100,119,0.08)] transition-shadow">
-              <div className="w-12 h-12 rounded-xl bg-[#0A0710] flex items-center justify-center text-2xl mb-4">{f.icon}</div>
+            <div key={f.title} className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-7 hover:shadow-[0_8px_32px_rgba(57,100,119,0.08)] transition-shadow">
+              <div className="w-12 h-12 rounded-xl bg-[#14111D] flex items-center justify-center text-2xl mb-4">{f.icon}</div>
               <h3 className="text-lg font-bold text-[#F4F0FA] mb-2">{f.title}</h3>
               <p className="text-sm text-[#B8B0C8] leading-relaxed">{f.desc}</p>
             </div>
@@ -148,7 +148,7 @@ export default function UniversitiesPage() {
       </section>
 
       {/* Tiers */}
-      <section className="bg-[#14101E] border-y border-[#2A2438]">
+      <section className="bg-[#201B2E] border-y border-[#38324E]">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <div className="text-center mb-12">
             <p className="text-xs font-bold text-[#E9C989] uppercase tracking-widest mb-3">Partnership tiers</p>
@@ -161,7 +161,7 @@ export default function UniversitiesPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {TIERS.map((t) => (
-              <div key={t.badge} className="border border-[#2A2438] rounded-2xl p-6 flex flex-col">
+              <div key={t.badge} className="border border-[#38324E] rounded-2xl p-6 flex flex-col">
                 <span className={`self-start inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${t.badgeCls} mb-4`}>
                   {t.badge}
                 </span>
@@ -188,7 +188,7 @@ export default function UniversitiesPage() {
       <section className="max-w-5xl mx-auto px-5 py-16 w-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {STATS.map((s) => (
-            <div key={s.label} className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-6 text-center">
+            <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-6 text-center">
               <div className="text-3xl font-extrabold tracking-tight text-[#E9C989]">{s.num}</div>
               <div className="text-xs text-[#B8B0C8] mt-2 font-medium leading-snug">{s.label}</div>
             </div>

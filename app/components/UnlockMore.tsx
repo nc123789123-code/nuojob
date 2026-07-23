@@ -72,7 +72,7 @@ export default function UnlockMore({ hasAccess, label, expandedLabel, expanded, 
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@email.com"
-        className="flex-1 rounded-xl border border-[#2A2438]/60 bg-[#14101E] text-xs px-3 py-2.5 text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
+        className="flex-1 rounded-xl border border-[#38324E]/60 bg-[#201B2E] text-xs px-3 py-2.5 text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
       />
       <button
         type="submit"

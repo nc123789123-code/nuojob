@@ -24,7 +24,7 @@ export default async function UnsubscribePage({
   }
 
   return (
-    <div className="min-h-screen bg-[#14101E] flex flex-col">
+    <div className="min-h-screen bg-[#201B2E] flex flex-col">
       <SiteNav />
       <main className="flex-1 flex items-center justify-center px-5 py-20">
         <div className="max-w-md text-center">

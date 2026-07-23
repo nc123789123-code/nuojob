@@ -3,7 +3,7 @@ import LogoMark from "@/app/components/LogoMark";
 
 export default function OfflinePage() {
   return (
-    <div className="min-h-screen bg-[#0A0710] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#14111D] flex items-center justify-center px-4">
       <div className="text-center max-w-sm">
         <div className="flex justify-center mb-6">
           <LogoMark size={64} />

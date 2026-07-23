@@ -35,10 +35,10 @@ export default async function LearnPostPage({
   if (!post) notFound();
 
   return (
-    <div className="min-h-screen bg-[#14101E] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#201B2E] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
-      <div className="border-b border-[#2A2438] bg-[#14101E]">
+      <div className="border-b border-[#38324E] bg-[#201B2E]">
         <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-[#8A8398]">
           <Link href="/?tab=learn" className="hover:text-[#A78BFA] transition-colors">Onlu Learning</Link>
           <span>›</span>
@@ -47,10 +47,10 @@ export default async function LearnPostPage({
       </div>
 
       <main className="flex-1 w-full max-w-3xl mx-auto px-5 py-10">
-        <article className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-6 sm:p-10 shadow-sm">
+        <article className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-6 sm:p-10 shadow-sm">
           <header className="mb-8">
             {post.tag && (
-              <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-[#14101E] text-[#9A93AC]"}`}>
+              <span className={`inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-3 ${TAG_STYLES[post.tag] ?? "bg-[#201B2E] text-[#9A93AC]"}`}>
                 {post.tag}
               </span>
             )}

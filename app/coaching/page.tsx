@@ -73,22 +73,22 @@ export default function CoachingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0710]" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#14111D]" style={{ fontFamily: "'Nunito', sans-serif" }}>
       {/* Nav */}
-      <div className="bg-[#14101E] border-b border-[#2A2438] sticky top-0 z-50">
+      <div className="bg-[#201B2E] border-b border-[#38324E] sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={26} />
             <span className="font-extrabold text-xl tracking-tight" style={{ color: "#E9C989" }}>Onlu</span>
           </Link>
-          <div className="w-px h-4 bg-[#14101E]" />
+          <div className="w-px h-4 bg-[#201B2E]" />
           <span className="text-xs font-bold text-[#7c6fcd] uppercase tracking-widest">Coaching</span>
           <Link href="/" className="ml-auto text-xs text-[#8A8398] hover:text-[#9A93AC] transition-colors">← Platform</Link>
         </div>
       </div>
 
       {/* Hero */}
-      <div className="bg-[#1E1633] border-b border-[#2A2438]">
+      <div className="bg-[#1E1633] border-b border-[#38324E]">
         <div className="max-w-3xl mx-auto px-5 py-16 text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
             <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
@@ -105,7 +105,7 @@ export default function CoachingPage() {
       </div>
 
       {/* How it works */}
-      <div className="bg-[#14101E] border-b border-[#2A2438]">
+      <div className="bg-[#201B2E] border-b border-[#38324E]">
         <div className="max-w-3xl mx-auto px-5 py-10">
           <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest mb-6 text-center">How it works</p>
           <div className="grid grid-cols-3 gap-6 text-center">
@@ -129,14 +129,14 @@ export default function CoachingPage() {
         <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest mb-8 text-center">Choose your session</p>
 
         {error && (
-          <p className="text-sm text-[#FB7185] bg-[#2E1620] border border-[#2A2438] rounded-xl px-4 py-3 mb-6 text-center">{error}</p>
+          <p className="text-sm text-[#FB7185] bg-[#2E1620] border border-[#38324E] rounded-xl px-4 py-3 mb-6 text-center">{error}</p>
         )}
 
         <div className="grid gap-5 sm:grid-cols-3">
           {SESSIONS.map((s, i) => (
             <div key={s.type}
-              className={`relative bg-[#14101E] rounded-2xl border-2 p-6 flex flex-col transition-all hover:shadow-lg ${
-                i === 1 ? "border-[#1A2B4A] shadow-md" : "border-[#2A2438]"
+              className={`relative bg-[#201B2E] rounded-2xl border-2 p-6 flex flex-col transition-all hover:shadow-lg ${
+                i === 1 ? "border-[#1A2B4A] shadow-md" : "border-[#38324E]"
               }`}>
               {i === 1 && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -158,7 +158,7 @@ export default function CoachingPage() {
                   </li>
                 ))}
               </ul>
-              <div className="border-t border-[#2A2438] pt-4">
+              <div className="border-t border-[#38324E] pt-4">
                 <p className="text-2xl font-bold text-[#F4F0FA] mb-3">${s.price} <span className="text-sm font-normal text-[#8A8398]">USD</span></p>
                 <button
                   onClick={() => book(s.type)}
@@ -166,7 +166,7 @@ export default function CoachingPage() {
                   className={`w-full py-2.5 rounded-xl text-sm font-bold transition-all disabled:opacity-60 ${
                     i === 1
                       ? "bg-[#7C3AED] text-white hover:bg-[#171226]"
-                      : "bg-[#14101E] text-[#F4F0FA] hover:bg-[#14101E]"
+                      : "bg-[#201B2E] text-[#F4F0FA] hover:bg-[#201B2E]"
                   }`}>
                   {loading === s.type
                     ? <span className="flex items-center justify-center gap-2"><span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />Loading…</span>
@@ -181,7 +181,7 @@ export default function CoachingPage() {
         <div className="mt-12 grid grid-cols-3 gap-4 text-center">
           {[
             {
-              color: "bg-[#1E1633] border-[#2A2438]",
+              color: "bg-[#1E1633] border-[#38324E]",
               iconBg: "bg-[#1E1633]",
               iconColor: "text-violet-500",
               icon: (
@@ -194,7 +194,7 @@ export default function CoachingPage() {
               sub: "Powered by Stripe",
             },
             {
-              color: "bg-[#0F2033] border-[#2A2438]",
+              color: "bg-[#0F2033] border-[#38324E]",
               iconBg: "bg-[#0F2033]",
               iconColor: "text-sky-500",
               icon: (
@@ -207,7 +207,7 @@ export default function CoachingPage() {
               sub: "Calendar link after payment",
             },
             {
-              color: "bg-[#14352A] border-[#2A2438]",
+              color: "bg-[#14352A] border-[#38324E]",
               iconBg: "bg-[#14352A]",
               iconColor: "text-[#5EE6B5]",
               icon: (

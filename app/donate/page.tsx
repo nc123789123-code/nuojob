@@ -46,12 +46,12 @@ export default function DonatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#14101E]" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#201B2E]" style={{ fontFamily: "'Nunito', sans-serif" }}>
       {/* Nav */}
-      <div className="bg-[#14101E] border-b border-[#2A2438] sticky top-0 z-50">
+      <div className="bg-[#201B2E] border-b border-[#38324E] sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
           <Link href="/" className="font-extrabold text-xl tracking-tight" style={{ color: "#E9C989" }}>Onlu</Link>
-          <div className="w-px h-4 bg-[#14101E]" />
+          <div className="w-px h-4 bg-[#201B2E]" />
           <span className="text-xs font-bold text-[#A78BFA] uppercase tracking-widest">Support</span>
           <Link href="/" className="ml-auto text-xs text-[#8A8398] hover:text-[#9A93AC] transition-colors">← Platform</Link>
         </div>
@@ -59,7 +59,7 @@ export default function DonatePage() {
 
       <div className="max-w-lg mx-auto px-5 py-16 text-center">
         {/* Icon */}
-        <div className="w-16 h-16 bg-[#2E1620] border-2 border-[#2A2438] rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-[#2E1620] border-2 border-[#38324E] rounded-full flex items-center justify-center mx-auto mb-6">
           <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 text-rose-400" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
@@ -72,7 +72,7 @@ export default function DonatePage() {
         </p>
 
         {/* Amount selector */}
-        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-6 text-left space-y-5">
+        <div className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-6 text-left space-y-5">
           <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest">Choose an amount</p>
 
           <div className="grid grid-cols-4 gap-2">
@@ -82,7 +82,7 @@ export default function DonatePage() {
                 className={`py-3 rounded-xl text-sm font-bold border-2 transition-all ${
                   selected === p.amount && !custom
                     ? "border-[#396477] bg-[#171226]/8 text-[#A78BFA]"
-                    : "border-[#2A2438] text-[#9A93AC] hover:border-[#2A2438]"
+                    : "border-[#38324E] text-[#9A93AC] hover:border-[#38324E]"
                 }`}>
                 {p.label}
               </button>
@@ -100,7 +100,7 @@ export default function DonatePage() {
                 value={custom}
                 onChange={e => { setCustom(e.target.value); setSelected(0); }}
                 placeholder="e.g. 15"
-                className="w-full text-sm border border-[#2A2438] rounded-xl pl-7 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#396477]/20 focus:border-[#396477]"
+                className="w-full text-sm border border-[#38324E] rounded-xl pl-7 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#396477]/20 focus:border-[#396477]"
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function DonatePage() {
         </div>
 
         {/* What it goes toward */}
-        <div className="mt-8 bg-[#14101E] border border-[#2A2438] rounded-xl p-5 text-left">
+        <div className="mt-8 bg-[#201B2E] border border-[#38324E] rounded-xl p-5 text-left">
           <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest mb-3">What your support funds</p>
           <ul className="space-y-2">
             {[

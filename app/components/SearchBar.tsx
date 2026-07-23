@@ -27,7 +27,7 @@ export default function SearchBar({ value, onChange, loading, placeholder, quick
 
   return (
     <div>
-      <div className="flex items-center gap-3 bg-[#14101E] border border-[#2A2438] rounded-xl px-4 py-3 focus-within:border-blue-400 focus-within:shadow-md focus-within:shadow-blue-50 transition-all">
+      <div className="flex items-center gap-3 bg-[#201B2E] border border-[#38324E] rounded-xl px-4 py-3 focus-within:border-blue-400 focus-within:shadow-md focus-within:shadow-blue-50 transition-all">
         <svg
           className="w-5 h-5 text-[#8A8398] flex-shrink-0"
           fill="none"

@@ -125,7 +125,7 @@ export default function GuideDownloadPage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
       {/* Header */}
-      <header className="bg-[#14101E] border-b border-[#2A2438]/30 px-6 py-4">
+      <header className="bg-[#201B2E] border-b border-[#38324E]/30 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={32} />
@@ -165,7 +165,7 @@ export default function GuideDownloadPage() {
         {/* Sections */}
         <div className="space-y-10">
           {SECTIONS.map((section) => (
-            <section key={section.title} className="bg-[#14101E] rounded-xl border border-[#2A2438]/30 p-6">
+            <section key={section.title} className="bg-[#201B2E] rounded-xl border border-[#38324E]/30 p-6">
               <h2 className="text-base font-bold text-[#F4F0FA] mb-4">{section.title}</h2>
 
               {section.content && (

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0A0710;
+  --background: #14111D;
   --foreground: #F4F0FA;
 }
 
@@ -52,7 +52,7 @@ body {
     radial-gradient(ellipse at 72% -10%, rgba(124, 58, 237, 0.38) 0%, transparent 55%),
     radial-gradient(ellipse at 0% 110%, rgba(236, 72, 153, 0.22) 0%, transparent 52%),
     radial-gradient(ellipse at 100% 100%, rgba(245, 181, 68, 0.12) 0%, transparent 45%),
-    #0A0710;
+    #14111D;
   position: relative;
 }
 

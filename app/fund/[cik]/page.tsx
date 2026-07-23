@@ -134,7 +134,7 @@ function generateBrief(data: FirmData): { whatTheyDo: string; whatTheyHireFor: s
 
 // ─── Pill ────────────────────────────────────────────────────────────────────
 
-function Pill({ label, cls = "bg-[#14101E] text-[#9A93AC] border-[#2A2438]" }: { label: string; cls?: string }) {
+function Pill({ label, cls = "bg-[#201B2E] text-[#9A93AC] border-[#38324E]" }: { label: string; cls?: string }) {
   return (
     <span className={`inline-flex items-center text-[11px] font-medium px-2.5 py-1 rounded-full border ${cls}`}>
       {label}
@@ -174,13 +174,13 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#14101E]">
+      <div className="min-h-screen bg-[#201B2E]">
         <Header />
         <div className="max-w-4xl mx-auto px-5 py-12">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-[#14101E] rounded w-1/3" />
-            <div className="h-4 bg-[#14101E] rounded w-1/4" />
-            <div className="h-40 bg-[#14101E] border border-[#2A2438] rounded-xl" />
+            <div className="h-8 bg-[#201B2E] rounded w-1/3" />
+            <div className="h-4 bg-[#201B2E] rounded w-1/4" />
+            <div className="h-40 bg-[#201B2E] border border-[#38324E] rounded-xl" />
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-[#14101E]">
+      <div className="min-h-screen bg-[#201B2E]">
         <Header />
         <div className="max-w-4xl mx-auto px-5 py-12 text-center">
           <p className="text-[#9A93AC] text-sm">{error || "Fund not found"}</p>
@@ -207,7 +207,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
   const isRecent = latestFiling ? daysSince(latestFiling.filingDate) <= 90 : false;
 
   return (
-    <div className="min-h-screen bg-[#14101E]">
+    <div className="min-h-screen bg-[#201B2E]">
       <Header />
 
       <div className="max-w-4xl mx-auto px-5 py-8 space-y-6">
@@ -217,12 +217,12 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl font-bold text-[#F4F0FA] tracking-tight leading-tight">{data.name}</h1>
               <div className="flex items-center gap-2 mt-2 flex-wrap">
-                <Pill label={strategy} cls="bg-[#161533] text-[#C4B5FD] border-[#2A2438]" />
+                <Pill label={strategy} cls="bg-[#161533] text-[#C4B5FD] border-[#38324E]" />
                 {data.stateOfIncorporation && <Pill label={data.stateOfIncorporation} />}
                 {isRecent && (
-                  <Pill label="Active signal" cls="bg-[#14352A] text-[#5EE6B5] border-[#2A2438]" />
+                  <Pill label="Active signal" cls="bg-[#14352A] text-[#5EE6B5] border-[#38324E]" />
                 )}
-                {offered !== "—" && <Pill label={offered} cls="bg-[#14101E] text-[#9A93AC] border-[#2A2438]" />}
+                {offered !== "—" && <Pill label={offered} cls="bg-[#201B2E] text-[#9A93AC] border-[#38324E]" />}
               </div>
             </div>
             <Link
@@ -240,7 +240,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           {/* Left: Intelligence Brief */}
           <div className="lg:col-span-2 space-y-4">
             {/* Brief panel */}
-            <div className="bg-[#14101E] border border-[#2A2438] rounded-xl px-6 py-5 divide-y divide-[#2A2438]">
+            <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-6 py-5 divide-y divide-[#38324E]">
               <BriefSection label="What This Firm Actually Does">
                 <p className="text-sm text-[#B8B0C8] leading-relaxed">{brief.whatTheyDo}</p>
               </BriefSection>
@@ -260,7 +260,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
 
             {/* Capital activity timeline */}
             {data.formDFilings.length > 0 && (
-              <div className="bg-[#14101E] border border-[#2A2438] rounded-xl px-6 py-5">
+              <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-6 py-5">
                 <h3 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest mb-4">Capital Activity (Form D)</h3>
                 <div className="space-y-2">
                   {data.formDFilings.slice(0, 8).map((f) => (
@@ -284,7 +284,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           {/* Right: Data sidebar */}
           <div className="space-y-4">
             {/* Fund stats */}
-            <div className="bg-[#14101E] border border-[#2A2438] rounded-xl px-5 py-4 space-y-3">
+            <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-5 py-4 space-y-3">
               <h3 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest">Fund Data</h3>
 
               {offered !== "—" && (
@@ -331,7 +331,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
               <p className="text-[#8A8398] text-xs leading-relaxed mb-3">Browse live and inferred hiring signals from this fund and similar firms.</p>
               <Link
                 href={`/?tab=jobs`}
-                className="inline-flex items-center gap-1.5 bg-[#14101E] text-[#F4F0FA] text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#14101E] transition-colors"
+                className="inline-flex items-center gap-1.5 bg-[#201B2E] text-[#F4F0FA] text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#201B2E] transition-colors"
               >
                 View all signals →
               </Link>

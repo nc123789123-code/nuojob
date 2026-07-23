@@ -34,7 +34,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#14101E] flex flex-col">
+    <div className="min-h-screen bg-[#201B2E] flex flex-col">
       <SiteNav />
 
       <main className="flex-1 max-w-xl mx-auto px-5 py-14 w-full">
@@ -68,7 +68,7 @@ export default function ContactPage() {
         </div>
 
         {/* Direct email */}
-        <div className="mb-8 p-4 bg-[#14101E] border border-[#2A2438]/40 rounded-xl">
+        <div className="mb-8 p-4 bg-[#201B2E] border border-[#38324E]/40 rounded-xl">
           <p className="text-xs text-[#9A93AC] mb-1">Email directly</p>
           <a
             href="mailto:info@onluintel.com"
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#38324E] rounded-lg px-3 py-2.5 bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#38324E] rounded-lg px-3 py-2.5 bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function ContactPage() {
                 placeholder="Your message…"
                 required
                 rows={5}
-                className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
+                className="w-full text-sm border border-[#38324E] rounded-lg px-3 py-2.5 bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#9A93AC] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
               />
             </div>
             {status === "error" && (

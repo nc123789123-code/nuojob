@@ -44,7 +44,7 @@ const FEATURES = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#14101E] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#201B2E] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       <main className="flex-1 w-full">
@@ -85,7 +85,7 @@ export default function AboutPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {FEATURES.map((f) => (
                 <Link key={f.label} href={f.href}
-                  className="group bg-[#14101E] border border-[#2A2438] rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all">
+                  className="group bg-[#201B2E] border border-[#38324E] rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all">
                   <p className="text-sm font-bold text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors mb-1">{f.label}</p>
                   <p className="text-xs text-[#9A93AC] leading-snug">{f.desc}</p>
                 </Link>

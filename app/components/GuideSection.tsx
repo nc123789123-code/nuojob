@@ -50,10 +50,10 @@ export default function GuideSection() {
         </p>
 
         {/* Product card */}
-        <div className="bg-[#14101E] border border-[#c1d9ce]/60 rounded-2xl p-7 mb-8 shadow-sm">
+        <div className="bg-[#201B2E] border border-[#c1d9ce]/60 rounded-2xl p-7 mb-8 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-1.5 bg-[#2A2113] border border-[#2A2438] text-[#F5B544] text-[11px] font-semibold px-2.5 py-1 rounded-full mb-4">
+              <div className="inline-flex items-center gap-1.5 bg-[#2A2113] border border-[#38324E] text-[#F5B544] text-[11px] font-semibold px-2.5 py-1 rounded-full mb-4">
                 <span className="w-1 h-1 bg-[#F59E0B] rounded-full" />
                 Credit Interview Guide
               </div>

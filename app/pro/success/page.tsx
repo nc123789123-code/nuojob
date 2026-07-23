@@ -9,11 +9,11 @@ export const metadata = {
 
 export default function ProSuccessPage() {
   return (
-    <div className="min-h-screen bg-[#0A0710] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#14111D] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
       <section className="flex-1 flex items-center justify-center px-5 py-20">
-        <div className="max-w-md w-full bg-[#14101E] border border-[#2A2438] rounded-2xl p-10 text-center shadow-[0_8px_32px_rgba(57,100,119,0.08)]">
-          <div className="w-14 h-14 rounded-full bg-[#14352A] border border-[#2A2438] flex items-center justify-center mx-auto mb-5 text-2xl">
+        <div className="max-w-md w-full bg-[#201B2E] border border-[#38324E] rounded-2xl p-10 text-center shadow-[0_8px_32px_rgba(57,100,119,0.08)]">
+          <div className="w-14 h-14 rounded-full bg-[#14352A] border border-[#38324E] flex items-center justify-center mx-auto mb-5 text-2xl">
             ✓
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-[#F4F0FA] mb-3">You&apos;re a Pro member.</h1>

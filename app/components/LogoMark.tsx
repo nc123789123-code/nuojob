@@ -7,7 +7,7 @@ export default function LogoMark({ size = 28 }: { size?: number }) {
         </clipPath>
       </defs>
       {/* dark disc so the bands pop on any background */}
-      <circle cx="14" cy="14" r="12.5" fill="#0A0710" />
+      <circle cx="14" cy="14" r="12.5" fill="#14111D" />
       {/* violet base */}
       <path
         d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z"

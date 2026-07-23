@@ -6,11 +6,11 @@ import LogoMark from "@/app/components/LogoMark";
 
 /* ── Tab color palette (matches main app) ──────────────────────────────── */
 const TABS = {
-  hiring:   { bg: "bg-[#14352A]",  border: "border-[#2A2438]", text: "text-[#5EE6B5]", dot: "bg-emerald-400", badge: "bg-[#14352A] text-[#5EE6B5]", ring: "ring-[#2A2438]" },
-  pulse:    { bg: "bg-[#0F2033]",      border: "border-[#2A2438]",     text: "text-[#7DD3FC]",     dot: "bg-sky-400",     badge: "bg-[#0F2033] text-[#7DD3FC]",     ring: "ring-[#2A2438]"     },
-  prep:     { bg: "bg-[#2E1620]",     border: "border-[#2A2438]",    text: "text-[#FB7185]",    dot: "bg-rose-400",    badge: "bg-[#2E1620] text-[#FB7185]",    ring: "ring-[#2A2438]"    },
-  events:   { bg: "bg-[#2A2113]",    border: "border-[#2A2438]",   text: "text-[#F5B544]",   dot: "bg-amber-400",   badge: "bg-[#2A2113] text-[#F5B544]",  ring: "ring-[#2A2438]"   },
-  learning: { bg: "bg-[#1E1633]",   border: "border-[#2A2438]",  text: "text-[#C4B5FD]",  dot: "bg-violet-400",  badge: "bg-[#1E1633] text-[#C4B5FD]", ring: "ring-[#2A2438]" },
+  hiring:   { bg: "bg-[#14352A]",  border: "border-[#38324E]", text: "text-[#5EE6B5]", dot: "bg-emerald-400", badge: "bg-[#14352A] text-[#5EE6B5]", ring: "ring-[#38324E]" },
+  pulse:    { bg: "bg-[#0F2033]",      border: "border-[#38324E]",     text: "text-[#7DD3FC]",     dot: "bg-sky-400",     badge: "bg-[#0F2033] text-[#7DD3FC]",     ring: "ring-[#38324E]"     },
+  prep:     { bg: "bg-[#2E1620]",     border: "border-[#38324E]",    text: "text-[#FB7185]",    dot: "bg-rose-400",    badge: "bg-[#2E1620] text-[#FB7185]",    ring: "ring-[#38324E]"    },
+  events:   { bg: "bg-[#2A2113]",    border: "border-[#38324E]",   text: "text-[#F5B544]",   dot: "bg-amber-400",   badge: "bg-[#2A2113] text-[#F5B544]",  ring: "ring-[#38324E]"   },
+  learning: { bg: "bg-[#1E1633]",   border: "border-[#38324E]",  text: "text-[#C4B5FD]",  dot: "bg-violet-400",  badge: "bg-[#1E1633] text-[#C4B5FD]", ring: "ring-[#38324E]" },
 } as const;
 
 /* ── Live stats ─────────────────────────────────────────────────────────── */
@@ -56,7 +56,7 @@ function EmailCapture() {
     <form onSubmit={submit} className="flex gap-2 flex-wrap">
       <input type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="your@email.com" required
-        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#2A2438]/60 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#396477]/30" />
+        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#38324E]/60 bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#396477]/30" />
       <button type="submit" disabled={state === "loading"}
         className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#7C3AED] text-white hover:bg-[#171226] transition-colors disabled:opacity-60">
         {state === "loading" ? "…" : "Get signals →"}
@@ -71,10 +71,10 @@ export default function LandingPage() {
   const stats = useLiveStats();
 
   return (
-    <div className="min-h-screen bg-[#14101E] font-sans">
+    <div className="min-h-screen bg-[#201B2E] font-sans">
 
       {/* Nav */}
-      <header className="bg-[#14101E] border-b border-[#2A2438]/40 sticky top-0 z-20">
+      <header className="bg-[#201B2E] border-b border-[#38324E]/40 sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={28} />
@@ -87,7 +87,7 @@ export default function LandingPage() {
                 <span key={i} className={`w-2 h-2 rounded-full ${t.dot}`} />
               ))}
             </div>
-            <Link href="/this-week" className="hidden sm:inline text-xs text-[#9A93AC] hover:text-[#F4F0FA] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#0A0710]">Weekly Pulse</Link>
+            <Link href="/this-week" className="hidden sm:inline text-xs text-[#9A93AC] hover:text-[#F4F0FA] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#14111D]">Weekly Pulse</Link>
             <Link href="/" className="px-4 py-2 bg-[#7C3AED] text-white text-sm font-bold rounded-xl hover:bg-[#171226] transition-colors">
               Open app →
             </Link>
@@ -96,7 +96,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero — light, with 5 pastel tab badges */}
-      <section className="bg-gradient-to-b from-[#14101E] to-white border-b border-[#2A2438]/30">
+      <section className="bg-gradient-to-b from-[#201B2E] to-white border-b border-[#38324E]/30">
         <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
           {/* 5 tab pills */}
           <div className="flex flex-wrap gap-2 mb-8">
@@ -149,7 +149,7 @@ export default function LandingPage() {
       {/* Problem → Solution */}
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
         <div className="grid sm:grid-cols-2 gap-10 items-start">
-          <div className="bg-[#fafafa] rounded-2xl border border-[#2A2438]/40 p-6">
+          <div className="bg-[#fafafa] rounded-2xl border border-[#38324E]/40 p-6">
             <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-3">The problem</p>
             <h2 className="text-xl font-bold text-[#F4F0FA] mb-4 leading-snug">Most finance job seekers are flying blind.</h2>
             <div className="space-y-2.5">
@@ -185,7 +185,7 @@ export default function LandingPage() {
       </section>
 
       {/* 5 Feature cards — one per tab */}
-      <section className="border-t border-[#2A2438]/30 bg-[#14101E]">
+      <section className="border-t border-[#38324E]/30 bg-[#201B2E]">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-2">Five tools, one platform</p>
@@ -229,7 +229,7 @@ export default function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
+                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#201B2E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
                     Explore →
                   </Link>
                 </div>
@@ -268,7 +268,7 @@ export default function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
+                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#201B2E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
                     Explore →
                   </Link>
                 </div>
@@ -279,7 +279,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-[#14101E] border-t border-[#2A2438]/30">
+      <section className="bg-[#201B2E] border-t border-[#38324E]/30">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-2">How it works</p>
@@ -316,7 +316,7 @@ export default function LandingPage() {
               <p className="text-sm text-[#9A93AC]">Who&apos;s actively hiring, which funds raised capital, and roles worth applying to — updated every week.</p>
             </div>
             <Link href="/this-week"
-              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${TABS.pulse.border} ${TABS.pulse.text}`}>
+              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold border bg-[#201B2E] transition-colors hover:opacity-80 ${TABS.pulse.border} ${TABS.pulse.text}`}>
               View this week →
             </Link>
           </div>
@@ -340,7 +340,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#2A2438]/30 bg-[#14101E]">
+      <footer className="border-t border-[#38324E]/30 bg-[#201B2E]">
         <div className="max-w-5xl mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">

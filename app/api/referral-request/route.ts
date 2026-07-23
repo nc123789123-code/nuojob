@@ -36,12 +36,12 @@ export async function POST(req: Request) {
           </table>
           <div style="margin-top:16px">
             <p style="color:#8A8398;font-size:12px;margin-bottom:4px">BACKGROUND</p>
-            <p style="background:#14101E;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${background.replace(/\n/g, "<br/>")}</p>
+            <p style="background:#201B2E;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${background.replace(/\n/g, "<br/>")}</p>
           </div>
           ${message ? `
           <div style="margin-top:12px">
             <p style="color:#8A8398;font-size:12px;margin-bottom:4px">ADDITIONAL NOTES</p>
-            <p style="background:#14101E;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${message.replace(/\n/g, "<br/>")}</p>
+            <p style="background:#201B2E;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${message.replace(/\n/g, "<br/>")}</p>
           </div>` : ""}
         </div>`,
     });

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#14101E] flex flex-col">
+    <div className="min-h-screen bg-[#201B2E] flex flex-col">
       <SiteNav />
       <main className="flex-1 max-w-2xl mx-auto px-5 py-14 w-full">
         <p className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-widest mb-3">Legal</p>

@@ -112,9 +112,9 @@ export default function Gate({ level, children, title, description }: Props) {
       </div>
 
       {/* Unlock card */}
-      <div className="absolute inset-0 flex items-center justify-center bg-[#14101E]/70 backdrop-blur-[2px] p-5">
-        <div className="w-full max-w-sm bg-[#14101E] rounded-2xl border border-[#2A2438]/50 shadow-[0_8px_32px_rgba(57,100,119,0.12)] p-6 text-center">
-          <div className="w-11 h-11 rounded-full bg-[#0A0710] border border-[#2A2438] flex items-center justify-center mx-auto mb-3 text-lg">
+      <div className="absolute inset-0 flex items-center justify-center bg-[#201B2E]/70 backdrop-blur-[2px] p-5">
+        <div className="w-full max-w-sm bg-[#201B2E] rounded-2xl border border-[#38324E]/50 shadow-[0_8px_32px_rgba(57,100,119,0.12)] p-6 text-center">
+          <div className="w-11 h-11 rounded-full bg-[#14111D] border border-[#38324E] flex items-center justify-center mx-auto mb-3 text-lg">
             {level === "pro" ? "⭐" : "🔓"}
           </div>
           <h3 className="text-base font-bold text-[#F4F0FA] mb-1.5">{heading}</h3>
@@ -144,7 +144,7 @@ export default function Gate({ level, children, title, description }: Props) {
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-lg border border-[#2A2438]/60 bg-[#14101E] text-sm px-3 py-2.5 text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
+                className="w-full rounded-lg border border-[#38324E]/60 bg-[#201B2E] text-sm px-3 py-2.5 text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
               />
               <button
                 type="submit"

@@ -96,8 +96,8 @@ const AI_POST_CONTENT = (
     <p>Artificial intelligence is often reduced to a handful of names — large language models, chat interfaces, and a few hyperscalers. But AI is not a single layer. It is a full-stack ecosystem spanning semiconductors, infrastructure, data, software, and increasingly, the physical world. Understanding where value accrues requires looking across this entire chain. The most important opportunities are often not at the most visible layer.</p>
 
     {/* Stack diagram */}
-    <div className="my-8 border border-[#2A2438] rounded-xl overflow-hidden bg-[#14101E]">
-      <div className="px-5 py-3 border-b border-[#2A2438] bg-[#14101E]">
+    <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
+      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
         <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
         <p className="text-[11px] text-[#8A8398] mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
       </div>
@@ -110,14 +110,14 @@ const AI_POST_CONTENT = (
                 <span className="text-xs font-bold" style={{ color: layer.color }}>{layer.label}</span>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <span className="text-[11px] text-[#8A8398]">{layer.note}</span>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#14101E] border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#201B2E] border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
                     {layer.gross} gross
                   </span>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {layer.companies.map((co) => (
-                  <span key={co} className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#14101E] border border-[#2A2438] text-[#9A93AC]">{co}</span>
+                  <span key={co} className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#201B2E] border border-[#38324E] text-[#9A93AC]">{co}</span>
                 ))}
               </div>
             </div>
@@ -142,8 +142,8 @@ const AI_POST_CONTENT = (
     <p>Finally, AI is extending into the physical world. Autonomous systems, robotics, and electric vehicles represent a layer where AI interacts directly with real environments. Companies like Tesla are integrating AI into self-driving platforms, while industrial players embed AI into manufacturing and logistics. This layer introduces new constraints — latency, safety, hardware integration — that do not exist in digital environments. Margins here are lower, but the total addressable market is arguably larger than any other layer.</p>
 
     {/* Margin comparison chart */}
-    <div className="my-8 border border-[#2A2438] rounded-xl overflow-hidden bg-[#14101E]">
-      <div className="px-5 py-3 border-b border-[#2A2438] bg-[#14101E]">
+    <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
+      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
         <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
         <p className="text-[11px] text-[#8A8398] mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
       </div>
@@ -151,7 +151,7 @@ const AI_POST_CONTENT = (
         {AI_MARGIN_BARS.map((bar, i) => (
           <div key={i} className="flex items-center gap-3">
             <span className="text-xs text-[#9A93AC] w-36 flex-shrink-0 text-right">{bar.label}</span>
-            <div className="flex-1 relative h-6 bg-[#14101E] rounded-full overflow-hidden">
+            <div className="flex-1 relative h-6 bg-[#201B2E] rounded-full overflow-hidden">
               <div
                 className="absolute top-0 h-full rounded-full"
                 style={{
@@ -201,9 +201,9 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Section 1 */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     {[
@@ -244,7 +244,7 @@ const AI_COMMODITY_POST_CONTENT = (
         ],
       },
     ].map(s => (
-      <div key={s.num} className="border-t border-[#2A2438] pt-6">
+      <div key={s.num} className="border-t border-[#38324E] pt-6">
         <div className="flex items-baseline gap-4 mb-3">
           <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
           <div>
@@ -260,9 +260,9 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Supply side */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     <h3 className="font-bold text-[#F4F0FA] text-base">How AI Changes Commodity Production</h3>
@@ -275,7 +275,7 @@ const AI_COMMODITY_POST_CONTENT = (
         { icon: "🛢️", title: "Seismic interpretation", desc: "AI models trained on seismic data are dramatically accelerating exploration timelines in oil and gas. Processes that took geophysicists months now take days. This is already changing how E&P companies allocate exploration capex — potentially bringing more reserves to market faster." },
         { icon: "⚡", title: "Grid management", desc: "AI-based demand forecasting and grid balancing is improving the utilisation of renewable capacity, reducing the need for gas peaker plants as backup. Long-run, this structurally pressures gas demand for power generation — even as AI data centres increase overall electricity demand." },
       ].map(c => (
-        <div key={c.title} className="border border-[#2A2438] rounded-xl p-4 bg-[#14101E]">
+        <div key={c.title} className="border border-[#38324E] rounded-xl p-4 bg-[#201B2E]">
           <div className="text-xl mb-2">{c.icon}</div>
           <div className="text-xs font-bold text-[#F4F0FA] mb-1.5">{c.title}</div>
           <p className="text-[12px] text-[#9A93AC] leading-relaxed">{c.desc}</p>
@@ -285,15 +285,15 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Matrix */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
-    <div className="overflow-x-auto border border-[#2A2438] rounded-xl">
+    <div className="overflow-x-auto border border-[#38324E] rounded-xl">
       <table className="w-full text-xs border-collapse">
         <thead>
-          <tr className="border-b border-[#2A2438] bg-[#14101E]">
+          <tr className="border-b border-[#38324E] bg-[#201B2E]">
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Commodity</th>
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">AI Demand Driver</th>
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">AI Supply Effect</th>
@@ -311,11 +311,11 @@ const AI_COMMODITY_POST_CONTENT = (
             { name: "Wheat / Corn", demand: "No direct link", supply: "AI precision ag improves yields over time", bias: "Mildly Bearish long-run", color: "text-[#5EE6B5]" },
             { name: "Gallium / Germanium", demand: "Compound semiconductors for AI chips", supply: "China-controlled; geopolitically constrained", bias: "Strongly Bullish", color: "text-[#FB7185]" },
           ].map((row, i) => (
-            <tr key={row.name} className={i % 2 === 0 ? "bg-[#14101E]" : "bg-[#14101E]/50"}>
-              <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#2A2438]">{row.name}</td>
-              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#2A2438] leading-relaxed">{row.demand}</td>
-              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#2A2438] leading-relaxed">{row.supply}</td>
-              <td className={`px-4 py-3 font-semibold align-top border-b border-[#2A2438] ${row.color}`}>{row.bias}</td>
+            <tr key={row.name} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]/50"}>
+              <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#38324E]">{row.name}</td>
+              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.demand}</td>
+              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.supply}</td>
+              <td className={`px-4 py-3 font-semibold align-top border-b border-[#38324E] ${row.color}`}>{row.bias}</td>
             </tr>
           ))}
         </tbody>
@@ -324,9 +324,9 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     <p>The AI-commodity nexus is not a simple "AI is bullish for everything" story. It is a set of differentiated impacts that require commodity-by-commodity analysis. The clearest near-term trades are in power infrastructure (copper, uranium, natural gas for baseload) and critical minerals with concentrated supply chains (gallium, germanium, high-purity quartz). The supply-side improvements from AI — better mine optimisation, precision agriculture, faster seismic interpretation — are real but slower to materialise, with payoffs measured in years rather than quarters.</p>
@@ -350,9 +350,9 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Section: Five Classes */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -364,7 +364,7 @@ const COMMODITY_POST_CONTENT = (
         { icon: "☕", label: "Softs", sub: "Coffee, Sugar, Cotton", desc: "Highly weather-dependent. El Niño / La Niña cycles are the dominant structural driver, alongside chronic underinvestment in tropical agriculture in major producing nations." },
         { icon: "⚡", label: "Critical Minerals", sub: "Lithium, Cobalt, Nickel", desc: "The newest major class. Demand is driven by EV battery manufacturing and energy storage, but supply is geographically concentrated in a handful of politically complex jurisdictions." },
       ].map(c => (
-        <div key={c.label} className="border border-[#2A2438] rounded-xl p-4 bg-[#14101E]">
+        <div key={c.label} className="border border-[#38324E] rounded-xl p-4 bg-[#201B2E]">
           <div className="text-xl mb-2">{c.icon}</div>
           <div className="text-[10px] font-semibold text-[#FDBA74] uppercase tracking-wider mb-1">{c.label}</div>
           <div className="text-xs font-bold text-[#F4F0FA] mb-1.5">{c.sub}</div>
@@ -375,9 +375,9 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Section: Drivers */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     {[
@@ -436,7 +436,7 @@ const COMMODITY_POST_CONTENT = (
         ],
       },
     ].map(s => (
-      <div key={s.num} className="border-t border-[#2A2438] pt-6">
+      <div key={s.num} className="border-t border-[#38324E] pt-6">
         <div className="flex items-baseline gap-4 mb-3">
           <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
           <div>
@@ -452,15 +452,15 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Driver Table */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
-    <div className="overflow-x-auto border border-[#2A2438] rounded-xl">
+    <div className="overflow-x-auto border border-[#38324E] rounded-xl">
       <table className="w-full text-xs border-collapse">
         <thead>
-          <tr className="border-b border-[#2A2438] bg-[#14101E]">
+          <tr className="border-b border-[#38324E] bg-[#201B2E]">
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px] w-32">Commodity</th>
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
             <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
@@ -482,11 +482,11 @@ const COMMODITY_POST_CONTENT = (
           ].map((row, i) => {
             const tagColors: Record<string,string> = { supply: "bg-[#14352A] text-[#5EE6B5]", demand: "bg-[#2A2113] text-[#F5B544]", macro: "bg-[#0F1A33] text-[#93C5FD]", geo: "bg-[#2E1620] text-[#FB7185]" };
             return (
-              <tr key={row.name} className={i % 2 === 0 ? "bg-[#14101E]" : "bg-[#14101E]/50"}>
-                <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#2A2438]">{row.name}</td>
-                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#2A2438] leading-relaxed">{row.supply}</td>
-                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#2A2438] leading-relaxed">{row.demand}</td>
-                <td className="px-4 py-3 align-top border-b border-[#2A2438]">
+              <tr key={row.name} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]/50"}>
+                <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#38324E]">{row.name}</td>
+                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.supply}</td>
+                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.demand}</td>
+                <td className="px-4 py-3 align-top border-b border-[#38324E]">
                   <div className="flex flex-wrap gap-1">
                     {(row.tags as [string,string][]).map(([type, label]) => (
                       <span key={label} className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${tagColors[type]}`}>{label}</span>
@@ -502,17 +502,17 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
       <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
-      <div className="flex-1 h-px bg-[#14101E]" />
+      <div className="flex-1 h-px bg-[#201B2E]" />
     </div>
 
     <p>Good commodity analysis requires answering a set of structured questions for each market under review. First, where are we in the supply cycle? Is capacity being built out or mothballed? What does the futures curve backwardation or contango tell us about near-term physical tightness? Second, what is the demand trajectory on a 12-month, 3-year, and 10-year view — and what structural forces (policy, technology, demographics) are likely to inflect it?</p>
     <p>Third, what is the macro environment doing to the commodity's key financial drivers — the dollar, real rates, credit conditions? Fourth, what geopolitical risks sit in the supply chain, and are they currently priced in or ignored? And fifth, what is speculative positioning telling you? Crowded longs with weak fundamentals are a warning; maximum shorts in a tightening physical market are an opportunity.</p>
 
     {/* Watch list sidebar */}
-    <div className="border border-[#2A2438] rounded-xl overflow-hidden mt-4">
-      <div className="px-4 py-3 bg-[#14101E] border-b border-[#2A2438]">
+    <div className="border border-[#38324E] rounded-xl overflow-hidden mt-4">
+      <div className="px-4 py-3 bg-[#201B2E] border-b border-[#38324E]">
         <p className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-wider">Watch List: Key Indicators</p>
       </div>
       <ul className="divide-y divide-gray-50">
@@ -551,7 +551,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
     <p><strong>China's</strong> story is messier but potentially more rewarding. The Hang Seng Index rose about 29% in 2025, its best year since 2017, driven by a mix of policy stimulus, DeepSeek's emergence in the AI race, and a long-overdue valuation catch-up. The Hang Seng's forward P/E sits around 11.8x — still well below its 10-year peak of 15.5x. Earnings growth has been sluggish (low-to-mid single digits), so the rally has been mostly about multiple expansion. For it to continue, earnings need to follow.</p>
     <p><strong>South Korea</strong> has been the most dramatic performer. The KOSPI closed 2025 up 75.6% — its best year since 1987 and the highest-gaining major index globally — breaching 5,500 for the first time in early 2026. The drivers are twofold: the global AI-driven memory chip cycle (Samsung and SK Hynix together account for nearly 40% of the index) and sweeping corporate governance reforms under the Value-Up Program.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">2025 full-year index returns</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
       <div className="flex gap-4 mb-4 text-[11px] text-[#8A8398]">
@@ -568,7 +568,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-24 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 85) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">+{item.value}%</span>
               </div>
@@ -583,7 +583,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <p>The discount across Northeast Asia relative to the US isn't random. It reflects several deeply embedded structural factors.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Forward P/E ratios: Asia vs. the US</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
       <div className="space-y-2">
@@ -598,7 +598,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-28 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 25) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}x</span>
               </div>
@@ -624,7 +624,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
     <p>This is arguably the single most important structural story in Asian equities right now. Japan and Korea are both undertaking governance overhauls that are shifting from form to substance.</p>
     <p>In Japan, the TSE is planning to reduce TOPIX constituents from roughly 1,700 to around 1,200 by end-2028, pressuring companies to improve capital efficiency or face index exclusion. In Korea, the Value-Up Program has moved from voluntary signaling to hard law. By end-2025, 174 companies had disclosed Corporate Value-Up Plans. The National Assembly cut dividend tax rates from up to 45% down to 14–30%. In February 2026, Parliament mandated treasury share cancellation — eliminating a mechanism chaebol owners long used to entrench control.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Corporate governance reform timeline</p>
       <p className="text-[11px] text-[#8A8398] mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
       <div className="flex gap-4 mb-4 text-[11px] text-[#8A8398]">
@@ -632,7 +632,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#534AB7] inline-block" />South Korea</span>
       </div>
       <div className="relative pl-6">
-        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-[#14101E]" />
+        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-[#201B2E]" />
         {([
           { date: "2023", color: "#D85A30", title: "TSE directive on capital efficiency", desc: "Tokyo Stock Exchange urges companies trading below 1x book to disclose improvement plans" },
           { date: "Feb 2024", color: "#534AB7", title: "Korea launches Value-Up Program", desc: "Voluntary disclosure guidelines, tax incentives, and the Korea Value-Up Index for institutional benchmarking" },
@@ -669,12 +669,12 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <p>Northeast Asian equities are not islands. They remain highly sensitive to global risk appetite. The pattern across recent market episodes is consistent: Asian indices amplify S&P 500 moves in both directions — falling harder in selloffs and rallying more sharply in recoveries.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4 overflow-x-auto">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4 overflow-x-auto">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">When the S&amp;P 500 moves, Asia amplifies it</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Index moves during key episodes (2025–2026)</p>
       <table className="w-full text-[11px] border-collapse">
         <thead>
-          <tr className="border-b border-[#2A2438]">
+          <tr className="border-b border-[#38324E]">
             <th className="text-left font-semibold text-[#8A8398] pb-2 pr-3">Episode</th>
             {["S&P 500","Nikkei 225","KOSPI","Hang Seng"].map(h => (
               <th key={h} className="text-right font-semibold text-[#8A8398] pb-2 px-2">{h}</th>
@@ -728,7 +728,7 @@ const HOUSING_POST_CONTENT = (
 
     <p>Estimates of the total housing deficit range from 1.5 million units (NAHB) to 7 million (NLIHC for affordable rental). The median US home is now roughly 40 years old, and over a third of the stock predates 1980 — meaning existing inventory is aging and demanding significant capital reinvestment.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Estimated US Housing Shortage</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Millions of units, by source methodology</p>
       <div className="space-y-2">
@@ -741,7 +741,7 @@ const HOUSING_POST_CONTENT = (
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-24 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}M</span>
               </div>
@@ -763,7 +763,7 @@ const HOUSING_POST_CONTENT = (
         { value: "−5.8%", label: "Permits YoY decline" },
         { value: "873K", label: "Single-family permits" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#14101E] border border-[#2A2438] rounded-lg p-3 text-center">
+        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-3 text-center">
           <div className="text-base font-bold text-[#F4F0FA]">{s.value}</div>
           <div className="text-[11px] text-[#9A93AC] mt-0.5 leading-tight">{s.label}</div>
         </div>
@@ -776,7 +776,7 @@ const HOUSING_POST_CONTENT = (
 
     <p>The NAHB/Wells Fargo Housing Market Index has been stuck below the 50 breakeven threshold for over 20 consecutive months. Around 37% of builders are cutting prices — average discount of 6% — and nearly two-thirds are deploying other incentives to move inventory.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">NAHB Housing Market Index</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Above 50 = more builders see conditions as good than poor</p>
       <div className="space-y-1.5">
@@ -792,7 +792,7 @@ const HOUSING_POST_CONTENT = (
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-14 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 65) * 100}%`, background: item.value >= 50 ? "#6B8F71" : "rgba(200,75,49,0.75)" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
               </div>
@@ -815,7 +815,7 @@ const HOUSING_POST_CONTENT = (
 
     <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#F4F0FA]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. The contradiction is stark: the same administration signaling a national housing emergency has imposed tariffs on the very materials needed to address the shortage.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Tariff Rates on Key Building Materials</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Effective rates as of early 2026</p>
       <div className="space-y-2">
@@ -828,7 +828,7 @@ const HOUSING_POST_CONTENT = (
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-40 text-[11px] text-right text-[#9A93AC] flex-shrink-0 leading-tight">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 60) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
               </div>
@@ -845,7 +845,7 @@ const HOUSING_POST_CONTENT = (
         { value: "450K", label: "Fewer homes built through 2030 (est.)" },
         { value: "~60%", label: "Builders reporting tariff cost increases" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#14101E] border border-[#2A2438] rounded-lg p-3 text-center">
+        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-3 text-center">
           <div className="text-base font-bold text-[#F4F0FA]">{s.value}</div>
           <div className="text-[11px] text-[#9A93AC] mt-0.5 leading-tight">{s.label}</div>
         </div>
@@ -856,7 +856,7 @@ const HOUSING_POST_CONTENT = (
 
     <p>Mortgage rates have eased from their 2024 peaks to around 6% — the lowest in three years — but remain well above the sub-4% environment that locked millions of existing homeowners in place. The result: suppressed resale inventory pushes buyers toward new construction, but elevated costs make new homes a stretch for many.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">30-Year Fixed Mortgage Rate</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Annual average, percent</p>
       <div className="space-y-1.5">
@@ -872,7 +872,7 @@ const HOUSING_POST_CONTENT = (
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-16 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.value > 5 ? "#C84B31" : "#2D6A8F" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
               </div>
@@ -889,7 +889,7 @@ const HOUSING_POST_CONTENT = (
 
     <p>Beyond tariffs, three persistent constraints throttle the industry&apos;s ability to close the housing gap: a ~400K construction labor shortfall vs. the 2007 peak, 15–20% wage inflation in hot metros, and regulatory costs comprising roughly 25% of a new home&apos;s price.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Construction Employment Index</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
       <div className="space-y-1.5">
@@ -904,7 +904,7 @@ const HOUSING_POST_CONTENT = (
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
             <span className="w-10 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div style={{ width: `${item.value}%`, background: item.value === 100 ? "#2D6A8F" : "#C84B31" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
               </div>
@@ -926,7 +926,7 @@ const HOUSING_POST_CONTENT = (
         { title: "Regional Shifts", body: "Midwest and secondary metros outperforming; TX/FL digesting prior overbuilding." },
         { title: "Construction Tech", body: "Modular, 3D printing, AI project management — promising but years from scale." },
       ]).map(w => (
-        <div key={w.title} className="bg-[#14101E] border border-[#2A2438] rounded-lg p-4">
+        <div key={w.title} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-4">
           <div className="text-xs font-bold text-[#F4F0FA] mb-1">{w.title}</div>
           <div className="text-[12px] text-[#9A93AC] leading-relaxed">{w.body}</div>
         </div>
@@ -947,7 +947,7 @@ const FUND_LETTERS_POST_CONTENT = (
 
     <p>Returns across the major names were sharply divided. Macro-oriented funds and those with short books fared best; long-biased multi-strats had a rough quarter.</p>
 
-    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Reported / Estimated Q1 2026 Returns</p>
       <p className="text-[11px] text-[#8A8398] mb-4">Selected funds — sourced from public reporting</p>
       <div className="space-y-1.5">
@@ -961,7 +961,7 @@ const FUND_LETTERS_POST_CONTENT = (
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-2.5">
             <span className="w-40 text-[11px] text-right text-[#9A93AC] flex-shrink-0 truncate">{item.label}</span>
-            <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
+            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
               <div
                 style={{
                   width: `${Math.max(Math.abs(item.value) / 20 * 100, 4)}%`,
@@ -991,7 +991,7 @@ const FUND_LETTERS_POST_CONTENT = (
         { label: "Gold (Q1 gain)", value: "+19%", sub: "Key macro driver", color: "#D4A84B" },
         { label: "Net Long at Q-End", value: "19%", sub: "86L / 67S", color: "#2D6A8F" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#14101E] border border-[#2A2438] rounded-xl p-4 text-center">
+        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-xl p-4 text-center">
           <p className="text-[10px] text-[#8A8398] mb-1">{s.label}</p>
           <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
           <p className="text-[10px] text-[#8A8398] mt-0.5">{s.sub}</p>
@@ -1018,7 +1018,7 @@ const FUND_LETTERS_POST_CONTENT = (
         { icon: "📉", label: "Spread compression", desc: "A decade of spread tightening has left little margin of safety at current entry prices." },
         { icon: "🛡", label: "Oaktree's own positioning", desc: "Oaktree reduced its direct lending and software exposure below peers, anticipating the correction." },
       ]).map(item => (
-        <div key={item.label} className="flex gap-3 bg-[#14101E] border border-[#2A2438] rounded-lg p-3.5">
+        <div key={item.label} className="flex gap-3 bg-[#201B2E] border border-[#38324E] rounded-lg p-3.5">
           <span className="text-base mt-0.5 flex-shrink-0">{item.icon}</span>
           <div>
             <p className="text-xs font-semibold text-[#F4F0FA]">{item.label}</p>
@@ -1047,7 +1047,7 @@ const FUND_LETTERS_POST_CONTENT = (
         { theme: "Dispersion Over Direction", desc: "The consensus view: don't try to call the market. Instead, pick winners and losers — dispersion is historically elevated, rewarding skilled stock selection.", color: "#5EE6B5" },
         { theme: "Tariff Volatility", desc: "Policy uncertainty around tariffs was cited by virtually every letter as a key source of macro noise, with second-order effects on supply chains and credit conditions still playing out.", color: "#5EE6B5" },
       ]).map(t => (
-        <div key={t.theme} className="bg-[#14101E] border border-[#2A2438] rounded-lg p-4">
+        <div key={t.theme} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-4">
           <div className="flex items-center gap-2 mb-1.5">
             <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: t.color }} />
             <p className="text-xs font-bold text-[#F4F0FA]">{t.theme}</p>
@@ -1066,13 +1066,13 @@ const ABF_POST_CONTENT = (
     <p>For a decade, the private credit story was a direct lending story. Banks pulled back after the Global Financial Crisis, regulation tightened, and middle-market sponsors needed a new balance sheet to call. Direct lending funds filled that gap, institutionalized it, and turned it into a $1.5-trillion-plus asset class. The second decade looks different. The flows, the fundraising, and the structural conversation have all shifted toward a parallel market: asset-based finance — loans collateralized not by a borrower&apos;s future EBITDA, but by pools of tangible assets or contractual cash flows. It now sits at the center of nearly every 2026 outlook letter, and a recent SuperReturn Private Credit audience poll found that institutional investors consider ABF the most attractive corner of private credit heading into the year.</p>
 
     {/* Stat band */}
-    <div className="grid grid-cols-3 gap-0 border border-[#2A2438] rounded-xl overflow-hidden my-6">
+    <div className="grid grid-cols-3 gap-0 border border-[#38324E] rounded-xl overflow-hidden my-6">
       {[
         { label: "Market Size — Today", num: "$5.2T", caption: "Private ABF AUM est., growing to ~$7.7T by 2027 per KKR. DealCatalyst sees a path to $20T over the next decade." },
         { label: "Specialty Finance Fundraising", num: "~$35B", caption: "Target size of the ten largest specialty finance funds currently in market, per With Intelligence." },
         { label: "Private Credit 10Y Return", num: "9.0%", caption: "Annualized with 2.9% volatility, vs ~5.5% for leveraged loans and ~5.2% for high yield, per JPMAM." },
       ].map((s, i) => (
-        <div key={i} className={`p-5 bg-[#14101E] ${i < 2 ? "border-r border-[#2A2438]" : ""}`}>
+        <div key={i} className={`p-5 bg-[#201B2E] ${i < 2 ? "border-r border-[#38324E]" : ""}`}>
           <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest mb-2">{s.label}</p>
           <p className="text-3xl font-bold text-[#F4F0FA] tracking-tight">{s.num}</p>
           <p className="text-[11px] text-[#8A8398] mt-2 leading-relaxed">{s.caption}</p>
@@ -1092,8 +1092,8 @@ const ABF_POST_CONTENT = (
     <p>The distinction from direct lending is the part that matters for portfolio construction. Direct lending is corporate credit: one borrower, one enterprise value, one bullet maturity. ABF is structured credit: many underlying obligors, observable collateral with value independent of any single operating business, and a self-amortizing profile where principal is returned over the life of the loan rather than at the end. JPMorgan&apos;s private bank estimates that a typical ABF investment structured as a finance lease aims to return roughly three-quarters of principal within the first three years.</p>
 
     {/* Comparison table */}
-    <div className="border border-[#2A2438] rounded-xl overflow-hidden my-6">
-      <div className="px-5 py-3 border-b border-[#2A2438] bg-[#14101E]">
+    <div className="border border-[#38324E] rounded-xl overflow-hidden my-6">
+      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
         <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
       </div>
       <table className="w-full text-xs">
@@ -1113,10 +1113,10 @@ const ABF_POST_CONTENT = (
             ["Cycle behavior", "Tracks corporate credit cycle", "Decoupled; tied to asset performance"],
             ["Return profile", "Spread over SOFR + fees + OID", "~200–250 bps over comparable public ABS"],
           ].map(([dim, dl, abf], i) => (
-            <tr key={i} className={i % 2 === 0 ? "bg-[#14101E]" : "bg-[#14101E]"}>
+            <tr key={i} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]"}>
               <td className="px-4 py-3 font-semibold text-[#F4F0FA]">{dim}</td>
-              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#2A2438]">{dl}</td>
-              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#2A2438]">{abf}</td>
+              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#38324E]">{dl}</td>
+              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#38324E]">{abf}</td>
             </tr>
           ))}
         </tbody>
@@ -1133,7 +1133,7 @@ const ABF_POST_CONTENT = (
         { num: "03", color: "border-[#8a76a0]", title: "Decoupled from the corporate cycle", body: "Allocators worried about late-cycle leveraged loans — rising PIK, falling coverage, cov-lite docs — want credit that doesn't depend on PE-owned EBITDA holding up. Cambridge Associates is explicitly favoring ABF over direct lending for 2026." },
         { num: "04", color: "border-[#6d8391]", title: "Complexity protects spread", body: "ABF requires origination infrastructure, servicing, data pipes, and legal structuring capacity that a generalist direct lender can't spin up. Those barriers translate directly into wider, more durable spreads — the opposite of what's happening in the upper middle market." },
       ].map((d) => (
-        <div key={d.num} className={`bg-[#14101E] border border-[#2A2438] border-t-4 ${d.color} rounded-xl p-4`}>
+        <div key={d.num} className={`bg-[#201B2E] border border-[#38324E] border-t-4 ${d.color} rounded-xl p-4`}>
           <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest mb-1">{d.num}</p>
           <p className="font-semibold text-[#F4F0FA] text-sm mb-1.5">{d.title}</p>
           <p className="text-xs text-[#B8B0C8] leading-relaxed">{d.body}</p>
@@ -1153,7 +1153,7 @@ const ABF_POST_CONTENT = (
         { color: "bg-[#b89a5a]", name: "Contractual Cash Flow", desc: "Royalties, pharma, litigation finance, data-center leases. The esoteric frontier." },
         { color: "bg-[#b87878]", name: "Real Asset-Linked", desc: "Energy infrastructure, mineral rights, agricultural assets. Long-dated, insurance-matched." },
       ].map((s) => (
-        <div key={s.name} className="bg-[#14101E] border border-[#2A2438] rounded-xl p-3">
+        <div key={s.name} className="bg-[#201B2E] border border-[#38324E] rounded-xl p-3">
           <div className={`w-2 h-2 rounded-full ${s.color} mb-2`} />
           <p className="font-semibold text-[#F4F0FA] text-xs mb-1">{s.name}</p>
           <p className="text-[11px] text-[#9A93AC] leading-snug">{s.desc}</p>
@@ -1166,7 +1166,7 @@ const ABF_POST_CONTENT = (
     <p>The more careful read — from Cambridge Associates, Rithm Capital, and KBRA — is that both failures were idiosyncratic, driven by fraud and weak lender controls rather than systemic ABF flaws. The lesson is not that ABF is broken. It is that the discipline of ABF — separate servicing, independent verification, sole-lender control, asset-level daily monitoring — is what distinguishes good ABF from expensive unsecured lending in a trench coat.</p>
 
     {/* Risk callout */}
-    <div className="bg-[#2E1620] border border-[#2A2438] rounded-xl p-5 my-4">
+    <div className="bg-[#2E1620] border border-[#38324E] rounded-xl p-5 my-4">
       <p className="text-xs font-semibold text-[#FB7185] uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
       <div className="space-y-2 text-xs text-[#B8B0C8]">
         <p><strong className="text-[#F4F0FA]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
@@ -1179,7 +1179,7 @@ const ABF_POST_CONTENT = (
     <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Key Players</h3>
     <div className="grid grid-cols-3 gap-2 my-3">
       {[["Apollo","Atlas SP"],["KKR","Private ABF"],["Blackstone","BXCI ABF"],["Carlyle","Opportunistic Cr."],["Ares","Alt. Credit"],["Brookfield","Structured Cr."],["Nomura CM","Multi-mgr ABF"],["Janus / VPC","Specialty ABF"],["Rithm","Collateral control"]].map(([firm, platform]) => (
-        <div key={firm} className="flex items-center justify-between bg-[#14101E] border border-[#2A2438] rounded-lg px-3 py-2">
+        <div key={firm} className="flex items-center justify-between bg-[#201B2E] border border-[#38324E] rounded-lg px-3 py-2">
           <span className="text-xs font-semibold text-[#F4F0FA]">{firm}</span>
           <span className="text-[10px] text-[#8A8398]">{platform}</span>
         </div>
@@ -1273,8 +1273,8 @@ export const INDUSTRY_POSTS: InsightPost[] = [
         <p>Beyond individual bonds, the yield curve provides a broader lens. By plotting interest rates across maturities, it becomes a real-time signal of how investors view growth and inflation. In a normal environment the curve slopes upward — longer-term rates exceed short-term ones, reflecting the uncertainty of time and expectations of growth. When the curve inverts, short-term rates exceed long-term ones, historically one of the most reliable signals of an approaching slowdown.</p>
 
         {/* Figure 1: Yield Curve SVG */}
-        <div className="my-8 border border-[#2A2438] rounded-xl overflow-hidden bg-[#14101E]">
-          <div className="px-5 py-3 border-b border-[#2A2438] bg-[#14101E]">
+        <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
+          <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
             <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
             <p className="text-[11px] text-[#8A8398] mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
           </div>
@@ -1333,8 +1333,8 @@ export const INDUSTRY_POSTS: InsightPost[] = [
         <p>This tension becomes most acute in stagflation. Inflation remains elevated while growth slows — constraining the usual policy response. Higher inflation pushes yields up, hurting bond prices. Weaker growth widens credit spreads. Unlike typical cycles where one asset class offsets another, stagflation pressures both simultaneously.</p>
 
         {/* Figure 2: Credit Spread Anatomy */}
-        <div className="my-8 border border-[#2A2438] rounded-xl overflow-hidden bg-[#14101E]">
-          <div className="px-5 py-3 border-b border-[#2A2438] bg-[#14101E]">
+        <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
+          <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
             <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
             <p className="text-[11px] text-[#8A8398] mt-0.5">Illustrative yield composition across credit quality</p>
           </div>

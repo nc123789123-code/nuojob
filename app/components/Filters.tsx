@@ -20,7 +20,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.strategy}
         onChange={(e) => set("strategy", e.target.value as SearchFilters["strategy"])}
-        className="text-xs border border-[#2A2438] rounded-lg px-2.5 py-1.5 bg-[#14101E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
       >
         <option value="all">All strategies</option>
         <optgroup label="Credit / Private">
@@ -43,7 +43,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.dateRange}
         onChange={(e) => set("dateRange", e.target.value as SearchFilters["dateRange"])}
-        className="text-xs border border-[#2A2438] rounded-lg px-2.5 py-1.5 bg-[#14101E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
       >
         <option value="30">Last 30d</option>
         <option value="60">Last 60d</option>
@@ -55,7 +55,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.minAmount}
         onChange={(e) => set("minAmount", e.target.value)}
-        className="text-xs border border-[#2A2438] rounded-lg px-2.5 py-1.5 bg-[#14101E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]"
       >
         <option value="">Any size</option>
         <option value="10">$10M+</option>
@@ -72,7 +72,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       </span>
       <button
         onClick={onExport}
-        className="text-xs text-[#9A93AC] border border-[#2A2438] rounded-lg px-2.5 py-1.5 hover:border-gray-400 hover:text-[#B8B0C8] transition-all bg-[#14101E]"
+        className="text-xs text-[#9A93AC] border border-[#38324E] rounded-lg px-2.5 py-1.5 hover:border-gray-400 hover:text-[#B8B0C8] transition-all bg-[#201B2E]"
       >
         Export CSV
       </button>

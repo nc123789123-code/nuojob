@@ -30,7 +30,7 @@ function EmailCapture() {
     <form onSubmit={submit} className="flex gap-2 flex-wrap justify-center">
       <input type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="you@yourfirm.com" required
-        className="flex-1 min-w-[200px] max-w-xs px-5 py-3 rounded-full text-sm border border-[#2A2438]/60 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e]/30" />
+        className="flex-1 min-w-[200px] max-w-xs px-5 py-3 rounded-full text-sm border border-[#38324E]/60 bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e]/30" />
       <button type="submit" disabled={state === "loading"}
         className="px-6 py-3 rounded-full text-sm font-bold bg-[#7C3AED] text-white hover:bg-[#171226] transition-colors disabled:opacity-60 whitespace-nowrap">
         {state === "loading" ? "…" : "Request access →"}
@@ -45,7 +45,7 @@ export default function CoffeePage() {
     <div className="min-h-screen bg-[#faf7f2] font-sans text-[#F4F0FA] overflow-x-hidden">
 
       {/* Nav */}
-      <header className="sticky top-0 z-20 bg-[#faf7f2]/90 backdrop-blur border-b border-[#2A2438]/30">
+      <header className="sticky top-0 z-20 bg-[#faf7f2]/90 backdrop-blur border-b border-[#38324E]/30">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={26} />
@@ -107,7 +107,7 @@ export default function CoffeePage() {
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium border transition-all ${
                 active
                   ? "bg-[#7C3AED] text-white border-[#1A2B4A]"
-                  : "bg-[#14101E] text-[#9A93AC] border-[#2A2438]/50 opacity-60"
+                  : "bg-[#201B2E] text-[#9A93AC] border-[#38324E]/50 opacity-60"
               }`}>
               <span>{icon}</span>
               {label}
@@ -123,7 +123,7 @@ export default function CoffeePage() {
       <section className="max-w-5xl mx-auto px-5 py-12 flex justify-center gap-5 flex-wrap">
 
         {/* Phone 1 — Coffee Matches */}
-        <div className="w-60 bg-[#14101E] rounded-3xl border border-[#2A2438]/40 shadow-xl p-4 shrink-0">
+        <div className="w-60 bg-[#201B2E] rounded-3xl border border-[#38324E]/40 shadow-xl p-4 shrink-0">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <div className="flex items-center justify-between mb-0.5">
             <span className="text-base font-bold text-[#F4F0FA]">Your matches</span>
@@ -136,7 +136,7 @@ export default function CoffeePage() {
             { initials: "RK", name: "Rachel K.", role: "VP Restructuring · Lazard", tags: ["Special sits", "Ch.11"], color: "#A78BFA", cta: false },
             { initials: "MW", name: "Marcus W.", role: "PE Associate · Apollo", tags: ["Distressed", "Credit"], color: "#6b7b8d", cta: false },
           ].map(({ initials, name, role, tags, color, cta }) => (
-            <div key={initials} className="bg-[#faf7f2] rounded-xl p-3 mb-2 border border-[#2A2438]/20">
+            <div key={initials} className="bg-[#faf7f2] rounded-xl p-3 mb-2 border border-[#38324E]/20">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
                   style={{ background: color }}>{initials}</div>
@@ -153,7 +153,7 @@ export default function CoffeePage() {
               {cta && (
                 <div className="flex gap-1.5">
                   <button className="flex-1 py-1.5 rounded-lg text-[10px] font-bold bg-[#7C3AED] text-white">☕ Grab coffee</button>
-                  <button className="flex-1 py-1.5 rounded-lg text-[10px] font-medium bg-[#0A0710] text-[#9A93AC]">Later</button>
+                  <button className="flex-1 py-1.5 rounded-lg text-[10px] font-medium bg-[#14111D] text-[#9A93AC]">Later</button>
                 </div>
               )}
             </div>
@@ -161,7 +161,7 @@ export default function CoffeePage() {
         </div>
 
         {/* Phone 2 — Upcoming */}
-        <div className="w-60 bg-[#14101E] rounded-3xl border border-[#2A2438]/40 shadow-xl p-4 shrink-0">
+        <div className="w-60 bg-[#201B2E] rounded-3xl border border-[#38324E]/40 shadow-xl p-4 shrink-0">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <p className="text-base font-bold text-[#F4F0FA] mb-0.5">Upcoming</p>
           <p className="text-[10px] text-[#9A93AC] mb-3">Your schedule · April</p>
@@ -177,7 +177,7 @@ export default function CoffeePage() {
             { icon: "☕", label: "Onlu Coffee", date: "Apr 29 · 4:00 PM", title: "Coffee w/ Rachel K.", meta: "Bluestone Lane · Midtown" },
             { icon: "🪑", label: "Onlu Table",  date: "May 6 · 6:30 PM",  title: "Credit markets Q2", meta: "8 seats · West Village" },
           ].map(({ icon, label, date, title, meta }) => (
-            <div key={title} className="bg-[#faf7f2] rounded-xl p-3.5 mb-2 border border-[#2A2438]/20">
+            <div key={title} className="bg-[#faf7f2] rounded-xl p-3.5 mb-2 border border-[#38324E]/20">
               <p className="text-[9px] font-bold uppercase tracking-widest text-[#8B5E3C] mb-1.5">{icon} {label}</p>
               <p className="text-[10px] uppercase tracking-widest text-[#9A93AC] mb-1">{date}</p>
               <p className="text-sm font-semibold text-[#F4F0FA] mb-0.5">{title}</p>
@@ -187,7 +187,7 @@ export default function CoffeePage() {
         </div>
 
         {/* Phone 3 — Chat */}
-        <div className="w-60 bg-[#14101E] rounded-3xl border border-[#2A2438]/40 shadow-xl p-4 shrink-0 hidden sm:block">
+        <div className="w-60 bg-[#201B2E] rounded-3xl border border-[#38324E]/40 shadow-xl p-4 shrink-0 hidden sm:block">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <p className="text-base font-bold text-[#F4F0FA] mb-0.5">James L.</p>
           <p className="text-[10px] text-[#9A93AC] mb-4">Credit Analyst · Ares Management</p>
@@ -205,7 +205,7 @@ export default function CoffeePage() {
               className={`text-[11px] leading-relaxed px-3 py-2.5 rounded-2xl mb-2 max-w-[88%] ${
                 msg.sent
                   ? "bg-[#7C3AED] text-white ml-auto rounded-br-sm"
-                  : "bg-[#0A0710] text-[#F4F0FA] rounded-bl-sm"
+                  : "bg-[#14111D] text-[#F4F0FA] rounded-bl-sm"
               }`}>
               {msg.text}
             </div>
@@ -213,7 +213,7 @@ export default function CoffeePage() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#2A2438]/30" /></div>
+      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#38324E]/30" /></div>
 
       {/* How it works */}
       <section id="how" className="max-w-5xl mx-auto px-5 py-16">
@@ -227,7 +227,7 @@ export default function CoffeePage() {
             { n: "02", title: "Get matched weekly",   desc: "Matched based on sector, strategy, and career stage. Conversations stay around frameworks, macro, and careers — never active deals or positions." },
             { n: "03", title: "Grab coffee",          desc: "Accept a match, pick a spot, meet in person. One real conversation beats a hundred LinkedIn messages." },
           ].map(({ n, title, desc }) => (
-            <div key={n} className="bg-[#14101E] border border-[#2A2438]/40 rounded-2xl p-7 hover:-translate-y-1 transition-transform hover:shadow-md">
+            <div key={n} className="bg-[#201B2E] border border-[#38324E]/40 rounded-2xl p-7 hover:-translate-y-1 transition-transform hover:shadow-md">
               <p className="text-4xl font-black text-[#E9C989]/30 mb-4 leading-none">{n}</p>
               <h3 className="text-base font-bold text-[#F4F0FA] mb-2">{title}</h3>
               <p className="text-sm text-[#9A93AC] leading-relaxed font-light">{desc}</p>
@@ -236,7 +236,7 @@ export default function CoffeePage() {
         </div>
 
         {/* Compliance note */}
-        <div className="mt-8 bg-[#14101E] border border-[#2A2438]/40 rounded-2xl px-6 py-5 flex items-start gap-4">
+        <div className="mt-8 bg-[#201B2E] border border-[#38324E]/40 rounded-2xl px-6 py-5 flex items-start gap-4">
           <span className="text-2xl shrink-0">🔒</span>
           <div>
             <p className="text-sm font-bold text-[#F4F0FA] mb-1">Designed around compliance</p>
@@ -249,7 +249,7 @@ export default function CoffeePage() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#2A2438]/30" /></div>
+      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#38324E]/30" /></div>
 
       {/* Who it's for */}
       <section id="who" className="max-w-5xl mx-auto px-5 py-16">
@@ -264,7 +264,7 @@ export default function CoffeePage() {
             { icon: "💼", title: "PE & Special Sits",  desc: "Associate to partner. Compare notes on sourcing, underwriting, and what the market is actually pricing." },
             { icon: "🔄", title: "Career Switchers",   desc: "Moving from banking or consulting to the buyside? Meet practitioners who made the same move." },
           ].map(({ icon, title, desc }) => (
-            <div key={title} className="bg-[#14101E] border border-[#2A2438]/40 rounded-2xl p-6 text-center hover:-translate-y-1 transition-transform hover:shadow-md">
+            <div key={title} className="bg-[#201B2E] border border-[#38324E]/40 rounded-2xl p-6 text-center hover:-translate-y-1 transition-transform hover:shadow-md">
               <div className="text-3xl mb-4">{icon}</div>
               <h3 className="text-sm font-bold text-[#F4F0FA] mb-2">{title}</h3>
               <p className="text-xs text-[#9A93AC] leading-relaxed font-light">{desc}</p>
@@ -273,7 +273,7 @@ export default function CoffeePage() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#2A2438]/30" /></div>
+      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#38324E]/30" /></div>
 
       {/* Roadmap */}
       <section className="max-w-5xl mx-auto px-5 py-16">
@@ -300,7 +300,7 @@ export default function CoffeePage() {
               className={`rounded-2xl p-7 border hover:-translate-y-1 transition-transform hover:shadow-md ${
                 featured
                   ? "bg-[#7C3AED] border-transparent text-white"
-                  : "bg-[#14101E] border-[#2A2438]/40 text-[#F4F0FA]"
+                  : "bg-[#201B2E] border-[#38324E]/40 text-[#F4F0FA]"
               }`}>
               <div className="text-3xl mb-4">{icon}</div>
               <h3 className="text-lg font-bold mb-2">{title}</h3>
@@ -311,7 +311,7 @@ export default function CoffeePage() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#2A2438]/30" /></div>
+      <div className="max-w-5xl mx-auto px-5"><hr className="border-[#38324E]/30" /></div>
 
       {/* CTA */}
       <section id="join" className="max-w-5xl mx-auto px-5 py-20 text-center">
@@ -328,7 +328,7 @@ export default function CoffeePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#2A2438]/30 bg-[#14101E]">
+      <footer className="border-t border-[#38324E]/30 bg-[#201B2E]">
         <div className="max-w-5xl mx-auto px-5 py-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <LogoMark size={20} />

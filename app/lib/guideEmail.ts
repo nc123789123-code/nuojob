@@ -35,7 +35,7 @@ export function buildGuideEmail(email: string): string {
 <title>Credit Interview Guide — Sample</title>
 </head>
 <body style="margin:0;padding:0;background:#f3f6f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
-<div style="max-width:620px;margin:32px auto;background:#14101E;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
+<div style="max-width:620px;margin:32px auto;background:#201B2E;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
 
   <!-- Header -->
   <div style="background:${navy};padding:32px 28px 28px">
@@ -153,7 +153,7 @@ export function buildGuideEmail(email: string): string {
   </div>
 
   <!-- Blurred chapter 2 teaser -->
-  <div style="margin:20px 28px 0;padding:14px 18px;background:#14101E;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
+  <div style="margin:20px 28px 0;padding:14px 18px;background:#201B2E;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
     <div style="font-size:11px;color:#8A8398;margin-bottom:6px">Chapter 2 preview — Bond Math &amp; Valuation</div>
     <div style="font-size:13px;font-weight:700;color:#d1d5db;filter:blur(3px)">YTM = Coupon + (Face – Price)/n ÷ (Face + Price)/2</div>
   </div>

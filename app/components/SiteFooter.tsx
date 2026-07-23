@@ -3,7 +3,7 @@ import LogoMark from "@/app/components/LogoMark";
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-[#2A2438]/30 bg-[#14101E] mt-auto">
+    <footer className="border-t border-[#38324E]/30 bg-[#201B2E] mt-auto">
       <div className="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
           <LogoMark size={20} />

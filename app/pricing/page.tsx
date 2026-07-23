@@ -49,11 +49,11 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0710] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#14111D] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       {/* Hero */}
-      <section className="bg-[#1E1633] border-b border-[#2A2438]">
+      <section className="bg-[#1E1633] border-b border-[#38324E]">
         <div className="max-w-3xl mx-auto px-5 py-14 sm:py-16 text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
             <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
@@ -75,7 +75,7 @@ export default function PricingPage() {
           <button
             onClick={() => setPlan("monthly")}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
-              plan === "monthly" ? "bg-[#7C3AED] text-white" : "bg-[#14101E] text-[#B8B0C8] border border-[#2A2438]/50"
+              plan === "monthly" ? "bg-[#7C3AED] text-white" : "bg-[#201B2E] text-[#B8B0C8] border border-[#38324E]/50"
             }`}
           >
             Monthly
@@ -83,11 +83,11 @@ export default function PricingPage() {
           <button
             onClick={() => setPlan("annual")}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2 ${
-              plan === "annual" ? "bg-[#7C3AED] text-white" : "bg-[#14101E] text-[#B8B0C8] border border-[#2A2438]/50"
+              plan === "annual" ? "bg-[#7C3AED] text-white" : "bg-[#201B2E] text-[#B8B0C8] border border-[#38324E]/50"
             }`}
           >
             Annual
-            <span className="text-[10px] font-bold text-[#5EE6B5] bg-[#14352A] border border-[#2A2438] px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold text-[#5EE6B5] bg-[#14352A] border border-[#38324E] px-1.5 py-0.5 rounded-full">
               Save 25%
             </span>
           </button>
@@ -97,7 +97,7 @@ export default function PricingPage() {
       {/* Plans */}
       <section className="max-w-4xl mx-auto px-5 pb-16 w-full grid sm:grid-cols-2 gap-6">
         {/* Free */}
-        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-8 flex flex-col">
+        <div className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-8 flex flex-col">
           <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest mb-3">Free</p>
           <div className="flex items-baseline gap-1 mb-1">
             <span className="text-4xl font-extrabold tracking-tight text-[#F4F0FA]">$0</span>
@@ -113,14 +113,14 @@ export default function PricingPage() {
           </ul>
           <Link
             href="/"
-            className="mt-auto block text-center px-5 py-3 rounded-lg border border-[#2A2438]/60 text-[#F4F0FA] text-sm font-bold hover:bg-[#14101E] transition-colors"
+            className="mt-auto block text-center px-5 py-3 rounded-lg border border-[#38324E]/60 text-[#F4F0FA] text-sm font-bold hover:bg-[#201B2E] transition-colors"
           >
             Explore Free
           </Link>
         </div>
 
         {/* Pro */}
-        <div className="bg-[#14101E] border-2 border-[#6aab8e] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
+        <div className="bg-[#201B2E] border-2 border-[#6aab8e] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
           <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full">
             Most Popular
           </span>

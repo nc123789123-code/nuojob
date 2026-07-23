@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
               We've received your request for the <strong>${session.theme}</strong> session.
             </p>
 
-            <div style="background: #14101E; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+            <div style="background: #201B2E; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
               <p style="margin: 0 0 6px; font-size: 13px; color: #9A93AC;">Session details</p>
               <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600;">${session.date}</p>
               <p style="margin: 0 0 4px; font-size: 14px; color: #B8B0C8;">${session.time}</p>

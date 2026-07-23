@@ -15,12 +15,12 @@ function agoLabel(days: number): string {
 }
 
 function sourceLabel(id: string): { label: string; style: string; isDirect: boolean } {
-  if (id.startsWith("gh-"))     return { label: "Greenhouse",  style: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]", isDirect: true  };
-  if (id.startsWith("lever-"))  return { label: "Lever",       style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]",          isDirect: true  };
-  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",          isDirect: false };
-  if (id.startsWith("adzuna-")) return { label: "Adzuna",      style: "bg-[#0F1A33] text-[#93C5FD] border-[#2A2438]",          isDirect: false };
-  if (id.startsWith("muse-"))   return { label: "The Muse",    style: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",    isDirect: false };
-  return                               { label: "Board",        style: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",          isDirect: false };
+  if (id.startsWith("gh-"))     return { label: "Greenhouse",  style: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]", isDirect: true  };
+  if (id.startsWith("lever-"))  return { label: "Lever",       style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#38324E]",          isDirect: true  };
+  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",          isDirect: false };
+  if (id.startsWith("adzuna-")) return { label: "Adzuna",      style: "bg-[#0F1A33] text-[#93C5FD] border-[#38324E]",          isDirect: false };
+  if (id.startsWith("muse-"))   return { label: "The Muse",    style: "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",    isDirect: false };
+  return                               { label: "Board",        style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",          isDirect: false };
 }
 
 const CATEGORY_BAR: Record<JobCategory, string> = {
@@ -34,13 +34,13 @@ const CATEGORY_BAR: Record<JobCategory, string> = {
 };
 
 const CATEGORY_BADGE: Record<JobCategory, string> = {
-  "Private Credit":     "bg-[#0F1A33] text-[#93C5FD] border-[#2A2438]",
-  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]",
-  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
-  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#2A2438]",
-  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
-  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#2A2438]",
-  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+  "Private Credit":     "bg-[#0F1A33] text-[#93C5FD] border-[#38324E]",
+  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#38324E]",
+  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",
+  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#38324E]",
+  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
+  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#38324E]",
+  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
 };
 
 // ─── Intelligence badge derivation ────────────────────────────────────────────
@@ -235,7 +235,7 @@ function VerdictDot({ verdict }: { verdict: RoleAnalysis["worthApplying"]["verdi
 function AnalysisPanel({ signal }: { signal: JobSignal }) {
   const a = generateAnalysis(signal);
   return (
-    <div className="border-t border-[#2A2438] bg-[#14101E]/60 px-5 py-5">
+    <div className="border-t border-[#38324E] bg-[#201B2E]/60 px-5 py-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left column */}
         <div className="space-y-5">
@@ -281,7 +281,7 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
         </div>
       </div>
 
-      <p className="text-[10px] text-[#8A8398] mt-5 pt-4 border-t border-[#2A2438]">
+      <p className="text-[10px] text-[#8A8398] mt-5 pt-4 border-t border-[#38324E]">
         Onlu analysis · Based on signal source, hiring context, and category patterns · Not AI-generated
       </p>
     </div>
@@ -295,7 +295,7 @@ function ScorePip({ score }: { score: number }) {
     score >= 80 ? ["bg-[#F43F5E]", "text-white"] :
     score >= 65 ? ["bg-[#F59E0B]", "text-white"] :
     score >= 50 ? ["bg-yellow-400", "text-white"] :
-                  ["bg-[#14101E]", "text-[#9A93AC]"];
+                  ["bg-[#201B2E]", "text-[#9A93AC]"];
   return (
     <div className={`w-7 h-7 rounded-md ${bg} flex items-center justify-center flex-shrink-0`}>
       <span className={`font-bold text-[11px] tabular-nums ${text}`}>{score}</span>
@@ -318,7 +318,7 @@ export default function RoleCard({ signal }: Props) {
   const isApply = !signal.id.startsWith("edgar-");
 
   return (
-    <div className={`bg-[#14101E] border border-[#2A2438] rounded-xl overflow-hidden transition-shadow ${expanded ? "shadow-md" : "hover:shadow-sm"}`}>
+    <div className={`bg-[#201B2E] border border-[#38324E] rounded-xl overflow-hidden transition-shadow ${expanded ? "shadow-md" : "hover:shadow-sm"}`}>
       {/* Main card row */}
       <div
         className="flex items-stretch cursor-pointer"

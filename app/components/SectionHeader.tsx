@@ -18,7 +18,7 @@ export default function SectionHeader({ eyebrow, title, description, badge, acti
         <div className="flex items-center gap-2 flex-wrap">
           <h2 className="text-base font-semibold text-[#F4F0FA] tracking-tight">{title}</h2>
           {badge && (
-            <span className="text-[10px] font-medium bg-[#14101E] text-[#9A93AC] px-2 py-0.5 rounded">{badge}</span>
+            <span className="text-[10px] font-medium bg-[#201B2E] text-[#9A93AC] px-2 py-0.5 rounded">{badge}</span>
           )}
         </div>
         {description && (

@@ -49,15 +49,15 @@ export default function NewsletterCTA({
     }
   };
 
-  const bg = dark ? "bg-[#171226]" : "bg-[#14101E] border border-[#2A2438]";
+  const bg = dark ? "bg-[#171226]" : "bg-[#201B2E] border border-[#38324E]";
   const headingColor = dark ? "text-white" : "text-[#F4F0FA]";
   const descColor = dark ? "text-white/70" : "text-[#9A93AC]";
   const labelColor = dark ? "text-white/60" : "text-[#8A8398]";
   const inputCls = dark
-    ? "border-white/20 bg-[#14101E]/10 text-white placeholder:text-white/40 focus:ring-white/60"
-    : "border-[#2A2438] bg-[#14101E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:ring-[#396477]";
+    ? "border-white/20 bg-[#201B2E]/10 text-white placeholder:text-white/40 focus:ring-white/60"
+    : "border-[#38324E] bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:ring-[#396477]";
   const btnCls = dark
-    ? "bg-[#14101E] text-[#A78BFA] hover:bg-[#14101E]"
+    ? "bg-[#201B2E] text-[#A78BFA] hover:bg-[#201B2E]"
     : "bg-[#171226] text-white hover:bg-[#6D28D9]";
 
   return (
