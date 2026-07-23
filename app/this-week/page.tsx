@@ -181,7 +181,8 @@ export default function ThisWeekPage() {
             )}
           </div>
         )}
-
+        </Gate>
+        <Gate level="pro" title="Capital raises — a Pro signal" description="Live Form D capital-raise signals are part of Onlu Pro — $5/mo, cancel anytime.">
         {/* Capital Raises */}
         {!loading && topFunds.length > 0 && (
           <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
