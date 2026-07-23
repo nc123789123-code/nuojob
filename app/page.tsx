@@ -13,6 +13,7 @@ import FundFilterBar from "@/app/components/Filters";
 import NewsletterCTA from "@/app/components/NewsletterCTA";
 import GuideSection from "@/app/components/GuideSection";
 import UnlockMore from "@/app/components/UnlockMore";
+import FirmMarquee from "@/app/components/FirmMarquee";
 import { useAccess } from "@/app/lib/useAccess";
 import {
   FundFiling,
@@ -376,6 +377,9 @@ function HomeContent() {
                   </button>
                 </div>
               )}
+              <div className="mt-8">
+                <FirmMarquee />
+              </div>
             </>
           )}
           {topTab === "learn" && (
