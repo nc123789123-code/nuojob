@@ -40,18 +40,18 @@ export default function ContactPage() {
       <main className="flex-1 max-w-xl mx-auto px-5 py-14 w-full">
         {/* Header */}
         <div className="mb-8">
-          <p className="text-[11px] font-semibold text-[#3d444d] uppercase tracking-widest mb-3">Contact</p>
+          <p className="text-[11px] font-semibold text-[#2b3138] uppercase tracking-widest mb-3">Contact</p>
           <h1 className="text-[#191c1e] text-2xl sm:text-3xl font-bold tracking-tight leading-snug mb-4">
             Get in touch
           </h1>
-          <p className="text-[#23282e] text-sm leading-relaxed">
+          <p className="text-[#1a1e24] text-sm leading-relaxed">
             If you have feedback, ideas, partnership interest, or product suggestions, feel free to reach out.
           </p>
         </div>
 
         {/* What we'd love to hear */}
         <div className="mb-8">
-          <p className="text-[#23282e] text-sm mb-3">We&apos;d especially love to hear from you on:</p>
+          <p className="text-[#1a1e24] text-sm mb-3">We&apos;d especially love to hear from you on:</p>
           <ul className="space-y-1.5 pl-1">
             {[
               "product feedback",
@@ -59,7 +59,7 @@ export default function ContactPage() {
               "data quality suggestions",
               "partnerships or collaborations",
             ].map((item) => (
-              <li key={item} className="flex items-start gap-2.5 text-sm text-[#23282e]">
+              <li key={item} className="flex items-start gap-2.5 text-sm text-[#1a1e24]">
                 <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
                 <span>{item}</span>
               </li>
@@ -69,7 +69,7 @@ export default function ContactPage() {
 
         {/* Direct email */}
         <div className="mb-8 p-4 bg-white border border-[#c1c7cc]/40 rounded-xl">
-          <p className="text-xs text-[#3d444d] mb-1">Email directly</p>
+          <p className="text-xs text-[#2b3138] mb-1">Email directly</p>
           <a
             href="mailto:info@onluintel.com"
             className="text-sm font-medium text-[#396477] hover:text-[#2d5162] hover:underline transition-colors"
@@ -82,7 +82,7 @@ export default function ContactPage() {
         {status === "sent" ? (
           <div className="bg-[#c3ecd7]/40 border border-[#a8cfbc]/50 rounded-xl px-5 py-6 text-center">
             <p className="text-[#416656] font-semibold text-sm mb-1">Message sent.</p>
-            <p className="text-[#23282e] text-xs">We&apos;ll get back to you at {email || "your email"}.</p>
+            <p className="text-[#1a1e24] text-xs">We&apos;ll get back to you at {email || "your email"}.</p>
             <button
               onClick={() => setStatus("idle")}
               className="mt-4 text-xs text-[#396477] hover:underline"
@@ -93,35 +93,35 @@ export default function ContactPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1.5">Name</label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1.5">Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#3d444d] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1.5">Email</label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1.5">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#3d444d] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1.5">Message</label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1.5">Message</label>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Your message…"
                 required
                 rows={5}
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#3d444d] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
               />
             </div>
             {status === "error" && (

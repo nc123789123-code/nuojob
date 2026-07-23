@@ -39,7 +39,7 @@ export default async function LearnPostPage({
       <SiteNav />
 
       <div className="border-b border-gray-100 bg-white">
-        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-400">
+        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-600">
           <Link href="/?tab=learn" className="hover:text-[#396477] transition-colors">Onlu Learning</Link>
           <span>›</span>
           <span className="text-gray-600 truncate">{post.title}</span>
@@ -57,12 +57,12 @@ export default async function LearnPostPage({
             <h1 className="text-[#191c1e] text-2xl font-bold tracking-tight leading-snug mb-2">
               {post.title}
             </h1>
-            <time className="text-xs text-[#3d444d] font-medium">{post.date}</time>
+            <time className="text-xs text-[#2b3138] font-medium">{post.date}</time>
           </header>
 
           <div className="space-y-4">
             {post.richContent ?? post.paragraphs.map((p, i) => (
-              <p key={i} className="text-[#23282e] text-sm leading-[1.75]">{p}</p>
+              <p key={i} className="text-[#1a1e24] text-sm leading-[1.75]">{p}</p>
             ))}
           </div>
         </article>

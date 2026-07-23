@@ -80,7 +80,7 @@ export default function StartupFilterBar({ filters, onChange, total, loading }: 
         <option value="100">$100M+</option>
       </select>
 
-      <span className="ml-auto text-xs text-gray-400">
+      <span className="ml-auto text-xs text-gray-600">
         {loading ? "Searching…" : `${total} compan${total !== 1 ? "ies" : "y"}`}
       </span>
     </div>

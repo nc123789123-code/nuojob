@@ -23,7 +23,7 @@ const VARIANTS: Record<SignalBadgeVariant, { cls: string; label: string }> = {
   "ib-transition":    { cls: "bg-indigo-50 text-indigo-700 border-indigo-200", label: "Good IB → Buyside"    },
   "buyside-preferred":{ cls: "bg-violet-50 text-violet-700 border-violet-200", label: "Buyside Preferred"    },
   "selective":        { cls: "bg-rose-50 text-rose-700 border-rose-200",       label: "Selective Team"        },
-  "inferred":         { cls: "bg-gray-50 text-gray-500 border-gray-200",       label: "EDGAR Inferred"       },
+  "inferred":         { cls: "bg-gray-50 text-gray-700 border-gray-200",       label: "EDGAR Inferred"       },
 };
 
 interface SignalBadgeProps {

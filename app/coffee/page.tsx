@@ -30,7 +30,7 @@ function EmailCapture() {
     <form onSubmit={submit} className="flex gap-2 flex-wrap justify-center">
       <input type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="you@yourfirm.com" required
-        className="flex-1 min-w-[200px] max-w-xs px-5 py-3 rounded-full text-sm border border-[#c1c7cc]/60 bg-white text-[#191c1e] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6aab8e]/30" />
+        className="flex-1 min-w-[200px] max-w-xs px-5 py-3 rounded-full text-sm border border-[#c1c7cc]/60 bg-white text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#6aab8e]/30" />
       <button type="submit" disabled={state === "loading"}
         className="px-6 py-3 rounded-full text-sm font-bold bg-[#1A2B4A] text-white hover:bg-[#396477] transition-colors disabled:opacity-60 whitespace-nowrap">
         {state === "loading" ? "…" : "Request access →"}
@@ -53,8 +53,8 @@ export default function CoffeePage() {
             <span className="text-[10px] font-bold tracking-[2.5px] uppercase text-[#8B5E3C] relative top-px">Intel</span>
           </Link>
           <div className="flex items-center gap-4">
-            <a href="#how" className="hidden sm:inline text-xs text-[#3d444d] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">How it works</a>
-            <a href="#who" className="hidden sm:inline text-xs text-[#3d444d] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">Who it&apos;s for</a>
+            <a href="#how" className="hidden sm:inline text-xs text-[#2b3138] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">How it works</a>
+            <a href="#who" className="hidden sm:inline text-xs text-[#2b3138] hover:text-[#191c1e] transition-colors font-medium tracking-wide uppercase">Who it&apos;s for</a>
             <a href="#join" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-colors">
               Join waitlist
             </a>
@@ -72,7 +72,7 @@ export default function CoffeePage() {
           <div className="w-9 h-9 bg-[#1A2B4A] rounded-xl flex items-center justify-center text-lg">☕</div>
           <span className="text-[11px] font-bold tracking-[2px] uppercase text-[#8B5E3C]">Onlu Coffee</span>
           <span className="w-px h-4 bg-[#c1c7cc]" />
-          <span className="text-[11px] text-[#3d444d]">By Onlu Intel · NYC</span>
+          <span className="text-[11px] text-[#2b3138]">By Onlu Intel · NYC</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight text-[#1A2B4A] max-w-3xl mb-6">
@@ -80,11 +80,11 @@ export default function CoffeePage() {
           <span style={{ color: "#6aab8e" }}>what you&apos;re buying.</span>
         </h1>
 
-        <p className="text-[#3d444d] text-base sm:text-lg max-w-xl leading-relaxed mb-4 font-light">
+        <p className="text-[#2b3138] text-base sm:text-lg max-w-xl leading-relaxed mb-4 font-light">
           Curated 1:1 coffees for buyside professionals — credit, PE, restructuring, macro.
           Conversations structured around ideas, frameworks, and careers. Not deals. Not positions.
         </p>
-        <p className="text-[#3d444d] text-sm max-w-xl leading-relaxed mb-10 font-light">
+        <p className="text-[#2b3138] text-sm max-w-xl leading-relaxed mb-10 font-light">
           Compliance-safe by design. Interesting by default.
         </p>
 
@@ -93,7 +93,7 @@ export default function CoffeePage() {
             className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-all hover:-translate-y-0.5 hover:shadow-lg">
             Request early access →
           </a>
-          <span className="text-sm text-[#3d444d]">Launching in NYC</span>
+          <span className="text-sm text-[#2b3138]">Launching in NYC</span>
         </div>
 
         {/* Product chips */}
@@ -107,12 +107,12 @@ export default function CoffeePage() {
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium border transition-all ${
                 active
                   ? "bg-[#1A2B4A] text-white border-[#1A2B4A]"
-                  : "bg-white text-[#3d444d] border-[#c1c7cc]/50 opacity-60"
+                  : "bg-white text-[#2b3138] border-[#c1c7cc]/50 opacity-60"
               }`}>
               <span>{icon}</span>
               {label}
               <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold tracking-wide ${
-                active ? "bg-[#6aab8e]/30 text-[#6aab8e]" : "bg-[#c1c7cc]/30 text-[#3d444d]"
+                active ? "bg-[#6aab8e]/30 text-[#6aab8e]" : "bg-[#c1c7cc]/30 text-[#2b3138]"
               }`}>{badge}</span>
             </div>
           ))}
@@ -129,7 +129,7 @@ export default function CoffeePage() {
             <span className="text-base font-bold text-[#191c1e]">Your matches</span>
             <div className="w-7 h-7 bg-[#1A2B4A] rounded-lg flex items-center justify-center text-xs">☕</div>
           </div>
-          <p className="text-[10px] text-[#3d444d] mb-3">3 new this week · NYC</p>
+          <p className="text-[10px] text-[#2b3138] mb-3">3 new this week · NYC</p>
 
           {[
             { initials: "JL", name: "James L.", role: "Credit Analyst · Ares Management", tags: ["Private credit", "LBO"], color: "#1A2B4A", cta: true },
@@ -142,7 +142,7 @@ export default function CoffeePage() {
                   style={{ background: color }}>{initials}</div>
                 <div>
                   <p className="text-xs font-semibold text-[#191c1e]">{name}</p>
-                  <p className="text-[10px] text-[#3d444d] leading-snug">{role}</p>
+                  <p className="text-[10px] text-[#2b3138] leading-snug">{role}</p>
                 </div>
               </div>
               <div className="flex gap-1 flex-wrap mb-2">
@@ -153,7 +153,7 @@ export default function CoffeePage() {
               {cta && (
                 <div className="flex gap-1.5">
                   <button className="flex-1 py-1.5 rounded-lg text-[10px] font-bold bg-[#1A2B4A] text-white">☕ Grab coffee</button>
-                  <button className="flex-1 py-1.5 rounded-lg text-[10px] font-medium bg-[#f2f4f6] text-[#3d444d]">Later</button>
+                  <button className="flex-1 py-1.5 rounded-lg text-[10px] font-medium bg-[#f2f4f6] text-[#2b3138]">Later</button>
                 </div>
               )}
             </div>
@@ -164,7 +164,7 @@ export default function CoffeePage() {
         <div className="w-60 bg-white rounded-3xl border border-[#c1c7cc]/40 shadow-xl p-4 shrink-0">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <p className="text-base font-bold text-[#191c1e] mb-0.5">Upcoming</p>
-          <p className="text-[10px] text-[#3d444d] mb-3">Your schedule · April</p>
+          <p className="text-[10px] text-[#2b3138] mb-3">Your schedule · April</p>
 
           <div className="bg-[#1A2B4A] rounded-xl p-3.5 mb-2 text-white">
             <p className="text-[9px] font-bold uppercase tracking-widest opacity-50 mb-1.5">☕ Onlu Coffee</p>
@@ -179,9 +179,9 @@ export default function CoffeePage() {
           ].map(({ icon, label, date, title, meta }) => (
             <div key={title} className="bg-[#faf7f2] rounded-xl p-3.5 mb-2 border border-[#c1c7cc]/20">
               <p className="text-[9px] font-bold uppercase tracking-widest text-[#8B5E3C] mb-1.5">{icon} {label}</p>
-              <p className="text-[10px] uppercase tracking-widest text-[#3d444d] mb-1">{date}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#2b3138] mb-1">{date}</p>
               <p className="text-sm font-semibold text-[#191c1e] mb-0.5">{title}</p>
-              <p className="text-[10px] text-[#3d444d]">{meta}</p>
+              <p className="text-[10px] text-[#2b3138]">{meta}</p>
             </div>
           ))}
         </div>
@@ -190,9 +190,9 @@ export default function CoffeePage() {
         <div className="w-60 bg-white rounded-3xl border border-[#c1c7cc]/40 shadow-xl p-4 shrink-0 hidden sm:block">
           <div className="w-20 h-5 bg-[#191c1e] rounded-full mx-auto mb-4" />
           <p className="text-base font-bold text-[#191c1e] mb-0.5">James L.</p>
-          <p className="text-[10px] text-[#3d444d] mb-4">Credit Analyst · Ares Management</p>
+          <p className="text-[10px] text-[#2b3138] mb-4">Credit Analyst · Ares Management</p>
 
-          <p className="text-[9px] text-[#3d444d] text-center mb-3">Today, 9:02 AM</p>
+          <p className="text-[9px] text-[#2b3138] text-center mb-3">Today, 9:02 AM</p>
 
           {[
             { text: "Curious how you think about covenant packages in the current rate environment — maintenance vs incurrence.", sent: false },
@@ -230,7 +230,7 @@ export default function CoffeePage() {
             <div key={n} className="bg-white border border-[#c1c7cc]/40 rounded-2xl p-7 hover:-translate-y-1 transition-transform hover:shadow-md">
               <p className="text-4xl font-black text-[#6aab8e]/30 mb-4 leading-none">{n}</p>
               <h3 className="text-base font-bold text-[#191c1e] mb-2">{title}</h3>
-              <p className="text-sm text-[#3d444d] leading-relaxed font-light">{desc}</p>
+              <p className="text-sm text-[#2b3138] leading-relaxed font-light">{desc}</p>
             </div>
           ))}
         </div>
@@ -240,7 +240,7 @@ export default function CoffeePage() {
           <span className="text-2xl shrink-0">🔒</span>
           <div>
             <p className="text-sm font-bold text-[#191c1e] mb-1">Designed around compliance</p>
-            <p className="text-sm text-[#3d444d] font-light leading-relaxed">
+            <p className="text-sm text-[#2b3138] font-light leading-relaxed">
               Every session is structured around ideas, sector frameworks, and career paths — not active deals or current positions.
               Think of it like a conference panel, just with 2 people and better coffee.
               Your compliance team won&apos;t have a problem with it.
@@ -267,7 +267,7 @@ export default function CoffeePage() {
             <div key={title} className="bg-white border border-[#c1c7cc]/40 rounded-2xl p-6 text-center hover:-translate-y-1 transition-transform hover:shadow-md">
               <div className="text-3xl mb-4">{icon}</div>
               <h3 className="text-sm font-bold text-[#191c1e] mb-2">{title}</h3>
-              <p className="text-xs text-[#3d444d] leading-relaxed font-light">{desc}</p>
+              <p className="text-xs text-[#2b3138] leading-relaxed font-light">{desc}</p>
             </div>
           ))}
         </div>
@@ -304,7 +304,7 @@ export default function CoffeePage() {
               }`}>
               <div className="text-3xl mb-4">{icon}</div>
               <h3 className="text-lg font-bold mb-2">{title}</h3>
-              <p className={`text-sm leading-relaxed font-light mb-5 ${featured ? "text-white/70" : "text-[#3d444d]"}`}>{desc}</p>
+              <p className={`text-sm leading-relaxed font-light mb-5 ${featured ? "text-white/70" : "text-[#2b3138]"}`}>{desc}</p>
               <p className={`text-[10px] font-bold tracking-widest uppercase ${featured ? "text-[#6aab8e]" : "text-[#8B5E3C]"}`}>{status}</p>
             </div>
           ))}
@@ -319,11 +319,11 @@ export default function CoffeePage() {
         <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1A2B4A] tracking-tight leading-tight mb-4">
           Your next coffee could<br />change your career.
         </h2>
-        <p className="text-[#3d444d] text-base mb-2 font-light">Launching in NYC. Credit, PE, and restructuring first.</p>
-        <p className="text-[#3d444d] text-sm mb-8 font-light">No deal talk. No compliance issues. Just the right people.</p>
+        <p className="text-[#2b3138] text-base mb-2 font-light">Launching in NYC. Credit, PE, and restructuring first.</p>
+        <p className="text-[#2b3138] text-sm mb-8 font-light">No deal talk. No compliance issues. Just the right people.</p>
         <div className="max-w-md mx-auto">
           <EmailCapture />
-          <p className="text-xs text-[#3d444d] mt-3">No spam · Unsubscribe anytime</p>
+          <p className="text-xs text-[#2b3138] mt-3">No spam · Unsubscribe anytime</p>
         </div>
       </section>
 
@@ -335,12 +335,12 @@ export default function CoffeePage() {
             <span className="font-bold text-sm" style={{ color: "#6aab8e" }}>Onlu</span>
             <span className="text-[9px] font-bold tracking-[2px] uppercase text-[#8B5E3C]">Intel</span>
           </div>
-          <div className="flex gap-5 text-xs text-[#3d444d]">
+          <div className="flex gap-5 text-xs text-[#2b3138]">
             <Link href="/" className="hover:text-[#191c1e] transition-colors">Platform →</Link>
             <Link href="/privacy" className="hover:text-[#191c1e] transition-colors">Privacy</Link>
             <Link href="/about" className="hover:text-[#191c1e] transition-colors">About</Link>
           </div>
-          <p className="text-xs text-[#3d444d]">© 2026 Onlu Intel. NYC first.</p>
+          <p className="text-xs text-[#2b3138]">© 2026 Onlu Intel. NYC first.</p>
         </div>
       </footer>
 

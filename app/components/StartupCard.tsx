@@ -30,7 +30,7 @@ const SCORE_STYLE: Record<RaiseBucket, string> = {
   hot:   "bg-red-100 text-red-700 ring-red-200",
   warm:  "bg-amber-100 text-amber-700 ring-amber-200",
   watch: "bg-yellow-100 text-yellow-700 ring-yellow-200",
-  low:   "bg-gray-100 text-gray-500 ring-gray-200",
+  low:   "bg-gray-100 text-gray-700 ring-gray-200",
 };
 
 const STAGE_STYLE: Record<FundingStage, string> = {
@@ -40,7 +40,7 @@ const STAGE_STYLE: Record<FundingStage, string> = {
   series_b: "bg-indigo-100 text-indigo-700",
   series_c: "bg-violet-100 text-violet-700",
   growth:   "bg-pink-100 text-pink-700",
-  unknown:  "bg-gray-100 text-gray-400",
+  unknown:  "bg-gray-100 text-gray-600",
 };
 
 const OUTREACH_CFG = {
@@ -124,7 +124,7 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
           </div>
           {/* Why Now — front and center */}
           {score.whyNow[0] && (
-            <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+            <p className="text-xs text-gray-700 mt-1 leading-relaxed">
               <span className="text-indigo-500">→ </span>{score.whyNow[0]}
             </p>
           )}
@@ -145,10 +145,10 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
         <div className="text-sm text-gray-700 font-medium pt-0.5">{fundingLabel}</div>
 
         {/* Location */}
-        <div className="text-xs text-gray-400 pt-0.5">{filing.state || "—"}</div>
+        <div className="text-xs text-gray-600 pt-0.5">{filing.state || "—"}</div>
 
         {/* Updated */}
-        <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
+        <div className="text-xs text-gray-600 pt-0.5">{ago(filing.daysSinceFiling)}</div>
       </div>
 
       {/* Expanded detail */}
@@ -156,7 +156,7 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
         <div className="px-4 pb-5 pt-2 border-t border-indigo-100/60 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
             <div>
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Why Now</p>
+              <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide mb-2">Why Now</p>
               <ul className="space-y-1.5">
                 {score.whyNow.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
@@ -167,7 +167,7 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
               </ul>
             </div>
             <div>
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
+              <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide mb-2">Suggested Outreach</p>
               <p className="text-sm text-gray-700 italic bg-indigo-50 rounded-lg px-3 py-2.5 border border-indigo-100 leading-relaxed">
                 &ldquo;{score.suggestedAngle}&rdquo;
               </p>
@@ -175,14 +175,14 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Signal Evidence</p>
+            <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide mb-2">Signal Evidence</p>
             <div className="space-y-1.5">
               {score.signals.map((s, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
                   <span className="text-gray-700 flex-1">{s.description}</span>
-                  <span className="text-xs text-gray-400">· {s.source}</span>
-                  <span className="text-xs text-gray-300">+{s.weight}</span>
+                  <span className="text-xs text-gray-600">· {s.source}</span>
+                  <span className="text-xs text-gray-500">+{s.weight}</span>
                 </div>
               ))}
             </div>
@@ -196,13 +196,13 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
 
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People</p>
+              <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide mb-2">Key People</p>
               <div className="flex flex-wrap gap-2">
                 {filing.relatedPersons.slice(0, 5).map((p, i) => (
                   <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
                     <div className="font-medium text-gray-800">{[p.firstName, p.lastName].filter(Boolean).join(" ") || "—"}</div>
-                    {p.title && <div className="text-xs text-gray-500">{p.title}</div>}
-                    {p.city && <div className="text-xs text-gray-400">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
+                    {p.title && <div className="text-xs text-gray-700">{p.title}</div>}
+                    {p.city && <div className="text-xs text-gray-600">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
                   </div>
                 ))}
               </div>
@@ -210,17 +210,17 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
           )}
 
           <div>
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Track Outreach</p>
+            <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide mb-2">Track Outreach</p>
             <div className="flex flex-wrap gap-2">
               {(["not_contacted", "reached_out", "in_discussion", "passed"] as OutreachRecord["status"][]).map((s) => (
-                <button key={s} onClick={(e) => { e.stopPropagation(); handleStatus(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-500 hover:border-gray-300"}`}>
+                <button key={s} onClick={(e) => { e.stopPropagation(); handleStatus(s); }} className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${outreachStatus === s ? `${OUTREACH_CFG[s].cls} border-current` : "border-gray-200 text-gray-700 hover:border-gray-300"}`}>
                   {OUTREACH_CFG[s].label}
                 </button>
               ))}
-              <button onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
+              <button onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-700 hover:border-gray-300">
                 {notes ? "Edit notes" : "Add notes"}
               </button>
-              <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300">
+              <a href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${filing.cik}&type=D&dateb=&owner=include&count=40`} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-700 hover:border-gray-300">
                 EDGAR ↗
               </a>
             </div>
@@ -233,7 +233,7 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
                 </div>
               </div>
             )}
-            {notes && !showNotes && <p className="mt-2 text-xs text-gray-500 italic bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">{notes}</p>}
+            {notes && !showNotes && <p className="mt-2 text-xs text-gray-700 italic bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">{notes}</p>}
           </div>
         </div>
       )}
@@ -244,9 +244,9 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
 function ScoreChip({ label, value, color, placeholder }: { label: string; value: number; color: string; placeholder?: string }) {
   return (
     <div className="bg-gray-50 rounded-lg px-3 py-2 border border-gray-100 min-w-[100px]">
-      <div className="text-[10px] text-gray-400 mb-1">{label}</div>
+      <div className="text-[10px] text-gray-600 mb-1">{label}</div>
       {placeholder ? (
-        <div className="text-xs text-gray-300">{placeholder}</div>
+        <div className="text-xs text-gray-500">{placeholder}</div>
       ) : (
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold text-gray-800">{value}</span>

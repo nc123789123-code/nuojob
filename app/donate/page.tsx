@@ -53,7 +53,7 @@ export default function DonatePage() {
           <Link href="/" className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</Link>
           <div className="w-px h-4 bg-gray-200" />
           <span className="text-xs font-bold text-[#396477] uppercase tracking-widest">Support</span>
-          <Link href="/" className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">← Platform</Link>
+          <Link href="/" className="ml-auto text-xs text-gray-600 hover:text-gray-600 transition-colors">← Platform</Link>
         </div>
       </div>
 
@@ -66,14 +66,14 @@ export default function DonatePage() {
         </div>
 
         <h1 className="text-2xl font-bold text-[#191c1e] mb-3">Keep Onlu free.</h1>
-        <p className="text-sm text-gray-500 leading-relaxed mb-10 max-w-sm mx-auto">
+        <p className="text-sm text-gray-700 leading-relaxed mb-10 max-w-sm mx-auto">
           Onlu is built by a small team and kept free on purpose. If it&apos;s helped your search,
           a small contribution goes a long way toward keeping the lights on.
         </p>
 
         {/* Amount selector */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 text-left space-y-5">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Choose an amount</p>
+          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest">Choose an amount</p>
 
           <div className="grid grid-cols-4 gap-2">
             {PRESETS.map(p => (
@@ -90,9 +90,9 @@ export default function DonatePage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1.5">Or enter a custom amount</label>
+            <label className="block text-xs font-semibold text-gray-700 mb-1.5">Or enter a custom amount</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-semibold">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-600 font-semibold">$</span>
               <input
                 type="number"
                 min="1"
@@ -120,14 +120,14 @@ export default function DonatePage() {
             }
           </button>
 
-          <p className="text-[11px] text-gray-400 text-center">
+          <p className="text-[11px] text-gray-600 text-center">
             Secure checkout via Stripe · No account needed · One-time payment
           </p>
         </div>
 
         {/* What it goes toward */}
         <div className="mt-8 bg-white border border-gray-100 rounded-xl p-5 text-left">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">What your support funds</p>
+          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">What your support funds</p>
           <ul className="space-y-2">
             {[
               "Hosting, infrastructure, and API costs",

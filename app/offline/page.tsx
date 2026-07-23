@@ -9,7 +9,7 @@ export default function OfflinePage() {
           <LogoMark size={64} />
         </div>
         <h1 className="text-xl font-bold text-[#191c1e] mb-2">You&apos;re offline</h1>
-        <p className="text-sm text-[#3d444d] mb-6 leading-relaxed">
+        <p className="text-sm text-[#2b3138] mb-6 leading-relaxed">
           Check your connection and try again. Recent data you&apos;ve viewed may still be available.
         </p>
         <button onClick={() => window.location.reload()}

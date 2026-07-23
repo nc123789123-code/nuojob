@@ -17,10 +17,10 @@ function agoLabel(days: number): string {
 function sourceLabel(id: string): { label: string; style: string; isDirect: boolean } {
   if (id.startsWith("gh-"))     return { label: "Greenhouse",  style: "bg-emerald-50 text-emerald-700 border-emerald-200", isDirect: true  };
   if (id.startsWith("lever-"))  return { label: "Lever",       style: "bg-teal-50 text-teal-700 border-teal-200",          isDirect: true  };
-  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-gray-50 text-gray-500 border-gray-200",          isDirect: false };
+  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-gray-50 text-gray-700 border-gray-200",          isDirect: false };
   if (id.startsWith("adzuna-")) return { label: "Adzuna",      style: "bg-blue-50 text-blue-700 border-blue-200",          isDirect: false };
   if (id.startsWith("muse-"))   return { label: "The Muse",    style: "bg-purple-50 text-purple-700 border-purple-200",    isDirect: false };
-  return                               { label: "Board",        style: "bg-gray-50 text-gray-500 border-gray-200",          isDirect: false };
+  return                               { label: "Board",        style: "bg-gray-50 text-gray-700 border-gray-200",          isDirect: false };
 }
 
 const CATEGORY_BAR: Record<JobCategory, string> = {
@@ -221,7 +221,7 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
 function AnalysisSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{label}</h4>
+      <h4 className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">{label}</h4>
       {children}
     </div>
   );
@@ -247,7 +247,7 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
             <ul className="space-y-1.5">
               {a.whatTheyCareAbout.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                  <span className="text-gray-300 mt-0.5 flex-shrink-0">—</span>
+                  <span className="text-gray-500 mt-0.5 flex-shrink-0">—</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -281,7 +281,7 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
         </div>
       </div>
 
-      <p className="text-[10px] text-gray-400 mt-5 pt-4 border-t border-gray-200">
+      <p className="text-[10px] text-gray-600 mt-5 pt-4 border-t border-gray-200">
         Onlu analysis · Based on signal source, hiring context, and category patterns · Not AI-generated
       </p>
     </div>
@@ -295,7 +295,7 @@ function ScorePip({ score }: { score: number }) {
     score >= 80 ? ["bg-red-500", "text-white"] :
     score >= 65 ? ["bg-amber-500", "text-white"] :
     score >= 50 ? ["bg-yellow-400", "text-white"] :
-                  ["bg-gray-100", "text-gray-500"];
+                  ["bg-gray-100", "text-gray-700"];
   return (
     <div className={`w-7 h-7 rounded-md ${bg} flex items-center justify-center flex-shrink-0`}>
       <span className={`font-bold text-[11px] tabular-nums ${text}`}>{score}</span>
@@ -348,7 +348,7 @@ export default function RoleCard({ signal }: Props) {
 
           {/* Intel line */}
           {signal.why && (
-            <p className="mt-1 text-xs text-gray-500 leading-relaxed">
+            <p className="mt-1 text-xs text-gray-700 leading-relaxed">
               <span className="text-blue-400 font-medium">→ </span>{signal.why}
             </p>
           )}
@@ -360,12 +360,12 @@ export default function RoleCard({ signal }: Props) {
                 {signal.category}
               </span>
               {signal.location && signal.location !== "—" && (
-                <span className="text-xs text-gray-400">{signal.location}</span>
+                <span className="text-xs text-gray-600">{signal.location}</span>
               )}
               {signal.salaryRange && (
                 <span className="text-xs font-medium text-emerald-600">{signal.salaryRange}</span>
               )}
-              <span className="text-xs text-gray-400 tabular-nums">{agoLabel(signal.daysAgo)}</span>
+              <span className="text-xs text-gray-600 tabular-nums">{agoLabel(signal.daysAgo)}</span>
             </div>
             <div className="flex items-center gap-3">
               {signal.edgarUrl && (
@@ -379,7 +379,7 @@ export default function RoleCard({ signal }: Props) {
                   {isApply ? "Apply ↗" : "EDGAR ↗"}
                 </a>
               )}
-              <span className={`text-[11px] font-medium transition-colors ${expanded ? "text-gray-700" : "text-gray-400 hover:text-gray-600"}`}>
+              <span className={`text-[11px] font-medium transition-colors ${expanded ? "text-gray-700" : "text-gray-600 hover:text-gray-600"}`}>
                 {expanded ? "Hide analysis ▴" : "View analysis ▾"}
               </span>
             </div>

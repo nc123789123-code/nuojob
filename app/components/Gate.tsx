@@ -118,7 +118,7 @@ export default function Gate({ level, children, title, description }: Props) {
             {level === "pro" ? "⭐" : "🔓"}
           </div>
           <h3 className="text-base font-bold text-[#1A2B4A] mb-1.5">{heading}</h3>
-          <p className="text-xs text-[#23282e] leading-relaxed mb-4">{sub}</p>
+          <p className="text-xs text-[#1a1e24] leading-relaxed mb-4">{sub}</p>
 
           {needsUpgrade ? (
             <>
@@ -129,7 +129,7 @@ export default function Gate({ level, children, title, description }: Props) {
               >
                 {submitting ? "Redirecting…" : "Go Pro — $5/mo"}
               </button>
-              <p className="text-[11px] text-[#3d444d] mt-2">
+              <p className="text-[11px] text-[#2b3138] mt-2">
                 Already subscribed with a different email?{" "}
                 <button onClick={() => setNeedsUpgrade(false)} className="text-[#396477] font-semibold hover:underline">
                   Try another
@@ -144,7 +144,7 @@ export default function Gate({ level, children, title, description }: Props) {
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-lg border border-[#c1c7cc]/60 bg-[#f8fafb] text-sm px-3 py-2.5 text-[#191c1e] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
+                className="w-full rounded-lg border border-[#c1c7cc]/60 bg-[#f8fafb] text-sm px-3 py-2.5 text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
               />
               <button
                 type="submit"
@@ -157,7 +157,7 @@ export default function Gate({ level, children, title, description }: Props) {
           )}
 
           {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-          <p className="text-[10px] text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
+          <p className="text-[10px] text-gray-600 mt-3">No spam. Unsubscribe anytime.</p>
         </div>
       </div>
     </div>

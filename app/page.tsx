@@ -77,7 +77,7 @@ function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]", too
       <div className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${color}`}>
         {count}{suffix}
       </div>
-      <div className="text-[11px] font-medium text-[#3d444d] mt-1 uppercase tracking-wider">{label}</div>
+      <div className="text-[11px] font-medium text-[#2b3138] mt-1 uppercase tracking-wider">{label}</div>
     </div>
   );
 }
@@ -312,8 +312,8 @@ function HomeContent() {
             } />
           </nav>
           <div className="ml-auto flex items-center gap-3">
-            <a href="#guide" className="hidden sm:inline text-[#23282e] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
-            <Link href="/about" className="hidden sm:inline text-[#23282e] hover:text-[#191c1e] text-xs transition-colors">About</Link>
+            <a href="#guide" className="hidden sm:inline text-[#1a1e24] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
+            <Link href="/about" className="hidden sm:inline text-[#1a1e24] hover:text-[#191c1e] text-xs transition-colors">About</Link>
             <Link href="/donate" title="Support Onlu" className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-rose-50 transition-colors">
               <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
                 <path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/>
@@ -340,7 +340,7 @@ function HomeContent() {
                 Market · Fund Intelligence · AI
               </div>
               <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#3d444d] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
+              <p className="text-[#2b3138] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
             </>
           )}
           {topTab === "hiring" && (
@@ -354,7 +354,7 @@ function HomeContent() {
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
-                <span className="text-[10px] text-[#3d444d]">Just open and use</span>
+                <span className="text-[10px] text-[#2b3138]">Just open and use</span>
               </div>
               <p className="text-[#396477] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
@@ -370,7 +370,7 @@ function HomeContent() {
               {!userProfile && (
                 <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
                   <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#1A2B4A] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
-                  <span className="text-xs text-[#23282e]">Set your profile to unlock <strong className="text-[#191c1e]">For You</strong> role matching</span>
+                  <span className="text-xs text-[#1a1e24]">Set your profile to unlock <strong className="text-[#191c1e]">For You</strong> role matching</span>
                   <button onClick={() => setShowProfilePanel(true)}
                     className="text-[11px] font-bold text-[#1A2B4A] hover:underline flex-shrink-0">
                     Set profile →
@@ -381,12 +381,12 @@ function HomeContent() {
           )}
           {topTab === "learn" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#3d444d] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#3d444d] rounded-full" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#2b3138] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#2b3138] rounded-full" />
                 Onlu Learning
               </div>
               <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
-              <p className="text-[#3d444d] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
+              <p className="text-[#2b3138] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
             </>
           )}
           {topTab === "firmprep" && (
@@ -396,7 +396,7 @@ function HomeContent() {
                 AI-Powered · Firm-Specific
               </div>
               <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
-              <p className="text-[#3d444d] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
+              <p className="text-[#2b3138] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
 
@@ -475,9 +475,9 @@ function HomeContent() {
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
                 className={`card-lift text-left p-2 sm:p-3 rounded-xl border-2 bg-white shadow-[0_8px_24px_-8px_rgba(124,58,237,0.35)] transition-all ${topTab === f.tab ? f.active + " !bg-white" : f.color}`}>
-                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
-                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#23282e]"}`}>{f.label}</div>
-                <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
+                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-600"}`}>{f.icon}</div>
+                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#1a1e24]"}`}>{f.label}</div>
+                <div className="text-[10px] text-gray-600 leading-snug hidden sm:block">{f.desc}</div>
               </button>
             ))}
           </div>
@@ -561,10 +561,10 @@ function HomeContent() {
               cta="Subscribe free"
             />
             <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-[#23282e]">
+              <p className="text-sm text-[#1a1e24]">
                 Found an active signal? <span className="font-medium">Prepare for the interview before you apply.</span>
               </p>
-              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#3d444d] text-white text-xs font-semibold rounded-lg hover:bg-[#4a4858] transition-colors text-center">
+              <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#2b3138] text-white text-xs font-semibold rounded-lg hover:bg-[#4a4858] transition-colors text-center">
                 Get the Interview Guide →
               </a>
             </div>
@@ -631,7 +631,7 @@ function HomeContent() {
               animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-orange-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="11.5" r="5.5" /><path d="M5 8.5 L3 2 L8.5 6.5 Z" /><path d="M15 8.5 L17 2 L11.5 6.5 Z" /><circle cx="8" cy="11" r="1.4" /><circle cx="8" cy="11" r="0.6" fill="currentColor" stroke="none" /><circle cx="12" cy="11" r="1.4" /><circle cx="12" cy="11" r="0.6" fill="currentColor" stroke="none" /><ellipse cx="10" cy="14" rx="2" ry="1.2" /><circle cx="10" cy="13.2" r="0.55" fill="currentColor" stroke="none" /></svg> },
           ] as Array<{ id: TopTab; label: string; color: string; icon: React.ReactNode; animal: React.ReactNode }>).map(t => (
             <button key={t.id} onClick={() => setTopTab(t.id)}
-              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-gray-400"}`}>
+              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-gray-600"}`}>
               <span className="relative w-5 h-5">
                 <span className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ${topTab === t.id ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}>
                   {t.icon}
@@ -683,7 +683,7 @@ function MarketTickerBar() {
           const up = t.changePct >= 0;
           return (
             <div key={t.symbol} className={`flex items-center gap-2.5 px-4 h-full text-xs ${i > 0 ? "border-l border-gray-100" : ""}`}>
-              <span className="text-gray-400 font-medium">{t.label}</span>
+              <span className="text-gray-600 font-medium">{t.label}</span>
               <span className="font-semibold text-[#191c1e]">{fmt(t)}</span>
               <span className={`font-medium ${up ? "text-emerald-600" : "text-red-500"}`}>
                 {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
@@ -723,7 +723,7 @@ function MarketDataPanel() {
   }
 
   if (loading) return (
-    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
+    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-600">
       <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
       Loading market data…
     </div>
@@ -735,21 +735,21 @@ function MarketDataPanel() {
     <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
       <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
         <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live Markets</span>
-        <span className="ml-auto text-[11px] text-gray-400">Delayed ~15 min</span>
+        <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Live Markets</span>
+        <span className="ml-auto text-[11px] text-gray-600">Delayed ~15 min</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
         {MARKET_GROUPS.map(group => {
           const groupTickers = tickers.filter(t => group.keys.includes(t.label));
           return (
             <div key={group.title} className="px-5 py-4">
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">{group.title}</p>
+              <p className="text-[11px] font-semibold text-gray-600 uppercase tracking-wider mb-3">{group.title}</p>
               <div className="space-y-3">
                 {groupTickers.map(t => {
                   const up = t.changePct >= 0;
                   return (
                     <div key={t.symbol} className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-gray-500">{t.label}</span>
+                      <span className="text-xs text-gray-700">{t.label}</span>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-[#191c1e]">{fmt(t)}</span>
                         <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded ${up ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"}`}>
@@ -842,10 +842,10 @@ function ErrorBox({ message }: { message: string }) {
 
 function EmptyState({ icon, title, hint, onReset }: { icon: string; title: string; hint: string; onReset?: () => void }) {
   return (
-    <div className="text-center py-14 text-gray-400">
+    <div className="text-center py-14 text-gray-600">
       <div className="text-3xl mb-3">{icon}</div>
       <p className="font-semibold text-gray-700 text-sm">{title}</p>
-      <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">{hint}</p>
+      <p className="text-xs mt-1.5 text-gray-600 max-w-xs mx-auto">{hint}</p>
       {onReset && (
         <button
           onClick={onReset}
@@ -854,7 +854,7 @@ function EmptyState({ icon, title, hint, onReset }: { icon: string; title: strin
           Reset filters
         </button>
       )}
-      <p className="text-[11px] text-gray-300 mt-3">EDGAR data refreshes daily</p>
+      <p className="text-[11px] text-gray-500 mt-3">EDGAR data refreshes daily</p>
     </div>
   );
 }
@@ -888,7 +888,7 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
       <div className="max-w-6xl mx-auto px-5 py-3 space-y-2.5">
         {/* Header row */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-[#3d444d] text-xs font-medium">{today}</span>
+          <span className="text-[#2b3138] text-xs font-medium">{today}</span>
           <div className="flex items-center gap-2">
             {daily.todayCount > 0 ? (
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#c3ecd7] text-[#416656] border border-[#a8cfbc] rounded-full px-2.5 py-0.5">
@@ -896,10 +896,10 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
                 {daily.todayCount} new filing{daily.todayCount !== 1 ? "s" : ""} today
               </span>
             ) : (
-              <span className="text-xs text-[#3d444d]">No new filings today</span>
+              <span className="text-xs text-[#2b3138]">No new filings today</span>
             )}
             {daily.weekCount > 0 && (
-              <span className="text-xs text-[#3d444d]">{daily.weekCount} this week</span>
+              <span className="text-xs text-[#2b3138]">{daily.weekCount} this week</span>
             )}
           </div>
         </div>
@@ -907,7 +907,7 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top fund signals */}
         {daily.topFunds.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-[#3d444d] font-medium shrink-0">Recent filings:</span>
+            <span className="text-[11px] text-[#2b3138] font-medium shrink-0">Recent filings:</span>
             {daily.topFunds.slice(0, 4).map((f) => {
               const bucketColor = f.offeringStatus === "open"
                 ? "bg-[#c3ecd7]/60 text-[#416656] border border-[#a8cfbc]/50 hover:bg-[#c3ecd7]"
@@ -927,13 +927,13 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top job signals */}
         {daily.topJobs.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-[#3d444d] font-medium shrink-0">Posted roles:</span>
+            <span className="text-[11px] text-[#2b3138] font-medium shrink-0">Posted roles:</span>
             {daily.topJobs.slice(0, 4).map((j) => (
               <button key={j.id} onClick={onJobsClick}
-                className="inline-flex items-center gap-1 text-[11px] text-[#23282e] border border-[#c1c7cc] bg-white hover:bg-[#f2f4f6] rounded-full px-2.5 py-1 transition-colors cursor-pointer">
+                className="inline-flex items-center gap-1 text-[11px] text-[#1a1e24] border border-[#c1c7cc] bg-white hover:bg-[#f2f4f6] rounded-full px-2.5 py-1 transition-colors cursor-pointer">
                 <span className="font-medium">{j.firm}</span>
                 <span className="text-[#c1c7cc]">·</span>
-                <span className="text-[#23282e] max-w-[120px] truncate">{j.role}</span>
+                <span className="text-[#1a1e24] max-w-[120px] truncate">{j.role}</span>
               </button>
             ))}
             <button onClick={onJobsClick} className="text-[11px] text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
@@ -971,7 +971,7 @@ function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onC
     <div>
       <div className="flex items-center gap-2 mb-3">
         <h2 className="text-sm font-semibold text-gray-900">Most Recent Signals</h2>
-        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">sorted by date</span>
+        <span className="text-[10px] text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded">sorted by date</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
         {top.map((f, i) => (
@@ -986,26 +986,26 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
   const statusColor = filing.offeringStatus === "open"
     ? "bg-[#c3ecd7] text-[#416656]"
     : filing.offeringStatus === "closed"
-    ? "bg-[#e1ddf2]/70 text-[#3d444d]"
-    : "bg-gray-100 text-gray-500";
+    ? "bg-[#e1ddf2]/70 text-[#2b3138]"
+    : "bg-gray-100 text-gray-700";
   const statusLabel = filing.offeringStatus === "open" ? "In market"
     : filing.offeringStatus === "closed" ? "Closed"
     : "Filed";
   return (
     <button onClick={onClick} className="card-lift text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 transition-all group">
       <div className="flex items-start justify-between gap-1 mb-2.5">
-        <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
+        <span className="text-xs font-bold text-gray-500 w-4 tabular-nums">{rank}</span>
         <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${statusColor}`}>{statusLabel}</span>
       </div>
       <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#396477] transition-colors line-clamp-2">
         {filing.entityName}
       </div>
       {filing.score.whyNow[0] && (
-        <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
+        <p className="text-[11px] text-gray-700 mb-2.5 leading-relaxed line-clamp-2">
           <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
         </p>
       )}
-      <div className="text-[10px] text-gray-400 mt-auto">
+      <div className="text-[10px] text-gray-600 mt-auto">
         {filing.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : filing.strategyLabel} · {filing.daysSinceFiling}d ago
       </div>
     </button>
@@ -1048,7 +1048,7 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
           <p className="text-sm font-semibold text-[#396477]">
             Signals → Jobs
           </p>
-          <p className="text-xs text-[#3d444d] mt-0.5">
+          <p className="text-xs text-[#2b3138] mt-0.5">
             Use signals to decide where to focus. These firms have both an active signal and open roles.
           </p>
         </div>
@@ -1081,13 +1081,13 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
 
       {noJobFirms.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-sky-100">
-          <span className="text-[11px] text-[#3d444d]">No roles posted yet:</span>
+          <span className="text-[11px] text-[#2b3138]">No roles posted yet:</span>
           {noJobFirms.map((name) => (
-            <span key={name} className="text-[11px] text-[#3d444d] bg-white border border-[#c1c7cc]/40 px-2 py-0.5 rounded-full">
+            <span key={name} className="text-[11px] text-[#2b3138] bg-white border border-[#c1c7cc]/40 px-2 py-0.5 rounded-full">
               {name}
             </span>
           ))}
-          <span className="text-[11px] text-[#3d444d]">— consider reaching out directly.</span>
+          <span className="text-[11px] text-[#2b3138]">— consider reaching out directly.</span>
         </div>
       )}
     </div>
@@ -1140,8 +1140,8 @@ function CpiWidget() {
   const maxYoy = Math.max(...yoyVals.map(Math.abs), 0.1);
 
   const yoyColor = (v?: number) => !v ? "#c4b0de" : v > 4 ? "#a8c4e0" : v > 3 ? "#b8d4e8" : v > 2 ? "#c4b0de" : "#9ecfc0";
-  const yoyTextColor = !latest.yoy ? "text-gray-400" : latest.yoy > 4 ? "text-sky-400" : latest.yoy > 3 ? "text-sky-300" : latest.yoy > 2 ? "text-violet-400" : "text-emerald-400";
-  const momTextColor = !latest.mom ? "text-gray-400" : latest.mom > 0.4 ? "text-sky-400" : latest.mom > 0.2 ? "text-violet-400" : "text-emerald-400";
+  const yoyTextColor = !latest.yoy ? "text-gray-600" : latest.yoy > 4 ? "text-sky-400" : latest.yoy > 3 ? "text-sky-300" : latest.yoy > 2 ? "text-violet-400" : "text-emerald-400";
+  const momTextColor = !latest.mom ? "text-gray-600" : latest.mom > 0.4 ? "text-sky-400" : latest.mom > 0.2 ? "text-violet-400" : "text-emerald-400";
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5">
@@ -1149,35 +1149,35 @@ function CpiWidget() {
       <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
         <div>
           <p className="text-xs font-semibold text-sky-600 uppercase tracking-widest mb-0.5">CPI Inflation</p>
-          <p className="text-[11px] text-gray-400">{fmtMonthYear(latest.date)} · All Urban Consumers</p>
+          <p className="text-[11px] text-gray-600">{fmtMonthYear(latest.date)} · All Urban Consumers</p>
         </div>
         <div className="flex gap-6">
           <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">Index</p>
+            <p className="text-[10px] text-gray-600 mb-0.5">Index</p>
             <p className="text-lg font-bold text-[#191c1e]">{latest.value.toFixed(1)}</p>
           </div>
           {latest.yoy !== undefined && (
             <div>
-              <p className="text-[10px] text-gray-400 mb-0.5">Year-over-year</p>
+              <p className="text-[10px] text-gray-600 mb-0.5">Year-over-year</p>
               <p className={`text-lg font-bold ${yoyTextColor}`}>{latest.yoy > 0 ? "+" : ""}{latest.yoy.toFixed(2)}%</p>
             </div>
           )}
           {latest.mom !== undefined && (
             <div>
-              <p className="text-[10px] text-gray-400 mb-0.5">Month-over-month</p>
+              <p className="text-[10px] text-gray-600 mb-0.5">Month-over-month</p>
               <p className={`text-lg font-bold ${momTextColor}`}>{latest.mom > 0 ? "+" : ""}{latest.mom.toFixed(2)}%</p>
             </div>
           )}
           <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">Fed target</p>
-            <p className="text-lg font-bold text-gray-400">2.0%</p>
+            <p className="text-[10px] text-gray-600 mb-0.5">Fed target</p>
+            <p className="text-lg font-bold text-gray-600">2.0%</p>
           </div>
         </div>
       </div>
 
       {/* YoY bar chart */}
       <div>
-        <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
+        <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
         {/* Bar chart — fixed 96px chart area, labels row below */}
         <div className="flex items-end gap-[3px]" style={{ height: 96 }}>
           {bars.map((pt) => {
@@ -1197,12 +1197,12 @@ function CpiWidget() {
         {/* Month labels */}
         <div className="flex gap-[3px] mt-1">
           {bars.map((pt) => (
-            <span key={pt.date} className="flex-1 text-[9px] text-gray-400 text-center leading-none">{fmtMonth(pt.date)}</span>
+            <span key={pt.date} className="flex-1 text-[9px] text-gray-600 text-center leading-none">{fmtMonth(pt.date)}</span>
           ))}
         </div>
         <div className="flex items-center gap-1.5 mt-2">
           <div className="w-3 h-px border-t border-dashed border-gray-300" />
-          <span className="text-[10px] text-gray-400">Fed 2% target</span>
+          <span className="text-[10px] text-gray-600">Fed 2% target</span>
         </div>
       </div>
     </div>
@@ -1243,20 +1243,20 @@ function FundsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-base text-[#3d444d] leading-relaxed max-w-2xl">
+        <p className="text-base text-[#2b3138] leading-relaxed max-w-2xl">
           SEC Form D filings — capital raises are leading indicators of hiring.
         </p>
       </div>
 
       <div className="flex items-center justify-between">
         <div className="flex gap-1 bg-gray-200 rounded-lg p-0.5">
-          <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>Search</button>
-          <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+          <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:text-gray-700"}`}>Search</button>
+          <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:text-gray-700"}`}>
             Pipeline
             {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#396477] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
           </button>
         </div>
-        <p className="text-xs text-gray-400">Capital &amp; hiring signals · SEC Form D</p>
+        <p className="text-xs text-gray-600">Capital &amp; hiring signals · SEC Form D</p>
       </div>
 
       {subTab === "search" ? (
@@ -1268,7 +1268,7 @@ function FundsSection({
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
               {["Fund / Firm", "Strategy", "Fundraising", "Filed"].map((h) => (
-                <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+                <div key={h} className="text-[11px] font-semibold text-gray-600 uppercase tracking-wide">{h}</div>
               ))}
             </div>
             {loading && filings.length === 0 && <SkeletonRows />}
@@ -1286,7 +1286,7 @@ function FundsSection({
               </div>
             ))}
           </div>
-          {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of buyside hiring</p>}
+          {filings.length > 0 && <p className="text-center text-xs text-gray-600 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of buyside hiring</p>}
         </>
       ) : (
         <OutreachPipeline records={outreachRecords} onBack={() => setSubTab("search")} />
@@ -1318,7 +1318,7 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
   adzuna:     { label: "Adzuna",            color: "bg-sky-50 text-[#396477] border-sky-100"             },
-  muse:       { label: "The Muse",          color: "bg-[#e1ddf2]/70 text-[#3d444d] border-[#c7c4d8]/50"  },
+  muse:       { label: "The Muse",          color: "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/50"  },
   edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"             },
   greenhouse: { label: "Greenhouse",        color: "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50"  },
   lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"              },
@@ -1371,7 +1371,7 @@ function JobsSection({
             <p className="text-base font-semibold text-[#396477]">
               {atSignalFirms.length} role{atSignalFirms.length !== 1 ? "s" : ""} at firms with active fund signals
             </p>
-            <p className="text-sm text-[#3d444d] mt-0.5">
+            <p className="text-sm text-[#2b3138] mt-0.5">
               These firms are raising or recently closed. Signal firms are shown first.
             </p>
           </div>
@@ -1385,7 +1385,7 @@ function JobsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-base text-[#3d444d] leading-relaxed max-w-2xl">
+        <p className="text-base text-[#2b3138] leading-relaxed max-w-2xl">
           Curated roles across private credit, restructuring, and leveraged finance. Signal firms shown first.
         </p>
       </div>
@@ -1407,7 +1407,7 @@ function JobsSection({
           <option value="45">Last 45 days</option>
           <option value="60">Last 60 days</option>
         </select>
-        <span className="ml-auto text-xs text-gray-400">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
+        <span className="ml-auto text-xs text-gray-600">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
       </div>
 
       {error && <ErrorBox message={error} />}
@@ -1436,10 +1436,10 @@ function JobsSection({
         </div>
       )}
       {!loading && signals.length === 0 && !error && (
-        <div className="text-center py-14 text-gray-400">
+        <div className="text-center py-14 text-gray-600">
           <div className="text-3xl mb-3">📊</div>
           <p className="font-semibold text-gray-600 text-base">No hiring signals found</p>
-          <p className="text-sm mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
+          <p className="text-sm mt-1.5 text-gray-600 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
         </div>
       )}
 
@@ -1471,10 +1471,10 @@ function JobsSection({
         <>
           {atSignalFirms.length > 0 && (
             <div className="flex items-center gap-2 pt-2">
-              <span className="text-[11px] font-semibold text-[#3d444d] uppercase tracking-wide">Other Roles</span>
-              <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
+              <span className="text-[11px] font-semibold text-[#2b3138] uppercase tracking-wide">Other Roles</span>
+              <span className="text-[10px] bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
               <div className="flex-1 h-px bg-gray-100" />
-              <button onClick={onViewSignals} className="text-[11px] text-[#3d444d] hover:text-[#396477] transition-colors">
+              <button onClick={onViewSignals} className="text-[11px] text-[#2b3138] hover:text-[#396477] transition-colors">
                 Check signals for these firms →
               </button>
             </div>
@@ -1486,7 +1486,7 @@ function JobsSection({
       )}
 
       {signals.length > 0 && (
-        <p className="text-center text-sm text-gray-400 py-1">
+        <p className="text-center text-sm text-gray-600 py-1">
           Hiring signals aggregated from 60+ firm career pages and SEC EDGAR capital activity
         </p>
       )}
@@ -1499,7 +1499,7 @@ function JobsSection({
 function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBack: () => void }) {
   if (records.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-400 bg-white border border-gray-200 rounded-xl">
+      <div className="text-center py-16 text-gray-600 bg-white border border-gray-200 rounded-xl">
         <div className="text-3xl mb-3">📬</div>
         <p className="font-medium text-gray-600">No outreach tracked yet</p>
         <p className="text-sm mt-1">Open a fund row and set its status to start tracking</p>
@@ -1521,7 +1521,7 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         const colors = { in_discussion: "text-[#416656] bg-[#c3ecd7]/40 border-[#a8cfbc]/50", reached_out: "text-[#396477] bg-sky-50 border-sky-100", passed: "text-gray-600 bg-gray-50 border-gray-200" };
         return (
           <div key={status}>
-            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
+            <h2 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
             <div className="space-y-1.5">
               {group.map((r) => (
                 <div key={r.filingId} className={`border rounded-lg px-4 py-2.5 ${colors[status]}`}>
@@ -1560,7 +1560,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
             className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
               activeTag === tag
                 ? "bg-[#396477]/10 text-[#396477] border-[#396477]/30"
-                : "bg-white text-gray-400 border-gray-200 hover:border-gray-400"
+                : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}
           >
             {tag}
@@ -1577,22 +1577,22 @@ function PostList({ posts }: { posts: InsightPost[] }) {
               className="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-gray-50/70 transition-colors group"
             >
               {post.tag && (
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-500"}`}>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-700"}`}>
                   {post.tag}
                 </span>
               )}
               <h2 className="flex-1 text-[#396477] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
                 {post.title}
               </h2>
-              <time className="text-[11px] text-gray-300 flex-shrink-0 hidden sm:block">{post.date}</time>
+              <time className="text-[11px] text-gray-500 flex-shrink-0 hidden sm:block">{post.date}</time>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                className={`w-4 h-4 text-gray-300 flex-shrink-0 transition-transform duration-200 ${expanded === post.slug ? "rotate-180" : ""}`}>
+                className={`w-4 h-4 text-gray-500 flex-shrink-0 transition-transform duration-200 ${expanded === post.slug ? "rotate-180" : ""}`}>
                 <path d="M4 6l4 4 4-4"/>
               </svg>
             </button>
             {expanded === post.slug && (
               <div className="px-5 pb-5 pt-1 bg-gray-50/50 border-t border-gray-100">
-                <p className="text-[#3d444d] text-sm leading-relaxed mb-3">
+                <p className="text-[#2b3138] text-sm leading-relaxed mb-3">
                   {post.paragraphs[0]}
                 </p>
                 <Link href={`/learn/${post.slug}`}
@@ -1623,19 +1623,19 @@ function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
     <div className="border border-gray-200 rounded-xl overflow-hidden">
       <button onClick={() => setOpen(!open)}
         className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors">
-        <span className="text-xs font-bold text-gray-400 mt-0.5 w-5 flex-shrink-0">{index + 1}</span>
+        <span className="text-xs font-bold text-gray-600 mt-0.5 w-5 flex-shrink-0">{index + 1}</span>
         <span className="text-sm font-medium text-[#191c1e] flex-1">{q.question}</span>
-        <span className="text-gray-400 flex-shrink-0 mt-0.5">{open ? "▲" : "▼"}</span>
+        <span className="text-gray-600 flex-shrink-0 mt-0.5">{open ? "▲" : "▼"}</span>
       </button>
       {open && (
         <div className="px-4 pb-4 space-y-2 border-t border-gray-100 pt-3">
           <div className="bg-sky-50 rounded-lg p-3">
             <p className="text-[11px] font-semibold text-sky-700 uppercase tracking-wide mb-1">What they&apos;re testing</p>
-            <p className="text-xs text-[#23282e] leading-relaxed">{q.context}</p>
+            <p className="text-xs text-[#1a1e24] leading-relaxed">{q.context}</p>
           </div>
           <div className="bg-emerald-50 rounded-lg p-3">
             <p className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wide mb-1">How to answer</p>
-            <p className="text-xs text-[#23282e] leading-relaxed">{q.tip}</p>
+            <p className="text-xs text-[#1a1e24] leading-relaxed">{q.tip}</p>
           </div>
         </div>
       )}
@@ -1701,9 +1701,9 @@ function EdgeSection() {
                 ? "border-indigo-300 bg-indigo-50 shadow-md"
                 : "border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? "text-indigo-600" : "text-gray-400"}`}>{t.icon}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-indigo-600" : "text-gray-600"}`}>{t.icon}</div>
             <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-indigo-700" : "text-[#2d3748]"}`}>{t.label}</div>
-            <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
+            <div className="text-[11px] text-gray-600 leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
       </div>
@@ -1777,7 +1777,7 @@ function ConceptQASection() {
       {/* Suggested chips */}
       {!answer && !loading && (
         <div>
-          <p className="text-xs text-gray-400 font-medium mb-2">Popular concepts</p>
+          <p className="text-xs text-gray-600 font-medium mb-2">Popular concepts</p>
           <div className="flex flex-wrap gap-2">
             {CONCEPT_CHIPS.map(chip => (
               <button key={chip} onClick={() => search(chip)}
@@ -1792,7 +1792,7 @@ function ConceptQASection() {
       {/* Recent history */}
       {history.length > 0 && !loading && (
         <div className="flex flex-wrap gap-2">
-          <span className="text-xs text-gray-400 self-center">Recent:</span>
+          <span className="text-xs text-gray-600 self-center">Recent:</span>
           {history.map(h => (
             <button key={h} onClick={() => search(h)}
               className="text-xs px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100 hover:bg-indigo-100 transition-colors">
@@ -1804,7 +1804,7 @@ function ConceptQASection() {
 
       {/* Loading */}
       {loading && (
-        <div className="flex flex-col items-center gap-3 py-16 text-gray-400">
+        <div className="flex flex-col items-center gap-3 py-16 text-gray-600">
           <div className="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Explaining {query}…</p>
         </div>
@@ -1824,11 +1824,11 @@ function ConceptQASection() {
           {answer.sections.map((sec, i) => (
             <div key={i} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-2">
               <h3 className="text-sm font-bold text-[#191c1e]">{sec.title}</h3>
-              <p className="text-sm text-[#23282e] leading-relaxed">{sec.content}</p>
+              <p className="text-sm text-[#1a1e24] leading-relaxed">{sec.content}</p>
               {sec.bullets && (
                 <ul className="space-y-1 mt-2">
                   {sec.bullets.map((b, j) => (
-                    <li key={j} className="flex items-start gap-2 text-xs text-[#23282e]">
+                    <li key={j} className="flex items-start gap-2 text-xs text-[#1a1e24]">
                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />{b}
                     </li>
                   ))}
@@ -1840,7 +1840,7 @@ function ConceptQASection() {
           {/* Interview angle */}
           <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-5 py-4">
             <h3 className="text-sm font-bold text-[#191c1e] mb-2">🎯 Interview Angle</h3>
-            <p className="text-sm text-[#23282e] leading-relaxed">{answer.interviewAngle}</p>
+            <p className="text-sm text-[#1a1e24] leading-relaxed">{answer.interviewAngle}</p>
           </div>
 
           {/* Common mistakes */}
@@ -1848,7 +1848,7 @@ function ConceptQASection() {
             <h3 className="text-sm font-bold text-[#191c1e] mb-2">🚩 Common Mistakes</h3>
             <ul className="space-y-1">
               {answer.commonMistakes.map((m, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#23282e]">
+                <li key={i} className="flex items-start gap-2 text-xs text-[#1a1e24]">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{m}
                 </li>
               ))}
@@ -1857,7 +1857,7 @@ function ConceptQASection() {
 
           {/* Related concepts */}
           <div>
-            <p className="text-xs text-gray-400 font-medium mb-2">Explore related</p>
+            <p className="text-xs text-gray-600 font-medium mb-2">Explore related</p>
             <div className="flex flex-wrap gap-2">
               {answer.relatedConcepts.map(c => (
                 <button key={c} onClick={() => search(c)}
@@ -1868,7 +1868,7 @@ function ConceptQASection() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-gray-400">AI-generated. Use as a study aid — verify with primary sources before interviews.</p>
+          <p className="text-center text-xs text-gray-600">AI-generated. Use as a study aid — verify with primary sources before interviews.</p>
         </div>
       )}
     </div>
@@ -1941,17 +1941,17 @@ function FirmPrepSection() {
           </div>
           <input value={teamGroup} onChange={e => setTeamGroup(e.target.value)}
             placeholder="Team / group you're interviewing for (optional) — e.g. Direct Lending, Special Sits"
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#23282e] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#1a1e24] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
         </form>
-        <p className="text-xs text-right text-[#3d444d]">
+        <p className="text-xs text-right text-[#2b3138]">
         </p>
       </div>
 
       {loading && (
-        <div className="flex flex-col items-center gap-3 py-16 text-[#3d444d]">
+        <div className="flex flex-col items-center gap-3 py-16 text-[#2b3138]">
           <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Generating your firm-specific prep guide…</p>
-          <p className="text-xs text-gray-400">This takes 15–25 seconds</p>
+          <p className="text-xs text-gray-600">This takes 15–25 seconds</p>
         </div>
       )}
 
@@ -1963,32 +1963,32 @@ function FirmPrepSection() {
           <div className="border border-rose-200 bg-rose-50/30 rounded-xl px-6 py-5">
             <h2 className="text-xl font-bold text-[#191c1e] mb-1">{prep.firm}</h2>
             <p className="text-xs font-semibold text-rose-600 mb-3">{prep.strategy}</p>
-            <p className="text-sm text-[#23282e] leading-relaxed">{prep.overview}</p>
+            <p className="text-sm text-[#1a1e24] leading-relaxed">{prep.overview}</p>
 
             {/* Apollo enrichment stats bar */}
             {enrich && (
               <div className="mt-4 pt-4 border-t border-rose-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {enrich.headcount && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Employees</p>
+                    <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">Employees</p>
                     <p className="text-sm font-bold text-[#191c1e] mt-0.5">{fmtHeadcount(enrich.headcount)}</p>
                   </div>
                 )}
                 {enrich.location && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">HQ</p>
+                    <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">HQ</p>
                     <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.location}</p>
                   </div>
                 )}
                 {enrich.founded && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Founded</p>
+                    <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">Founded</p>
                     <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.founded}</p>
                   </div>
                 )}
                 {enrich.industry && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Sector</p>
+                    <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">Sector</p>
                     <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.industry}</p>
                   </div>
                 )}
@@ -2013,7 +2013,7 @@ function FirmPrepSection() {
             <section>
               <h3 className="text-sm font-bold text-[#191c1e] mb-3">🏢 Culture & Work Environment</h3>
               <div className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4">
-                <p className="text-sm text-[#23282e] leading-relaxed">{prep.culture}</p>
+                <p className="text-sm text-[#1a1e24] leading-relaxed">{prep.culture}</p>
               </div>
             </section>
           )}
@@ -2024,12 +2024,12 @@ function FirmPrepSection() {
               <h3 className="text-sm font-bold text-[#191c1e] mb-3">📰 Recent Developments</h3>
               <ul className="space-y-2">
                 {prep.recentDevelopments.map((d, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-[#23282e]">
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#1a1e24]">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />{d}
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-gray-400 mt-2">Sourced from live news. Verify before your interview.</p>
+              <p className="text-xs text-gray-600 mt-2">Sourced from live news. Verify before your interview.</p>
             </section>
           )}
 
@@ -2064,14 +2064,14 @@ function FirmPrepSection() {
             <h3 className="text-sm font-bold text-[#191c1e] mb-3">🚩 Red Flags — What Gets Candidates Cut</h3>
             <ul className="space-y-2">
               {prep.redFlags.map((r, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#23282e]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#1a1e24]">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{r}
                 </li>
               ))}
             </ul>
           </section>
 
-          <p className="text-center text-xs text-gray-400">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
+          <p className="text-center text-xs text-gray-600">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
 
           {/* Anonymous feedback submission */}
           <InterviewFeedbackForm firmName={prep.firm} />
@@ -2126,7 +2126,7 @@ function InterviewIntelSection() {
           </div>
           <div>
             <h3 className="text-sm font-bold text-[#1A2B4A] mb-1">Share your interview experience</h3>
-            <p className="text-xs text-[#23282e] leading-relaxed max-w-xl">
+            <p className="text-xs text-[#1a1e24] leading-relaxed max-w-xl">
               Interviewed at a buyside firm or investment bank? Share what they asked so others can prepare.
               Submissions are <strong>completely anonymous</strong> — nothing is stored or tied to you.
               We share insights with our subscriber community on a <strong>no-name basis</strong>.
@@ -2173,20 +2173,20 @@ function InterviewIntelSection() {
       {/* Form */}
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-[#23282e] mb-1">Firm <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Firm <span className="text-red-400">*</span></label>
           <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
             placeholder="e.g. Ares Management, Goldman Sachs"
             className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-[#23282e] mb-1">Role type</label>
+            <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Role type</label>
             <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
               placeholder="e.g. Credit Analyst"
               className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#23282e] mb-1">Round</label>
+            <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Round</label>
             <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
               className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
               <option value="">Select</option>
@@ -2199,7 +2199,7 @@ function InterviewIntelSection() {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#23282e] mb-1">Difficulty</label>
+            <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Difficulty</label>
             <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
               className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
               <option value="">Select</option>
@@ -2211,20 +2211,20 @@ function InterviewIntelSection() {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold text-[#23282e] mb-1">Questions asked <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Questions asked <span className="text-red-400">*</span></label>
           <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
             rows={4} placeholder="What did they ask? Technical, behavioural, case walk-through — as much detail as you're comfortable sharing"
             className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-[#23282e] mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+          <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Tips for candidates <span className="text-gray-500 font-normal">(optional)</span></label>
           <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
             rows={2} placeholder="What would you do differently? What seemed to impress them?"
             className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
         </div>
         <div className="flex items-center gap-3">
           <div>
-            <label className="block text-xs font-semibold text-[#23282e] mb-1">Outcome <span className="text-gray-300 font-normal">(optional)</span></label>
+            <label className="block text-xs font-semibold text-[#1a1e24] mb-1">Outcome <span className="text-gray-500 font-normal">(optional)</span></label>
             <select value={form.outcome} onChange={e => setForm(f => ({ ...f, outcome: e.target.value }))}
               className="text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
               <option value="">Prefer not to say</option>
@@ -2239,7 +2239,7 @@ function InterviewIntelSection() {
             {submitting ? "Submitting…" : "Submit anonymously →"}
           </button>
         </div>
-        <p className="text-[11px] text-gray-400">
+        <p className="text-[11px] text-gray-600">
           Your submission is completely anonymous. No account, IP, or personal data is collected or retained.
         </p>
       </form>
@@ -2281,23 +2281,23 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
       <button onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
         <div className="flex items-center gap-2">
-          <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-400" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 4v3m0 2v.5"/></svg>
-          <span className="text-xs font-semibold text-gray-500">Interviewed at {firmName}? Share what they asked</span>
+          <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-600" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 4v3m0 2v.5"/></svg>
+          <span className="text-xs font-semibold text-gray-700">Interviewed at {firmName}? Share what they asked</span>
         </div>
-        <span className="text-gray-400 text-xs">{open ? "▲" : "▼"}</span>
+        <span className="text-gray-600 text-xs">{open ? "▲" : "▼"}</span>
       </button>
       {open && (
         <form onSubmit={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-gray-100 pt-3 bg-gray-50/40">
-          <p className="text-[11px] text-gray-400">Anonymous — nothing you enter here is stored or tied to you.</p>
+          <p className="text-[11px] text-gray-600">Anonymous — nothing you enter here is stored or tied to you.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Role type</label>
+              <label className="block text-[11px] font-medium text-gray-700 mb-1">Role type</label>
               <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
                 placeholder="e.g. Credit Analyst"
                 className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20" />
             </div>
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Round</label>
+              <label className="block text-[11px] font-medium text-gray-700 mb-1">Round</label>
               <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
                 className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
                 <option value="">Select</option>
@@ -2310,7 +2310,7 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
               </select>
             </div>
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Difficulty</label>
+              <label className="block text-[11px] font-medium text-gray-700 mb-1">Difficulty</label>
               <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
                 className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
                 <option value="">Select</option>
@@ -2322,13 +2322,13 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
             </div>
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 mb-1">Questions asked <span className="text-red-400">*</span></label>
+            <label className="block text-[11px] font-medium text-gray-700 mb-1">Questions asked <span className="text-red-400">*</span></label>
             <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
               rows={3} placeholder="What did they ask? Technical, behavioural, case walk-through…"
               className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+            <label className="block text-[11px] font-medium text-gray-700 mb-1">Tips for candidates <span className="text-gray-500 font-normal">(optional)</span></label>
             <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
               rows={2} placeholder="What would you do differently? What impressed them?"
               className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
@@ -2432,7 +2432,7 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
   const SHOW = ["S&P 500", "QQQ", "10Y Yield", "WTI", "Gold", "VIX"];
 
   if (loading) return (
-    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
+    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-600">
       <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
       Loading 30-day trends…
     </div>
@@ -2441,8 +2441,8 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
   return (
     <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
       <div className="px-5 pt-4 pb-3 border-b border-gray-100 flex items-center gap-2">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">30-Day Trend</span>
-        <span className="ml-auto text-[11px] text-gray-400">Daily closes · 1 month</span>
+        <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">30-Day Trend</span>
+        <span className="ml-auto text-[11px] text-gray-600">Daily closes · 1 month</span>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 divide-x divide-y divide-gray-100">
@@ -2457,7 +2457,7 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
           return (
             <div key={label} className="px-4 py-3 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-gray-500">{label}</span>
+                <span className="text-[11px] font-semibold text-gray-700">{label}</span>
                 <span className={`text-[10px] font-bold ${up ? "text-emerald-600" : "text-red-500"}`}>
                   {up ? "+" : ""}{pct.toFixed(2)}%
                 </span>
@@ -2465,7 +2465,7 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
               <span className="text-sm font-bold text-[#191c1e]">{price}</span>
               {h?.closes && h.closes.length > 1
                 ? <Sparkline closes={h.closes} up={up} />
-                : <div className="h-13 flex items-center justify-center text-[10px] text-gray-300">No history</div>
+                : <div className="h-13 flex items-center justify-center text-[10px] text-gray-500">No history</div>
               }
             </div>
           );
@@ -2475,11 +2475,11 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
       {/* Yield curve row */}
       {y3m && y10y && (
         <div className="border-t border-gray-100 px-5 py-3 flex items-center gap-3">
-          <span className="text-[11px] font-semibold text-gray-500">Yield Curve</span>
+          <span className="text-[11px] font-semibold text-gray-700">Yield Curve</span>
           <div className={`text-[10px] font-semibold px-2 py-0.5 rounded ${inverted ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-700"}`}>
             {inverted ? `⚠️ Inverted` : `Normal`}
           </div>
-          <span className="text-[11px] text-gray-400">
+          <span className="text-[11px] text-gray-600">
             3M {y3m.price.toFixed(2)}% · 10Y {y10y.price.toFixed(2)}% · spread {Math.abs(y10y.price - y3m.price).toFixed(2)}%
           </span>
         </div>
@@ -2511,7 +2511,7 @@ function MarketSection() {
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto px-5 py-16 flex flex-col items-center gap-3 text-[#3d444d]">
+      <div className="max-w-6xl mx-auto px-5 py-16 flex flex-col items-center gap-3 text-[#2b3138]">
         <div className="w-5 h-5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
         <p className="text-sm">Generating market brief…</p>
       </div>
@@ -2537,7 +2537,7 @@ function MarketSection() {
       <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
-          <span className="text-xs text-gray-400">Updated {updatedTime}</span>
+          <span className="text-xs text-gray-600">Updated {updatedTime}</span>
         </div>
         <p className="text-[#396477] text-lg font-bold leading-snug">{analysis.headline}</p>
       </div>
@@ -2552,10 +2552,10 @@ function MarketSection() {
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#3d444d] text-sm leading-relaxed">{sec.summary}</p>
+            <p className="text-[#2b3138] text-sm leading-relaxed">{sec.summary}</p>
             <ul className="space-y-2">
               {sec.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#3d444d]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#2b3138]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
                   {b}
                 </li>
@@ -2565,7 +2565,7 @@ function MarketSection() {
         ))}
       </div>
 
-      <p className="text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-gray-600">
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
 
@@ -2647,20 +2647,20 @@ function DailyNews() {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h2 className="text-base font-bold text-[#396477]">Today in Finance</h2>
-          <p className="text-xs text-[#3d444d] mt-0.5">Live headlines direct from financial news sources</p>
+          <p className="text-xs text-[#2b3138] mt-0.5">Live headlines direct from financial news sources</p>
         </div>
-        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+        {updatedTime && <span className="text-xs text-gray-600">Updated {updatedTime}</span>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#3d444d] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#2b3138] py-4">
           <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Curating today's headlines…
         </div>
       )}
 
       {!loading && (!data || data.items.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No news available right now.</p>
+        <p className="text-sm text-gray-600 py-2">No news available right now.</p>
       )}
 
       {data && data.items.length > 0 && (
@@ -2677,8 +2677,8 @@ function DailyNews() {
               <div key={item.id} className="py-3 first:pt-0 last:pb-0 space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
-                  {item.source && <span className="text-[10px] text-gray-400 font-medium">{item.source}</span>}
-                  {timeLabel && <span className="text-[10px] text-gray-300">{timeLabel}</span>}
+                  {item.source && <span className="text-[10px] text-gray-600 font-medium">{item.source}</span>}
+                  {timeLabel && <span className="text-[10px] text-gray-500">{timeLabel}</span>}
                 </div>
                 <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
               </div>
@@ -2687,7 +2687,7 @@ function DailyNews() {
         </div>
       )}
 
-      <p className="text-xs text-gray-400">Headlines pulled directly from Google News RSS. Not investment advice.</p>
+      <p className="text-xs text-gray-600">Headlines pulled directly from Google News RSS. Not investment advice.</p>
     </div>
   );
 }
@@ -2739,18 +2739,18 @@ function TodayInHistory() {
     <div className="space-y-4">
       <div>
         <h2 className="text-base font-bold text-[#396477]">Today in Financial History</h2>
-        {data && <p className="text-xs text-[#3d444d] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
+        {data && <p className="text-xs text-[#2b3138] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#3d444d] py-3">
+        <div className="flex items-center gap-2 text-sm text-[#2b3138] py-3">
           <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Loading historical facts…
         </div>
       )}
 
       {!loading && (!data || data.items.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No historical data available.</p>
+        <p className="text-sm text-gray-600 py-2">No historical data available.</p>
       )}
 
       {data && data.items.length > 0 && (
@@ -2771,7 +2771,7 @@ function TodayInHistory() {
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
                   </div>
                   <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
-                  <p className="text-xs text-[#3d444d] mt-1 leading-relaxed">{item.detail}</p>
+                  <p className="text-xs text-[#2b3138] mt-1 leading-relaxed">{item.detail}</p>
                 </div>
               </div>
             );
@@ -2787,12 +2787,12 @@ function TodayInHistory() {
             <p className="text-[10px] font-bold text-violet-500 uppercase tracking-wider mb-1">Born Today · {data.bornToday.birthYear}</p>
             <p className="font-bold text-[#191c1e] text-base leading-tight">{data.bornToday.name}</p>
             <p className="text-xs text-violet-700 font-medium mt-0.5 mb-1">{data.bornToday.role}</p>
-            <p className="text-xs text-[#3d444d] leading-relaxed">{data.bornToday.significance}</p>
+            <p className="text-xs text-[#2b3138] leading-relaxed">{data.bornToday.significance}</p>
           </div>
         </div>
       )}
 
-      <p className="text-xs text-gray-400">AI-generated historical context. Refreshes daily.</p>
+      <p className="text-xs text-gray-600">AI-generated historical context. Refreshes daily.</p>
     </div>
   );
 }
@@ -2847,20 +2847,20 @@ function DealsWatch() {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h2 className="text-base font-bold text-[#396477]">Deal Flow</h2>
-          <p className="text-xs text-[#3d444d] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
+          <p className="text-xs text-[#2b3138] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
         </div>
-        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+        {updatedTime && <span className="text-xs text-gray-600">Updated {updatedTime}</span>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#3d444d] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#2b3138] py-4">
           <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Analyzing deal flow…
         </div>
       )}
 
       {!loading && (!data || data.deals.length === 0) && (
-        <p className="text-sm text-gray-400 py-4">No recent deal headlines found.</p>
+        <p className="text-sm text-gray-600 py-4">No recent deal headlines found.</p>
       )}
 
       {data && data.deals.length > 0 && (
@@ -2873,7 +2873,7 @@ function DealsWatch() {
                   <div className="min-w-0">
                     <p className="font-semibold text-[#396477] text-base leading-tight truncate">{deal.company}</p>
                     {deal.counterparty && (
-                      <p className="text-xs text-[#3d444d] mt-0.5">← {deal.counterparty}</p>
+                      <p className="text-xs text-[#2b3138] mt-0.5">← {deal.counterparty}</p>
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-1 flex-shrink-0">
@@ -2883,10 +2883,10 @@ function DealsWatch() {
                 </div>
 
                 {deal.sector && (
-                  <span className="inline-block text-[10px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{deal.sector}</span>
+                  <span className="inline-block text-[10px] font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-full">{deal.sector}</span>
                 )}
 
-                <p className="text-sm text-[#3d444d] leading-relaxed">{deal.summary}</p>
+                <p className="text-sm text-[#2b3138] leading-relaxed">{deal.summary}</p>
 
                 <div className="bg-[#f0f7f4] border border-[#c8e6da] rounded-lg px-3 py-2.5">
                   <div className="flex items-center gap-2 mb-1">
@@ -2902,7 +2902,7 @@ function DealsWatch() {
 
                 <div className="flex items-start gap-2 pt-0.5">
                   <span className="w-1 h-1 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
-                  <p className="text-xs text-[#3d444d] italic leading-relaxed">{deal.keyTakeaway}</p>
+                  <p className="text-xs text-[#2b3138] italic leading-relaxed">{deal.keyTakeaway}</p>
                 </div>
               </div>
             );
@@ -2910,7 +2910,7 @@ function DealsWatch() {
         </div>
       )}
 
-      <p className="text-xs text-gray-400">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
+      <p className="text-xs text-gray-600">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
     </div>
   );
 }
@@ -2938,7 +2938,7 @@ interface EarningsCalendar {
 const EARNINGS_TIME_STYLE: Record<string, string> = {
   "pre-market":  "bg-sky-50 text-sky-700 border-sky-200",
   "post-market": "bg-violet-50 text-violet-700 border-violet-200",
-  "unknown":     "bg-gray-50 text-gray-500 border-gray-200",
+  "unknown":     "bg-gray-50 text-gray-700 border-gray-200",
 };
 
 function EarningsWatch() {
@@ -2967,19 +2967,19 @@ function EarningsWatch() {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h2 className="text-base font-bold text-[#396477]">Earnings This Week</h2>
-          <p className="text-xs text-[#3d444d] mt-0.5">Upcoming earnings releases · EPS estimates</p>
+          <p className="text-xs text-[#2b3138] mt-0.5">Upcoming earnings releases · EPS estimates</p>
         </div>
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#3d444d] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#2b3138] py-4">
           <div className="w-4 h-4 border-2 border-sky-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Loading earnings calendar…
         </div>
       )}
 
       {!loading && (!data || data.entries.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No upcoming earnings found.</p>
+        <p className="text-sm text-gray-600 py-2">No upcoming earnings found.</p>
       )}
 
       {data && data.entries.length > 0 && (() => {
@@ -3004,9 +3004,9 @@ function EarningsWatch() {
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
                             <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
-                            <p className="text-xs text-[#3d444d] mt-1 truncate leading-tight">{e.name}</p>
+                            <p className="text-xs text-[#2b3138] mt-1 truncate leading-tight">{e.name}</p>
                             {e.marketCap && (
-                              <p className="text-[11px] text-[#3d444d] mt-0.5">
+                              <p className="text-[11px] text-[#2b3138] mt-0.5">
                                 <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#396477]">{e.marketCap}</span>
                               </p>
                             )}
@@ -3017,11 +3017,11 @@ function EarningsWatch() {
                         </div>
                         {/* Blurb */}
                         {e.blurb && (
-                          <p className="text-[11px] text-[#3d444d] italic leading-tight">{e.blurb}</p>
+                          <p className="text-[11px] text-[#2b3138] italic leading-tight">{e.blurb}</p>
                         )}
                         {/* EPS */}
                         {e.epsForecast && (
-                          <div className="flex items-center gap-2 text-xs text-[#3d444d] border-t border-gray-200 pt-2">
+                          <div className="flex items-center gap-2 text-xs text-[#2b3138] border-t border-gray-200 pt-2">
                             <span>EPS est: <span className="font-semibold text-[#191c1e]">${e.epsForecast}</span></span>
                             {epsChange !== null && (
                               <span className={epsChange >= 0 ? "text-emerald-600 font-semibold" : "text-red-500 font-semibold"}>
@@ -3040,7 +3040,7 @@ function EarningsWatch() {
         );
       })()}
 
-      <p className="text-xs text-gray-400">Source: Nasdaq earnings calendar. Refreshes every 6 hours.</p>
+      <p className="text-xs text-gray-600">Source: Nasdaq earnings calendar. Refreshes every 6 hours.</p>
     </div>
   );
 }
@@ -3088,8 +3088,8 @@ function DistressedWatch() {
     <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
       <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
         <span className="text-base">⚠️</span>
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Distressed Watch</span>
-        <span className="ml-1 text-[10px] text-gray-400">Chapter 11 · Restructuring · Special Situations</span>
+        <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Distressed Watch</span>
+        <span className="ml-1 text-[10px] text-gray-600">Chapter 11 · Restructuring · Special Situations</span>
         {!loading && situations.length > 0 && (
           <span className="ml-auto text-[10px] font-bold bg-red-50 text-red-500 border border-red-100 px-1.5 py-0.5 rounded-full">{situations.length} active</span>
         )}
@@ -3112,7 +3112,7 @@ function DistressedWatch() {
       )}
 
       {!loading && situations.length === 0 && (
-        <div className="px-5 py-8 text-center text-xs text-gray-400">No new filings in the last 60 days.</div>
+        <div className="px-5 py-8 text-center text-xs text-gray-600">No new filings in the last 60 days.</div>
       )}
 
       {!loading && situations.length > 0 && (
@@ -3123,7 +3123,7 @@ function DistressedWatch() {
               ? { dot: "🔴", label: "Acute", cls: "text-red-500" }
               : s.daysAgo <= 14
               ? { dot: "🟡", label: "Developing", cls: "text-amber-500" }
-              : { dot: "⚪", label: "Monitoring", cls: "text-gray-400" };
+              : { dot: "⚪", label: "Monitoring", cls: "text-gray-600" };
             return (
               <div key={s.id} className="px-5 py-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
@@ -3135,12 +3135,12 @@ function DistressedWatch() {
                       {s.bondPrice.toFixed(1)}¢{s.bondYield != null ? ` / ${s.bondYield.toFixed(1)}% YTM` : ""}
                     </span>
                   )}
-                  <span className="text-[11px] text-gray-400 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
+                  <span className="text-[11px] text-gray-600 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
                 </div>
                 {s.headline && (
-                  <p className="text-sm text-[#3d444d] leading-relaxed">{s.headline}</p>
+                  <p className="text-sm text-[#2b3138] leading-relaxed">{s.headline}</p>
                 )}
-                <p className="text-sm text-[#3d444d] leading-relaxed">{s.whyItMatters}</p>
+                <p className="text-sm text-[#2b3138] leading-relaxed">{s.whyItMatters}</p>
                 <div className="flex items-center justify-end pt-0.5">
                   {s.edgarUrl && (
                     <a href={s.edgarUrl} target="_blank" rel="noopener noreferrer"
@@ -3155,7 +3155,7 @@ function DistressedWatch() {
         </div>
       )}
       <div className="px-5 py-2.5 border-t border-gray-50 bg-gray-50/50">
-        <p className="text-[10px] text-gray-400">Sourced from SEC EDGAR 8-K filings. Not investment advice.</p>
+        <p className="text-[10px] text-gray-600">Sourced from SEC EDGAR 8-K filings. Not investment advice.</p>
       </div>
     </div>
   );
@@ -5441,8 +5441,8 @@ const WATCH_STATUS_STYLE: Record<WatchStatus, { badge: string; dot?: boolean }> 
   "Likely Active":   { badge: "bg-[#c3ecd7] text-[#416656] border-[#a8cfbc]/70", dot: true },
   "Near-Term Watch": { badge: "bg-amber-50 text-amber-700 border-amber-200", dot: true },
   "Building":        { badge: "bg-sky-50 text-[#396477] border-sky-200" },
-  "Early Signal":    { badge: "bg-[#e1ddf2]/70 text-[#3d444d] border-[#c7c4d8]/60" },
-  "On the Radar":    { badge: "bg-gray-50 text-gray-500 border-gray-200" },
+  "Early Signal":    { badge: "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/60" },
+  "On the Radar":    { badge: "bg-gray-50 text-gray-700 border-gray-200" },
 };
 
 function getWatchStatus(foCount: number, filing?: FundFiling): WatchStatus {
@@ -5607,8 +5607,8 @@ function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
   const cls = tier === 1
     ? "bg-[#396477]/10 text-[#396477] border-[#396477]/20"
     : tier === 2
-    ? "bg-[#e1ddf2]/70 text-[#3d444d] border-[#c7c4d8]/50"
-    : "bg-gray-50 text-gray-500 border-gray-200";
+    ? "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/50"
+    : "bg-gray-50 text-gray-700 border-gray-200";
   return (
     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
       T{tier}
@@ -5618,7 +5618,7 @@ function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
 
 function StrategyTag({ s }: { s: string }) {
   return (
-    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#f2f4f6] text-[#23282e] border border-[#e0e3e5]">
+    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#f2f4f6] text-[#1a1e24] border border-[#e0e3e5]">
       {STRATEGY_LABELS[s] ?? s}
     </span>
   );
@@ -5654,7 +5654,7 @@ function FirmTypeBadge({ category }: { category?: string }) {
 function SeniorityBadge({ seniority, frontOffice }: { seniority: string; frontOffice: boolean }) {
   const isSenior = ["md", "partner", "director"].includes(seniority);
   const cls = !frontOffice
-    ? "bg-gray-50 text-gray-400 border-gray-200"
+    ? "bg-gray-50 text-gray-600 border-gray-200"
     : isSenior
     ? "bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50"
     : "bg-sky-50 text-[#396477] border-sky-100";
@@ -5701,7 +5701,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
 
       {/* Description */}
       {profile.desc && (
-        <p className="text-[12px] text-[#23282e] leading-relaxed mb-3">
+        <p className="text-[12px] text-[#1a1e24] leading-relaxed mb-3">
           {profile.desc}
         </p>
       )}
@@ -5710,7 +5710,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
       {profile.signals.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-3">
           {profile.signals.map((sig, i) => (
-            <span key={i} className="text-[11px] text-[#23282e] bg-[#f7f9fb] border border-[#e0e3e5] px-2 py-0.5 rounded-full">
+            <span key={i} className="text-[11px] text-[#1a1e24] bg-[#f7f9fb] border border-[#e0e3e5] px-2 py-0.5 rounded-full">
               {sig}
             </span>
           ))}
@@ -5730,22 +5730,22 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
             >
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#23282e] group-hover:text-[#396477] truncate transition-colors">
+                <span className="text-xs text-[#1a1e24] group-hover:text-[#396477] truncate transition-colors">
                   {r.role}
                 </span>
               </div>
-              <span className="text-[10px] text-[#3d444d] flex-shrink-0">{r.daysAgo}d</span>
+              <span className="text-[10px] text-[#2b3138] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
           {profile.frontOfficeCount > 4 && (
-            <p className="text-[11px] text-[#3d444d] pt-1">+{profile.frontOfficeCount - 4} more roles</p>
+            <p className="text-[11px] text-[#2b3138] pt-1">+{profile.frontOfficeCount - 4} more roles</p>
           )}
         </div>
       )}
 
       {/* LLM signal */}
       {topRoles[0]?.classification.signal && (
-        <p className="text-[11px] text-[#3d444d] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
+        <p className="text-[11px] text-[#2b3138] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
           {topRoles[0].classification.signal}
         </p>
       )}
@@ -5930,10 +5930,10 @@ function CaseLibrarySection() {
           <div className="px-6 py-5 border-b border-gray-100">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
-              <span className="text-[11px] text-gray-400">{displayCase.year} · {displayCase.size}</span>
+              <span className="text-[11px] text-gray-600">{displayCase.year} · {displayCase.size}</span>
             </div>
             <h2 className="text-[#191c1e] text-lg font-bold">{displayCase.deal}</h2>
-            <p className="text-xs text-[#23282e] mt-2 leading-relaxed">{displayCase.snapshot}</p>
+            <p className="text-xs text-[#1a1e24] mt-2 leading-relaxed">{displayCase.snapshot}</p>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {displayCase.keyPlayers.map(f => (
                 <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#396477] border border-sky-100 rounded font-medium">{f}</span>
@@ -5941,10 +5941,10 @@ function CaseLibrarySection() {
             </div>
           </div>
           <div className="px-6 py-4 border-b border-gray-100 space-y-2">
-            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Mechanics</p>
+            <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider">Key Mechanics</p>
             <ul className="space-y-1.5">
               {displayCase.mechanics.map((m, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#23282e]">
+                <li key={i} className="flex items-start gap-2 text-xs text-[#1a1e24]">
                   <span className="mt-1.5 w-1 h-1 rounded-full bg-[#396477] flex-shrink-0" />
                   {m}
                 </li>
@@ -5955,15 +5955,15 @@ function CaseLibrarySection() {
             <p className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider">Interview Question</p>
             <p className="text-sm font-medium text-[#191c1e] italic">&ldquo;{displayCase.interviewQ}&rdquo;</p>
             <div className="bg-white border border-rose-100 rounded-lg px-4 py-3">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Model Answer</p>
-              <p className="text-xs text-[#23282e] leading-relaxed">{displayCase.modelAnswer}</p>
+              <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Model Answer</p>
+              <p className="text-xs text-[#1a1e24] leading-relaxed">{displayCase.modelAnswer}</p>
             </div>
           </div>
           <div className="px-6 py-4 space-y-2">
-            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Lessons</p>
+            <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider">Key Lessons</p>
             <ul className="space-y-1.5">
               {displayCase.lessons.map((l, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#23282e]">
+                <li key={i} className="flex items-start gap-2 text-xs text-[#1a1e24]">
                   <span className="text-emerald-500 font-bold flex-shrink-0">{i + 1}.</span>
                   {l}
                 </li>
@@ -5998,11 +5998,11 @@ function CaseLibrarySection() {
               className="text-left border border-gray-200 bg-white rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
-                <span className="text-[11px] text-gray-400">{c.year}</span>
+                <span className="text-[11px] text-gray-600">{c.year}</span>
               </div>
               <p className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{c.company}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{c.size}</p>
-              <p className="text-xs text-[#3d444d] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
+              <p className="text-xs text-gray-700 mt-0.5">{c.size}</p>
+              <p className="text-xs text-[#2b3138] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
             </button>
           );
         })}
@@ -6010,8 +6010,8 @@ function CaseLibrarySection() {
 
       {/* AI on-demand */}
       <div className="border border-dashed border-gray-300 rounded-xl px-5 py-5 space-y-3 bg-gray-50/50">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Analyze Any Deal with AI</p>
-        <p className="text-xs text-gray-400">Enter any deal name — e.g. "Sears bankruptcy", "Dell go-private", "Envision Healthcare restructuring"</p>
+        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Analyze Any Deal with AI</p>
+        <p className="text-xs text-gray-600">Enter any deal name — e.g. "Sears bankruptcy", "Dell go-private", "Envision Healthcare restructuring"</p>
         <div className="flex gap-2">
           <input
             value={aiInput}
@@ -6027,7 +6027,7 @@ function CaseLibrarySection() {
         </div>
         {aiError && <p className="text-xs text-red-500">{aiError}</p>}
         {aiLoading && (
-          <div className="flex items-center gap-2 text-xs text-gray-400">
+          <div className="flex items-center gap-2 text-xs text-gray-600">
             <div className="w-3 h-3 border border-gray-300 border-t-[#396477] rounded-full animate-spin" />
             Building case study…
           </div>
@@ -6180,7 +6180,7 @@ function ResumeReviewSection() {
                 <div className="h-1 bg-gray-100 rounded-full mb-3 overflow-hidden">
                   <div className={`h-full rounded-full transition-all ${cat.score >= 75 ? "bg-emerald-400" : cat.score >= 50 ? "bg-amber-400" : "bg-red-400"}`} style={{ width: `${cat.score}%` }} />
                 </div>
-                <p className="text-[11px] text-[#23282e] leading-relaxed mb-2.5">{cat.feedback}</p>
+                <p className="text-[11px] text-[#1a1e24] leading-relaxed mb-2.5">{cat.feedback}</p>
                 {cat.fixes.length > 0 && (
                   <ul className="space-y-1">
                     {cat.fixes.map((fix, i) => (
@@ -6287,7 +6287,7 @@ function OutreachDraftSection() {
           </div>
           <div>
             <p className="text-sm font-bold text-[#1A2B4A]">Targeted Outreach</p>
-            <p className="text-xs text-[#23282e] mt-0.5 leading-relaxed">Reference firm-specific activity — a capital raise, new mandate, or expansion — and connect your background directly to the context. Anchoring outreach to a signal improves response rates and gives you a credible reason to reach out.</p>
+            <p className="text-xs text-[#1a1e24] mt-0.5 leading-relaxed">Reference firm-specific activity — a capital raise, new mandate, or expansion — and connect your background directly to the context. Anchoring outreach to a signal improves response rates and gives you a credible reason to reach out.</p>
           </div>
         </div>
       </div>
@@ -6305,7 +6305,7 @@ function OutreachDraftSection() {
           <div className="flex flex-wrap gap-1.5 mt-2">
             {firmSuggestions.slice(0, 8).map(f => (
               <button key={f} onClick={() => setFirm(f)}
-                className="text-[11px] px-2 py-0.5 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-500 transition-colors">
+                className="text-[11px] px-2 py-0.5 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700 transition-colors">
                 {f}
               </button>
             ))}
@@ -6328,7 +6328,7 @@ function OutreachDraftSection() {
 
         <div>
           <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">
-            Recent signal or news <span className="text-gray-400 font-normal">(optional but strongly recommended)</span>
+            Recent signal or news <span className="text-gray-600 font-normal">(optional but strongly recommended)</span>
           </label>
           <textarea
             value={signal}
@@ -6337,11 +6337,11 @@ function OutreachDraftSection() {
             placeholder="Paste a recent press release, funding announcement, expansion news, or any signal about this firm. e.g. 'Ares Management announced a $3.7B first close on its new direct lending fund targeting European mid-market...'"
             className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
           />
-          <p className="text-[11px] text-gray-400 mt-1">Tip: use Hiring Watch or Market Pulse signals, or paste from the firm's newsroom / press release page</p>
+          <p className="text-[11px] text-gray-600 mt-1">Tip: use Hiring Watch or Market Pulse signals, or paste from the firm's newsroom / press release page</p>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target role type <span className="text-gray-400 font-normal">(optional)</span></label>
+          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target role type <span className="text-gray-600 font-normal">(optional)</span></label>
           <input
             value={targetRole}
             onChange={e => setTargetRole(e.target.value)}
@@ -6385,7 +6385,7 @@ function OutreachDraftSection() {
           {/* Subject */}
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Subject line</span>
+              <span className="text-[11px] font-semibold text-gray-600 uppercase tracking-wider">Subject line</span>
             </div>
             <p className="px-4 py-3 text-sm font-semibold text-[#191c1e]">{result.subject}</p>
           </div>
@@ -6393,31 +6393,31 @@ function OutreachDraftSection() {
           {/* Message body */}
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Message body</span>
+              <span className="text-[11px] font-semibold text-gray-600 uppercase tracking-wider">Message body</span>
             </div>
-            <p className="px-4 py-4 text-sm text-[#23282e] leading-relaxed whitespace-pre-line">{result.message}</p>
+            <p className="px-4 py-4 text-sm text-[#1a1e24] leading-relaxed whitespace-pre-line">{result.message}</p>
           </div>
 
           {/* Follow-up */}
           <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
             <p className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Follow-up (5–7 days if no reply)</p>
-            <p className="text-sm text-[#23282e] leading-relaxed">{result.followUp}</p>
+            <p className="text-sm text-[#1a1e24] leading-relaxed">{result.followUp}</p>
           </div>
 
           {/* Timing + Why it works */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
               <p className="text-[11px] font-bold text-sky-700 uppercase tracking-wider mb-1">Timing</p>
-              <p className="text-xs text-[#23282e] leading-relaxed">{result.timingNote}</p>
+              <p className="text-xs text-[#1a1e24] leading-relaxed">{result.timingNote}</p>
             </div>
             <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
               <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">Why this works</p>
-              <p className="text-xs text-[#23282e] leading-relaxed">{result.whyItWorks}</p>
+              <p className="text-xs text-[#1a1e24] leading-relaxed">{result.whyItWorks}</p>
             </div>
           </div>
 
           <button onClick={() => { setResult(null); setFirm(""); setBackground(""); setSignal(""); setTargetRole(""); }}
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+            className="text-xs text-gray-600 hover:text-gray-600 transition-colors">
             ← Start over
           </button>
         </div>
@@ -6702,7 +6702,7 @@ function CapitalCard({ signal, meta, aum }: {
           {signal.openFrontOffice > 0 && (
             <span className="text-xs font-bold text-emerald-600">{signal.openFrontOffice} open</span>
           )}
-          {amt && <span className="text-[10px] text-[#3d444d]">{fmt(amt)} raised</span>}
+          {amt && <span className="text-[10px] text-[#2b3138]">{fmt(amt)} raised</span>}
         </div>
       </div>
 
@@ -6719,22 +6719,22 @@ function CapitalCard({ signal, meta, aum }: {
 
       {signal.filing && (
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] text-[#3d444d]">Form D · {signal.filing.daysSinceFiling}d ago</span>
+          <span className="text-[10px] text-[#2b3138]">Form D · {signal.filing.daysSinceFiling}d ago</span>
           {signal.filing.offeringStatus === "open" && (
             <span className="text-[9px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded">In market</span>
           )}
           {signal.filing.offeringStatus === "closed" && (
-            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-gray-50 text-gray-500 border border-gray-200 rounded">Closed</span>
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-gray-50 text-gray-700 border border-gray-200 rounded">Closed</span>
           )}
         </div>
       )}
-      <p className="text-[11px] text-[#23282e] leading-relaxed">{signal.note}</p>
+      <p className="text-[11px] text-[#1a1e24] leading-relaxed">{signal.note}</p>
       <div className="flex items-center gap-2 mt-2.5">
-        <span className="text-[10px] text-gray-400 font-medium">Signal</span>
+        <span className="text-[10px] text-gray-600 font-medium">Signal</span>
         <div className="h-1.5 flex-1 bg-gray-100 rounded-full overflow-hidden">
           <div className={`h-full rounded-full transition-all ${signal.strength >= 70 ? "bg-emerald-400" : signal.strength >= 45 ? "bg-amber-400" : "bg-sky-300"}`} style={{ width: `${signal.strength}%` }} />
         </div>
-        <span className="text-[10px] font-bold text-gray-500">{signal.strength}</span>
+        <span className="text-[10px] font-bold text-gray-700">{signal.strength}</span>
       </div>
     </div>
   );
@@ -6757,13 +6757,13 @@ function MiniBar({ label, count, total, color }: { label: string; count: number;
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
     <div className="flex items-center gap-2.5">
-      <span className="w-36 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight truncate">{label}</span>
+      <span className="w-36 text-[11px] text-right text-gray-700 flex-shrink-0 leading-tight truncate">{label}</span>
       <div className="flex-1 bg-gray-100 rounded overflow-hidden">
         <div style={{ width: `${Math.max(pct, 2)}%`, background: color }} className="h-5 rounded transition-all flex items-center justify-end px-1.5">
           <span className="text-white text-[10px] font-bold">{count}</span>
         </div>
       </div>
-      <span className="text-[10px] text-gray-400 w-8 text-right flex-shrink-0">{pct}%</span>
+      <span className="text-[10px] text-gray-600 w-8 text-right flex-shrink-0">{pct}%</span>
     </div>
   );
 }
@@ -6812,7 +6812,7 @@ function RecruitersSection() {
       {/* Header */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <p className="text-sm font-bold text-[#191c1e] mb-1">Buyside Headhunters & Recruiters</p>
-        <p className="text-xs text-[#3d444d] leading-relaxed">
+        <p className="text-xs text-[#2b3138] leading-relaxed">
           Most senior buyside roles are never posted publicly — they're filled through relationships with specialist recruiters.
           The firms below dominate placement across hedge funds, PE, and asset management. Proactively register with
           the relevant ones <strong className="text-[#191c1e]">before</strong> you need them.
@@ -6826,7 +6826,7 @@ function RecruitersSection() {
           ]).map(t => (
             <div key={t.tip} className="bg-gray-50 border border-gray-100 rounded-lg p-3">
               <p className="text-[11px] font-bold text-[#191c1e] mb-0.5">{t.tip}</p>
-              <p className="text-[10px] text-gray-500 leading-relaxed">{t.desc}</p>
+              <p className="text-[10px] text-gray-700 leading-relaxed">{t.desc}</p>
             </div>
           ))}
         </div>
@@ -6864,10 +6864,10 @@ function RecruitersSection() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <p className="text-sm font-bold text-[#191c1e]">{h.name}</p>
-                  <span className="text-[10px] text-gray-400 border border-gray-200 rounded px-1.5 py-0.5">{h.levels}</span>
-                  <span className="text-[10px] text-gray-400 border border-gray-100 bg-gray-50 rounded px-1.5 py-0.5">{h.geo}</span>
+                  <span className="text-[10px] text-gray-600 border border-gray-200 rounded px-1.5 py-0.5">{h.levels}</span>
+                  <span className="text-[10px] text-gray-600 border border-gray-100 bg-gray-50 rounded px-1.5 py-0.5">{h.geo}</span>
                 </div>
-                <p className="text-[11px] text-[#23282e] leading-relaxed">{h.focus}</p>
+                <p className="text-[11px] text-[#1a1e24] leading-relaxed">{h.focus}</p>
                 <a href={h.website} target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] transition-colors">
                   <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -6881,7 +6881,7 @@ function RecruitersSection() {
         })}
       </div>
 
-      <p className="text-[10px] text-gray-400 italic text-center pt-2">
+      <p className="text-[10px] text-gray-600 italic text-center pt-2">
         Headhunter coverage and specialties can shift over time. Treat this as a starting point and verify current focus directly.
       </p>
     </div>
@@ -6933,27 +6933,27 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
   }, [jobs]);
 
   if (loading) return (
-    <div className="flex items-center justify-center py-16 text-gray-400 text-sm gap-2">
+    <div className="flex items-center justify-center py-16 text-gray-600 text-sm gap-2">
       <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/></svg>
       Loading job data…
     </div>
   );
-  if (!stats) return <div className="text-center py-12 text-gray-400 text-sm">No job data available yet.</div>;
+  if (!stats) return <div className="text-center py-12 text-gray-600 text-sm">No job data available yet.</div>;
 
   const catColors: Record<string, string> = {
     "Private Credit": "#0F6E56", "Public Credit": "#2D6A8F", "Investment Banking": "#1A2B4A",
-    "Equity Research": "#7B5EA7", "Quant": "#D4A84B", "IR / Ops": "#6B8F71", "Other Finance Roles": "#5b6472",
+    "Equity Research": "#7B5EA7", "Quant": "#D4A84B", "IR / Ops": "#6B8F71", "Other Finance Roles": "#454e5a",
   };
   const tagColors: Record<string, string> = {
     "In-market raise": "#C84B31", "Post-raise build-out": "#0F6E56",
-    "Fund scaling": "#2D6A8F", "New fund": "#7B5EA7", "Unknown": "#5b6472",
+    "Fund scaling": "#2D6A8F", "New fund": "#7B5EA7", "Unknown": "#454e5a",
   };
   const seniorityColors: Record<string, string> = {
     "MD": "#1A2B4A", "Partner / Head": "#0F6E56", "Director": "#2D6A8F",
-    "VP": "#7B5EA7", "Associate": "#D4A84B", "Analyst": "#6B8F71", "Other": "#5b6472",
+    "VP": "#7B5EA7", "Associate": "#D4A84B", "Analyst": "#6B8F71", "Other": "#454e5a",
   };
   const recencyColors: Record<string, string> = {
-    "Last 7d": "#0F6E56", "8–14d": "#2D6A8F", "15–30d": "#D4A84B", "30d+": "#5b6472",
+    "Last 7d": "#0F6E56", "8–14d": "#2D6A8F", "15–30d": "#D4A84B", "30d+": "#454e5a",
   };
 
   return (
@@ -6962,7 +6962,7 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
       <div className="flex items-center gap-3">
         <div>
           <h2 className="text-base font-bold text-[#191c1e]">Hiring Market Trends</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Based on {stats.total} front-office roles currently tracked · refreshes daily</p>
+          <p className="text-[11px] text-gray-600 mt-0.5">Based on {stats.total} front-office roles currently tracked · refreshes daily</p>
         </div>
       </div>
 
@@ -6970,10 +6970,10 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         {/* By Category */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
           <p className="text-xs font-bold text-[#191c1e] mb-0.5">Roles by Strategy</p>
-          <p className="text-[11px] text-gray-400 mb-4">Where hiring volume is concentrated</p>
+          <p className="text-[11px] text-gray-600 mb-4">Where hiring volume is concentrated</p>
           <div className="space-y-2">
             {Object.entries(stats.byCat).sort((a, b) => b[1] - a[1]).map(([cat, cnt]) => (
-              <MiniBar key={cat} label={cat} count={cnt} total={stats.total} color={catColors[cat] ?? "#5b6472"} />
+              <MiniBar key={cat} label={cat} count={cnt} total={stats.total} color={catColors[cat] ?? "#454e5a"} />
             ))}
           </div>
         </div>
@@ -6981,7 +6981,7 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         {/* By Seniority */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
           <p className="text-xs font-bold text-[#191c1e] mb-0.5">Role Seniority Mix</p>
-          <p className="text-[11px] text-gray-400 mb-4">Level distribution across all open roles</p>
+          <p className="text-[11px] text-gray-600 mb-4">Level distribution across all open roles</p>
           <div className="space-y-2">
             {(["Analyst","Associate","VP","Director","MD","Partner / Head","Other"] as const).map(lvl => {
               const cnt = stats.bySeniority[lvl] || 0;
@@ -6994,11 +6994,11 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         {/* Top Hiring Firms */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
           <p className="text-xs font-bold text-[#191c1e] mb-0.5">Most Active Hirers</p>
-          <p className="text-[11px] text-gray-400 mb-4">Firms with the most open roles right now</p>
+          <p className="text-[11px] text-gray-600 mb-4">Firms with the most open roles right now</p>
           <div className="space-y-2">
             {stats.topFirms.map(([firm, cnt], i) => (
               <div key={firm} className="flex items-center gap-2.5">
-                <span className="text-[10px] text-gray-300 font-bold w-4 text-right flex-shrink-0">{i + 1}</span>
+                <span className="text-[10px] text-gray-500 font-bold w-4 text-right flex-shrink-0">{i + 1}</span>
                 <span className="flex-1 text-[11px] text-gray-600 truncate">{firm}</span>
                 <div className="flex items-center gap-1.5">
                   <div className="flex gap-0.5">
@@ -7006,7 +7006,7 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
                       <span key={k} className="w-1.5 h-4 rounded-sm bg-emerald-400 opacity-80" style={{ opacity: 0.4 + (k / Math.min(cnt, 8)) * 0.6 }} />
                     ))}
                   </div>
-                  <span className="text-[10px] text-gray-400 w-5 text-right">{cnt}</span>
+                  <span className="text-[10px] text-gray-600 w-5 text-right">{cnt}</span>
                 </div>
               </div>
             ))}
@@ -7016,14 +7016,14 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         {/* By Recency */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
           <p className="text-xs font-bold text-[#191c1e] mb-0.5">Posting Recency</p>
-          <p className="text-[11px] text-gray-400 mb-4">When these roles were posted</p>
+          <p className="text-[11px] text-gray-600 mb-4">When these roles were posted</p>
           <div className="space-y-2">
             {Object.entries(stats.rec).map(([label, cnt]) => (
               <MiniBar key={label} label={label} count={cnt} total={stats.total} color={recencyColors[label]} />
             ))}
           </div>
           <div className="mt-4 pt-3 border-t border-gray-50">
-            <p className="text-[11px] text-gray-400">
+            <p className="text-[11px] text-gray-600">
               <span className="font-semibold text-emerald-600">{stats.rec["Last 7d"]}</span> roles posted in the last week
               {stats.rec["Last 7d"] > stats.rec["8–14d"] ? " — above prior week pace" : " — below prior week pace"}
             </p>
@@ -7033,10 +7033,10 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         {/* By Hiring Phase */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
           <p className="text-xs font-bold text-[#191c1e] mb-0.5">Hiring Phase Signal</p>
-          <p className="text-[11px] text-gray-400 mb-4">What stage of growth is driving hiring</p>
+          <p className="text-[11px] text-gray-600 mb-4">What stage of growth is driving hiring</p>
           <div className="space-y-2">
             {Object.entries(stats.byTag).sort((a, b) => b[1] - a[1]).map(([tag, cnt]) => (
-              <MiniBar key={tag} label={tag} count={cnt} total={stats.total} color={tagColors[tag] ?? "#5b6472"} />
+              <MiniBar key={tag} label={tag} count={cnt} total={stats.total} color={tagColors[tag] ?? "#454e5a"} />
             ))}
           </div>
         </div>
@@ -7203,17 +7203,17 @@ function HiringSection({
       <div className="space-y-2">
         {/* Row 1: all view tabs, same style, scrollable on mobile */}
         <div className="flex overflow-x-auto gap-1 pb-0.5" style={{scrollbarWidth:"none"}}>
-          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1.5" y="4" width="11" height="8.5" rx="1.2"/><path d="M4.5 4V2.5a2.5 2.5 0 015 0V4"/></svg>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="4" x2="12" y2="4"/><line x1="2" y1="7" x2="9" y2="7"/><line x1="2" y1="10" x2="11" y2="10"/></svg>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
               <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><path d="M1 12c0-2.2 2.2-4 5-4"/><path d="M10 8.5l1.5 1.5 2.5-2.5"/></svg>
               For You
             </button>
@@ -7265,13 +7265,13 @@ function HiringSection({
               </button>
               <button onClick={() => setCompact(c => !c)}
                 title={compact ? "Card view" : "Compact view"}
-                className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
+                className={`p-1.5 rounded-lg border text-gray-600 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
                 {compact
                   ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="3" y="14" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="14" width="7" height="7" strokeWidth="2" rx="1"/></svg>
                   : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
                 }
               </button>
-              <span className="text-xs text-gray-400 ml-auto">
+              <span className="text-xs text-gray-600 ml-auto">
                 {loading ? "Loading…" : `${allRegistryProfiles.length} firms · ${earlySignalFirms.length} signals`}
               </span>
             </div>
@@ -7296,7 +7296,7 @@ function HiringSection({
           {!userProfile && (
             <div className="bg-gray-50 border border-gray-200 rounded-xl px-5 py-8 text-center">
               <p className="text-sm font-semibold text-gray-600 mb-1">Set your profile to see matched roles</p>
-              <p className="text-xs text-gray-400 mb-4">Describe your background and we'll rank current openings by fit.</p>
+              <p className="text-xs text-gray-600 mb-4">Describe your background and we'll rank current openings by fit.</p>
               <button onClick={() => { setShowProfilePanel(true); setView("firms"); }}
                 className="px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] transition-colors">
                 Set up profile
@@ -7304,21 +7304,21 @@ function HiringSection({
             </div>
           )}
           {matchLoading && (
-            <div className="flex items-center gap-2 text-xs text-gray-400 py-6 justify-center">
+            <div className="flex items-center gap-2 text-xs text-gray-600 py-6 justify-center">
               <div className="w-4 h-4 border-2 border-gray-200 border-t-[#1A2B4A] rounded-full animate-spin" />
               Matching roles to your profile…
             </div>
           )}
           {matchError && <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{matchError}</p>}
           {matchResults !== null && matchResults.length === 0 && (
-            <p className="text-sm text-gray-400 text-center py-8">No strong matches found — try updating your profile with more detail.</p>
+            <p className="text-sm text-gray-600 text-center py-8">No strong matches found — try updating your profile with more detail.</p>
           )}
           {matchResults && matchResults.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-[#191c1e]">Matched roles</p>
                 <span className="text-[10px] bg-[#1A2B4A]/10 text-[#1A2B4A] font-bold px-1.5 py-0.5 rounded">{matchResults.length}</span>
-                <button onClick={runJobMatch} className="ml-auto text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Refresh</button>
+                <button onClick={runJobMatch} className="ml-auto text-[11px] text-gray-600 hover:text-gray-600 transition-colors">Refresh</button>
               </div>
               {matchResults.map((m, i) => (
                 <a key={m.id} href={m.url || "#"} target="_blank" rel="noopener noreferrer"
@@ -7333,8 +7333,8 @@ function HiringSection({
                         {m.score}/10
                       </span>
                     </div>
-                    <p className="text-xs text-[#3d444d]">{m.firm} · {m.location} · {m.daysAgo}d ago</p>
-                    <p className="text-[11px] text-[#23282e] mt-1 italic">{m.reason}</p>
+                    <p className="text-xs text-[#2b3138]">{m.firm} · {m.location} · {m.daysAgo}d ago</p>
+                    <p className="text-[11px] text-[#1a1e24] mt-1 italic">{m.reason}</p>
                   </div>
                 </a>
               ))}
@@ -7359,7 +7359,7 @@ function HiringSection({
               { id: "pipeline", label: "Pipeline" },
             ] as const).map(t => (
               <button key={t.id} onClick={() => setFundSubTab(t.id)}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${fundSubTab === t.id ? "bg-white text-emerald-800 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${fundSubTab === t.id ? "bg-white text-emerald-800 shadow-sm" : "text-gray-700 hover:text-gray-800"}`}>
                 {t.label}
               </button>
             ))}
@@ -7430,10 +7430,10 @@ function HiringSection({
               <div className="flex items-center gap-2 mb-3">
                 <h2 className="text-sm font-bold text-[#191c1e]">Hiring Now</h2>
                 <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
-                <span className="text-[10px] text-[#3d444d]">{hiringGroups.length} firms</span>
+                <span className="text-[10px] text-[#2b3138]">{hiringGroups.length} firms</span>
               </div>
               {allJobs.length === 0 ? (
-                <p className="text-sm text-gray-400 py-4">No open roles found yet — check back soon.</p>
+                <p className="text-sm text-gray-600 py-4">No open roles found yet — check back soon.</p>
               ) : (
                 <>
                   <div className="space-y-2">
@@ -7472,9 +7472,9 @@ function HiringSection({
                                   <p className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors leading-snug">{job.role}</p>
                                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                     <SeniorityBadge seniority={job.classification.seniority} frontOffice={job.classification.frontOffice} />
-                                    {job.location && <span className="text-xs text-gray-400">{job.location}</span>}
+                                    {job.location && <span className="text-xs text-gray-600">{job.location}</span>}
                                     {job.location && <span className="text-gray-200">·</span>}
-                                    <span className="text-xs text-gray-400">{job.daysAgo}d ago</span>
+                                    <span className="text-xs text-gray-600">{job.daysAgo}d ago</span>
                                   </div>
                                 </div>
                                 <span className="text-xs font-bold text-[#396477] flex-shrink-0 group-hover:underline">Apply →</span>
@@ -7504,14 +7504,14 @@ function HiringSection({
               <section>
                 <div className="flex items-center gap-2 mb-2">
                   <h2 className="text-sm font-bold text-[#191c1e]">On Radar</h2>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{radarFirms.length}</span>
-                  <span className="text-[10px] text-gray-400">Tracked · no current openings</span>
+                  <span className="text-[10px] bg-gray-100 text-gray-700 font-bold px-1.5 py-0.5 rounded">{radarFirms.length}</span>
+                  <span className="text-[10px] text-gray-600">Tracked · no current openings</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {radarFirms.map(f => (
                     <div key={f.id} className="flex items-center gap-1.5 bg-white border border-[#c1c7cc]/40 rounded-lg px-2.5 py-1.5 hover:border-[#396477]/30 transition-colors">
                       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.signal === "raising" ? "bg-amber-400" : "bg-gray-300"}`} />
-                      <span className="text-xs font-medium text-[#23282e]">{f.name}</span>
+                      <span className="text-xs font-medium text-[#1a1e24]">{f.name}</span>
                       {f.filing && <span className="text-[10px] text-amber-600 font-medium">↑{f.filing.daysSinceFiling}d</span>}
                       {f.careersUrl && (
                         <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
@@ -7545,13 +7545,13 @@ function HiringSection({
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
                     <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#3d444d]">
-                    <span className="font-medium text-[#23282e]">{r.firm}</span>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#2b3138]">
+                    <span className="font-medium text-[#1a1e24]">{r.firm}</span>
                     <span className="hidden xs:inline">·</span><span>{r.location}</span>
                     <span>·</span><span>{r.daysAgo}d ago</span>
                   </div>
                   {r.classification.signal && (
-                    <p className="text-[11px] text-[#3d444d] italic mt-1 leading-relaxed">{r.classification.signal}</p>
+                    <p className="text-[11px] text-[#2b3138] italic mt-1 leading-relaxed">{r.classification.signal}</p>
                   )}
                 </div>
               </a>
@@ -7568,7 +7568,7 @@ function HiringSection({
                 <div className="flex items-center gap-2 mb-3">
                   <h3 className="text-sm font-bold text-[#191c1e]">Senior Roles</h3>
                   <span className="text-[10px] bg-violet-100 text-violet-700 font-bold px-1.5 py-0.5 rounded">{seniorRoles.length}</span>
-                  <span className="text-xs text-[#3d444d]">VP · Director · MD · Partner</span>
+                  <span className="text-xs text-[#2b3138]">VP · Director · MD · Partner</span>
                 </div>
                 <RoleList roles={seniorRoles} />
               </section>
@@ -7578,7 +7578,7 @@ function HiringSection({
                 <div className="flex items-center gap-2 mb-3">
                   <h3 className="text-sm font-bold text-[#191c1e]">Experienced Junior Roles</h3>
                   <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{juniorRoles.length}</span>
-                  <span className="text-xs text-[#3d444d]">Analyst · Associate</span>
+                  <span className="text-xs text-[#2b3138]">Analyst · Associate</span>
                 </div>
                 <RoleList roles={juniorRoles} />
               </section>
@@ -7588,7 +7588,7 @@ function HiringSection({
                 <div className="flex items-center gap-2 mb-3">
                   <h3 className="text-sm font-bold text-[#191c1e]">Internships</h3>
                   <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{internRoles.length}</span>
-                  <span className="text-xs text-[#3d444d]">Summer · Co-op · Intern</span>
+                  <span className="text-xs text-[#2b3138]">Summer · Co-op · Intern</span>
                 </div>
                 <RoleList roles={internRoles} />
               </section>
@@ -7598,7 +7598,7 @@ function HiringSection({
       })()}
 
       {(signals.length > 0 || !loading) && (
-        <p className="text-center text-xs text-gray-400 py-1">
+        <p className="text-center text-xs text-gray-600 py-1">
           {FIRM_REGISTRY.length} firms monitored · Updated continuously
         </p>
       )}
@@ -7642,13 +7642,13 @@ function FirmNewsBar({ firmName }: { firmName: string }) {
     <div ref={ref} className="mb-3">
       {items.length > 0 && (
         <div className="space-y-1">
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Recent signals</p>
+          <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Recent signals</p>
           {items.slice(0, 2).map((item, i) => (
             <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
               className="flex items-start gap-2 group rounded-lg px-2.5 py-1.5 hover:bg-amber-50/60 transition-colors border border-transparent hover:border-amber-100">
               <span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0 mt-1.5" />
-              <span className="text-[11px] text-[#23282e] group-hover:text-[#396477] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
-              <span className="text-[10px] text-gray-300 flex-shrink-0 mt-0.5 whitespace-nowrap">{item.daysAgo}d</span>
+              <span className="text-[11px] text-[#1a1e24] group-hover:text-[#396477] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
+              <span className="text-[10px] text-gray-500 flex-shrink-0 mt-0.5 whitespace-nowrap">{item.daysAgo}d</span>
             </a>
           ))}
         </div>
@@ -7678,7 +7678,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
         <span className="text-xs text-[#396477] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
         {filing && (
           <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-            className="text-[10px] font-semibold text-[#3d444d] hover:text-[#396477] transition-colors flex-shrink-0">
+            className="text-[10px] font-semibold text-[#2b3138] hover:text-[#396477] transition-colors flex-shrink-0">
             signal ↗
           </button>
         )}
@@ -7713,7 +7713,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
 
       {/* Signal note */}
       {signalNote && (
-        <p className="text-[12px] text-[#23282e] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
+        <p className="text-[12px] text-[#1a1e24] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
           {signalNote}
         </p>
       )}
@@ -7726,9 +7726,9 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
               className="flex items-center justify-between gap-2 group">
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#23282e] group-hover:text-[#396477] truncate transition-colors">{r.role}</span>
+                <span className="text-xs text-[#1a1e24] group-hover:text-[#396477] truncate transition-colors">{r.role}</span>
               </div>
-              <span className="text-[10px] text-[#3d444d] flex-shrink-0">{r.daysAgo}d</span>
+              <span className="text-[10px] text-[#2b3138] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
           {allFrontOfficeRoles.length > 4 && (
@@ -7793,13 +7793,13 @@ function IntelSection() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => setView("firms")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#23282e] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#1a1e24] hover:bg-[#e8eaec]"}`}
         >
           Firms ({allFirms.length})
         </button>
         <button
           onClick={() => setView("roles")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#23282e] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#1a1e24] hover:bg-[#e8eaec]"}`}
         >
           All Roles ({data.allRoles.filter((r) => r.classification.frontOffice).length})
         </button>
@@ -7814,7 +7814,7 @@ function IntelSection() {
                 <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
                   {data.hiringPush.length}
                 </span>
-                <span className="text-xs text-[#3d444d]">3+ roles open</span>
+                <span className="text-xs text-[#2b3138]">3+ roles open</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.hiringPush.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7829,7 +7829,7 @@ function IntelSection() {
                 <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
                   {data.postRaise.length}
                 </span>
-                <span className="text-xs text-[#3d444d]">Known firms with open roles</span>
+                <span className="text-xs text-[#2b3138]">Known firms with open roles</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.postRaise.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7841,10 +7841,10 @@ function IntelSection() {
             <section>
               <div className="flex items-center gap-2 mb-3">
                 <h2 className="text-sm font-bold text-[#191c1e]">Strategy Buildouts</h2>
-                <span className="text-[10px] bg-[#e1ddf2]/70 text-[#3d444d] font-bold px-1.5 py-0.5 rounded">
+                <span className="text-[10px] bg-[#e1ddf2]/70 text-[#2b3138] font-bold px-1.5 py-0.5 rounded">
                   {data.strategyBuilds.length}
                 </span>
-                <span className="text-xs text-[#3d444d]">Hiring into new asset class</span>
+                <span className="text-xs text-[#2b3138]">Hiring into new asset class</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.strategyBuilds.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7853,7 +7853,7 @@ function IntelSection() {
           )}
 
           {allFirms.length === 0 && (
-            <div className="text-center py-16 text-gray-400">
+            <div className="text-center py-16 text-gray-600">
               <div className="text-3xl mb-3">🔍</div>
               <p className="font-semibold text-gray-700 text-sm">No firm signals found in the last 30 days</p>
               <p className="text-xs mt-1.5 max-w-xs mx-auto">Career pages are checked every 30 minutes. Check back later or expand the date range.</p>
@@ -7869,7 +7869,7 @@ function IntelSection() {
               <section>
                 <div className="flex items-center gap-2 mb-3">
                   <h2 className="text-sm font-bold text-[#191c1e]">Monitored — No Roles Posted Yet</h2>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{quiet.length}</span>
+                  <span className="text-[10px] bg-gray-100 text-gray-700 font-bold px-1.5 py-0.5 rounded">{quiet.length}</span>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                   {quiet.map((f) => (
@@ -7877,17 +7877,17 @@ function IntelSection() {
                       <div>
                         <div className="flex items-center gap-2 mb-0.5">
                           <TierBadge tier={f.tier} />
-                          <span className="font-semibold text-sm text-[#23282e]">{f.name}</span>
+                          <span className="font-semibold text-sm text-[#1a1e24]">{f.name}</span>
                         </div>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
                         </div>
                       </div>
-                      <span className="text-[10px] text-[#3d444d] whitespace-nowrap flex-shrink-0">No open roles</span>
+                      <span className="text-[10px] text-[#2b3138] whitespace-nowrap flex-shrink-0">No open roles</span>
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-[#3d444d] mt-3">
+                <p className="text-xs text-[#2b3138] mt-3">
                   These firms are on our watch list. No roles posted in the last 45 days — consider reaching out directly or monitoring their careers page.
                 </p>
               </section>
@@ -7916,15 +7916,15 @@ function IntelSection() {
                       {r.role}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[#3d444d]">
-                    <span className="font-medium text-[#23282e]">{r.firm}</span>
+                  <div className="flex items-center gap-2 text-xs text-[#2b3138]">
+                    <span className="font-medium text-[#1a1e24]">{r.firm}</span>
                     <span>·</span>
                     <span>{r.location}</span>
                     <span>·</span>
                     <span>{r.daysAgo}d ago</span>
                   </div>
                   {r.classification.signal && (
-                    <p className="text-[11px] text-[#3d444d] italic mt-1 leading-relaxed">
+                    <p className="text-[11px] text-[#2b3138] italic mt-1 leading-relaxed">
                       {r.classification.signal}
                     </p>
                   )}
@@ -7937,7 +7937,7 @@ function IntelSection() {
         </div>
       )}
 
-      <p className="text-[11px] text-[#3d444d] text-center pt-2">
+      <p className="text-[11px] text-[#2b3138] text-center pt-2">
         Grouped by firm · Updated every 30 min
       </p>
     </div>
@@ -8042,7 +8042,7 @@ function OnluTableSection() {
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
             <h2 className="text-3xl font-bold text-[#396477]">Onlu Table</h2>
-            <p className="text-lg text-[#3d444d] leading-relaxed">
+            <p className="text-lg text-[#2b3138] leading-relaxed">
               Small-group coffee chats in NYC. No agenda.
             </p>
           </div>
@@ -8060,8 +8060,8 @@ function OnluTableSection() {
                       </span>
                     </div>
                     <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
-                    <p className="text-xs text-[#3d444d]">{s.time} · {s.location}</p>
-                    <p className="text-sm text-[#23282e] mt-2 leading-relaxed">{s.description}</p>
+                    <p className="text-xs text-[#2b3138]">{s.time} · {s.location}</p>
+                    <p className="text-sm text-[#1a1e24] mt-2 leading-relaxed">{s.description}</p>
                   </div>
                   <button
                     onClick={() => { setSelected(s); setSubmitted(false); }}
@@ -8072,7 +8072,7 @@ function OnluTableSection() {
                   </button>
                 </div>
               ))}
-              <p className="text-[11px] text-[#3d444d] text-center pt-1">
+              <p className="text-[11px] text-[#2b3138] text-center pt-1">
                 Sessions added every few weeks · NYC only for now · All levels welcome
               </p>
             </div>
@@ -8083,47 +8083,47 @@ function OnluTableSection() {
         <div className="border border-gray-200 rounded-2xl p-6 bg-white space-y-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-[#3d444d]">{selected.date} · {selected.time}</p>
+              <p className="text-xs text-[#2b3138]">{selected.date} · {selected.time}</p>
               <p className="text-base font-semibold text-[#1A2B4A] mt-0.5">{selected.theme} — {selected.location}</p>
             </div>
-            <button onClick={reset} className="text-xs text-[#3d444d] hover:text-[#1A2B4A] transition-colors">← Back</button>
+            <button onClick={reset} className="text-xs text-[#2b3138] hover:text-[#1A2B4A] transition-colors">← Back</button>
           </div>
 
           <form onSubmit={submit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-[#23282e] mb-1">Full name *</label>
+                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Full name *</label>
                 <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                   placeholder="Jane Smith"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#23282e] mb-1">Email *</label>
+                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Email *</label>
                 <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   placeholder="jane@example.com"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#23282e] mb-1">Firm *</label>
+                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Firm *</label>
                 <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
                   placeholder="Ares Management"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#23282e] mb-1">Role *</label>
+                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Role *</label>
                 <input required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
                   placeholder="Credit Analyst"
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1">LinkedIn URL <span className="text-[#3d444d] font-normal">(optional)</span></label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1">LinkedIn URL <span className="text-[#2b3138] font-normal">(optional)</span></label>
               <input value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))}
                 placeholder="linkedin.com/in/janesmith"
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1">What do you want to get out of this? <span className="text-[#3d444d] font-normal">(optional)</span></label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1">What do you want to get out of this? <span className="text-[#2b3138] font-normal">(optional)</span></label>
               <textarea rows={3} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
                 placeholder="e.g. Looking to connect with peers in private credit, compare notes on the market…"
                 className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
@@ -8133,7 +8133,7 @@ function OnluTableSection() {
               className="w-full py-3 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
               {submitting ? "Submitting…" : "Request My Seat →"}
             </button>
-            <p className="text-[11px] text-[#3d444d] text-center">
+            <p className="text-[11px] text-[#2b3138] text-center">
               We&apos;ll confirm your spot by email within 24 hours. Seats are limited to 8 per session.
             </p>
           </form>
@@ -8145,7 +8145,7 @@ function OnluTableSection() {
         <div className="border border-emerald-200 rounded-2xl p-8 bg-emerald-50 text-center space-y-3">
           <div className="text-2xl">☕</div>
           <p className="text-base font-semibold text-[#1A2B4A]">You&apos;re on the list</p>
-          <p className="text-sm text-[#23282e]">
+          <p className="text-sm text-[#1a1e24]">
             We&apos;ll send a confirmation to <strong>{form.email}</strong> within 24 hours with location details and who else is joining.
           </p>
           <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
@@ -8191,7 +8191,7 @@ function ReferralSection() {
     <div className="space-y-5">
       <div>
         <h3 className="text-lg font-bold text-[#1A2B4A] mb-1">Network & Coaching</h3>
-        <p className="text-sm text-[#3d444d] leading-relaxed">
+        <p className="text-sm text-[#2b3138] leading-relaxed">
           Looking for a firm intro, or want to book a coaching session with someone who&apos;s been there? Submit below — we&apos;ll facilitate anonymously.
         </p>
       </div>
@@ -8215,7 +8215,7 @@ function ReferralSection() {
                 className={`flex-1 py-2.5 rounded-xl text-xs font-bold border-2 transition-all ${
                   purpose === v
                     ? v === "coaching" ? "border-violet-400 bg-violet-50 text-violet-700" : "border-[#1A2B4A] bg-[#1A2B4A]/5 text-[#1A2B4A]"
-                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
                 }`}>
                 {label}
               </button>
@@ -8234,7 +8234,7 @@ function ReferralSection() {
                     ? v === "offering"
                       ? isIntro ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-violet-500 bg-violet-50 text-violet-700"
                       : isIntro ? "border-[#396477] bg-[#396477]/5 text-[#396477]" : "border-violet-400 bg-violet-50 text-violet-600"
-                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
                 }`}>
                 {label}
               </button>
@@ -8245,7 +8245,7 @@ function ReferralSection() {
             {isIntro && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-[#23282e] mb-1">
+                  <label className="block text-xs font-medium text-[#1a1e24] mb-1">
                     {type === "seeking" ? "Firm you want an intro to" : "Firm you're at"} <span className="text-red-400">*</span>
                   </label>
                   <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
@@ -8253,7 +8253,7 @@ function ReferralSection() {
                     className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-[#23282e] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
+                  <label className="block text-xs font-medium text-[#1a1e24] mb-1">Role type <span className="text-gray-500 font-normal">(optional)</span></label>
                   <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
                     placeholder="e.g. Credit Analyst, Associate"
                     className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
@@ -8262,7 +8262,7 @@ function ReferralSection() {
             )}
             {!isIntro && (
               <div>
-                <label className="block text-xs font-medium text-[#23282e] mb-1">
+                <label className="block text-xs font-medium text-[#1a1e24] mb-1">
                   {type === "seeking" ? "What are you looking for?" : "What can you coach on?"} <span className="text-red-400">*</span>
                 </label>
                 <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
@@ -8271,7 +8271,7 @@ function ReferralSection() {
               </div>
             )}
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1">
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1">
                 {isIntro
                   ? (type === "seeking" ? "Your background" : "What you can offer")
                   : (type === "seeking" ? "Your background & goals" : "Your experience & availability")
@@ -8289,7 +8289,7 @@ function ReferralSection() {
                 className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#23282e] mb-1">Contact email or LinkedIn <span className="text-red-400">*</span></label>
+              <label className="block text-xs font-medium text-[#1a1e24] mb-1">Contact email or LinkedIn <span className="text-red-400">*</span></label>
               <input value={form.contact} onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
                 placeholder="email or linkedin.com/in/yourprofile"
                 required
@@ -8304,7 +8304,7 @@ function ReferralSection() {
                   ? (type === "seeking" ? "Request intro →" : "Offer intro →")
                   : (type === "seeking" ? "Request coaching →" : "Apply to coach →")}
             </button>
-            <p className="text-[11px] text-gray-400 text-center">
+            <p className="text-[11px] text-gray-600 text-center">
               {isIntro
                 ? "We'll reach out if there's a match."
                 : type === "seeking"

@@ -83,7 +83,7 @@ export default function CoachingPage() {
           </Link>
           <div className="w-px h-4 bg-gray-200" />
           <span className="text-xs font-bold text-[#7c6fcd] uppercase tracking-widest">Coaching</span>
-          <Link href="/" className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">← Platform</Link>
+          <Link href="/" className="ml-auto text-xs text-gray-600 hover:text-gray-600 transition-colors">← Platform</Link>
         </div>
       </div>
 
@@ -97,7 +97,7 @@ export default function CoachingPage() {
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4 text-[#1A2B4A]">
             Get into finance.<br />With someone who&apos;s been there.
           </h1>
-          <p className="text-[#23282e] text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#1a1e24] text-base max-w-xl mx-auto leading-relaxed">
             One-on-one sessions with experienced credit and private equity professionals.
             Resume review, mock interviews, or full recruiting strategy — tailored to where you are right now.
           </p>
@@ -107,7 +107,7 @@ export default function CoachingPage() {
       {/* How it works */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-3xl mx-auto px-5 py-10">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 text-center">How it works</p>
+          <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-6 text-center">How it works</p>
           <div className="grid grid-cols-3 gap-6 text-center">
             {[
               { n: "1", title: "Pick a session", desc: "Choose the format that fits where you are in your search." },
@@ -117,7 +117,7 @@ export default function CoachingPage() {
               <div key={s.n}>
                 <div className="w-8 h-8 rounded-full bg-[#1A2B4A]/10 text-[#1A2B4A] text-sm font-bold flex items-center justify-center mx-auto mb-3">{s.n}</div>
                 <p className="text-sm font-bold text-[#191c1e] mb-1">{s.title}</p>
-                <p className="text-xs text-gray-500 leading-snug">{s.desc}</p>
+                <p className="text-xs text-gray-700 leading-snug">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -126,7 +126,7 @@ export default function CoachingPage() {
 
       {/* Sessions */}
       <div className="max-w-4xl mx-auto px-5 py-14">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-8 text-center">Choose your session</p>
+        <p className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-8 text-center">Choose your session</p>
 
         {error && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-6 text-center">{error}</p>
@@ -144,13 +144,13 @@ export default function CoachingPage() {
                 </div>
               )}
               <div className="mb-4">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{s.duration}</p>
+                <p className="text-xs font-bold text-gray-600 uppercase tracking-wide mb-1">{s.duration}</p>
                 <h2 className="text-base font-bold text-[#191c1e] leading-snug mb-2">{s.label}</h2>
-                <p className="text-xs text-gray-500 leading-relaxed">{s.desc}</p>
+                <p className="text-xs text-gray-700 leading-relaxed">{s.desc}</p>
               </div>
               <ul className="space-y-2 mb-6 flex-1">
                 {s.bullets.map(b => (
-                  <li key={b} className="flex items-start gap-2 text-xs text-[#23282e]">
+                  <li key={b} className="flex items-start gap-2 text-xs text-[#1a1e24]">
                     <svg className="w-3.5 h-3.5 text-[#6aab8e] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l3.5 3.5L13 5" />
                     </svg>
@@ -159,7 +159,7 @@ export default function CoachingPage() {
                 ))}
               </ul>
               <div className="border-t border-gray-100 pt-4">
-                <p className="text-2xl font-bold text-[#191c1e] mb-3">${s.price} <span className="text-sm font-normal text-gray-400">USD</span></p>
+                <p className="text-2xl font-bold text-[#191c1e] mb-3">${s.price} <span className="text-sm font-normal text-gray-600">USD</span></p>
                 <button
                   onClick={() => book(s.type)}
                   disabled={loading !== null}
@@ -223,12 +223,12 @@ export default function CoachingPage() {
             <div key={t.label} className={`rounded-xl border px-4 py-5 ${t.color}`}>
               <div className={`w-9 h-9 rounded-full flex items-center justify-center mx-auto mb-3 ${t.iconBg} ${t.iconColor}`}>{t.icon}</div>
               <p className="text-xs font-bold text-[#191c1e] mb-0.5">{t.label}</p>
-              <p className="text-[11px] text-gray-500">{t.sub}</p>
+              <p className="text-[11px] text-gray-700">{t.sub}</p>
             </div>
           ))}
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-8">
+        <p className="text-center text-xs text-gray-600 mt-8">
           Questions? Email us at <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>
         </p>
       </div>

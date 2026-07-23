@@ -67,12 +67,12 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       </select>
 
       {/* Result count + export */}
-      <span className="ml-auto text-xs text-gray-400">
+      <span className="ml-auto text-xs text-gray-600">
         {loading ? "Searching…" : `${total} fund${total !== 1 ? "s" : ""}`}
       </span>
       <button
         onClick={onExport}
-        className="text-xs text-gray-500 border border-gray-200 rounded-lg px-2.5 py-1.5 hover:border-gray-400 hover:text-gray-700 transition-all bg-white"
+        className="text-xs text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1.5 hover:border-gray-400 hover:text-gray-700 transition-all bg-white"
       >
         Export CSV
       </button>

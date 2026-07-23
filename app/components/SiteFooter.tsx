@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-2">
           <LogoMark size={20} />
-          <span className="text-[#3d444d] text-xs">Onlu · Finance intelligence</span>
+          <span className="text-[#2b3138] text-xs">Onlu · Finance intelligence</span>
         </div>
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
           {[
@@ -24,7 +24,7 @@ export default function SiteFooter() {
             { href: "/terms", label: "Terms" },
             { href: "https://docs.google.com/forms/d/e/1FAIpQLSdy46uVtoHN2cwGicCqeGEbJCiU0yK-oRM66I8vdGnl_orObw/viewform?usp=publish-editor", label: "Share Feedback" },
           ].map(({ href, label }) => (
-            <Link key={label} href={href} className="text-xs text-[#3d444d] hover:text-[#191c1e] transition-colors">
+            <Link key={label} href={href} className="text-xs text-[#2b3138] hover:text-[#191c1e] transition-colors">
               {label}
             </Link>
           ))}

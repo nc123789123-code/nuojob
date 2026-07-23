@@ -12,11 +12,11 @@ export default function TermsPage() {
     <div className="min-h-screen bg-[#f7f9fb] flex flex-col">
       <SiteNav />
       <main className="flex-1 max-w-2xl mx-auto px-5 py-14 w-full">
-        <p className="text-[11px] font-semibold text-[#3d444d] uppercase tracking-widest mb-3">Legal</p>
+        <p className="text-[11px] font-semibold text-[#2b3138] uppercase tracking-widest mb-3">Legal</p>
         <h1 className="text-[#191c1e] text-2xl font-bold tracking-tight mb-2">Terms of Service</h1>
-        <p className="text-xs text-[#3d444d] mb-10">Last updated: April 2026</p>
+        <p className="text-xs text-[#2b3138] mb-10">Last updated: April 2026</p>
 
-        <div className="space-y-8 text-sm text-[#23282e] leading-relaxed">
+        <div className="space-y-8 text-sm text-[#1a1e24] leading-relaxed">
 
           <section>
             <h2 className="text-[#191c1e] font-semibold text-base mb-2">1. Acceptance of Terms</h2>

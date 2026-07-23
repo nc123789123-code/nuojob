@@ -34,29 +34,29 @@ export async function POST(req: NextRequest) {
           <div style="padding: 40px 32px;">
             <p style="font-size: 28px; margin: 0 0 24px;">☕</p>
             <h1 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">You're on the list, ${name.split(" ")[0]}.</h1>
-            <p style="font-size: 15px; color: #23282e; margin: 0 0 24px; line-height: 1.6;">
+            <p style="font-size: 15px; color: #1a1e24; margin: 0 0 24px; line-height: 1.6;">
               We've received your request for the <strong>${session.theme}</strong> session.
             </p>
 
             <div style="background: #f8fafb; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-              <p style="margin: 0 0 6px; font-size: 13px; color: #3d444d;">Session details</p>
+              <p style="margin: 0 0 6px; font-size: 13px; color: #2b3138;">Session details</p>
               <p style="margin: 0 0 4px; font-size: 15px; font-weight: 600;">${session.date}</p>
-              <p style="margin: 0 0 4px; font-size: 14px; color: #23282e;">${session.time}</p>
-              <p style="margin: 0; font-size: 14px; color: #23282e;">${session.location}</p>
+              <p style="margin: 0 0 4px; font-size: 14px; color: #1a1e24;">${session.time}</p>
+              <p style="margin: 0; font-size: 14px; color: #1a1e24;">${session.location}</p>
             </div>
 
-            <p style="font-size: 14px; color: #23282e; line-height: 1.7; margin: 0 0 24px;">
+            <p style="font-size: 14px; color: #1a1e24; line-height: 1.7; margin: 0 0 24px;">
               We'll confirm your spot within 24 hours and share the exact venue, who else is joining,
               and any notes for the conversation.
             </p>
 
-            <p style="font-size: 14px; color: #23282e; line-height: 1.7; margin: 0;">
+            <p style="font-size: 14px; color: #1a1e24; line-height: 1.7; margin: 0;">
               Sessions are capped at <strong>8 people</strong> — small enough that everyone gets to talk.
             </p>
 
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;" />
-            <p style="font-size: 12px; color: #5b6472; margin: 0;">
-              Onlu · Finance intelligence &amp; community · <a href="https://onlu.io" style="color: #5b6472;">onlu.io</a>
+            <p style="font-size: 12px; color: #454e5a; margin: 0;">
+              Onlu · Finance intelligence &amp; community · <a href="https://onlu.io" style="color: #454e5a;">onlu.io</a>
             </p>
           </div>
         </div>
@@ -73,13 +73,13 @@ export async function POST(req: NextRequest) {
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; color: #1A2B4A; padding: 24px;">
           <h2 style="margin: 0 0 16px;">New Table Signup</h2>
           <table style="border-collapse: collapse; width: 100%; font-size: 14px;">
-            <tr><td style="padding: 6px 0; color: #3d444d; width: 100px;">Session</td><td style="padding: 6px 0;">${sessionLabel}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d;">Name</td><td style="padding: 6px 0;">${name}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d;">Email</td><td style="padding: 6px 0;">${email}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d;">Firm</td><td style="padding: 6px 0;">${firm}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d;">Role</td><td style="padding: 6px 0;">${role}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d;">LinkedIn</td><td style="padding: 6px 0;">${linkedin || "—"}</td></tr>
-            <tr><td style="padding: 6px 0; color: #3d444d; vertical-align: top;">Note</td><td style="padding: 6px 0;">${note || "—"}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138; width: 100px;">Session</td><td style="padding: 6px 0;">${sessionLabel}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138;">Name</td><td style="padding: 6px 0;">${name}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138;">Email</td><td style="padding: 6px 0;">${email}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138;">Firm</td><td style="padding: 6px 0;">${firm}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138;">Role</td><td style="padding: 6px 0;">${role}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138;">LinkedIn</td><td style="padding: 6px 0;">${linkedin || "—"}</td></tr>
+            <tr><td style="padding: 6px 0; color: #2b3138; vertical-align: top;">Note</td><td style="padding: 6px 0;">${note || "—"}</td></tr>
           </table>
         </div>
       `,

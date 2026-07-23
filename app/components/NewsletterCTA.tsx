@@ -51,11 +51,11 @@ export default function NewsletterCTA({
 
   const bg = dark ? "bg-[#396477]" : "bg-white border border-gray-200";
   const headingColor = dark ? "text-white" : "text-gray-900";
-  const descColor = dark ? "text-white/70" : "text-gray-500";
-  const labelColor = dark ? "text-white/60" : "text-gray-400";
+  const descColor = dark ? "text-white/70" : "text-gray-700";
+  const labelColor = dark ? "text-white/60" : "text-gray-600";
   const inputCls = dark
     ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:ring-white/60"
-    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:ring-[#396477]";
+    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-600 focus:ring-[#396477]";
   const btnCls = dark
     ? "bg-white text-[#396477] hover:bg-gray-100"
     : "bg-[#396477] text-white hover:bg-[#2d5162]";
@@ -97,7 +97,7 @@ export default function NewsletterCTA({
         <p className="text-red-400 text-xs mt-2">{error}</p>
       )}
 
-      <p className={`${dark ? "text-white/40" : "text-gray-300"} text-[11px] mt-3`}>
+      <p className={`${dark ? "text-white/40" : "text-gray-500"} text-[11px] mt-3`}>
         No spam. Unsubscribe any time.
       </p>
     </div>

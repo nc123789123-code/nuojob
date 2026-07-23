@@ -25,7 +25,7 @@ export function buildGuideEmail(email: string): string {
       </td>
       <td style="padding:10px 12px;border-bottom:1px solid #e5e7eb;border-left:2px solid ${i % 2 === 0 ? navy : teal}">
         <div style="font-size:13px;font-weight:700;color:${navy};margin-bottom:2px">${r.title}</div>
-        <div style="font-size:11px;color:#3d444d">${r.desc}</div>
+        <div style="font-size:11px;color:#2b3138">${r.desc}</div>
       </td>
     </tr>`).join("");
 
@@ -54,7 +54,7 @@ export function buildGuideEmail(email: string): string {
 
   <!-- TOC -->
   <div style="padding:24px 28px 0">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5b6472;margin-bottom:10px">What's in the full guide</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#454e5a;margin-bottom:10px">What's in the full guide</div>
     <table style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
       ${tocRows}
     </table>
@@ -70,7 +70,7 @@ export function buildGuideEmail(email: string): string {
   <!-- Formula bar -->
   <div style="margin:16px 28px 0;padding:14px 18px;background:${light};border:1px solid #c8dfe8;border-radius:8px;text-align:center">
     <span style="font-size:13px;font-weight:700;color:${teal}">Total Debt ÷ EBITDA = Leverage Multiple</span>
-    <span style="font-size:13px;color:#5b6472;margin:0 12px">|</span>
+    <span style="font-size:13px;color:#454e5a;margin:0 12px">|</span>
     <span style="font-size:13px;font-weight:700;color:${teal}">EBITDA ÷ Cash Interest = Coverage Ratio</span>
   </div>
 
@@ -82,10 +82,10 @@ export function buildGuideEmail(email: string): string {
           <div style="border:1px solid #e5e7eb;border-radius:8px;padding:14px">
             <div style="font-size:12px;font-weight:700;color:${navy};margin-bottom:10px">Leverage Tolerance by Sector</div>
             <table style="width:100%;border-collapse:collapse">
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">SaaS / Recurring Revenue</td><td style="font-size:12px;font-weight:700;color:#15803d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">6–7×</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">Healthcare / Defensive</td><td style="font-size:12px;font-weight:700;color:#0369a1;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">4–5×</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">Industrial / Manufacturing</td><td style="font-size:12px;font-weight:700;color:#d97706;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">3–4×</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0">Retail / Cyclical</td><td style="font-size:12px;font-weight:700;color:#dc2626;text-align:right;padding:5px 0">2–3×</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">SaaS / Recurring Revenue</td><td style="font-size:12px;font-weight:700;color:#15803d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">6–7×</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">Healthcare / Defensive</td><td style="font-size:12px;font-weight:700;color:#0369a1;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">4–5×</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">Industrial / Manufacturing</td><td style="font-size:12px;font-weight:700;color:#d97706;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">3–4×</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0">Retail / Cyclical</td><td style="font-size:12px;font-weight:700;color:#dc2626;text-align:right;padding:5px 0">2–3×</td></tr>
             </table>
           </div>
         </td>
@@ -108,7 +108,7 @@ export function buildGuideEmail(email: string): string {
   <!-- FCCR formula -->
   <div style="margin:14px 28px 0;padding:14px 18px;background:${light};border:1px solid #c8dfe8;border-radius:8px;text-align:center">
     <span style="font-size:12px;font-weight:700;color:${navy}">FCCR = (EBITDA – Capex – Cash Taxes) ÷ (Cash Interest + Required Principal)</span>
-    <span style="font-size:12px;color:#3d444d;margin-left:8px">→ Healthier than simple coverage</span>
+    <span style="font-size:12px;color:#2b3138;margin-left:8px">→ Healthier than simple coverage</span>
   </div>
 
   <!-- FCCR worked example -->
@@ -119,12 +119,12 @@ export function buildGuideEmail(email: string): string {
           <div style="border:1px solid #e5e7eb;border-radius:8px;padding:14px">
             <div style="font-size:12px;font-weight:700;color:${navy};margin-bottom:10px">Step-by-Step Calculation</div>
             <table style="width:100%;border-collapse:collapse">
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">EBITDA</td><td style="font-size:11px;color:#3d444d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">150</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">– Capital Expenditures</td><td style="font-size:11px;color:#3d444d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(40)</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">– Cash Taxes</td><td style="font-size:11px;color:#3d444d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(20)</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">EBITDA</td><td style="font-size:11px;color:#2b3138;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">150</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">– Capital Expenditures</td><td style="font-size:11px;color:#2b3138;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(40)</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">– Cash Taxes</td><td style="font-size:11px;color:#2b3138;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(20)</td></tr>
               <tr><td style="font-size:11px;font-weight:700;color:${navy};padding:5px 0;border-bottom:1px solid #f3f4f6">= Available Cash Flow</td><td style="font-size:11px;font-weight:700;color:${teal};text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">90</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">Cash Interest</td><td style="font-size:11px;color:#3d444d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(60)</td></tr>
-              <tr><td style="font-size:11px;color:#3d444d;padding:5px 0;border-bottom:1px solid #f3f4f6">+ Required Principal</td><td style="font-size:11px;color:#3d444d;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(20)</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">Cash Interest</td><td style="font-size:11px;color:#2b3138;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(60)</td></tr>
+              <tr><td style="font-size:11px;color:#2b3138;padding:5px 0;border-bottom:1px solid #f3f4f6">+ Required Principal</td><td style="font-size:11px;color:#2b3138;text-align:right;padding:5px 0;border-bottom:1px solid #f3f4f6">(20)</td></tr>
               <tr><td style="font-size:11px;font-weight:700;color:${navy};padding:5px 0">= Total Fixed Charges</td><td style="font-size:11px;font-weight:700;color:${navy};text-align:right;padding:5px 0">80</td></tr>
             </table>
             <div style="margin-top:10px;padding-top:8px;border-top:2px solid ${navy}">
@@ -154,7 +154,7 @@ export function buildGuideEmail(email: string): string {
 
   <!-- Blurred chapter 2 teaser -->
   <div style="margin:20px 28px 0;padding:14px 18px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;text-align:center">
-    <div style="font-size:11px;color:#5b6472;margin-bottom:6px">Chapter 2 preview — Bond Math &amp; Valuation</div>
+    <div style="font-size:11px;color:#454e5a;margin-bottom:6px">Chapter 2 preview — Bond Math &amp; Valuation</div>
     <div style="font-size:13px;font-weight:700;color:#d1d5db;filter:blur(3px)">YTM = Coupon + (Face – Price)/n ÷ (Face + Price)/2</div>
   </div>
 
@@ -167,7 +167,7 @@ export function buildGuideEmail(email: string): string {
        style="display:inline-block;padding:13px 32px;background:${navy};color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px">
       Get the Full Guide →
     </a>
-    <p style="margin:12px 0 0;font-size:11px;color:#5b6472">Onlu Intelligence · Credit Interview Guide</p>
+    <p style="margin:12px 0 0;font-size:11px;color:#454e5a">Onlu Intelligence · Credit Interview Guide</p>
   </div>
 
   <!-- Footer -->

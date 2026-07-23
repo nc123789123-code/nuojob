@@ -17,7 +17,7 @@ export default function ProSuccessPage() {
             ✓
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-[#1A2B4A] mb-3">You&apos;re a Pro member.</h1>
-          <p className="text-sm text-[#23282e] leading-relaxed mb-6">
+          <p className="text-sm text-[#1a1e24] leading-relaxed mb-6">
             Thanks for supporting Onlu. Check your inbox for a welcome email — your full digest,
             real-time signals, and unlimited prep are unlocking now. Reply to that email anytime
             if you need a hand.

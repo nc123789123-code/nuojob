@@ -60,20 +60,20 @@ function buildEmail(
         ${s.company}
         <span style="font-size:10px;font-weight:600;color:#dc2626;background:#fef2f2;padding:2px 7px;border-radius:4px;margin-left:6px">${badge}</span>
       </div>
-      <div style="font-size:12px;color:#3d444d;margin-top:4px;line-height:1.55">${s.whyItMatters}</div>
+      <div style="font-size:12px;color:#2b3138;margin-top:4px;line-height:1.55">${s.whyItMatters}</div>
     </div>`;
   }).join("");
 
   const jobBlock = jobs.slice(0, 8).map(j =>
     `<div style="margin-bottom:8px">
       <span style="font-size:13px;font-weight:600;color:#1a1a2e">${j.role}</span>
-      <span style="font-size:12px;color:#5b6472"> · ${j.firm}${j.location && j.location !== "—" ? ` · ${j.location}` : ""}</span>
+      <span style="font-size:12px;color:#454e5a"> · ${j.firm}${j.location && j.location !== "—" ? ` · ${j.location}` : ""}</span>
     </div>`
   ).join("");
 
   const section = (label: string, content: string) => `
     <div style="padding:0 24px;margin-top:24px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5b6472;margin-bottom:12px">${label}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#454e5a;margin-bottom:12px">${label}</div>
       ${content}
     </div>`;
 
@@ -87,7 +87,7 @@ function buildEmail(
   <div style="padding:28px 24px 0">
     <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#396477">Onlu Intelligence</div>
     <h1 style="font-size:20px;font-weight:700;margin:6px 0 2px;color:#111827;line-height:1.2">Bi-Weekly Brief</h1>
-    <div style="font-size:12px;color:#5b6472">${weekLabel}</div>
+    <div style="font-size:12px;color:#454e5a">${weekLabel}</div>
   </div>
 
   <!-- Editorial intro -->
@@ -99,9 +99,9 @@ function buildEmail(
     <table style="width:100%;border-collapse:collapse">
       <thead>
         <tr>
-          <th style="font-size:11px;font-weight:600;color:#5b6472;text-align:left;padding-bottom:6px">Asset</th>
-          <th style="font-size:11px;font-weight:600;color:#5b6472;text-align:right;padding-bottom:6px">Price</th>
-          <th style="font-size:11px;font-weight:600;color:#5b6472;text-align:right;padding-bottom:6px">Chg</th>
+          <th style="font-size:11px;font-weight:600;color:#454e5a;text-align:left;padding-bottom:6px">Asset</th>
+          <th style="font-size:11px;font-weight:600;color:#454e5a;text-align:right;padding-bottom:6px">Price</th>
+          <th style="font-size:11px;font-weight:600;color:#454e5a;text-align:right;padding-bottom:6px">Chg</th>
         </tr>
       </thead>
       <tbody>${marketRows}</tbody>
@@ -116,7 +116,7 @@ function buildEmail(
     <a href="${baseUrl}" style="display:inline-block;padding:11px 28px;background:#396477;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">
       View Full Platform →
     </a>
-    <p style="margin:12px 0 0;font-size:12px;color:#5b6472">Market Brief · Fund Signals · Hiring Watch · Case Library</p>
+    <p style="margin:12px 0 0;font-size:12px;color:#454e5a">Market Brief · Fund Signals · Hiring Watch · Case Library</p>
   </div>
 
   <!-- Footer -->

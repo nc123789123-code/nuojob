@@ -13,7 +13,7 @@ export default function SuccessPage() {
       <div className="fixed top-0 left-0 right-0 bg-slate-900 h-12 flex items-center px-5">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-white font-bold text-base tracking-tight">Onlu</span>
-          <span className="text-slate-400 text-xs font-medium tracking-wide uppercase">Intel</span>
+          <span className="text-slate-600 text-xs font-medium tracking-wide uppercase">Intel</span>
         </Link>
       </div>
 
@@ -26,16 +26,16 @@ export default function SuccessPage() {
         </div>
 
         <h1 className="text-2xl font-bold text-gray-900 mb-3">You're all set.</h1>
-        <p className="text-gray-500 text-sm leading-relaxed mb-2">
+        <p className="text-gray-700 text-sm leading-relaxed mb-2">
           Your <strong className="text-gray-700">Credit Interview Guide</strong> is on its way.
           Check your inbox — you should receive access instructions within a few minutes.
         </p>
-        <p className="text-gray-400 text-xs mb-8">
+        <p className="text-gray-600 text-xs mb-8">
           If you don't see it, check your spam folder or reply to the confirmation email.
         </p>
 
         <div className="bg-white border border-gray-200 rounded-xl p-5 text-left mb-6">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">What's next</p>
+          <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">What's next</p>
           <ul className="space-y-2.5">
             {[
               "Check your email for guide access",

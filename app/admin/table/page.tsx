@@ -75,7 +75,7 @@ export default function AdminTablePage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="bg-white border border-gray-200 rounded-2xl p-8 w-full max-w-sm shadow-sm">
           <h1 className="text-lg font-bold text-[#1A2B4A] mb-1">Onlu Admin</h1>
-          <p className="text-sm text-gray-500 mb-5">Table session manager</p>
+          <p className="text-sm text-gray-700 mb-5">Table session manager</p>
           <input
             type="password"
             placeholder="Admin password"
@@ -100,23 +100,23 @@ export default function AdminTablePage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-[#1A2B4A]">Onlu Table — Sessions</h1>
-            <p className="text-sm text-gray-500 mt-0.5">Add, edit, or remove upcoming sessions</p>
+            <p className="text-sm text-gray-700 mt-0.5">Add, edit, or remove upcoming sessions</p>
           </div>
-          <button onClick={() => setAuthed(false)} className="text-xs text-gray-400 hover:text-gray-600">Sign out</button>
+          <button onClick={() => setAuthed(false)} className="text-xs text-gray-600 hover:text-gray-600">Sign out</button>
         </div>
 
         {/* Existing sessions */}
         <div className="space-y-3">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">Upcoming ({sessions.length})</p>
-          {loading && <p className="text-sm text-gray-400">Loading…</p>}
-          {!loading && sessions.length === 0 && <p className="text-sm text-gray-400">No upcoming sessions.</p>}
+          <p className="text-xs font-semibold text-gray-600 uppercase tracking-widest">Upcoming ({sessions.length})</p>
+          {loading && <p className="text-sm text-gray-600">Loading…</p>}
+          {!loading && sessions.length === 0 && <p className="text-sm text-gray-600">No upcoming sessions.</p>}
           {sessions.map((s) => (
             <div key={s.id} className="bg-white border border-gray-200 rounded-xl p-4 flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-[#1A2B4A]">{s.date} · {s.theme}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{s.time} · {s.location}</p>
+                <p className="text-xs text-gray-700 mt-0.5">{s.time} · {s.location}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <span className="text-xs text-gray-500">Spots left:</span>
+                  <span className="text-xs text-gray-700">Spots left:</span>
                   <select
                     value={s.spotsLeft}
                     onChange={(e) => updateSpots(s.id, Number(e.target.value))}
@@ -126,7 +126,7 @@ export default function AdminTablePage() {
                       <option key={i} value={i}>{i}</option>
                     ))}
                   </select>
-                  <span className="text-xs text-gray-400">/ {s.capacity}</span>
+                  <span className="text-xs text-gray-600">/ {s.capacity}</span>
                 </div>
               </div>
               <button onClick={() => deleteSession(s.id)} className="text-xs text-red-400 hover:text-red-600 flex-shrink-0 mt-1">
@@ -138,17 +138,17 @@ export default function AdminTablePage() {
 
         {/* Add new session */}
         <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5">Add New Session</p>
+          <p className="text-xs font-semibold text-gray-600 uppercase tracking-widest mb-5">Add New Session</p>
           <form onSubmit={addSession} className="space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Date (ISO) *</label>
+                <label className="text-xs text-gray-700 mb-1 block">Date (ISO) *</label>
                 <input required type="date" value={form.dateISO}
                   onChange={(e) => setForm({ ...form, dateISO: e.target.value })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Display Date *</label>
+                <label className="text-xs text-gray-700 mb-1 block">Display Date *</label>
                 <input required placeholder="Saturday, May 17" value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
@@ -156,40 +156,40 @@ export default function AdminTablePage() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Time *</label>
+                <label className="text-xs text-gray-700 mb-1 block">Time *</label>
                 <input required value={form.time}
                   onChange={(e) => setForm({ ...form, time: e.target.value })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Location *</label>
+                <label className="text-xs text-gray-700 mb-1 block">Location *</label>
                 <input required value={form.location}
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
               </div>
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Theme *</label>
+              <label className="text-xs text-gray-700 mb-1 block">Theme *</label>
               <input required placeholder="Private Credit & Direct Lending" value={form.theme}
                 onChange={(e) => setForm({ ...form, theme: e.target.value })}
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Capacity</label>
+                <label className="text-xs text-gray-700 mb-1 block">Capacity</label>
                 <input type="number" min={1} max={20} value={form.capacity}
                   onChange={(e) => setForm({ ...form, capacity: Number(e.target.value), spotsLeft: Number(e.target.value) })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Spots Left</label>
+                <label className="text-xs text-gray-700 mb-1 block">Spots Left</label>
                 <input type="number" min={0} max={form.capacity} value={form.spotsLeft}
                   onChange={(e) => setForm({ ...form, spotsLeft: Number(e.target.value) })}
                   className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
               </div>
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Description *</label>
+              <label className="text-xs text-gray-700 mb-1 block">Description *</label>
               <textarea required rows={3} value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477] resize-none" />

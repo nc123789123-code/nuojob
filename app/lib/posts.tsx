@@ -92,14 +92,14 @@ const AI_MARGIN_BARS = [
 ];
 
 const AI_POST_CONTENT = (
-  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
     <p>Artificial intelligence is often reduced to a handful of names — large language models, chat interfaces, and a few hyperscalers. But AI is not a single layer. It is a full-stack ecosystem spanning semiconductors, infrastructure, data, software, and increasingly, the physical world. Understanding where value accrues requires looking across this entire chain. The most important opportunities are often not at the most visible layer.</p>
 
     {/* Stack diagram */}
     <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
       <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
-        <p className="text-[11px] text-gray-400 mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
+        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
+        <p className="text-[11px] text-gray-600 mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
       </div>
       <div className="p-5 space-y-2">
         {AI_STACK_LAYERS.map((layer, i) => (
@@ -109,7 +109,7 @@ const AI_POST_CONTENT = (
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <span className="text-xs font-bold" style={{ color: layer.color }}>{layer.label}</span>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-[11px] text-gray-400">{layer.note}</span>
+                  <span className="text-[11px] text-gray-600">{layer.note}</span>
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
                     {layer.gross} gross
                   </span>
@@ -144,13 +144,13 @@ const AI_POST_CONTENT = (
     {/* Margin comparison chart */}
     <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
       <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
-        <p className="text-[11px] text-gray-400 mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
+        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
+        <p className="text-[11px] text-gray-600 mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
       </div>
       <div className="p-5 space-y-3">
         {AI_MARGIN_BARS.map((bar, i) => (
           <div key={i} className="flex items-center gap-3">
-            <span className="text-xs text-gray-500 w-36 flex-shrink-0 text-right">{bar.label}</span>
+            <span className="text-xs text-gray-700 w-36 flex-shrink-0 text-right">{bar.label}</span>
             <div className="flex-1 relative h-6 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="absolute top-0 h-full rounded-full"
@@ -169,7 +169,7 @@ const AI_POST_CONTENT = (
         ))}
         <div className="flex items-center gap-3 pt-1">
           <span className="w-36 flex-shrink-0" />
-          <div className="flex-1 flex justify-between text-[10px] text-gray-400 px-1">
+          <div className="flex-1 flex justify-between text-[10px] text-gray-600 px-1">
             <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
           </div>
           <span className="w-16 flex-shrink-0" />
@@ -189,7 +189,7 @@ const AI_POST_CONTENT = (
 );
 
 const AI_COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#1a1e24] text-sm leading-[1.75]">
 
     <p>The last great commodity supercycle was a China story. The next one may be an AI story. The buildout of artificial intelligence infrastructure — data centres, power grids, cooling systems, and the hardware stacks that run them — is creating a demand shock across several commodity markets that is only beginning to be understood. At the same time, AI is reshaping the supply side of commodity markets in ways that will compound over the next decade.</p>
     <p>This is not a speculative thesis. It is already visible in power demand forecasts, copper order books, and water utility filings. The question for analysts is not whether AI will move commodity markets — it is which commodities, by how much, and over what timeframe.</p>
@@ -202,7 +202,7 @@ const AI_COMMODITY_POST_CONTENT = (
     {/* Section 1 */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -261,7 +261,7 @@ const AI_COMMODITY_POST_CONTENT = (
     {/* Supply side */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -278,7 +278,7 @@ const AI_COMMODITY_POST_CONTENT = (
         <div key={c.title} className="border border-gray-200 rounded-xl p-4 bg-white">
           <div className="text-xl mb-2">{c.icon}</div>
           <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.title}</div>
-          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
+          <p className="text-[12px] text-gray-700 leading-relaxed">{c.desc}</p>
         </div>
       ))}
     </div>
@@ -286,7 +286,7 @@ const AI_COMMODITY_POST_CONTENT = (
     {/* Matrix */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -294,10 +294,10 @@ const AI_COMMODITY_POST_CONTENT = (
       <table className="w-full text-xs border-collapse">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50">
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Commodity</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Demand Driver</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Supply Effect</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Net Bias</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">AI Demand Driver</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">AI Supply Effect</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">Net Bias</th>
           </tr>
         </thead>
         <tbody>
@@ -307,14 +307,14 @@ const AI_COMMODITY_POST_CONTENT = (
             { name: "Uranium", demand: "Nuclear preferred for firm clean baseload by hyperscalers", supply: "Limited new mine supply pipeline", bias: "Strongly Bullish", color: "text-red-600" },
             { name: "Aluminium", demand: "Liquid cooling, server chassis, transmission lines", supply: "Marginal efficiency gains in smelting", bias: "Bullish", color: "text-red-600" },
             { name: "Water", demand: "Evaporative cooling at hyperscale facilities", supply: "AI improves irrigation efficiency in agriculture", bias: "Regional — Bullish in arid zones", color: "text-amber-600" },
-            { name: "Natural Gas", demand: "Peaker demand for data centre baseload", supply: "AI accelerates exploration; grid AI reduces peak demand", bias: "Mixed / Neutral", color: "text-gray-500" },
+            { name: "Natural Gas", demand: "Peaker demand for data centre baseload", supply: "AI accelerates exploration; grid AI reduces peak demand", bias: "Mixed / Neutral", color: "text-gray-700" },
             { name: "Wheat / Corn", demand: "No direct link", supply: "AI precision ag improves yields over time", bias: "Mildly Bearish long-run", color: "text-emerald-600" },
             { name: "Gallium / Germanium", demand: "Compound semiconductors for AI chips", supply: "China-controlled; geopolitically constrained", bias: "Strongly Bullish", color: "text-red-600" },
           ].map((row, i) => (
             <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
               <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
-              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
-              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+              <td className="px-4 py-3 text-gray-700 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+              <td className="px-4 py-3 text-gray-700 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
               <td className={`px-4 py-3 font-semibold align-top border-b border-gray-100 ${row.color}`}>{row.bias}</td>
             </tr>
           ))}
@@ -325,19 +325,19 @@ const AI_COMMODITY_POST_CONTENT = (
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     <p>The AI-commodity nexus is not a simple "AI is bullish for everything" story. It is a set of differentiated impacts that require commodity-by-commodity analysis. The clearest near-term trades are in power infrastructure (copper, uranium, natural gas for baseload) and critical minerals with concentrated supply chains (gallium, germanium, high-purity quartz). The supply-side improvements from AI — better mine optimisation, precision agriculture, faster seismic interpretation — are real but slower to materialise, with payoffs measured in years rather than quarters.</p>
     <p>For buyside analysts, the practical implication is twofold. First, any thesis on copper or uranium now requires a view on AI capex cycles — not just Chinese construction or EV adoption. Second, the geopolitical dimension of critical minerals has become a first-order risk factor in AI chip production, which feeds back into the capex of the hyperscalers, which feeds back into the power and metals demand forecasts. The commodity and technology sectors, historically analysed in separate silos, are now structurally linked.</p>
 
-    <p className="text-[11px] text-gray-400 italic mt-2">For educational and informational purposes only. Not investment advice.</p>
+    <p className="text-[11px] text-gray-600 italic mt-2">For educational and informational purposes only. Not investment advice.</p>
   </div>
 );
 
 const COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#1a1e24] text-sm leading-[1.75]">
     {/* Intro */}
     <p>Commodities are the bedrock of the global economy. Oil powers transportation and petrochemicals; copper wires every building, vehicle, and data centre; wheat feeds billions; gold anchors monetary systems. Yet for all their importance, the price of a barrel of crude or a tonne of copper can swing 30%, 50%, even 100% within a single year — rewarding or ruining nations, corporations, and portfolios alike.</p>
     <p>Understanding what drives those swings requires thinking across multiple timescales simultaneously. A drought is measured in months. A new mine takes a decade to build. An energy transition redraws demand curves over decades. The analyst who can hold all of these timeframes in mind — and weigh them against each other — has a genuine edge.</p>
@@ -351,7 +351,7 @@ const COMMODITY_POST_CONTENT = (
     {/* Section: Five Classes */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -368,7 +368,7 @@ const COMMODITY_POST_CONTENT = (
           <div className="text-xl mb-2">{c.icon}</div>
           <div className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider mb-1">{c.label}</div>
           <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.sub}</div>
-          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
+          <p className="text-[12px] text-gray-700 leading-relaxed">{c.desc}</p>
         </div>
       ))}
     </div>
@@ -376,7 +376,7 @@ const COMMODITY_POST_CONTENT = (
     {/* Section: Drivers */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -453,7 +453,7 @@ const COMMODITY_POST_CONTENT = (
     {/* Driver Table */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -461,10 +461,10 @@ const COMMODITY_POST_CONTENT = (
       <table className="w-full text-xs border-collapse">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50">
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px] w-32">Commodity</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
-            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Risk Tags</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px] w-32">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-700 uppercase tracking-wider text-[10px]">Risk Tags</th>
           </tr>
         </thead>
         <tbody>
@@ -484,8 +484,8 @@ const COMMODITY_POST_CONTENT = (
             return (
               <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
                 <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
-                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
-                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+                <td className="px-4 py-3 text-gray-700 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+                <td className="px-4 py-3 text-gray-700 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
                 <td className="px-4 py-3 align-top border-b border-gray-100">
                   <div className="flex flex-wrap gap-1">
                     {(row.tags as [string,string][]).map(([type, label]) => (
@@ -503,7 +503,7 @@ const COMMODITY_POST_CONTENT = (
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 h-px bg-gray-200" />
-      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
+      <span className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
       <div className="flex-1 h-px bg-gray-200" />
     </div>
 
@@ -513,7 +513,7 @@ const COMMODITY_POST_CONTENT = (
     {/* Watch list sidebar */}
     <div className="border border-gray-200 rounded-xl overflow-hidden mt-4">
       <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
-        <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Watch List: Key Indicators</p>
+        <p className="text-[11px] font-semibold text-gray-700 uppercase tracking-wider">Watch List: Key Indicators</p>
       </div>
       <ul className="divide-y divide-gray-50">
         {[
@@ -536,12 +536,12 @@ const COMMODITY_POST_CONTENT = (
       </ul>
     </div>
 
-    <p className="text-[11px] text-gray-400 italic mt-4">For educational and informational purposes only. Not investment advice. Commodity markets involve significant risk of loss.</p>
+    <p className="text-[11px] text-gray-600 italic mt-4">For educational and informational purposes only. Not investment advice. Commodity markets involve significant risk of loss.</p>
   </div>
 );
 
 const NORTHEAST_ASIA_POST_CONTENT = (
-  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
     <p>For most of the past decade, global equity investors have had a simple playbook: buy the S&P 500 and ignore everything else. American exceptionalism in corporate earnings, turbocharged by the Magnificent Seven, made it hard to argue otherwise. But if you've been paying attention to Northeast Asia over the past eighteen months, you'll have noticed something stirring — a confluence of governance reform, AI-driven earnings cycles, and valuation gaps wide enough to drive a truck through.</p>
     <p>China, Japan, and South Korea together represent roughly a quarter of global GDP and house some of the world's most technologically sophisticated companies. Yet their equity markets collectively trade at steep discounts to Wall Street. The question worth asking is no longer <em>why are they cheap?</em> — which has well-known structural answers — but rather <em>what's changing, and is the discount finally narrowing?</em></p>
 
@@ -553,8 +553,8 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">2025 full-year index returns</p>
-      <p className="text-[11px] text-gray-400 mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
-      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
+      <p className="text-[11px] text-gray-600 mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-600">
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#3266ad] inline-block" />US</span>
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#1D9E75] inline-block" />Northeast Asia</span>
       </div>
@@ -567,7 +567,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           { label: "S&P 500", value: 14.5, color: "#3266ad" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-24 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 85) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">+{item.value}%</span>
@@ -576,7 +576,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Sources: Korea Times, CNBC, Yahoo Finance. Price returns in local currency.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Sources: Korea Times, CNBC, Yahoo Finance. Price returns in local currency.</p>
     </div>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The valuation gap: why Asia trades cheaper</h3>
@@ -585,7 +585,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Forward P/E ratios: Asia vs. the US</p>
-      <p className="text-[11px] text-gray-400 mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
+      <p className="text-[11px] text-gray-600 mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
       <div className="space-y-2">
         {([
           { label: "Nikkei 225", value: 22.0, color: "#1D9E75" },
@@ -597,7 +597,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           { label: "Hang Seng", value: 11.8, color: "#1D9E75" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-28 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-28 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 25) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}x</span>
@@ -606,7 +606,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Sources: FactSet, LSEG IBES, Hennessy Funds, MacroMicro. Forward P/E = price / consensus NTM EPS.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Sources: FactSet, LSEG IBES, Hennessy Funds, MacroMicro. Forward P/E = price / consensus NTM EPS.</p>
     </div>
 
     <p><strong>Corporate governance gaps.</strong> Historically, Japanese companies sat on mountains of cash and cross-shareholdings, prioritizing stability over shareholder returns. Korean chaebols — family-controlled conglomerates like Samsung, Hyundai, and LG — have often prioritized controlling-family interests over minority shareholders. Chinese state-owned enterprises answer to political imperatives that don't always align with profit maximization. Global investors have rationally demanded a discount for these agency problems.</p>
@@ -626,8 +626,8 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Corporate governance reform timeline</p>
-      <p className="text-[11px] text-gray-400 mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
-      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
+      <p className="text-[11px] text-gray-600 mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-600">
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#D85A30] inline-block" />Japan</span>
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#534AB7] inline-block" />South Korea</span>
       </div>
@@ -644,9 +644,9 @@ const NORTHEAST_ASIA_POST_CONTENT = (
         ] as { date: string; color: string; title: string; desc: string }[]).map(item => (
           <div key={item.title} className="relative mb-5 last:mb-0">
             <div className="absolute -left-4 top-1 w-3 h-3 rounded-full border-2 border-white" style={{ background: item.color }} />
-            <p className="text-[10px] uppercase tracking-wide text-gray-400">{item.date}</p>
+            <p className="text-[10px] uppercase tracking-wide text-gray-600">{item.date}</p>
             <p className="text-xs font-bold text-[#191c1e] mt-0.5">{item.title}</p>
-            <p className="text-[11px] text-gray-500 leading-snug mt-0.5">{item.desc}</p>
+            <p className="text-[11px] text-gray-700 leading-snug mt-0.5">{item.desc}</p>
           </div>
         ))}
       </div>
@@ -671,13 +671,13 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4 overflow-x-auto">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">When the S&amp;P 500 moves, Asia amplifies it</p>
-      <p className="text-[11px] text-gray-400 mb-4">Index moves during key episodes (2025–2026)</p>
+      <p className="text-[11px] text-gray-600 mb-4">Index moves during key episodes (2025–2026)</p>
       <table className="w-full text-[11px] border-collapse">
         <thead>
           <tr className="border-b border-gray-100">
-            <th className="text-left font-semibold text-gray-400 pb-2 pr-3">Episode</th>
+            <th className="text-left font-semibold text-gray-600 pb-2 pr-3">Episode</th>
             {["S&P 500","Nikkei 225","KOSPI","Hang Seng"].map(h => (
-              <th key={h} className="text-right font-semibold text-gray-400 pb-2 px-2">{h}</th>
+              <th key={h} className="text-right font-semibold text-gray-600 pb-2 px-2">{h}</th>
             ))}
           </tr>
         </thead>
@@ -699,7 +699,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           ))}
         </tbody>
       </table>
-      <p className="text-[11px] text-gray-400 mt-3">Sources: CNBC, Yahoo Finance, OANDA. Approximate moves during each episode.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Sources: CNBC, Yahoo Finance, OANDA. Approximate moves during each episode.</p>
     </div>
 
     <p><strong>Trade channel:</strong> All three economies are major exporters. A US recession or hard landing would ripple through Asian corporate earnings rapidly.</p>
@@ -716,12 +716,12 @@ const NORTHEAST_ASIA_POST_CONTENT = (
     <p>The investment case for Northeast Asian equities in 2026 rests on a simple but powerful thesis: you're buying genuine structural reform, world-class technology exposure, and above-average earnings growth at a meaningful discount to the US. Japan at 16x forward earnings, Hong Kong at 12x, and Korea riding the strongest earnings growth cycle globally — these are not numbers you can easily find elsewhere.</p>
     <p>The risks are real: geopolitical flashpoints, currency volatility, concentration in a few mega-cap names, and deep cyclical linkage to US demand. But for investors who've spent years paying 22x+ for the S&P 500, Northeast Asia offers a different kind of equation — one where the margin of safety is wider, the reform catalysts are tangible, and the market hasn't fully priced in how much is actually changing beneath the surface.</p>
 
-    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. All investing involves risk. Past performance is not indicative of future results.</p>
+    <p className="text-[11px] text-gray-600 italic mt-4">This is commentary and analysis, not investment advice. All investing involves risk. Past performance is not indicative of future results.</p>
   </div>
 );
 
 const HOUSING_POST_CONTENT = (
-  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
     <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages.</p>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Deficit That Won&apos;t Quit</h3>
@@ -730,7 +730,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Estimated US Housing Shortage</p>
-      <p className="text-[11px] text-gray-400 mb-4">Millions of units, by source methodology</p>
+      <p className="text-[11px] text-gray-600 mb-4">Millions of units, by source methodology</p>
       <div className="space-y-2">
         {([
           { label: "NAHB", value: 1.5, color: "#C84B31" },
@@ -740,7 +740,7 @@ const HOUSING_POST_CONTENT = (
           { label: "NLIHC", value: 7.0, color: "#7B5EA7" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-24 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}M</span>
@@ -749,7 +749,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Sources: NAHB, Freddie Mac, Brookings, NAR, NLIHC.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Sources: NAHB, Freddie Mac, Brookings, NAR, NLIHC.</p>
     </div>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Where We Stand: Starts &amp; Permits</h3>
@@ -765,7 +765,7 @@ const HOUSING_POST_CONTENT = (
       ]).map(s => (
         <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
           <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
-          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
+          <div className="text-[11px] text-gray-700 mt-0.5 leading-tight">{s.label}</div>
         </div>
       ))}
     </div>
@@ -778,7 +778,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">NAHB Housing Market Index</p>
-      <p className="text-[11px] text-gray-400 mb-4">Above 50 = more builders see conditions as good than poor</p>
+      <p className="text-[11px] text-gray-600 mb-4">Above 50 = more builders see conditions as good than poor</p>
       <div className="space-y-1.5">
         {([
           { label: "Jan 25", value: 47 },
@@ -791,7 +791,7 @@ const HOUSING_POST_CONTENT = (
           { label: "Mar 26", value: 38 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-14 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-14 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 65) * 100}%`, background: item.value >= 50 ? "#6B8F71" : "rgba(200,75,49,0.75)" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
@@ -800,7 +800,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-3 mt-3 text-[11px] text-gray-400">
+      <div className="flex items-center gap-3 mt-3 text-[11px] text-gray-600">
         <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(200,75,49,0.75)" }} />Below 50 — negative</span>
         <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#6B8F71]" />Above 50 — positive</span>
       </div>
@@ -808,7 +808,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="border-l-[3px] border-[#C84B31] bg-gradient-to-r from-[rgba(200,75,49,0.04)] to-transparent px-5 py-4 my-4 rounded-r-lg">
       <p className="text-sm text-[#191c1e] italic">&ldquo;Affordability for buyers and builders remains a top concern. Many buyers remain on the fence waiting for lower interest rates and due to economic uncertainty.&rdquo;</p>
-      <p className="text-[11px] text-gray-400 mt-1.5">— NAHB Chairman Bill Owens, March 2026</p>
+      <p className="text-[11px] text-gray-600 mt-1.5">— NAHB Chairman Bill Owens, March 2026</p>
     </div>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Tariff Tax on Housing Supply</h3>
@@ -817,7 +817,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Tariff Rates on Key Building Materials</p>
-      <p className="text-[11px] text-gray-400 mb-4">Effective rates as of early 2026</p>
+      <p className="text-[11px] text-gray-600 mb-4">Effective rates as of early 2026</p>
       <div className="space-y-2">
         {([
           { label: "Kitchen Cabinets", value: 50, color: "#2D6A8F" },
@@ -827,7 +827,7 @@ const HOUSING_POST_CONTENT = (
           { label: "All Timber & Lumber (base)", value: 10, color: "#7B5EA7" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight">{item.label}</span>
+            <span className="w-40 text-[11px] text-right text-gray-700 flex-shrink-0 leading-tight">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 60) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
@@ -836,7 +836,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Source: Brookings, TPC, NAHB estimates.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Source: Brookings, TPC, NAHB estimates.</p>
     </div>
 
     <div className="grid grid-cols-3 gap-3 my-4">
@@ -847,7 +847,7 @@ const HOUSING_POST_CONTENT = (
       ]).map(s => (
         <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
           <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
-          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
+          <div className="text-[11px] text-gray-700 mt-0.5 leading-tight">{s.label}</div>
         </div>
       ))}
     </div>
@@ -858,7 +858,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">30-Year Fixed Mortgage Rate</p>
-      <p className="text-[11px] text-gray-400 mb-4">Annual average, percent</p>
+      <p className="text-[11px] text-gray-600 mb-4">Annual average, percent</p>
       <div className="space-y-1.5">
         {([
           { label: "2019", value: 3.94 },
@@ -871,7 +871,7 @@ const HOUSING_POST_CONTENT = (
           { label: "Jan 2026", value: 6.06 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-16 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-16 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.value > 5 ? "#C84B31" : "#2D6A8F" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
@@ -880,7 +880,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Source: Freddie Mac Primary Mortgage Market Survey.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Source: Freddie Mac Primary Mortgage Market Survey.</p>
     </div>
 
     <p>The market is bifurcated: the upper end holds, while lower and middle segments struggle. First-time buyers now form the majority of funded loans but face elevated price-to-income ratios. Builders are responding with smaller footprints and smart-home packages in affordable secondary metros.</p>
@@ -891,7 +891,7 @@ const HOUSING_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Construction Employment Index</p>
-      <p className="text-[11px] text-gray-400 mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
+      <p className="text-[11px] text-gray-600 mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
       <div className="space-y-1.5">
         {([
           { label: "2007", value: 100 },
@@ -903,7 +903,7 @@ const HOUSING_POST_CONTENT = (
           { label: "2025", value: 88 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-10 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <span className="w-10 text-[11px] text-right text-gray-700 flex-shrink-0">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${item.value}%`, background: item.value === 100 ? "#2D6A8F" : "#C84B31" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
@@ -912,7 +912,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Industry still ~12% below prior peak employment. Source: BLS.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Industry still ~12% below prior peak employment. Source: BLS.</p>
     </div>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">What to Watch</h3>
@@ -928,19 +928,19 @@ const HOUSING_POST_CONTENT = (
       ]).map(w => (
         <div key={w.title} className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-xs font-bold text-[#191c1e] mb-1">{w.title}</div>
-          <div className="text-[12px] text-gray-500 leading-relaxed">{w.body}</div>
+          <div className="text-[12px] text-gray-700 leading-relaxed">{w.body}</div>
         </div>
       ))}
     </div>
 
     <p>The opportunity is immense. The execution challenges are daunting. For now, the market remains caught between a deficit and a hard place — building too few homes, at too high a cost, while the gap quietly grows.</p>
 
-    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. Sources: US Census Bureau, HUD, NAHB/Wells Fargo HMI, Brookings, Freddie Mac, NAR, BLS.</p>
+    <p className="text-[11px] text-gray-600 italic mt-4">This is commentary and analysis, not investment advice. Sources: US Census Bureau, HUD, NAHB/Wells Fargo HMI, Brookings, Freddie Mac, NAR, BLS.</p>
   </div>
 );
 
 const FUND_LETTERS_POST_CONTENT = (
-  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
     <p>The first quarter of 2026 proved one of the most punishing in recent memory for markets — the S&P 500 posted its worst quarter since 2022, falling 4.6%, while tariff uncertainty, AI capex skepticism, and credit concerns rattled positioning across strategies. But a handful of major investors were well-prepared, and their letters offer an unusually candid window into how the best minds in the industry are thinking about what comes next.</p>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Q1 2026 Performance Snapshot</h3>
@@ -949,18 +949,18 @@ const FUND_LETTERS_POST_CONTENT = (
 
     <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
       <p className="text-xs font-bold text-[#191c1e] mb-0.5">Reported / Estimated Q1 2026 Returns</p>
-      <p className="text-[11px] text-gray-400 mb-4">Selected funds — sourced from public reporting</p>
+      <p className="text-[11px] text-gray-600 mb-4">Selected funds — sourced from public reporting</p>
       <div className="space-y-1.5">
         {([
           { label: "Greenlight Capital", value: 8.2, color: "#0F6E56" },
           { label: "Palm Valley Cap Fund", value: 0.74, color: "#6B8F71" },
-          { label: "S&P 500 (benchmark)", value: -4.6, color: "#5b6472" },
+          { label: "S&P 500 (benchmark)", value: -4.6, color: "#454e5a" },
           { label: "Balyasny Asset Mgmt", value: -3.8, color: "#ef4444" },
           { label: "ExodusPoint Capital", value: -4.5, color: "#ef4444" },
           { label: "Pershing Square (PSH)", value: -13.9, color: "#ef4444" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-2.5">
-            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 truncate">{item.label}</span>
+            <span className="w-40 text-[11px] text-right text-gray-700 flex-shrink-0 truncate">{item.label}</span>
             <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div
                 style={{
@@ -976,7 +976,7 @@ const FUND_LETTERS_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-gray-400 mt-3">Sources: Hedgeweek, HedgeCo, Reuters/Investing.com, public NAV disclosures.</p>
+      <p className="text-[11px] text-gray-600 mt-3">Sources: Hedgeweek, HedgeCo, Reuters/Investing.com, public NAV disclosures.</p>
     </div>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Greenlight Capital — Einhorn Turns Bearish, Gold Delivers</h3>
@@ -992,9 +992,9 @@ const FUND_LETTERS_POST_CONTENT = (
         { label: "Net Long at Q-End", value: "19%", sub: "86L / 67S", color: "#2D6A8F" },
       ]).map(s => (
         <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-[10px] text-gray-400 mb-1">{s.label}</p>
+          <p className="text-[10px] text-gray-600 mb-1">{s.label}</p>
           <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
-          <p className="text-[10px] text-gray-400 mt-0.5">{s.sub}</p>
+          <p className="text-[10px] text-gray-600 mt-0.5">{s.sub}</p>
         </div>
       ))}
     </div>
@@ -1022,7 +1022,7 @@ const FUND_LETTERS_POST_CONTENT = (
           <span className="text-base mt-0.5 flex-shrink-0">{item.icon}</span>
           <div>
             <p className="text-xs font-semibold text-[#191c1e]">{item.label}</p>
-            <p className="text-[11px] text-gray-500 mt-0.5">{item.desc}</p>
+            <p className="text-[11px] text-gray-700 mt-0.5">{item.desc}</p>
           </div>
         </div>
       ))}
@@ -1052,17 +1052,17 @@ const FUND_LETTERS_POST_CONTENT = (
             <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: t.color }} />
             <p className="text-xs font-bold text-[#191c1e]">{t.theme}</p>
           </div>
-          <p className="text-[11px] text-gray-500 leading-relaxed">{t.desc}</p>
+          <p className="text-[11px] text-gray-700 leading-relaxed">{t.desc}</p>
         </div>
       ))}
     </div>
 
-    <p className="text-[11px] text-gray-400 italic mt-4">This post summarizes publicly available investor letters, memos, and performance reports. Sources include Hedgeweek, Reuters, HedgeCo, Oaktree Capital, Man Group, and public NAV disclosures. Not investment advice.</p>
+    <p className="text-[11px] text-gray-600 italic mt-4">This post summarizes publicly available investor letters, memos, and performance reports. Sources include Hedgeweek, Reuters, HedgeCo, Oaktree Capital, Man Group, and public NAV disclosures. Not investment advice.</p>
   </div>
 );
 
 const ABF_POST_CONTENT = (
-  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
     <p>For a decade, the private credit story was a direct lending story. Banks pulled back after the Global Financial Crisis, regulation tightened, and middle-market sponsors needed a new balance sheet to call. Direct lending funds filled that gap, institutionalized it, and turned it into a $1.5-trillion-plus asset class. The second decade looks different. The flows, the fundraising, and the structural conversation have all shifted toward a parallel market: asset-based finance — loans collateralized not by a borrower&apos;s future EBITDA, but by pools of tangible assets or contractual cash flows. It now sits at the center of nearly every 2026 outlook letter, and a recent SuperReturn Private Credit audience poll found that institutional investors consider ABF the most attractive corner of private credit heading into the year.</p>
 
     {/* Stat band */}
@@ -1073,18 +1073,18 @@ const ABF_POST_CONTENT = (
         { label: "Private Credit 10Y Return", num: "9.0%", caption: "Annualized with 2.9% volatility, vs ~5.5% for leveraged loans and ~5.2% for high yield, per JPMAM." },
       ].map((s, i) => (
         <div key={i} className={`p-5 bg-white ${i < 2 ? "border-r border-gray-200" : ""}`}>
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">{s.label}</p>
+          <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest mb-2">{s.label}</p>
           <p className="text-3xl font-bold text-[#1A2B4A] tracking-tight">{s.num}</p>
-          <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">{s.caption}</p>
+          <p className="text-[11px] text-gray-600 mt-2 leading-relaxed">{s.caption}</p>
         </div>
       ))}
     </div>
 
     <p>The headline numbers have done a lot of the marketing work. KKR pegs the private ABF market at around $5.2 trillion today and expects it to reach roughly $7.7 trillion by 2027. DealCatalyst cites a more aggressive path — a $20-trillion ABF market over the next decade. Whatever the right midpoint is, the direction is unambiguous: ABF is no longer the boutique corner of private credit. It is becoming the asset class itself.</p>
 
-    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#23282e] my-4">
+    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#1a1e24] my-4">
       &ldquo;The easy beta of the last cycle is gone. Returns today are driven by the ability to originate with precision, structure with creativity, and manage risk with discipline.&rdquo;
-      <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-400 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
+      <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-600 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
     </blockquote>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What ABF Actually Is</h3>
@@ -1094,7 +1094,7 @@ const ABF_POST_CONTENT = (
     {/* Comparison table */}
     <div className="border border-gray-200 rounded-xl overflow-hidden my-6">
       <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
+        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
       </div>
       <table className="w-full text-xs">
         <thead>
@@ -1115,8 +1115,8 @@ const ABF_POST_CONTENT = (
           ].map(([dim, dl, abf], i) => (
             <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
               <td className="px-4 py-3 font-semibold text-[#1A2B4A]">{dim}</td>
-              <td className="px-4 py-3 text-[#23282e] border-l border-gray-100">{dl}</td>
-              <td className="px-4 py-3 text-[#23282e] border-l border-gray-100">{abf}</td>
+              <td className="px-4 py-3 text-[#1a1e24] border-l border-gray-100">{dl}</td>
+              <td className="px-4 py-3 text-[#1a1e24] border-l border-gray-100">{abf}</td>
             </tr>
           ))}
         </tbody>
@@ -1134,9 +1134,9 @@ const ABF_POST_CONTENT = (
         { num: "04", color: "border-[#6d8391]", title: "Complexity protects spread", body: "ABF requires origination infrastructure, servicing, data pipes, and legal structuring capacity that a generalist direct lender can't spin up. Those barriers translate directly into wider, more durable spreads — the opposite of what's happening in the upper middle market." },
       ].map((d) => (
         <div key={d.num} className={`bg-gray-50 border border-gray-200 border-t-4 ${d.color} rounded-xl p-4`}>
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1">{d.num}</p>
+          <p className="text-[10px] font-semibold text-gray-600 uppercase tracking-widest mb-1">{d.num}</p>
           <p className="font-semibold text-[#1A2B4A] text-sm mb-1.5">{d.title}</p>
-          <p className="text-xs text-[#23282e] leading-relaxed">{d.body}</p>
+          <p className="text-xs text-[#1a1e24] leading-relaxed">{d.body}</p>
         </div>
       ))}
     </div>
@@ -1156,7 +1156,7 @@ const ABF_POST_CONTENT = (
         <div key={s.name} className="bg-white border border-gray-200 rounded-xl p-3">
           <div className={`w-2 h-2 rounded-full ${s.color} mb-2`} />
           <p className="font-semibold text-[#1A2B4A] text-xs mb-1">{s.name}</p>
-          <p className="text-[11px] text-gray-500 leading-snug">{s.desc}</p>
+          <p className="text-[11px] text-gray-700 leading-snug">{s.desc}</p>
         </div>
       ))}
     </div>
@@ -1168,7 +1168,7 @@ const ABF_POST_CONTENT = (
     {/* Risk callout */}
     <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 my-4">
       <p className="text-xs font-semibold text-rose-600 uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
-      <div className="space-y-2 text-xs text-[#23282e]">
+      <div className="space-y-2 text-xs text-[#1a1e24]">
         <p><strong className="text-[#191c1e]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
         <p><strong className="text-[#191c1e]">Data infrastructure.</strong> Is reporting asset-level and daily, or pool-level and monthly? Managers with proprietary monitoring systems will charge for it — and earn it.</p>
         <p><strong className="text-[#191c1e]">Origination depth.</strong> Is the manager originating directly, partnering with a bank under forward-flow, or buying finished paper? Each model has a different risk profile and fee structure.</p>
@@ -1181,7 +1181,7 @@ const ABF_POST_CONTENT = (
       {[["Apollo","Atlas SP"],["KKR","Private ABF"],["Blackstone","BXCI ABF"],["Carlyle","Opportunistic Cr."],["Ares","Alt. Credit"],["Brookfield","Structured Cr."],["Nomura CM","Multi-mgr ABF"],["Janus / VPC","Specialty ABF"],["Rithm","Collateral control"]].map(([firm, platform]) => (
         <div key={firm} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
           <span className="text-xs font-semibold text-[#1A2B4A]">{firm}</span>
-          <span className="text-[10px] text-gray-400">{platform}</span>
+          <span className="text-[10px] text-gray-600">{platform}</span>
         </div>
       ))}
     </div>
@@ -1196,7 +1196,7 @@ const ABF_POST_CONTENT = (
       <p className="text-white text-sm leading-relaxed">ABF is not a fad driven by one rate cycle. It is a structural re-plumbing of where non-bank credit gets made, who holds it, and how it is returned. The capital is early, the infrastructure is still being built, and the managers who win are going to be the ones who treat collateral control and data as the product — not the yield.</p>
     </div>
 
-    <p className="text-[11px] text-gray-400 italic mt-4">Sources: Carlyle 2026 Credit Outlook; JPMorgan Private Bank (Mar &apos;26); KKR Insights; Cambridge Associates; Rithm Capital white paper (Dec &apos;25); With Intelligence Private Credit Outlook 2026; Janus Henderson / VPC. Not investment advice.</p>
+    <p className="text-[11px] text-gray-600 italic mt-4">Sources: Carlyle 2026 Credit Outlook; JPMorgan Private Bank (Mar &apos;26); KKR Insights; Cambridge Associates; Rithm Capital white paper (Dec &apos;25); With Intelligence Private Credit Outlook 2026; Janus Henderson / VPC. Not investment advice.</p>
   </div>
 );
 
@@ -1264,7 +1264,7 @@ export const INDUSTRY_POSTS: InsightPost[] = [
     tag: "Credit",
     paragraphs: [],
     richContent: (
-      <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
+      <div className="space-y-5 text-[#1a1e24] text-sm leading-[1.75]">
         <p>If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way. To understand fixed income is to understand how the market prices time, risk, and uncertainty.</p>
 
         <p>At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades — and what it implies about the world — is far more complex. The first distinction most investors encounter is between current yield and yield to maturity. Current yield measures the income you receive today relative to the bond's price. Yield to maturity is the market's full return expectation — it incorporates the coupon, any gain or loss from buying above or below face value, and the time value of money. This is why credit investors anchor on yield to maturity: it reflects total economic return, assuming the issuer survives.</p>
@@ -1275,8 +1275,8 @@ export const INDUSTRY_POSTS: InsightPost[] = [
         {/* Figure 1: Yield Curve SVG */}
         <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
           <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
+            <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
+            <p className="text-[11px] text-gray-600 mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
           </div>
           <div className="p-5">
             <svg viewBox="0 0 480 200" className="w-full" style={{ fontFamily: "inherit" }}>
@@ -1286,11 +1286,11 @@ export const INDUSTRY_POSTS: InsightPost[] = [
               ))}
               {/* Y axis labels */}
               {[0,1,2,3,4,5,6].map(y => (
-                <text key={y} x="42" y={174 - y * 24} textAnchor="end" fontSize="9" fill="#5b6472">{y}%</text>
+                <text key={y} x="42" y={174 - y * 24} textAnchor="end" fontSize="9" fill="#454e5a">{y}%</text>
               ))}
               {/* X axis labels */}
               {["3M","1Y","2Y","5Y","10Y","30Y"].map((label, i) => (
-                <text key={label} x={48 + i * 82} y="188" textAnchor="middle" fontSize="9" fill="#3d444d">{label}</text>
+                <text key={label} x={48 + i * 82} y="188" textAnchor="middle" fontSize="9" fill="#2b3138">{label}</text>
               ))}
               {/* Normal curve (green) */}
               <polyline
@@ -1335,8 +1335,8 @@ export const INDUSTRY_POSTS: InsightPost[] = [
         {/* Figure 2: Credit Spread Anatomy */}
         <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
           <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
-            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative yield composition across credit quality</p>
+            <p className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
+            <p className="text-[11px] text-gray-600 mt-0.5">Illustrative yield composition across credit quality</p>
           </div>
           <div className="p-5 space-y-3">
             {[
@@ -1348,7 +1348,7 @@ export const INDUSTRY_POSTS: InsightPost[] = [
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-medium text-gray-600">{row.label}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-gray-400">{row.note}</span>
+                    <span className="text-[11px] text-gray-600">{row.note}</span>
                     <span className="text-xs font-bold text-gray-800">{row.total}</span>
                   </div>
                 </div>
@@ -1369,7 +1369,7 @@ export const INDUSTRY_POSTS: InsightPost[] = [
               {[["#3b82f6","Risk-Free Rate"],["#8b5cf6","IG Credit Spread"],["#ef4444","HY Credit Spread"]].map(([color, label]) => (
                 <div key={label} className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: color }} />
-                  <span className="text-[10px] text-gray-500">{label}</span>
+                  <span className="text-[10px] text-gray-700">{label}</span>
                 </div>
               ))}
             </div>

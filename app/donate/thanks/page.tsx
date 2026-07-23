@@ -9,7 +9,7 @@ export default function DonateThanksPage() {
         </svg>
       </div>
       <h1 className="text-2xl font-bold text-[#191c1e] mb-2">Thank you.</h1>
-      <p className="text-sm text-gray-500 text-center max-w-xs leading-relaxed mb-8">
+      <p className="text-sm text-gray-700 text-center max-w-xs leading-relaxed mb-8">
         Your contribution helps keep Onlu free and independent. We genuinely appreciate it.
       </p>
       <Link href="/" className="px-5 py-2.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] transition-colors">

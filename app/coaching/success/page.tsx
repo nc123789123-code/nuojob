@@ -34,7 +34,7 @@ function SuccessContent() {
         </div>
 
         <h1 className="text-2xl font-bold text-[#191c1e] mb-2">Payment confirmed.</h1>
-        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+        <p className="text-gray-700 text-sm leading-relaxed mb-8">
           Your <strong className="text-[#191c1e]">{label}</strong> is booked. Pick a time below and we&apos;ll see you on the call.
         </p>
 
@@ -52,12 +52,12 @@ function SuccessContent() {
         ) : (
           <div className="bg-white rounded-2xl border border-gray-200 px-6 py-10 mb-8">
             <p className="text-sm font-semibold text-[#191c1e] mb-2">A calendar link is on its way to your inbox.</p>
-            <p className="text-xs text-gray-400">Check your email to schedule your session. If you don&apos;t see it within a few minutes, check your spam folder.</p>
+            <p className="text-xs text-gray-600">Check your email to schedule your session. If you don&apos;t see it within a few minutes, check your spam folder.</p>
           </div>
         )}
 
         <div className="bg-white rounded-xl border border-gray-200 p-5 text-left mb-6">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Before the session</p>
+          <p className="text-xs font-bold text-gray-600 uppercase tracking-wide mb-3">Before the session</p>
           <ul className="space-y-2">
             {[
               "Have your CV and LinkedIn ready to share",

@@ -16,7 +16,7 @@ export default function HousingConstructionPost() {
 
       {/* Breadcrumb */}
       <div className="border-b border-gray-100 bg-white">
-        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-400">
+        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-600">
           <Link href="/?tab=learn" className="hover:text-[#396477] transition-colors">Onlu Learning</Link>
           <span>›</span>
           <span className="text-gray-600 truncate">US Residential Construction</span>
