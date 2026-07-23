@@ -14,16 +14,16 @@ export type SignalBadgeVariant =
   | "inferred";
 
 const VARIANTS: Record<SignalBadgeVariant, { cls: string; label: string }> = {
-  "high-signal":      { cls: "bg-[#2E1620] text-[#FB7185] border-[#38324E]",         label: "High Signal"           },
-  "buildout":         { cls: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]", label: "Likely Buildout"    },
-  "raising":          { cls: "bg-[#2A2113] text-[#F5B544] border-[#38324E]",    label: "Raising Now"          },
-  "fresh":            { cls: "bg-[#0F2033] text-[#7DD3FC] border-[#38324E]",          label: "Just Posted"          },
-  "direct":           { cls: "bg-[#0F2A2E] text-[#5EE6B5] border-[#38324E]",       label: "Direct Posting"       },
-  "backfill":         { cls: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",       label: "Backfill"             },
-  "ib-transition":    { cls: "bg-[#161533] text-[#C4B5FD] border-[#38324E]", label: "Good IB → Buyside"    },
-  "buyside-preferred":{ cls: "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]", label: "Buyside Preferred"    },
-  "selective":        { cls: "bg-[#2E1620] text-[#FB7185] border-[#38324E]",       label: "Selective Team"        },
-  "inferred":         { cls: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",       label: "EDGAR Inferred"       },
+  "high-signal":      { cls: "bg-red-50 text-red-700 border-red-200",         label: "High Signal"           },
+  "buildout":         { cls: "bg-emerald-50 text-emerald-700 border-emerald-200", label: "Likely Buildout"    },
+  "raising":          { cls: "bg-amber-50 text-amber-700 border-amber-200",    label: "Raising Now"          },
+  "fresh":            { cls: "bg-sky-50 text-sky-700 border-sky-200",          label: "Just Posted"          },
+  "direct":           { cls: "bg-teal-50 text-teal-700 border-teal-200",       label: "Direct Posting"       },
+  "backfill":         { cls: "bg-gray-50 text-gray-600 border-gray-200",       label: "Backfill"             },
+  "ib-transition":    { cls: "bg-indigo-50 text-indigo-700 border-indigo-200", label: "Good IB → Buyside"    },
+  "buyside-preferred":{ cls: "bg-violet-50 text-violet-700 border-violet-200", label: "Buyside Preferred"    },
+  "selective":        { cls: "bg-rose-50 text-rose-700 border-rose-200",       label: "Selective Team"        },
+  "inferred":         { cls: "bg-gray-50 text-gray-500 border-gray-200",       label: "EDGAR Inferred"       },
 };
 
 interface SignalBadgeProps {

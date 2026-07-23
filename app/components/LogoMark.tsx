@@ -6,28 +6,26 @@ export default function LogoMark({ size = 28 }: { size?: number }) {
           <circle cx="14" cy="14" r="12.5" />
         </clipPath>
       </defs>
-      {/* dark disc so the bands pop on any background */}
-      <circle cx="14" cy="14" r="12.5" fill="#14111D" />
-      {/* violet base */}
+      {/* Salmon/peach bottom fill */}
       <path
         d="M 1 21 Q 9 18 27 15.5 L 27 28 L 1 28 Z"
-        fill="#8B5CF6"
+        fill="#f0b2a0"
         clipPath="url(#onlu-clip)"
       />
-      {/* fuchsia band */}
+      {/* Lavender band */}
       <path
         d="M 1 17.5 Q 9 14.5 27 12 L 27 15.5 Q 9 18 1 21 Z"
-        fill="#EC4899"
+        fill="#c4b0de"
         clipPath="url(#onlu-clip)"
       />
-      {/* gold band */}
+      {/* Mint green band */}
       <path
         d="M 1 14.5 Q 9 11.5 27 9 L 27 12 Q 9 14.5 1 17.5 Z"
-        fill="#F5B544"
+        fill="#9ecfc0"
         clipPath="url(#onlu-clip)"
       />
-      {/* champagne-gold ring */}
-      <circle cx="14" cy="14" r="12.5" stroke="#E9C989" strokeWidth="1.1" fill="none" />
+      {/* Circle outline */}
+      <circle cx="14" cy="14" r="12.5" stroke="#e8a898" strokeWidth="1.2" fill="none" />
     </svg>
   );
 }

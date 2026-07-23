@@ -49,16 +49,16 @@ export default function NewsletterCTA({
     }
   };
 
-  const bg = dark ? "bg-[#171226]" : "bg-[#201B2E] border border-[#38324E]";
-  const headingColor = dark ? "text-white" : "text-[#F4F0FA]";
-  const descColor = dark ? "text-white/70" : "text-[#9A93AC]";
-  const labelColor = dark ? "text-white/60" : "text-[#8A8398]";
+  const bg = dark ? "bg-[#396477]" : "bg-white border border-gray-200";
+  const headingColor = dark ? "text-white" : "text-gray-900";
+  const descColor = dark ? "text-white/70" : "text-gray-500";
+  const labelColor = dark ? "text-white/60" : "text-gray-400";
   const inputCls = dark
-    ? "border-white/20 bg-[#201B2E]/10 text-white placeholder:text-white/40 focus:ring-white/60"
-    : "border-[#38324E] bg-[#201B2E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:ring-[#396477]";
+    ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:ring-white/60"
+    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:ring-[#396477]";
   const btnCls = dark
-    ? "bg-[#201B2E] text-[#A78BFA] hover:bg-[#201B2E]"
-    : "bg-[#171226] text-white hover:bg-[#6D28D9]";
+    ? "bg-white text-[#396477] hover:bg-gray-100"
+    : "bg-[#396477] text-white hover:bg-[#2d5162]";
 
   return (
     <div className={`${bg} rounded-xl px-6 py-7 text-center`}>
@@ -69,7 +69,7 @@ export default function NewsletterCTA({
       <p className={`${descColor} text-sm mt-1.5 max-w-sm mx-auto leading-relaxed`}>{description}</p>
 
       {submitted ? (
-        <div className="mt-5 inline-flex items-center gap-2 bg-[#10B981]/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium px-4 py-2 rounded-lg">
+        <div className="mt-5 inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium px-4 py-2 rounded-lg">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
           {successMessage}
         </div>

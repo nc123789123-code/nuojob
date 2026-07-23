@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #14111D;
-  --foreground: #F4F0FA;
+  --background: #f7f9fb;
+  --foreground: #191c1e;
 }
 
 @theme inline {
@@ -17,58 +17,110 @@ body {
   color: var(--foreground);
   font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+/* punchier headlines (same Nunito, heavier + tighter) */
 h1, h2, h3 {
   font-family: 'Nunito', -apple-system, sans-serif;
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
-/* more punch on display headlines (same Nunito, heavier + tighter) */
-h1 {
-  font-weight: 900 !important;
-  letter-spacing: -0.045em;
-  line-height: 1.03;
-}
-h2 {
-  font-weight: 800 !important;
-  letter-spacing: -0.035em;
-}
-body {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+h1 { font-weight: 900 !important; letter-spacing: -0.045em; }
+h2 { font-weight: 800 !important; letter-spacing: -0.035em; }
 
-/* Dark glass shell (nav) */
+/* light glass nav */
 .glass-panel {
-  background: rgba(16, 10, 24, 0.72);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
-/* Hero — deep ink ground with violet / fuchsia glow field */
+/* ============================================================
+   DARK HERO band (sits on the otherwise-light page)
+   ============================================================ */
 .hero-gradient {
   background:
-    radial-gradient(ellipse at 72% -10%, rgba(124, 58, 237, 0.38) 0%, transparent 55%),
-    radial-gradient(ellipse at 0% 110%, rgba(236, 72, 153, 0.22) 0%, transparent 52%),
-    radial-gradient(ellipse at 100% 100%, rgba(245, 181, 68, 0.12) 0%, transparent 45%),
-    #14111D;
+    radial-gradient(ellipse at 72% -25%, rgba(124,58,237,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at -5% 120%, rgba(236,72,153,0.34) 0%, transparent 55%),
+    radial-gradient(ellipse at 105% 120%, rgba(245,181,68,0.18) 0%, transparent 50%),
+    #100A18;
   position: relative;
+  overflow: hidden;
 }
-
+/* animated aurora sweep for extra life */
+.hero-gradient::after {
+  content: '';
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 140%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.18) 0%, transparent 60%);
+  animation: aurora 12s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes aurora {
+  0%, 100% { transform: translateX(-8%) translateY(0) scale(1); opacity: 0.8; }
+  50%      { transform: translateX(8%) translateY(4%) scale(1.1); opacity: 1; }
+}
 .hero-gradient::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(233, 201, 137, 0.5) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(233,201,137,0.5) 1px, transparent 1px);
   background-size: 30px 30px;
   opacity: 0.10;
   pointer-events: none;
 }
+/* keep hero content above the decorative layers */
+.hero-gradient > * { position: relative; z-index: 1; }
 
-/* signature gradient text helper */
+/* gradient headline inside the hero, with animated sheen */
+.hero-gradient h1 {
+  background: linear-gradient(100deg, #A78BFA 0%, #EC4899 55%, #F5B544 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent;
+  animation: sheen 6s ease-in-out infinite;
+  filter: drop-shadow(0 3px 26px rgba(236,72,153,0.28));
+}
+@keyframes sheen {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+/* light up the muted header text in the hero (scoped so the white
+   quick-nav cards inside the band keep their dark text) */
+.hero-gradient p {
+  color: #CFC9DB !important;
+}
+.hero-gradient span.text-\[\#71787c\],
+.hero-gradient span.text-\[\#41484c\],
+.hero-gradient strong.text-\[\#191c1e\] {
+  color: #CFC9DB !important;
+}
+
+/* ============================================================
+   Moving firm ticker
+   ============================================================ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 26s linear infinite;
+  will-change: transform;
+}
+.marquee-mask:hover .marquee-track { animation-play-state: paused; }
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* signature gradient text helper (for use on light sections too) */
 .text-grad {
-  background: linear-gradient(100deg, #A78BFA 0%, #EC4899 52%, #F5B544 100%);
+  background: linear-gradient(100deg, #7C3AED, #EC4899 55%, #E9A200 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -78,13 +130,11 @@ body {
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Card lift on hover — dark glow */
-.card-lift {
-  transition: box-shadow 0.18s ease, transform 0.18s ease;
-}
+/* Card lift on hover */
+.card-lift { transition: box-shadow 0.18s ease, transform 0.18s ease; }
 .card-lift:hover {
-  box-shadow: 0 10px 34px rgba(124, 58, 237, 0.18), 0 0 0 1px rgba(233, 201, 137, 0.14);
-  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(124,58,237,0.14), 0 2px 6px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
 }
 
 /* Counter animation */
@@ -92,30 +142,11 @@ body {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.counter-animate {
-  animation: countUp 0.5s ease both;
-}
+.counter-animate { animation: countUp 0.5s ease both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .counter-animate { animation: none; }
-}
-
-/* Moving firm ticker */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee-track {
-  animation: marquee 34s linear infinite;
-  will-change: transform;
-}
-.marquee-mask:hover .marquee-track {
-  animation-play-state: paused;
-}
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
+  .hero-gradient h1,
+  .hero-gradient::after,
+  .marquee-track,
+  .counter-animate { animation: none !important; }
 }

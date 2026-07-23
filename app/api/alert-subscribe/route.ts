@@ -52,7 +52,7 @@ export async function POST(req: Request) {
         to: email,
         subject: `Alert set: new roles at ${firm}`,
         html: `
-          <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
+          <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
             <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">You're set.</h2>
             <p style="color:#555;line-height:1.6">
               We'll notify you when new front-office roles appear at <strong>${firm}</strong>.

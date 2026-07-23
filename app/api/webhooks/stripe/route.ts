@@ -16,7 +16,7 @@ async function sendGuideEmail(email: string) {
     to: email,
     subject: "Your Credit Interview Guide — download inside",
     html: `
-      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
         <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">Your guide is ready.</h2>
         <p style="color:#555;line-height:1.6">
           Thank you for your purchase. Click the button below to download your
@@ -29,7 +29,7 @@ async function sendGuideEmail(email: string) {
            style="display:inline-block;margin-top:16px;padding:12px 24px;background:#0f172a;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
           Download PDF →
         </a>
-        <p style="margin-top:24px;color:#8A8398;font-size:12px">
+        <p style="margin-top:24px;color:#888;font-size:12px">
           Questions? Reply to this email and we'll get back to you.
         </p>
       </div>
@@ -65,7 +65,7 @@ async function sendProWelcome(email: string, plan: string) {
     to: email,
     subject: "Welcome to Onlu Pro 🎉",
     html: `
-      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
         <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">You're in. Welcome to Onlu Pro.</h2>
         <p style="color:#555;line-height:1.6">
           Thanks for going Pro (${planLabel}). You now get the full daily jobs digest,
@@ -76,10 +76,10 @@ async function sendProWelcome(email: string, plan: string) {
           Keep an eye on your inbox for the full digest.
         </p>
         <a href="${base}"
-           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#7C3AED;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
+           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6aab8e;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
           Open Onlu →
         </a>
-        <p style="margin-top:24px;color:#8A8398;font-size:12px">
+        <p style="margin-top:24px;color:#888;font-size:12px">
           Manage or cancel anytime — just reply to this email and we'll take care of it.
         </p>
       </div>
@@ -98,16 +98,16 @@ async function sendCoachingConfirmation(email: string, sessionType: string) {
     to: email,
     subject: `Your ${label} is confirmed — Onlu`,
     html: `
-      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
         <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">You're booked.</h2>
         <p style="color:#555;line-height:1.6">
           Your <strong>${label}</strong> is confirmed. Click the link below to pick a time that works for you.
         </p>
         ${calendlyUrl
-          ? `<a href="${calendlyUrl}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#7C3AED;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Schedule your session →</a>`
-          : `<a href="${base}/coaching/success?type=${sessionType}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#7C3AED;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">View booking details →</a>`
+          ? `<a href="${calendlyUrl}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1A2B4A;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Schedule your session →</a>`
+          : `<a href="${base}/coaching/success?type=${sessionType}" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#1A2B4A;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">View booking details →</a>`
         }
-        <p style="margin-top:24px;color:#8A8398;font-size:13px;line-height:1.6">
+        <p style="margin-top:24px;color:#888;font-size:13px;line-height:1.6">
           Before the session: have your CV ready, jot down your top questions, and note the firms you are targeting.
         </p>
         <p style="margin-top:16px;color:#aaa;font-size:12px">

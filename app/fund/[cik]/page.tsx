@@ -134,7 +134,7 @@ function generateBrief(data: FirmData): { whatTheyDo: string; whatTheyHireFor: s
 
 // ─── Pill ────────────────────────────────────────────────────────────────────
 
-function Pill({ label, cls = "bg-[#201B2E] text-[#9A93AC] border-[#38324E]" }: { label: string; cls?: string }) {
+function Pill({ label, cls = "bg-gray-50 text-gray-600 border-gray-200" }: { label: string; cls?: string }) {
   return (
     <span className={`inline-flex items-center text-[11px] font-medium px-2.5 py-1 rounded-full border ${cls}`}>
       {label}
@@ -147,7 +147,7 @@ function Pill({ label, cls = "bg-[#201B2E] text-[#9A93AC] border-[#38324E]" }: {
 function BriefSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="pt-5 first:pt-0">
-      <h3 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest mb-2">{label}</h3>
+      <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{label}</h3>
       {children}
     </div>
   );
@@ -174,13 +174,13 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#201B2E]">
+      <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="max-w-4xl mx-auto px-5 py-12">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-[#201B2E] rounded w-1/3" />
-            <div className="h-4 bg-[#201B2E] rounded w-1/4" />
-            <div className="h-40 bg-[#201B2E] border border-[#38324E] rounded-xl" />
+            <div className="h-8 bg-gray-200 rounded w-1/3" />
+            <div className="h-4 bg-gray-100 rounded w-1/4" />
+            <div className="h-40 bg-white border border-gray-200 rounded-xl" />
           </div>
         </div>
       </div>
@@ -189,11 +189,11 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-[#201B2E]">
+      <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="max-w-4xl mx-auto px-5 py-12 text-center">
-          <p className="text-[#9A93AC] text-sm">{error || "Fund not found"}</p>
-          <Link href="/" className="mt-4 inline-block text-sm text-[#93C5FD] hover:underline">← Back</Link>
+          <p className="text-gray-500 text-sm">{error || "Fund not found"}</p>
+          <Link href="/" className="mt-4 inline-block text-sm text-blue-600 hover:underline">← Back</Link>
         </div>
       </div>
     );
@@ -207,7 +207,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
   const isRecent = latestFiling ? daysSince(latestFiling.filingDate) <= 90 : false;
 
   return (
-    <div className="min-h-screen bg-[#201B2E]">
+    <div className="min-h-screen bg-gray-50">
       <Header />
 
       <div className="max-w-4xl mx-auto px-5 py-8 space-y-6">
@@ -215,21 +215,21 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
         <div>
           <div className="flex items-start gap-3 flex-wrap">
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-[#F4F0FA] tracking-tight leading-tight">{data.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight">{data.name}</h1>
               <div className="flex items-center gap-2 mt-2 flex-wrap">
-                <Pill label={strategy} cls="bg-[#161533] text-[#C4B5FD] border-[#38324E]" />
+                <Pill label={strategy} cls="bg-indigo-50 text-indigo-700 border-indigo-200" />
                 {data.stateOfIncorporation && <Pill label={data.stateOfIncorporation} />}
                 {isRecent && (
-                  <Pill label="Active signal" cls="bg-[#14352A] text-[#5EE6B5] border-[#38324E]" />
+                  <Pill label="Active signal" cls="bg-emerald-50 text-emerald-700 border-emerald-200" />
                 )}
-                {offered !== "—" && <Pill label={offered} cls="bg-[#201B2E] text-[#9A93AC] border-[#38324E]" />}
+                {offered !== "—" && <Pill label={offered} cls="bg-gray-50 text-gray-600 border-gray-200" />}
               </div>
             </div>
             <Link
               href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${cik}&type=D&dateb=&owner=include&count=40`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-[#8A8398] hover:text-[#93C5FD] transition-colors flex-shrink-0 mt-1"
+              className="text-xs text-gray-400 hover:text-blue-600 transition-colors flex-shrink-0 mt-1"
             >
               SEC EDGAR ↗
             </Link>
@@ -240,36 +240,36 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           {/* Left: Intelligence Brief */}
           <div className="lg:col-span-2 space-y-4">
             {/* Brief panel */}
-            <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-6 py-5 divide-y divide-[#38324E]">
+            <div className="bg-white border border-gray-200 rounded-xl px-6 py-5 divide-y divide-gray-100">
               <BriefSection label="What This Firm Actually Does">
-                <p className="text-sm text-[#B8B0C8] leading-relaxed">{brief.whatTheyDo}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{brief.whatTheyDo}</p>
               </BriefSection>
 
               <BriefSection label="What They Hire For">
-                <p className="text-sm text-[#B8B0C8] leading-relaxed">{brief.whatTheyHireFor}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{brief.whatTheyHireFor}</p>
               </BriefSection>
 
               <BriefSection label="Hiring Reality">
-                <p className="text-sm text-[#B8B0C8] leading-relaxed">{brief.hiringReality}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{brief.hiringReality}</p>
               </BriefSection>
 
               <BriefSection label="Who Should Target This Firm">
-                <p className="text-sm text-[#B8B0C8] leading-relaxed">{brief.whoShouldTarget}</p>
+                <p className="text-sm text-gray-700 leading-relaxed">{brief.whoShouldTarget}</p>
               </BriefSection>
             </div>
 
             {/* Capital activity timeline */}
             {data.formDFilings.length > 0 && (
-              <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-6 py-5">
-                <h3 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest mb-4">Capital Activity (Form D)</h3>
+              <div className="bg-white border border-gray-200 rounded-xl px-6 py-5">
+                <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Capital Activity (Form D)</h3>
                 <div className="space-y-2">
                   {data.formDFilings.slice(0, 8).map((f) => (
                     <div key={f.accessionNumber} className="flex items-center justify-between gap-4 text-sm">
                       <div className="flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.form === "D" ? "bg-[#3B82F6]" : "bg-amber-400"}`} />
-                        <span className="text-[#9A93AC]">{f.form === "D" ? "New filing" : "Amendment"}</span>
+                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.form === "D" ? "bg-blue-500" : "bg-amber-400"}`} />
+                        <span className="text-gray-600">{f.form === "D" ? "New filing" : "Amendment"}</span>
                       </div>
-                      <span className="text-[#8A8398] tabular-nums text-xs">
+                      <span className="text-gray-400 tabular-nums text-xs">
                         {new Date(f.filingDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                         {" · "}
                         {agoLabel(f.filingDate)}
@@ -284,54 +284,54 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           {/* Right: Data sidebar */}
           <div className="space-y-4">
             {/* Fund stats */}
-            <div className="bg-[#201B2E] border border-[#38324E] rounded-xl px-5 py-4 space-y-3">
-              <h3 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest">Fund Data</h3>
+            <div className="bg-white border border-gray-200 rounded-xl px-5 py-4 space-y-3">
+              <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Fund Data</h3>
 
               {offered !== "—" && (
                 <div>
-                  <p className="text-[11px] text-[#8A8398] mb-0.5">Target / Offering Size</p>
-                  <p className="text-sm font-semibold text-[#F4F0FA]">{offered}</p>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Target / Offering Size</p>
+                  <p className="text-sm font-semibold text-gray-900">{offered}</p>
                 </div>
               )}
               {sold !== "—" && (
                 <div>
-                  <p className="text-[11px] text-[#8A8398] mb-0.5">Amount Raised</p>
-                  <p className="text-sm font-semibold text-[#F4F0FA]">{sold}</p>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Amount Raised</p>
+                  <p className="text-sm font-semibold text-gray-900">{sold}</p>
                 </div>
               )}
               {data.formDDetails?.minimumInvestment && fmt(data.formDDetails.minimumInvestment) !== "—" && (
                 <div>
-                  <p className="text-[11px] text-[#8A8398] mb-0.5">Min. Investment</p>
-                  <p className="text-sm font-semibold text-[#F4F0FA]">{fmt(data.formDDetails.minimumInvestment)}</p>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Min. Investment</p>
+                  <p className="text-sm font-semibold text-gray-900">{fmt(data.formDDetails.minimumInvestment)}</p>
                 </div>
               )}
               {data.formDDetails?.dateOfFirstSale && (
                 <div>
-                  <p className="text-[11px] text-[#8A8398] mb-0.5">First Sale Date</p>
-                  <p className="text-sm font-semibold text-[#F4F0FA]">
+                  <p className="text-[11px] text-gray-400 mb-0.5">First Sale Date</p>
+                  <p className="text-sm font-semibold text-gray-900">
                     {new Date(data.formDDetails.dateOfFirstSale).toLocaleDateString("en-US", { month: "short", year: "numeric" })}
                   </p>
                 </div>
               )}
               {latestFiling && (
                 <div>
-                  <p className="text-[11px] text-[#8A8398] mb-0.5">Latest Filing</p>
-                  <p className="text-sm font-semibold text-[#F4F0FA]">{agoLabel(latestFiling.filingDate)}</p>
+                  <p className="text-[11px] text-gray-400 mb-0.5">Latest Filing</p>
+                  <p className="text-sm font-semibold text-gray-900">{agoLabel(latestFiling.filingDate)}</p>
                 </div>
               )}
               <div>
-                <p className="text-[11px] text-[#8A8398] mb-0.5">Form D Count</p>
-                <p className="text-sm font-semibold text-[#F4F0FA]">{data.formDFilings.length}</p>
+                <p className="text-[11px] text-gray-400 mb-0.5">Form D Count</p>
+                <p className="text-sm font-semibold text-gray-900">{data.formDFilings.length}</p>
               </div>
             </div>
 
             {/* Find roles CTA */}
             <div className="bg-slate-900 rounded-xl px-5 py-4">
               <p className="text-white text-sm font-semibold mb-1">Find open roles</p>
-              <p className="text-[#8A8398] text-xs leading-relaxed mb-3">Browse live and inferred hiring signals from this fund and similar firms.</p>
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">Browse live and inferred hiring signals from this fund and similar firms.</p>
               <Link
                 href={`/?tab=jobs`}
-                className="inline-flex items-center gap-1.5 bg-[#201B2E] text-[#F4F0FA] text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#201B2E] transition-colors"
+                className="inline-flex items-center gap-1.5 bg-white text-slate-900 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-colors"
               >
                 View all signals →
               </Link>
@@ -339,7 +339,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
           </div>
         </div>
 
-        <p className="text-center text-xs text-[#8A8398] pb-4">
+        <p className="text-center text-xs text-gray-400 pb-4">
           Data sourced from{" "}
           <a
             href={`https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${cik}&type=D`}
@@ -361,10 +361,10 @@ function Header() {
       <div className="max-w-4xl mx-auto px-5 h-12 flex items-center gap-4">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-white font-bold text-base tracking-tight">Onlu</span>
-          <span className="text-[#8A8398] text-xs font-medium tracking-wide uppercase">Intel</span>
+          <span className="text-slate-400 text-xs font-medium tracking-wide uppercase">Intel</span>
         </Link>
         <div className="w-px h-4 bg-slate-700" />
-        <span className="text-[#8A8398] text-xs">Firm Intelligence</span>
+        <span className="text-slate-400 text-xs">Firm Intelligence</span>
       </div>
     </header>
   );

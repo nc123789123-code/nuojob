@@ -15,32 +15,32 @@ function agoLabel(days: number): string {
 }
 
 function sourceLabel(id: string): { label: string; style: string; isDirect: boolean } {
-  if (id.startsWith("gh-"))     return { label: "Greenhouse",  style: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]", isDirect: true  };
-  if (id.startsWith("lever-"))  return { label: "Lever",       style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#38324E]",          isDirect: true  };
-  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",          isDirect: false };
-  if (id.startsWith("adzuna-")) return { label: "Adzuna",      style: "bg-[#0F1A33] text-[#93C5FD] border-[#38324E]",          isDirect: false };
-  if (id.startsWith("muse-"))   return { label: "The Muse",    style: "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",    isDirect: false };
-  return                               { label: "Board",        style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",          isDirect: false };
+  if (id.startsWith("gh-"))     return { label: "Greenhouse",  style: "bg-emerald-50 text-emerald-700 border-emerald-200", isDirect: true  };
+  if (id.startsWith("lever-"))  return { label: "Lever",       style: "bg-teal-50 text-teal-700 border-teal-200",          isDirect: true  };
+  if (id.startsWith("edgar-"))  return { label: "EDGAR",       style: "bg-gray-50 text-gray-500 border-gray-200",          isDirect: false };
+  if (id.startsWith("adzuna-")) return { label: "Adzuna",      style: "bg-blue-50 text-blue-700 border-blue-200",          isDirect: false };
+  if (id.startsWith("muse-"))   return { label: "The Muse",    style: "bg-purple-50 text-purple-700 border-purple-200",    isDirect: false };
+  return                               { label: "Board",        style: "bg-gray-50 text-gray-500 border-gray-200",          isDirect: false };
 }
 
 const CATEGORY_BAR: Record<JobCategory, string> = {
   "Private Credit":     "bg-blue-600",
-  "Public Credit":      "bg-[#0EA5E9]",
-  "Equity Research":    "bg-[#8B5CF6]",
-  "Other Finance Roles":   "bg-[#6366F1]",
-  "Investment Banking": "bg-[#F59E0B]",
-  "Quant":              "bg-[#EC4899]",
-  "IR / Ops":           "bg-[#10B981]",
+  "Public Credit":      "bg-sky-500",
+  "Equity Research":    "bg-violet-500",
+  "Other Finance Roles":   "bg-indigo-500",
+  "Investment Banking": "bg-amber-500",
+  "Quant":              "bg-pink-500",
+  "IR / Ops":           "bg-emerald-500",
 };
 
 const CATEGORY_BADGE: Record<JobCategory, string> = {
-  "Private Credit":     "bg-[#0F1A33] text-[#93C5FD] border-[#38324E]",
-  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#38324E]",
-  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",
-  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#38324E]",
-  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
-  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#38324E]",
-  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
+  "Private Credit":     "bg-blue-50 text-blue-700 border-blue-100",
+  "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
+  "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
+  "Other Finance Roles":   "bg-indigo-50 text-indigo-700 border-indigo-100",
+  "Investment Banking": "bg-amber-50 text-amber-700 border-amber-100",
+  "Quant":              "bg-pink-50 text-pink-700 border-pink-100",
+  "IR / Ops":           "bg-emerald-50 text-emerald-700 border-emerald-100",
 };
 
 // ─── Intelligence badge derivation ────────────────────────────────────────────
@@ -221,32 +221,32 @@ function generateAnalysis(signal: JobSignal): RoleAnalysis {
 function AnalysisSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[10px] font-bold text-[#8A8398] uppercase tracking-widest mb-2">{label}</h4>
+      <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{label}</h4>
       {children}
     </div>
   );
 }
 
 function VerdictDot({ verdict }: { verdict: RoleAnalysis["worthApplying"]["verdict"] }) {
-  const cls = verdict === "strong" ? "bg-[#10B981]" : verdict === "good" ? "bg-[#3B82F6]" : verdict === "moderate" ? "bg-amber-400" : "bg-gray-300";
+  const cls = verdict === "strong" ? "bg-emerald-500" : verdict === "good" ? "bg-blue-500" : verdict === "moderate" ? "bg-amber-400" : "bg-gray-300";
   return <span className={`inline-block w-2 h-2 rounded-full ${cls} mr-2 flex-shrink-0 mt-1`} />;
 }
 
 function AnalysisPanel({ signal }: { signal: JobSignal }) {
   const a = generateAnalysis(signal);
   return (
-    <div className="border-t border-[#38324E] bg-[#201B2E]/60 px-5 py-5">
+    <div className="border-t border-gray-100 bg-slate-50/60 px-5 py-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left column */}
         <div className="space-y-5">
           <AnalysisSection label="Role Reality">
-            <p className="text-sm text-[#B8B0C8] leading-relaxed">{a.roleReality}</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{a.roleReality}</p>
           </AnalysisSection>
 
           <AnalysisSection label="What They Actually Care About">
             <ul className="space-y-1.5">
               {a.whatTheyCareAbout.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#B8B0C8]">
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                   <span className="text-gray-300 mt-0.5 flex-shrink-0">—</span>
                   <span>{item}</span>
                 </li>
@@ -260,7 +260,7 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
           <AnalysisSection label="Hidden Signals">
             <ul className="space-y-2">
               {a.hiddenSignals.map((s, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#B8B0C8]">
+                <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
                   <span className="text-blue-400 mt-0.5 flex-shrink-0">↗</span>
                   <span>{s}</span>
                 </li>
@@ -269,19 +269,19 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
           </AnalysisSection>
 
           <AnalysisSection label="Likely Interview Focus">
-            <p className="text-sm text-[#B8B0C8] leading-relaxed">{a.interviewFocus}</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{a.interviewFocus}</p>
           </AnalysisSection>
 
           <AnalysisSection label="Worth Applying?">
             <div className="flex items-start gap-2">
               <VerdictDot verdict={a.worthApplying.verdict} />
-              <p className="text-sm text-[#B8B0C8] leading-relaxed">{a.worthApplying.text}</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{a.worthApplying.text}</p>
             </div>
           </AnalysisSection>
         </div>
       </div>
 
-      <p className="text-[10px] text-[#8A8398] mt-5 pt-4 border-t border-[#38324E]">
+      <p className="text-[10px] text-gray-400 mt-5 pt-4 border-t border-gray-200">
         Onlu analysis · Based on signal source, hiring context, and category patterns · Not AI-generated
       </p>
     </div>
@@ -292,10 +292,10 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
 
 function ScorePip({ score }: { score: number }) {
   const [bg, text] =
-    score >= 80 ? ["bg-[#F43F5E]", "text-white"] :
-    score >= 65 ? ["bg-[#F59E0B]", "text-white"] :
+    score >= 80 ? ["bg-red-500", "text-white"] :
+    score >= 65 ? ["bg-amber-500", "text-white"] :
     score >= 50 ? ["bg-yellow-400", "text-white"] :
-                  ["bg-[#201B2E]", "text-[#9A93AC]"];
+                  ["bg-gray-100", "text-gray-500"];
   return (
     <div className={`w-7 h-7 rounded-md ${bg} flex items-center justify-center flex-shrink-0`}>
       <span className={`font-bold text-[11px] tabular-nums ${text}`}>{score}</span>
@@ -318,7 +318,7 @@ export default function RoleCard({ signal }: Props) {
   const isApply = !signal.id.startsWith("edgar-");
 
   return (
-    <div className={`bg-[#201B2E] border border-[#38324E] rounded-xl overflow-hidden transition-shadow ${expanded ? "shadow-md" : "hover:shadow-sm"}`}>
+    <div className={`bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow ${expanded ? "shadow-md" : "hover:shadow-sm"}`}>
       {/* Main card row */}
       <div
         className="flex items-stretch cursor-pointer"
@@ -334,7 +334,7 @@ export default function RoleCard({ signal }: Props) {
           {/* Top row: firm + source + score + badges */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2 flex-wrap min-w-0">
-              <span className="font-semibold text-[#F4F0FA] text-sm">{signal.firm}</span>
+              <span className="font-semibold text-gray-900 text-sm">{signal.firm}</span>
               <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${src.style}`}>{src.label}</span>
             </div>
             <div className="flex items-center gap-1.5 flex-shrink-0">
@@ -344,11 +344,11 @@ export default function RoleCard({ signal }: Props) {
           </div>
 
           {/* Role title */}
-          <div className="mt-1.5 font-semibold text-[#F4F0FA] text-[15px] leading-snug">{signal.role}</div>
+          <div className="mt-1.5 font-semibold text-gray-800 text-[15px] leading-snug">{signal.role}</div>
 
           {/* Intel line */}
           {signal.why && (
-            <p className="mt-1 text-xs text-[#9A93AC] leading-relaxed">
+            <p className="mt-1 text-xs text-gray-500 leading-relaxed">
               <span className="text-blue-400 font-medium">→ </span>{signal.why}
             </p>
           )}
@@ -360,12 +360,12 @@ export default function RoleCard({ signal }: Props) {
                 {signal.category}
               </span>
               {signal.location && signal.location !== "—" && (
-                <span className="text-xs text-[#8A8398]">{signal.location}</span>
+                <span className="text-xs text-gray-400">{signal.location}</span>
               )}
               {signal.salaryRange && (
-                <span className="text-xs font-medium text-[#5EE6B5]">{signal.salaryRange}</span>
+                <span className="text-xs font-medium text-emerald-600">{signal.salaryRange}</span>
               )}
-              <span className="text-xs text-[#8A8398] tabular-nums">{agoLabel(signal.daysAgo)}</span>
+              <span className="text-xs text-gray-400 tabular-nums">{agoLabel(signal.daysAgo)}</span>
             </div>
             <div className="flex items-center gap-3">
               {signal.edgarUrl && (
@@ -374,12 +374,12 @@ export default function RoleCard({ signal }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-[11px] font-medium text-[#93C5FD] hover:text-[#93C5FD] transition-colors"
+                  className="text-[11px] font-medium text-blue-600 hover:text-blue-800 transition-colors"
                 >
                   {isApply ? "Apply ↗" : "EDGAR ↗"}
                 </a>
               )}
-              <span className={`text-[11px] font-medium transition-colors ${expanded ? "text-[#B8B0C8]" : "text-[#8A8398] hover:text-[#9A93AC]"}`}>
+              <span className={`text-[11px] font-medium transition-colors ${expanded ? "text-gray-700" : "text-gray-400 hover:text-gray-600"}`}>
                 {expanded ? "Hide analysis ▴" : "View analysis ▾"}
               </span>
             </div>

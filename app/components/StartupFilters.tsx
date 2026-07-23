@@ -38,19 +38,19 @@ export default function StartupFilterBar({ filters, onChange, total, loading }: 
           className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
             filters.bucket === b.v
               ? "bg-slate-900 text-white border-slate-900"
-              : "bg-[#201B2E] text-[#9A93AC] border-[#38324E] hover:border-gray-400"
+              : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
           }`}
         >
           {b.l}
         </button>
       ))}
 
-      <div className="w-px h-5 bg-[#201B2E] hidden sm:block" />
+      <div className="w-px h-5 bg-gray-200 hidden sm:block" />
 
       <select
         value={filters.stage}
         onChange={(e) => set("stage", e.target.value as StartupSearchFilters["stage"])}
-        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-slate-900"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
       >
         {STAGES.map((s) => <option key={s.v} value={s.v}>{s.l}</option>)}
       </select>
@@ -58,7 +58,7 @@ export default function StartupFilterBar({ filters, onChange, total, loading }: 
       <select
         value={filters.dateRange}
         onChange={(e) => set("dateRange", e.target.value as StartupSearchFilters["dateRange"])}
-        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-slate-900"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
       >
         <option value="30">Last 30d</option>
         <option value="60">Last 60d</option>
@@ -69,7 +69,7 @@ export default function StartupFilterBar({ filters, onChange, total, loading }: 
       <select
         value={filters.minAmount}
         onChange={(e) => set("minAmount", e.target.value)}
-        className="text-xs border border-[#38324E] rounded-lg px-2.5 py-1.5 bg-[#201B2E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-slate-900"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
       >
         <option value="">Any size</option>
         <option value="1">$1M+</option>
@@ -80,7 +80,7 @@ export default function StartupFilterBar({ filters, onChange, total, loading }: 
         <option value="100">$100M+</option>
       </select>
 
-      <span className="ml-auto text-xs text-[#8A8398]">
+      <span className="ml-auto text-xs text-gray-400">
         {loading ? "Searching…" : `${total} compan${total !== 1 ? "ies" : "y"}`}
       </span>
     </div>

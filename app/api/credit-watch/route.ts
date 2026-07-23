@@ -190,13 +190,13 @@ Return JSON with exactly these two keys:
 {
   "snapshot": "4-5 sentence credit analyst summary covering: business & debt rationale, cap structure (specific tranches with approximate sizes), leverage assessment, credit risks. Be specific about the actual debt instruments this company has. If private/unlisted, use training knowledge. No hedging phrases.",
   "tranches": [
-    { "name": "Revolving Credit Facility", "amount": "$500M", "seniority": 1, "priceHint": "par", "color": "bg-[#10B981]" },
-    { "name": "Term Loan B", "amount": "$2.1B", "seniority": 2, "priceHint": "~94¢", "color": "bg-[#3B82F6]" },
-    { "name": "8.5% Senior Notes 2027", "amount": "$1.5B", "seniority": 3, "priceHint": "~78¢", "color": "bg-[#F59E0B]" }
+    { "name": "Revolving Credit Facility", "amount": "$500M", "seniority": 1, "priceHint": "par", "color": "bg-emerald-500" },
+    { "name": "Term Loan B", "amount": "$2.1B", "seniority": 2, "priceHint": "~94¢", "color": "bg-blue-500" },
+    { "name": "8.5% Senior Notes 2027", "amount": "$1.5B", "seniority": 3, "priceHint": "~78¢", "color": "bg-amber-500" }
   ]
 }
 
-Use colors: bg-[#10B981] (senior secured), bg-[#3B82F6] (TLB/TLA), bg-[#8B5CF6] (second lien), bg-[#F59E0B] (senior unsecured notes), bg-[#F43F5E] (sub/PIK). Return only valid JSON.`,
+Use colors: bg-emerald-500 (senior secured), bg-blue-500 (TLB/TLA), bg-violet-500 (second lien), bg-amber-500 (senior unsecured notes), bg-red-500 (sub/PIK). Return only valid JSON.`,
       }],
     });
 

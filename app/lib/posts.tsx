@@ -73,7 +73,7 @@ export const CAREER_POSTS: InsightPost[] = [
 
 const AI_STACK_LAYERS = [
   { label: "Physical (EV / Robotics / Autonomy)",  color: "#4f46e5", gross: "10–20%",   note: "Largest TAM, lowest near-term margins",     companies: ["Tesla", "Waymo", "Figure AI", "Boston Dynamics", "Mobileye", "Rivian"] },
-  { label: "Applications",                          color: "#5EE6B5", gross: "25–35%+",  note: "High margins; dependent on upstream costs",  companies: ["Salesforce", "Adobe", "ServiceNow", "Workday", "Cursor", "Perplexity"] },
+  { label: "Applications",                          color: "#0891b2", gross: "25–35%+",  note: "High margins; dependent on upstream costs",  companies: ["Salesforce", "Adobe", "ServiceNow", "Workday", "Cursor", "Perplexity"] },
   { label: "Middleware / Data Platforms",           color: "#059669", gross: "20–30%",   note: "Bridging layer; growing criticality",         companies: ["Palantir", "Databricks", "Snowflake", "Scale AI", "Weights & Biases"] },
   { label: "Foundation Models",                     color: "#d97706", gross: "Uncertain", note: "Innovation leader; risk of commoditisation",  companies: ["OpenAI", "Anthropic", "Meta (Llama)", "Google DeepMind", "Mistral"] },
   { label: "Cloud Infrastructure",                  color: "#dc2626", gross: "25–35%",   note: "Best durability; controls distribution",      companies: ["Microsoft Azure", "AWS", "Google Cloud", "Oracle Cloud"] },
@@ -85,21 +85,21 @@ const AI_MARGIN_BARS = [
   { label: "Semiconductors",     lo: 60, hi: 70, color: "#ea580c" },
   { label: "Networking & Optics",lo: 30, hi: 45, color: "#7c3aed" },
   { label: "Cloud",              lo: 25, hi: 35, color: "#dc2626" },
-  { label: "Applications",       lo: 25, hi: 35, color: "#5EE6B5" },
+  { label: "Applications",       lo: 25, hi: 35, color: "#0891b2" },
   { label: "Middleware / Data",  lo: 20, hi: 30, color: "#059669" },
   { label: "Physical Systems",   lo: 10, hi: 20, color: "#4f46e5" },
   { label: "Foundation Models",  lo: 0,  hi: 15, color: "#d97706" },
 ];
 
 const AI_POST_CONTENT = (
-  <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
     <p>Artificial intelligence is often reduced to a handful of names — large language models, chat interfaces, and a few hyperscalers. But AI is not a single layer. It is a full-stack ecosystem spanning semiconductors, infrastructure, data, software, and increasingly, the physical world. Understanding where value accrues requires looking across this entire chain. The most important opportunities are often not at the most visible layer.</p>
 
     {/* Stack diagram */}
-    <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
-      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
-        <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
-        <p className="text-[11px] text-[#8A8398] mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
+    <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — The AI Value Chain Stack</p>
+        <p className="text-[11px] text-gray-400 mt-0.5">Bottom = foundation layer · Top = end-user layer</p>
       </div>
       <div className="p-5 space-y-2">
         {AI_STACK_LAYERS.map((layer, i) => (
@@ -109,15 +109,15 @@ const AI_POST_CONTENT = (
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <span className="text-xs font-bold" style={{ color: layer.color }}>{layer.label}</span>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-[11px] text-[#8A8398]">{layer.note}</span>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#201B2E] border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
+                  <span className="text-[11px] text-gray-400">{layer.note}</span>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border" style={{ color: layer.color, borderColor: layer.color + "40" }}>
                     {layer.gross} gross
                   </span>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {layer.companies.map((co) => (
-                  <span key={co} className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#201B2E] border border-[#38324E] text-[#9A93AC]">{co}</span>
+                  <span key={co} className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white border border-gray-200 text-gray-600">{co}</span>
                 ))}
               </div>
             </div>
@@ -126,32 +126,32 @@ const AI_POST_CONTENT = (
       </div>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">The Foundation: Compute and the Hardware Layer</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">The Foundation: Compute and the Hardware Layer</h3>
     <p>At the base of the ecosystem lies compute. Training and running modern AI models requires massive parallel processing, making GPUs the central building block. Companies like NVIDIA dominate through both hardware and a tightly integrated software ecosystem, while AMD and custom silicon efforts from Google and Amazon continue to scale.</p>
     <p>But compute does not operate in isolation. It sits within a broader hardware layer that includes memory, networking, and increasingly, optics. High-bandwidth memory from SK Hynix and Micron Technology is essential to model performance, while networking players like Broadcom and Marvell Technology enable GPUs to communicate across large clusters. As AI workloads scale, the bottleneck is shifting from compute itself to data movement — which is where optical interconnects become critical. Companies like Coherent Corp. and Lumentum Holdings provide optical components that allow data to move efficiently within and between data centers. In many respects, optics is becoming the circulatory system of AI infrastructure: less visible than GPUs, but equally essential for scaling.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Cloud Infrastructure: The Aggregation Layer</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Cloud Infrastructure: The Aggregation Layer</h3>
     <p>Above hardware sits the cloud layer. Hyperscalers — Microsoft, Amazon, and Google — aggregate compute, storage, and networking into usable platforms, effectively acting as the operating system of modern AI development. Developers access AI resources without owning physical infrastructure. The economics here are powerful: capital intensive upfront, but highly scalable once deployed. Cloud providers sit at a central junction, capturing value from both upstream demand for compute and downstream demand for AI services. This is arguably the most structurally durable position in the stack — not because margins are the highest, but because control over distribution compounds over time.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Models, Data, and Middleware</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Models, Data, and Middleware</h3>
     <p>On top of infrastructure sits the model layer, where companies like OpenAI, Anthropic, and Meta Platforms develop large-scale foundation models. Yet competitive dynamics here are evolving quickly. Open-source alternatives and rapid iteration are compressing differentiation. Model quality still matters, but it is increasingly tied to data access and distribution rather than raw capability alone.</p>
     <p>If models are the engine, data is the constraint. Proprietary, well-structured data is becoming one of the most defensible assets in AI. Companies like Palantir Technologies are positioned around this thesis — focused not on frontier models but on integrating data, governance, and decision-making workflows within complex enterprise environments. Between models and applications, a growing middleware layer — including platforms like Databricks and Snowflake — is becoming critical. Value here accrues to companies that simplify complexity rather than add to it.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Applications and the Physical World</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Applications and the Physical World</h3>
     <p>At the top of the digital stack sits the application layer — copilots, automation tools, vertical-specific solutions. Companies like Salesforce and Adobe are embedding AI into existing workflows, while newer entrants build AI-native products. Historically this is where software margins have been highest, but in AI those margins are increasingly linked to upstream infrastructure costs.</p>
     <p>Finally, AI is extending into the physical world. Autonomous systems, robotics, and electric vehicles represent a layer where AI interacts directly with real environments. Companies like Tesla are integrating AI into self-driving platforms, while industrial players embed AI into manufacturing and logistics. This layer introduces new constraints — latency, safety, hardware integration — that do not exist in digital environments. Margins here are lower, but the total addressable market is arguably larger than any other layer.</p>
 
     {/* Margin comparison chart */}
-    <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
-      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
-        <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
-        <p className="text-[11px] text-[#8A8398] mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
+    <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Gross Margin Range by Layer</p>
+        <p className="text-[11px] text-gray-400 mt-0.5">Approximate ranges; foundation models excluded due to uncertain economics</p>
       </div>
       <div className="p-5 space-y-3">
         {AI_MARGIN_BARS.map((bar, i) => (
           <div key={i} className="flex items-center gap-3">
-            <span className="text-xs text-[#9A93AC] w-36 flex-shrink-0 text-right">{bar.label}</span>
-            <div className="flex-1 relative h-6 bg-[#201B2E] rounded-full overflow-hidden">
+            <span className="text-xs text-gray-500 w-36 flex-shrink-0 text-right">{bar.label}</span>
+            <div className="flex-1 relative h-6 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className="absolute top-0 h-full rounded-full"
                 style={{
@@ -169,7 +169,7 @@ const AI_POST_CONTENT = (
         ))}
         <div className="flex items-center gap-3 pt-1">
           <span className="w-36 flex-shrink-0" />
-          <div className="flex-1 flex justify-between text-[10px] text-[#8A8398] px-1">
+          <div className="flex-1 flex justify-between text-[10px] text-gray-400 px-1">
             <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
           </div>
           <span className="w-16 flex-shrink-0" />
@@ -177,33 +177,33 @@ const AI_POST_CONTENT = (
       </div>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Where Value Actually Accrues</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">Where Value Actually Accrues</h3>
     <p>Semiconductors are capturing the highest gross margins today — 60–70% for leading AI chips, driven by scarcity, performance differentiation, and software lock-in. This advantage is real, but partly cyclical. Over time, competition from AMD and in-house silicon from hyperscalers will compress margins as supply catches up to demand.</p>
     <p>Networking and optics players benefit from the same scaling dynamic at more moderate margins, but with volume-driven demand across the entire ecosystem rather than dependence on any single application. The cloud layer commands moderate margins (25–35%) but compensates through durability and compounding. Cloud providers monetize both sides of the AI value chain and benefit from switching costs that grow over time. Application companies can still achieve strong margins (25–35%+), but they are increasingly dependent on upstream cost structures — a structural shift relative to previous software cycles.</p>
     <p>The physical layer — EV, robotics, autonomy — operates at the lowest margins (10–20%), but represents the largest long-term opportunity. As AI moves from digital environments into physical systems, the scope of impact expands significantly. Over a multi-decade horizon, this may become the largest single pool of economic value, even if it is not the most profitable on a percentage basis today.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-6">The Key Insight for Investors</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-6">The Key Insight for Investors</h3>
     <p>In the near term, compute and infrastructure matter most because they are the binding constraint. That is why the market has rewarded semiconductor and infrastructure players so heavily in this cycle. Over the long term, value tends to migrate toward control points — layers that own distribution, data, or customer relationships. Today, that increasingly points to cloud and, selectively, to application companies with strong embedded workflows and proprietary data.</p>
     <p>The most important takeaway is that AI is not a winner-take-all market at a single layer. It is a multi-layer profit pool where leadership — and value capture — shifts over time. Understanding where we are in that cycle is what ultimately drives returns. AI is not just a product. It is a system-level shift. And like most system-level shifts, the winners are rarely confined to the top layer everyone is watching.</p>
   </div>
 );
 
 const AI_COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
 
     <p>The last great commodity supercycle was a China story. The next one may be an AI story. The buildout of artificial intelligence infrastructure — data centres, power grids, cooling systems, and the hardware stacks that run them — is creating a demand shock across several commodity markets that is only beginning to be understood. At the same time, AI is reshaping the supply side of commodity markets in ways that will compound over the next decade.</p>
     <p>This is not a speculative thesis. It is already visible in power demand forecasts, copper order books, and water utility filings. The question for analysts is not whether AI will move commodity markets — it is which commodities, by how much, and over what timeframe.</p>
 
     {/* Pull quote */}
     <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
-      <p className="text-base italic text-[#F4F0FA] font-medium leading-snug">"Training a single frontier AI model can consume more electricity than 100 US homes use in a year. Multiply that by thousands of models, millions of inference calls per day, and the demand curve becomes something commodity markets have not seen before."</p>
+      <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Training a single frontier AI model can consume more electricity than 100 US homes use in a year. Multiply that by thousands of models, millions of inference calls per day, and the demand curve becomes something commodity markets have not seen before."</p>
     </div>
 
     {/* Section 1 */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Demand Side</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     {[
@@ -244,12 +244,12 @@ const AI_COMMODITY_POST_CONTENT = (
         ],
       },
     ].map(s => (
-      <div key={s.num} className="border-t border-[#38324E] pt-6">
+      <div key={s.num} className="border-t border-gray-100 pt-6">
         <div className="flex items-baseline gap-4 mb-3">
           <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
           <div>
             <div className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wider">{s.cat}</div>
-            <h3 className="font-bold text-[#F4F0FA] text-base leading-snug mt-0.5">{s.title}</h3>
+            <h3 className="font-bold text-[#191c1e] text-base leading-snug mt-0.5">{s.title}</h3>
           </div>
         </div>
         <div className="space-y-3">
@@ -260,12 +260,12 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Supply side */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Supply Side</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base">How AI Changes Commodity Production</h3>
+    <h3 className="font-bold text-[#191c1e] text-base">How AI Changes Commodity Production</h3>
     <p>The demand story gets most of the attention, but AI is also reshaping the supply side of commodity markets in ways that will matter over a longer horizon.</p>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
@@ -275,47 +275,47 @@ const AI_COMMODITY_POST_CONTENT = (
         { icon: "🛢️", title: "Seismic interpretation", desc: "AI models trained on seismic data are dramatically accelerating exploration timelines in oil and gas. Processes that took geophysicists months now take days. This is already changing how E&P companies allocate exploration capex — potentially bringing more reserves to market faster." },
         { icon: "⚡", title: "Grid management", desc: "AI-based demand forecasting and grid balancing is improving the utilisation of renewable capacity, reducing the need for gas peaker plants as backup. Long-run, this structurally pressures gas demand for power generation — even as AI data centres increase overall electricity demand." },
       ].map(c => (
-        <div key={c.title} className="border border-[#38324E] rounded-xl p-4 bg-[#201B2E]">
+        <div key={c.title} className="border border-gray-200 rounded-xl p-4 bg-white">
           <div className="text-xl mb-2">{c.icon}</div>
-          <div className="text-xs font-bold text-[#F4F0FA] mb-1.5">{c.title}</div>
-          <p className="text-[12px] text-[#9A93AC] leading-relaxed">{c.desc}</p>
+          <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.title}</div>
+          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
         </div>
       ))}
     </div>
 
     {/* Matrix */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Impact Summary</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
-    <div className="overflow-x-auto border border-[#38324E] rounded-xl">
+    <div className="overflow-x-auto border border-gray-200 rounded-xl">
       <table className="w-full text-xs border-collapse">
         <thead>
-          <tr className="border-b border-[#38324E] bg-[#201B2E]">
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Commodity</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">AI Demand Driver</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">AI Supply Effect</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Net Bias</th>
+          <tr className="border-b border-gray-200 bg-gray-50">
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Demand Driver</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">AI Supply Effect</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Net Bias</th>
           </tr>
         </thead>
         <tbody>
           {[
-            { name: "Electricity / Gas", demand: "Data centre baseload power, always-on inference workloads", supply: "Better grid efficiency, more renewables dispatch", bias: "Bullish", color: "text-[#FB7185]" },
-            { name: "Copper", demand: "Data centre wiring, grid upgrades, cooling systems", supply: "AI optimises mine yields slightly", bias: "Strongly Bullish", color: "text-[#FB7185]" },
-            { name: "Uranium", demand: "Nuclear preferred for firm clean baseload by hyperscalers", supply: "Limited new mine supply pipeline", bias: "Strongly Bullish", color: "text-[#FB7185]" },
-            { name: "Aluminium", demand: "Liquid cooling, server chassis, transmission lines", supply: "Marginal efficiency gains in smelting", bias: "Bullish", color: "text-[#FB7185]" },
-            { name: "Water", demand: "Evaporative cooling at hyperscale facilities", supply: "AI improves irrigation efficiency in agriculture", bias: "Regional — Bullish in arid zones", color: "text-[#F5B544]" },
-            { name: "Natural Gas", demand: "Peaker demand for data centre baseload", supply: "AI accelerates exploration; grid AI reduces peak demand", bias: "Mixed / Neutral", color: "text-[#9A93AC]" },
-            { name: "Wheat / Corn", demand: "No direct link", supply: "AI precision ag improves yields over time", bias: "Mildly Bearish long-run", color: "text-[#5EE6B5]" },
-            { name: "Gallium / Germanium", demand: "Compound semiconductors for AI chips", supply: "China-controlled; geopolitically constrained", bias: "Strongly Bullish", color: "text-[#FB7185]" },
+            { name: "Electricity / Gas", demand: "Data centre baseload power, always-on inference workloads", supply: "Better grid efficiency, more renewables dispatch", bias: "Bullish", color: "text-red-600" },
+            { name: "Copper", demand: "Data centre wiring, grid upgrades, cooling systems", supply: "AI optimises mine yields slightly", bias: "Strongly Bullish", color: "text-red-600" },
+            { name: "Uranium", demand: "Nuclear preferred for firm clean baseload by hyperscalers", supply: "Limited new mine supply pipeline", bias: "Strongly Bullish", color: "text-red-600" },
+            { name: "Aluminium", demand: "Liquid cooling, server chassis, transmission lines", supply: "Marginal efficiency gains in smelting", bias: "Bullish", color: "text-red-600" },
+            { name: "Water", demand: "Evaporative cooling at hyperscale facilities", supply: "AI improves irrigation efficiency in agriculture", bias: "Regional — Bullish in arid zones", color: "text-amber-600" },
+            { name: "Natural Gas", demand: "Peaker demand for data centre baseload", supply: "AI accelerates exploration; grid AI reduces peak demand", bias: "Mixed / Neutral", color: "text-gray-500" },
+            { name: "Wheat / Corn", demand: "No direct link", supply: "AI precision ag improves yields over time", bias: "Mildly Bearish long-run", color: "text-emerald-600" },
+            { name: "Gallium / Germanium", demand: "Compound semiconductors for AI chips", supply: "China-controlled; geopolitically constrained", bias: "Strongly Bullish", color: "text-red-600" },
           ].map((row, i) => (
-            <tr key={row.name} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]/50"}>
-              <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#38324E]">{row.name}</td>
-              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.demand}</td>
-              <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.supply}</td>
-              <td className={`px-4 py-3 font-semibold align-top border-b border-[#38324E] ${row.color}`}>{row.bias}</td>
+            <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+              <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
+              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+              <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+              <td className={`px-4 py-3 font-semibold align-top border-b border-gray-100 ${row.color}`}>{row.bias}</td>
             </tr>
           ))}
         </tbody>
@@ -324,20 +324,20 @@ const AI_COMMODITY_POST_CONTENT = (
 
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">What This Means for Analysts</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     <p>The AI-commodity nexus is not a simple "AI is bullish for everything" story. It is a set of differentiated impacts that require commodity-by-commodity analysis. The clearest near-term trades are in power infrastructure (copper, uranium, natural gas for baseload) and critical minerals with concentrated supply chains (gallium, germanium, high-purity quartz). The supply-side improvements from AI — better mine optimisation, precision agriculture, faster seismic interpretation — are real but slower to materialise, with payoffs measured in years rather than quarters.</p>
     <p>For buyside analysts, the practical implication is twofold. First, any thesis on copper or uranium now requires a view on AI capex cycles — not just Chinese construction or EV adoption. Second, the geopolitical dimension of critical minerals has become a first-order risk factor in AI chip production, which feeds back into the capex of the hyperscalers, which feeds back into the power and metals demand forecasts. The commodity and technology sectors, historically analysed in separate silos, are now structurally linked.</p>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-2">For educational and informational purposes only. Not investment advice.</p>
+    <p className="text-[11px] text-gray-400 italic mt-2">For educational and informational purposes only. Not investment advice.</p>
   </div>
 );
 
 const COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
     {/* Intro */}
     <p>Commodities are the bedrock of the global economy. Oil powers transportation and petrochemicals; copper wires every building, vehicle, and data centre; wheat feeds billions; gold anchors monetary systems. Yet for all their importance, the price of a barrel of crude or a tonne of copper can swing 30%, 50%, even 100% within a single year — rewarding or ruining nations, corporations, and portfolios alike.</p>
     <p>Understanding what drives those swings requires thinking across multiple timescales simultaneously. A drought is measured in months. A new mine takes a decade to build. An energy transition redraws demand curves over decades. The analyst who can hold all of these timeframes in mind — and weigh them against each other — has a genuine edge.</p>
@@ -345,14 +345,14 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Pull quote */}
     <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
-      <p className="text-base italic text-[#F4F0FA] font-medium leading-snug">"Commodities are the original macro asset. Every price is simultaneously a signal about growth, geopolitics, technology, and climate — all at once."</p>
+      <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Commodities are the original macro asset. Every price is simultaneously a signal about growth, geopolitics, technology, and climate — all at once."</p>
     </div>
 
     {/* Section: Five Classes */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Five Major Classes</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -364,20 +364,20 @@ const COMMODITY_POST_CONTENT = (
         { icon: "☕", label: "Softs", sub: "Coffee, Sugar, Cotton", desc: "Highly weather-dependent. El Niño / La Niña cycles are the dominant structural driver, alongside chronic underinvestment in tropical agriculture in major producing nations." },
         { icon: "⚡", label: "Critical Minerals", sub: "Lithium, Cobalt, Nickel", desc: "The newest major class. Demand is driven by EV battery manufacturing and energy storage, but supply is geographically concentrated in a handful of politically complex jurisdictions." },
       ].map(c => (
-        <div key={c.label} className="border border-[#38324E] rounded-xl p-4 bg-[#201B2E]">
+        <div key={c.label} className="border border-gray-200 rounded-xl p-4 bg-white">
           <div className="text-xl mb-2">{c.icon}</div>
-          <div className="text-[10px] font-semibold text-[#FDBA74] uppercase tracking-wider mb-1">{c.label}</div>
-          <div className="text-xs font-bold text-[#F4F0FA] mb-1.5">{c.sub}</div>
-          <p className="text-[12px] text-[#9A93AC] leading-relaxed">{c.desc}</p>
+          <div className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider mb-1">{c.label}</div>
+          <div className="text-xs font-bold text-[#191c1e] mb-1.5">{c.sub}</div>
+          <p className="text-[12px] text-gray-500 leading-relaxed">{c.desc}</p>
         </div>
       ))}
     </div>
 
     {/* Section: Drivers */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Price Drivers in Depth</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     {[
@@ -436,12 +436,12 @@ const COMMODITY_POST_CONTENT = (
         ],
       },
     ].map(s => (
-      <div key={s.num} className="border-t border-[#38324E] pt-6">
+      <div key={s.num} className="border-t border-gray-100 pt-6">
         <div className="flex items-baseline gap-4 mb-3">
           <span className="font-bold text-3xl text-gray-100 leading-none select-none">{s.num}</span>
           <div>
-            <div className="text-[10px] font-semibold text-[#FDBA74] uppercase tracking-wider">{s.cat}</div>
-            <h3 className="font-bold text-[#F4F0FA] text-base leading-snug mt-0.5">{s.title}</h3>
+            <div className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider">{s.cat}</div>
+            <h3 className="font-bold text-[#191c1e] text-base leading-snug mt-0.5">{s.title}</h3>
           </div>
         </div>
         <div className="space-y-3">
@@ -452,19 +452,19 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Driver Table */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">Key Drivers by Commodity</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
-    <div className="overflow-x-auto border border-[#38324E] rounded-xl">
+    <div className="overflow-x-auto border border-gray-200 rounded-xl">
       <table className="w-full text-xs border-collapse">
         <thead>
-          <tr className="border-b border-[#38324E] bg-[#201B2E]">
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px] w-32">Commodity</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
-            <th className="text-left px-4 py-3 font-semibold text-[#9A93AC] uppercase tracking-wider text-[10px]">Risk Tags</th>
+          <tr className="border-b border-gray-200 bg-gray-50">
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px] w-32">Commodity</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Supply Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Key Demand Drivers</th>
+            <th className="text-left px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Risk Tags</th>
           </tr>
         </thead>
         <tbody>
@@ -480,13 +480,13 @@ const COMMODITY_POST_CONTENT = (
             { name: "Coffee", supply: "Brazil biennial crop cycle, Colombian rain, El Niño in Vietnam (Robusta)", demand: "Global consumption growth, premiumisation, on-trade recovery", tags: [["supply","Brazil Frost"],["supply","El Niño"]] },
             { name: "Nickel", supply: "Indonesian laterite production, stainless steel scrap, Philippines ore", demand: "Stainless steel (60%), EV battery cathodes (growing), alloy use", tags: [["geo","Indonesia Policy"],["demand","Battery Chemistry"]] },
           ].map((row, i) => {
-            const tagColors: Record<string,string> = { supply: "bg-[#14352A] text-[#5EE6B5]", demand: "bg-[#2A2113] text-[#F5B544]", macro: "bg-[#0F1A33] text-[#93C5FD]", geo: "bg-[#2E1620] text-[#FB7185]" };
+            const tagColors: Record<string,string> = { supply: "bg-green-50 text-green-700", demand: "bg-amber-50 text-amber-700", macro: "bg-blue-50 text-blue-700", geo: "bg-red-50 text-red-700" };
             return (
-              <tr key={row.name} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]/50"}>
-                <td className="px-4 py-3 font-bold text-[#F4F0FA] align-top border-b border-[#38324E]">{row.name}</td>
-                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.supply}</td>
-                <td className="px-4 py-3 text-[#9A93AC] align-top border-b border-[#38324E] leading-relaxed">{row.demand}</td>
-                <td className="px-4 py-3 align-top border-b border-[#38324E]">
+              <tr key={row.name} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                <td className="px-4 py-3 font-bold text-[#191c1e] align-top border-b border-gray-100">{row.name}</td>
+                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.supply}</td>
+                <td className="px-4 py-3 text-gray-500 align-top border-b border-gray-100 leading-relaxed">{row.demand}</td>
+                <td className="px-4 py-3 align-top border-b border-gray-100">
                   <div className="flex flex-wrap gap-1">
                     {(row.tags as [string,string][]).map(([type, label]) => (
                       <span key={label} className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${tagColors[type]}`}>{label}</span>
@@ -502,18 +502,18 @@ const COMMODITY_POST_CONTENT = (
 
     {/* Conclusion */}
     <div className="flex items-center gap-3 my-6">
-      <div className="flex-1 h-px bg-[#201B2E]" />
-      <span className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
-      <div className="flex-1 h-px bg-[#201B2E]" />
+      <div className="flex-1 h-px bg-gray-200" />
+      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap">The Analyst's Checklist</span>
+      <div className="flex-1 h-px bg-gray-200" />
     </div>
 
     <p>Good commodity analysis requires answering a set of structured questions for each market under review. First, where are we in the supply cycle? Is capacity being built out or mothballed? What does the futures curve backwardation or contango tell us about near-term physical tightness? Second, what is the demand trajectory on a 12-month, 3-year, and 10-year view — and what structural forces (policy, technology, demographics) are likely to inflect it?</p>
     <p>Third, what is the macro environment doing to the commodity's key financial drivers — the dollar, real rates, credit conditions? Fourth, what geopolitical risks sit in the supply chain, and are they currently priced in or ignored? And fifth, what is speculative positioning telling you? Crowded longs with weak fundamentals are a warning; maximum shorts in a tightening physical market are an opportunity.</p>
 
     {/* Watch list sidebar */}
-    <div className="border border-[#38324E] rounded-xl overflow-hidden mt-4">
-      <div className="px-4 py-3 bg-[#201B2E] border-b border-[#38324E]">
-        <p className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-wider">Watch List: Key Indicators</p>
+    <div className="border border-gray-200 rounded-xl overflow-hidden mt-4">
+      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+        <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Watch List: Key Indicators</p>
       </div>
       <ul className="divide-y divide-gray-50">
         {[
@@ -528,7 +528,7 @@ const COMMODITY_POST_CONTENT = (
           "USDA WASDE report — monthly grains & oilseeds",
           "IEA & OPEC monthly oil market reports",
         ].map(item => (
-          <li key={item} className="flex items-start gap-3 px-4 py-2.5 text-xs text-[#9A93AC]">
+          <li key={item} className="flex items-start gap-3 px-4 py-2.5 text-xs text-gray-600">
             <span className="text-orange-500 font-bold mt-0.5">→</span>
             {item}
           </li>
@@ -536,39 +536,39 @@ const COMMODITY_POST_CONTENT = (
       </ul>
     </div>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-4">For educational and informational purposes only. Not investment advice. Commodity markets involve significant risk of loss.</p>
+    <p className="text-[11px] text-gray-400 italic mt-4">For educational and informational purposes only. Not investment advice. Commodity markets involve significant risk of loss.</p>
   </div>
 );
 
 const NORTHEAST_ASIA_POST_CONTENT = (
-  <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
     <p>For most of the past decade, global equity investors have had a simple playbook: buy the S&P 500 and ignore everything else. American exceptionalism in corporate earnings, turbocharged by the Magnificent Seven, made it hard to argue otherwise. But if you've been paying attention to Northeast Asia over the past eighteen months, you'll have noticed something stirring — a confluence of governance reform, AI-driven earnings cycles, and valuation gaps wide enough to drive a truck through.</p>
     <p>China, Japan, and South Korea together represent roughly a quarter of global GDP and house some of the world's most technologically sophisticated companies. Yet their equity markets collectively trade at steep discounts to Wall Street. The question worth asking is no longer <em>why are they cheap?</em> — which has well-known structural answers — but rather <em>what's changing, and is the discount finally narrowing?</em></p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Where things stand: a snapshot of each market</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Where things stand: a snapshot of each market</h3>
 
     <p><strong>Japan</strong> has been the darling of the international value crowd since the Tokyo Stock Exchange's landmark 2023 directive urging listed companies to get serious about capital efficiency. That campaign has teeth. The share of Japanese companies achieving an ROE above 8% with a price-to-book ratio above 1x has risen from around 37% in mid-2022 to 43% by mid-2025. Share buyback volumes roughly doubled in that period. The TOPIX trades at approximately 16x forward earnings — around 27% cheaper than the S&P 500 — and Japanese small caps are even more interesting at roughly 14x forward, a 38% discount to their US equivalents.</p>
     <p><strong>China's</strong> story is messier but potentially more rewarding. The Hang Seng Index rose about 29% in 2025, its best year since 2017, driven by a mix of policy stimulus, DeepSeek's emergence in the AI race, and a long-overdue valuation catch-up. The Hang Seng's forward P/E sits around 11.8x — still well below its 10-year peak of 15.5x. Earnings growth has been sluggish (low-to-mid single digits), so the rally has been mostly about multiple expansion. For it to continue, earnings need to follow.</p>
     <p><strong>South Korea</strong> has been the most dramatic performer. The KOSPI closed 2025 up 75.6% — its best year since 1987 and the highest-gaining major index globally — breaching 5,500 for the first time in early 2026. The drivers are twofold: the global AI-driven memory chip cycle (Samsung and SK Hynix together account for nearly 40% of the index) and sweeping corporate governance reforms under the Value-Up Program.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">2025 full-year index returns</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
-      <div className="flex gap-4 mb-4 text-[11px] text-[#8A8398]">
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">2025 full-year index returns</p>
+      <p className="text-[11px] text-gray-400 mb-4">Korea's KOSPI posted its biggest gain in 26 years — dwarfing US benchmarks</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#3266ad] inline-block" />US</span>
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#1D9E75] inline-block" />Northeast Asia</span>
       </div>
       <div className="space-y-2">
         {([
-          { label: "KOSPI", value: 75.6, color: "#5EE6B5" },
-          { label: "Hang Seng", value: 27.8, color: "#5EE6B5" },
-          { label: "Nikkei 225", value: 26.7, color: "#5EE6B5" },
+          { label: "KOSPI", value: 75.6, color: "#1D9E75" },
+          { label: "Hang Seng", value: 27.8, color: "#1D9E75" },
+          { label: "Nikkei 225", value: 26.7, color: "#1D9E75" },
           { label: "Nasdaq", value: 22.2, color: "#3266ad" },
           { label: "S&P 500", value: 14.5, color: "#3266ad" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-24 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 85) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">+{item.value}%</span>
               </div>
@@ -576,29 +576,29 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Sources: Korea Times, CNBC, Yahoo Finance. Price returns in local currency.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: Korea Times, CNBC, Yahoo Finance. Price returns in local currency.</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The valuation gap: why Asia trades cheaper</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The valuation gap: why Asia trades cheaper</h3>
 
     <p>The discount across Northeast Asia relative to the US isn't random. It reflects several deeply embedded structural factors.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Forward P/E ratios: Asia vs. the US</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Forward P/E ratios: Asia vs. the US</p>
+      <p className="text-[11px] text-gray-400 mb-4">Lower = cheaper relative to expected earnings — the gap is striking</p>
       <div className="space-y-2">
         {([
-          { label: "Nikkei 225", value: 22.0, color: "#5EE6B5" },
+          { label: "Nikkei 225", value: 22.0, color: "#1D9E75" },
           { label: "S&P 500", value: 21.0, color: "#3266ad" },
-          { label: "Shanghai Comp.", value: 16.4, color: "#5EE6B5" },
-          { label: "TOPIX", value: 16.2, color: "#5EE6B5" },
-          { label: "KOSPI", value: 14.0, color: "#5EE6B5" },
-          { label: "Japan small-cap", value: 13.9, color: "#5EE6B5" },
-          { label: "Hang Seng", value: 11.8, color: "#5EE6B5" },
+          { label: "Shanghai Comp.", value: 16.4, color: "#1D9E75" },
+          { label: "TOPIX", value: 16.2, color: "#1D9E75" },
+          { label: "KOSPI", value: 14.0, color: "#1D9E75" },
+          { label: "Japan small-cap", value: 13.9, color: "#1D9E75" },
+          { label: "Hang Seng", value: 11.8, color: "#1D9E75" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-28 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-28 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 25) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}x</span>
               </div>
@@ -606,7 +606,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Sources: FactSet, LSEG IBES, Hennessy Funds, MacroMicro. Forward P/E = price / consensus NTM EPS.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: FactSet, LSEG IBES, Hennessy Funds, MacroMicro. Forward P/E = price / consensus NTM EPS.</p>
     </div>
 
     <p><strong>Corporate governance gaps.</strong> Historically, Japanese companies sat on mountains of cash and cross-shareholdings, prioritizing stability over shareholder returns. Korean chaebols — family-controlled conglomerates like Samsung, Hyundai, and LG — have often prioritized controlling-family interests over minority shareholders. Chinese state-owned enterprises answer to political imperatives that don't always align with profit maximization. Global investors have rationally demanded a discount for these agency problems.</p>
@@ -615,24 +615,24 @@ const NORTHEAST_ASIA_POST_CONTENT = (
     <p><strong>Sector composition.</strong> The US market's premium partly reflects its dominance in high-multiple sectors: software, platform businesses, and asset-light tech. Asian indices are heavier in industrials, financials, materials, and hardware — sectors that structurally command lower multiples. When you adjust for sector mix, some of the valuation gap shrinks — but not all of it.</p>
 
     <div className="border-t-2 border-b border-t-[#0F6E56] border-b-gray-200 py-5 my-6 text-center">
-      <p className="text-base italic text-[#5EE6B5] leading-snug max-w-lg mx-auto">"The old line that 'Asia is cheap for a reason' still applies. The difference in 2026 is that several of those reasons are being systematically dismantled."</p>
+      <p className="text-base italic text-[#0F6E56] leading-snug max-w-lg mx-auto">"The old line that 'Asia is cheap for a reason' still applies. The difference in 2026 is that several of those reasons are being systematically dismantled."</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">What's changing: topics worth watching</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">What's changing: topics worth watching</h3>
 
-    <p className="font-semibold text-[#F4F0FA]">1. Governance reform is becoming real, not rhetorical</p>
+    <p className="font-semibold text-[#191c1e]">1. Governance reform is becoming real, not rhetorical</p>
     <p>This is arguably the single most important structural story in Asian equities right now. Japan and Korea are both undertaking governance overhauls that are shifting from form to substance.</p>
     <p>In Japan, the TSE is planning to reduce TOPIX constituents from roughly 1,700 to around 1,200 by end-2028, pressuring companies to improve capital efficiency or face index exclusion. In Korea, the Value-Up Program has moved from voluntary signaling to hard law. By end-2025, 174 companies had disclosed Corporate Value-Up Plans. The National Assembly cut dividend tax rates from up to 45% down to 14–30%. In February 2026, Parliament mandated treasury share cancellation — eliminating a mechanism chaebol owners long used to entrench control.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Corporate governance reform timeline</p>
-      <p className="text-[11px] text-[#8A8398] mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
-      <div className="flex gap-4 mb-4 text-[11px] text-[#8A8398]">
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Corporate governance reform timeline</p>
+      <p className="text-[11px] text-gray-400 mb-5">Key milestones driving valuation re-rating in Japan and Korea</p>
+      <div className="flex gap-4 mb-4 text-[11px] text-gray-400">
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#D85A30] inline-block" />Japan</span>
         <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-[#534AB7] inline-block" />South Korea</span>
       </div>
       <div className="relative pl-6">
-        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-[#201B2E]" />
+        <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gray-200" />
         {([
           { date: "2023", color: "#D85A30", title: "TSE directive on capital efficiency", desc: "Tokyo Stock Exchange urges companies trading below 1x book to disclose improvement plans" },
           { date: "Feb 2024", color: "#534AB7", title: "Korea launches Value-Up Program", desc: "Voluntary disclosure guidelines, tax incentives, and the Korea Value-Up Index for institutional benchmarking" },
@@ -644,40 +644,40 @@ const NORTHEAST_ASIA_POST_CONTENT = (
         ] as { date: string; color: string; title: string; desc: string }[]).map(item => (
           <div key={item.title} className="relative mb-5 last:mb-0">
             <div className="absolute -left-4 top-1 w-3 h-3 rounded-full border-2 border-white" style={{ background: item.color }} />
-            <p className="text-[10px] uppercase tracking-wide text-[#8A8398]">{item.date}</p>
-            <p className="text-xs font-bold text-[#F4F0FA] mt-0.5">{item.title}</p>
-            <p className="text-[11px] text-[#9A93AC] leading-snug mt-0.5">{item.desc}</p>
+            <p className="text-[10px] uppercase tracking-wide text-gray-400">{item.date}</p>
+            <p className="text-xs font-bold text-[#191c1e] mt-0.5">{item.title}</p>
+            <p className="text-[11px] text-gray-500 leading-snug mt-0.5">{item.desc}</p>
           </div>
         ))}
       </div>
     </div>
 
-    <p className="font-semibold text-[#F4F0FA]">2. The AI and semiconductor cycle</p>
+    <p className="font-semibold text-[#191c1e]">2. The AI and semiconductor cycle</p>
     <p>Northeast Asia sits at the heart of the global AI hardware supply chain. Korea's memory chip duopoly (Samsung and SK Hynix) is mission-critical for AI data centers. Taiwan's TSMC dominates logic fabrication. Japan's materials and equipment companies — from photoresists to precision machinery — are indispensable upstream suppliers.</p>
     <p>China is pursuing a different angle: domestic semiconductor self-sufficiency. Beijing's ambition to triple domestic chip production by 2026, combined with breakthroughs from companies like DeepSeek in large language models, has reinvigorated China's tech sector. The concentration risk, however, is real. Samsung and SK Hynix alone account for nearly 40% of the KOSPI — higher concentration than the Magnificent Seven in the S&P 500.</p>
 
-    <p className="font-semibold text-[#F4F0FA]">3. China's consumption pivot and property stabilization</p>
+    <p className="font-semibold text-[#191c1e]">3. China's consumption pivot and property stabilization</p>
     <p>China's GDP growth is projected around 4.5% for 2026, with the government gradually pivoting from export-and-infrastructure dependence toward domestic consumption. The property market remains the wild card. Targeted stabilization measures are underway, but the sector is far from healed. The deflation overhang is gradually lifting, but consumer confidence remains fragile.</p>
 
-    <p className="font-semibold text-[#F4F0FA]">4. Japan's fiscal expansion under Takaichi</p>
+    <p className="font-semibold text-[#191c1e]">4. Japan's fiscal expansion under Takaichi</p>
     <p>Prime Minister Takaichi's administration has identified 17 industries as key growth drivers, including defence, AI, shipbuilding, and next-generation energy. Fiscal policy is turning more expansionary — abolishing the provisional gasoline tax, raising defense spending, and investing in advanced technology. This pro-growth stance, combined with gradual BOJ normalization, creates a reasonably constructive macro backdrop.</p>
 
-    <p className="font-semibold text-[#F4F0FA]">5. The US dollar and capital flows</p>
+    <p className="font-semibold text-[#191c1e]">5. The US dollar and capital flows</p>
     <p>Historically, periods of US dollar weakness have been bullish for Asian equities. As the dollar weakened through parts of 2025, capital flowed back toward emerging and Asian markets. If the Fed continues cutting rates while Asian central banks hold or tighten modestly, this tailwind could persist. A resurgent dollar on sticky US inflation would be the key risk to watch.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Sensitivity to global &amp; US markets</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Sensitivity to global &amp; US markets</h3>
 
     <p>Northeast Asian equities are not islands. They remain highly sensitive to global risk appetite. The pattern across recent market episodes is consistent: Asian indices amplify S&P 500 moves in both directions — falling harder in selloffs and rallying more sharply in recoveries.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4 overflow-x-auto">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">When the S&amp;P 500 moves, Asia amplifies it</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Index moves during key episodes (2025–2026)</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4 overflow-x-auto">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">When the S&amp;P 500 moves, Asia amplifies it</p>
+      <p className="text-[11px] text-gray-400 mb-4">Index moves during key episodes (2025–2026)</p>
       <table className="w-full text-[11px] border-collapse">
         <thead>
-          <tr className="border-b border-[#38324E]">
-            <th className="text-left font-semibold text-[#8A8398] pb-2 pr-3">Episode</th>
+          <tr className="border-b border-gray-100">
+            <th className="text-left font-semibold text-gray-400 pb-2 pr-3">Episode</th>
             {["S&P 500","Nikkei 225","KOSPI","Hang Seng"].map(h => (
-              <th key={h} className="text-right font-semibold text-[#8A8398] pb-2 px-2">{h}</th>
+              <th key={h} className="text-right font-semibold text-gray-400 pb-2 px-2">{h}</th>
             ))}
           </tr>
         </thead>
@@ -689,9 +689,9 @@ const NORTHEAST_ASIA_POST_CONTENT = (
             { label: "Apr 8 2026 ceasefire rally", vals: [1.6, 5.4, 6.9, 3.0] },
           ] as { label: string; vals: number[] }[]).map(row => (
             <tr key={row.label} className="border-b border-gray-50 last:border-0">
-              <td className="py-2 pr-3 text-[#9A93AC] font-medium">{row.label}</td>
+              <td className="py-2 pr-3 text-gray-600 font-medium">{row.label}</td>
               {row.vals.map((v, i) => (
-                <td key={i} className={`py-2 px-2 text-right font-bold tabular-nums rounded ${v >= 0 ? "text-[#5EE6B5]" : "text-red-500"}`}>
+                <td key={i} className={`py-2 px-2 text-right font-bold tabular-nums rounded ${v >= 0 ? "text-emerald-600" : "text-red-500"}`}>
                   {v > 0 ? "+" : ""}{v.toFixed(1)}%
                 </td>
               ))}
@@ -699,7 +699,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
           ))}
         </tbody>
       </table>
-      <p className="text-[11px] text-[#8A8398] mt-3">Sources: CNBC, Yahoo Finance, OANDA. Approximate moves during each episode.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: CNBC, Yahoo Finance, OANDA. Approximate moves during each episode.</p>
     </div>
 
     <p><strong>Trade channel:</strong> All three economies are major exporters. A US recession or hard landing would ripple through Asian corporate earnings rapidly.</p>
@@ -711,37 +711,37 @@ const NORTHEAST_ASIA_POST_CONTENT = (
       <strong>Key takeaway:</strong> The KOSPI's beta to the S&P is highest among the three, reflecting its concentration in cyclical semiconductor names. The Hang Seng's sensitivity is amplified by its role as a proxy for China risk sentiment. The Nikkei tracks US moves closely but with added yen volatility. Diversification? Partial at best — these are risk-on markets that amplify, not dampen, US drawdowns.
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The bottom line</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">The bottom line</h3>
 
     <p>The investment case for Northeast Asian equities in 2026 rests on a simple but powerful thesis: you're buying genuine structural reform, world-class technology exposure, and above-average earnings growth at a meaningful discount to the US. Japan at 16x forward earnings, Hong Kong at 12x, and Korea riding the strongest earnings growth cycle globally — these are not numbers you can easily find elsewhere.</p>
     <p>The risks are real: geopolitical flashpoints, currency volatility, concentration in a few mega-cap names, and deep cyclical linkage to US demand. But for investors who've spent years paying 22x+ for the S&P 500, Northeast Asia offers a different kind of equation — one where the margin of safety is wider, the reform catalysts are tangible, and the market hasn't fully priced in how much is actually changing beneath the surface.</p>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-4">This is commentary and analysis, not investment advice. All investing involves risk. Past performance is not indicative of future results.</p>
+    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. All investing involves risk. Past performance is not indicative of future results.</p>
   </div>
 );
 
 const HOUSING_POST_CONTENT = (
-  <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
     <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Deficit That Won&apos;t Quit</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Deficit That Won&apos;t Quit</h3>
 
     <p>Estimates of the total housing deficit range from 1.5 million units (NAHB) to 7 million (NLIHC for affordable rental). The median US home is now roughly 40 years old, and over a third of the stock predates 1980 — meaning existing inventory is aging and demanding significant capital reinvestment.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Estimated US Housing Shortage</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Millions of units, by source methodology</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Estimated US Housing Shortage</p>
+      <p className="text-[11px] text-gray-400 mb-4">Millions of units, by source methodology</p>
       <div className="space-y-2">
         {([
           { label: "NAHB", value: 1.5, color: "#C84B31" },
           { label: "Freddie Mac", value: 3.7, color: "#2D6A8F" },
-          { label: "Brookings", value: 4.9, color: "#5EE6B5" },
+          { label: "Brookings", value: 4.9, color: "#6B8F71" },
           { label: "NAR", value: 5.5, color: "#D4A84B" },
           { label: "NLIHC", value: 7.0, color: "#7B5EA7" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-24 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-24 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}M</span>
               </div>
@@ -749,10 +749,10 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Sources: NAHB, Freddie Mac, Brookings, NAR, NLIHC.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: NAHB, Freddie Mac, Brookings, NAR, NLIHC.</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Where We Stand: Starts &amp; Permits</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Where We Stand: Starts &amp; Permits</h3>
 
     <p>Housing starts bounced to a ~1.49M seasonally adjusted annual rate in January 2026, but building permits — the leading indicator of near-term supply — fell 5.4% month-over-month and 5.8% year-over-year, signaling continued caution from builders.</p>
 
@@ -763,22 +763,22 @@ const HOUSING_POST_CONTENT = (
         { value: "−5.8%", label: "Permits YoY decline" },
         { value: "873K", label: "Single-family permits" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-3 text-center">
-          <div className="text-base font-bold text-[#F4F0FA]">{s.value}</div>
-          <div className="text-[11px] text-[#9A93AC] mt-0.5 leading-tight">{s.label}</div>
+        <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+          <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
+          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
         </div>
       ))}
     </div>
 
     <p>Regional divergence is meaningful. The Midwest — Columbus, Indianapolis, Kansas City — is outperforming on relative affordability and tech investment, while previously hot markets like Texas and Florida are digesting pandemic-era overbuilding.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Builder Sentiment: 20+ Months Below Water</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Builder Sentiment: 20+ Months Below Water</h3>
 
     <p>The NAHB/Wells Fargo Housing Market Index has been stuck below the 50 breakeven threshold for over 20 consecutive months. Around 37% of builders are cutting prices — average discount of 6% — and nearly two-thirds are deploying other incentives to move inventory.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">NAHB Housing Market Index</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Above 50 = more builders see conditions as good than poor</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">NAHB Housing Market Index</p>
+      <p className="text-[11px] text-gray-400 mb-4">Above 50 = more builders see conditions as good than poor</p>
       <div className="space-y-1.5">
         {([
           { label: "Jan 25", value: 47 },
@@ -791,8 +791,8 @@ const HOUSING_POST_CONTENT = (
           { label: "Mar 26", value: 38 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-14 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-14 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 65) * 100}%`, background: item.value >= 50 ? "#6B8F71" : "rgba(200,75,49,0.75)" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
               </div>
@@ -800,35 +800,35 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-3 mt-3 text-[11px] text-[#8A8398]">
+      <div className="flex items-center gap-3 mt-3 text-[11px] text-gray-400">
         <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "rgba(200,75,49,0.75)" }} />Below 50 — negative</span>
         <span className="flex items-center gap-1"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[#6B8F71]" />Above 50 — positive</span>
       </div>
     </div>
 
     <div className="border-l-[3px] border-[#C84B31] bg-gradient-to-r from-[rgba(200,75,49,0.04)] to-transparent px-5 py-4 my-4 rounded-r-lg">
-      <p className="text-sm text-[#F4F0FA] italic">&ldquo;Affordability for buyers and builders remains a top concern. Many buyers remain on the fence waiting for lower interest rates and due to economic uncertainty.&rdquo;</p>
-      <p className="text-[11px] text-[#8A8398] mt-1.5">— NAHB Chairman Bill Owens, March 2026</p>
+      <p className="text-sm text-[#191c1e] italic">&ldquo;Affordability for buyers and builders remains a top concern. Many buyers remain on the fence waiting for lower interest rates and due to economic uncertainty.&rdquo;</p>
+      <p className="text-[11px] text-gray-400 mt-1.5">— NAHB Chairman Bill Owens, March 2026</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Tariff Tax on Housing Supply</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Tariff Tax on Housing Supply</h3>
 
-    <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#F4F0FA]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. The contradiction is stark: the same administration signaling a national housing emergency has imposed tariffs on the very materials needed to address the shortage.</p>
+    <p>The most consequential near-term headwind: layered tariffs on building materials that add an estimated <strong className="text-[#191c1e]">$17,500 per new home</strong> and could suppress output by 450,000 units through 2030. The contradiction is stark: the same administration signaling a national housing emergency has imposed tariffs on the very materials needed to address the shortage.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Tariff Rates on Key Building Materials</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Effective rates as of early 2026</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Tariff Rates on Key Building Materials</p>
+      <p className="text-[11px] text-gray-400 mb-4">Effective rates as of early 2026</p>
       <div className="space-y-2">
         {([
           { label: "Kitchen Cabinets", value: 50, color: "#2D6A8F" },
-          { label: "Steel / Copper / Aluminum", value: 50, color: "#5EE6B5" },
+          { label: "Steel / Copper / Aluminum", value: 50, color: "#6B8F71" },
           { label: "Canadian Softwood Lumber", value: 45, color: "#C84B31" },
           { label: "Upholstered Wood Products", value: 30, color: "#D4A84B" },
           { label: "All Timber & Lumber (base)", value: 10, color: "#7B5EA7" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-40 text-[11px] text-right text-[#9A93AC] flex-shrink-0 leading-tight">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 60) * 100}%`, background: item.color }} className="h-6 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
               </div>
@@ -836,7 +836,7 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Source: Brookings, TPC, NAHB estimates.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Source: Brookings, TPC, NAHB estimates.</p>
     </div>
 
     <div className="grid grid-cols-3 gap-3 my-4">
@@ -845,20 +845,20 @@ const HOUSING_POST_CONTENT = (
         { value: "450K", label: "Fewer homes built through 2030 (est.)" },
         { value: "~60%", label: "Builders reporting tariff cost increases" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-3 text-center">
-          <div className="text-base font-bold text-[#F4F0FA]">{s.value}</div>
-          <div className="text-[11px] text-[#9A93AC] mt-0.5 leading-tight">{s.label}</div>
+        <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-3 text-center">
+          <div className="text-base font-bold text-[#191c1e]">{s.value}</div>
+          <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">{s.label}</div>
         </div>
       ))}
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Affordability Bind</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Affordability Bind</h3>
 
     <p>Mortgage rates have eased from their 2024 peaks to around 6% — the lowest in three years — but remain well above the sub-4% environment that locked millions of existing homeowners in place. The result: suppressed resale inventory pushes buyers toward new construction, but elevated costs make new homes a stretch for many.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">30-Year Fixed Mortgage Rate</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Annual average, percent</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">30-Year Fixed Mortgage Rate</p>
+      <p className="text-[11px] text-gray-400 mb-4">Annual average, percent</p>
       <div className="space-y-1.5">
         {([
           { label: "2019", value: 3.94 },
@@ -871,8 +871,8 @@ const HOUSING_POST_CONTENT = (
           { label: "Jan 2026", value: 6.06 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-16 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-16 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${(item.value / 8) * 100}%`, background: item.value > 5 ? "#C84B31" : "#2D6A8F" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}%</span>
               </div>
@@ -880,18 +880,18 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Source: Freddie Mac Primary Mortgage Market Survey.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Source: Freddie Mac Primary Mortgage Market Survey.</p>
     </div>
 
     <p>The market is bifurcated: the upper end holds, while lower and middle segments struggle. First-time buyers now form the majority of funded loans but face elevated price-to-income ratios. Builders are responding with smaller footprints and smart-home packages in affordable secondary metros.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Supply-Side Bottlenecks</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">Supply-Side Bottlenecks</h3>
 
     <p>Beyond tariffs, three persistent constraints throttle the industry&apos;s ability to close the housing gap: a ~400K construction labor shortfall vs. the 2007 peak, 15–20% wage inflation in hot metros, and regulatory costs comprising roughly 25% of a new home&apos;s price.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Construction Employment Index</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Construction Employment Index</p>
+      <p className="text-[11px] text-gray-400 mb-4">Residential construction payrolls — index (2007 peak = 100)</p>
       <div className="space-y-1.5">
         {([
           { label: "2007", value: 100 },
@@ -903,8 +903,8 @@ const HOUSING_POST_CONTENT = (
           { label: "2025", value: 88 },
         ] as { label: string; value: number }[]).map(item => (
           <div key={item.label} className="flex items-center gap-3">
-            <span className="w-10 text-[11px] text-right text-[#9A93AC] flex-shrink-0">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-10 text-[11px] text-right text-gray-500 flex-shrink-0">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div style={{ width: `${item.value}%`, background: item.value === 100 ? "#2D6A8F" : "#C84B31" }} className="h-5 rounded flex items-center justify-end px-2">
                 <span className="text-white text-[10px] font-bold">{item.value}</span>
               </div>
@@ -912,10 +912,10 @@ const HOUSING_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Industry still ~12% below prior peak employment. Source: BLS.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Industry still ~12% below prior peak employment. Source: BLS.</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">What to Watch</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">What to Watch</h3>
 
     <p>Several variables will determine whether this market improves or stagnates through the end of the decade.</p>
 
@@ -926,42 +926,42 @@ const HOUSING_POST_CONTENT = (
         { title: "Regional Shifts", body: "Midwest and secondary metros outperforming; TX/FL digesting prior overbuilding." },
         { title: "Construction Tech", body: "Modular, 3D printing, AI project management — promising but years from scale." },
       ]).map(w => (
-        <div key={w.title} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-4">
-          <div className="text-xs font-bold text-[#F4F0FA] mb-1">{w.title}</div>
-          <div className="text-[12px] text-[#9A93AC] leading-relaxed">{w.body}</div>
+        <div key={w.title} className="bg-white border border-gray-200 rounded-lg p-4">
+          <div className="text-xs font-bold text-[#191c1e] mb-1">{w.title}</div>
+          <div className="text-[12px] text-gray-500 leading-relaxed">{w.body}</div>
         </div>
       ))}
     </div>
 
     <p>The opportunity is immense. The execution challenges are daunting. For now, the market remains caught between a deficit and a hard place — building too few homes, at too high a cost, while the gap quietly grows.</p>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-4">This is commentary and analysis, not investment advice. Sources: US Census Bureau, HUD, NAHB/Wells Fargo HMI, Brookings, Freddie Mac, NAR, BLS.</p>
+    <p className="text-[11px] text-gray-400 italic mt-4">This is commentary and analysis, not investment advice. Sources: US Census Bureau, HUD, NAHB/Wells Fargo HMI, Brookings, Freddie Mac, NAR, BLS.</p>
   </div>
 );
 
 const FUND_LETTERS_POST_CONTENT = (
-  <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
     <p>The first quarter of 2026 proved one of the most punishing in recent memory for markets — the S&P 500 posted its worst quarter since 2022, falling 4.6%, while tariff uncertainty, AI capex skepticism, and credit concerns rattled positioning across strategies. But a handful of major investors were well-prepared, and their letters offer an unusually candid window into how the best minds in the industry are thinking about what comes next.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Q1 2026 Performance Snapshot</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Q1 2026 Performance Snapshot</h3>
 
     <p>Returns across the major names were sharply divided. Macro-oriented funds and those with short books fared best; long-biased multi-strats had a rough quarter.</p>
 
-    <div className="bg-[#201B2E] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Reported / Estimated Q1 2026 Returns</p>
-      <p className="text-[11px] text-[#8A8398] mb-4">Selected funds — sourced from public reporting</p>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-bold text-[#191c1e] mb-0.5">Reported / Estimated Q1 2026 Returns</p>
+      <p className="text-[11px] text-gray-400 mb-4">Selected funds — sourced from public reporting</p>
       <div className="space-y-1.5">
         {([
-          { label: "Greenlight Capital", value: 8.2, color: "#5EE6B5" },
-          { label: "Palm Valley Cap Fund", value: 0.74, color: "#5EE6B5" },
-          { label: "S&P 500 (benchmark)", value: -4.6, color: "#8A8398" },
+          { label: "Greenlight Capital", value: 8.2, color: "#0F6E56" },
+          { label: "Palm Valley Cap Fund", value: 0.74, color: "#6B8F71" },
+          { label: "S&P 500 (benchmark)", value: -4.6, color: "#94a3b8" },
           { label: "Balyasny Asset Mgmt", value: -3.8, color: "#ef4444" },
           { label: "ExodusPoint Capital", value: -4.5, color: "#ef4444" },
           { label: "Pershing Square (PSH)", value: -13.9, color: "#ef4444" },
         ] as { label: string; value: number; color: string }[]).map(item => (
           <div key={item.label} className="flex items-center gap-2.5">
-            <span className="w-40 text-[11px] text-right text-[#9A93AC] flex-shrink-0 truncate">{item.label}</span>
-            <div className="flex-1 bg-[#201B2E] rounded overflow-hidden">
+            <span className="w-40 text-[11px] text-right text-gray-500 flex-shrink-0 truncate">{item.label}</span>
+            <div className="flex-1 bg-gray-100 rounded overflow-hidden">
               <div
                 style={{
                   width: `${Math.max(Math.abs(item.value) / 20 * 100, 4)}%`,
@@ -976,40 +976,40 @@ const FUND_LETTERS_POST_CONTENT = (
           </div>
         ))}
       </div>
-      <p className="text-[11px] text-[#8A8398] mt-3">Sources: Hedgeweek, HedgeCo, Reuters/Investing.com, public NAV disclosures.</p>
+      <p className="text-[11px] text-gray-400 mt-3">Sources: Hedgeweek, HedgeCo, Reuters/Investing.com, public NAV disclosures.</p>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Greenlight Capital — Einhorn Turns Bearish, Gold Delivers</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Greenlight Capital — Einhorn Turns Bearish, Gold Delivers</h3>
 
-    <p>David Einhorn's Greenlight Capital was one of the standout performers of the quarter, gaining <strong className="text-[#F4F0FA]">+8.2%</strong> versus the S&P 500's –4.3% — a 12.5-point alpha gap. The macro book was the key driver, led by a <strong className="text-[#F4F0FA]">19% surge in gold</strong>, which Greenlight holds through both physical bars and call options. The long portfolio was modestly negative (–1.3%), but shorts contributed +5.3% and macro added another +5.3%.</p>
+    <p>David Einhorn's Greenlight Capital was one of the standout performers of the quarter, gaining <strong className="text-[#191c1e]">+8.2%</strong> versus the S&P 500's –4.3% — a 12.5-point alpha gap. The macro book was the key driver, led by a <strong className="text-[#191c1e]">19% surge in gold</strong>, which Greenlight holds through both physical bars and call options. The long portfolio was modestly negative (–1.3%), but shorts contributed +5.3% and macro added another +5.3%.</p>
 
     <p>The more notable signal was a strategic shift in late February. Greenlight wrote that it had <em>"pivoted from conservative but not bearish, to bearish,"</em> cutting net long exposure to just 19% (86% long, 67% short) by quarter-end. Einhorn's letter stated: <em>"We suspect we are now in a bear market that is just starting."</em> With gold gaining another 6.2% in April, the positioning appears to have extended into the new quarter.</p>
 
     <div className="grid grid-cols-3 gap-3 my-4">
       {([
-        { label: "Q1 Return", value: "+8.2%", sub: "vs S&P –4.3%", color: "#5EE6B5" },
+        { label: "Q1 Return", value: "+8.2%", sub: "vs S&P –4.3%", color: "#0F6E56" },
         { label: "Gold (Q1 gain)", value: "+19%", sub: "Key macro driver", color: "#D4A84B" },
         { label: "Net Long at Q-End", value: "19%", sub: "86L / 67S", color: "#2D6A8F" },
       ]).map(s => (
-        <div key={s.label} className="bg-[#201B2E] border border-[#38324E] rounded-xl p-4 text-center">
-          <p className="text-[10px] text-[#8A8398] mb-1">{s.label}</p>
+        <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+          <p className="text-[10px] text-gray-400 mb-1">{s.label}</p>
           <p className="text-xl font-bold" style={{ color: s.color }}>{s.value}</p>
-          <p className="text-[10px] text-[#8A8398] mt-0.5">{s.sub}</p>
+          <p className="text-[10px] text-gray-400 mt-0.5">{s.sub}</p>
         </div>
       ))}
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Pershing Square — Ackman Absorbs a Tough Quarter</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Pershing Square — Ackman Absorbs a Tough Quarter</h3>
 
-    <p>Pershing Square Holdings (PSH) ended Q1 down <strong className="text-[#F4F0FA]">13.9% year-to-date</strong> through March 10, as its concentrated long book — heavily weighted toward mega-cap compounders — faced headwinds from the broader de-rating in high-multiple equities. The firm's February 2026 Annual Investor Presentation framed the year-to-date performance in the context of a longer-term compounding thesis, noting active share repurchases of PSH shares at a discount to NAV.</p>
+    <p>Pershing Square Holdings (PSH) ended Q1 down <strong className="text-[#191c1e]">13.9% year-to-date</strong> through March 10, as its concentrated long book — heavily weighted toward mega-cap compounders — faced headwinds from the broader de-rating in high-multiple equities. The firm's February 2026 Annual Investor Presentation framed the year-to-date performance in the context of a longer-term compounding thesis, noting active share repurchases of PSH shares at a discount to NAV.</p>
 
     <p>Separately, Ackman has been pursuing a major strategic initiative: a public listing of Pershing Square Capital Management itself on the NYSE, targeting a raise of $5–10 billion. A <em>Fortune</em> profile in March described Ackman's ambition to build a <em>"modern-day Berkshire Hathaway."</em> The Q1 drawdown complicates the IPO narrative in the short run, but PSH continues to trade at a material discount to NAV — which Ackman argues is the opportunity.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Howard Marks — A Warning on Private Credit</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Howard Marks — A Warning on Private Credit</h3>
 
     <p>Howard Marks published two significant memos in Q1. The first, <em>"AI Hurtles Ahead"</em> (February 2026), charted the progression of AI from basic assistance (Level 1, 2023) to fully autonomous agents (Level 3, early 2026) — a shift Marks described as moving faster than most investors had priced. He noted consulting Anthropic's Claude to write a tutorial on AI developments, calling the technology's acceleration "remarkable."</p>
 
-    <p>The more market-relevant memo arrived in April: <em>"What's Going on in Private Credit?"</em> Marks argued that the <strong className="text-[#F4F0FA]">$2 trillion direct lending market</strong> is now facing its first serious stress test since the GFC. The concerns:</p>
+    <p>The more market-relevant memo arrived in April: <em>"What's Going on in Private Credit?"</em> Marks argued that the <strong className="text-[#191c1e]">$2 trillion direct lending market</strong> is now facing its first serious stress test since the GFC. The concerns:</p>
 
     <div className="space-y-2 my-4">
       {([
@@ -1018,11 +1018,11 @@ const FUND_LETTERS_POST_CONTENT = (
         { icon: "📉", label: "Spread compression", desc: "A decade of spread tightening has left little margin of safety at current entry prices." },
         { icon: "🛡", label: "Oaktree's own positioning", desc: "Oaktree reduced its direct lending and software exposure below peers, anticipating the correction." },
       ]).map(item => (
-        <div key={item.label} className="flex gap-3 bg-[#201B2E] border border-[#38324E] rounded-lg p-3.5">
+        <div key={item.label} className="flex gap-3 bg-white border border-gray-200 rounded-lg p-3.5">
           <span className="text-base mt-0.5 flex-shrink-0">{item.icon}</span>
           <div>
-            <p className="text-xs font-semibold text-[#F4F0FA]">{item.label}</p>
-            <p className="text-[11px] text-[#9A93AC] mt-0.5">{item.desc}</p>
+            <p className="text-xs font-semibold text-[#191c1e]">{item.label}</p>
+            <p className="text-[11px] text-gray-500 mt-0.5">{item.desc}</p>
           </div>
         </div>
       ))}
@@ -1030,13 +1030,13 @@ const FUND_LETTERS_POST_CONTENT = (
 
     <p>Despite the warnings, Marks concluded there is <em>"no systemic problem"</em> in private credit — rather, a targeted correction in over-leveraged software and lower-quality direct lending vintages. Selective managers with higher underwriting standards should be fine.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Man Group — "Too Hard to Price"</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Man Group — "Too Hard to Price"</h3>
 
-    <p>Man Group's Q1 2026 Hedge Fund Strategy Outlook was titled <em>"Too Hard to Price?"</em> — a phrase that captured the quarter's defining challenge. Three forces dominated: <strong className="text-[#F4F0FA]">geopolitics</strong> (tariffs, Middle East tensions), <strong className="text-[#F4F0FA]">monetary policy uncertainty</strong> (the next Fed chair, diverging rate paths), and <strong className="text-[#F4F0FA]">AI capex skepticism</strong> (concerns about uncertain business models priced into the market).</p>
+    <p>Man Group's Q1 2026 Hedge Fund Strategy Outlook was titled <em>"Too Hard to Price?"</em> — a phrase that captured the quarter's defining challenge. Three forces dominated: <strong className="text-[#191c1e]">geopolitics</strong> (tariffs, Middle East tensions), <strong className="text-[#191c1e]">monetary policy uncertainty</strong> (the next Fed chair, diverging rate paths), and <strong className="text-[#191c1e]">AI capex skepticism</strong> (concerns about uncertain business models priced into the market).</p>
 
-    <p>Man upgraded its outlook for three strategies heading into Q2: <strong className="text-[#F4F0FA]">Long-Biased Equity L/S</strong>, <strong className="text-[#F4F0FA]">Market Neutral Equity L/S</strong>, and <strong className="text-[#F4F0FA]">Merger Arbitrage</strong> (driven by record M&A activity). The only negative-rated strategy remains Distressed Credit — too early to offer attractive risk/reward. The core thesis: elevated dispersion and lower single-stock correlations create a fertile environment for active stock selection, even if calling market direction is difficult.</p>
+    <p>Man upgraded its outlook for three strategies heading into Q2: <strong className="text-[#191c1e]">Long-Biased Equity L/S</strong>, <strong className="text-[#191c1e]">Market Neutral Equity L/S</strong>, and <strong className="text-[#191c1e]">Merger Arbitrage</strong> (driven by record M&A activity). The only negative-rated strategy remains Distressed Credit — too early to offer attractive risk/reward. The core thesis: elevated dispersion and lower single-stock correlations create a fertile environment for active stock selection, even if calling market direction is difficult.</p>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Common Themes Across the Season</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Common Themes Across the Season</h3>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4">
       {([
@@ -1044,61 +1044,61 @@ const FUND_LETTERS_POST_CONTENT = (
         { theme: "Private Credit Stress", desc: "Marks isn't alone — multiple managers flagged that direct lending vintages from 2021–2023 are increasingly showing cracks, particularly in software-heavy portfolios.", color: "#C84B31" },
         { theme: "Bear Market Emerging?", desc: "Greenlight made the most direct call, but the cautious tone was widespread — net long exposures across L/S funds fell materially through March.", color: "#2D6A8F" },
         { theme: "AI: Still Uncertain", desc: "Enthusiasm for AI remains high but market pricing is getting scrutinized. Man Group flagged uncertain business models; Marks charted AI's acceleration with genuine awe and caution.", color: "#7B5EA7" },
-        { theme: "Dispersion Over Direction", desc: "The consensus view: don't try to call the market. Instead, pick winners and losers — dispersion is historically elevated, rewarding skilled stock selection.", color: "#5EE6B5" },
-        { theme: "Tariff Volatility", desc: "Policy uncertainty around tariffs was cited by virtually every letter as a key source of macro noise, with second-order effects on supply chains and credit conditions still playing out.", color: "#5EE6B5" },
+        { theme: "Dispersion Over Direction", desc: "The consensus view: don't try to call the market. Instead, pick winners and losers — dispersion is historically elevated, rewarding skilled stock selection.", color: "#0F6E56" },
+        { theme: "Tariff Volatility", desc: "Policy uncertainty around tariffs was cited by virtually every letter as a key source of macro noise, with second-order effects on supply chains and credit conditions still playing out.", color: "#6B8F71" },
       ]).map(t => (
-        <div key={t.theme} className="bg-[#201B2E] border border-[#38324E] rounded-lg p-4">
+        <div key={t.theme} className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="flex items-center gap-2 mb-1.5">
             <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: t.color }} />
-            <p className="text-xs font-bold text-[#F4F0FA]">{t.theme}</p>
+            <p className="text-xs font-bold text-[#191c1e]">{t.theme}</p>
           </div>
-          <p className="text-[11px] text-[#9A93AC] leading-relaxed">{t.desc}</p>
+          <p className="text-[11px] text-gray-500 leading-relaxed">{t.desc}</p>
         </div>
       ))}
     </div>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-4">This post summarizes publicly available investor letters, memos, and performance reports. Sources include Hedgeweek, Reuters, HedgeCo, Oaktree Capital, Man Group, and public NAV disclosures. Not investment advice.</p>
+    <p className="text-[11px] text-gray-400 italic mt-4">This post summarizes publicly available investor letters, memos, and performance reports. Sources include Hedgeweek, Reuters, HedgeCo, Oaktree Capital, Man Group, and public NAV disclosures. Not investment advice.</p>
   </div>
 );
 
 const ABF_POST_CONTENT = (
-  <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
     <p>For a decade, the private credit story was a direct lending story. Banks pulled back after the Global Financial Crisis, regulation tightened, and middle-market sponsors needed a new balance sheet to call. Direct lending funds filled that gap, institutionalized it, and turned it into a $1.5-trillion-plus asset class. The second decade looks different. The flows, the fundraising, and the structural conversation have all shifted toward a parallel market: asset-based finance — loans collateralized not by a borrower&apos;s future EBITDA, but by pools of tangible assets or contractual cash flows. It now sits at the center of nearly every 2026 outlook letter, and a recent SuperReturn Private Credit audience poll found that institutional investors consider ABF the most attractive corner of private credit heading into the year.</p>
 
     {/* Stat band */}
-    <div className="grid grid-cols-3 gap-0 border border-[#38324E] rounded-xl overflow-hidden my-6">
+    <div className="grid grid-cols-3 gap-0 border border-gray-200 rounded-xl overflow-hidden my-6">
       {[
         { label: "Market Size — Today", num: "$5.2T", caption: "Private ABF AUM est., growing to ~$7.7T by 2027 per KKR. DealCatalyst sees a path to $20T over the next decade." },
         { label: "Specialty Finance Fundraising", num: "~$35B", caption: "Target size of the ten largest specialty finance funds currently in market, per With Intelligence." },
         { label: "Private Credit 10Y Return", num: "9.0%", caption: "Annualized with 2.9% volatility, vs ~5.5% for leveraged loans and ~5.2% for high yield, per JPMAM." },
       ].map((s, i) => (
-        <div key={i} className={`p-5 bg-[#201B2E] ${i < 2 ? "border-r border-[#38324E]" : ""}`}>
-          <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest mb-2">{s.label}</p>
-          <p className="text-3xl font-bold text-[#F4F0FA] tracking-tight">{s.num}</p>
-          <p className="text-[11px] text-[#8A8398] mt-2 leading-relaxed">{s.caption}</p>
+        <div key={i} className={`p-5 bg-white ${i < 2 ? "border-r border-gray-200" : ""}`}>
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">{s.label}</p>
+          <p className="text-3xl font-bold text-[#1A2B4A] tracking-tight">{s.num}</p>
+          <p className="text-[11px] text-gray-400 mt-2 leading-relaxed">{s.caption}</p>
         </div>
       ))}
     </div>
 
     <p>The headline numbers have done a lot of the marketing work. KKR pegs the private ABF market at around $5.2 trillion today and expects it to reach roughly $7.7 trillion by 2027. DealCatalyst cites a more aggressive path — a $20-trillion ABF market over the next decade. Whatever the right midpoint is, the direction is unambiguous: ABF is no longer the boutique corner of private credit. It is becoming the asset class itself.</p>
 
-    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#B8B0C8] my-4">
+    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#41484c] my-4">
       &ldquo;The easy beta of the last cycle is gone. Returns today are driven by the ability to originate with precision, structure with creativity, and manage risk with discipline.&rdquo;
-      <span className="block mt-2 text-[11px] not-italic font-semibold text-[#8A8398] uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
+      <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-400 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
     </blockquote>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What ABF Actually Is</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What ABF Actually Is</h3>
     <p>Asset-based finance is an umbrella for privately originated loans secured by diversified pools of collateral — consumer receivables, auto loans, residential and commercial mortgages, equipment leases, royalty streams, fund finance lines, trade receivables, and an expanding frontier of esoteric assets like music catalogs, data-center leases, and litigation payouts. It is the private-market cousin of public securitization, but structured bilaterally and held by a single lender or small club.</p>
     <p>The distinction from direct lending is the part that matters for portfolio construction. Direct lending is corporate credit: one borrower, one enterprise value, one bullet maturity. ABF is structured credit: many underlying obligors, observable collateral with value independent of any single operating business, and a self-amortizing profile where principal is returned over the life of the loan rather than at the end. JPMorgan&apos;s private bank estimates that a typical ABF investment structured as a finance lease aims to return roughly three-quarters of principal within the first three years.</p>
 
     {/* Comparison table */}
-    <div className="border border-[#38324E] rounded-xl overflow-hidden my-6">
-      <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
-        <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
+    <div className="border border-gray-200 rounded-xl overflow-hidden my-6">
+      <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Direct Lending vs Asset-Based Finance</p>
       </div>
       <table className="w-full text-xs">
         <thead>
-          <tr className="bg-[#7C3AED] text-white">
+          <tr className="bg-[#1A2B4A] text-white">
             <th className="text-left px-4 py-3 font-semibold">Dimension</th>
             <th className="text-left px-4 py-3 font-semibold border-l border-white/20">Direct Lending</th>
             <th className="text-left px-4 py-3 font-semibold border-l border-white/20">Asset-Based Finance</th>
@@ -1113,17 +1113,17 @@ const ABF_POST_CONTENT = (
             ["Cycle behavior", "Tracks corporate credit cycle", "Decoupled; tied to asset performance"],
             ["Return profile", "Spread over SOFR + fees + OID", "~200–250 bps over comparable public ABS"],
           ].map(([dim, dl, abf], i) => (
-            <tr key={i} className={i % 2 === 0 ? "bg-[#201B2E]" : "bg-[#201B2E]"}>
-              <td className="px-4 py-3 font-semibold text-[#F4F0FA]">{dim}</td>
-              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#38324E]">{dl}</td>
-              <td className="px-4 py-3 text-[#B8B0C8] border-l border-[#38324E]">{abf}</td>
+            <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+              <td className="px-4 py-3 font-semibold text-[#1A2B4A]">{dim}</td>
+              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{dl}</td>
+              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{abf}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Why Now — Four Structural Drivers</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Why Now — Four Structural Drivers</h3>
     <p>The ABF narrative is not about a rate cycle or a single macro view. Four separate forces are pointing in the same direction, each on its own enough to reshape allocator behavior.</p>
 
     <div className="grid grid-cols-2 gap-3 my-4">
@@ -1133,15 +1133,15 @@ const ABF_POST_CONTENT = (
         { num: "03", color: "border-[#8a76a0]", title: "Decoupled from the corporate cycle", body: "Allocators worried about late-cycle leveraged loans — rising PIK, falling coverage, cov-lite docs — want credit that doesn't depend on PE-owned EBITDA holding up. Cambridge Associates is explicitly favoring ABF over direct lending for 2026." },
         { num: "04", color: "border-[#6d8391]", title: "Complexity protects spread", body: "ABF requires origination infrastructure, servicing, data pipes, and legal structuring capacity that a generalist direct lender can't spin up. Those barriers translate directly into wider, more durable spreads — the opposite of what's happening in the upper middle market." },
       ].map((d) => (
-        <div key={d.num} className={`bg-[#201B2E] border border-[#38324E] border-t-4 ${d.color} rounded-xl p-4`}>
-          <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-widest mb-1">{d.num}</p>
-          <p className="font-semibold text-[#F4F0FA] text-sm mb-1.5">{d.title}</p>
-          <p className="text-xs text-[#B8B0C8] leading-relaxed">{d.body}</p>
+        <div key={d.num} className={`bg-gray-50 border border-gray-200 border-t-4 ${d.color} rounded-xl p-4`}>
+          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1">{d.num}</p>
+          <p className="font-semibold text-[#1A2B4A] text-sm mb-1.5">{d.title}</p>
+          <p className="text-xs text-[#41484c] leading-relaxed">{d.body}</p>
         </div>
       ))}
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Sub-Segments Allocators Are Sorting Between</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Sub-Segments Allocators Are Sorting Between</h3>
     <p>&ldquo;ABF&rdquo; is doing a lot of work as a label. Underneath it sits a set of sub-markets with very different risk profiles and return expectations.</p>
 
     <div className="grid grid-cols-3 gap-2 my-4">
@@ -1153,50 +1153,50 @@ const ABF_POST_CONTENT = (
         { color: "bg-[#b89a5a]", name: "Contractual Cash Flow", desc: "Royalties, pharma, litigation finance, data-center leases. The esoteric frontier." },
         { color: "bg-[#b87878]", name: "Real Asset-Linked", desc: "Energy infrastructure, mineral rights, agricultural assets. Long-dated, insurance-matched." },
       ].map((s) => (
-        <div key={s.name} className="bg-[#201B2E] border border-[#38324E] rounded-xl p-3">
+        <div key={s.name} className="bg-white border border-gray-200 rounded-xl p-3">
           <div className={`w-2 h-2 rounded-full ${s.color} mb-2`} />
-          <p className="font-semibold text-[#F4F0FA] text-xs mb-1">{s.name}</p>
-          <p className="text-[11px] text-[#9A93AC] leading-snug">{s.desc}</p>
+          <p className="font-semibold text-[#1A2B4A] text-xs mb-1">{s.name}</p>
+          <p className="text-[11px] text-gray-500 leading-snug">{s.desc}</p>
         </div>
       ))}
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Scandal That Almost Derailed the Story — And Didn&apos;t</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Scandal That Almost Derailed the Story — And Didn&apos;t</h3>
     <p>No ABF conversation in 2026 is complete without Tricolor and First Brands. Tricolor, a subprime auto lender, collapsed into bankruptcy in September 2025 after evidence emerged that the same vehicles had been pledged as collateral on multiple loans. First Brands followed shortly after. JPMorgan, Barclays, and a long list of private credit managers were exposed.</p>
     <p>The more careful read — from Cambridge Associates, Rithm Capital, and KBRA — is that both failures were idiosyncratic, driven by fraud and weak lender controls rather than systemic ABF flaws. The lesson is not that ABF is broken. It is that the discipline of ABF — separate servicing, independent verification, sole-lender control, asset-level daily monitoring — is what distinguishes good ABF from expensive unsecured lending in a trench coat.</p>
 
     {/* Risk callout */}
-    <div className="bg-[#2E1620] border border-[#38324E] rounded-xl p-5 my-4">
-      <p className="text-xs font-semibold text-[#FB7185] uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
-      <div className="space-y-2 text-xs text-[#B8B0C8]">
-        <p><strong className="text-[#F4F0FA]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
-        <p><strong className="text-[#F4F0FA]">Data infrastructure.</strong> Is reporting asset-level and daily, or pool-level and monthly? Managers with proprietary monitoring systems will charge for it — and earn it.</p>
-        <p><strong className="text-[#F4F0FA]">Origination depth.</strong> Is the manager originating directly, partnering with a bank under forward-flow, or buying finished paper? Each model has a different risk profile and fee structure.</p>
-        <p><strong className="text-[#F4F0FA]">Alignment.</strong> How much first-loss or vertical slice is the manager holding? Skin in the game matters more in ABF because diversification of the underlying pool makes manager incentives the primary quality signal.</p>
+    <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 my-4">
+      <p className="text-xs font-semibold text-rose-600 uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
+      <div className="space-y-2 text-xs text-[#41484c]">
+        <p><strong className="text-[#191c1e]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
+        <p><strong className="text-[#191c1e]">Data infrastructure.</strong> Is reporting asset-level and daily, or pool-level and monthly? Managers with proprietary monitoring systems will charge for it — and earn it.</p>
+        <p><strong className="text-[#191c1e]">Origination depth.</strong> Is the manager originating directly, partnering with a bank under forward-flow, or buying finished paper? Each model has a different risk profile and fee structure.</p>
+        <p><strong className="text-[#191c1e]">Alignment.</strong> How much first-loss or vertical slice is the manager holding? Skin in the game matters more in ABF because diversification of the underlying pool makes manager incentives the primary quality signal.</p>
       </div>
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Key Players</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Key Players</h3>
     <div className="grid grid-cols-3 gap-2 my-3">
       {[["Apollo","Atlas SP"],["KKR","Private ABF"],["Blackstone","BXCI ABF"],["Carlyle","Opportunistic Cr."],["Ares","Alt. Credit"],["Brookfield","Structured Cr."],["Nomura CM","Multi-mgr ABF"],["Janus / VPC","Specialty ABF"],["Rithm","Collateral control"]].map(([firm, platform]) => (
-        <div key={firm} className="flex items-center justify-between bg-[#201B2E] border border-[#38324E] rounded-lg px-3 py-2">
-          <span className="text-xs font-semibold text-[#F4F0FA]">{firm}</span>
-          <span className="text-[10px] text-[#8A8398]">{platform}</span>
+        <div key={firm} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+          <span className="text-xs font-semibold text-[#1A2B4A]">{firm}</span>
+          <span className="text-[10px] text-gray-400">{platform}</span>
         </div>
       ))}
     </div>
 
-    <h3 className="font-bold text-[#F4F0FA] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What to Read from the Shift</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What to Read from the Shift</h3>
     <p>The broader signal embedded in the ABF rotation is about where private credit is in its own cycle. Direct lending matured, spreads compressed, documentation weakened, and the marginal capital deployed into the upper middle market is now earning a return difficult to distinguish from the BSL market. ABF is where the complexity premium still exists — and where the frontier of the asset class is still being defined.</p>
     <p>For allocators, naming exposure to &ldquo;ABF&rdquo; the way one might have named exposure to &ldquo;direct lending&rdquo; in 2018 is not going to be enough. Sub-strategy selection matters. Servicer quality matters. And manager selection — specifically the ability to distinguish between a disciplined, control-oriented ABF shop and a yield-chasing pool buyer — is about to become one of the highest-leverage decisions in a credit portfolio.</p>
 
     {/* Closing */}
-    <div className="bg-[#7C3AED] rounded-xl p-5 mt-6">
-      <p className="text-xs font-semibold text-[#E9C989] uppercase tracking-widest mb-2">The short version</p>
+    <div className="bg-[#1A2B4A] rounded-xl p-5 mt-6">
+      <p className="text-xs font-semibold text-[#6aab8e] uppercase tracking-widest mb-2">The short version</p>
       <p className="text-white text-sm leading-relaxed">ABF is not a fad driven by one rate cycle. It is a structural re-plumbing of where non-bank credit gets made, who holds it, and how it is returned. The capital is early, the infrastructure is still being built, and the managers who win are going to be the ones who treat collateral control and data as the product — not the yield.</p>
     </div>
 
-    <p className="text-[11px] text-[#8A8398] italic mt-4">Sources: Carlyle 2026 Credit Outlook; JPMorgan Private Bank (Mar &apos;26); KKR Insights; Cambridge Associates; Rithm Capital white paper (Dec &apos;25); With Intelligence Private Credit Outlook 2026; Janus Henderson / VPC. Not investment advice.</p>
+    <p className="text-[11px] text-gray-400 italic mt-4">Sources: Carlyle 2026 Credit Outlook; JPMorgan Private Bank (Mar &apos;26); KKR Insights; Cambridge Associates; Rithm Capital white paper (Dec &apos;25); With Intelligence Private Credit Outlook 2026; Janus Henderson / VPC. Not investment advice.</p>
   </div>
 );
 
@@ -1264,19 +1264,19 @@ export const INDUSTRY_POSTS: InsightPost[] = [
     tag: "Credit",
     paragraphs: [],
     richContent: (
-      <div className="space-y-5 text-[#B8B0C8] text-sm leading-[1.75]">
+      <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
         <p>If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way. To understand fixed income is to understand how the market prices time, risk, and uncertainty.</p>
 
         <p>At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades — and what it implies about the world — is far more complex. The first distinction most investors encounter is between current yield and yield to maturity. Current yield measures the income you receive today relative to the bond's price. Yield to maturity is the market's full return expectation — it incorporates the coupon, any gain or loss from buying above or below face value, and the time value of money. This is why credit investors anchor on yield to maturity: it reflects total economic return, assuming the issuer survives.</p>
 
-        <h3 className="font-bold text-[#F4F0FA] text-base mt-6">The Yield Curve: The Market's Expectations in One Line</h3>
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">The Yield Curve: The Market's Expectations in One Line</h3>
         <p>Beyond individual bonds, the yield curve provides a broader lens. By plotting interest rates across maturities, it becomes a real-time signal of how investors view growth and inflation. In a normal environment the curve slopes upward — longer-term rates exceed short-term ones, reflecting the uncertainty of time and expectations of growth. When the curve inverts, short-term rates exceed long-term ones, historically one of the most reliable signals of an approaching slowdown.</p>
 
         {/* Figure 1: Yield Curve SVG */}
-        <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
-          <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
-            <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
-            <p className="text-[11px] text-[#8A8398] mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
+        <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 1 — Yield Curve Shapes</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative; normal vs inverted curve across maturities</p>
           </div>
           <div className="p-5">
             <svg viewBox="0 0 480 200" className="w-full" style={{ fontFamily: "inherit" }}>
@@ -1327,16 +1327,16 @@ export const INDUSTRY_POSTS: InsightPost[] = [
 
         <p>For credit markets, the shape of the curve is not just academic. A steep curve supports lending and liquidity. An inverted curve tightens financial conditions and increases pressure on borrowers — it is not just a reflection of the economy, it actively influences it.</p>
 
-        <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Inflation, Central Banks, and the Rate-Credit Tension</h3>
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">Inflation, Central Banks, and the Rate-Credit Tension</h3>
         <p>If the yield curve represents expectations, inflation represents erosion. Fixed income securities are fundamentally exposed to inflation because their cash flows are fixed in nominal terms. When inflation rises, the real value of those payments declines and investors demand higher yields. Yields rise and bond prices fall — quickly. This is why inflation is often described as the silent driver of bond markets.</p>
         <p>Central bank policy interacts directly with this dynamic. When rates fall, existing bonds with higher coupons become more valuable. But rate cuts often occur in response to economic weakness, introducing a second force: rising credit risk. Government bonds may rally while lower-quality credit lags or declines. The balance between rates and credit is what defines performance across different segments of fixed income.</p>
         <p>This tension becomes most acute in stagflation. Inflation remains elevated while growth slows — constraining the usual policy response. Higher inflation pushes yields up, hurting bond prices. Weaker growth widens credit spreads. Unlike typical cycles where one asset class offsets another, stagflation pressures both simultaneously.</p>
 
         {/* Figure 2: Credit Spread Anatomy */}
-        <div className="my-8 border border-[#38324E] rounded-xl overflow-hidden bg-[#201B2E]">
-          <div className="px-5 py-3 border-b border-[#38324E] bg-[#201B2E]">
-            <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
-            <p className="text-[11px] text-[#8A8398] mt-0.5">Illustrative yield composition across credit quality</p>
+        <div className="my-8 border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Figure 2 — Anatomy of a Bond Yield</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Illustrative yield composition across credit quality</p>
           </div>
           <div className="p-5 space-y-3">
             {[
@@ -1346,10 +1346,10 @@ export const INDUSTRY_POSTS: InsightPost[] = [
             ].map((row) => (
               <div key={row.label}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-medium text-[#9A93AC]">{row.label}</span>
+                  <span className="text-xs font-medium text-gray-600">{row.label}</span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[#8A8398]">{row.note}</span>
-                    <span className="text-xs font-bold text-[#F4F0FA]">{row.total}</span>
+                    <span className="text-[11px] text-gray-400">{row.note}</span>
+                    <span className="text-xs font-bold text-gray-800">{row.total}</span>
                   </div>
                 </div>
                 <div className="flex h-7 rounded-lg overflow-hidden gap-px">
@@ -1369,14 +1369,14 @@ export const INDUSTRY_POSTS: InsightPost[] = [
               {[["#3b82f6","Risk-Free Rate"],["#8b5cf6","IG Credit Spread"],["#ef4444","HY Credit Spread"]].map(([color, label]) => (
                 <div key={label} className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: color }} />
-                  <span className="text-[10px] text-[#9A93AC]">{label}</span>
+                  <span className="text-[10px] text-gray-500">{label}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <h3 className="font-bold text-[#F4F0FA] text-base mt-6">Credit Spreads: The Core of Credit Investing</h3>
+        <h3 className="font-bold text-[#191c1e] text-base mt-6">Credit Spreads: The Core of Credit Investing</h3>
         <p>At the heart of credit markets lies the credit spread — the additional yield investors demand over a risk-free benchmark. This spread compensates for default risk, liquidity risk, and uncertainty. In stable environments, spreads compress as confidence builds. In stress, they widen sharply. Understanding spreads is critical because they capture what is unique about credit investing. While rates reflect macro conditions, spreads reflect issuer-specific risk and market sentiment. The interplay between the two determines how a bond ultimately performs.</p>
         <p>Fixed income can ultimately be understood as the combination of two forces: rates, driven by inflation and central bank policy; and credit, driven by fundamentals and capital structure. Government bonds are primarily rate-driven. Investment-grade credit reflects a balance of both. High yield is largely credit-driven. The most important question in credit is rarely about a single bond — it is about where you are in the cycle and which force is dominant.</p>
         <p>Fixed income is often framed as a defensive asset class, but that framing understates its role. Credit markets are not just about preserving capital — they are about pricing risk with precision. They often react earlier than equities and provide a clearer signal of where stress is building. If equities reflect optimism about the future, fixed income reflects the cost of being wrong.</p>
@@ -1412,16 +1412,16 @@ export const INDUSTRY_POSTS: InsightPost[] = [
 ];
 
 export const TAG_STYLES: Record<string, string> = {
-  "Macro":        "bg-[#2A2113] text-[#F5B544]",
-  "Credit":       "bg-[#0F2033] text-[#7DD3FC]",
-  "Equity":       "bg-[#14352A] text-[#5EE6B5]",
-  "Tech / AI":    "bg-[#161533] text-[#C4B5FD]",
-  "Interview Prep": "bg-[#1E1633] text-[#C4B5FD]",
-  "Career Prep":  "bg-[#1E1633] text-[#C4B5FD]",
-  "Commodities":  "bg-[#2A1A13] text-[#FDBA74]",
-  "Real Estate":  "bg-[#0F2A2E] text-[#5EE6B5]",
-  "Fund Letters": "bg-[#2E1620] text-[#FB7185]",
-  "Private Credit": "bg-[#14352A] text-[#5EE6B5]",
+  "Macro":        "bg-amber-100 text-amber-700",
+  "Credit":       "bg-sky-100 text-sky-700",
+  "Equity":       "bg-emerald-100 text-emerald-700",
+  "Tech / AI":    "bg-indigo-100 text-indigo-700",
+  "Interview Prep": "bg-violet-100 text-violet-700",
+  "Career Prep":  "bg-violet-100 text-violet-700",
+  "Commodities":  "bg-orange-100 text-orange-700",
+  "Real Estate":  "bg-teal-100 text-teal-700",
+  "Fund Letters": "bg-rose-100 text-rose-700",
+  "Private Credit": "bg-emerald-100 text-emerald-700",
 };
 
 export function getAllPosts(): InsightPost[] {

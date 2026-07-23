@@ -35,19 +35,19 @@ function newsAgo(pubDate: string): string {
 }
 
 const OUTREACH_CFG = {
-  not_contacted: { label: "Not contacted", cls: "bg-[#201B2E] text-[#9A93AC]" },
-  reached_out:   { label: "Reached out",   cls: "bg-[#0F1A33] text-[#93C5FD]" },
-  in_discussion: { label: "In discussion", cls: "bg-[#14352A] text-[#5EE6B5]" },
-  passed:        { label: "Passed",        cls: "bg-[#2E1620] text-[#FB7185]" },
+  not_contacted: { label: "Not contacted", cls: "bg-gray-100 text-gray-600" },
+  reached_out:   { label: "Reached out",   cls: "bg-blue-100 text-blue-700" },
+  in_discussion: { label: "In discussion", cls: "bg-green-100 text-green-700" },
+  passed:        { label: "Passed",        cls: "bg-red-100 text-red-600" },
 };
 
 function SignalChip({ label, color }: { label: string; color: string }) {
   const cls: Record<string, string> = {
-    blue:   "bg-[#0F2033] text-[#A78BFA] border-[#38324E]",
-    green:  "bg-[#14352A]/50 text-[#5EE6B5] border-[#a8cfbc]/50",
-    purple: "bg-[#2A2338]/60 text-[#9A93AC] border-[#c7c4d8]/50",
-    gray:   "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",
-    red:    "bg-[#2E1620] text-[#FB7185] border-[#38324E]",
+    blue:   "bg-sky-50 text-[#396477] border-sky-100",
+    green:  "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50",
+    purple: "bg-[#e1ddf2]/60 text-[#5e5c6e] border-[#c7c4d8]/50",
+    gray:   "bg-gray-50 text-gray-600 border-gray-100",
+    red:    "bg-red-50 text-red-700 border-red-100",
   };
   return (
     <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${cls[color] ?? cls.gray}`}>{label}</span>
@@ -68,16 +68,16 @@ function NewsPanel({ entityName }: { entityName: string }) {
 
   return (
     <div>
-      <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide mb-2">Recent News</p>
+      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Recent News</p>
       {loading && (
         <div className="space-y-2">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-4 bg-[#201B2E] rounded animate-pulse" style={{ width: `${70 + i * 10}%` }} />
+            <div key={i} className="h-4 bg-gray-100 rounded animate-pulse" style={{ width: `${70 + i * 10}%` }} />
           ))}
         </div>
       )}
       {!loading && articles && articles.length === 0 && (
-        <p className="text-xs text-[#8A8398] italic">No recent news found for this firm.</p>
+        <p className="text-xs text-gray-400 italic">No recent news found for this firm.</p>
       )}
       {!loading && articles && articles.length > 0 && (
         <div className="space-y-2">
@@ -85,8 +85,8 @@ function NewsPanel({ entityName }: { entityName: string }) {
             <div key={i} className="flex items-start gap-2">
               <span className={`mt-0.5 flex-shrink-0 text-[10px] font-bold px-1 py-0.5 rounded ${
                 a.tag === "fundraising"
-                  ? "bg-[#0F2033] text-[#A78BFA]"
-                  : "bg-[#14352A]/60 text-[#5EE6B5]"
+                  ? "bg-sky-100 text-[#396477]"
+                  : "bg-[#c3ecd7]/60 text-[#416656]"
               }`}>
                 {a.tag === "fundraising" ? "Raise" : "Hire"}
               </span>
@@ -96,12 +96,12 @@ function NewsPanel({ entityName }: { entityName: string }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs text-[#B8B0C8] hover:text-[#A78BFA] transition-colors leading-snug line-clamp-2"
+                  className="text-xs text-gray-700 hover:text-[#396477] transition-colors leading-snug line-clamp-2"
                 >
                   {a.title}
                 </a>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  {a.source && <span className="text-[10px] text-[#8A8398]">{a.source}</span>}
+                  {a.source && <span className="text-[10px] text-gray-400">{a.source}</span>}
                   {a.pubDate && <span className="text-[10px] text-gray-300">· {newsAgo(a.pubDate)}</span>}
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
   };
 
   return (
-    <div className={`border-b border-[#38324E] last:border-0 ${expanded ? "bg-[#0F2033]/20" : "hover:bg-[#201B2E]/60"} transition-colors`}>
+    <div className={`border-b border-gray-100 last:border-0 ${expanded ? "bg-sky-50/20" : "hover:bg-gray-50/60"} transition-colors`}>
       {/* Collapsed row — 4 columns, no score */}
       <div
         className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-3 cursor-pointer items-start"
@@ -194,7 +194,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
         {/* Fund name + Why Now + chips */}
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-[#F4F0FA] text-sm leading-tight">{filing.entityName}</span>
+            <span className="font-semibold text-gray-900 text-sm leading-tight">{filing.entityName}</span>
             {outreachStatus !== "not_contacted" && (
               <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${OUTREACH_CFG[outreachStatus].cls}`}>
                 {OUTREACH_CFG[outreachStatus].label}
@@ -202,15 +202,15 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
             )}
           </div>
           {filing.score.whyNow[0] && (
-            <p className="text-xs text-[#9A93AC] mt-1 leading-relaxed">
-              <span className="text-[#A78BFA]">→ </span>{filing.score.whyNow[0]}
+            <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+              <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
             </p>
           )}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
             {hiringChip && <SignalChip key="hiring-timeline" label={hiringChip.label} color={hiringChip.color} />}
             {openRolesCount != null && openRolesCount > 0 && (
-              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#14352A]/60 text-[#5EE6B5] border-[#a8cfbc]/50">
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50">
                 {openRolesCount} role{openRolesCount !== 1 ? "s" : ""} →
               </span>
             )}
@@ -219,18 +219,18 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
         {/* Strategy */}
         <div className="pt-0.5">
-          <span className="text-xs px-2 py-0.5 rounded-full bg-[#201B2E] text-[#9A93AC] font-medium whitespace-nowrap">
+          <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium whitespace-nowrap">
             {filing.strategyLabel}
           </span>
         </div>
 
         {/* Fundraising */}
         <div className="pt-0.5">
-          <div className="text-sm text-[#B8B0C8] truncate">{fundraisingLabel}</div>
+          <div className="text-sm text-gray-700 truncate">{fundraisingLabel}</div>
           {filing.totalAmountSold && filing.totalOfferingAmount && filing.totalAmountSold > 0 && (
-            <div className="mt-1 h-1 w-full bg-[#201B2E] rounded-full overflow-hidden">
+            <div className="mt-1 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
               <div
-                className="h-1 rounded-full bg-[#171226]"
+                className="h-1 rounded-full bg-[#396477]"
                 style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
               />
             </div>
@@ -238,21 +238,21 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
         </div>
 
         {/* Filed */}
-        <div className="text-xs text-[#8A8398] pt-0.5">{ago(filing.daysSinceFiling)}</div>
+        <div className="text-xs text-gray-400 pt-0.5">{ago(filing.daysSinceFiling)}</div>
       </div>
 
       {/* Expanded detail */}
       {expanded && (
-        <div className="px-4 pb-5 pt-2 border-t border-[#38324E]/40 bg-[#201B2E] space-y-5">
+        <div className="px-4 pb-5 pt-2 border-t border-sky-100/40 bg-white space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
             {/* Why Now */}
             <div>
-              <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide mb-2">Why Now</p>
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Why Now</p>
               <ul className="space-y-1.5">
                 {filing.score.whyNow.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-[#A78BFA] mt-0.5 flex-shrink-0">→</span>
-                    <span className="text-[#B8B0C8]">{item}</span>
+                    <span className="text-[#396477] mt-0.5 flex-shrink-0">→</span>
+                    <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -260,13 +260,13 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
             {/* Suggested outreach */}
             <div>
-              <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide mb-2">Suggested Outreach</p>
-              <p className="text-sm text-[#B8B0C8] italic bg-[#0F2033] rounded-lg px-3 py-2.5 border border-[#38324E] leading-relaxed">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Suggested Outreach</p>
+              <p className="text-sm text-gray-700 italic bg-sky-50 rounded-lg px-3 py-2.5 border border-sky-100 leading-relaxed">
                 &ldquo;{filing.score.suggestedAngle}&rdquo;
               </p>
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {filing.score.suggestedTargetTeams.map((t) => (
-                  <span key={t} className="text-xs bg-[#201B2E] text-[#9A93AC] px-2.5 py-1 rounded-full">{t}</span>
+                  <span key={t} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{t}</span>
                 ))}
               </div>
             </div>
@@ -278,7 +278,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           {/* Key people from Form D */}
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (
             <div>
-              <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide mb-2">Key People (Form D)</p>
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Key People (Form D)</p>
               <div className="flex flex-wrap gap-2">
                 {filing.relatedPersons.slice(0, 5).map((p, i) => {
                   const fullName = [p.firstName, p.lastName].filter(Boolean).join(" ");
@@ -289,19 +289,19 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                     ? `https://www.google.com/search?q=${encodeURIComponent(fullName + " " + filing.entityName)}`
                     : undefined;
                   return (
-                    <div key={i} className="bg-[#201B2E] rounded-lg px-3 py-2 text-sm border border-[#38324E]">
-                      <div className="font-medium text-[#F4F0FA]">{fullName || "—"}</div>
-                      {p.title && <div className="text-xs text-[#9A93AC]">{p.title}</div>}
-                      {p.city && <div className="text-xs text-[#8A8398]">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
+                    <div key={i} className="bg-gray-50 rounded-lg px-3 py-2 text-sm border border-gray-100">
+                      <div className="font-medium text-gray-800">{fullName || "—"}</div>
+                      {p.title && <div className="text-xs text-gray-500">{p.title}</div>}
+                      {p.city && <div className="text-xs text-gray-400">{p.city}{p.state ? `, ${p.state}` : ""}</div>}
                       {fullName && (
                         <div className="flex gap-2 mt-1.5">
                           {liSearch && (
-                            <a href={liSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-[#7DD3FC] hover:underline">
+                            <a href={liSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-sky-600 hover:underline">
                               LinkedIn ↗
                             </a>
                           )}
                           {gSearch && (
-                            <a href={gSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-[#8A8398] hover:underline">
+                            <a href={gSearch} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-[10px] text-gray-400 hover:underline">
                               Google ↗
                             </a>
                           )}
@@ -316,7 +316,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
           {/* Contact info */}
           {(filing.phone || filing.website) && (
-            <div className="flex flex-wrap gap-4 text-xs text-[#9A93AC]">
+            <div className="flex flex-wrap gap-4 text-xs text-gray-500">
               {filing.phone && <span>📞 {filing.phone}</span>}
               {filing.website && (
                 <a
@@ -324,7 +324,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-[#A78BFA] hover:underline"
+                  className="text-[#396477] hover:underline"
                 >
                   🌐 {filing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
                 </a>
@@ -334,7 +334,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
 
           {/* Outreach tracking */}
           <div>
-            <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide mb-2">Track Outreach</p>
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Track Outreach</p>
             <div className="flex flex-wrap gap-2">
               {(["not_contacted", "reached_out", "in_discussion", "passed"] as OutreachRecord["status"][]).map((s) => (
                 <button
@@ -343,7 +343,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                     outreachStatus === s
                       ? `${OUTREACH_CFG[s].cls} border-current`
-                      : "border-[#38324E] text-[#9A93AC] hover:border-[#38324E]"
+                      : "border-gray-200 text-gray-500 hover:border-gray-300"
                   }`}
                 >
                   {OUTREACH_CFG[s].label}
@@ -351,7 +351,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
               ))}
               <button
                 onClick={(e) => { e.stopPropagation(); setShowNotes(!showNotes); }}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[#38324E] text-[#9A93AC] hover:border-[#38324E]"
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
               >
                 {notes ? "Edit notes" : "Add notes"}
               </button>
@@ -360,7 +360,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[#38324E] text-[#9A93AC] hover:border-[#38324E]"
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-200 text-gray-500 hover:border-gray-300"
               >
                 EDGAR ↗
               </a>
@@ -371,17 +371,17 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Notes — contact info, convo details, timing…"
-                  className="w-full text-sm border border-[#38324E] rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]"
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]"
                   rows={3}
                 />
                 <div className="flex gap-2">
-                  <button onClick={saveNotes} className="px-3 py-1.5 bg-[#171226] text-white rounded-lg text-xs font-medium hover:bg-[#6D28D9]">Save</button>
-                  <button onClick={() => setShowNotes(false)} className="px-3 py-1.5 bg-[#201B2E] text-[#9A93AC] rounded-lg text-xs font-medium hover:bg-[#201B2E]">Cancel</button>
+                  <button onClick={saveNotes} className="px-3 py-1.5 bg-[#396477] text-white rounded-lg text-xs font-medium hover:bg-[#2d5162]">Save</button>
+                  <button onClick={() => setShowNotes(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">Cancel</button>
                 </div>
               </div>
             )}
             {notes && !showNotes && (
-              <p className="mt-2 text-xs text-[#9A93AC] italic bg-[#201B2E] rounded-lg px-3 py-2 border border-[#38324E]">{notes}</p>
+              <p className="mt-2 text-xs text-gray-500 italic bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">{notes}</p>
             )}
           </div>
         </div>

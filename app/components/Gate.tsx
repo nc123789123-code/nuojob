@@ -112,26 +112,26 @@ export default function Gate({ level, children, title, description }: Props) {
       </div>
 
       {/* Unlock card */}
-      <div className="absolute inset-0 flex items-center justify-center bg-[#201B2E]/70 backdrop-blur-[2px] p-5">
-        <div className="w-full max-w-sm bg-[#201B2E] rounded-2xl border border-[#38324E]/50 shadow-[0_8px_32px_rgba(57,100,119,0.12)] p-6 text-center">
-          <div className="w-11 h-11 rounded-full bg-[#14111D] border border-[#38324E] flex items-center justify-center mx-auto mb-3 text-lg">
+      <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-[2px] p-5">
+        <div className="w-full max-w-sm bg-white rounded-2xl border border-[#c1c7cc]/50 shadow-[0_8px_32px_rgba(57,100,119,0.12)] p-6 text-center">
+          <div className="w-11 h-11 rounded-full bg-[#f5f3ff] border border-violet-200 flex items-center justify-center mx-auto mb-3 text-lg">
             {level === "pro" ? "⭐" : "🔓"}
           </div>
-          <h3 className="text-base font-bold text-[#F4F0FA] mb-1.5">{heading}</h3>
-          <p className="text-xs text-[#B8B0C8] leading-relaxed mb-4">{sub}</p>
+          <h3 className="text-base font-bold text-[#1A2B4A] mb-1.5">{heading}</h3>
+          <p className="text-xs text-[#41484c] leading-relaxed mb-4">{sub}</p>
 
           {needsUpgrade ? (
             <>
               <button
                 onClick={goPro}
                 disabled={submitting}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
+                className="w-full px-4 py-2.5 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
               >
                 {submitting ? "Redirecting…" : "Go Pro — $5/mo"}
               </button>
-              <p className="text-[11px] text-[#9A93AC] mt-2">
+              <p className="text-[11px] text-[#71787c] mt-2">
                 Already subscribed with a different email?{" "}
-                <button onClick={() => setNeedsUpgrade(false)} className="text-[#A78BFA] font-semibold hover:underline">
+                <button onClick={() => setNeedsUpgrade(false)} className="text-[#396477] font-semibold hover:underline">
                   Try another
                 </button>
               </p>
@@ -144,12 +144,12 @@ export default function Gate({ level, children, title, description }: Props) {
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-lg border border-[#38324E]/60 bg-[#201B2E] text-sm px-3 py-2.5 text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
+                className="w-full rounded-lg border border-[#c1c7cc]/60 bg-[#f8fafb] text-sm px-3 py-2.5 text-[#191c1e] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#243b63] transition-colors disabled:opacity-50"
+                className="w-full px-4 py-2.5 rounded-lg bg-[#1A2B4A] text-white text-sm font-bold hover:bg-[#243b63] transition-colors disabled:opacity-50"
               >
                 {submitting ? "Unlocking…" : level === "pro" ? "Continue" : "Unlock — it's free"}
               </button>
@@ -157,7 +157,7 @@ export default function Gate({ level, children, title, description }: Props) {
           )}
 
           {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-          <p className="text-[10px] text-[#8A8398] mt-3">No spam. Unsubscribe anytime.</p>
+          <p className="text-[10px] text-gray-400 mt-3">No spam. Unsubscribe anytime.</p>
         </div>
       </div>
     </div>

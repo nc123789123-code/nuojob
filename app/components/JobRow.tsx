@@ -7,20 +7,20 @@ interface Props {
 }
 
 const CATEGORY_STYLE: Record<JobCategory, string> = {
-  "Private Credit":     "bg-[#0F2033] text-[#A78BFA] border-[#38324E]",
-  "Public Credit":      "bg-[#0F2033] text-[#7DD3FC] border-[#38324E]",
-  "Equity Research":    "bg-[#1E1633] text-[#C4B5FD] border-[#38324E]",
-  "Other Finance Roles":   "bg-[#161533] text-[#C4B5FD] border-[#38324E]",
-  "Investment Banking": "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
-  "Quant":              "bg-[#2E1626] text-[#F9A8D4] border-[#38324E]",
-  "IR / Ops":           "bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
+  "Private Credit":     "bg-sky-50 text-[#396477] border-sky-100",
+  "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
+  "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
+  "Other Finance Roles":   "bg-indigo-50 text-indigo-700 border-indigo-100",
+  "Investment Banking": "bg-amber-50 text-amber-700 border-amber-100",
+  "Quant":              "bg-pink-50 text-pink-700 border-pink-100",
+  "IR / Ops":           "bg-emerald-50 text-emerald-700 border-emerald-100",
 };
 
 const SIGNAL_STYLE: Record<JobSignalTag, string> = {
-  "In-market raise":     "bg-[#2A2113] text-[#F5B544] border-[#38324E]",
-  "Post-raise build-out":"bg-[#14352A] text-[#5EE6B5] border-[#38324E]",
-  "Fund scaling":        "bg-[#0F2033] text-[#A78BFA] border-[#38324E]",
-  "New fund":            "bg-[#201B2E] text-[#9A93AC] border-[#38324E]",
+  "In-market raise":     "bg-amber-50 text-amber-700 border-amber-100",
+  "Post-raise build-out":"bg-green-50 text-green-700 border-green-100",
+  "Fund scaling":        "bg-sky-50 text-[#396477] border-sky-100",
+  "New fund":            "bg-gray-50 text-gray-500 border-gray-100",
 };
 
 function agoLabel(days: number): string {
@@ -32,20 +32,20 @@ function agoLabel(days: number): string {
 }
 
 function sourceInfo(id: string): { label: string; style: string } {
-  if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-[#14352A] text-[#5EE6B5] border-[#38324E]"   };
-  if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-[#0F2A2E] text-[#5EE6B5] border-[#38324E]"       };
-  if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]"       };
-  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-[#0F2033] text-[#A78BFA] border-[#38324E]"        };
-  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#2A2338]/70 text-[#9A93AC] border-[#c7c4d8]/50" };
-  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-[#0F2033] text-[#A78BFA] border-[#38324E]"        };
-  if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#171226] text-white border-[#2d5162]"       };
-  if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#171226] text-white border-[#2d5162]"       };
-  return { label: "Board", style: "bg-[#201B2E] text-[#9A93AC] border-[#38324E]" };
+  if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-green-50 text-green-700 border-green-200"   };
+  if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-teal-50 text-teal-700 border-teal-200"       };
+  if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-gray-50 text-gray-500 border-gray-200"       };
+  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-sky-50 text-[#396477] border-sky-100"        };
+  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50" };
+  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-sky-50 text-[#396477] border-sky-100"        };
+  if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };
+  if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };
+  return { label: "Board", style: "bg-gray-50 text-gray-500 border-gray-200" };
 }
 
 function ScoreBadge({ score }: { score: number }) {
-  const bg   = score >= 80 ? "bg-[#F43F5E]" : score >= 65 ? "bg-[#F59E0B]" : score >= 50 ? "bg-yellow-400" : "bg-[#201B2E]";
-  const text = score >= 50 ? "text-white" : "text-[#9A93AC]";
+  const bg   = score >= 80 ? "bg-red-500" : score >= 65 ? "bg-amber-500" : score >= 50 ? "bg-yellow-400" : "bg-gray-200";
+  const text = score >= 50 ? "text-white" : "text-gray-600";
   return (
     <div className={`w-8 h-8 rounded-lg ${bg} flex items-center justify-center flex-shrink-0`}>
       <span className={`font-bold text-[11px] tabular-nums ${text}`}>{score}</span>
@@ -56,19 +56,19 @@ function ScoreBadge({ score }: { score: number }) {
 export default function JobRow({ signal }: Props) {
   const src = sourceInfo(signal.id);
   return (
-    <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-3 border-b border-[#38324E] last:border-0 items-center hover:bg-[#201B2E]/60 transition-colors group">
+    <div className="grid grid-cols-[40px_1fr_130px_100px_72px_130px_72px] gap-3 px-4 py-3 border-b border-gray-100 last:border-0 items-center hover:bg-gray-50/60 transition-colors group">
       {/* Score */}
       <ScoreBadge score={signal.score} />
 
       {/* Firm + role + source + why */}
       <div className="min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-semibold text-[#F4F0FA] text-sm">{signal.firm}</span>
+          <span className="font-semibold text-gray-900 text-sm">{signal.firm}</span>
           <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${src.style}`}>{src.label}</span>
         </div>
-        <div className="text-sm text-[#9A93AC] mt-0.5">{signal.role}</div>
-        <p className="text-xs text-[#8A8398] mt-0.5 truncate">
-          <span className="text-[#A78BFA]">→ </span>{signal.why}
+        <div className="text-sm text-gray-600 mt-0.5">{signal.role}</div>
+        <p className="text-xs text-gray-400 mt-0.5 truncate">
+          <span className="text-[#396477]">→ </span>{signal.why}
         </p>
       </div>
 
@@ -80,13 +80,13 @@ export default function JobRow({ signal }: Props) {
       </div>
 
       {/* Location + salary */}
-      <div className="text-xs text-[#9A93AC]">
+      <div className="text-xs text-gray-500">
         <div>{signal.location}</div>
-        {signal.salaryRange && <div className="text-[#5EE6B5] font-medium mt-0.5">{signal.salaryRange}</div>}
+        {signal.salaryRange && <div className="text-emerald-600 font-medium mt-0.5">{signal.salaryRange}</div>}
       </div>
 
       {/* Days ago */}
-      <div className="text-xs text-[#8A8398] tabular-nums">{agoLabel(signal.daysAgo)}</div>
+      <div className="text-xs text-gray-400 tabular-nums">{agoLabel(signal.daysAgo)}</div>
 
       {/* Signal tag */}
       <div>
@@ -102,7 +102,7 @@ export default function JobRow({ signal }: Props) {
             href={signal.edgarUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] text-gray-300 group-hover:text-[#A78BFA] transition-colors font-medium"
+            className="text-[10px] text-gray-300 group-hover:text-[#396477] transition-colors font-medium"
             onClick={(e) => e.stopPropagation()}
           >
             {signal.id.startsWith("edgar-") ? "EDGAR ↗" : "Apply ↗"}

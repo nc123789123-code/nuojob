@@ -27,9 +27,9 @@ export default function SearchBar({ value, onChange, loading, placeholder, quick
 
   return (
     <div>
-      <div className="flex items-center gap-3 bg-[#201B2E] border border-[#38324E] rounded-xl px-4 py-3 focus-within:border-blue-400 focus-within:shadow-md focus-within:shadow-blue-50 transition-all">
+      <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 focus-within:border-blue-400 focus-within:shadow-md focus-within:shadow-blue-50 transition-all">
         <svg
-          className="w-5 h-5 text-[#8A8398] flex-shrink-0"
+          className="w-5 h-5 text-gray-400 flex-shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -48,7 +48,7 @@ export default function SearchBar({ value, onChange, loading, placeholder, quick
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder ?? 'Search fund name or strategy (e.g. "Owl Rock", "private credit")...'}
-          className="flex-1 text-sm text-[#F4F0FA] placeholder-gray-400 bg-transparent outline-none"
+          className="flex-1 text-sm text-gray-800 placeholder-gray-400 bg-transparent outline-none"
         />
 
         {loading && (
@@ -79,7 +79,7 @@ export default function SearchBar({ value, onChange, loading, placeholder, quick
               onChange("");
               inputRef.current?.focus();
             }}
-            className="text-[#8A8398] hover:text-[#9A93AC] flex-shrink-0"
+            className="text-gray-400 hover:text-gray-600 flex-shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -90,12 +90,12 @@ export default function SearchBar({ value, onChange, loading, placeholder, quick
 
       {!value && (
         <div className="flex flex-wrap items-center gap-2 mt-3">
-          <span className="text-xs text-[#8A8398]">Quick:</span>
+          <span className="text-xs text-gray-400">Quick:</span>
           {resolvedQuickSearches.map((term) => (
             <button
               key={term}
               onClick={() => onChange(term)}
-              className="text-xs text-[#93C5FD] bg-[#0F1A33] hover:bg-[#0F1A33] px-2.5 py-1 rounded-full transition-colors"
+              className="text-xs text-blue-600 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-full transition-colors"
             >
               {term}
             </button>

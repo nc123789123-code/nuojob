@@ -49,20 +49,20 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#14111D] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#f5f3ff] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       {/* Hero */}
-      <section className="bg-[#1E1633] border-b border-[#38324E]">
+      <section className="hero-gradient border-b border-[#2A2438]">
         <div className="max-w-3xl mx-auto px-5 py-14 sm:py-16 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
-            <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-violet-200/60 text-violet-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
             Pricing
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-4 text-[#F4F0FA]">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-4 text-[#1A2B4A]">
             Start free. Upgrade when you&apos;re serious.
           </h1>
-          <p className="text-[#B8B0C8] text-base max-w-lg mx-auto leading-relaxed">
+          <p className="text-[#41484c] text-base max-w-lg mx-auto leading-relaxed">
             The core stays free for everyone. Pro unlocks the full feed, real-time signals,
             and unlimited prep — for the price of a coffee a month.
           </p>
@@ -75,7 +75,7 @@ export default function PricingPage() {
           <button
             onClick={() => setPlan("monthly")}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
-              plan === "monthly" ? "bg-[#7C3AED] text-white" : "bg-[#201B2E] text-[#B8B0C8] border border-[#38324E]/50"
+              plan === "monthly" ? "bg-[#1A2B4A] text-white" : "bg-white text-[#41484c] border border-[#c1c7cc]/50"
             }`}
           >
             Monthly
@@ -83,11 +83,11 @@ export default function PricingPage() {
           <button
             onClick={() => setPlan("annual")}
             className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-2 ${
-              plan === "annual" ? "bg-[#7C3AED] text-white" : "bg-[#201B2E] text-[#B8B0C8] border border-[#38324E]/50"
+              plan === "annual" ? "bg-[#1A2B4A] text-white" : "bg-white text-[#41484c] border border-[#c1c7cc]/50"
             }`}
           >
             Annual
-            <span className="text-[10px] font-bold text-[#5EE6B5] bg-[#14352A] border border-[#38324E] px-1.5 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full">
               Save 25%
             </span>
           </button>
@@ -97,47 +97,47 @@ export default function PricingPage() {
       {/* Plans */}
       <section className="max-w-4xl mx-auto px-5 pb-16 w-full grid sm:grid-cols-2 gap-6">
         {/* Free */}
-        <div className="bg-[#201B2E] border border-[#38324E] rounded-2xl p-8 flex flex-col">
-          <p className="text-xs font-bold text-[#8A8398] uppercase tracking-widest mb-3">Free</p>
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Free</p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="text-4xl font-extrabold tracking-tight text-[#F4F0FA]">$0</span>
+            <span className="text-4xl font-extrabold tracking-tight text-[#1A2B4A]">$0</span>
           </div>
-          <p className="text-sm text-[#B8B0C8] mb-6">Everything you need to get started. No login required.</p>
+          <p className="text-sm text-[#41484c] mb-6">Everything you need to get started. No login required.</p>
           <ul className="flex flex-col gap-3 mb-8">
             {FREE_FEATURES.map((f) => (
-              <li key={f} className="flex items-start gap-2.5 text-sm text-[#F4F0FA]">
-                <span className="text-[#E9C989] font-bold flex-shrink-0">✓</span>
+              <li key={f} className="flex items-start gap-2.5 text-sm text-[#191c1e]">
+                <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
                 {f}
               </li>
             ))}
           </ul>
           <Link
             href="/"
-            className="mt-auto block text-center px-5 py-3 rounded-lg border border-[#38324E]/60 text-[#F4F0FA] text-sm font-bold hover:bg-[#201B2E] transition-colors"
+            className="mt-auto block text-center px-5 py-3 rounded-lg border border-[#c1c7cc]/60 text-[#1A2B4A] text-sm font-bold hover:bg-gray-50 transition-colors"
           >
             Explore Free
           </Link>
         </div>
 
         {/* Pro */}
-        <div className="bg-[#201B2E] border-2 border-[#6aab8e] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
-          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+        <div className="bg-white border-2 border-[#6aab8e] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#6aab8e] text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full">
             Most Popular
           </span>
-          <p className="text-xs font-bold text-[#E9C989] uppercase tracking-widest mb-3">Pro</p>
+          <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">Pro</p>
           <div className="flex items-baseline gap-1 mb-1">
-            <span className="text-4xl font-extrabold tracking-tight text-[#F4F0FA]">
+            <span className="text-4xl font-extrabold tracking-tight text-[#1A2B4A]">
               {plan === "monthly" ? "$5" : "$45"}
             </span>
-            <span className="text-sm text-[#8A8398] font-medium">/ {plan === "monthly" ? "month" : "year"}</span>
+            <span className="text-sm text-gray-400 font-medium">/ {plan === "monthly" ? "month" : "year"}</span>
           </div>
-          <p className="text-sm text-[#B8B0C8] mb-6">
+          <p className="text-sm text-[#41484c] mb-6">
             {plan === "monthly" ? "Billed monthly. Cancel anytime." : "Billed yearly — like getting 3 months free."}
           </p>
           <ul className="flex flex-col gap-3 mb-8">
             {PRO_FEATURES.map((f) => (
-              <li key={f} className="flex items-start gap-2.5 text-sm text-[#F4F0FA]">
-                <span className="text-[#E9C989] font-bold flex-shrink-0">✓</span>
+              <li key={f} className="flex items-start gap-2.5 text-sm text-[#191c1e]">
+                <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
                 {f}
               </li>
             ))}
@@ -145,7 +145,7 @@ export default function PricingPage() {
           <button
             onClick={goPro}
             disabled={loading}
-            className="mt-auto block text-center px-5 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
+            className="mt-auto block text-center px-5 py-3 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
           >
             {loading ? "Redirecting…" : `Go Pro — ${plan === "monthly" ? "$5/mo" : "$45/yr"}`}
           </button>
@@ -155,9 +155,9 @@ export default function PricingPage() {
 
       {/* Reassurance */}
       <div className="max-w-2xl mx-auto px-5 pb-20 text-center">
-        <p className="text-xs text-[#9A93AC] leading-relaxed">
+        <p className="text-xs text-[#71787c] leading-relaxed">
           Secure checkout via Stripe. Cancel anytime — no questions asked. Are you a university or finance club?{" "}
-          <Link href="/universities" className="text-[#A78BFA] font-semibold hover:underline">
+          <Link href="/universities" className="text-[#396477] font-semibold hover:underline">
             See partnership options →
           </Link>
         </p>

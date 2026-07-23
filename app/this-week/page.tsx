@@ -103,38 +103,38 @@ export default function ThisWeekPage() {
   const pageUrl = `${baseUrl}/this-week`;
 
   return (
-    <div className="min-h-screen bg-[#14111D]">
+    <div className="min-h-screen bg-[#f2f4f6]">
       {/* Header */}
-      <div className="bg-[#201B2E] border-b border-[#38324E]/40">
+      <div className="bg-white border-b border-[#c1c7cc]/40">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <LogoMark size={24} />
-            <span className="text-sm font-bold" style={{ color: "#E9C989" }}>Onlu</span>
+            <span className="text-sm font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
           </a>
-          <span className="text-xs text-[#9A93AC]">Weekly Pulse</span>
+          <span className="text-xs text-[#71787c]">Weekly Pulse</span>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
 
         {/* Hero card */}
-        <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
-          <div className="bg-[#171226] px-6 py-5">
+        <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
+          <div className="bg-[#396477] px-6 py-5">
             <p className="text-[#c3ecd7] text-xs font-semibold uppercase tracking-widest mb-1">Finance Hiring Pulse</p>
             <h1 className="text-white text-xl font-bold">{weekLabel()}</h1>
           </div>
           {loading ? (
-            <div className="px-6 py-8 text-center text-sm text-[#8A8398]">Loading signals…</div>
+            <div className="px-6 py-8 text-center text-sm text-gray-400">Loading signals…</div>
           ) : (
-            <div className="grid grid-cols-3 divide-x divide-[#38324E]/30">
+            <div className="grid grid-cols-3 divide-x divide-[#c1c7cc]/30">
               {[
                 { label: "Firms Hiring", value: totalFirmsHiring },
                 { label: "Roles Posted", value: totalRoles },
                 { label: "Capital Raises", value: daily?.weekCount ?? 0 },
               ].map(({ label, value }) => (
                 <div key={label} className="px-4 py-4 text-center">
-                  <p className="text-2xl font-bold text-[#F4F0FA]">{value}</p>
-                  <p className="text-[11px] text-[#9A93AC] mt-0.5">{label}</p>
+                  <p className="text-2xl font-bold text-[#191c1e]">{value}</p>
+                  <p className="text-[11px] text-[#71787c] mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
@@ -144,37 +144,37 @@ export default function ThisWeekPage() {
         <Gate level="email" title="See who's hiring this week" description="Enter your email to unlock the firm-by-firm hiring breakdown and this week's capital raises. Free.">
         {/* Hiring Now */}
         {!loading && firmGroups.length > 0 && (
-          <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
-            <div className="px-5 py-3.5 border-b border-[#38324E]/30 flex items-center gap-2">
-              <span className="text-sm font-bold text-[#F4F0FA]">Hiring Now</span>
-              <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">{totalFirmsHiring} firms</span>
+          <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#c1c7cc]/30 flex items-center gap-2">
+              <span className="text-sm font-bold text-[#191c1e]">Hiring Now</span>
+              <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{totalFirmsHiring} firms</span>
             </div>
-            <div className="divide-y divide-[#38324E]/20">
+            <div className="divide-y divide-[#c1c7cc]/20">
               {firmGroups.map(([firmName, firmJobs]) => (
                 <div key={firmName} className="px-5 py-3.5">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-sm text-[#F4F0FA]">{firmName}</span>
-                    <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">
+                    <span className="font-semibold text-sm text-[#191c1e]">{firmName}</span>
+                    <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
                       {firmJobs.length} open
                     </span>
                   </div>
                   <div className="space-y-1">
                     {firmJobs.slice(0, 3).map((job, i) => (
                       <div key={i} className="flex items-center justify-between gap-2">
-                        <span className="text-xs text-[#B8B0C8] truncate">{job.role}</span>
-                        <span className="text-[10px] text-[#8A8398] flex-shrink-0">{job.daysAgo}d ago</span>
+                        <span className="text-xs text-[#41484c] truncate">{job.role}</span>
+                        <span className="text-[10px] text-gray-400 flex-shrink-0">{job.daysAgo}d ago</span>
                       </div>
                     ))}
                     {firmJobs.length > 3 && (
-                      <p className="text-[10px] text-[#A78BFA]">+{firmJobs.length - 3} more roles</p>
+                      <p className="text-[10px] text-[#396477]">+{firmJobs.length - 3} more roles</p>
                     )}
                   </div>
                 </div>
               ))}
             </div>
             {totalFirmsHiring > 8 && (
-              <div className="px-5 py-3 border-t border-[#38324E]/20 bg-[#201B2E]">
-                <a href="/" className="text-xs font-semibold text-[#A78BFA] hover:underline">
+              <div className="px-5 py-3 border-t border-[#c1c7cc]/20 bg-[#f8fafb]">
+                <a href="/" className="text-xs font-semibold text-[#396477] hover:underline">
                   +{totalFirmsHiring - 8} more firms on the platform →
                 </a>
               </div>
@@ -185,29 +185,29 @@ export default function ThisWeekPage() {
         <Gate level="pro" title="Capital raises — a Pro signal" description="Live Form D capital-raise signals are part of Onlu Pro — $5/mo, cancel anytime.">
         {/* Capital Raises */}
         {!loading && topFunds.length > 0 && (
-          <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 overflow-hidden shadow-sm">
-            <div className="px-5 py-3.5 border-b border-[#38324E]/30 flex items-center gap-2">
-              <span className="text-sm font-bold text-[#F4F0FA]">Capital Raises</span>
-              <span className="text-[10px] bg-[#2A2113] text-[#F5B544] font-bold px-1.5 py-0.5 rounded">EDGAR Form D</span>
+          <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#c1c7cc]/30 flex items-center gap-2">
+              <span className="text-sm font-bold text-[#191c1e]">Capital Raises</span>
+              <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">EDGAR Form D</span>
             </div>
-            <div className="divide-y divide-[#38324E]/20">
+            <div className="divide-y divide-[#c1c7cc]/20">
               {topFunds.map((fund, i) => (
                 <div key={i} className="px-5 py-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
-                    <span className="text-sm font-medium text-[#F4F0FA] truncate">{fund.name}</span>
+                    <span className="text-sm font-medium text-[#191c1e] truncate">{fund.name}</span>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0 text-right">
                     {fund.totalOfferingAmount && (
-                      <span className="text-xs font-semibold text-[#F5B544]">{fmt(fund.totalOfferingAmount)}</span>
+                      <span className="text-xs font-semibold text-amber-700">{fmt(fund.totalOfferingAmount)}</span>
                     )}
-                    <span className="text-[10px] text-[#8A8398]">{fund.daysSinceFiling}d ago</span>
+                    <span className="text-[10px] text-gray-400">{fund.daysSinceFiling}d ago</span>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="px-5 py-3 border-t border-[#38324E]/20 bg-[#201B2E]">
-              <a href="/?tab=capital" className="text-xs font-semibold text-[#A78BFA] hover:underline">
+            <div className="px-5 py-3 border-t border-[#c1c7cc]/20 bg-[#f8fafb]">
+              <a href="/?tab=capital" className="text-xs font-semibold text-[#396477] hover:underline">
                 View all capital signals →
               </a>
             </div>
@@ -216,9 +216,9 @@ export default function ThisWeekPage() {
         </Gate>
 
         {/* Share block */}
-        <div className="bg-[#201B2E] rounded-2xl border border-[#38324E]/40 p-5 shadow-sm">
-          <p className="text-sm font-bold text-[#F4F0FA] mb-1">Share this week&apos;s signals</p>
-          <p className="text-xs text-[#9A93AC] mb-4">Help your network know where the opportunities are.</p>
+        <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 p-5 shadow-sm">
+          <p className="text-sm font-bold text-[#191c1e] mb-1">Share this week&apos;s signals</p>
+          <p className="text-xs text-[#71787c] mb-4">Help your network know where the opportunities are.</p>
           <div className="flex flex-wrap gap-2">
             <ShareButton platform="linkedin" url={pageUrl} text={shareText} />
             <ShareButton platform="twitter" url={pageUrl} text={shareText} />
@@ -226,16 +226,16 @@ export default function ThisWeekPage() {
         </div>
 
         {/* CTA */}
-        <div className="bg-[#171226] rounded-2xl p-5 text-center shadow-sm">
+        <div className="bg-[#396477] rounded-2xl p-5 text-center shadow-sm">
           <p className="text-white font-bold text-sm mb-1">See the full picture</p>
           <p className="text-[#c3ecd7] text-xs mb-4">Live roles, fund signals, market data, and interview prep — all in one place.</p>
           <a href="/"
-            className="inline-block bg-[#201B2E] text-[#A78BFA] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
+            className="inline-block bg-white text-[#396477] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
             Open Onlu →
           </a>
         </div>
 
-        <p className="text-center text-[10px] text-[#8A8398]">
+        <p className="text-center text-[10px] text-gray-400">
           Data refreshed every 30 minutes · <a href="/" className="hover:underline">onluintel.com</a>
         </p>
 
