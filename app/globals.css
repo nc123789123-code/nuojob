@@ -42,10 +42,11 @@ h2 { font-weight: 800 !important; letter-spacing: -0.035em; }
    ============================================================ */
 .hero-gradient {
   background:
-    radial-gradient(ellipse at 72% -25%, rgba(124,58,237,0.55) 0%, transparent 55%),
-    radial-gradient(ellipse at -5% 120%, rgba(236,72,153,0.34) 0%, transparent 55%),
-    radial-gradient(ellipse at 105% 120%, rgba(245,181,68,0.18) 0%, transparent 50%),
-    #100A18;
+    radial-gradient(ellipse at 72% -25%, rgba(139,92,246,0.72) 0%, transparent 55%),
+    radial-gradient(ellipse at -8% 120%, rgba(236,72,153,0.48) 0%, transparent 55%),
+    radial-gradient(ellipse at 108% 120%, rgba(245,181,68,0.26) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.20) 0%, transparent 70%),
+    #0C0714;
   position: relative;
   overflow: hidden;
 }

@@ -474,7 +474,7 @@ function HomeContent() {
               },
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                className={`card-lift text-left p-2 sm:p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
+                className={`card-lift text-left p-2 sm:p-3 rounded-xl border-2 bg-white shadow-[0_10px_30px_-6px_rgba(10,7,20,0.55)] transition-all ${topTab === f.tab ? f.active + " ring-2 ring-white/60" : f.color}`}>
                 <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
                 <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
                 <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
