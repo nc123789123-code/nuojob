@@ -67,17 +67,6 @@ h2 { font-weight: 800 !important; letter-spacing: -0.035em; }
   opacity: 0.85;
   pointer-events: none;
 }
-/* glowing horizon line where the grid meets the sky */
-.hero-gradient::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: 40%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #FF3AA7 22%, #7CF7FF 50%, #FF3AA7 78%, transparent);
-  box-shadow: 0 0 16px 2px rgba(255,58,167,0.65), 0 0 38px 6px rgba(124,247,255,0.35);
-  animation: none;
-  pointer-events: none;
-}
 /* keep hero content above the decorative layers */
 .hero-gradient > * { position: relative; z-index: 1; }
 
