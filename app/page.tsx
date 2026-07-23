@@ -12,6 +12,8 @@ import RoleCard from "@/app/components/RoleCard";
 import FundFilterBar from "@/app/components/Filters";
 import NewsletterCTA from "@/app/components/NewsletterCTA";
 import GuideSection from "@/app/components/GuideSection";
+import UnlockMore from "@/app/components/UnlockMore";
+import { useAccess } from "@/app/lib/useAccess";
 import {
   FundFiling,
   SearchFilters,
@@ -7077,6 +7079,7 @@ function HiringSection({
   const [matchError, setMatchError] = useState<string | null>(null);
   const [showDebug, setShowDebug] = useState(false);
   const [showAllJobs, setShowAllJobs] = useState(false);
+  const access = useAccess();
 
   const filtered = useMemo(
     () => categoryFilter === "all" ? signals : signals.filter((s) => s.category === categoryFilter),
@@ -7479,10 +7482,14 @@ function HiringSection({
                     })}
                   </div>
                   {hiringGroups.length > 10 && (
-                    <button onClick={() => setShowAllJobs(v => !v)}
-                      className="mt-3 w-full py-2.5 text-xs font-semibold text-[#396477] border border-[#396477]/30 rounded-xl hover:bg-[#396477]/5 transition-colors">
-                      {showAllJobs ? "Show less" : `Show all ${hiringGroups.length} firms`}
-                    </button>
+                    <UnlockMore
+                      hasAccess={!access.loading && !!access.email}
+                      label={`Show all ${hiringGroups.length} firms`}
+                      expandedLabel="Show less"
+                      expanded={showAllJobs}
+                      onToggle={() => setShowAllJobs(v => !v)}
+                      onUnlocked={() => { access.refresh(); setShowAllJobs(true); }}
+                    />
                   )}
                 </>
               )}
