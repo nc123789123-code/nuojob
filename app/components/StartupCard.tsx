@@ -189,9 +189,9 @@ export default function StartupRow({ filing, outreach, onOutreachChange, autoExp
           </div>
 
           <div className="flex gap-3 flex-wrap">
-            <ScoreChip label="Funding" value={score.fundingScore} color="bg-[#161533]0" />
-            <ScoreChip label="Hiring" value={score.hiringScore} color="bg-[#14352A]0" placeholder="Phase 2" />
-            <ScoreChip label="Expansion" value={score.expansionScore} color="bg-[#1E1633]0" placeholder="Phase 2" />
+            <ScoreChip label="Funding" value={score.fundingScore} color="bg-[#6366F1]" />
+            <ScoreChip label="Hiring" value={score.hiringScore} color="bg-[#10B981]" placeholder="Phase 2" />
+            <ScoreChip label="Expansion" value={score.expansionScore} color="bg-[#8B5CF6]" placeholder="Phase 2" />
           </div>
 
           {filing.relatedPersons && filing.relatedPersons.length > 0 && (

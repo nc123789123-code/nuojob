@@ -391,7 +391,7 @@ function HomeContent() {
           {topTab === "firmprep" && (
             <>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#2E1620]/70 text-[#FB7185] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#2E1620]0 rounded-full" />
+                <span className="w-1.5 h-1.5 bg-[#F43F5E] rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
               <h1 className="text-[#A78BFA] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
@@ -730,7 +730,7 @@ function MarketDataPanel() {
   return (
     <div className="border border-[#2A2438] bg-[#14101E] rounded-xl overflow-hidden">
       <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-[#2A2438]">
-        <span className="w-1.5 h-1.5 bg-[#14352A]0 rounded-full animate-pulse" />
+        <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
         <span className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Live Markets</span>
         <span className="ml-auto text-[11px] text-[#8A8398]">Delayed ~15 min</span>
       </div>
@@ -6564,9 +6564,9 @@ function CapitalCycleSection({
   const rolesOnly = capitalSignals.filter(s => s.stage === "roles_only");
 
   const STAGE_META = {
-    both:       { label: "Raise + Hiring",  cls: "bg-[#14352A] border-[#2A2438] text-[#5EE6B5]",  dot: "bg-[#14352A]0", desc: "Both signals confirmed — highest conviction" },
-    raising:    { label: "In Market Now",   cls: "bg-[#2A2113] border-[#2A2438] text-[#F5B544]",        dot: "bg-[#2A2113]0",   desc: "Raise filed ≤90d ago, no roles yet" },
-    deploying:  { label: "Post-Raise",      cls: "bg-[#0F2033] border-[#2A2438] text-[#7DD3FC]",              dot: "bg-[#0F2033]0",     desc: "Capital deployed, build-out likely" },
+    both:       { label: "Raise + Hiring",  cls: "bg-[#14352A] border-[#2A2438] text-[#5EE6B5]",  dot: "bg-[#10B981]", desc: "Both signals confirmed — highest conviction" },
+    raising:    { label: "In Market Now",   cls: "bg-[#2A2113] border-[#2A2438] text-[#F5B544]",        dot: "bg-[#F59E0B]",   desc: "Raise filed ≤90d ago, no roles yet" },
+    deploying:  { label: "Post-Raise",      cls: "bg-[#0F2033] border-[#2A2438] text-[#7DD3FC]",              dot: "bg-[#0EA5E9]",     desc: "Capital deployed, build-out likely" },
     roles_only: { label: "Hiring Signal",   cls: "bg-[#14101E] border-[#2A2438] text-[#B8B0C8]",           dot: "bg-gray-400",   desc: "Roles posted, no Form D on record" },
   };
 
@@ -6617,7 +6617,7 @@ function CapitalCycleSection({
       {both.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#14352A]0 animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse" />
             <h2 className="text-sm font-bold text-[#F4F0FA]">Raise + Hiring — Highest Conviction</h2>
             <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">{both.length}</span>
           </div>
@@ -7215,7 +7215,7 @@ function HiringSection({
             </button>
           )}
           <div className="w-px bg-[#14101E] self-stretch mx-0.5 flex-shrink-0" />
-          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-[#2A2113]0 text-white border-amber-500" : "bg-[#2A2113] text-[#F5B544] border-[#2A2438] hover:bg-[#2A2113] hover:border-[#2A2438]"}`}>
+          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-[#F59E0B] text-white border-amber-500" : "bg-[#2A2113] text-[#F5B544] border-[#2A2438] hover:bg-[#2A2113] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/></svg>
             Trends
           </button>
@@ -7227,7 +7227,7 @@ function HiringSection({
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/></svg>
             Outreach
           </button>
-          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-[#2A1A13]0 text-white border-orange-500" : "bg-[#2A1A13] text-[#FDBA74] border-[#2A2438] hover:bg-[#2A1A13] hover:border-[#2A2438]"}`}>
+          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-[#F97316] text-white border-orange-500" : "bg-[#2A1A13] text-[#FDBA74] border-[#2A2438] hover:bg-[#2A1A13] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/></svg>
             Recruiters
           </button>
@@ -8126,7 +8126,7 @@ function OnluTableSection() {
             </div>
             {error && <p className="text-sm text-[#FB7185]">{error}</p>}
             <button type="submit" disabled={submitting}
-              className="w-full py-3 bg-[#2A2113]0 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
+              className="w-full py-3 bg-[#F59E0B] text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
               {submitting ? "Submitting…" : "Request My Seat →"}
             </button>
             <p className="text-[11px] text-[#9A93AC] text-center">

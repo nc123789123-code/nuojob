@@ -266,7 +266,7 @@ export default function FirmDetailPage({ params }: { params: { cik: string } }) 
                   {data.formDFilings.slice(0, 8).map((f) => (
                     <div key={f.accessionNumber} className="flex items-center justify-between gap-4 text-sm">
                       <div className="flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.form === "D" ? "bg-[#0F1A33]0" : "bg-amber-400"}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.form === "D" ? "bg-[#3B82F6]" : "bg-amber-400"}`} />
                         <span className="text-[#9A93AC]">{f.form === "D" ? "New filing" : "Amendment"}</span>
                       </div>
                       <span className="text-[#8A8398] tabular-nums text-xs">

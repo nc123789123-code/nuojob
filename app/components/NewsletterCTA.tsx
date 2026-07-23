@@ -69,7 +69,7 @@ export default function NewsletterCTA({
       <p className={`${descColor} text-sm mt-1.5 max-w-sm mx-auto leading-relaxed`}>{description}</p>
 
       {submitted ? (
-        <div className="mt-5 inline-flex items-center gap-2 bg-[#14352A]0/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium px-4 py-2 rounded-lg">
+        <div className="mt-5 inline-flex items-center gap-2 bg-[#10B981]/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium px-4 py-2 rounded-lg">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
           {successMessage}
         </div>

@@ -54,7 +54,7 @@ export default function GuideSection() {
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
             <div className="flex-1">
               <div className="inline-flex items-center gap-1.5 bg-[#2A2113] border border-[#2A2438] text-[#F5B544] text-[11px] font-semibold px-2.5 py-1 rounded-full mb-4">
-                <span className="w-1 h-1 bg-[#2A2113]0 rounded-full" />
+                <span className="w-1 h-1 bg-[#F59E0B] rounded-full" />
                 Credit Interview Guide
               </div>
 

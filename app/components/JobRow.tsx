@@ -44,7 +44,7 @@ function sourceInfo(id: string): { label: string; style: string } {
 }
 
 function ScoreBadge({ score }: { score: number }) {
-  const bg   = score >= 80 ? "bg-[#2E1620]0" : score >= 65 ? "bg-[#2A2113]0" : score >= 50 ? "bg-yellow-400" : "bg-[#14101E]";
+  const bg   = score >= 80 ? "bg-[#F43F5E]" : score >= 65 ? "bg-[#F59E0B]" : score >= 50 ? "bg-yellow-400" : "bg-[#14101E]";
   const text = score >= 50 ? "text-white" : "text-[#9A93AC]";
   return (
     <div className={`w-8 h-8 rounded-lg ${bg} flex items-center justify-center flex-shrink-0`}>

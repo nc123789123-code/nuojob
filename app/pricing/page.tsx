@@ -56,7 +56,7 @@ export default function PricingPage() {
       <section className="bg-[#1E1633] border-b border-[#2A2438]">
         <div className="max-w-3xl mx-auto px-5 py-14 sm:py-16 text-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
-            <span className="w-1.5 h-1.5 bg-[#1E1633]0 rounded-full" />
+            <span className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full" />
             Pricing
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-4 text-[#F4F0FA]">

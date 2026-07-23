@@ -25,12 +25,12 @@ function sourceLabel(id: string): { label: string; style: string; isDirect: bool
 
 const CATEGORY_BAR: Record<JobCategory, string> = {
   "Private Credit":     "bg-blue-600",
-  "Public Credit":      "bg-[#0F2033]0",
-  "Equity Research":    "bg-[#1E1633]0",
-  "Other Finance Roles":   "bg-[#161533]0",
-  "Investment Banking": "bg-[#2A2113]0",
-  "Quant":              "bg-[#2E1626]0",
-  "IR / Ops":           "bg-[#14352A]0",
+  "Public Credit":      "bg-[#0EA5E9]",
+  "Equity Research":    "bg-[#8B5CF6]",
+  "Other Finance Roles":   "bg-[#6366F1]",
+  "Investment Banking": "bg-[#F59E0B]",
+  "Quant":              "bg-[#EC4899]",
+  "IR / Ops":           "bg-[#10B981]",
 };
 
 const CATEGORY_BADGE: Record<JobCategory, string> = {
@@ -228,7 +228,7 @@ function AnalysisSection({ label, children }: { label: string; children: React.R
 }
 
 function VerdictDot({ verdict }: { verdict: RoleAnalysis["worthApplying"]["verdict"] }) {
-  const cls = verdict === "strong" ? "bg-[#14352A]0" : verdict === "good" ? "bg-[#0F1A33]0" : verdict === "moderate" ? "bg-amber-400" : "bg-gray-300";
+  const cls = verdict === "strong" ? "bg-[#10B981]" : verdict === "good" ? "bg-[#3B82F6]" : verdict === "moderate" ? "bg-amber-400" : "bg-gray-300";
   return <span className={`inline-block w-2 h-2 rounded-full ${cls} mr-2 flex-shrink-0 mt-1`} />;
 }
 
@@ -292,8 +292,8 @@ function AnalysisPanel({ signal }: { signal: JobSignal }) {
 
 function ScorePip({ score }: { score: number }) {
   const [bg, text] =
-    score >= 80 ? ["bg-[#2E1620]0", "text-white"] :
-    score >= 65 ? ["bg-[#2A2113]0", "text-white"] :
+    score >= 80 ? ["bg-[#F43F5E]", "text-white"] :
+    score >= 65 ? ["bg-[#F59E0B]", "text-white"] :
     score >= 50 ? ["bg-yellow-400", "text-white"] :
                   ["bg-[#14101E]", "text-[#9A93AC]"];
   return (

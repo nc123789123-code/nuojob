@@ -21,12 +21,17 @@ body {
 
 h1, h2, h3 {
   font-family: 'Nunito', -apple-system, sans-serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
-/* a touch more punch on the big display headline */
+/* more punch on display headlines (same Nunito, heavier + tighter) */
 h1 {
-  font-weight: 800;
+  font-weight: 900 !important;
+  letter-spacing: -0.045em;
+  line-height: 1.03;
+}
+h2 {
+  font-weight: 800 !important;
   letter-spacing: -0.035em;
 }
 body {
