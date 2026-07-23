@@ -50,35 +50,32 @@ h2 { font-weight: 800 !important; letter-spacing: -0.035em; }
   position: relative;
   overflow: hidden;
 }
-/* animated aurora sweep for extra life */
-.hero-gradient::after {
-  content: '';
-  position: absolute;
-  inset: -40% -10% auto -10%;
-  height: 140%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.18) 0%, transparent 60%);
-  animation: aurora 12s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes aurora {
-  0%, 100% { transform: translateX(-8%) translateY(0) scale(1); opacity: 0.8; }
-  50%      { transform: translateX(8%) translateY(4%) scale(1.1); opacity: 1; }
-}
 /* retro synthwave floor grid */
 .hero-gradient::before {
   content: '';
   position: absolute;
   left: -25%; right: -25%; bottom: 0;
-  height: 62%;
+  height: 66%;
   background-image:
-    linear-gradient(to right, rgba(236,72,153,0.40) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(167,139,250,0.32) 1px, transparent 1px);
-  background-size: 46px 46px;
-  transform: perspective(340px) rotateX(64deg);
+    linear-gradient(to right, rgba(255,58,167,0.7) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(124,247,255,0.55) 1.5px, transparent 1.5px);
+  background-size: 50px 50px;
+  transform: perspective(340px) rotateX(65deg);
   transform-origin: bottom center;
-  -webkit-mask-image: linear-gradient(transparent 0%, #000 65%);
-          mask-image: linear-gradient(transparent 0%, #000 65%);
-  opacity: 0.6;
+  -webkit-mask-image: linear-gradient(transparent 0%, #000 60%);
+          mask-image: linear-gradient(transparent 0%, #000 60%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+/* glowing horizon line where the grid meets the sky */
+.hero-gradient::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF3AA7 22%, #7CF7FF 50%, #FF3AA7 78%, transparent);
+  box-shadow: 0 0 16px 2px rgba(255,58,167,0.65), 0 0 38px 6px rgba(124,247,255,0.35);
+  animation: none;
   pointer-events: none;
 }
 /* keep hero content above the decorative layers */
@@ -93,7 +90,7 @@ h2 { font-weight: 800 !important; letter-spacing: -0.035em; }
   -webkit-text-fill-color: transparent !important;
   color: transparent;
   animation: sheen 6s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(236,72,153,0.45)) drop-shadow(0 0 34px rgba(139,92,246,0.35));
+  filter: drop-shadow(0 0 22px rgba(255,58,167,0.60)) drop-shadow(0 0 46px rgba(124,247,255,0.35));
 }
 @keyframes sheen {
   0%, 100% { background-position: 0% 50%; }
