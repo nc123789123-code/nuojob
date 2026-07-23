@@ -111,7 +111,7 @@ export default function ThisWeekPage() {
             <LogoMark size={24} />
             <span className="text-sm font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
           </a>
-          <span className="text-xs text-[#71787c]">Weekly Pulse</span>
+          <span className="text-xs text-[#3d444d]">Weekly Pulse</span>
         </div>
       </div>
 
@@ -134,7 +134,7 @@ export default function ThisWeekPage() {
               ].map(({ label, value }) => (
                 <div key={label} className="px-4 py-4 text-center">
                   <p className="text-2xl font-bold text-[#191c1e]">{value}</p>
-                  <p className="text-[11px] text-[#71787c] mt-0.5">{label}</p>
+                  <p className="text-[11px] text-[#3d444d] mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
@@ -161,7 +161,7 @@ export default function ThisWeekPage() {
                   <div className="space-y-1">
                     {firmJobs.slice(0, 3).map((job, i) => (
                       <div key={i} className="flex items-center justify-between gap-2">
-                        <span className="text-xs text-[#41484c] truncate">{job.role}</span>
+                        <span className="text-xs text-[#23282e] truncate">{job.role}</span>
                         <span className="text-[10px] text-gray-400 flex-shrink-0">{job.daysAgo}d ago</span>
                       </div>
                     ))}
@@ -218,7 +218,7 @@ export default function ThisWeekPage() {
         {/* Share block */}
         <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 p-5 shadow-sm">
           <p className="text-sm font-bold text-[#191c1e] mb-1">Share this week&apos;s signals</p>
-          <p className="text-xs text-[#71787c] mb-4">Help your network know where the opportunities are.</p>
+          <p className="text-xs text-[#3d444d] mb-4">Help your network know where the opportunities are.</p>
           <div className="flex flex-wrap gap-2">
             <ShareButton platform="linkedin" url={pageUrl} text={shareText} />
             <ShareButton platform="twitter" url={pageUrl} text={shareText} />

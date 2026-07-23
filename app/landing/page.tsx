@@ -87,7 +87,7 @@ export default function LandingPage() {
                 <span key={i} className={`w-2 h-2 rounded-full ${t.dot}`} />
               ))}
             </div>
-            <Link href="/this-week" className="hidden sm:inline text-xs text-[#71787c] hover:text-[#191c1e] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#f2f4f6]">Weekly Pulse</Link>
+            <Link href="/this-week" className="hidden sm:inline text-xs text-[#3d444d] hover:text-[#191c1e] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#f2f4f6]">Weekly Pulse</Link>
             <Link href="/" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#396477] transition-colors">
               Open app →
             </Link>
@@ -119,7 +119,7 @@ export default function LandingPage() {
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-[#1A2B4A] max-w-3xl mb-5">
             Know which firms are actively building teams — and walk into every interview prepared.
           </h1>
-          <p className="text-[#71787c] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+          <p className="text-[#3d444d] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
             Onlu tracks capital raises, monitors 200+ buy-side firm career pages, and gives you firm-specific interview prep — all in one place. The edge most finance candidates never find.
           </p>
           <div className="max-w-lg mb-10">
@@ -138,7 +138,7 @@ export default function LandingPage() {
               return (
                 <div key={label} className={`rounded-xl px-4 py-3 border ${c.bg} ${c.border}`}>
                   <p className={`text-2xl font-bold ${c.text}`}>{n}</p>
-                  <p className="text-xs text-[#71787c] mt-0.5">{label}</p>
+                  <p className="text-xs text-[#3d444d] mt-0.5">{label}</p>
                 </div>
               );
             })}
@@ -150,7 +150,7 @@ export default function LandingPage() {
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
         <div className="grid sm:grid-cols-2 gap-10 items-start">
           <div className="bg-[#fafafa] rounded-2xl border border-[#c1c7cc]/40 p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-3">The problem</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#3d444d] mb-3">The problem</p>
             <h2 className="text-xl font-bold text-[#191c1e] mb-4 leading-snug">Most finance job seekers are flying blind.</h2>
             <div className="space-y-2.5">
               {[
@@ -159,7 +159,7 @@ export default function LandingPage() {
                 "No signal on which firms are actively building teams",
                 "Interview prep is scattered across forums and PDFs",
               ].map(p => (
-                <div key={p} className="flex items-start gap-2.5 text-sm text-[#71787c]">
+                <div key={p} className="flex items-start gap-2.5 text-sm text-[#3d444d]">
                   <span className="text-red-300 mt-0.5 flex-shrink-0 font-bold">✕</span>{p}
                 </div>
               ))}
@@ -175,7 +175,7 @@ export default function LandingPage() {
                 "Firm-specific prep for PE, credit & hedge fund interviews",
                 "Bi-weekly digest covering raises, roles, and signals",
               ].map(p => (
-                <div key={p} className="flex items-start gap-2.5 text-sm text-[#41484c]">
+                <div key={p} className="flex items-start gap-2.5 text-sm text-[#23282e]">
                   <span className="text-emerald-500 mt-0.5 flex-shrink-0 font-bold">✓</span>{p}
                 </div>
               ))}
@@ -188,7 +188,7 @@ export default function LandingPage() {
       <section className="border-t border-[#c1c7cc]/30 bg-[#f8fafb]">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-2">Five tools, one platform</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#3d444d] mb-2">Five tools, one platform</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A]">Everything in one place</h2>
           </div>
 
@@ -221,10 +221,10 @@ export default function LandingPage() {
                     <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />{label}
                   </span>
                   <h3 className="font-bold text-[#191c1e] text-base mb-2">{title}</h3>
-                  <p className="text-sm text-[#71787c] leading-relaxed mb-3 flex-1">{desc}</p>
+                  <p className="text-sm text-[#3d444d] leading-relaxed mb-3 flex-1">{desc}</p>
                   <ul className="space-y-1 mb-4">
                     {points.map(p => (
-                      <li key={p} className="flex items-start gap-2 text-xs text-[#41484c]">
+                      <li key={p} className="flex items-start gap-2 text-xs text-[#23282e]">
                         <span className={`font-bold mt-0.5 flex-shrink-0 ${c.text}`}>✓</span>{p}
                       </li>
                     ))}
@@ -260,10 +260,10 @@ export default function LandingPage() {
                     <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />{label}
                   </span>
                   <h3 className="font-bold text-[#191c1e] text-base mb-2">{title}</h3>
-                  <p className="text-sm text-[#71787c] leading-relaxed mb-3 flex-1">{desc}</p>
+                  <p className="text-sm text-[#3d444d] leading-relaxed mb-3 flex-1">{desc}</p>
                   <ul className="space-y-1 mb-4">
                     {points.map(p => (
-                      <li key={p} className="flex items-start gap-2 text-xs text-[#41484c]">
+                      <li key={p} className="flex items-start gap-2 text-xs text-[#23282e]">
                         <span className={`font-bold mt-0.5 flex-shrink-0 ${c.text}`}>✓</span>{p}
                       </li>
                     ))}
@@ -282,7 +282,7 @@ export default function LandingPage() {
       <section className="bg-white border-t border-[#c1c7cc]/30">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-2">How it works</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#3d444d] mb-2">How it works</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A]">Three steps to the inside edge</h2>
           </div>
           <div className="grid sm:grid-cols-3 gap-8">
@@ -297,7 +297,7 @@ export default function LandingPage() {
                   <span className={`text-3xl font-black flex-shrink-0 leading-none mt-0.5 ${c.text} opacity-40`}>{n}</span>
                   <div>
                     <h3 className="font-bold text-[#191c1e] mb-1">{title}</h3>
-                    <p className="text-sm text-[#71787c] leading-relaxed">{desc}</p>
+                    <p className="text-sm text-[#3d444d] leading-relaxed">{desc}</p>
                   </div>
                 </div>
               );
@@ -313,7 +313,7 @@ export default function LandingPage() {
             <div className="flex-1">
               <span className={`text-[10px] font-bold uppercase tracking-widest ${TABS.pulse.text}`}>Weekly Pulse</span>
               <h3 className="font-bold text-[#191c1e] text-lg mt-1 mb-1">See this week&apos;s hiring signals</h3>
-              <p className="text-sm text-[#71787c]">Who&apos;s actively hiring, which funds raised capital, and roles worth applying to — updated every week.</p>
+              <p className="text-sm text-[#3d444d]">Who&apos;s actively hiring, which funds raised capital, and roles worth applying to — updated every week.</p>
             </div>
             <Link href="/this-week"
               className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold border bg-white transition-colors hover:opacity-80 ${TABS.pulse.border} ${TABS.pulse.text}`}>
@@ -326,7 +326,7 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A] mb-3">Start with the signals.</h2>
-        <p className="text-[#71787c] text-base mb-8 max-w-xl mx-auto">
+        <p className="text-[#3d444d] text-base mb-8 max-w-xl mx-auto">
           Free bi-weekly digest. No credit card. Unsubscribe anytime.
         </p>
         <div className="flex justify-center mb-6">
@@ -334,7 +334,7 @@ export default function LandingPage() {
             <EmailCapture />
           </div>
         </div>
-        <Link href="/" className="text-[#71787c] text-sm hover:text-[#191c1e] transition-colors">
+        <Link href="/" className="text-[#3d444d] text-sm hover:text-[#191c1e] transition-colors">
           Or go straight to the platform →
         </Link>
       </section>
@@ -353,7 +353,7 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          <div className="flex gap-4 text-xs text-[#71787c]">
+          <div className="flex gap-4 text-xs text-[#3d444d]">
             <Link href="/privacy"    className="hover:text-[#191c1e] transition-colors">Privacy</Link>
             <Link href="/terms"      className="hover:text-[#191c1e] transition-colors">Terms</Link>
             <Link href="/this-week"  className="hover:text-[#191c1e] transition-colors">Weekly Pulse</Link>

@@ -32,7 +32,7 @@ export default async function UnsubscribePage({
             <>
               <p className="text-2xl mb-3">✓</p>
               <h1 className="text-[#191c1e] text-xl font-bold mb-3">You've been unsubscribed.</h1>
-              <p className="text-[#41484c] text-sm leading-relaxed">
+              <p className="text-[#23282e] text-sm leading-relaxed">
                 You won't receive further emails from Onlu. If this was a mistake,
                 you can re-subscribe any time from the homepage.
               </p>
@@ -41,7 +41,7 @@ export default async function UnsubscribePage({
           {status === "error" && (
             <>
               <h1 className="text-[#191c1e] text-xl font-bold mb-3">Something went wrong.</h1>
-              <p className="text-[#41484c] text-sm leading-relaxed">
+              <p className="text-[#23282e] text-sm leading-relaxed">
                 We couldn't process your unsubscribe request. Please email{" "}
                 <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">
                   info@onluintel.com
@@ -53,7 +53,7 @@ export default async function UnsubscribePage({
           {status === "missing" && (
             <>
               <h1 className="text-[#191c1e] text-xl font-bold mb-3">Invalid link.</h1>
-              <p className="text-[#41484c] text-sm leading-relaxed">
+              <p className="text-[#23282e] text-sm leading-relaxed">
                 This unsubscribe link is invalid. Please email{" "}
                 <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">
                   info@onluintel.com
@@ -62,7 +62,7 @@ export default async function UnsubscribePage({
               </p>
             </>
           )}
-          <a href="/" className="inline-block mt-8 text-xs text-[#71787c] hover:text-[#191c1e] transition-colors">
+          <a href="/" className="inline-block mt-8 text-xs text-[#3d444d] hover:text-[#191c1e] transition-colors">
             ← Back to Onlu
           </a>
         </div>

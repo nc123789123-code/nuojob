@@ -33,13 +33,13 @@ export default function AdminPage() {
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-xl font-bold text-[#1A2B4A]">Onlu Admin</h1>
-          <p className="text-sm text-[#71787c]">Subscriber stats</p>
+          <p className="text-sm text-[#3d444d]">Subscriber stats</p>
         </div>
 
         {!stats && (
           <form onSubmit={submit} className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4">
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">Admin token</label>
+              <label className="block text-xs font-medium text-[#23282e] mb-1">Admin token</label>
               <input
                 type="password"
                 value={token}
@@ -67,21 +67,21 @@ export default function AdminPage() {
             {/* Breakdown */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white rounded-2xl border border-gray-200 p-5 text-center">
-                <p className="text-xs text-[#71787c] mb-1">Fund Signals</p>
+                <p className="text-xs text-[#3d444d] mb-1">Fund Signals</p>
                 <p className="text-3xl font-bold text-[#1A2B4A]">{stats.subscribers.signals}</p>
               </div>
               <div className="bg-white rounded-2xl border border-gray-200 p-5 text-center">
-                <p className="text-xs text-[#71787c] mb-1">Guide</p>
+                <p className="text-xs text-[#3d444d] mb-1">Guide</p>
                 <p className="text-3xl font-bold text-[#1A2B4A]">{stats.subscribers.guide}</p>
               </div>
             </div>
 
-            <p className="text-[11px] text-center text-[#71787c]">
+            <p className="text-[11px] text-center text-[#3d444d]">
               As of {new Date(stats.asOf).toLocaleString()}
             </p>
 
             <button onClick={() => { setStats(null); setToken(""); }}
-              className="w-full text-xs text-[#71787c] hover:text-[#1A2B4A] transition-colors">
+              className="w-full text-xs text-[#3d444d] hover:text-[#1A2B4A] transition-colors">
               Sign out
             </button>
           </div>

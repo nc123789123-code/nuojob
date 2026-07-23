@@ -36,7 +36,7 @@ function sourceInfo(id: string): { label: string; style: string } {
   if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-teal-50 text-teal-700 border-teal-200"       };
   if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-gray-50 text-gray-500 border-gray-200"       };
   if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-sky-50 text-[#396477] border-sky-100"        };
-  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50" };
+  if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#e1ddf2]/70 text-[#3d444d] border-[#c7c4d8]/50" };
   if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-sky-50 text-[#396477] border-sky-100"        };
   if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };
   if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };

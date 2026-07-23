@@ -97,7 +97,7 @@ export default function CoachingPage() {
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-4 text-[#1A2B4A]">
             Get into finance.<br />With someone who&apos;s been there.
           </h1>
-          <p className="text-[#41484c] text-base max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#23282e] text-base max-w-xl mx-auto leading-relaxed">
             One-on-one sessions with experienced credit and private equity professionals.
             Resume review, mock interviews, or full recruiting strategy — tailored to where you are right now.
           </p>
@@ -150,7 +150,7 @@ export default function CoachingPage() {
               </div>
               <ul className="space-y-2 mb-6 flex-1">
                 {s.bullets.map(b => (
-                  <li key={b} className="flex items-start gap-2 text-xs text-[#41484c]">
+                  <li key={b} className="flex items-start gap-2 text-xs text-[#23282e]">
                     <svg className="w-3.5 h-3.5 text-[#6aab8e] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l3.5 3.5L13 5" />
                     </svg>

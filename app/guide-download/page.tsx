@@ -131,7 +131,7 @@ export default function GuideDownloadPage() {
             <LogoMark size={32} />
             <span className="font-semibold text-base" style={{ color: "#6aab8e" }}>Onlu</span>
           </Link>
-          <span className="text-xs text-[#71787c]">Credit Interview Guide</span>
+          <span className="text-xs text-[#3d444d]">Credit Interview Guide</span>
         </div>
       </header>
 
@@ -144,7 +144,7 @@ export default function GuideDownloadPage() {
           <h1 className="text-2xl font-bold text-[#191c1e] mb-2">
             Credit Interview Guide
           </h1>
-          <p className="text-[#41484c] text-sm leading-relaxed">
+          <p className="text-[#23282e] text-sm leading-relaxed">
             Private credit · Special situations · Distressed debt<br />
             Case-based frameworks for buy-side interviews.
           </p>
@@ -171,7 +171,7 @@ export default function GuideDownloadPage() {
               {section.content && (
                 <div className="space-y-3 mb-4">
                   {section.content.map((para, i) => (
-                    <p key={i} className="text-sm text-[#41484c] leading-relaxed">{para}</p>
+                    <p key={i} className="text-sm text-[#23282e] leading-relaxed">{para}</p>
                   ))}
                 </div>
               )}
@@ -181,7 +181,7 @@ export default function GuideDownloadPage() {
                   <h3 className="text-sm font-semibold text-[#191c1e] mb-2">{sub.heading}</h3>
                   <ul className="space-y-1.5">
                     {sub.points.map((pt, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-[#41484c]">
+                      <li key={i} className="flex gap-2 text-sm text-[#23282e]">
                         <span className="text-[#6aab8e] mt-0.5 flex-shrink-0">•</span>
                         <span>{pt}</span>
                       </li>
@@ -199,7 +199,7 @@ export default function GuideDownloadPage() {
                       </span>
                       <div>
                         <span className="text-sm font-semibold text-[#191c1e]">{step.label}: </span>
-                        <span className="text-sm text-[#41484c]">{step.detail}</span>
+                        <span className="text-sm text-[#23282e]">{step.detail}</span>
                       </div>
                     </li>
                   ))}
@@ -209,7 +209,7 @@ export default function GuideDownloadPage() {
               {section.questions && (
                 <ul className="space-y-2.5">
                   {section.questions.map((q, i) => (
-                    <li key={i} className="text-sm text-[#41484c] bg-[#f8f9fa] rounded-lg p-3 leading-relaxed">
+                    <li key={i} className="text-sm text-[#23282e] bg-[#f8f9fa] rounded-lg p-3 leading-relaxed">
                       {q}
                     </li>
                   ))}
@@ -221,7 +221,7 @@ export default function GuideDownloadPage() {
                   {section.qas.map((qa, i) => (
                     <div key={i} className="border-l-2 border-[#6aab8e]/40 pl-4">
                       <p className="text-sm font-semibold text-[#191c1e] mb-1">Q: {qa.q}</p>
-                      <p className="text-sm text-[#41484c] leading-relaxed">A: {qa.a}</p>
+                      <p className="text-sm text-[#23282e] leading-relaxed">A: {qa.a}</p>
                     </div>
                   ))}
                 </div>
@@ -244,8 +244,8 @@ export default function GuideDownloadPage() {
           </Link>
         </div>
 
-        <p className="text-center text-xs text-[#71787c] mt-8">
-          Questions? <a href="mailto:research@onluintel.com" className="underline hover:text-[#41484c]">research@onluintel.com</a>
+        <p className="text-center text-xs text-[#3d444d] mt-8">
+          Questions? <a href="mailto:research@onluintel.com" className="underline hover:text-[#23282e]">research@onluintel.com</a>
         </p>
       </main>
     </div>

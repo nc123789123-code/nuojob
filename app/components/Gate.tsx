@@ -118,7 +118,7 @@ export default function Gate({ level, children, title, description }: Props) {
             {level === "pro" ? "⭐" : "🔓"}
           </div>
           <h3 className="text-base font-bold text-[#1A2B4A] mb-1.5">{heading}</h3>
-          <p className="text-xs text-[#41484c] leading-relaxed mb-4">{sub}</p>
+          <p className="text-xs text-[#23282e] leading-relaxed mb-4">{sub}</p>
 
           {needsUpgrade ? (
             <>
@@ -129,7 +129,7 @@ export default function Gate({ level, children, title, description }: Props) {
               >
                 {submitting ? "Redirecting…" : "Go Pro — $5/mo"}
               </button>
-              <p className="text-[11px] text-[#71787c] mt-2">
+              <p className="text-[11px] text-[#3d444d] mt-2">
                 Already subscribed with a different email?{" "}
                 <button onClick={() => setNeedsUpgrade(false)} className="text-[#396477] font-semibold hover:underline">
                   Try another

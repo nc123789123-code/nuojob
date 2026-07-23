@@ -11,28 +11,28 @@ export default function SiteNav() {
         </Link>
         <div className="w-px h-4 bg-[#c1c7cc]/50" />
         <nav className="flex items-center gap-1">
-          <Link href="/?tab=hiring" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <Link href="/?tab=hiring" className="px-3 py-1 rounded-md text-sm font-medium text-[#23282e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Hiring Watch
           </Link>
-          <Link href="/?tab=pulse" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <Link href="/?tab=pulse" className="px-3 py-1 rounded-md text-sm font-medium text-[#23282e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Market Pulse
           </Link>
-          <Link href="/?tab=firmprep" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <Link href="/?tab=firmprep" className="px-3 py-1 rounded-md text-sm font-medium text-[#23282e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Edge Prep
           </Link>
-          <Link href="/?tab=table" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <Link href="/?tab=table" className="px-3 py-1 rounded-md text-sm font-medium text-[#23282e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Onlu Events
           </Link>
-          <Link href="/?tab=learn" className="px-3 py-1 rounded-md text-sm font-medium text-[#41484c] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <Link href="/?tab=learn" className="px-3 py-1 rounded-md text-sm font-medium text-[#23282e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Onlu Learning
           </Link>
         </nav>
         <div className="ml-auto flex items-center gap-4">
           <span className="hidden sm:inline text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full tracking-wide">Free · No login</span>
-          <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
-          <Link href="/contact" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
+          <Link href="/about" className="hidden sm:inline text-[#23282e] hover:text-[#191c1e] text-xs transition-colors">About</Link>
+          <Link href="/contact" className="hidden sm:inline text-[#23282e] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSdy46uVtoHN2cwGicCqeGEbJCiU0yK-oRM66I8vdGnl_orObw/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] border border-[#396477]/30 px-2 py-0.5 rounded-full transition-colors">Give feedback</a>
-          <span className="text-[#71787c] text-xs hidden md:block">Finance intelligence</span>
+          <span className="text-[#3d444d] text-xs hidden md:block">Finance intelligence</span>
         </div>
       </div>
     </header>

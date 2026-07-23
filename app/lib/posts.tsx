@@ -92,7 +92,7 @@ const AI_MARGIN_BARS = [
 ];
 
 const AI_POST_CONTENT = (
-  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
     <p>Artificial intelligence is often reduced to a handful of names — large language models, chat interfaces, and a few hyperscalers. But AI is not a single layer. It is a full-stack ecosystem spanning semiconductors, infrastructure, data, software, and increasingly, the physical world. Understanding where value accrues requires looking across this entire chain. The most important opportunities are often not at the most visible layer.</p>
 
     {/* Stack diagram */}
@@ -189,7 +189,7 @@ const AI_POST_CONTENT = (
 );
 
 const AI_COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#23282e] text-sm leading-[1.75]">
 
     <p>The last great commodity supercycle was a China story. The next one may be an AI story. The buildout of artificial intelligence infrastructure — data centres, power grids, cooling systems, and the hardware stacks that run them — is creating a demand shock across several commodity markets that is only beginning to be understood. At the same time, AI is reshaping the supply side of commodity markets in ways that will compound over the next decade.</p>
     <p>This is not a speculative thesis. It is already visible in power demand forecasts, copper order books, and water utility filings. The question for analysts is not whether AI will move commodity markets — it is which commodities, by how much, and over what timeframe.</p>
@@ -337,7 +337,7 @@ const AI_COMMODITY_POST_CONTENT = (
 );
 
 const COMMODITY_POST_CONTENT = (
-  <div className="space-y-6 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-6 text-[#23282e] text-sm leading-[1.75]">
     {/* Intro */}
     <p>Commodities are the bedrock of the global economy. Oil powers transportation and petrochemicals; copper wires every building, vehicle, and data centre; wheat feeds billions; gold anchors monetary systems. Yet for all their importance, the price of a barrel of crude or a tonne of copper can swing 30%, 50%, even 100% within a single year — rewarding or ruining nations, corporations, and portfolios alike.</p>
     <p>Understanding what drives those swings requires thinking across multiple timescales simultaneously. A drought is measured in months. A new mine takes a decade to build. An energy transition redraws demand curves over decades. The analyst who can hold all of these timeframes in mind — and weigh them against each other — has a genuine edge.</p>
@@ -541,7 +541,7 @@ const COMMODITY_POST_CONTENT = (
 );
 
 const NORTHEAST_ASIA_POST_CONTENT = (
-  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
     <p>For most of the past decade, global equity investors have had a simple playbook: buy the S&P 500 and ignore everything else. American exceptionalism in corporate earnings, turbocharged by the Magnificent Seven, made it hard to argue otherwise. But if you've been paying attention to Northeast Asia over the past eighteen months, you'll have noticed something stirring — a confluence of governance reform, AI-driven earnings cycles, and valuation gaps wide enough to drive a truck through.</p>
     <p>China, Japan, and South Korea together represent roughly a quarter of global GDP and house some of the world's most technologically sophisticated companies. Yet their equity markets collectively trade at steep discounts to Wall Street. The question worth asking is no longer <em>why are they cheap?</em> — which has well-known structural answers — but rather <em>what's changing, and is the discount finally narrowing?</em></p>
 
@@ -721,7 +721,7 @@ const NORTHEAST_ASIA_POST_CONTENT = (
 );
 
 const HOUSING_POST_CONTENT = (
-  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
     <p>The US has systematically underbuilt housing for over a decade. The post-GFC pullback in construction never fully recovered, and what started as a cyclical undershoot has hardened into a structural gap — compounded by restrictive zoning, rising regulatory costs, and chronic labor shortages.</p>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#C84B31] pl-3">The Deficit That Won&apos;t Quit</h3>
@@ -940,7 +940,7 @@ const HOUSING_POST_CONTENT = (
 );
 
 const FUND_LETTERS_POST_CONTENT = (
-  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
     <p>The first quarter of 2026 proved one of the most punishing in recent memory for markets — the S&P 500 posted its worst quarter since 2022, falling 4.6%, while tariff uncertainty, AI capex skepticism, and credit concerns rattled positioning across strategies. But a handful of major investors were well-prepared, and their letters offer an unusually candid window into how the best minds in the industry are thinking about what comes next.</p>
 
     <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#0F6E56] pl-3">Q1 2026 Performance Snapshot</h3>
@@ -954,7 +954,7 @@ const FUND_LETTERS_POST_CONTENT = (
         {([
           { label: "Greenlight Capital", value: 8.2, color: "#0F6E56" },
           { label: "Palm Valley Cap Fund", value: 0.74, color: "#6B8F71" },
-          { label: "S&P 500 (benchmark)", value: -4.6, color: "#94a3b8" },
+          { label: "S&P 500 (benchmark)", value: -4.6, color: "#5b6472" },
           { label: "Balyasny Asset Mgmt", value: -3.8, color: "#ef4444" },
           { label: "ExodusPoint Capital", value: -4.5, color: "#ef4444" },
           { label: "Pershing Square (PSH)", value: -13.9, color: "#ef4444" },
@@ -1062,7 +1062,7 @@ const FUND_LETTERS_POST_CONTENT = (
 );
 
 const ABF_POST_CONTENT = (
-  <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+  <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
     <p>For a decade, the private credit story was a direct lending story. Banks pulled back after the Global Financial Crisis, regulation tightened, and middle-market sponsors needed a new balance sheet to call. Direct lending funds filled that gap, institutionalized it, and turned it into a $1.5-trillion-plus asset class. The second decade looks different. The flows, the fundraising, and the structural conversation have all shifted toward a parallel market: asset-based finance — loans collateralized not by a borrower&apos;s future EBITDA, but by pools of tangible assets or contractual cash flows. It now sits at the center of nearly every 2026 outlook letter, and a recent SuperReturn Private Credit audience poll found that institutional investors consider ABF the most attractive corner of private credit heading into the year.</p>
 
     {/* Stat band */}
@@ -1082,7 +1082,7 @@ const ABF_POST_CONTENT = (
 
     <p>The headline numbers have done a lot of the marketing work. KKR pegs the private ABF market at around $5.2 trillion today and expects it to reach roughly $7.7 trillion by 2027. DealCatalyst cites a more aggressive path — a $20-trillion ABF market over the next decade. Whatever the right midpoint is, the direction is unambiguous: ABF is no longer the boutique corner of private credit. It is becoming the asset class itself.</p>
 
-    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#41484c] my-4">
+    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#23282e] my-4">
       &ldquo;The easy beta of the last cycle is gone. Returns today are driven by the ability to originate with precision, structure with creativity, and manage risk with discipline.&rdquo;
       <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-400 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
     </blockquote>
@@ -1115,8 +1115,8 @@ const ABF_POST_CONTENT = (
           ].map(([dim, dl, abf], i) => (
             <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
               <td className="px-4 py-3 font-semibold text-[#1A2B4A]">{dim}</td>
-              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{dl}</td>
-              <td className="px-4 py-3 text-[#41484c] border-l border-gray-100">{abf}</td>
+              <td className="px-4 py-3 text-[#23282e] border-l border-gray-100">{dl}</td>
+              <td className="px-4 py-3 text-[#23282e] border-l border-gray-100">{abf}</td>
             </tr>
           ))}
         </tbody>
@@ -1136,7 +1136,7 @@ const ABF_POST_CONTENT = (
         <div key={d.num} className={`bg-gray-50 border border-gray-200 border-t-4 ${d.color} rounded-xl p-4`}>
           <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1">{d.num}</p>
           <p className="font-semibold text-[#1A2B4A] text-sm mb-1.5">{d.title}</p>
-          <p className="text-xs text-[#41484c] leading-relaxed">{d.body}</p>
+          <p className="text-xs text-[#23282e] leading-relaxed">{d.body}</p>
         </div>
       ))}
     </div>
@@ -1168,7 +1168,7 @@ const ABF_POST_CONTENT = (
     {/* Risk callout */}
     <div className="bg-rose-50 border border-rose-200 rounded-xl p-5 my-4">
       <p className="text-xs font-semibold text-rose-600 uppercase tracking-widest mb-3">What to underwrite when underwriting an ABF manager</p>
-      <div className="space-y-2 text-xs text-[#41484c]">
+      <div className="space-y-2 text-xs text-[#23282e]">
         <p><strong className="text-[#191c1e]">Collateral control.</strong> Who holds the cash? Who controls the servicer? Can the manager step in and liquidate, or do they depend on borrower good behavior? This is the single most important question post-Tricolor.</p>
         <p><strong className="text-[#191c1e]">Data infrastructure.</strong> Is reporting asset-level and daily, or pool-level and monthly? Managers with proprietary monitoring systems will charge for it — and earn it.</p>
         <p><strong className="text-[#191c1e]">Origination depth.</strong> Is the manager originating directly, partnering with a bank under forward-flow, or buying finished paper? Each model has a different risk profile and fee structure.</p>
@@ -1264,7 +1264,7 @@ export const INDUSTRY_POSTS: InsightPost[] = [
     tag: "Credit",
     paragraphs: [],
     richContent: (
-      <div className="space-y-5 text-[#41484c] text-sm leading-[1.75]">
+      <div className="space-y-5 text-[#23282e] text-sm leading-[1.75]">
         <p>If equities are driven by growth and narrative, fixed income is driven by math, discipline, and risk. It is often perceived as the "safer" part of markets, but in reality, credit markets are where macro expectations, downside risk, and capital structure all intersect in the most direct way. To understand fixed income is to understand how the market prices time, risk, and uncertainty.</p>
 
         <p>At the most basic level, a bond is simple: you lend money, receive periodic payments, and get your principal back at maturity. But how that bond trades — and what it implies about the world — is far more complex. The first distinction most investors encounter is between current yield and yield to maturity. Current yield measures the income you receive today relative to the bond's price. Yield to maturity is the market's full return expectation — it incorporates the coupon, any gain or loss from buying above or below face value, and the time value of money. This is why credit investors anchor on yield to maturity: it reflects total economic return, assuming the issuer survives.</p>
@@ -1286,11 +1286,11 @@ export const INDUSTRY_POSTS: InsightPost[] = [
               ))}
               {/* Y axis labels */}
               {[0,1,2,3,4,5,6].map(y => (
-                <text key={y} x="42" y={174 - y * 24} textAnchor="end" fontSize="9" fill="#9ca3af">{y}%</text>
+                <text key={y} x="42" y={174 - y * 24} textAnchor="end" fontSize="9" fill="#5b6472">{y}%</text>
               ))}
               {/* X axis labels */}
               {["3M","1Y","2Y","5Y","10Y","30Y"].map((label, i) => (
-                <text key={label} x={48 + i * 82} y="188" textAnchor="middle" fontSize="9" fill="#6b7280">{label}</text>
+                <text key={label} x={48 + i * 82} y="188" textAnchor="middle" fontSize="9" fill="#3d444d">{label}</text>
               ))}
               {/* Normal curve (green) */}
               <polyline

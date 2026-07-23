@@ -57,12 +57,12 @@ export default async function LearnPostPage({
             <h1 className="text-[#191c1e] text-2xl font-bold tracking-tight leading-snug mb-2">
               {post.title}
             </h1>
-            <time className="text-xs text-[#71787c] font-medium">{post.date}</time>
+            <time className="text-xs text-[#3d444d] font-medium">{post.date}</time>
           </header>
 
           <div className="space-y-4">
             {post.richContent ?? post.paragraphs.map((p, i) => (
-              <p key={i} className="text-[#41484c] text-sm leading-[1.75]">{p}</p>
+              <p key={i} className="text-[#23282e] text-sm leading-[1.75]">{p}</p>
             ))}
           </div>
         </article>

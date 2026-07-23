@@ -99,7 +99,7 @@ export default function UniversitiesPage() {
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-5 text-[#1A2B4A]">
             Give your finance students<br />an unfair advantage.
           </h1>
-          <p className="text-[#41484c] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#23282e] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Free access to real case studies, live market intelligence, AI-powered interview
             prep, and a daily jobs digest — the tools top firms actually test for.
           </p>
@@ -141,7 +141,7 @@ export default function UniversitiesPage() {
             <div key={f.title} className="bg-white border border-gray-100 rounded-2xl p-7 hover:shadow-[0_8px_32px_rgba(57,100,119,0.08)] transition-shadow">
               <div className="w-12 h-12 rounded-xl bg-[#f5f3ff] flex items-center justify-center text-2xl mb-4">{f.icon}</div>
               <h3 className="text-lg font-bold text-[#191c1e] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#41484c] leading-relaxed">{f.desc}</p>
+              <p className="text-sm text-[#23282e] leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -155,7 +155,7 @@ export default function UniversitiesPage() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1A2B4A]">
               Free for students. Flexible for schools.
             </h2>
-            <p className="text-sm text-[#41484c] mt-3 max-w-md mx-auto">
+            <p className="text-sm text-[#23282e] mt-3 max-w-md mx-auto">
               Every tier includes free student access — no credit card required for students.
             </p>
           </div>
@@ -169,7 +169,7 @@ export default function UniversitiesPage() {
                   <span className="text-3xl font-extrabold tracking-tight text-[#1A2B4A]">{t.price}</span>
                   <span className="text-sm text-gray-400 font-medium">{t.unit}</span>
                 </div>
-                <p className="text-xs text-[#41484c] leading-relaxed mb-4">{t.desc}</p>
+                <p className="text-xs text-[#23282e] leading-relaxed mb-4">{t.desc}</p>
                 <ul className="flex flex-col gap-2 mt-auto">
                   {t.features.map((feat) => (
                     <li key={feat} className="flex items-start gap-2 text-xs text-[#191c1e]">
@@ -190,7 +190,7 @@ export default function UniversitiesPage() {
           {STATS.map((s) => (
             <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-6 text-center">
               <div className="text-3xl font-extrabold tracking-tight text-[#6aab8e]">{s.num}</div>
-              <div className="text-xs text-[#41484c] mt-2 font-medium leading-snug">{s.label}</div>
+              <div className="text-xs text-[#23282e] mt-2 font-medium leading-snug">{s.label}</div>
             </div>
           ))}
         </div>
@@ -207,7 +207,7 @@ export default function UniversitiesPage() {
           successMessage="Thanks! We'll be in touch within 24 hours."
           dark
         />
-        <p className="text-center text-xs text-[#71787c] mt-4">
+        <p className="text-center text-xs text-[#3d444d] mt-4">
           Or email us directly at{" "}
           <a href="mailto:hello@onlu.ai" className="text-[#396477] font-semibold hover:underline">hello@onlu.ai</a>
         </p>

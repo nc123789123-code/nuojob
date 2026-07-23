@@ -45,7 +45,7 @@ function SignalChip({ label, color }: { label: string; color: string }) {
   const cls: Record<string, string> = {
     blue:   "bg-sky-50 text-[#396477] border-sky-100",
     green:  "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50",
-    purple: "bg-[#e1ddf2]/60 text-[#5e5c6e] border-[#c7c4d8]/50",
+    purple: "bg-[#e1ddf2]/60 text-[#3d444d] border-[#c7c4d8]/50",
     gray:   "bg-gray-50 text-gray-600 border-gray-100",
     red:    "bg-red-50 text-red-700 border-red-100",
   };

@@ -41,10 +41,10 @@ export default function GuideSection() {
         </h2>
 
         {/* Intro */}
-        <p className="text-[#41484c] text-sm leading-relaxed max-w-xl mb-2">
+        <p className="text-[#23282e] text-sm leading-relaxed max-w-xl mb-2">
           Most candidates know where to apply. Few know how to pass.
         </p>
-        <p className="text-[#41484c] text-sm leading-relaxed max-w-xl mb-8">
+        <p className="text-[#23282e] text-sm leading-relaxed max-w-xl mb-8">
           This guide is designed to help candidates think like credit investors in interviews —
           not just memorise technicals.
         </p>
@@ -69,7 +69,7 @@ export default function GuideSection() {
                   "Interview-ready frameworks and Q&A",
                   "Practical investor-style thinking, not textbook answers",
                 ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[#41484c] text-sm">
+                  <li key={item} className="flex items-start gap-2.5 text-[#23282e] text-sm">
                     <span className="text-[#6aab8e] font-bold mt-0.5 flex-shrink-0">✓</span>
                     {item}
                   </li>
@@ -80,10 +80,10 @@ export default function GuideSection() {
             {/* Price + CTA */}
             <div className="sm:text-right flex-shrink-0">
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-[#71787c] text-lg line-through font-normal">$25</span>
+                <span className="text-[#3d444d] text-lg line-through font-normal">$25</span>
                 <span className="text-[#191c1e] text-3xl font-bold">$10</span>
               </div>
-              <div className="text-[#71787c] text-xs mb-5">one-time · instant access</div>
+              <div className="text-[#3d444d] text-xs mb-5">one-time · instant access</div>
 
               <button
                 onClick={handleGetGuide}
@@ -122,7 +122,7 @@ export default function GuideSection() {
         )}
 
         {/* Trust note */}
-        <p className="text-[#71787c] text-xs text-center">
+        <p className="text-[#3d444d] text-xs text-center">
           Secure checkout via Stripe · Instant access after payment · Questions? Email us any time.
         </p>
       </div>

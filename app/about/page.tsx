@@ -57,7 +57,7 @@ export default function AboutPage() {
               Built for Wall Street.<br />
               <span style={{ color: "#6aab8e" }}>Signal-first.</span>
             </h1>
-            <p className="text-[#41484c] text-base leading-relaxed max-w-lg">
+            <p className="text-[#23282e] text-base leading-relaxed max-w-lg">
               Most platforms show what is already visible. Onlu is built to surface signals earlier —
               so you know which firms are raising, deploying, or likely to hire before the opportunity is broadly visible.
             </p>
@@ -67,7 +67,7 @@ export default function AboutPage() {
         <div className="max-w-2xl mx-auto px-5 py-16 space-y-16">
 
           {/* Thesis */}
-          <div className="space-y-4 text-[#41484c] text-sm leading-relaxed">
+          <div className="space-y-4 text-[#23282e] text-sm leading-relaxed">
             <p className="text-base font-bold text-[#191c1e]">The edge is not more information.</p>
             <p>
               It is knowing what to focus on, and when. Time is the scarcest resource in finance recruiting —
@@ -81,7 +81,7 @@ export default function AboutPage() {
 
           {/* Features */}
           <div>
-            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-6">What&apos;s on the platform</p>
+            <p className="text-[11px] font-bold text-[#3d444d] uppercase tracking-widest mb-6">What&apos;s on the platform</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {FEATURES.map((f) => (
                 <Link key={f.label} href={f.href}
@@ -95,7 +95,7 @@ export default function AboutPage() {
 
           {/* Who it's for */}
           <div>
-            <p className="text-[11px] font-bold text-[#71787c] uppercase tracking-widest mb-5">Who it&apos;s for</p>
+            <p className="text-[11px] font-bold text-[#3d444d] uppercase tracking-widest mb-5">Who it&apos;s for</p>
             <div className="space-y-3">
               {[
                 { title: "Candidates", desc: "Targeting roles at hedge funds, PE, private credit, and alternative asset managers." },
@@ -104,7 +104,7 @@ export default function AboutPage() {
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#6aab8e] flex-shrink-0 mt-2" />
-                  <p className="text-sm text-[#41484c]">
+                  <p className="text-sm text-[#23282e]">
                     <span className="font-bold text-[#191c1e]">{item.title}</span> — {item.desc}
                   </p>
                 </div>
@@ -116,7 +116,7 @@ export default function AboutPage() {
           <div className="bg-[#eef6f0] border border-[#c6e8d4] rounded-2xl px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-[#1A2B4A] font-bold text-base mb-1">Ready to get started?</p>
-              <p className="text-[#41484c] text-sm">Hiring signals, market intel, and interview prep — all in one place.</p>
+              <p className="text-[#23282e] text-sm">Hiring signals, market intel, and interview prep — all in one place.</p>
             </div>
             <Link href="/"
               className="flex-shrink-0 px-5 py-2.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] transition-colors text-center">
