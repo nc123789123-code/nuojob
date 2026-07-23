@@ -56,6 +56,38 @@ const SESSION_LABELS: Record<string, string> = {
   strategy: "Career Strategy Session",
 };
 
+async function sendProWelcome(email: string, plan: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY!);
+  const base = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
+  const planLabel = plan === "annual" ? "annual" : "monthly";
+  await resend.emails.send({
+    from: "Onlu <noreply@onluintel.com>",
+    to: email,
+    subject: "Welcome to Onlu Pro 🎉",
+    html: `
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
+        <h2 style="font-size:20px;font-weight:700;margin-bottom:8px">You're in. Welcome to Onlu Pro.</h2>
+        <p style="color:#555;line-height:1.6">
+          Thanks for going Pro (${planLabel}). You now get the full daily jobs digest,
+          real-time fund signals, unlimited case studies, and unlimited AI interview prep.
+        </p>
+        <p style="color:#555;line-height:1.6">
+          As a founding Pro member, you'll be the first to get new features as they roll out.
+          Keep an eye on your inbox for the full digest.
+        </p>
+        <a href="${base}"
+           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6aab8e;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
+          Open Onlu →
+        </a>
+        <p style="margin-top:24px;color:#888;font-size:12px">
+          Manage or cancel anytime — just reply to this email and we'll take care of it.
+        </p>
+      </div>
+    `,
+    tags: [{ name: "type", value: "pro-welcome" }],
+  });
+}
+
 async function sendCoachingConfirmation(email: string, sessionType: string) {
   const resend = new Resend(process.env.RESEND_API_KEY!);
   const label = SESSION_LABELS[sessionType] || "Coaching Session";
@@ -123,6 +155,12 @@ export async function POST(req: Request) {
         await Promise.allSettled([
           sendCoachingConfirmation(email, sessionType),
           notifyAdmin(email, `coaching_${sessionType}`),
+        ]);
+      } else if (product === "pro") {
+        const plan = session.metadata?.plan || "monthly";
+        await Promise.allSettled([
+          sendProWelcome(email, plan),
+          notifyAdmin(email, `pro_${plan}`),
         ]);
       } else {
         await Promise.allSettled([
