@@ -45,7 +45,7 @@ const FEATURES = [
 const TIERS = [
   {
     badge: "Free",
-    badgeCls: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    badgeCls: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
     price: "$0",
     unit: "/ student",
     desc: "Share a link. Students sign up instantly. No contract needed.",
@@ -53,7 +53,7 @@ const TIERS = [
   },
   {
     badge: "Student Pro",
-    badgeCls: "bg-violet-50 text-violet-700 border-violet-200",
+    badgeCls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
     price: "$5",
     unit: "/ month",
     desc: "Students upgrade individually — no school purchase required.",
@@ -61,7 +61,7 @@ const TIERS = [
   },
   {
     badge: "Campus License",
-    badgeCls: "bg-[#eaf1f4] text-[#396477] border-[#396477]/20",
+    badgeCls: "bg-[#eaf1f4] text-[#A78BFA] border-[#396477]/20",
     price: "$300",
     unit: "/ year",
     desc: "Pro access for your entire finance club or cohort. One invoice.",
@@ -69,7 +69,7 @@ const TIERS = [
   },
   {
     badge: "Sponsored Issue",
-    badgeCls: "bg-rose-50 text-rose-600 border-rose-200",
+    badgeCls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
     price: "$100",
     unit: "/ issue",
     desc: "Sponsor our daily jobs digest sent to your students and alumni.",
@@ -86,28 +86,28 @@ const STATS = [
 
 export default function UniversitiesPage() {
   return (
-    <div className="min-h-screen bg-[#f5f3ff] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#0A0710] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       {/* Hero */}
-      <section className="bg-violet-100 border-b border-violet-200">
+      <section className="bg-[#1E1633] border-b border-[#2A2438]">
         <div className="max-w-3xl mx-auto px-5 py-16 sm:py-20 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-violet-200/60 text-violet-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
-            <span className="w-1.5 h-1.5 bg-violet-500 rounded-full" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1E1633]/60 text-[#C4B5FD] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-[#1E1633]0 rounded-full" />
             University Partnerships
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-5 text-[#1A2B4A]">
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight leading-tight mb-5 text-[#F4F0FA]">
             Give your finance students<br />an unfair advantage.
           </h1>
-          <p className="text-[#41484c] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#B8B0C8] text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Free access to real case studies, live market intelligence, AI-powered interview
             prep, and a daily jobs digest — the tools top firms actually test for.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="#contact" className="px-6 py-3 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors">
+            <a href="#contact" className="px-6 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors">
               Get Free Access for Your School
             </a>
-            <Link href="/" className="px-6 py-3 rounded-lg bg-white text-[#1A2B4A] text-sm font-bold border border-[#c1c7cc]/50 hover:bg-gray-50 transition-colors">
+            <Link href="/" className="px-6 py-3 rounded-lg bg-[#14101E] text-[#F4F0FA] text-sm font-bold border border-[#2A2438]/50 hover:bg-[#14101E] transition-colors">
               See the Platform →
             </Link>
           </div>
@@ -115,12 +115,12 @@ export default function UniversitiesPage() {
       </section>
 
       {/* Logos bar */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-[#14101E] border-b border-[#2A2438]">
         <div className="max-w-4xl mx-auto px-5 py-7 text-center">
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+          <p className="text-[11px] font-bold text-[#8A8398] uppercase tracking-widest mb-4">
             Our readers prepare for roles at
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-extrabold text-gray-400">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-extrabold text-[#8A8398]">
             {["Goldman Sachs", "Morgan Stanley", "Blackstone", "KKR", "JPMorgan", "Citadel"].map((f) => (
               <span key={f}>{f}</span>
             ))}
@@ -131,49 +131,49 @@ export default function UniversitiesPage() {
       {/* Features */}
       <section className="max-w-5xl mx-auto px-5 py-16 w-full">
         <div className="text-center mb-12">
-          <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">What&apos;s included</p>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1A2B4A]">
+          <p className="text-xs font-bold text-[#E9C989] uppercase tracking-widest mb-3">What&apos;s included</p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F4F0FA]">
             Everything students need to land their first role
           </h2>
         </div>
         <div className="grid sm:grid-cols-2 gap-5">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-white border border-gray-100 rounded-2xl p-7 hover:shadow-[0_8px_32px_rgba(57,100,119,0.08)] transition-shadow">
-              <div className="w-12 h-12 rounded-xl bg-[#f5f3ff] flex items-center justify-center text-2xl mb-4">{f.icon}</div>
-              <h3 className="text-lg font-bold text-[#191c1e] mb-2">{f.title}</h3>
-              <p className="text-sm text-[#41484c] leading-relaxed">{f.desc}</p>
+            <div key={f.title} className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-7 hover:shadow-[0_8px_32px_rgba(57,100,119,0.08)] transition-shadow">
+              <div className="w-12 h-12 rounded-xl bg-[#0A0710] flex items-center justify-center text-2xl mb-4">{f.icon}</div>
+              <h3 className="text-lg font-bold text-[#F4F0FA] mb-2">{f.title}</h3>
+              <p className="text-sm text-[#B8B0C8] leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Tiers */}
-      <section className="bg-white border-y border-gray-100">
+      <section className="bg-[#14101E] border-y border-[#2A2438]">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <div className="text-center mb-12">
-            <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">Partnership tiers</p>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1A2B4A]">
+            <p className="text-xs font-bold text-[#E9C989] uppercase tracking-widest mb-3">Partnership tiers</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#F4F0FA]">
               Free for students. Flexible for schools.
             </h2>
-            <p className="text-sm text-[#41484c] mt-3 max-w-md mx-auto">
+            <p className="text-sm text-[#B8B0C8] mt-3 max-w-md mx-auto">
               Every tier includes free student access — no credit card required for students.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {TIERS.map((t) => (
-              <div key={t.badge} className="border border-gray-200 rounded-2xl p-6 flex flex-col">
+              <div key={t.badge} className="border border-[#2A2438] rounded-2xl p-6 flex flex-col">
                 <span className={`self-start inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${t.badgeCls} mb-4`}>
                   {t.badge}
                 </span>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-3xl font-extrabold tracking-tight text-[#1A2B4A]">{t.price}</span>
-                  <span className="text-sm text-gray-400 font-medium">{t.unit}</span>
+                  <span className="text-3xl font-extrabold tracking-tight text-[#F4F0FA]">{t.price}</span>
+                  <span className="text-sm text-[#8A8398] font-medium">{t.unit}</span>
                 </div>
-                <p className="text-xs text-[#41484c] leading-relaxed mb-4">{t.desc}</p>
+                <p className="text-xs text-[#B8B0C8] leading-relaxed mb-4">{t.desc}</p>
                 <ul className="flex flex-col gap-2 mt-auto">
                   {t.features.map((feat) => (
-                    <li key={feat} className="flex items-start gap-2 text-xs text-[#191c1e]">
-                      <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
+                    <li key={feat} className="flex items-start gap-2 text-xs text-[#F4F0FA]">
+                      <span className="text-[#E9C989] font-bold flex-shrink-0">✓</span>
                       {feat}
                     </li>
                   ))}
@@ -188,9 +188,9 @@ export default function UniversitiesPage() {
       <section className="max-w-5xl mx-auto px-5 py-16 w-full">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {STATS.map((s) => (
-            <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-6 text-center">
-              <div className="text-3xl font-extrabold tracking-tight text-[#6aab8e]">{s.num}</div>
-              <div className="text-xs text-[#41484c] mt-2 font-medium leading-snug">{s.label}</div>
+            <div key={s.label} className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-6 text-center">
+              <div className="text-3xl font-extrabold tracking-tight text-[#E9C989]">{s.num}</div>
+              <div className="text-xs text-[#B8B0C8] mt-2 font-medium leading-snug">{s.label}</div>
             </div>
           ))}
         </div>
@@ -207,9 +207,9 @@ export default function UniversitiesPage() {
           successMessage="Thanks! We'll be in touch within 24 hours."
           dark
         />
-        <p className="text-center text-xs text-[#71787c] mt-4">
+        <p className="text-center text-xs text-[#9A93AC] mt-4">
           Or email us directly at{" "}
-          <a href="mailto:hello@onlu.ai" className="text-[#396477] font-semibold hover:underline">hello@onlu.ai</a>
+          <a href="mailto:hello@onlu.ai" className="text-[#A78BFA] font-semibold hover:underline">hello@onlu.ai</a>
         </p>
       </section>
 

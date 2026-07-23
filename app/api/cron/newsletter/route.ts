@@ -48,7 +48,7 @@ function buildEmail(
     const color = up ? "#15803d" : "#dc2626";
     return `<tr>
       <td style="padding:6px 0;color:#555;font-size:13px">${t.name}</td>
-      <td style="padding:6px 0;text-align:right;font-size:13px;font-weight:600;color:#1a1a2e">${t.price.toLocaleString()}</td>
+      <td style="padding:6px 0;text-align:right;font-size:13px;font-weight:600;color:#F4F0FA">${t.price.toLocaleString()}</td>
       <td style="padding:6px 0;text-align:right;font-size:13px;font-weight:600;color:${color}">${arrow} ${Math.abs(t.change_pct).toFixed(1)}%</td>
     </tr>`;
   }).join("");
@@ -56,52 +56,52 @@ function buildEmail(
   const distressedBlock = distressed.slice(0, 4).map(s => {
     const badge = s.type.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
     return `<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f3f4f6">
-      <div style="font-size:13px;font-weight:700;color:#1a1a2e">
+      <div style="font-size:13px;font-weight:700;color:#F4F0FA">
         ${s.company}
         <span style="font-size:10px;font-weight:600;color:#dc2626;background:#fef2f2;padding:2px 7px;border-radius:4px;margin-left:6px">${badge}</span>
       </div>
-      <div style="font-size:12px;color:#6b7280;margin-top:4px;line-height:1.55">${s.whyItMatters}</div>
+      <div style="font-size:12px;color:#9A93AC;margin-top:4px;line-height:1.55">${s.whyItMatters}</div>
     </div>`;
   }).join("");
 
   const jobBlock = jobs.slice(0, 8).map(j =>
     `<div style="margin-bottom:8px">
-      <span style="font-size:13px;font-weight:600;color:#1a1a2e">${j.role}</span>
-      <span style="font-size:12px;color:#9ca3af"> · ${j.firm}${j.location && j.location !== "—" ? ` · ${j.location}` : ""}</span>
+      <span style="font-size:13px;font-weight:600;color:#F4F0FA">${j.role}</span>
+      <span style="font-size:12px;color:#8A8398"> · ${j.firm}${j.location && j.location !== "—" ? ` · ${j.location}` : ""}</span>
     </div>`
   ).join("");
 
   const section = (label: string, content: string) => `
     <div style="padding:0 24px;margin-top:24px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;margin-bottom:12px">${label}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8A8398;margin-bottom:12px">${label}</div>
       ${content}
     </div>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f9fafb">
-<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:580px;margin:32px auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
+<body style="margin:0;padding:0;background:#14101E">
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;max-width:580px;margin:32px auto;background:#14101E;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden">
 
   <!-- Header -->
   <div style="padding:28px 24px 0">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#396477">Onlu Intelligence</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#A78BFA">Onlu Intelligence</div>
     <h1 style="font-size:20px;font-weight:700;margin:6px 0 2px;color:#111827;line-height:1.2">Bi-Weekly Brief</h1>
-    <div style="font-size:12px;color:#9ca3af">${weekLabel}</div>
+    <div style="font-size:12px;color:#8A8398">${weekLabel}</div>
   </div>
 
   <!-- Editorial intro -->
   <div style="margin:20px 24px 0;padding:16px 18px;background:#f0f9ff;border-radius:8px;border-left:3px solid #396477">
-    <p style="margin:0;font-size:13px;line-height:1.7;color:#374151">${intro}</p>
+    <p style="margin:0;font-size:13px;line-height:1.7;color:#B8B0C8">${intro}</p>
   </div>
 
   ${market.length > 0 ? section("📊 Market Brief", `
     <table style="width:100%;border-collapse:collapse">
       <thead>
         <tr>
-          <th style="font-size:11px;font-weight:600;color:#9ca3af;text-align:left;padding-bottom:6px">Asset</th>
-          <th style="font-size:11px;font-weight:600;color:#9ca3af;text-align:right;padding-bottom:6px">Price</th>
-          <th style="font-size:11px;font-weight:600;color:#9ca3af;text-align:right;padding-bottom:6px">Chg</th>
+          <th style="font-size:11px;font-weight:600;color:#8A8398;text-align:left;padding-bottom:6px">Asset</th>
+          <th style="font-size:11px;font-weight:600;color:#8A8398;text-align:right;padding-bottom:6px">Price</th>
+          <th style="font-size:11px;font-weight:600;color:#8A8398;text-align:right;padding-bottom:6px">Chg</th>
         </tr>
       </thead>
       <tbody>${marketRows}</tbody>
@@ -113,10 +113,10 @@ function buildEmail(
 
   <!-- CTA -->
   <div style="padding:24px;margin-top:24px;text-align:center;border-top:1px solid #f3f4f6">
-    <a href="${baseUrl}" style="display:inline-block;padding:11px 28px;background:#396477;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">
+    <a href="${baseUrl}" style="display:inline-block;padding:11px 28px;background:#171226;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">
       View Full Platform →
     </a>
-    <p style="margin:12px 0 0;font-size:12px;color:#9ca3af">Market Brief · Fund Signals · Hiring Watch · Case Library</p>
+    <p style="margin:12px 0 0;font-size:12px;color:#8A8398">Market Brief · Fund Signals · Hiring Watch · Case Library</p>
   </div>
 
   <!-- Footer -->

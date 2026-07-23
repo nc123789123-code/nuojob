@@ -69,14 +69,14 @@ function useCountUp(target: number, duration = 1200): number {
   return value;
 }
 
-function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]", tooltip }: { value: number; suffix?: string; label: string; color?: string; tooltip?: string }) {
+function AnimatedStat({ value, suffix = "", label, color = "text-[#F4F0FA]", tooltip }: { value: number; suffix?: string; label: string; color?: string; tooltip?: string }) {
   const count = useCountUp(value);
   return (
     <div className="text-center counter-animate" title={tooltip}>
       <div className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${color}`}>
         {count}{suffix}
       </div>
-      <div className="text-[11px] font-medium text-[#71787c] mt-1 uppercase tracking-wider">{label}</div>
+      <div className="text-[11px] font-medium text-[#9A93AC] mt-1 uppercase tracking-wider">{label}</div>
     </div>
   );
 }
@@ -244,13 +244,13 @@ function HomeContent() {
   const outreachRecords = Object.values(records).filter((r) => r.status !== "not_contacted");
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb]">
+    <div className="min-h-screen bg-[#14101E]">
       {/* Nav */}
-      <header className="glass-panel sticky top-0 z-20 border-b border-[#c1c7cc]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
+      <header className="glass-panel sticky top-0 z-20 border-b border-[#2A2438]/30 shadow-[0_1px_8px_rgba(57,100,119,0.06)]">
         <div className="max-w-6xl mx-auto px-3 sm:px-8 h-14 sm:h-24 flex items-center gap-2 sm:gap-6">
           <div className="flex items-center gap-3">
             <LogoMark size={64} />
-            <span className="font-bold text-2xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-bold text-2xl tracking-tight" style={{ color: "#E9C989" }}>Onlu</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50 hidden sm:block" />
           <nav className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
@@ -311,14 +311,14 @@ function HomeContent() {
             } />
           </nav>
           <div className="ml-auto flex items-center gap-3">
-            <a href="#guide" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">Interview Guide</a>
-            <Link href="/about" className="hidden sm:inline text-[#41484c] hover:text-[#191c1e] text-xs transition-colors">About</Link>
-            <Link href="/donate" title="Support Onlu" className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-rose-50 transition-colors">
+            <a href="#guide" className="hidden sm:inline text-[#B8B0C8] hover:text-[#F4F0FA] text-xs transition-colors">Interview Guide</a>
+            <Link href="/about" className="hidden sm:inline text-[#B8B0C8] hover:text-[#F4F0FA] text-xs transition-colors">About</Link>
+            <Link href="/donate" title="Support Onlu" className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-rose-300 hover:text-rose-500 hover:bg-[#2E1620] transition-colors">
               <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
                 <path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/>
               </svg>
             </Link>
-            <Link href="/coaching" className="inline-flex items-center gap-1 px-3 py-1.5 bg-violet-100 text-violet-700 border border-violet-200 text-xs font-semibold rounded-lg hover:bg-violet-200 transition-colors">
+            <Link href="/coaching" className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#1E1633] text-[#C4B5FD] border border-[#2A2438] text-xs font-semibold rounded-lg hover:bg-[#1E1633] transition-colors">
               <span className="sm:hidden">Coach</span>
               <span className="hidden sm:inline">1-on-1 Coaching</span>
             </Link>
@@ -330,32 +330,32 @@ function HomeContent() {
       <MarketTickerBar />
 
       {/* Hero */}
-      <div className="hero-gradient border-b border-sky-100/60">
+      <div className="hero-gradient border-b border-[#2A2438]/60">
         <div className="max-w-6xl mx-auto px-4 py-5 sm:py-8">
           {topTab === "pulse" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0F2033]/70 text-[#A78BFA] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#171226] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
-              <p className="text-[#64748b] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
+              <h1 className="text-[#A78BFA] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <p className="text-[#9A93AC] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
             </>
           )}
           {topTab === "hiring" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#14352A]/60 text-[#5EE6B5] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+              <h1 className="text-[#A78BFA] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
-                <span className="text-[10px] text-[#71787c]">Just open and use</span>
+                <span className="text-[10px] font-semibold text-[#5EE6B5] bg-[#14352A] border border-[#2A2438] px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
+                <span className="text-[10px] text-[#9A93AC]">Just open and use</span>
               </div>
-              <p className="text-[#396477] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
+              <p className="text-[#A78BFA] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
@@ -367,11 +367,11 @@ function HomeContent() {
                   tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
               </div>
               {!userProfile && (
-                <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
-                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#1A2B4A] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
-                  <span className="text-xs text-[#41484c]">Set your profile to unlock <strong className="text-[#191c1e]">For You</strong> role matching</span>
+                <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#7C3AED]/8 border border-[#1A2B4A]/15 rounded-xl">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#F4F0FA] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
+                  <span className="text-xs text-[#B8B0C8]">Set your profile to unlock <strong className="text-[#F4F0FA]">For You</strong> role matching</span>
                   <button onClick={() => setShowProfilePanel(true)}
-                    className="text-[11px] font-bold text-[#1A2B4A] hover:underline flex-shrink-0">
+                    className="text-[11px] font-bold text-[#F4F0FA] hover:underline flex-shrink-0">
                     Set profile →
                   </button>
                 </div>
@@ -380,22 +380,22 @@ function HomeContent() {
           )}
           {topTab === "learn" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#e1ddf2]/70 text-[#5e5c6e] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1A1428]/70 text-[#9A93AC] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
                 <span className="w-1.5 h-1.5 bg-[#5e5c6e] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
-              <p className="text-[#64748b] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
+              <h1 className="text-[#A78BFA] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <p className="text-[#9A93AC] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
             </>
           )}
           {topTab === "firmprep" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-100/70 text-rose-700 text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#2E1620]/70 text-[#FB7185] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#2E1620]0 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
-              <p className="text-[#64748b] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
+              <h1 className="text-[#A78BFA] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
+              <p className="text-[#9A93AC] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
 
@@ -405,7 +405,7 @@ function HomeContent() {
               <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 flex-shrink-0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="8" cy="5" r="2.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5"/><path d="M11 8l1.5 1.5-1.5 1.5"/></svg>
               1-on-1 Coaching
             </Link>
-            <Link href="/donate" className="flex items-center justify-center gap-1.5 px-4 py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-sm font-semibold rounded-xl transition-colors">
+            <Link href="/donate" className="flex items-center justify-center gap-1.5 px-4 py-3 bg-[#2E1620] hover:bg-[#2E1620] text-[#FB7185] border border-[#2A2438] text-sm font-semibold rounded-xl transition-colors">
               <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 flex-shrink-0"><path d="M13.89 3.39a4 4 0 0 0-5.66 0L8 3.62l-.23-.23a4 4 0 0 0-5.66 5.66l.23.23L8 14.94l5.66-5.66.23-.23a4 4 0 0 0 0-5.66z"/></svg>
               Support
             </Link>
@@ -422,9 +422,9 @@ function HomeContent() {
                     <path d="M7 9h4M9 7v4" strokeWidth="1.4" />
                   </svg>
                 ),
-                iconColor: "text-emerald-600",
+                iconColor: "text-[#5EE6B5]",
                 label: "Hiring Watch", desc: "Live roles + firm hiring signals", tab: "hiring" as TopTab,
-                color: "border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50/50", active: "border-emerald-400 bg-emerald-50/60",
+                color: "border-[#2A2438] hover:border-emerald-400 hover:bg-[#14352A]/50", active: "border-emerald-400 bg-[#14352A]/60",
               },
               {
                 icon: (
@@ -435,7 +435,7 @@ function HomeContent() {
                 ),
                 iconColor: "text-rose-500",
                 label: "Edge Prep", desc: "Firm briefs, outreach & interview prep", tab: "firmprep" as TopTab,
-                color: "border-rose-200 hover:border-rose-400 hover:bg-rose-50/50", active: "border-rose-400 bg-rose-50/60",
+                color: "border-[#2A2438] hover:border-rose-400 hover:bg-[#2E1620]/50", active: "border-rose-400 bg-[#2E1620]/60",
               },
               {
                 icon: (
@@ -446,7 +446,7 @@ function HomeContent() {
                 ),
                 iconColor: "text-sky-500",
                 label: "Market Pulse", desc: "Live markets + fund raise signals", tab: "pulse" as TopTab,
-                color: "border-sky-200 hover:border-sky-400 hover:bg-sky-50/50", active: "border-sky-400 bg-sky-50/60",
+                color: "border-[#2A2438] hover:border-sky-400 hover:bg-[#0F2033]/50", active: "border-sky-400 bg-[#0F2033]/60",
               },
               {
                 icon: (
@@ -458,7 +458,7 @@ function HomeContent() {
                 ),
                 iconColor: "text-amber-500",
                 label: "Onlu Table", desc: "Small-group finance dinners & catchups", tab: "table" as TopTab,
-                color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
+                color: "border-[#2A2438] hover:border-amber-400 hover:bg-[#2A2113]/50", active: "border-amber-400 bg-[#2A2113]/60",
               },
               {
                 icon: (
@@ -469,14 +469,14 @@ function HomeContent() {
                 ),
                 iconColor: "text-violet-500",
                 label: "Onlu Learning", desc: "Credit, macro & markets deep-dives", tab: "learn" as TopTab,
-                color: "border-violet-200 hover:border-violet-400 hover:bg-violet-50/50", active: "border-violet-400 bg-violet-50/60",
+                color: "border-[#2A2438] hover:border-violet-400 hover:bg-[#1E1633]/50", active: "border-violet-400 bg-[#1E1633]/60",
               },
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                className={`card-lift text-left p-2 sm:p-3 rounded-xl border bg-white transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
-                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-400"}`}>{f.icon}</div>
-                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#41484c]"}`}>{f.label}</div>
-                <div className="text-[10px] text-gray-400 leading-snug hidden sm:block">{f.desc}</div>
+                className={`card-lift text-left p-2 sm:p-3 rounded-xl border bg-[#14101E] transition-all ${topTab === f.tab ? f.active + " shadow-sm" : f.color}`}>
+                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-[#8A8398]"}`}>{f.icon}</div>
+                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#F4F0FA]" : "text-[#B8B0C8]"}`}>{f.label}</div>
+                <div className="text-[10px] text-[#8A8398] leading-snug hidden sm:block">{f.desc}</div>
               </button>
             ))}
           </div>
@@ -485,7 +485,7 @@ function HomeContent() {
 
       {/* First-visit welcome panel */}
       {isFirst && (
-        <div className="bg-[#1A2B4A] text-white">
+        <div className="bg-[#7C3AED] text-white">
           <div className="max-w-6xl mx-auto px-5 py-5 sm:py-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
@@ -502,7 +502,7 @@ function HomeContent() {
                     { step: "3", color: "bg-rose-400/20 border-rose-400/30 text-rose-300", action: "Use Edge Prep", desc: "Prep, practice, review.", tab: "firmprep" as TopTab },
                   ].map(item => (
                     <button key={item.step} onClick={() => { setTopTab(item.tab); dismissWelcome(); }}
-                      className={`text-left p-3.5 rounded-xl border ${item.color} hover:bg-white/10 transition-colors`}>
+                      className={`text-left p-3.5 rounded-xl border ${item.color} hover:bg-[#14101E]/10 transition-colors`}>
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className={`text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border ${item.color}`}>{item.step}</span>
                         <span className="text-sm font-bold text-white">{item.action}</span>
@@ -556,8 +556,8 @@ function HomeContent() {
               description="Fund filings and early signals — as firms raise and hire. Free."
               cta="Subscribe free"
             />
-            <div className="bg-[#e1ddf2] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-[#41484c]">
+            <div className="bg-[#1A1428] border border-[#c7c4d8]/60 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-[#B8B0C8]">
                 Found an active signal? <span className="font-medium">Prepare for the interview before you apply.</span>
               </p>
               <a href="#guide" className="flex-shrink-0 px-4 py-2 bg-[#5e5c6e] text-white text-xs font-semibold rounded-lg hover:bg-[#4a4858] transition-colors text-center">
@@ -607,10 +607,10 @@ function HomeContent() {
       <SiteFooter />
 
       {/* Mobile bottom navigation */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur border-t border-[#c1c7cc]/40 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#14101E]/95 backdrop-blur border-t border-[#2A2438]/40 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
         <div className="flex items-stretch h-16 safe-bottom">
           {([
-            { id: "hiring" as TopTab, label: "Hiring", color: "text-emerald-600",
+            { id: "hiring" as TopTab, label: "Hiring", color: "text-[#5EE6B5]",
               icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="5.5"/><path d="M13.5 13.5 17 17"/><path d="M7 9h4M9 7v4" strokeWidth="1.4"/></svg>,
               animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-sky-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M10 8.5C8 8.5 4.5 7 2 9.5" /><path d="M10 8.5C12 8.5 15.5 7 18 9.5" /><ellipse cx="10" cy="9.5" rx="2" ry="1.5" /><circle cx="10" cy="6.5" r="1.8" /><path d="M11.5 6.5 L13.5 7" /><path d="M8 11 C9 13.5 11 13.5 12 11" /></svg> },
             { id: "firmprep" as TopTab, label: "Prep", color: "text-rose-500",
@@ -627,7 +627,7 @@ function HomeContent() {
               animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-orange-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="11.5" r="5.5" /><path d="M5 8.5 L3 2 L8.5 6.5 Z" /><path d="M15 8.5 L17 2 L11.5 6.5 Z" /><circle cx="8" cy="11" r="1.4" /><circle cx="8" cy="11" r="0.6" fill="currentColor" stroke="none" /><circle cx="12" cy="11" r="1.4" /><circle cx="12" cy="11" r="0.6" fill="currentColor" stroke="none" /><ellipse cx="10" cy="14" rx="2" ry="1.2" /><circle cx="10" cy="13.2" r="0.55" fill="currentColor" stroke="none" /></svg> },
           ] as Array<{ id: TopTab; label: string; color: string; icon: React.ReactNode; animal: React.ReactNode }>).map(t => (
             <button key={t.id} onClick={() => setTopTab(t.id)}
-              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-gray-400"}`}>
+              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors ${topTab === t.id ? t.color : "text-[#8A8398]"}`}>
               <span className="relative w-5 h-5">
                 <span className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ${topTab === t.id ? "opacity-0 scale-50" : "opacity-100 scale-100"}`}>
                   {t.icon}
@@ -673,15 +673,15 @@ function MarketTickerBar() {
   }
 
   return (
-    <div className="bg-white border-b border-gray-100 overflow-x-auto">
+    <div className="bg-[#14101E] border-b border-[#2A2438] overflow-x-auto">
       <div className="flex items-center gap-0 min-w-max px-4 h-9">
         {tickers.map((t, i) => {
           const up = t.changePct >= 0;
           return (
-            <div key={t.symbol} className={`flex items-center gap-2.5 px-4 h-full text-xs ${i > 0 ? "border-l border-gray-100" : ""}`}>
-              <span className="text-gray-400 font-medium">{t.label}</span>
-              <span className="font-semibold text-[#191c1e]">{fmt(t)}</span>
-              <span className={`font-medium ${up ? "text-emerald-600" : "text-red-500"}`}>
+            <div key={t.symbol} className={`flex items-center gap-2.5 px-4 h-full text-xs ${i > 0 ? "border-l border-[#2A2438]" : ""}`}>
+              <span className="text-[#8A8398] font-medium">{t.label}</span>
+              <span className="font-semibold text-[#F4F0FA]">{fmt(t)}</span>
+              <span className={`font-medium ${up ? "text-[#5EE6B5]" : "text-red-500"}`}>
                 {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
               </span>
             </div>
@@ -719,8 +719,8 @@ function MarketDataPanel() {
   }
 
   if (loading) return (
-    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
-      <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
+    <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-[#8A8398]">
+      <div className="w-3 h-3 border border-[#2A2438] border-t-transparent rounded-full animate-spin" />
       Loading market data…
     </div>
   );
@@ -728,27 +728,27 @@ function MarketDataPanel() {
   if (!tickers.length) return null;
 
   return (
-    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
-      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
-        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Live Markets</span>
-        <span className="ml-auto text-[11px] text-gray-400">Delayed ~15 min</span>
+    <div className="border border-[#2A2438] bg-[#14101E] rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-[#2A2438]">
+        <span className="w-1.5 h-1.5 bg-[#14352A]0 rounded-full animate-pulse" />
+        <span className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Live Markets</span>
+        <span className="ml-auto text-[11px] text-[#8A8398]">Delayed ~15 min</span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+      <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#2A2438]">
         {MARKET_GROUPS.map(group => {
           const groupTickers = tickers.filter(t => group.keys.includes(t.label));
           return (
             <div key={group.title} className="px-5 py-4">
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">{group.title}</p>
+              <p className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wider mb-3">{group.title}</p>
               <div className="space-y-3">
                 {groupTickers.map(t => {
                   const up = t.changePct >= 0;
                   return (
                     <div key={t.symbol} className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-gray-500">{t.label}</span>
+                      <span className="text-xs text-[#9A93AC]">{t.label}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-[#191c1e]">{fmt(t)}</span>
-                        <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded ${up ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"}`}>
+                        <span className="text-sm font-semibold text-[#F4F0FA]">{fmt(t)}</span>
+                        <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded ${up ? "bg-[#14352A] text-[#5EE6B5]" : "bg-[#2E1620] text-red-500"}`}>
                           {up ? "▲" : "▼"} {Math.abs(t.changePct).toFixed(2)}%
                         </span>
                       </div>
@@ -768,17 +768,17 @@ function MarketDataPanel() {
 
 function NavTab({ active, onClick, label, badge, accent, animal }: { active: boolean; onClick: () => void; label: string; badge?: string; accent?: string; animal?: React.ReactNode }) {
   const badgeStyle = badge === "AI"
-    ? "bg-violet-100 text-violet-600"
+    ? "bg-[#1E1633] text-[#C4B5FD]"
     : badge === "Blog"
-    ? "bg-amber-100 text-amber-600"
+    ? "bg-[#2A2113] text-[#F5B544]"
     : badge === "Events"
-    ? "bg-rose-100 text-rose-600"
-    : "bg-[#c3ecd7] text-[#416656]";
+    ? "bg-[#2E1620] text-[#FB7185]"
+    : "bg-[#14352A] text-[#5EE6B5]";
 
-  const activeText = accent ?? "text-[#396477]";
+  const activeText = accent ?? "text-[#A78BFA]";
   const activeLine = accent
     ? accent.replace("text-", "bg-")
-    : "bg-[#396477]";
+    : "bg-[#171226]";
 
   return (
     <button
@@ -786,7 +786,7 @@ function NavTab({ active, onClick, label, badge, accent, animal }: { active: boo
       className={`group relative flex items-center gap-1.5 px-3 py-1.5 text-sm whitespace-nowrap transition-all ${
         active
           ? `font-bold ${activeText}`
-          : "font-medium text-[#5a6370] hover:text-[#191c1e]"
+          : "font-medium text-[#5a6370] hover:text-[#F4F0FA]"
       }`}
     >
       {label}
@@ -821,31 +821,31 @@ function fmt(amount?: number): string {
 
 function SignalChip({ label, color }: { label: string; color: string }) {
   const cls: Record<string, string> = {
-    blue:   "bg-blue-50 text-blue-700 border-blue-100",
-    green:  "bg-emerald-50 text-emerald-700 border-emerald-100",
-    purple: "bg-violet-50 text-violet-700 border-violet-100",
-    indigo: "bg-indigo-50 text-indigo-700 border-indigo-100",
-    gray:   "bg-gray-50 text-gray-600 border-gray-100",
-    red:    "bg-red-50 text-red-700 border-red-100",
-    amber:  "bg-amber-50 text-amber-700 border-amber-100",
+    blue:   "bg-[#0F1A33] text-[#93C5FD] border-[#2A2438]",
+    green:  "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+    purple: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
+    indigo: "bg-[#161533] text-[#C4B5FD] border-[#2A2438]",
+    gray:   "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",
+    red:    "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
+    amber:  "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
   };
   return <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded border ${cls[color] ?? cls.gray}`}>{label}</span>;
 }
 
 function ErrorBox({ message }: { message: string }) {
-  return <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{message}</div>;
+  return <div className="bg-[#2E1620] border border-[#2A2438] rounded-lg p-3 text-sm text-[#FB7185]">{message}</div>;
 }
 
 function EmptyState({ icon, title, hint, onReset }: { icon: string; title: string; hint: string; onReset?: () => void }) {
   return (
-    <div className="text-center py-14 text-gray-400">
+    <div className="text-center py-14 text-[#8A8398]">
       <div className="text-3xl mb-3">{icon}</div>
-      <p className="font-semibold text-gray-700 text-sm">{title}</p>
-      <p className="text-xs mt-1.5 text-gray-400 max-w-xs mx-auto">{hint}</p>
+      <p className="font-semibold text-[#B8B0C8] text-sm">{title}</p>
+      <p className="text-xs mt-1.5 text-[#8A8398] max-w-xs mx-auto">{hint}</p>
       {onReset && (
         <button
           onClick={onReset}
-          className="mt-4 px-4 py-2 text-xs font-medium bg-[#396477] text-white rounded-lg hover:bg-[#2d5162] transition-colors"
+          className="mt-4 px-4 py-2 text-xs font-medium bg-[#171226] text-white rounded-lg hover:bg-[#6D28D9] transition-colors"
         >
           Reset filters
         </button>
@@ -866,11 +866,11 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
 }) {
   if (loading) {
     return (
-      <div className="bg-white border-b border-[#c1c7cc]/30">
+      <div className="bg-[#14101E] border-b border-[#2A2438]/30">
         <div className="max-w-6xl mx-auto px-5 py-3 flex items-center gap-3 animate-pulse">
-          <div className="h-4 w-40 bg-[#e0e3e5] rounded" />
-          <div className="h-4 w-32 bg-[#e0e3e5] rounded" />
-          <div className="h-4 w-24 bg-[#e0e3e5] rounded" />
+          <div className="h-4 w-40 bg-[#1A1428] rounded" />
+          <div className="h-4 w-32 bg-[#1A1428] rounded" />
+          <div className="h-4 w-24 bg-[#1A1428] rounded" />
         </div>
       </div>
     );
@@ -880,22 +880,22 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
   const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
 
   return (
-    <div className="bg-white border-b border-[#c1c7cc]/30">
+    <div className="bg-[#14101E] border-b border-[#2A2438]/30">
       <div className="max-w-6xl mx-auto px-5 py-3 space-y-2.5">
         {/* Header row */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-[#71787c] text-xs font-medium">{today}</span>
+          <span className="text-[#9A93AC] text-xs font-medium">{today}</span>
           <div className="flex items-center gap-2">
             {daily.todayCount > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#c3ecd7] text-[#416656] border border-[#a8cfbc] rounded-full px-2.5 py-0.5">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#14352A] text-[#5EE6B5] border border-[#a8cfbc] rounded-full px-2.5 py-0.5">
                 <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
                 {daily.todayCount} new filing{daily.todayCount !== 1 ? "s" : ""} today
               </span>
             ) : (
-              <span className="text-xs text-[#71787c]">No new filings today</span>
+              <span className="text-xs text-[#9A93AC]">No new filings today</span>
             )}
             {daily.weekCount > 0 && (
-              <span className="text-xs text-[#71787c]">{daily.weekCount} this week</span>
+              <span className="text-xs text-[#9A93AC]">{daily.weekCount} this week</span>
             )}
           </div>
         </div>
@@ -903,11 +903,11 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top fund signals */}
         {daily.topFunds.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-[#71787c] font-medium shrink-0">Recent filings:</span>
+            <span className="text-[11px] text-[#9A93AC] font-medium shrink-0">Recent filings:</span>
             {daily.topFunds.slice(0, 4).map((f) => {
               const bucketColor = f.offeringStatus === "open"
-                ? "bg-[#c3ecd7]/60 text-[#416656] border border-[#a8cfbc]/50 hover:bg-[#c3ecd7]"
-                : "bg-sky-50 text-[#396477] border border-sky-100 hover:bg-sky-100";
+                ? "bg-[#14352A]/60 text-[#5EE6B5] border border-[#a8cfbc]/50 hover:bg-[#14352A]"
+                : "bg-[#0F2033] text-[#A78BFA] border border-[#2A2438] hover:bg-[#0F2033]";
               return (
                 <Link key={f.id} href={`/fund/${f.cik}`}
                   className={`inline-flex items-center gap-1.5 text-[11px] font-medium rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
@@ -923,16 +923,16 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
         {/* Top job signals */}
         {daily.topJobs.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-[#71787c] font-medium shrink-0">Posted roles:</span>
+            <span className="text-[11px] text-[#9A93AC] font-medium shrink-0">Posted roles:</span>
             {daily.topJobs.slice(0, 4).map((j) => (
               <button key={j.id} onClick={onJobsClick}
-                className="inline-flex items-center gap-1 text-[11px] text-[#41484c] border border-[#c1c7cc] bg-white hover:bg-[#f2f4f6] rounded-full px-2.5 py-1 transition-colors cursor-pointer">
+                className="inline-flex items-center gap-1 text-[11px] text-[#B8B0C8] border border-[#2A2438] bg-[#14101E] hover:bg-[#0A0710] rounded-full px-2.5 py-1 transition-colors cursor-pointer">
                 <span className="font-medium">{j.firm}</span>
                 <span className="text-[#c1c7cc]">·</span>
-                <span className="text-[#41484c] max-w-[120px] truncate">{j.role}</span>
+                <span className="text-[#B8B0C8] max-w-[120px] truncate">{j.role}</span>
               </button>
             ))}
-            <button onClick={onJobsClick} className="text-[11px] text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
+            <button onClick={onJobsClick} className="text-[11px] text-[#A78BFA] hover:text-[#2d5162] font-medium transition-colors">
               View all →
             </button>
           </div>
@@ -944,13 +944,13 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
 
 function SkeletonRows() {
   return (
-    <div className="divide-y divide-gray-100">
+    <div className="divide-y divide-[#2A2438]">
       {[...Array(6)].map((_, i) => (
         <div key={i} className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-3 animate-pulse">
-          <div className="space-y-1.5"><div className="h-3.5 bg-gray-100 rounded w-2/3" /><div className="h-3 bg-gray-50 rounded w-1/2" /></div>
-          <div className="h-5 bg-gray-100 rounded-full w-20" />
-          <div className="h-3 bg-gray-100 rounded w-12" />
-          <div className="h-3 bg-gray-100 rounded w-10" />
+          <div className="space-y-1.5"><div className="h-3.5 bg-[#14101E] rounded w-2/3" /><div className="h-3 bg-[#14101E] rounded w-1/2" /></div>
+          <div className="h-5 bg-[#14101E] rounded-full w-20" />
+          <div className="h-3 bg-[#14101E] rounded w-12" />
+          <div className="h-3 bg-[#14101E] rounded w-10" />
         </div>
       ))}
     </div>
@@ -966,8 +966,8 @@ function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onC
   return (
     <div>
       <div className="flex items-center gap-2 mb-3">
-        <h2 className="text-sm font-semibold text-gray-900">Most Recent Signals</h2>
-        <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">sorted by date</span>
+        <h2 className="text-sm font-semibold text-[#F4F0FA]">Most Recent Signals</h2>
+        <span className="text-[10px] text-[#8A8398] bg-[#14101E] px-1.5 py-0.5 rounded">sorted by date</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
         {top.map((f, i) => (
@@ -980,28 +980,28 @@ function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onC
 
 function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: number; onClick: () => void }) {
   const statusColor = filing.offeringStatus === "open"
-    ? "bg-[#c3ecd7] text-[#416656]"
+    ? "bg-[#14352A] text-[#5EE6B5]"
     : filing.offeringStatus === "closed"
-    ? "bg-[#e1ddf2]/70 text-[#5e5c6e]"
-    : "bg-gray-100 text-gray-500";
+    ? "bg-[#1A1428]/70 text-[#9A93AC]"
+    : "bg-[#14101E] text-[#9A93AC]";
   const statusLabel = filing.offeringStatus === "open" ? "In market"
     : filing.offeringStatus === "closed" ? "Closed"
     : "Filed";
   return (
-    <button onClick={onClick} className="card-lift text-left bg-white border border-gray-200 rounded-xl p-3.5 hover:border-sky-200 transition-all group">
+    <button onClick={onClick} className="card-lift text-left bg-[#14101E] border border-[#2A2438] rounded-xl p-3.5 hover:border-[#2A2438] transition-all group">
       <div className="flex items-start justify-between gap-1 mb-2.5">
         <span className="text-xs font-bold text-gray-300 w-4 tabular-nums">{rank}</span>
         <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${statusColor}`}>{statusLabel}</span>
       </div>
-      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#396477] transition-colors line-clamp-2">
+      <div className="font-semibold text-[#F4F0FA] text-xs leading-tight mb-1.5 group-hover:text-[#A78BFA] transition-colors line-clamp-2">
         {filing.entityName}
       </div>
       {filing.score.whyNow[0] && (
-        <p className="text-[11px] text-gray-500 mb-2.5 leading-relaxed line-clamp-2">
-          <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
+        <p className="text-[11px] text-[#9A93AC] mb-2.5 leading-relaxed line-clamp-2">
+          <span className="text-[#A78BFA]">→ </span>{filing.score.whyNow[0]}
         </p>
       )}
-      <div className="text-[10px] text-gray-400 mt-auto">
+      <div className="text-[10px] text-[#8A8398] mt-auto">
         {filing.totalOfferingAmount ? fmt(filing.totalOfferingAmount) : filing.strategyLabel} · {filing.daysSinceFiling}d ago
       </div>
     </button>
@@ -1038,20 +1038,20 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
   const totalRoles = pairs.reduce((sum, { jobs }) => sum + jobs.length, 0);
 
   return (
-    <div className="rounded-xl border border-sky-100 bg-sky-50/60 px-4 py-4">
+    <div className="rounded-xl border border-[#2A2438] bg-[#0F2033]/60 px-4 py-4">
       <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
         <div>
-          <p className="text-sm font-semibold text-[#396477]">
+          <p className="text-sm font-semibold text-[#A78BFA]">
             Signals → Jobs
           </p>
-          <p className="text-xs text-[#71787c] mt-0.5">
+          <p className="text-xs text-[#9A93AC] mt-0.5">
             Use signals to decide where to focus. These firms have both an active signal and open roles.
           </p>
         </div>
         {pairs.length > 0 && (
           <button
             onClick={onViewJobs}
-            className="flex-shrink-0 text-xs font-semibold text-[#396477] border border-[#396477]/30 px-3 py-1.5 rounded-lg hover:bg-[#396477] hover:text-white transition-colors"
+            className="flex-shrink-0 text-xs font-semibold text-[#A78BFA] border border-[#396477]/30 px-3 py-1.5 rounded-lg hover:bg-[#171226] hover:text-white transition-colors"
           >
             View {totalRoles} role{totalRoles !== 1 ? "s" : ""} →
           </button>
@@ -1064,10 +1064,10 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
             <button
               key={filing.id}
               onClick={onViewJobs}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-medium text-[#396477] hover:border-[#396477]/50 hover:shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-[#14101E] border border-[#2A2438] rounded-lg text-xs font-medium text-[#A78BFA] hover:border-[#396477]/50 hover:shadow-sm transition-all"
             >
               <span className="max-w-[140px] truncate">{matchFirm(filing.entityName)?.name ?? filing.entityName}</span>
-              <span className="bg-[#396477]/10 text-[#396477] text-[10px] font-bold px-1 py-0.5 rounded">
+              <span className="bg-[#171226]/10 text-[#A78BFA] text-[10px] font-bold px-1 py-0.5 rounded">
                 {jobs.length} role{jobs.length !== 1 ? "s" : ""}
               </span>
             </button>
@@ -1076,14 +1076,14 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
       )}
 
       {noJobFirms.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-sky-100">
-          <span className="text-[11px] text-[#71787c]">No roles posted yet:</span>
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#2A2438]">
+          <span className="text-[11px] text-[#9A93AC]">No roles posted yet:</span>
           {noJobFirms.map((name) => (
-            <span key={name} className="text-[11px] text-[#71787c] bg-white border border-[#c1c7cc]/40 px-2 py-0.5 rounded-full">
+            <span key={name} className="text-[11px] text-[#9A93AC] bg-[#14101E] border border-[#2A2438]/40 px-2 py-0.5 rounded-full">
               {name}
             </span>
           ))}
-          <span className="text-[11px] text-[#71787c]">— consider reaching out directly.</span>
+          <span className="text-[11px] text-[#9A93AC]">— consider reaching out directly.</span>
         </div>
       )}
     </div>
@@ -1119,11 +1119,11 @@ function CpiWidget() {
   };
 
   if (loading) return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 animate-pulse">
+    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5 animate-pulse">
       <div className="flex gap-8 mb-4">
-        {[...Array(3)].map((_, i) => <div key={i} className="space-y-1"><div className="h-3 bg-gray-100 rounded w-10" /><div className="h-6 bg-gray-100 rounded w-14" /></div>)}
+        {[...Array(3)].map((_, i) => <div key={i} className="space-y-1"><div className="h-3 bg-[#14101E] rounded w-10" /><div className="h-6 bg-[#14101E] rounded w-14" /></div>)}
       </div>
-      <div className="h-20 bg-gray-50 rounded" />
+      <div className="h-20 bg-[#14101E] rounded" />
     </div>
   );
 
@@ -1136,44 +1136,44 @@ function CpiWidget() {
   const maxYoy = Math.max(...yoyVals.map(Math.abs), 0.1);
 
   const yoyColor = (v?: number) => !v ? "#c4b0de" : v > 4 ? "#a8c4e0" : v > 3 ? "#b8d4e8" : v > 2 ? "#c4b0de" : "#9ecfc0";
-  const yoyTextColor = !latest.yoy ? "text-gray-400" : latest.yoy > 4 ? "text-sky-400" : latest.yoy > 3 ? "text-sky-300" : latest.yoy > 2 ? "text-violet-400" : "text-emerald-400";
-  const momTextColor = !latest.mom ? "text-gray-400" : latest.mom > 0.4 ? "text-sky-400" : latest.mom > 0.2 ? "text-violet-400" : "text-emerald-400";
+  const yoyTextColor = !latest.yoy ? "text-[#8A8398]" : latest.yoy > 4 ? "text-sky-400" : latest.yoy > 3 ? "text-sky-300" : latest.yoy > 2 ? "text-violet-400" : "text-emerald-400";
+  const momTextColor = !latest.mom ? "text-[#8A8398]" : latest.mom > 0.4 ? "text-sky-400" : latest.mom > 0.2 ? "text-violet-400" : "text-emerald-400";
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5">
+    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5">
       {/* Header row */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-5">
         <div>
-          <p className="text-xs font-semibold text-sky-600 uppercase tracking-widest mb-0.5">CPI Inflation</p>
-          <p className="text-[11px] text-gray-400">{fmtMonthYear(latest.date)} · All Urban Consumers</p>
+          <p className="text-xs font-semibold text-[#7DD3FC] uppercase tracking-widest mb-0.5">CPI Inflation</p>
+          <p className="text-[11px] text-[#8A8398]">{fmtMonthYear(latest.date)} · All Urban Consumers</p>
         </div>
         <div className="flex gap-6">
           <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">Index</p>
-            <p className="text-lg font-bold text-[#191c1e]">{latest.value.toFixed(1)}</p>
+            <p className="text-[10px] text-[#8A8398] mb-0.5">Index</p>
+            <p className="text-lg font-bold text-[#F4F0FA]">{latest.value.toFixed(1)}</p>
           </div>
           {latest.yoy !== undefined && (
             <div>
-              <p className="text-[10px] text-gray-400 mb-0.5">Year-over-year</p>
+              <p className="text-[10px] text-[#8A8398] mb-0.5">Year-over-year</p>
               <p className={`text-lg font-bold ${yoyTextColor}`}>{latest.yoy > 0 ? "+" : ""}{latest.yoy.toFixed(2)}%</p>
             </div>
           )}
           {latest.mom !== undefined && (
             <div>
-              <p className="text-[10px] text-gray-400 mb-0.5">Month-over-month</p>
+              <p className="text-[10px] text-[#8A8398] mb-0.5">Month-over-month</p>
               <p className={`text-lg font-bold ${momTextColor}`}>{latest.mom > 0 ? "+" : ""}{latest.mom.toFixed(2)}%</p>
             </div>
           )}
           <div>
-            <p className="text-[10px] text-gray-400 mb-0.5">Fed target</p>
-            <p className="text-lg font-bold text-gray-400">2.0%</p>
+            <p className="text-[10px] text-[#8A8398] mb-0.5">Fed target</p>
+            <p className="text-lg font-bold text-[#8A8398]">2.0%</p>
           </div>
         </div>
       </div>
 
       {/* YoY bar chart */}
       <div>
-        <p className="text-[10px] text-gray-400 mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
+        <p className="text-[10px] text-[#8A8398] mb-2 uppercase tracking-wide">YoY % change — 12 months</p>
         {/* Bar chart — fixed 96px chart area, labels row below */}
         <div className="flex items-end gap-[3px]" style={{ height: 96 }}>
           {bars.map((pt) => {
@@ -1193,12 +1193,12 @@ function CpiWidget() {
         {/* Month labels */}
         <div className="flex gap-[3px] mt-1">
           {bars.map((pt) => (
-            <span key={pt.date} className="flex-1 text-[9px] text-gray-400 text-center leading-none">{fmtMonth(pt.date)}</span>
+            <span key={pt.date} className="flex-1 text-[9px] text-[#8A8398] text-center leading-none">{fmtMonth(pt.date)}</span>
           ))}
         </div>
         <div className="flex items-center gap-1.5 mt-2">
-          <div className="w-3 h-px border-t border-dashed border-gray-300" />
-          <span className="text-[10px] text-gray-400">Fed 2% target</span>
+          <div className="w-3 h-px border-t border-dashed border-[#2A2438]" />
+          <span className="text-[10px] text-[#8A8398]">Fed 2% target</span>
         </div>
       </div>
     </div>
@@ -1239,20 +1239,20 @@ function FundsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-base text-[#64748b] leading-relaxed max-w-2xl">
+        <p className="text-base text-[#9A93AC] leading-relaxed max-w-2xl">
           SEC Form D filings — capital raises are leading indicators of hiring.
         </p>
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-1 bg-gray-200 rounded-lg p-0.5">
-          <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>Search</button>
-          <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+        <div className="flex gap-1 bg-[#14101E] rounded-lg p-0.5">
+          <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-[#14101E] text-[#F4F0FA] shadow-sm" : "text-[#9A93AC] hover:text-[#B8B0C8]"}`}>Search</button>
+          <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-[#14101E] text-[#F4F0FA] shadow-sm" : "text-[#9A93AC] hover:text-[#B8B0C8]"}`}>
             Pipeline
-            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#396477] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
+            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#171226] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
           </button>
         </div>
-        <p className="text-xs text-gray-400">Capital &amp; hiring signals · SEC Form D</p>
+        <p className="text-xs text-[#8A8398]">Capital &amp; hiring signals · SEC Form D</p>
       </div>
 
       {subTab === "search" ? (
@@ -1261,10 +1261,10 @@ function FundsSection({
           <FundFilterBar filters={filters} onChange={setFilters} total={total} loading={loading} onExport={onExport} />
           {error && <ErrorBox message={error} />}
 
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-2.5 bg-gray-50 border-b border-gray-200">
+          <div className="bg-[#14101E] border border-[#2A2438] rounded-xl overflow-hidden">
+            <div className="grid grid-cols-[1fr_140px_160px_72px] gap-3 px-4 py-2.5 bg-[#14101E] border-b border-[#2A2438]">
               {["Fund / Firm", "Strategy", "Fundraising", "Filed"].map((h) => (
-                <div key={h} className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">{h}</div>
+                <div key={h} className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wide">{h}</div>
               ))}
             </div>
             {loading && filings.length === 0 && <SkeletonRows />}
@@ -1282,7 +1282,7 @@ function FundsSection({
               </div>
             ))}
           </div>
-          {filings.length > 0 && <p className="text-center text-xs text-gray-400 py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of buyside hiring</p>}
+          {filings.length > 0 && <p className="text-center text-xs text-[#8A8398] py-1">Source: <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=D" target="_blank" rel="noopener noreferrer" className="underline">SEC EDGAR Form D</a> · Capital raises are leading indicators of buyside hiring</p>}
         </>
       ) : (
         <OutreachPipeline records={outreachRecords} onBack={() => setSubTab("search")} />
@@ -1313,13 +1313,13 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
 ];
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  adzuna:     { label: "Adzuna",            color: "bg-sky-50 text-[#396477] border-sky-100"             },
-  muse:       { label: "The Muse",          color: "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50"  },
-  edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"             },
-  greenhouse: { label: "Greenhouse",        color: "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50"  },
-  lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"              },
-  jobs14:     { label: "LinkedIn/Indeed",   color: "bg-sky-50 text-[#396477] border-sky-100"              },
-  linkedin:   { label: "LinkedIn",          color: "bg-[#396477] text-white border-[#2d5162]"             },
+  adzuna:     { label: "Adzuna",            color: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]"             },
+  muse:       { label: "The Muse",          color: "bg-[#1A1428]/70 text-[#9A93AC] border-[#c7c4d8]/50"  },
+  edgar:      { label: "EDGAR",             color: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]"             },
+  greenhouse: { label: "Greenhouse",        color: "bg-[#14352A]/50 text-[#5EE6B5] border-[#a8cfbc]/50"  },
+  lever:      { label: "Lever",             color: "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]"              },
+  jobs14:     { label: "LinkedIn/Indeed",   color: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]"              },
+  linkedin:   { label: "LinkedIn",          color: "bg-[#171226] text-white border-[#2d5162]"             },
 };
 
 function FundSignalBadge({ filing, onViewSignals }: { filing: FundFiling; onViewSignals: () => void }) {
@@ -1328,10 +1328,10 @@ function FundSignalBadge({ filing, onViewSignals }: { filing: FundFiling; onView
   return (
     <button
       onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-      className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-sky-50 text-[#396477] border-sky-200 hover:bg-sky-100 transition-colors"
+      className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#0F2033] text-[#A78BFA] border-[#2A2438] hover:bg-[#0F2033] transition-colors"
       title="This firm has an active fund signal — click to view"
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-[#396477] animate-pulse" : "bg-sky-400"}`} />
+      <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-[#171226] animate-pulse" : "bg-sky-400"}`} />
       Fund Signal{amt ? ` · ${amt}` : ""}
     </button>
   );
@@ -1362,18 +1362,18 @@ function JobsSection({
     <>
       {/* Context bridge banner */}
       {!loading && atSignalFirms.length > 0 && (
-        <div className="flex items-center justify-between gap-3 bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
+        <div className="flex items-center justify-between gap-3 bg-[#0F2033] border border-[#2A2438] rounded-xl px-4 py-3">
           <div>
-            <p className="text-base font-semibold text-[#396477]">
+            <p className="text-base font-semibold text-[#A78BFA]">
               {atSignalFirms.length} role{atSignalFirms.length !== 1 ? "s" : ""} at firms with active fund signals
             </p>
-            <p className="text-sm text-[#64748b] mt-0.5">
+            <p className="text-sm text-[#9A93AC] mt-0.5">
               These firms are raising or recently closed. Signal firms are shown first.
             </p>
           </div>
           <button
             onClick={onViewSignals}
-            className="flex-shrink-0 text-xs font-medium text-[#396477] underline hover:no-underline transition-all whitespace-nowrap"
+            className="flex-shrink-0 text-xs font-medium text-[#A78BFA] underline hover:no-underline transition-all whitespace-nowrap"
           >
             View signals ↗
           </button>
@@ -1381,7 +1381,7 @@ function JobsSection({
       )}
 
       <div className="space-y-1 mb-1">
-        <p className="text-base text-[#64748b] leading-relaxed max-w-2xl">
+        <p className="text-base text-[#9A93AC] leading-relaxed max-w-2xl">
           Curated roles across private credit, restructuring, and leveraged finance. Signal firms shown first.
         </p>
       </div>
@@ -1391,26 +1391,26 @@ function JobsSection({
         {JOB_CATEGORIES.map((c) => (
           <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v === filters.category && c.v !== "all" ? "all" : c.v })}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-              filters.category === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              filters.category === c.v ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400"
             }`}>
             {c.l}
           </button>
         ))}
-        <div className="w-px h-5 bg-gray-200 hidden sm:block" />
+        <div className="w-px h-5 bg-[#14101E] hidden sm:block" />
         <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
-          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]">
+          className="text-xs border border-[#2A2438] rounded-lg px-2.5 py-1.5 bg-[#14101E] text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#396477]">
           <option value="30">Last 30 days</option>
           <option value="45">Last 45 days</option>
           <option value="60">Last 60 days</option>
         </select>
-        <span className="ml-auto text-xs text-gray-400">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
+        <span className="ml-auto text-xs text-[#8A8398]">{loading ? "Loading…" : `${total} signal${total !== 1 ? "s" : ""}`}</span>
       </div>
 
       {error && <ErrorBox message={error} />}
 
       {/* Inferred-only notice */}
       {!edgarOnly && sources.length > 0 && (
-        <div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-2.5 text-xs text-amber-800 flex items-start gap-2">
+        <div className="bg-[#2A2113] border border-[#2A2438] rounded-lg px-4 py-2.5 text-xs text-[#F5B544] flex items-start gap-2">
           <span className="mt-0.5">ℹ</span>
           <span>Some roles are inferred from recent capital raises — they signal likely hiring, not confirmed postings.</span>
         </div>
@@ -1420,22 +1420,22 @@ function JobsSection({
       {loading && signals.length === 0 && (
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="bg-white border border-gray-200 rounded-xl px-5 py-4 animate-pulse">
+            <div key={i} className="bg-[#14101E] border border-[#2A2438] rounded-xl px-5 py-4 animate-pulse">
               <div className="flex items-center justify-between mb-3">
-                <div className="h-4 bg-gray-100 rounded w-32" />
-                <div className="h-5 bg-gray-100 rounded-full w-20" />
+                <div className="h-4 bg-[#14101E] rounded w-32" />
+                <div className="h-5 bg-[#14101E] rounded-full w-20" />
               </div>
-              <div className="h-5 bg-gray-100 rounded w-2/3 mb-2" />
-              <div className="h-3 bg-gray-50 rounded w-1/2" />
+              <div className="h-5 bg-[#14101E] rounded w-2/3 mb-2" />
+              <div className="h-3 bg-[#14101E] rounded w-1/2" />
             </div>
           ))}
         </div>
       )}
       {!loading && signals.length === 0 && !error && (
-        <div className="text-center py-14 text-gray-400">
+        <div className="text-center py-14 text-[#8A8398]">
           <div className="text-3xl mb-3">📊</div>
-          <p className="font-semibold text-gray-600 text-base">No hiring signals found</p>
-          <p className="text-sm mt-1.5 text-gray-400 max-w-xs mx-auto">Try expanding the date range or switching category.</p>
+          <p className="font-semibold text-[#9A93AC] text-base">No hiring signals found</p>
+          <p className="text-sm mt-1.5 text-[#8A8398] max-w-xs mx-auto">Try expanding the date range or switching category.</p>
         </div>
       )}
 
@@ -1443,9 +1443,9 @@ function JobsSection({
       {atSignalFirms.length > 0 && (
         <>
           <div className="flex items-center gap-2 pt-1">
-            <span className="text-[11px] font-semibold text-[#396477] uppercase tracking-wide">At Signal Firms</span>
-            <span className="text-[10px] bg-sky-100 text-[#396477] px-1.5 py-0.5 rounded font-bold">{atSignalFirms.length}</span>
-            <div className="flex-1 h-px bg-sky-100" />
+            <span className="text-[11px] font-semibold text-[#A78BFA] uppercase tracking-wide">At Signal Firms</span>
+            <span className="text-[10px] bg-[#0F2033] text-[#A78BFA] px-1.5 py-0.5 rounded font-bold">{atSignalFirms.length}</span>
+            <div className="flex-1 h-px bg-[#0F2033]" />
           </div>
           <div className="space-y-3">
             {atSignalFirms.map(({ signal, filing }) => (
@@ -1467,10 +1467,10 @@ function JobsSection({
         <>
           {atSignalFirms.length > 0 && (
             <div className="flex items-center gap-2 pt-2">
-              <span className="text-[11px] font-semibold text-[#71787c] uppercase tracking-wide">Other Roles</span>
-              <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
-              <div className="flex-1 h-px bg-gray-100" />
-              <button onClick={onViewSignals} className="text-[11px] text-[#71787c] hover:text-[#396477] transition-colors">
+              <span className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-wide">Other Roles</span>
+              <span className="text-[10px] bg-[#14101E] text-[#9A93AC] px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
+              <div className="flex-1 h-px bg-[#14101E]" />
+              <button onClick={onViewSignals} className="text-[11px] text-[#9A93AC] hover:text-[#A78BFA] transition-colors">
                 Check signals for these firms →
               </button>
             </div>
@@ -1482,7 +1482,7 @@ function JobsSection({
       )}
 
       {signals.length > 0 && (
-        <p className="text-center text-sm text-gray-400 py-1">
+        <p className="text-center text-sm text-[#8A8398] py-1">
           Hiring signals aggregated from 60+ firm career pages and SEC EDGAR capital activity
         </p>
       )}
@@ -1495,11 +1495,11 @@ function JobsSection({
 function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBack: () => void }) {
   if (records.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-400 bg-white border border-gray-200 rounded-xl">
+      <div className="text-center py-16 text-[#8A8398] bg-[#14101E] border border-[#2A2438] rounded-xl">
         <div className="text-3xl mb-3">📬</div>
-        <p className="font-medium text-gray-600">No outreach tracked yet</p>
+        <p className="font-medium text-[#9A93AC]">No outreach tracked yet</p>
         <p className="text-sm mt-1">Open a fund row and set its status to start tracking</p>
-        <button onClick={onBack} className="mt-4 px-4 py-2 bg-[#396477] text-white rounded-lg text-sm font-medium hover:bg-[#2d5162]">Search Funds</button>
+        <button onClick={onBack} className="mt-4 px-4 py-2 bg-[#171226] text-white rounded-lg text-sm font-medium hover:bg-[#6D28D9]">Search Funds</button>
       </div>
     );
   }
@@ -1514,10 +1514,10 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         const group = groups[status];
         if (!group.length) return null;
         const titles = { in_discussion: "In Discussion", reached_out: "Reached Out", passed: "Passed" };
-        const colors = { in_discussion: "text-[#416656] bg-[#c3ecd7]/40 border-[#a8cfbc]/50", reached_out: "text-[#396477] bg-sky-50 border-sky-100", passed: "text-gray-600 bg-gray-50 border-gray-200" };
+        const colors = { in_discussion: "text-[#5EE6B5] bg-[#14352A]/40 border-[#a8cfbc]/50", reached_out: "text-[#A78BFA] bg-[#0F2033] border-[#2A2438]", passed: "text-[#9A93AC] bg-[#14101E] border-[#2A2438]" };
         return (
           <div key={status}>
-            <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
+            <h2 className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
             <div className="space-y-1.5">
               {group.map((r) => (
                 <div key={r.filingId} className={`border rounded-lg px-4 py-2.5 ${colors[status]}`}>
@@ -1555,8 +1555,8 @@ function PostList({ posts }: { posts: InsightPost[] }) {
             onClick={() => { setActiveTag(tag); setExpanded(null); }}
             className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
               activeTag === tag
-                ? "bg-[#396477]/10 text-[#396477] border-[#396477]/30"
-                : "bg-white text-gray-400 border-gray-200 hover:border-gray-400"
+                ? "bg-[#171226]/10 text-[#A78BFA] border-[#396477]/30"
+                : "bg-[#14101E] text-[#8A8398] border-[#2A2438] hover:border-gray-400"
             }`}
           >
             {tag}
@@ -1565,19 +1565,19 @@ function PostList({ posts }: { posts: InsightPost[] }) {
       </div>
 
       {/* WSJ-style accordion list */}
-      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm divide-y divide-gray-100 overflow-hidden">
+      <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl shadow-sm divide-y divide-[#2A2438] overflow-hidden">
         {filtered.map((post) => (
           <div key={post.slug}>
             <button
               onClick={() => setExpanded(expanded === post.slug ? null : post.slug)}
-              className="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-gray-50/70 transition-colors group"
+              className="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-[#14101E]/70 transition-colors group"
             >
               {post.tag && (
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-gray-100 text-gray-500"}`}>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${TAG_STYLES[post.tag] ?? "bg-[#14101E] text-[#9A93AC]"}`}>
                   {post.tag}
                 </span>
               )}
-              <h2 className="flex-1 text-[#396477] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
+              <h2 className="flex-1 text-[#A78BFA] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
                 {post.title}
               </h2>
               <time className="text-[11px] text-gray-300 flex-shrink-0 hidden sm:block">{post.date}</time>
@@ -1587,12 +1587,12 @@ function PostList({ posts }: { posts: InsightPost[] }) {
               </svg>
             </button>
             {expanded === post.slug && (
-              <div className="px-5 pb-5 pt-1 bg-gray-50/50 border-t border-gray-100">
-                <p className="text-[#64748b] text-sm leading-relaxed mb-3">
+              <div className="px-5 pb-5 pt-1 bg-[#14101E]/50 border-t border-[#2A2438]">
+                <p className="text-[#9A93AC] text-sm leading-relaxed mb-3">
                   {post.paragraphs[0]}
                 </p>
                 <Link href={`/learn/${post.slug}`}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-[#396477] hover:text-[#2d5060] transition-colors">
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-[#A78BFA] hover:text-[#2d5060] transition-colors">
                   Read full article →
                 </Link>
               </div>
@@ -1616,22 +1616,22 @@ interface InterviewPrep {
 function PrepQuestionCard({ q, index }: { q: PrepQuestion; index: number }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden">
+    <div className="border border-[#2A2438] rounded-xl overflow-hidden">
       <button onClick={() => setOpen(!open)}
-        className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors">
-        <span className="text-xs font-bold text-gray-400 mt-0.5 w-5 flex-shrink-0">{index + 1}</span>
-        <span className="text-sm font-medium text-[#191c1e] flex-1">{q.question}</span>
-        <span className="text-gray-400 flex-shrink-0 mt-0.5">{open ? "▲" : "▼"}</span>
+        className="w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-[#14101E] transition-colors">
+        <span className="text-xs font-bold text-[#8A8398] mt-0.5 w-5 flex-shrink-0">{index + 1}</span>
+        <span className="text-sm font-medium text-[#F4F0FA] flex-1">{q.question}</span>
+        <span className="text-[#8A8398] flex-shrink-0 mt-0.5">{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div className="px-4 pb-4 space-y-2 border-t border-gray-100 pt-3">
-          <div className="bg-sky-50 rounded-lg p-3">
-            <p className="text-[11px] font-semibold text-sky-700 uppercase tracking-wide mb-1">What they&apos;re testing</p>
-            <p className="text-xs text-[#41484c] leading-relaxed">{q.context}</p>
+        <div className="px-4 pb-4 space-y-2 border-t border-[#2A2438] pt-3">
+          <div className="bg-[#0F2033] rounded-lg p-3">
+            <p className="text-[11px] font-semibold text-[#7DD3FC] uppercase tracking-wide mb-1">What they&apos;re testing</p>
+            <p className="text-xs text-[#B8B0C8] leading-relaxed">{q.context}</p>
           </div>
-          <div className="bg-emerald-50 rounded-lg p-3">
-            <p className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wide mb-1">How to answer</p>
-            <p className="text-xs text-[#41484c] leading-relaxed">{q.tip}</p>
+          <div className="bg-[#14352A] rounded-lg p-3">
+            <p className="text-[11px] font-semibold text-[#5EE6B5] uppercase tracking-wide mb-1">How to answer</p>
+            <p className="text-xs text-[#B8B0C8] leading-relaxed">{q.tip}</p>
           </div>
         </div>
       )}
@@ -1694,12 +1694,12 @@ function EdgeSection() {
           <button key={t.id} onClick={() => setMode(t.id)}
             className={`text-left p-4 rounded-xl border-2 transition-all ${
               mode === t.id
-                ? "border-indigo-300 bg-indigo-50 shadow-md"
-                : "border-gray-200 bg-white hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-sm"
+                ? "border-[#2A2438] bg-[#161533] shadow-md"
+                : "border-[#2A2438] bg-[#14101E] hover:border-[#2A2438] hover:bg-[#161533]/40 hover:shadow-sm"
             }`}>
-            <div className={`mb-2 ${mode === t.id ? "text-indigo-600" : "text-gray-400"}`}>{t.icon}</div>
-            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-indigo-700" : "text-[#2d3748]"}`}>{t.label}</div>
-            <div className="text-[11px] text-gray-400 leading-snug hidden sm:block">{t.desc}</div>
+            <div className={`mb-2 ${mode === t.id ? "text-[#C4B5FD]" : "text-[#8A8398]"}`}>{t.icon}</div>
+            <div className={`text-xs font-bold mb-1 ${mode === t.id ? "text-[#C4B5FD]" : "text-[#2d3748]"}`}>{t.label}</div>
+            <div className="text-[11px] text-[#8A8398] leading-snug hidden sm:block">{t.desc}</div>
           </button>
         ))}
       </div>
@@ -1762,7 +1762,7 @@ function ConceptQASection() {
         <input
           value={query} onChange={e => setQuery(e.target.value)}
           placeholder="Ask any concept — DCF, LBO, credit spreads, convexity…"
-          className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400"
+          className="flex-1 border border-[#2A2438] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#2A2438] focus:border-indigo-400"
         />
         <button type="submit" disabled={loading}
           className="px-5 py-3 bg-indigo-700 text-white text-sm font-semibold rounded-xl hover:bg-indigo-800 transition-colors disabled:opacity-50">
@@ -1773,11 +1773,11 @@ function ConceptQASection() {
       {/* Suggested chips */}
       {!answer && !loading && (
         <div>
-          <p className="text-xs text-gray-400 font-medium mb-2">Popular concepts</p>
+          <p className="text-xs text-[#8A8398] font-medium mb-2">Popular concepts</p>
           <div className="flex flex-wrap gap-2">
             {CONCEPT_CHIPS.map(chip => (
               <button key={chip} onClick={() => search(chip)}
-                className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full hover:border-indigo-400 hover:text-indigo-700 transition-colors">
+                className="text-xs px-3 py-1.5 bg-[#14101E] border border-[#2A2438] text-[#9A93AC] rounded-full hover:border-indigo-400 hover:text-[#C4B5FD] transition-colors">
                 {chip}
               </button>
             ))}
@@ -1788,10 +1788,10 @@ function ConceptQASection() {
       {/* Recent history */}
       {history.length > 0 && !loading && (
         <div className="flex flex-wrap gap-2">
-          <span className="text-xs text-gray-400 self-center">Recent:</span>
+          <span className="text-xs text-[#8A8398] self-center">Recent:</span>
           {history.map(h => (
             <button key={h} onClick={() => search(h)}
-              className="text-xs px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100 hover:bg-indigo-100 transition-colors">
+              className="text-xs px-2.5 py-1 bg-[#161533] text-[#C4B5FD] rounded-full border border-[#2A2438] hover:bg-[#161533] transition-colors">
               {h}
             </button>
           ))}
@@ -1800,7 +1800,7 @@ function ConceptQASection() {
 
       {/* Loading */}
       {loading && (
-        <div className="flex flex-col items-center gap-3 py-16 text-gray-400">
+        <div className="flex flex-col items-center gap-3 py-16 text-[#8A8398]">
           <div className="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Explaining {query}…</p>
         </div>
@@ -1811,20 +1811,20 @@ function ConceptQASection() {
       {answer && (
         <div className="space-y-5">
           {/* Header */}
-          <div className="border border-indigo-200 bg-indigo-50/40 rounded-xl px-6 py-5">
-            <h2 className="text-lg font-bold text-[#191c1e] mb-1">{answer.concept}</h2>
-            <p className="text-sm text-indigo-700 font-medium leading-relaxed">{answer.oneLiner}</p>
+          <div className="border border-[#2A2438] bg-[#161533]/40 rounded-xl px-6 py-5">
+            <h2 className="text-lg font-bold text-[#F4F0FA] mb-1">{answer.concept}</h2>
+            <p className="text-sm text-[#C4B5FD] font-medium leading-relaxed">{answer.oneLiner}</p>
           </div>
 
           {/* Sections */}
           {answer.sections.map((sec, i) => (
-            <div key={i} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-2">
-              <h3 className="text-sm font-bold text-[#191c1e]">{sec.title}</h3>
-              <p className="text-sm text-[#41484c] leading-relaxed">{sec.content}</p>
+            <div key={i} className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-4 space-y-2">
+              <h3 className="text-sm font-bold text-[#F4F0FA]">{sec.title}</h3>
+              <p className="text-sm text-[#B8B0C8] leading-relaxed">{sec.content}</p>
               {sec.bullets && (
                 <ul className="space-y-1 mt-2">
                   {sec.bullets.map((b, j) => (
-                    <li key={j} className="flex items-start gap-2 text-xs text-[#41484c]">
+                    <li key={j} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />{b}
                     </li>
                   ))}
@@ -1834,17 +1834,17 @@ function ConceptQASection() {
           ))}
 
           {/* Interview angle */}
-          <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-5 py-4">
-            <h3 className="text-sm font-bold text-[#191c1e] mb-2">🎯 Interview Angle</h3>
-            <p className="text-sm text-[#41484c] leading-relaxed">{answer.interviewAngle}</p>
+          <div className="border border-[#2A2438] bg-[#2A2113]/40 rounded-xl px-5 py-4">
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-2">🎯 Interview Angle</h3>
+            <p className="text-sm text-[#B8B0C8] leading-relaxed">{answer.interviewAngle}</p>
           </div>
 
           {/* Common mistakes */}
-          <div className="border border-red-100 bg-red-50/30 rounded-xl px-5 py-4">
-            <h3 className="text-sm font-bold text-[#191c1e] mb-2">🚩 Common Mistakes</h3>
+          <div className="border border-[#2A2438] bg-[#2E1620]/30 rounded-xl px-5 py-4">
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-2">🚩 Common Mistakes</h3>
             <ul className="space-y-1">
               {answer.commonMistakes.map((m, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                <li key={i} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{m}
                 </li>
               ))}
@@ -1853,18 +1853,18 @@ function ConceptQASection() {
 
           {/* Related concepts */}
           <div>
-            <p className="text-xs text-gray-400 font-medium mb-2">Explore related</p>
+            <p className="text-xs text-[#8A8398] font-medium mb-2">Explore related</p>
             <div className="flex flex-wrap gap-2">
               {answer.relatedConcepts.map(c => (
                 <button key={c} onClick={() => search(c)}
-                  className="text-xs px-3 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-full hover:border-indigo-400 hover:text-indigo-700 transition-colors">
+                  className="text-xs px-3 py-1.5 bg-[#14101E] border border-[#2A2438] text-[#9A93AC] rounded-full hover:border-indigo-400 hover:text-[#C4B5FD] transition-colors">
                   {c} →
                 </button>
               ))}
             </div>
           </div>
 
-          <p className="text-center text-xs text-gray-400">AI-generated. Use as a study aid — verify with primary sources before interviews.</p>
+          <p className="text-center text-xs text-[#8A8398]">AI-generated. Use as a study aid — verify with primary sources before interviews.</p>
         </div>
       )}
     </div>
@@ -1929,25 +1929,25 @@ function FirmPrepSection() {
           <div className="flex gap-2">
             <input value={query} onChange={e => setQuery(e.target.value)}
               placeholder="Search any firm — Ares, Citadel, Apollo, KKR…"
-              className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+              className="flex-1 border border-[#2A2438] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             <button type="submit" disabled={loading}
-              className="px-5 py-3 bg-[#1A2B4A] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
+              className="px-5 py-3 bg-[#7C3AED] text-white text-sm font-semibold rounded-xl hover:bg-[#243d6b] transition-colors disabled:opacity-50">
               {loading ? "Loading…" : "Prep →"}
             </button>
           </div>
           <input value={teamGroup} onChange={e => setTeamGroup(e.target.value)}
             placeholder="Team / group you're interviewing for (optional) — e.g. Direct Lending, Special Sits"
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#41484c] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-gray-50" />
+            className="w-full border border-[#2A2438] rounded-xl px-4 py-2.5 text-sm text-[#B8B0C8] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] bg-[#14101E]" />
         </form>
-        <p className="text-xs text-right text-[#71787c]">
+        <p className="text-xs text-right text-[#9A93AC]">
         </p>
       </div>
 
       {loading && (
-        <div className="flex flex-col items-center gap-3 py-16 text-[#71787c]">
+        <div className="flex flex-col items-center gap-3 py-16 text-[#9A93AC]">
           <div className="w-6 h-6 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm">Generating your firm-specific prep guide…</p>
-          <p className="text-xs text-gray-400">This takes 15–25 seconds</p>
+          <p className="text-xs text-[#8A8398]">This takes 15–25 seconds</p>
         </div>
       )}
 
@@ -1956,47 +1956,47 @@ function FirmPrepSection() {
       {prep && (
         <div className="space-y-8">
           {/* Header */}
-          <div className="border border-rose-200 bg-rose-50/30 rounded-xl px-6 py-5">
-            <h2 className="text-xl font-bold text-[#191c1e] mb-1">{prep.firm}</h2>
-            <p className="text-xs font-semibold text-rose-600 mb-3">{prep.strategy}</p>
-            <p className="text-sm text-[#41484c] leading-relaxed">{prep.overview}</p>
+          <div className="border border-[#2A2438] bg-[#2E1620]/30 rounded-xl px-6 py-5">
+            <h2 className="text-xl font-bold text-[#F4F0FA] mb-1">{prep.firm}</h2>
+            <p className="text-xs font-semibold text-[#FB7185] mb-3">{prep.strategy}</p>
+            <p className="text-sm text-[#B8B0C8] leading-relaxed">{prep.overview}</p>
 
             {/* Apollo enrichment stats bar */}
             {enrich && (
-              <div className="mt-4 pt-4 border-t border-rose-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="mt-4 pt-4 border-t border-[#2A2438] grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {enrich.headcount && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Employees</p>
-                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{fmtHeadcount(enrich.headcount)}</p>
+                    <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider">Employees</p>
+                    <p className="text-sm font-bold text-[#F4F0FA] mt-0.5">{fmtHeadcount(enrich.headcount)}</p>
                   </div>
                 )}
                 {enrich.location && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">HQ</p>
-                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.location}</p>
+                    <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider">HQ</p>
+                    <p className="text-sm font-bold text-[#F4F0FA] mt-0.5">{enrich.location}</p>
                   </div>
                 )}
                 {enrich.founded && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Founded</p>
-                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.founded}</p>
+                    <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider">Founded</p>
+                    <p className="text-sm font-bold text-[#F4F0FA] mt-0.5">{enrich.founded}</p>
                   </div>
                 )}
                 {enrich.industry && (
                   <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Sector</p>
-                    <p className="text-sm font-bold text-[#191c1e] mt-0.5">{enrich.industry}</p>
+                    <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider">Sector</p>
+                    <p className="text-sm font-bold text-[#F4F0FA] mt-0.5">{enrich.industry}</p>
                   </div>
                 )}
                 {(enrich.website || enrich.linkedin) && (
                   <div className="col-span-2 sm:col-span-4 flex gap-3 mt-1">
                     {enrich.website && (
                       <a href={enrich.website} target="_blank" rel="noopener noreferrer"
-                        className="text-[11px] text-[#396477] hover:underline">Website →</a>
+                        className="text-[11px] text-[#A78BFA] hover:underline">Website →</a>
                     )}
                     {enrich.linkedin && (
                       <a href={enrich.linkedin} target="_blank" rel="noopener noreferrer"
-                        className="text-[11px] text-[#396477] hover:underline">LinkedIn →</a>
+                        className="text-[11px] text-[#A78BFA] hover:underline">LinkedIn →</a>
                     )}
                   </div>
                 )}
@@ -2007,9 +2007,9 @@ function FirmPrepSection() {
           {/* Culture */}
           {prep.culture && (
             <section>
-              <h3 className="text-sm font-bold text-[#191c1e] mb-3">🏢 Culture & Work Environment</h3>
-              <div className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4">
-                <p className="text-sm text-[#41484c] leading-relaxed">{prep.culture}</p>
+              <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">🏢 Culture & Work Environment</h3>
+              <div className="bg-[#14101E] border border-[#2A2438] rounded-xl px-5 py-4">
+                <p className="text-sm text-[#B8B0C8] leading-relaxed">{prep.culture}</p>
               </div>
             </section>
           )}
@@ -2017,31 +2017,31 @@ function FirmPrepSection() {
           {/* Recent Developments */}
           {prep.recentDevelopments?.length > 0 && (
             <section>
-              <h3 className="text-sm font-bold text-[#191c1e] mb-3">📰 Recent Developments</h3>
+              <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">📰 Recent Developments</h3>
               <ul className="space-y-2">
                 {prep.recentDevelopments.map((d, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-[#41484c]">
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#B8B0C8]">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />{d}
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-gray-400 mt-2">Sourced from live news. Verify before your interview.</p>
+              <p className="text-xs text-[#8A8398] mt-2">Sourced from live news. Verify before your interview.</p>
             </section>
           )}
 
           {/* What They Value */}
           <section>
-            <h3 className="text-sm font-bold text-[#191c1e] mb-3">⭐ What They Value in Candidates</h3>
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">⭐ What They Value in Candidates</h3>
             <div className="flex flex-wrap gap-2">
               {prep.whatTheyValue.map((v, i) => (
-                <span key={i} className="px-3 py-1.5 bg-[#1A2B4A]/5 text-[#1A2B4A] text-xs font-medium rounded-full border border-[#1A2B4A]/10">{v}</span>
+                <span key={i} className="px-3 py-1.5 bg-[#7C3AED]/5 text-[#F4F0FA] text-xs font-medium rounded-full border border-[#1A2B4A]/10">{v}</span>
               ))}
             </div>
           </section>
 
           {/* Behavioral */}
           <section>
-            <h3 className="text-sm font-bold text-[#191c1e] mb-3">💬 Behavioral Questions</h3>
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">💬 Behavioral Questions</h3>
             <div className="space-y-2">
               {prep.behavioral.map((q, i) => <PrepQuestionCard key={i} q={q} index={i} />)}
             </div>
@@ -2049,7 +2049,7 @@ function FirmPrepSection() {
 
           {/* Technical */}
           <section>
-            <h3 className="text-sm font-bold text-[#191c1e] mb-3">📊 Technical Questions</h3>
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">📊 Technical Questions</h3>
             <div className="space-y-2">
               {prep.technical.map((q, i) => <PrepQuestionCard key={i} q={q} index={i} />)}
             </div>
@@ -2057,17 +2057,17 @@ function FirmPrepSection() {
 
           {/* Red Flags */}
           <section>
-            <h3 className="text-sm font-bold text-[#191c1e] mb-3">🚩 Red Flags — What Gets Candidates Cut</h3>
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-3">🚩 Red Flags — What Gets Candidates Cut</h3>
             <ul className="space-y-2">
               {prep.redFlags.map((r, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#41484c]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#B8B0C8]">
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />{r}
                 </li>
               ))}
             </ul>
           </section>
 
-          <p className="text-center text-xs text-gray-400">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
+          <p className="text-center text-xs text-[#8A8398]">Strategy and cultural insights are AI-generated. Verify specific facts, names, and recent events independently before your interview.</p>
 
           {/* Anonymous feedback submission */}
           <InterviewFeedbackForm firmName={prep.firm} />
@@ -2099,30 +2099,30 @@ function InterviewIntelSection() {
   };
 
   if (done) return (
-    <div className="bg-emerald-50 border border-emerald-200 rounded-2xl px-6 py-10 text-center">
-      <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <svg className="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+    <div className="bg-[#14352A] border border-[#2A2438] rounded-2xl px-6 py-10 text-center">
+      <div className="w-12 h-12 bg-[#14352A] rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg className="w-6 h-6 text-[#5EE6B5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
       </div>
-      <p className="text-sm font-bold text-emerald-700 mb-1">Thank you — your experience helps the community.</p>
-      <p className="text-xs text-emerald-600">Shared with subscribers with all identifying details removed.</p>
+      <p className="text-sm font-bold text-[#5EE6B5] mb-1">Thank you — your experience helps the community.</p>
+      <p className="text-xs text-[#5EE6B5]">Shared with subscribers with all identifying details removed.</p>
       <button onClick={() => { setDone(false); setForm({ firm: "", roleType: "", round: "", difficulty: "", questions: "", tips: "", outcome: "" }); }}
-        className="mt-4 text-xs text-emerald-700 underline hover:text-emerald-900">Submit another</button>
+        className="mt-4 text-xs text-[#5EE6B5] underline hover:text-[#5EE6B5]">Submit another</button>
     </div>
   );
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-violet-50 border border-violet-100 rounded-2xl px-5 py-5">
+      <div className="bg-[#1E1633] border border-[#2A2438] rounded-2xl px-5 py-5">
         <div className="flex items-start gap-3">
-          <div className="w-9 h-9 bg-violet-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-            <svg viewBox="0 0 20 20" fill="none" className="w-4.5 h-4.5 text-violet-600" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+          <div className="w-9 h-9 bg-[#1E1633] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg viewBox="0 0 20 20" fill="none" className="w-4.5 h-4.5 text-[#C4B5FD]" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
               <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" /><path d="M10 9v4M10 7h.01" strokeWidth="2" />
             </svg>
           </div>
           <div>
-            <h3 className="text-sm font-bold text-[#1A2B4A] mb-1">Share your interview experience</h3>
-            <p className="text-xs text-[#41484c] leading-relaxed max-w-xl">
+            <h3 className="text-sm font-bold text-[#F4F0FA] mb-1">Share your interview experience</h3>
+            <p className="text-xs text-[#B8B0C8] leading-relaxed max-w-xl">
               Interviewed at a buyside firm or investment bank? Share what they asked so others can prepare.
               Submissions are <strong>completely anonymous</strong> — nothing is stored or tied to you.
               We share insights with our subscriber community on a <strong>no-name basis</strong>.
@@ -2159,7 +2159,7 @@ function InterviewIntelSection() {
                   text: "Reviewed by the Onlu team",
                 },
               ].map(b => (
-                <span key={b.text} className="inline-flex items-center gap-1.5 text-[11px] text-violet-700 bg-violet-100 px-2.5 py-1 rounded-full font-medium">{b.icon}{b.text}</span>
+                <span key={b.text} className="inline-flex items-center gap-1.5 text-[11px] text-[#C4B5FD] bg-[#1E1633] px-2.5 py-1 rounded-full font-medium">{b.icon}{b.text}</span>
               ))}
             </div>
           </div>
@@ -2167,24 +2167,24 @@ function InterviewIntelSection() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-6 space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-[#41484c] mb-1">Firm <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Firm <span className="text-red-400">*</span></label>
           <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
             placeholder="e.g. Ares Management, Goldman Sachs"
-            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+            className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-[#41484c] mb-1">Role type</label>
+            <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Role type</label>
             <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
               placeholder="e.g. Credit Analyst"
-              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+              className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#41484c] mb-1">Round</label>
+            <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Round</label>
             <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
-              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-[#14101E]">
               <option value="">Select</option>
               <option>Phone screen</option>
               <option>First round</option>
@@ -2195,9 +2195,9 @@ function InterviewIntelSection() {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#41484c] mb-1">Difficulty</label>
+            <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Difficulty</label>
             <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
-              className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-[#14101E]">
               <option value="">Select</option>
               <option>Straightforward</option>
               <option>Moderate</option>
@@ -2207,22 +2207,22 @@ function InterviewIntelSection() {
           </div>
         </div>
         <div>
-          <label className="block text-xs font-semibold text-[#41484c] mb-1">Questions asked <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Questions asked <span className="text-red-400">*</span></label>
           <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
             rows={4} placeholder="What did they ask? Technical, behavioural, case walk-through — as much detail as you're comfortable sharing"
-            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
+            className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-[#41484c] mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+          <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
           <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
             rows={2} placeholder="What would you do differently? What seemed to impress them?"
-            className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
+            className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 resize-none" />
         </div>
         <div className="flex items-center gap-3">
           <div>
-            <label className="block text-xs font-semibold text-[#41484c] mb-1">Outcome <span className="text-gray-300 font-normal">(optional)</span></label>
+            <label className="block text-xs font-semibold text-[#B8B0C8] mb-1">Outcome <span className="text-gray-300 font-normal">(optional)</span></label>
             <select value={form.outcome} onChange={e => setForm(f => ({ ...f, outcome: e.target.value }))}
-              className="text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-white">
+              className="text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400 bg-[#14101E]">
               <option value="">Prefer not to say</option>
               <option>Offer received</option>
               <option>Rejected</option>
@@ -2235,7 +2235,7 @@ function InterviewIntelSection() {
             {submitting ? "Submitting…" : "Submit anonymously →"}
           </button>
         </div>
-        <p className="text-[11px] text-gray-400">
+        <p className="text-[11px] text-[#8A8398]">
           Your submission is completely anonymous. No account, IP, or personal data is collected or retained.
         </p>
       </form>
@@ -2266,36 +2266,36 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
   };
 
   if (done) return (
-    <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-4 text-center">
-      <p className="text-sm font-semibold text-emerald-700">Thank you — your feedback helps the community.</p>
-      <p className="text-xs text-emerald-600 mt-0.5">Submitted anonymously.</p>
+    <div className="bg-[#14352A] border border-[#2A2438] rounded-xl px-4 py-4 text-center">
+      <p className="text-sm font-semibold text-[#5EE6B5]">Thank you — your feedback helps the community.</p>
+      <p className="text-xs text-[#5EE6B5] mt-0.5">Submitted anonymously.</p>
     </div>
   );
 
   return (
-    <div className="border border-dashed border-gray-200 rounded-xl overflow-hidden">
+    <div className="border border-dashed border-[#2A2438] rounded-xl overflow-hidden">
       <button onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors">
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-[#14101E] transition-colors">
         <div className="flex items-center gap-2">
-          <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-gray-400" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 4v3m0 2v.5"/></svg>
-          <span className="text-xs font-semibold text-gray-500">Interviewed at {firmName}? Share what they asked</span>
+          <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#8A8398]" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 4v3m0 2v.5"/></svg>
+          <span className="text-xs font-semibold text-[#9A93AC]">Interviewed at {firmName}? Share what they asked</span>
         </div>
-        <span className="text-gray-400 text-xs">{open ? "▲" : "▼"}</span>
+        <span className="text-[#8A8398] text-xs">{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <form onSubmit={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-gray-100 pt-3 bg-gray-50/40">
-          <p className="text-[11px] text-gray-400">Anonymous — nothing you enter here is stored or tied to you.</p>
+        <form onSubmit={handleSubmit} className="px-4 pb-4 space-y-3 border-t border-[#2A2438] pt-3 bg-[#14101E]/40">
+          <p className="text-[11px] text-[#8A8398]">Anonymous — nothing you enter here is stored or tied to you.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Role type</label>
+              <label className="block text-[11px] font-medium text-[#9A93AC] mb-1">Role type</label>
               <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
                 placeholder="e.g. Credit Analyst"
-                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20" />
+                className="w-full text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20" />
             </div>
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Round</label>
+              <label className="block text-[11px] font-medium text-[#9A93AC] mb-1">Round</label>
               <select value={form.round} onChange={e => setForm(f => ({ ...f, round: e.target.value }))}
-                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+                className="w-full text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
                 <option value="">Select</option>
                 <option>Phone screen</option>
                 <option>First round</option>
@@ -2306,9 +2306,9 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
               </select>
             </div>
             <div>
-              <label className="block text-[11px] font-medium text-gray-500 mb-1">Difficulty</label>
+              <label className="block text-[11px] font-medium text-[#9A93AC] mb-1">Difficulty</label>
               <select value={form.difficulty} onChange={e => setForm(f => ({ ...f, difficulty: e.target.value }))}
-                className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+                className="w-full text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
                 <option value="">Select</option>
                 <option>Straightforward</option>
                 <option>Moderate</option>
@@ -2318,20 +2318,20 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
             </div>
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 mb-1">Questions asked <span className="text-red-400">*</span></label>
+            <label className="block text-[11px] font-medium text-[#9A93AC] mb-1">Questions asked <span className="text-red-400">*</span></label>
             <textarea required value={form.questions} onChange={e => setForm(f => ({ ...f, questions: e.target.value }))}
               rows={3} placeholder="What did they ask? Technical, behavioural, case walk-through…"
-              className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
+              className="w-full text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
           </div>
           <div>
-            <label className="block text-[11px] font-medium text-gray-500 mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
+            <label className="block text-[11px] font-medium text-[#9A93AC] mb-1">Tips for candidates <span className="text-gray-300 font-normal">(optional)</span></label>
             <textarea value={form.tips} onChange={e => setForm(f => ({ ...f, tips: e.target.value }))}
               rows={2} placeholder="What would you do differently? What impressed them?"
-              className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
+              className="w-full text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20 resize-none" />
           </div>
           <div className="flex items-center gap-3">
             <select value={form.outcome} onChange={e => setForm(f => ({ ...f, outcome: e.target.value }))}
-              className="text-xs border border-gray-200 rounded-lg px-2.5 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
+              className="text-xs border border-[#2A2438] rounded-lg px-2.5 py-2 bg-[#14101E] focus:outline-none focus:ring-1 focus:ring-[#1A2B4A]/20">
               <option value="">Outcome (optional)</option>
               <option>Offer received</option>
               <option>Rejected</option>
@@ -2340,7 +2340,7 @@ function InterviewFeedbackForm({ firmName }: { firmName: string }) {
               <option>Prefer not to say</option>
             </select>
             <button type="submit" disabled={submitting || !form.questions.trim()}
-              className="ml-auto px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] disabled:opacity-40 transition-colors">
+              className="ml-auto px-4 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-lg hover:bg-[#171226] disabled:opacity-40 transition-colors">
               {submitting ? "Submitting…" : "Submit anonymously"}
             </button>
           </div>
@@ -2368,10 +2368,10 @@ interface MarketAnalysis {
 }
 
 const SENTIMENT_STYLE: Record<string, string> = {
-  positive: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  negative: "bg-red-50 text-red-700 border-red-200",
-  neutral: "bg-gray-50 text-gray-600 border-gray-200",
-  mixed: "bg-amber-50 text-amber-700 border-amber-200",
+  positive: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+  negative: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
+  neutral: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",
+  mixed: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
 };
 
 // ─── Market Charts (30-day sparklines) ───────────────────────────────────────
@@ -2428,20 +2428,20 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
   const SHOW = ["S&P 500", "QQQ", "10Y Yield", "WTI", "Gold", "VIX"];
 
   if (loading) return (
-    <div className="border border-gray-200 bg-white rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-gray-400">
-      <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin" />
+    <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-6 flex items-center gap-2 text-xs text-[#8A8398]">
+      <div className="w-3 h-3 border border-[#2A2438] border-t-transparent rounded-full animate-spin" />
       Loading 30-day trends…
     </div>
   );
 
   return (
-    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
-      <div className="px-5 pt-4 pb-3 border-b border-gray-100 flex items-center gap-2">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">30-Day Trend</span>
-        <span className="ml-auto text-[11px] text-gray-400">Daily closes · 1 month</span>
+    <div className="border border-[#2A2438] bg-[#14101E] rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 border-b border-[#2A2438] flex items-center gap-2">
+        <span className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">30-Day Trend</span>
+        <span className="ml-auto text-[11px] text-[#8A8398]">Daily closes · 1 month</span>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 divide-x divide-y divide-gray-100">
+      <div className="grid grid-cols-2 sm:grid-cols-3 divide-x divide-y divide-[#2A2438]">
         {SHOW.map(label => {
           const h = history.find(d => d.label === label);
           const live = tickers.find(t => t.label === label);
@@ -2453,12 +2453,12 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
           return (
             <div key={label} className="px-4 py-3 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-gray-500">{label}</span>
-                <span className={`text-[10px] font-bold ${up ? "text-emerald-600" : "text-red-500"}`}>
+                <span className="text-[11px] font-semibold text-[#9A93AC]">{label}</span>
+                <span className={`text-[10px] font-bold ${up ? "text-[#5EE6B5]" : "text-red-500"}`}>
                   {up ? "+" : ""}{pct.toFixed(2)}%
                 </span>
               </div>
-              <span className="text-sm font-bold text-[#191c1e]">{price}</span>
+              <span className="text-sm font-bold text-[#F4F0FA]">{price}</span>
               {h?.closes && h.closes.length > 1
                 ? <Sparkline closes={h.closes} up={up} />
                 : <div className="h-13 flex items-center justify-center text-[10px] text-gray-300">No history</div>
@@ -2470,12 +2470,12 @@ function MarketCharts({ tickers }: { tickers: MarketTicker[] }) {
 
       {/* Yield curve row */}
       {y3m && y10y && (
-        <div className="border-t border-gray-100 px-5 py-3 flex items-center gap-3">
-          <span className="text-[11px] font-semibold text-gray-500">Yield Curve</span>
-          <div className={`text-[10px] font-semibold px-2 py-0.5 rounded ${inverted ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-700"}`}>
+        <div className="border-t border-[#2A2438] px-5 py-3 flex items-center gap-3">
+          <span className="text-[11px] font-semibold text-[#9A93AC]">Yield Curve</span>
+          <div className={`text-[10px] font-semibold px-2 py-0.5 rounded ${inverted ? "bg-[#2E1620] text-[#FB7185]" : "bg-[#14352A] text-[#5EE6B5]"}`}>
             {inverted ? `⚠️ Inverted` : `Normal`}
           </div>
-          <span className="text-[11px] text-gray-400">
+          <span className="text-[11px] text-[#8A8398]">
             3M {y3m.price.toFixed(2)}% · 10Y {y10y.price.toFixed(2)}% · spread {Math.abs(y10y.price - y3m.price).toFixed(2)}%
           </span>
         </div>
@@ -2507,7 +2507,7 @@ function MarketSection() {
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto px-5 py-16 flex flex-col items-center gap-3 text-[#71787c]">
+      <div className="max-w-6xl mx-auto px-5 py-16 flex flex-col items-center gap-3 text-[#9A93AC]">
         <div className="w-5 h-5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
         <p className="text-sm">Generating market brief…</p>
       </div>
@@ -2530,28 +2530,28 @@ function MarketSection() {
   return (
     <div className="max-w-6xl mx-auto px-5 py-8 space-y-6">
       {/* AI Brief */}
-      <div className="border border-amber-200 bg-amber-50/40 rounded-xl px-6 py-5">
+      <div className="border border-[#2A2438] bg-[#2A2113]/40 rounded-xl px-6 py-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
-          <span className="text-xs text-gray-400">Updated {updatedTime}</span>
+          <span className="text-xs font-semibold text-[#F5B544] uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
+          <span className="text-xs text-[#8A8398]">Updated {updatedTime}</span>
         </div>
-        <p className="text-[#396477] text-lg font-bold leading-snug">{analysis.headline}</p>
+        <p className="text-[#A78BFA] text-lg font-bold leading-snug">{analysis.headline}</p>
       </div>
 
       {/* Sections */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {analysis.sections.map((sec) => (
-          <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
+          <div key={sec.title} className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-[#396477] text-base">{sec.title}</h3>
+              <h3 className="font-semibold text-[#A78BFA] text-base">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
             </div>
-            <p className="text-[#64748b] text-sm leading-relaxed">{sec.summary}</p>
+            <p className="text-[#9A93AC] text-sm leading-relaxed">{sec.summary}</p>
             <ul className="space-y-2">
               {sec.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#64748b]">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#9A93AC]">
                   <span className="mt-1 w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" />
                   {b}
                 </li>
@@ -2561,12 +2561,12 @@ function MarketSection() {
         ))}
       </div>
 
-      <p className="text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-[#8A8398]">
         AI-generated from live news headlines. Not investment advice. Refreshes every 3 hours.
       </p>
 
       {/* Daily Finance News */}
-      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+      <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-5">
         <DailyNews />
       </div>
 
@@ -2576,17 +2576,17 @@ function MarketSection() {
       <CpiWidget />
 
       {/* Today in History */}
-      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+      <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-5">
         <TodayInHistory />
       </div>
 
       {/* Deal Flow */}
-      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+      <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-5">
         <DealsWatch />
       </div>
 
       {/* Earnings Calendar */}
-      <div className="border border-gray-200 bg-white rounded-xl px-5 py-5">
+      <div className="border border-[#2A2438] bg-[#14101E] rounded-xl px-5 py-5">
         <EarningsWatch />
       </div>
 
@@ -2612,12 +2612,12 @@ interface NewsResponse {
 }
 
 const NEWS_CAT: Record<string, { label: string; cls: string }> = {
-  markets:   { label: "Markets",   cls: "bg-amber-50 text-amber-700 border-amber-200" },
-  economy:   { label: "Economy",   cls: "bg-teal-50 text-teal-700 border-teal-200" },
-  banking:   { label: "Banking",   cls: "bg-sky-50 text-sky-700 border-sky-200" },
-  companies: { label: "Companies", cls: "bg-violet-50 text-violet-700 border-violet-200" },
-  policy:    { label: "Policy",    cls: "bg-slate-100 text-slate-600 border-slate-200" },
-  global:    { label: "Global",    cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  markets:   { label: "Markets",   cls: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]" },
+  economy:   { label: "Economy",   cls: "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]" },
+  banking:   { label: "Banking",   cls: "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]" },
+  companies: { label: "Companies", cls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]" },
+  policy:    { label: "Policy",    cls: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]" },
+  global:    { label: "Global",    cls: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]" },
 };
 
 function DailyNews() {
@@ -2642,25 +2642,25 @@ function DailyNews() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Today in Finance</h2>
-          <p className="text-xs text-[#64748b] mt-0.5">Live headlines direct from financial news sources</p>
+          <h2 className="text-base font-bold text-[#A78BFA]">Today in Finance</h2>
+          <p className="text-xs text-[#9A93AC] mt-0.5">Live headlines direct from financial news sources</p>
         </div>
-        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+        {updatedTime && <span className="text-xs text-[#8A8398]">Updated {updatedTime}</span>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#9A93AC] py-4">
           <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Curating today's headlines…
         </div>
       )}
 
       {!loading && (!data || data.items.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No news available right now.</p>
+        <p className="text-sm text-[#8A8398] py-2">No news available right now.</p>
       )}
 
       {data && data.items.length > 0 && (
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-[#2A2438]">
           {data.items.map((item) => {
             const cat = NEWS_CAT[item.category] ?? NEWS_CAT.markets;
             const minsAgo = item.pubDate
@@ -2673,17 +2673,17 @@ function DailyNews() {
               <div key={item.id} className="py-3 first:pt-0 last:pb-0 space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
-                  {item.source && <span className="text-[10px] text-gray-400 font-medium">{item.source}</span>}
+                  {item.source && <span className="text-[10px] text-[#8A8398] font-medium">{item.source}</span>}
                   {timeLabel && <span className="text-[10px] text-gray-300">{timeLabel}</span>}
                 </div>
-                <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
+                <p className="text-sm font-semibold text-[#F4F0FA] leading-snug">{item.headline}</p>
               </div>
             );
           })}
         </div>
       )}
 
-      <p className="text-xs text-gray-400">Headlines pulled directly from Google News RSS. Not investment advice.</p>
+      <p className="text-xs text-[#8A8398]">Headlines pulled directly from Google News RSS. Not investment advice.</p>
     </div>
   );
 }
@@ -2712,11 +2712,11 @@ interface TodayHistory {
 }
 
 const HISTORY_CAT: Record<string, { label: string; cls: string; dot: string }> = {
-  market:  { label: "Market",   cls: "bg-amber-50 text-amber-700 border-amber-200",    dot: "bg-amber-400" },
-  company: { label: "Company",  cls: "bg-sky-50 text-sky-700 border-sky-200",          dot: "bg-sky-400" },
-  figure:  { label: "Figure",   cls: "bg-violet-50 text-violet-700 border-violet-200", dot: "bg-violet-400" },
-  policy:  { label: "Policy",   cls: "bg-teal-50 text-teal-700 border-teal-200",       dot: "bg-teal-400" },
-  crisis:  { label: "Crisis",   cls: "bg-red-50 text-red-600 border-red-200",          dot: "bg-red-400" },
+  market:  { label: "Market",   cls: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",    dot: "bg-amber-400" },
+  company: { label: "Company",  cls: "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]",          dot: "bg-sky-400" },
+  figure:  { label: "Figure",   cls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]", dot: "bg-violet-400" },
+  policy:  { label: "Policy",   cls: "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]",       dot: "bg-teal-400" },
+  crisis:  { label: "Crisis",   cls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",          dot: "bg-red-400" },
 };
 
 function TodayInHistory() {
@@ -2734,19 +2734,19 @@ function TodayInHistory() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-base font-bold text-[#396477]">Today in Financial History</h2>
-        {data && <p className="text-xs text-[#64748b] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
+        <h2 className="text-base font-bold text-[#A78BFA]">Today in Financial History</h2>
+        {data && <p className="text-xs text-[#9A93AC] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#64748b] py-3">
+        <div className="flex items-center gap-2 text-sm text-[#9A93AC] py-3">
           <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Loading historical facts…
         </div>
       )}
 
       {!loading && (!data || data.items.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No historical data available.</p>
+        <p className="text-sm text-[#8A8398] py-2">No historical data available.</p>
       )}
 
       {data && data.items.length > 0 && (
@@ -2758,16 +2758,16 @@ function TodayInHistory() {
                 {/* Timeline spine */}
                 <div className="flex flex-col items-center">
                   <div className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ${cat.dot}`} />
-                  {i < data.items.length - 1 && <div className="w-px flex-1 bg-gray-200 my-1" />}
+                  {i < data.items.length - 1 && <div className="w-px flex-1 bg-[#14101E] my-1" />}
                 </div>
                 {/* Content */}
                 <div className="pb-5 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="text-lg font-extrabold text-[#191c1e] leading-none">{item.year}</span>
+                    <span className="text-lg font-extrabold text-[#F4F0FA] leading-none">{item.year}</span>
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${cat.cls}`}>{cat.label}</span>
                   </div>
-                  <p className="text-sm font-semibold text-[#191c1e] leading-snug">{item.headline}</p>
-                  <p className="text-xs text-[#64748b] mt-1 leading-relaxed">{item.detail}</p>
+                  <p className="text-sm font-semibold text-[#F4F0FA] leading-snug">{item.headline}</p>
+                  <p className="text-xs text-[#9A93AC] mt-1 leading-relaxed">{item.detail}</p>
                 </div>
               </div>
             );
@@ -2777,18 +2777,18 @@ function TodayInHistory() {
 
       {/* Born Today */}
       {data?.bornToday && (
-        <div className="flex items-start gap-4 bg-violet-50 border border-violet-200 rounded-xl px-5 py-4">
+        <div className="flex items-start gap-4 bg-[#1E1633] border border-[#2A2438] rounded-xl px-5 py-4">
           <div className="text-2xl flex-shrink-0 mt-0.5">🎂</div>
           <div className="min-w-0">
             <p className="text-[10px] font-bold text-violet-500 uppercase tracking-wider mb-1">Born Today · {data.bornToday.birthYear}</p>
-            <p className="font-bold text-[#191c1e] text-base leading-tight">{data.bornToday.name}</p>
-            <p className="text-xs text-violet-700 font-medium mt-0.5 mb-1">{data.bornToday.role}</p>
-            <p className="text-xs text-[#64748b] leading-relaxed">{data.bornToday.significance}</p>
+            <p className="font-bold text-[#F4F0FA] text-base leading-tight">{data.bornToday.name}</p>
+            <p className="text-xs text-[#C4B5FD] font-medium mt-0.5 mb-1">{data.bornToday.role}</p>
+            <p className="text-xs text-[#9A93AC] leading-relaxed">{data.bornToday.significance}</p>
           </div>
         </div>
       )}
 
-      <p className="text-xs text-gray-400">AI-generated historical context. Refreshes daily.</p>
+      <p className="text-xs text-[#8A8398]">AI-generated historical context. Refreshes daily.</p>
     </div>
   );
 }
@@ -2815,9 +2815,9 @@ interface DealsAnalysis {
 }
 
 const DEAL_TYPE_STYLE: Record<string, { label: string; cls: string }> = {
-  ma:   { label: "M&A",  cls: "bg-violet-50 text-violet-700 border-violet-200" },
-  ipo:  { label: "IPO",  cls: "bg-sky-50 text-sky-700 border-sky-200" },
-  debt: { label: "Debt", cls: "bg-amber-50 text-amber-700 border-amber-200" },
+  ma:   { label: "M&A",  cls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]" },
+  ipo:  { label: "IPO",  cls: "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]" },
+  debt: { label: "Debt", cls: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]" },
 };
 
 function DealsWatch() {
@@ -2842,21 +2842,21 @@ function DealsWatch() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Deal Flow</h2>
-          <p className="text-xs text-[#64748b] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
+          <h2 className="text-base font-bold text-[#A78BFA]">Deal Flow</h2>
+          <p className="text-xs text-[#9A93AC] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
         </div>
-        {updatedTime && <span className="text-xs text-gray-400">Updated {updatedTime}</span>}
+        {updatedTime && <span className="text-xs text-[#8A8398]">Updated {updatedTime}</span>}
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#9A93AC] py-4">
           <div className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Analyzing deal flow…
         </div>
       )}
 
       {!loading && (!data || data.deals.length === 0) && (
-        <p className="text-sm text-gray-400 py-4">No recent deal headlines found.</p>
+        <p className="text-sm text-[#8A8398] py-4">No recent deal headlines found.</p>
       )}
 
       {data && data.deals.length > 0 && (
@@ -2864,41 +2864,41 @@ function DealsWatch() {
           {data.deals.map(deal => {
             const style = DEAL_TYPE_STYLE[deal.dealType] ?? DEAL_TYPE_STYLE.ma;
             return (
-              <div key={deal.id} className="bg-white border border-gray-200 rounded-xl px-5 py-4 space-y-3 hover:border-gray-300 transition-colors">
+              <div key={deal.id} className="bg-[#14101E] border border-[#2A2438] rounded-xl px-5 py-4 space-y-3 hover:border-[#2A2438] transition-colors">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-semibold text-[#396477] text-base leading-tight truncate">{deal.company}</p>
+                    <p className="font-semibold text-[#A78BFA] text-base leading-tight truncate">{deal.company}</p>
                     {deal.counterparty && (
-                      <p className="text-xs text-[#64748b] mt-0.5">← {deal.counterparty}</p>
+                      <p className="text-xs text-[#9A93AC] mt-0.5">← {deal.counterparty}</p>
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-1 flex-shrink-0">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${style.cls}`}>{style.label}</span>
-                    {deal.dealSize && <span className="text-xs font-semibold text-[#396477]">{deal.dealSize}</span>}
+                    {deal.dealSize && <span className="text-xs font-semibold text-[#A78BFA]">{deal.dealSize}</span>}
                   </div>
                 </div>
 
                 {deal.sector && (
-                  <span className="inline-block text-[10px] font-semibold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{deal.sector}</span>
+                  <span className="inline-block text-[10px] font-semibold text-[#8A8398] bg-[#14101E] px-2 py-0.5 rounded-full">{deal.sector}</span>
                 )}
 
-                <p className="text-sm text-[#64748b] leading-relaxed">{deal.summary}</p>
+                <p className="text-sm text-[#9A93AC] leading-relaxed">{deal.summary}</p>
 
                 <div className="bg-[#f0f7f4] border border-[#c8e6da] rounded-lg px-3 py-2.5">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-[10px] font-bold text-[#396477] uppercase tracking-wider">
+                    <p className="text-[10px] font-bold text-[#A78BFA] uppercase tracking-wider">
                       {deal.valuationSource === "reported" ? "Valuation" : "What to Watch"}
                     </p>
                     {deal.valuationSource === "watch" && (
-                      <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-amber-100 text-amber-700 border border-amber-200 rounded-full">Terms pending</span>
+                      <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-[#2A2113] text-[#F5B544] border border-[#2A2438] rounded-full">Terms pending</span>
                     )}
                   </div>
-                  <p className="text-sm text-[#396477] leading-snug">{deal.valuationNote}</p>
+                  <p className="text-sm text-[#A78BFA] leading-snug">{deal.valuationNote}</p>
                 </div>
 
                 <div className="flex items-start gap-2 pt-0.5">
                   <span className="w-1 h-1 rounded-full bg-violet-400 mt-2 flex-shrink-0" />
-                  <p className="text-xs text-[#64748b] italic leading-relaxed">{deal.keyTakeaway}</p>
+                  <p className="text-xs text-[#9A93AC] italic leading-relaxed">{deal.keyTakeaway}</p>
                 </div>
               </div>
             );
@@ -2906,7 +2906,7 @@ function DealsWatch() {
         </div>
       )}
 
-      <p className="text-xs text-gray-400">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
+      <p className="text-xs text-[#8A8398]">AI-generated from live news. Not investment advice. Refreshes every 6 hours.</p>
     </div>
   );
 }
@@ -2932,9 +2932,9 @@ interface EarningsCalendar {
 }
 
 const EARNINGS_TIME_STYLE: Record<string, string> = {
-  "pre-market":  "bg-sky-50 text-sky-700 border-sky-200",
-  "post-market": "bg-violet-50 text-violet-700 border-violet-200",
-  "unknown":     "bg-gray-50 text-gray-500 border-gray-200",
+  "pre-market":  "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]",
+  "post-market": "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
+  "unknown":     "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",
 };
 
 function EarningsWatch() {
@@ -2962,20 +2962,20 @@ function EarningsWatch() {
     <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Earnings This Week</h2>
-          <p className="text-xs text-[#64748b] mt-0.5">Upcoming earnings releases · EPS estimates</p>
+          <h2 className="text-base font-bold text-[#A78BFA]">Earnings This Week</h2>
+          <p className="text-xs text-[#9A93AC] mt-0.5">Upcoming earnings releases · EPS estimates</p>
         </div>
       </div>
 
       {loading && (
-        <div className="flex items-center gap-2 text-sm text-[#64748b] py-4">
+        <div className="flex items-center gap-2 text-sm text-[#9A93AC] py-4">
           <div className="w-4 h-4 border-2 border-sky-400 border-t-transparent rounded-full animate-spin flex-shrink-0" />
           Loading earnings calendar…
         </div>
       )}
 
       {!loading && (!data || data.entries.length === 0) && (
-        <p className="text-sm text-gray-400 py-2">No upcoming earnings found.</p>
+        <p className="text-sm text-[#8A8398] py-2">No upcoming earnings found.</p>
       )}
 
       {data && data.entries.length > 0 && (() => {
@@ -2988,22 +2988,22 @@ function EarningsWatch() {
           <div className="space-y-6">
             {Object.entries(byDate).sort(([a], [b]) => a.localeCompare(b)).map(([dateISO, entries]) => (
               <div key={dateISO}>
-                <h3 className="text-xs font-semibold text-[#396477] uppercase tracking-wider mb-3">{relativeDay(dateISO)}</h3>
+                <h3 className="text-xs font-semibold text-[#A78BFA] uppercase tracking-wider mb-3">{relativeDay(dateISO)}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {entries.map(e => {
                     const forecastNum = parseFloat(e.epsForecast ?? "");
                     const lastNum = parseFloat(e.lastYearEPS ?? "");
                     const epsChange = !isNaN(forecastNum) && !isNaN(lastNum) ? forecastNum - lastNum : null;
                     return (
-                      <div key={e.symbol} className="border border-gray-200 bg-gray-50 rounded-lg px-4 py-3 space-y-2">
+                      <div key={e.symbol} className="border border-[#2A2438] bg-[#14101E] rounded-lg px-4 py-3 space-y-2">
                         {/* Header row */}
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="font-bold text-[#191c1e] text-base leading-none">{e.symbol}</p>
-                            <p className="text-xs text-[#64748b] mt-1 truncate leading-tight">{e.name}</p>
+                            <p className="font-bold text-[#F4F0FA] text-base leading-none">{e.symbol}</p>
+                            <p className="text-xs text-[#9A93AC] mt-1 truncate leading-tight">{e.name}</p>
                             {e.marketCap && (
-                              <p className="text-[11px] text-[#64748b] mt-0.5">
-                                <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#396477]">{e.marketCap}</span>
+                              <p className="text-[11px] text-[#9A93AC] mt-0.5">
+                                <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#A78BFA]">{e.marketCap}</span>
                               </p>
                             )}
                           </div>
@@ -3013,14 +3013,14 @@ function EarningsWatch() {
                         </div>
                         {/* Blurb */}
                         {e.blurb && (
-                          <p className="text-[11px] text-[#64748b] italic leading-tight">{e.blurb}</p>
+                          <p className="text-[11px] text-[#9A93AC] italic leading-tight">{e.blurb}</p>
                         )}
                         {/* EPS */}
                         {e.epsForecast && (
-                          <div className="flex items-center gap-2 text-xs text-[#64748b] border-t border-gray-200 pt-2">
-                            <span>EPS est: <span className="font-semibold text-[#191c1e]">${e.epsForecast}</span></span>
+                          <div className="flex items-center gap-2 text-xs text-[#9A93AC] border-t border-[#2A2438] pt-2">
+                            <span>EPS est: <span className="font-semibold text-[#F4F0FA]">${e.epsForecast}</span></span>
                             {epsChange !== null && (
-                              <span className={epsChange >= 0 ? "text-emerald-600 font-semibold" : "text-red-500 font-semibold"}>
+                              <span className={epsChange >= 0 ? "text-[#5EE6B5] font-semibold" : "text-red-500 font-semibold"}>
                                 {epsChange >= 0 ? "▲" : "▼"} vs last yr
                               </span>
                             )}
@@ -3036,7 +3036,7 @@ function EarningsWatch() {
         );
       })()}
 
-      <p className="text-xs text-gray-400">Source: Nasdaq earnings calendar. Refreshes every 6 hours.</p>
+      <p className="text-xs text-[#8A8398]">Source: Nasdaq earnings calendar. Refreshes every 6 hours.</p>
     </div>
   );
 }
@@ -3062,10 +3062,10 @@ interface DistressedSituation {
 }
 
 const SITUATION_STYLE: Record<string, { label: string; cls: string }> = {
-  chapter11:           { label: "Chapter 11", cls: "bg-red-50 text-red-600 border-red-200" },
-  distressed_exchange: { label: "Distressed Exchange", cls: "bg-orange-50 text-orange-600 border-orange-200" },
-  restructuring:       { label: "Restructuring", cls: "bg-amber-50 text-amber-700 border-amber-200" },
-  bankruptcy:          { label: "Bankruptcy", cls: "bg-red-50 text-red-600 border-red-200" },
+  chapter11:           { label: "Chapter 11", cls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]" },
+  distressed_exchange: { label: "Distressed Exchange", cls: "bg-[#2A1A13] text-[#FDBA74] border-[#2A2438]" },
+  restructuring:       { label: "Restructuring", cls: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]" },
+  bankruptcy:          { label: "Bankruptcy", cls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]" },
 };
 
 function DistressedWatch() {
@@ -3081,13 +3081,13 @@ function DistressedWatch() {
   }, []);
 
   return (
-    <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
-      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-gray-100">
+    <div className="border border-[#2A2438] bg-[#14101E] rounded-xl overflow-hidden">
+      <div className="px-5 pt-4 pb-3 flex items-center gap-2 border-b border-[#2A2438]">
         <span className="text-base">⚠️</span>
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Distressed Watch</span>
-        <span className="ml-1 text-[10px] text-gray-400">Chapter 11 · Restructuring · Special Situations</span>
+        <span className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Distressed Watch</span>
+        <span className="ml-1 text-[10px] text-[#8A8398]">Chapter 11 · Restructuring · Special Situations</span>
         {!loading && situations.length > 0 && (
-          <span className="ml-auto text-[10px] font-bold bg-red-50 text-red-500 border border-red-100 px-1.5 py-0.5 rounded-full">{situations.length} active</span>
+          <span className="ml-auto text-[10px] font-bold bg-[#2E1620] text-red-500 border border-[#2A2438] px-1.5 py-0.5 rounded-full">{situations.length} active</span>
         )}
       </div>
 
@@ -3096,19 +3096,19 @@ function DistressedWatch() {
           {[...Array(3)].map((_, i) => (
             <div key={i} className="px-5 py-4 space-y-2 animate-pulse">
               <div className="flex items-center gap-2">
-                <div className="h-4 w-36 bg-gray-100 rounded" />
-                <div className="h-4 w-20 bg-gray-100 rounded-full" />
-                <div className="h-4 w-12 bg-gray-50 rounded ml-auto" />
+                <div className="h-4 w-36 bg-[#14101E] rounded" />
+                <div className="h-4 w-20 bg-[#14101E] rounded-full" />
+                <div className="h-4 w-12 bg-[#14101E] rounded ml-auto" />
               </div>
-              <div className="h-3 w-full bg-gray-50 rounded" />
-              <div className="h-3 w-4/5 bg-gray-50 rounded" />
+              <div className="h-3 w-full bg-[#14101E] rounded" />
+              <div className="h-3 w-4/5 bg-[#14101E] rounded" />
             </div>
           ))}
         </div>
       )}
 
       {!loading && situations.length === 0 && (
-        <div className="px-5 py-8 text-center text-xs text-gray-400">No new filings in the last 60 days.</div>
+        <div className="px-5 py-8 text-center text-xs text-[#8A8398]">No new filings in the last 60 days.</div>
       )}
 
       {!loading && situations.length > 0 && (
@@ -3119,28 +3119,28 @@ function DistressedWatch() {
               ? { dot: "🔴", label: "Acute", cls: "text-red-500" }
               : s.daysAgo <= 14
               ? { dot: "🟡", label: "Developing", cls: "text-amber-500" }
-              : { dot: "⚪", label: "Monitoring", cls: "text-gray-400" };
+              : { dot: "⚪", label: "Monitoring", cls: "text-[#8A8398]" };
             return (
               <div key={s.id} className="px-5 py-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span title={severity.label} className="text-[11px]">{severity.dot}</span>
-                  <span className="font-semibold text-base text-[#396477]">{s.company}</span>
+                  <span className="font-semibold text-base text-[#A78BFA]">{s.company}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
                   {s.bondPrice != null && (
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${s.bondPrice < 70 ? "bg-red-50 text-red-600 border-red-200" : s.bondPrice < 90 ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"}`}>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${s.bondPrice < 70 ? "bg-[#2E1620] text-[#FB7185] border-[#2A2438]" : s.bondPrice < 90 ? "bg-[#2A2113] text-[#F5B544] border-[#2A2438]" : "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]"}`}>
                       {s.bondPrice.toFixed(1)}¢{s.bondYield != null ? ` / ${s.bondYield.toFixed(1)}% YTM` : ""}
                     </span>
                   )}
-                  <span className="text-[11px] text-gray-400 ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
+                  <span className="text-[11px] text-[#8A8398] ml-auto">{s.daysAgo === 0 ? "Today" : `${s.daysAgo}d ago`}</span>
                 </div>
                 {s.headline && (
-                  <p className="text-sm text-[#64748b] leading-relaxed">{s.headline}</p>
+                  <p className="text-sm text-[#9A93AC] leading-relaxed">{s.headline}</p>
                 )}
-                <p className="text-sm text-[#64748b] leading-relaxed">{s.whyItMatters}</p>
+                <p className="text-sm text-[#9A93AC] leading-relaxed">{s.whyItMatters}</p>
                 <div className="flex items-center justify-end pt-0.5">
                   {s.edgarUrl && (
                     <a href={s.edgarUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-[10px] text-[#396477] hover:underline">
+                      className="text-[10px] text-[#A78BFA] hover:underline">
                       SEC filing →
                     </a>
                   )}
@@ -3150,8 +3150,8 @@ function DistressedWatch() {
           })}
         </div>
       )}
-      <div className="px-5 py-2.5 border-t border-gray-50 bg-gray-50/50">
-        <p className="text-[10px] text-gray-400">Sourced from SEC EDGAR 8-K filings. Not investment advice.</p>
+      <div className="px-5 py-2.5 border-t border-gray-50 bg-[#14101E]/50">
+        <p className="text-[10px] text-[#8A8398]">Sourced from SEC EDGAR 8-K filings. Not investment advice.</p>
       </div>
     </div>
   );
@@ -5434,11 +5434,11 @@ function classifyClient(role: string, firm: string) {
 type WatchStatus = "Likely Active" | "Near-Term Watch" | "Building" | "Early Signal" | "On the Radar";
 
 const WATCH_STATUS_STYLE: Record<WatchStatus, { badge: string; dot?: boolean }> = {
-  "Likely Active":   { badge: "bg-[#c3ecd7] text-[#416656] border-[#a8cfbc]/70", dot: true },
-  "Near-Term Watch": { badge: "bg-amber-50 text-amber-700 border-amber-200", dot: true },
-  "Building":        { badge: "bg-sky-50 text-[#396477] border-sky-200" },
-  "Early Signal":    { badge: "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/60" },
-  "On the Radar":    { badge: "bg-gray-50 text-gray-500 border-gray-200" },
+  "Likely Active":   { badge: "bg-[#14352A] text-[#5EE6B5] border-[#a8cfbc]/70", dot: true },
+  "Near-Term Watch": { badge: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]", dot: true },
+  "Building":        { badge: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]" },
+  "Early Signal":    { badge: "bg-[#1A1428]/70 text-[#9A93AC] border-[#c7c4d8]/60" },
+  "On the Radar":    { badge: "bg-[#14101E] text-[#9A93AC] border-[#2A2438]" },
 };
 
 function getWatchStatus(foCount: number, filing?: FundFiling): WatchStatus {
@@ -5477,10 +5477,10 @@ function generateSignalNote(profile: FirmIntelProfile, filing?: FundFiling): str
 }
 
 function hiringTimeline(days: number): { label: string; cls: string } | null {
-  if (days <= 30)  return { label: "⏰ Outreach now — hiring likely 30–60d out", cls: "bg-red-50 text-red-700 border-red-200" };
-  if (days <= 60)  return { label: "🟢 Hiring window open", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" };
-  if (days <= 90)  return { label: "📋 Active build-out phase", cls: "bg-violet-50 text-violet-700 border-violet-200" };
-  if (days <= 180) return { label: "🔵 Post-close hiring", cls: "bg-sky-50 text-[#396477] border-sky-200" };
+  if (days <= 30)  return { label: "⏰ Outreach now — hiring likely 30–60d out", cls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]" };
+  if (days <= 60)  return { label: "🟢 Hiring window open", cls: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]" };
+  if (days <= 90)  return { label: "📋 Active build-out phase", cls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]" };
+  if (days <= 180) return { label: "🔵 Post-close hiring", cls: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]" };
   return null;
 }
 
@@ -5601,10 +5601,10 @@ const STRATEGY_LABELS: Record<string, string> = {
 
 function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
   const cls = tier === 1
-    ? "bg-[#396477]/10 text-[#396477] border-[#396477]/20"
+    ? "bg-[#171226]/10 text-[#A78BFA] border-[#396477]/20"
     : tier === 2
-    ? "bg-[#e1ddf2]/70 text-[#5e5c6e] border-[#c7c4d8]/50"
-    : "bg-gray-50 text-gray-500 border-gray-200";
+    ? "bg-[#1A1428]/70 text-[#9A93AC] border-[#c7c4d8]/50"
+    : "bg-[#14101E] text-[#9A93AC] border-[#2A2438]";
   return (
     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
       T{tier}
@@ -5614,32 +5614,32 @@ function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
 
 function StrategyTag({ s }: { s: string }) {
   return (
-    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#f2f4f6] text-[#41484c] border border-[#e0e3e5]">
+    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#0A0710] text-[#B8B0C8] border border-[#e0e3e5]">
       {STRATEGY_LABELS[s] ?? s}
     </span>
   );
 }
 
 const FIRM_TYPE_COLORS: Record<string, string> = {
-  "Hedge Fund":        "bg-sky-50 text-sky-700 border-sky-200",
-  "Investment Bank":   "bg-indigo-50 text-indigo-700 border-indigo-200",
-  "Private Credit":    "bg-emerald-50 text-emerald-700 border-emerald-200",
-  "Direct Lending":    "bg-teal-50 text-teal-700 border-teal-200",
-  "Private Equity":    "bg-violet-50 text-violet-700 border-violet-200",
-  "Asset Manager":     "bg-amber-50 text-amber-700 border-amber-200",
-  "Multi-Strategy":    "bg-orange-50 text-orange-700 border-orange-200",
-  "CLO":               "bg-cyan-50 text-cyan-700 border-cyan-200",
+  "Hedge Fund":        "bg-[#0F2033] text-[#7DD3FC] border-[#2A2438]",
+  "Investment Bank":   "bg-[#161533] text-[#C4B5FD] border-[#2A2438]",
+  "Private Credit":    "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]",
+  "Direct Lending":    "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438]",
+  "Private Equity":    "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
+  "Asset Manager":     "bg-[#2A2113] text-[#F5B544] border-[#2A2438]",
+  "Multi-Strategy":    "bg-[#2A1A13] text-[#FDBA74] border-[#2A2438]",
+  "CLO":               "bg-[#0F2A2E] text-[#67E8F9] border-[#2A2438]",
   "BDC":               "bg-lime-50 text-lime-700 border-lime-200",
-  "Distressed":        "bg-red-50 text-red-700 border-red-200",
-  "Ratings":           "bg-slate-50 text-slate-600 border-slate-200",
-  "Insurance AM":      "bg-purple-50 text-purple-700 border-purple-200",
-  "Pension":           "bg-blue-50 text-blue-700 border-blue-200",
-  "Wealth Management": "bg-rose-50 text-rose-700 border-rose-200",
+  "Distressed":        "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
+  "Ratings":           "bg-[#14101E] text-[#9A93AC] border-[#2A2438]",
+  "Insurance AM":      "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]",
+  "Pension":           "bg-[#0F1A33] text-[#93C5FD] border-[#2A2438]",
+  "Wealth Management": "bg-[#2E1620] text-[#FB7185] border-[#2A2438]",
 };
 
 function FirmTypeBadge({ category }: { category?: string }) {
   if (!category) return null;
-  const cls = FIRM_TYPE_COLORS[category] ?? "bg-gray-50 text-gray-600 border-gray-200";
+  const cls = FIRM_TYPE_COLORS[category] ?? "bg-[#14101E] text-[#9A93AC] border-[#2A2438]";
   return (
     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
       {category}
@@ -5650,10 +5650,10 @@ function FirmTypeBadge({ category }: { category?: string }) {
 function SeniorityBadge({ seniority, frontOffice }: { seniority: string; frontOffice: boolean }) {
   const isSenior = ["md", "partner", "director"].includes(seniority);
   const cls = !frontOffice
-    ? "bg-gray-50 text-gray-400 border-gray-200"
+    ? "bg-[#14101E] text-[#8A8398] border-[#2A2438]"
     : isSenior
-    ? "bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50"
-    : "bg-sky-50 text-[#396477] border-sky-100";
+    ? "bg-[#14352A]/60 text-[#5EE6B5] border-[#a8cfbc]/50"
+    : "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]";
   return (
     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
       {SENIORITY_LABELS[seniority] ?? seniority}
@@ -5667,13 +5667,13 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
     .slice(0, 4);
 
   return (
-    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-4 sm:p-5">
+    <div className="card-lift bg-[#14101E] border border-[#2A2438]/40 rounded-xl p-4 sm:p-5">
       {/* Firm header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <TierBadge tier={profile.tier} />
-            <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+            <span className="font-bold text-[#F4F0FA] text-sm">{profile.name}</span>
             <FirmTypeBadge category={profile.category} />
           </div>
           <div className="flex flex-wrap gap-1">
@@ -5681,12 +5681,12 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
           </div>
         </div>
         <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <span className="text-xs font-bold text-[#396477]">{profile.frontOfficeCount} open</span>
+          <span className="text-xs font-bold text-[#A78BFA]">{profile.frontOfficeCount} open</span>
           {profile.edgarRaise && (
             <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
               profile.edgarRaise.status === "open"
-                ? "bg-[#c3ecd7] text-[#416656]"
-                : "bg-sky-100 text-[#396477]"
+                ? "bg-[#14352A] text-[#5EE6B5]"
+                : "bg-[#0F2033] text-[#A78BFA]"
             }`}>
               {profile.edgarRaise.status === "open" ? "Raising" : "Closed raise"}
               {profile.edgarRaise.amountStr ? ` · ${profile.edgarRaise.amountStr}` : ""}
@@ -5697,7 +5697,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
 
       {/* Description */}
       {profile.desc && (
-        <p className="text-[12px] text-[#41484c] leading-relaxed mb-3">
+        <p className="text-[12px] text-[#B8B0C8] leading-relaxed mb-3">
           {profile.desc}
         </p>
       )}
@@ -5706,7 +5706,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
       {profile.signals.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-3">
           {profile.signals.map((sig, i) => (
-            <span key={i} className="text-[11px] text-[#41484c] bg-[#f7f9fb] border border-[#e0e3e5] px-2 py-0.5 rounded-full">
+            <span key={i} className="text-[11px] text-[#B8B0C8] bg-[#14101E] border border-[#e0e3e5] px-2 py-0.5 rounded-full">
               {sig}
             </span>
           ))}
@@ -5726,22 +5726,22 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
             >
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#41484c] group-hover:text-[#396477] truncate transition-colors">
+                <span className="text-xs text-[#B8B0C8] group-hover:text-[#A78BFA] truncate transition-colors">
                   {r.role}
                 </span>
               </div>
-              <span className="text-[10px] text-[#71787c] flex-shrink-0">{r.daysAgo}d</span>
+              <span className="text-[10px] text-[#9A93AC] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
           {profile.frontOfficeCount > 4 && (
-            <p className="text-[11px] text-[#71787c] pt-1">+{profile.frontOfficeCount - 4} more roles</p>
+            <p className="text-[11px] text-[#9A93AC] pt-1">+{profile.frontOfficeCount - 4} more roles</p>
           )}
         </div>
       )}
 
       {/* LLM signal */}
       {topRoles[0]?.classification.signal && (
-        <p className="text-[11px] text-[#71787c] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
+        <p className="text-[11px] text-[#9A93AC] italic mt-3 leading-relaxed border-t border-[#f0f2f4] pt-3">
           {topRoles[0].classification.signal}
         </p>
       )}
@@ -5871,11 +5871,11 @@ const STATIC_CASES: StaticCase[] = [
 ];
 
 const CASE_TYPE_STYLE: Record<string, { label: string; cls: string }> = {
-  distressed:    { label: "Distressed", cls: "bg-red-50 text-red-600 border-red-200" },
-  lbo:           { label: "LBO", cls: "bg-violet-50 text-violet-600 border-violet-200" },
-  credit:        { label: "Credit", cls: "bg-sky-50 text-[#396477] border-sky-200" },
-  restructuring: { label: "Restructuring", cls: "bg-amber-50 text-amber-700 border-amber-200" },
-  ma:            { label: "M&A", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  distressed:    { label: "Distressed", cls: "bg-[#2E1620] text-[#FB7185] border-[#2A2438]" },
+  lbo:           { label: "LBO", cls: "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438]" },
+  credit:        { label: "Credit", cls: "bg-[#0F2033] text-[#A78BFA] border-[#2A2438]" },
+  restructuring: { label: "Restructuring", cls: "bg-[#2A2113] text-[#F5B544] border-[#2A2438]" },
+  ma:            { label: "M&A", cls: "bg-[#14352A] text-[#5EE6B5] border-[#2A2438]" },
 };
 
 interface AiCase {
@@ -5919,47 +5919,47 @@ function CaseLibrarySection() {
     return (
       <div className="space-y-5">
         <button onClick={() => { setSelected(null); setAiCase(null); }}
-          className="flex items-center gap-1.5 text-xs text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
+          className="flex items-center gap-1.5 text-xs text-[#A78BFA] hover:text-[#2d5162] font-medium transition-colors">
           ← Back to cases
         </button>
-        <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
-          <div className="px-6 py-5 border-b border-gray-100">
+        <div className="border border-[#2A2438] bg-[#14101E] rounded-xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-[#2A2438]">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
-              <span className="text-[11px] text-gray-400">{displayCase.year} · {displayCase.size}</span>
+              <span className="text-[11px] text-[#8A8398]">{displayCase.year} · {displayCase.size}</span>
             </div>
-            <h2 className="text-[#191c1e] text-lg font-bold">{displayCase.deal}</h2>
-            <p className="text-xs text-[#41484c] mt-2 leading-relaxed">{displayCase.snapshot}</p>
+            <h2 className="text-[#F4F0FA] text-lg font-bold">{displayCase.deal}</h2>
+            <p className="text-xs text-[#B8B0C8] mt-2 leading-relaxed">{displayCase.snapshot}</p>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {displayCase.keyPlayers.map(f => (
-                <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#396477] border border-sky-100 rounded font-medium">{f}</span>
+                <span key={f} className="text-[10px] px-1.5 py-0.5 bg-[#0F2033] text-[#A78BFA] border border-[#2A2438] rounded font-medium">{f}</span>
               ))}
             </div>
           </div>
-          <div className="px-6 py-4 border-b border-gray-100 space-y-2">
-            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Mechanics</p>
+          <div className="px-6 py-4 border-b border-[#2A2438] space-y-2">
+            <p className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-wider">Key Mechanics</p>
             <ul className="space-y-1.5">
               {displayCase.mechanics.map((m, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
-                  <span className="mt-1.5 w-1 h-1 rounded-full bg-[#396477] flex-shrink-0" />
+                <li key={i} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-[#171226] flex-shrink-0" />
                   {m}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="px-6 py-4 border-b border-gray-100 bg-rose-50/30 space-y-3">
-            <p className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider">Interview Question</p>
-            <p className="text-sm font-medium text-[#191c1e] italic">&ldquo;{displayCase.interviewQ}&rdquo;</p>
-            <div className="bg-white border border-rose-100 rounded-lg px-4 py-3">
-              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Model Answer</p>
-              <p className="text-xs text-[#41484c] leading-relaxed">{displayCase.modelAnswer}</p>
+          <div className="px-6 py-4 border-b border-[#2A2438] bg-[#2E1620]/30 space-y-3">
+            <p className="text-[11px] font-semibold text-[#FB7185] uppercase tracking-wider">Interview Question</p>
+            <p className="text-sm font-medium text-[#F4F0FA] italic">&ldquo;{displayCase.interviewQ}&rdquo;</p>
+            <div className="bg-[#14101E] border border-[#2A2438] rounded-lg px-4 py-3">
+              <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider mb-1.5">Model Answer</p>
+              <p className="text-xs text-[#B8B0C8] leading-relaxed">{displayCase.modelAnswer}</p>
             </div>
           </div>
           <div className="px-6 py-4 space-y-2">
-            <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Key Lessons</p>
+            <p className="text-[11px] font-semibold text-[#9A93AC] uppercase tracking-wider">Key Lessons</p>
             <ul className="space-y-1.5">
               {displayCase.lessons.map((l, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#41484c]">
+                <li key={i} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
                   <span className="text-emerald-500 font-bold flex-shrink-0">{i + 1}.</span>
                   {l}
                 </li>
@@ -5978,7 +5978,7 @@ function CaseLibrarySection() {
         {filters.map(f => (
           <button key={f} onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all capitalize ${
-              filter === f ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              filter === f ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400"
             }`}>
             {f === "all" ? "All Cases" : CASE_TYPE_STYLE[f]?.label ?? f}
           </button>
@@ -5991,50 +5991,50 @@ function CaseLibrarySection() {
           const style = CASE_TYPE_STYLE[c.type] ?? CASE_TYPE_STYLE.distressed;
           return (
             <button key={c.deal} onClick={() => setSelected(c)}
-              className="text-left border border-gray-200 bg-white rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
+              className="text-left border border-[#2A2438] bg-[#14101E] rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
-                <span className="text-[11px] text-gray-400">{c.year}</span>
+                <span className="text-[11px] text-[#8A8398]">{c.year}</span>
               </div>
-              <p className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{c.company}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{c.size}</p>
-              <p className="text-xs text-[#71787c] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
+              <p className="font-semibold text-sm text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors">{c.company}</p>
+              <p className="text-xs text-[#9A93AC] mt-0.5">{c.size}</p>
+              <p className="text-xs text-[#9A93AC] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
             </button>
           );
         })}
       </div>
 
       {/* AI on-demand */}
-      <div className="border border-dashed border-gray-300 rounded-xl px-5 py-5 space-y-3 bg-gray-50/50">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Analyze Any Deal with AI</p>
-        <p className="text-xs text-gray-400">Enter any deal name — e.g. "Sears bankruptcy", "Dell go-private", "Envision Healthcare restructuring"</p>
+      <div className="border border-dashed border-[#2A2438] rounded-xl px-5 py-5 space-y-3 bg-[#14101E]/50">
+        <p className="text-xs font-semibold text-[#9A93AC] uppercase tracking-wider">Analyze Any Deal with AI</p>
+        <p className="text-xs text-[#8A8398]">Enter any deal name — e.g. "Sears bankruptcy", "Dell go-private", "Envision Healthcare restructuring"</p>
         <div className="flex gap-2">
           <input
             value={aiInput}
             onChange={e => setAiInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && fetchAiCase()}
             placeholder="e.g. Sears Chapter 11, Dell LBO, Envision Healthcare..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-[#396477] bg-white"
+            className="flex-1 px-3 py-2 text-sm border border-[#2A2438] rounded-lg focus:outline-none focus:border-[#396477] bg-[#14101E]"
           />
           <button onClick={fetchAiCase} disabled={aiLoading || !aiInput.trim()}
-            className="px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] disabled:opacity-40 transition-colors flex-shrink-0">
+            className="px-4 py-2 bg-[#171226] text-white text-xs font-semibold rounded-lg hover:bg-[#6D28D9] disabled:opacity-40 transition-colors flex-shrink-0">
             {aiLoading ? "Generating…" : "Analyze →"}
           </button>
         </div>
         {aiError && <p className="text-xs text-red-500">{aiError}</p>}
         {aiLoading && (
-          <div className="flex items-center gap-2 text-xs text-gray-400">
-            <div className="w-3 h-3 border border-gray-300 border-t-[#396477] rounded-full animate-spin" />
+          <div className="flex items-center gap-2 text-xs text-[#8A8398]">
+            <div className="w-3 h-3 border border-[#2A2438] border-t-[#396477] rounded-full animate-spin" />
             Building case study…
           </div>
         )}
       </div>
 
       {/* Coaching CTA */}
-      <div className="bg-violet-50 border border-violet-200 rounded-xl px-5 py-4 flex items-center justify-between gap-4">
+      <div className="bg-[#1E1633] border border-[#2A2438] rounded-xl px-5 py-4 flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-bold text-violet-800">Want expert guidance on this?</p>
-          <p className="text-xs text-violet-600 mt-0.5">Book a 1-on-1 session with a finance professional.</p>
+          <p className="text-sm font-bold text-[#C4B5FD]">Want expert guidance on this?</p>
+          <p className="text-xs text-[#C4B5FD] mt-0.5">Book a 1-on-1 session with a finance professional.</p>
         </div>
         <Link href="/coaching" className="flex-shrink-0 px-4 py-2 bg-violet-600 text-white text-xs font-semibold rounded-lg hover:bg-violet-700 transition-colors">
           Book a session →
@@ -6053,7 +6053,7 @@ interface ResumeReview {
 }
 
 function ScoreRing({ score }: { score: number }) {
-  const color = score >= 75 ? "text-emerald-600" : score >= 50 ? "text-amber-500" : "text-red-500";
+  const color = score >= 75 ? "text-[#5EE6B5]" : score >= 50 ? "text-amber-500" : "text-red-500";
   const ring = score >= 75 ? "stroke-emerald-400" : score >= 50 ? "stroke-amber-400" : "stroke-red-400";
   const r = 20, circ = 2 * Math.PI * r;
   const dash = (score / 100) * circ;
@@ -6097,26 +6097,26 @@ function ResumeReviewSection() {
     <div className="space-y-6">
       {/* Input */}
       {!result && (
-        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5 space-y-4">
+        <div className="bg-[#161533] border border-[#2A2438] rounded-2xl p-5 space-y-4">
           <div>
-            <h2 className="text-sm font-bold text-indigo-900 mb-1">Finance Resume Review</h2>
+            <h2 className="text-sm font-bold text-[#C4B5FD] mb-1">Finance Resume Review</h2>
             <p className="text-xs text-indigo-400">Paste your resume below. You&apos;ll get specific, blunt feedback on deal experience, bullet quality, formatting, and role positioning — from a buyside lens.</p>
           </div>
           <div>
-            <label className="text-xs font-semibold text-indigo-700 mb-1.5 block">Target role <span className="text-indigo-300 font-normal">(optional)</span></label>
+            <label className="text-xs font-semibold text-[#C4B5FD] mb-1.5 block">Target role <span className="text-indigo-300 font-normal">(optional)</span></label>
             <input
               value={targetRole} onChange={e => setTargetRole(e.target.value)}
               placeholder="e.g. Direct Lending Analyst, PE Associate, Credit HF"
-              className="w-full text-sm border border-indigo-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 placeholder:text-indigo-300"
+              className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#2A2438] placeholder:text-indigo-300"
             />
           </div>
           <div>
-            <label className="text-xs font-semibold text-indigo-700 mb-1.5 block">Resume text</label>
+            <label className="text-xs font-semibold text-[#C4B5FD] mb-1.5 block">Resume text</label>
             <textarea
               value={resume} onChange={e => setResume(e.target.value)}
               rows={12}
               placeholder="Paste your full resume here — work experience, education, skills. Plain text is fine."
-              className="w-full text-sm border border-indigo-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none font-mono text-xs leading-relaxed placeholder:text-indigo-300"
+              className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#2A2438] resize-none font-mono text-xs leading-relaxed placeholder:text-indigo-300"
             />
             <p className="text-[10px] text-indigo-400 mt-1">{resume.length > 0 ? `${resume.length} characters` : "Minimum ~500 characters"}</p>
           </div>
@@ -6138,26 +6138,26 @@ function ResumeReviewSection() {
       {result && (
         <div className="space-y-4">
           {/* Header */}
-          <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-5">
+          <div className="bg-[#161533] border border-[#2A2438] rounded-2xl p-5">
             <div className="flex items-center gap-4">
               <ScoreRing score={result.overallScore} />
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-indigo-400 font-semibold uppercase tracking-wider mb-1">Overall Score</p>
-                <p className="text-sm font-semibold text-indigo-900 leading-snug">{result.headline}</p>
+                <p className="text-sm font-semibold text-[#C4B5FD] leading-snug">{result.headline}</p>
                 {result.targetRole && <p className="text-[11px] text-indigo-400 mt-1">Positioning: {result.targetRole}</p>}
               </div>
             </div>
           </div>
 
           {/* Top 3 Fixes */}
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-            <p className="text-xs font-bold text-amber-700 mb-2.5 flex items-center gap-1.5">
+          <div className="bg-[#2A2113] border border-[#2A2438] rounded-2xl p-4">
+            <p className="text-xs font-bold text-[#F5B544] mb-2.5 flex items-center gap-1.5">
               <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M8 2v6M8 11v2"/><circle cx="8" cy="8" r="6.5"/></svg>
               Top 3 Priority Fixes
             </p>
             <ol className="space-y-1.5">
               {result.topFixes.map((f, i) => (
-                <li key={i} className="text-xs text-amber-800 flex gap-2">
+                <li key={i} className="text-xs text-[#F5B544] flex gap-2">
                   <span className="font-bold flex-shrink-0">{i + 1}.</span>
                   <span>{f}</span>
                 </li>
@@ -6168,19 +6168,19 @@ function ResumeReviewSection() {
           {/* Categories */}
           <div className="grid gap-3 sm:grid-cols-2">
             {result.categories.map((cat) => (
-              <div key={cat.name} className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4">
+              <div key={cat.name} className="bg-[#161533]/50 border border-[#2A2438] rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-bold text-[#191c1e]">{cat.name}</p>
-                  <span className={`text-xs font-extrabold ${cat.score >= 75 ? "text-emerald-600" : cat.score >= 50 ? "text-amber-500" : "text-red-500"}`}>{cat.score}/100</span>
+                  <p className="text-xs font-bold text-[#F4F0FA]">{cat.name}</p>
+                  <span className={`text-xs font-extrabold ${cat.score >= 75 ? "text-[#5EE6B5]" : cat.score >= 50 ? "text-amber-500" : "text-red-500"}`}>{cat.score}/100</span>
                 </div>
-                <div className="h-1 bg-gray-100 rounded-full mb-3 overflow-hidden">
+                <div className="h-1 bg-[#14101E] rounded-full mb-3 overflow-hidden">
                   <div className={`h-full rounded-full transition-all ${cat.score >= 75 ? "bg-emerald-400" : cat.score >= 50 ? "bg-amber-400" : "bg-red-400"}`} style={{ width: `${cat.score}%` }} />
                 </div>
-                <p className="text-[11px] text-[#41484c] leading-relaxed mb-2.5">{cat.feedback}</p>
+                <p className="text-[11px] text-[#B8B0C8] leading-relaxed mb-2.5">{cat.feedback}</p>
                 {cat.fixes.length > 0 && (
                   <ul className="space-y-1">
                     {cat.fixes.map((fix, i) => (
-                      <li key={i} className="text-[11px] text-[#396477] flex gap-1.5">
+                      <li key={i} className="text-[11px] text-[#A78BFA] flex gap-1.5">
                         <span className="flex-shrink-0 mt-0.5">→</span>
                         <span>{fix}</span>
                       </li>
@@ -6193,11 +6193,11 @@ function ResumeReviewSection() {
 
           {/* Strengths */}
           {result.strengths.length > 0 && (
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
-              <p className="text-xs font-bold text-emerald-800 mb-2">What&apos;s working</p>
+            <div className="bg-[#14352A] border border-[#2A2438] rounded-2xl p-4">
+              <p className="text-xs font-bold text-[#5EE6B5] mb-2">What&apos;s working</p>
               <ul className="space-y-1">
                 {result.strengths.map((s, i) => (
-                  <li key={i} className="text-xs text-emerald-900 flex gap-1.5">
+                  <li key={i} className="text-xs text-[#5EE6B5] flex gap-1.5">
                     <span className="flex-shrink-0">✓</span>{s}
                   </li>
                 ))}
@@ -6206,7 +6206,7 @@ function ResumeReviewSection() {
           )}
 
           <button onClick={() => { setResult(null); setResume(""); setTargetRole(""); }}
-            className="text-xs text-[#396477] font-semibold hover:underline">
+            className="text-xs text-[#A78BFA] font-semibold hover:underline">
             ← Review another resume
           </button>
         </div>
@@ -6274,16 +6274,16 @@ function OutreachDraftSection() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-[#1A2B4A]/5 border border-[#1A2B4A]/15 rounded-xl px-5 py-4">
+      <div className="bg-[#7C3AED]/5 border border-[#1A2B4A]/15 rounded-xl px-5 py-4">
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#1A2B4A] flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="w-8 h-8 rounded-lg bg-[#7C3AED] flex items-center justify-center flex-shrink-0 mt-0.5">
             <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M2 3h12a.7.7 0 01.7.7v6a.7.7 0 01-.7.7H5L2 13V3.7A.7.7 0 012 3z" />
             </svg>
           </div>
           <div>
-            <p className="text-sm font-bold text-[#1A2B4A]">Targeted Outreach</p>
-            <p className="text-xs text-[#41484c] mt-0.5 leading-relaxed">Reference firm-specific activity — a capital raise, new mandate, or expansion — and connect your background directly to the context. Anchoring outreach to a signal improves response rates and gives you a credible reason to reach out.</p>
+            <p className="text-sm font-bold text-[#F4F0FA]">Targeted Outreach</p>
+            <p className="text-xs text-[#B8B0C8] mt-0.5 leading-relaxed">Reference firm-specific activity — a capital raise, new mandate, or expansion — and connect your background directly to the context. Anchoring outreach to a signal improves response rates and gives you a credible reason to reach out.</p>
           </div>
         </div>
       </div>
@@ -6291,17 +6291,17 @@ function OutreachDraftSection() {
       {/* Inputs */}
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target firm <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#F4F0FA] mb-1.5">Target firm <span className="text-red-400">*</span></label>
           <input
             value={firm}
             onChange={e => setFirm(e.target.value)}
             placeholder="e.g. Ares Management, Goldman Sachs, any firm"
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
+            className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
           />
           <div className="flex flex-wrap gap-1.5 mt-2">
             {firmSuggestions.slice(0, 8).map(f => (
               <button key={f} onClick={() => setFirm(f)}
-                className="text-[11px] px-2 py-0.5 rounded-full border border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-500 transition-colors">
+                className="text-[11px] px-2 py-0.5 rounded-full border border-[#2A2438] bg-[#14101E] hover:bg-[#14101E] text-[#9A93AC] transition-colors">
                 {f}
               </button>
             ))}
@@ -6309,47 +6309,47 @@ function OutreachDraftSection() {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Your background <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#F4F0FA] mb-1.5">Your background <span className="text-red-400">*</span></label>
           <textarea
             value={background}
             onChange={e => setBackground(e.target.value)}
             rows={3}
             placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance, closed 12 LBO deals $50M–$500M, strong in credit analysis and deal execution. Currently looking to move to direct lending."
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
+            className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
           />
           {savedProfile && background === savedProfile && (
-            <p className="text-[11px] text-emerald-600 mt-1">Pre-filled from your saved profile</p>
+            <p className="text-[11px] text-[#5EE6B5] mt-1">Pre-filled from your saved profile</p>
           )}
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">
-            Recent signal or news <span className="text-gray-400 font-normal">(optional but strongly recommended)</span>
+          <label className="block text-xs font-semibold text-[#F4F0FA] mb-1.5">
+            Recent signal or news <span className="text-[#8A8398] font-normal">(optional but strongly recommended)</span>
           </label>
           <textarea
             value={signal}
             onChange={e => setSignal(e.target.value)}
             rows={3}
             placeholder="Paste a recent press release, funding announcement, expansion news, or any signal about this firm. e.g. 'Ares Management announced a $3.7B first close on its new direct lending fund targeting European mid-market...'"
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
+            className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40 resize-none"
           />
-          <p className="text-[11px] text-gray-400 mt-1">Tip: use Hiring Watch or Market Pulse signals, or paste from the firm's newsroom / press release page</p>
+          <p className="text-[11px] text-[#8A8398] mt-1">Tip: use Hiring Watch or Market Pulse signals, or paste from the firm's newsroom / press release page</p>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#191c1e] mb-1.5">Target role type <span className="text-gray-400 font-normal">(optional)</span></label>
+          <label className="block text-xs font-semibold text-[#F4F0FA] mb-1.5">Target role type <span className="text-[#8A8398] font-normal">(optional)</span></label>
           <input
             value={targetRole}
             onChange={e => setTargetRole(e.target.value)}
             placeholder="e.g. Credit Analyst, Associate — Direct Lending, Portfolio Manager"
-            className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
+            className="w-full text-sm border border-[#2A2438] rounded-lg px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/30 focus:border-[#1A2B4A]/40"
           />
         </div>
 
         <button
           onClick={handleGenerate}
           disabled={loading || !firm.trim() || !background.trim()}
-          className="w-full py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#152238] disabled:opacity-40 transition-colors flex items-center justify-center gap-2"
+          className="w-full py-3 bg-[#7C3AED] text-white text-sm font-bold rounded-xl hover:bg-[#171226] disabled:opacity-40 transition-colors flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
@@ -6360,18 +6360,18 @@ function OutreachDraftSection() {
             "Generate outreach message →"
           )}
         </button>
-        {error && <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
+        {error && <p className="text-xs text-red-500 bg-[#2E1620] border border-[#2A2438] rounded-lg px-3 py-2">{error}</p>}
       </div>
 
       {/* Result */}
       {result && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold text-[#191c1e] uppercase tracking-wider">Your outreach message</p>
+            <p className="text-xs font-bold text-[#F4F0FA] uppercase tracking-wider">Your outreach message</p>
             <button onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition-colors">
+              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[#2A2438] bg-[#14101E] hover:bg-[#14101E] transition-colors">
               {copied ? (
-                <><span className="text-emerald-600">✓</span> Copied</>
+                <><span className="text-[#5EE6B5]">✓</span> Copied</>
               ) : (
                 <><svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M2 10V2h8"/></svg> Copy message</>
               )}
@@ -6379,41 +6379,41 @@ function OutreachDraftSection() {
           </div>
 
           {/* Subject */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Subject line</span>
+          <div className="bg-[#14101E] border border-[#2A2438] rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-[#14101E] border-b border-[#2A2438] flex items-center gap-2">
+              <span className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wider">Subject line</span>
             </div>
-            <p className="px-4 py-3 text-sm font-semibold text-[#191c1e]">{result.subject}</p>
+            <p className="px-4 py-3 text-sm font-semibold text-[#F4F0FA]">{result.subject}</p>
           </div>
 
           {/* Message body */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100">
-              <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Message body</span>
+          <div className="bg-[#14101E] border border-[#2A2438] rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-[#14101E] border-b border-[#2A2438]">
+              <span className="text-[11px] font-semibold text-[#8A8398] uppercase tracking-wider">Message body</span>
             </div>
-            <p className="px-4 py-4 text-sm text-[#41484c] leading-relaxed whitespace-pre-line">{result.message}</p>
+            <p className="px-4 py-4 text-sm text-[#B8B0C8] leading-relaxed whitespace-pre-line">{result.message}</p>
           </div>
 
           {/* Follow-up */}
-          <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
-            <p className="text-[11px] font-bold text-amber-700 uppercase tracking-wider mb-1">Follow-up (5–7 days if no reply)</p>
-            <p className="text-sm text-[#41484c] leading-relaxed">{result.followUp}</p>
+          <div className="bg-[#2A2113] border border-[#2A2438] rounded-xl px-4 py-3">
+            <p className="text-[11px] font-bold text-[#F5B544] uppercase tracking-wider mb-1">Follow-up (5–7 days if no reply)</p>
+            <p className="text-sm text-[#B8B0C8] leading-relaxed">{result.followUp}</p>
           </div>
 
           {/* Timing + Why it works */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
-              <p className="text-[11px] font-bold text-sky-700 uppercase tracking-wider mb-1">Timing</p>
-              <p className="text-xs text-[#41484c] leading-relaxed">{result.timingNote}</p>
+            <div className="bg-[#0F2033] border border-[#2A2438] rounded-xl px-4 py-3">
+              <p className="text-[11px] font-bold text-[#7DD3FC] uppercase tracking-wider mb-1">Timing</p>
+              <p className="text-xs text-[#B8B0C8] leading-relaxed">{result.timingNote}</p>
             </div>
-            <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
-              <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">Why this works</p>
-              <p className="text-xs text-[#41484c] leading-relaxed">{result.whyItWorks}</p>
+            <div className="bg-[#14352A] border border-[#2A2438] rounded-xl px-4 py-3">
+              <p className="text-[11px] font-bold text-[#5EE6B5] uppercase tracking-wider mb-1">Why this works</p>
+              <p className="text-xs text-[#B8B0C8] leading-relaxed">{result.whyItWorks}</p>
             </div>
           </div>
 
           <button onClick={() => { setResult(null); setFirm(""); setBackground(""); setSignal(""); setTargetRole(""); }}
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+            className="text-xs text-[#8A8398] hover:text-[#9A93AC] transition-colors">
             ← Start over
           </button>
         </div>
@@ -6564,33 +6564,33 @@ function CapitalCycleSection({
   const rolesOnly = capitalSignals.filter(s => s.stage === "roles_only");
 
   const STAGE_META = {
-    both:       { label: "Raise + Hiring",  cls: "bg-emerald-50 border-emerald-200 text-emerald-800",  dot: "bg-emerald-500", desc: "Both signals confirmed — highest conviction" },
-    raising:    { label: "In Market Now",   cls: "bg-amber-50 border-amber-200 text-amber-800",        dot: "bg-amber-500",   desc: "Raise filed ≤90d ago, no roles yet" },
-    deploying:  { label: "Post-Raise",      cls: "bg-sky-50 border-sky-200 text-sky-800",              dot: "bg-sky-500",     desc: "Capital deployed, build-out likely" },
-    roles_only: { label: "Hiring Signal",   cls: "bg-gray-50 border-gray-200 text-gray-700",           dot: "bg-gray-400",   desc: "Roles posted, no Form D on record" },
+    both:       { label: "Raise + Hiring",  cls: "bg-[#14352A] border-[#2A2438] text-[#5EE6B5]",  dot: "bg-[#14352A]0", desc: "Both signals confirmed — highest conviction" },
+    raising:    { label: "In Market Now",   cls: "bg-[#2A2113] border-[#2A2438] text-[#F5B544]",        dot: "bg-[#2A2113]0",   desc: "Raise filed ≤90d ago, no roles yet" },
+    deploying:  { label: "Post-Raise",      cls: "bg-[#0F2033] border-[#2A2438] text-[#7DD3FC]",              dot: "bg-[#0F2033]0",     desc: "Capital deployed, build-out likely" },
+    roles_only: { label: "Hiring Signal",   cls: "bg-[#14101E] border-[#2A2438] text-[#B8B0C8]",           dot: "bg-gray-400",   desc: "Roles posted, no Form D on record" },
   };
 
   return (
     <div className="space-y-6">
       {/* Header — distinct from Fund Signals */}
-      <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-5 py-4">
+      <div className="bg-[#14352A] border border-[#2A2438] rounded-2xl px-5 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-sm font-bold text-emerald-900 mb-1">Capital Cycle Intelligence</h2>
-            <p className="text-xs text-emerald-700 max-w-xl leading-relaxed">
+            <h2 className="text-sm font-bold text-[#5EE6B5] mb-1">Capital Cycle Intelligence</h2>
+            <p className="text-xs text-[#5EE6B5] max-w-xl leading-relaxed">
               Cross-references SEC Form D fundraising filings with live job postings across 179 watchlist firms.
               Firms with <span className="font-semibold">both a recent raise and open roles</span> are the highest-conviction targets.
               13F equity AUM is fetched live from EDGAR for hedge funds and asset managers.
             </p>
           </div>
           {aumLoading && (
-            <div className="flex items-center gap-1.5 text-[10px] text-emerald-600 flex-shrink-0">
+            <div className="flex items-center gap-1.5 text-[10px] text-[#5EE6B5] flex-shrink-0">
               <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity="0.25"/><path d="M12 2a10 10 0 0110 10" strokeLinecap="round"/></svg>
               Fetching 13F data…
             </div>
           )}
           {!aumLoading && aumByFirmId.size > 0 && (
-            <span className="text-[10px] text-emerald-600 font-semibold flex-shrink-0">{aumByFirmId.size} 13F matched</span>
+            <span className="text-[10px] text-[#5EE6B5] font-semibold flex-shrink-0">{aumByFirmId.size} 13F matched</span>
           )}
         </div>
       </div>
@@ -6617,9 +6617,9 @@ function CapitalCycleSection({
       {both.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <h2 className="text-sm font-bold text-[#191c1e]">Raise + Hiring — Highest Conviction</h2>
-            <span className="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">{both.length}</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#14352A]0 animate-pulse" />
+            <h2 className="text-sm font-bold text-[#F4F0FA]">Raise + Hiring — Highest Conviction</h2>
+            <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">{both.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             {both.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
@@ -6632,8 +6632,8 @@ function CapitalCycleSection({
         <section>
           <div className="flex items-center gap-2 mb-3">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-            <h2 className="text-sm font-bold text-[#191c1e]">In Market Now — Engage Before Roles Post</h2>
-            <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{raising.length}</span>
+            <h2 className="text-sm font-bold text-[#F4F0FA]">In Market Now — Engage Before Roles Post</h2>
+            <span className="text-[10px] bg-[#2A2113] text-[#F5B544] font-bold px-1.5 py-0.5 rounded">{raising.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             {raising.map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
@@ -6646,8 +6646,8 @@ function CapitalCycleSection({
         <section>
           <div className="flex items-center gap-2 mb-3">
             <span className="w-2.5 h-2.5 rounded-full bg-sky-400" />
-            <h2 className="text-sm font-bold text-[#191c1e]">Post-Raise — Build-Out Phase</h2>
-            <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{deploying.length}</span>
+            <h2 className="text-sm font-bold text-[#F4F0FA]">Post-Raise — Build-Out Phase</h2>
+            <span className="text-[10px] bg-[#0F2033] text-[#7DD3FC] font-bold px-1.5 py-0.5 rounded">{deploying.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             {deploying.slice(0, 8).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
@@ -6660,8 +6660,8 @@ function CapitalCycleSection({
         <section>
           <div className="flex items-center gap-2 mb-3">
             <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
-            <h2 className="text-sm font-bold text-[#191c1e]">Hiring Signal Only</h2>
-            <span className="text-[10px] bg-gray-100 text-gray-600 font-bold px-1.5 py-0.5 rounded">{rolesOnly.length}</span>
+            <h2 className="text-sm font-bold text-[#F4F0FA]">Hiring Signal Only</h2>
+            <span className="text-[10px] bg-[#14101E] text-[#9A93AC] font-bold px-1.5 py-0.5 rounded">{rolesOnly.length}</span>
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             {rolesOnly.slice(0, 6).map(s => <CapitalCard key={s.firmId} signal={s} meta={STAGE_META[s.stage]} aum={aumByFirmId.get(s.firmId)} />)}
@@ -6670,9 +6670,9 @@ function CapitalCycleSection({
       )}
 
       {/* Footer links */}
-      <div className="flex gap-4 pt-2 border-t border-gray-100">
-        <button onClick={onViewFunds} className="text-xs text-[#396477] font-semibold hover:underline">Browse all Form D filings →</button>
-        <button onClick={onViewRoles} className="text-xs text-[#396477] font-semibold hover:underline">See all open roles →</button>
+      <div className="flex gap-4 pt-2 border-t border-[#2A2438]">
+        <button onClick={onViewFunds} className="text-xs text-[#A78BFA] font-semibold hover:underline">Browse all Form D filings →</button>
+        <button onClick={onViewRoles} className="text-xs text-[#A78BFA] font-semibold hover:underline">See all open roles →</button>
       </div>
     </div>
   );
@@ -6685,52 +6685,52 @@ function CapitalCard({ signal, meta, aum }: {
 }) {
   const amt = signal.filing?.totalOfferingAmount;
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
+    <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-4 hover:border-[#2A2438] transition-colors">
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap mb-1">
             <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
             {signal.category && <FirmTypeBadge category={signal.category} />}
           </div>
-          <p className="font-bold text-sm text-[#191c1e] truncate">{signal.name}</p>
+          <p className="font-bold text-sm text-[#F4F0FA] truncate">{signal.name}</p>
         </div>
         <div className="flex flex-col items-end gap-1 flex-shrink-0">
           {signal.openFrontOffice > 0 && (
-            <span className="text-xs font-bold text-emerald-600">{signal.openFrontOffice} open</span>
+            <span className="text-xs font-bold text-[#5EE6B5]">{signal.openFrontOffice} open</span>
           )}
-          {amt && <span className="text-[10px] text-[#71787c]">{fmt(amt)} raised</span>}
+          {amt && <span className="text-[10px] text-[#9A93AC]">{fmt(amt)} raised</span>}
         </div>
       </div>
 
       {/* 13F AUM pill — only for hedge funds / asset managers */}
       {aum && (
-        <div className="inline-flex items-center gap-1 bg-sky-50 border border-sky-200 rounded-full px-2 py-0.5 mb-2">
+        <div className="inline-flex items-center gap-1 bg-[#0F2033] border border-[#2A2438] rounded-full px-2 py-0.5 mb-2">
           <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5 text-sky-500 flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
             <path d="M2 9l2.5-3 2 2 3-4" />
           </svg>
-          <span className="text-[10px] font-bold text-sky-700">{fmtAum(aum)}</span>
+          <span className="text-[10px] font-bold text-[#7DD3FC]">{fmtAum(aum)}</span>
           <span className="text-[9px] text-sky-400">13F</span>
         </div>
       )}
 
       {signal.filing && (
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] text-[#71787c]">Form D · {signal.filing.daysSinceFiling}d ago</span>
+          <span className="text-[10px] text-[#9A93AC]">Form D · {signal.filing.daysSinceFiling}d ago</span>
           {signal.filing.offeringStatus === "open" && (
-            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded">In market</span>
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-[#2A2113] text-[#F5B544] border border-[#2A2438] rounded">In market</span>
           )}
           {signal.filing.offeringStatus === "closed" && (
-            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-gray-50 text-gray-500 border border-gray-200 rounded">Closed</span>
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-[#14101E] text-[#9A93AC] border border-[#2A2438] rounded">Closed</span>
           )}
         </div>
       )}
-      <p className="text-[11px] text-[#41484c] leading-relaxed">{signal.note}</p>
+      <p className="text-[11px] text-[#B8B0C8] leading-relaxed">{signal.note}</p>
       <div className="flex items-center gap-2 mt-2.5">
-        <span className="text-[10px] text-gray-400 font-medium">Signal</span>
-        <div className="h-1.5 flex-1 bg-gray-100 rounded-full overflow-hidden">
+        <span className="text-[10px] text-[#8A8398] font-medium">Signal</span>
+        <div className="h-1.5 flex-1 bg-[#14101E] rounded-full overflow-hidden">
           <div className={`h-full rounded-full transition-all ${signal.strength >= 70 ? "bg-emerald-400" : signal.strength >= 45 ? "bg-amber-400" : "bg-sky-300"}`} style={{ width: `${signal.strength}%` }} />
         </div>
-        <span className="text-[10px] font-bold text-gray-500">{signal.strength}</span>
+        <span className="text-[10px] font-bold text-[#9A93AC]">{signal.strength}</span>
       </div>
     </div>
   );
@@ -6753,13 +6753,13 @@ function MiniBar({ label, count, total, color }: { label: string; count: number;
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
     <div className="flex items-center gap-2.5">
-      <span className="w-36 text-[11px] text-right text-gray-500 flex-shrink-0 leading-tight truncate">{label}</span>
-      <div className="flex-1 bg-gray-100 rounded overflow-hidden">
+      <span className="w-36 text-[11px] text-right text-[#9A93AC] flex-shrink-0 leading-tight truncate">{label}</span>
+      <div className="flex-1 bg-[#14101E] rounded overflow-hidden">
         <div style={{ width: `${Math.max(pct, 2)}%`, background: color }} className="h-5 rounded transition-all flex items-center justify-end px-1.5">
           <span className="text-white text-[10px] font-bold">{count}</span>
         </div>
       </div>
-      <span className="text-[10px] text-gray-400 w-8 text-right flex-shrink-0">{pct}%</span>
+      <span className="text-[10px] text-[#8A8398] w-8 text-right flex-shrink-0">{pct}%</span>
     </div>
   );
 }
@@ -6792,8 +6792,8 @@ const HEADHUNTERS = [
 ];
 
 const RECRUITER_TYPE_META: Record<string, { label: string; color: string; bg: string }> = {
-  PE:   { label: "Private Equity",    color: "#1A2B4A", bg: "#1A2B4A18" },
-  HF:   { label: "Hedge Funds",       color: "#0F6E56", bg: "#0F6E5618" },
+  PE:   { label: "Private Equity",    color: "#F4F0FA", bg: "#1A2B4A18" },
+  HF:   { label: "Hedge Funds",       color: "#5EE6B5", bg: "#0F6E5618" },
   AM:   { label: "Asset Management",  color: "#2D6A8F", bg: "#2D6A8F18" },
   Exec: { label: "Executive Search",  color: "#7B5EA7", bg: "#7B5EA718" },
 };
@@ -6806,12 +6806,12 @@ function RecruitersSection() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <p className="text-sm font-bold text-[#191c1e] mb-1">Buyside Headhunters & Recruiters</p>
-        <p className="text-xs text-[#71787c] leading-relaxed">
+      <div className="bg-[#14101E] border border-[#2A2438] rounded-xl p-5">
+        <p className="text-sm font-bold text-[#F4F0FA] mb-1">Buyside Headhunters & Recruiters</p>
+        <p className="text-xs text-[#9A93AC] leading-relaxed">
           Most senior buyside roles are never posted publicly — they're filled through relationships with specialist recruiters.
           The firms below dominate placement across hedge funds, PE, and asset management. Proactively register with
-          the relevant ones <strong className="text-[#191c1e]">before</strong> you need them.
+          the relevant ones <strong className="text-[#F4F0FA]">before</strong> you need them.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
           {([
@@ -6820,9 +6820,9 @@ function RecruitersSection() {
             { tip: "Be specific", desc: "Tell recruiters exactly what you want — strategy, fund size, city. Vague candidates don't get prioritized." },
             { tip: "Stay in touch", desc: "Check in every 4–6 weeks if you're actively searching. Roles move fast and visibility matters when a match comes up." },
           ]).map(t => (
-            <div key={t.tip} className="bg-gray-50 border border-gray-100 rounded-lg p-3">
-              <p className="text-[11px] font-bold text-[#191c1e] mb-0.5">{t.tip}</p>
-              <p className="text-[10px] text-gray-500 leading-relaxed">{t.desc}</p>
+            <div key={t.tip} className="bg-[#14101E] border border-[#2A2438] rounded-lg p-3">
+              <p className="text-[11px] font-bold text-[#F4F0FA] mb-0.5">{t.tip}</p>
+              <p className="text-[10px] text-[#9A93AC] leading-relaxed">{t.desc}</p>
             </div>
           ))}
         </div>
@@ -6837,8 +6837,8 @@ function RecruitersSection() {
             <button key={t} onClick={() => setActiveType(t)}
               className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
                 isActive
-                  ? "shadow-sm bg-[#1A2B4A] text-white border-[#1A2B4A]"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                  ? "shadow-sm bg-[#7C3AED] text-white border-[#1A2B4A]"
+                  : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400"
               }`}>
               {t === "all" ? "All Recruiters" : meta!.label}
             </button>
@@ -6851,7 +6851,7 @@ function RecruitersSection() {
         {visible.map(h => {
           const meta = RECRUITER_TYPE_META[h.type];
           return (
-            <div key={h.name} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 hover:border-gray-300 hover:shadow-sm transition-all">
+            <div key={h.name} className="bg-[#14101E] border border-[#2A2438] rounded-xl p-4 flex gap-4 hover:border-[#2A2438] hover:shadow-sm transition-all">
               <div className="flex-shrink-0 pt-0.5">
                 <span style={{ background: meta.bg, color: meta.color }} className="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider whitespace-nowrap">
                   {meta.label}
@@ -6859,13 +6859,13 @@ function RecruitersSection() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <p className="text-sm font-bold text-[#191c1e]">{h.name}</p>
-                  <span className="text-[10px] text-gray-400 border border-gray-200 rounded px-1.5 py-0.5">{h.levels}</span>
-                  <span className="text-[10px] text-gray-400 border border-gray-100 bg-gray-50 rounded px-1.5 py-0.5">{h.geo}</span>
+                  <p className="text-sm font-bold text-[#F4F0FA]">{h.name}</p>
+                  <span className="text-[10px] text-[#8A8398] border border-[#2A2438] rounded px-1.5 py-0.5">{h.levels}</span>
+                  <span className="text-[10px] text-[#8A8398] border border-[#2A2438] bg-[#14101E] rounded px-1.5 py-0.5">{h.geo}</span>
                 </div>
-                <p className="text-[11px] text-[#41484c] leading-relaxed">{h.focus}</p>
+                <p className="text-[11px] text-[#B8B0C8] leading-relaxed">{h.focus}</p>
                 <a href={h.website} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] transition-colors">
+                  className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#A78BFA] hover:text-[#F4F0FA] transition-colors">
                   <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M2 6h8M7 3l3 3-3 3"/>
                   </svg>
@@ -6877,7 +6877,7 @@ function RecruitersSection() {
         })}
       </div>
 
-      <p className="text-[10px] text-gray-400 italic text-center pt-2">
+      <p className="text-[10px] text-[#8A8398] italic text-center pt-2">
         Headhunter coverage and specialties can shift over time. Treat this as a starting point and verify current focus directly.
       </p>
     </div>
@@ -6929,12 +6929,12 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
   }, [jobs]);
 
   if (loading) return (
-    <div className="flex items-center justify-center py-16 text-gray-400 text-sm gap-2">
+    <div className="flex items-center justify-center py-16 text-[#8A8398] text-sm gap-2">
       <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" strokeOpacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/></svg>
       Loading job data…
     </div>
   );
-  if (!stats) return <div className="text-center py-12 text-gray-400 text-sm">No job data available yet.</div>;
+  if (!stats) return <div className="text-center py-12 text-[#8A8398] text-sm">No job data available yet.</div>;
 
   const catColors: Record<string, string> = {
     "Private Credit": "#0F6E56", "Public Credit": "#2D6A8F", "Investment Banking": "#1A2B4A",
@@ -6957,16 +6957,16 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
       {/* Header */}
       <div className="flex items-center gap-3">
         <div>
-          <h2 className="text-base font-bold text-[#191c1e]">Hiring Market Trends</h2>
-          <p className="text-[11px] text-gray-400 mt-0.5">Based on {stats.total} front-office roles currently tracked · refreshes daily</p>
+          <h2 className="text-base font-bold text-[#F4F0FA]">Hiring Market Trends</h2>
+          <p className="text-[11px] text-[#8A8398] mt-0.5">Based on {stats.total} front-office roles currently tracked · refreshes daily</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {/* By Category */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Roles by Strategy</p>
-          <p className="text-[11px] text-gray-400 mb-4">Where hiring volume is concentrated</p>
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Roles by Strategy</p>
+          <p className="text-[11px] text-[#8A8398] mb-4">Where hiring volume is concentrated</p>
           <div className="space-y-2">
             {Object.entries(stats.byCat).sort((a, b) => b[1] - a[1]).map(([cat, cnt]) => (
               <MiniBar key={cat} label={cat} count={cnt} total={stats.total} color={catColors[cat] ?? "#94a3b8"} />
@@ -6975,9 +6975,9 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         </div>
 
         {/* By Seniority */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Role Seniority Mix</p>
-          <p className="text-[11px] text-gray-400 mb-4">Level distribution across all open roles</p>
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Role Seniority Mix</p>
+          <p className="text-[11px] text-[#8A8398] mb-4">Level distribution across all open roles</p>
           <div className="space-y-2">
             {(["Analyst","Associate","VP","Director","MD","Partner / Head","Other"] as const).map(lvl => {
               const cnt = stats.bySeniority[lvl] || 0;
@@ -6988,21 +6988,21 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         </div>
 
         {/* Top Hiring Firms */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Most Active Hirers</p>
-          <p className="text-[11px] text-gray-400 mb-4">Firms with the most open roles right now</p>
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Most Active Hirers</p>
+          <p className="text-[11px] text-[#8A8398] mb-4">Firms with the most open roles right now</p>
           <div className="space-y-2">
             {stats.topFirms.map(([firm, cnt], i) => (
               <div key={firm} className="flex items-center gap-2.5">
                 <span className="text-[10px] text-gray-300 font-bold w-4 text-right flex-shrink-0">{i + 1}</span>
-                <span className="flex-1 text-[11px] text-gray-600 truncate">{firm}</span>
+                <span className="flex-1 text-[11px] text-[#9A93AC] truncate">{firm}</span>
                 <div className="flex items-center gap-1.5">
                   <div className="flex gap-0.5">
                     {Array.from({ length: Math.min(cnt, 8) }).map((_, k) => (
                       <span key={k} className="w-1.5 h-4 rounded-sm bg-emerald-400 opacity-80" style={{ opacity: 0.4 + (k / Math.min(cnt, 8)) * 0.6 }} />
                     ))}
                   </div>
-                  <span className="text-[10px] text-gray-400 w-5 text-right">{cnt}</span>
+                  <span className="text-[10px] text-[#8A8398] w-5 text-right">{cnt}</span>
                 </div>
               </div>
             ))}
@@ -7010,26 +7010,26 @@ function HiringTrendsSection({ jobs, loading }: { jobs: JobSignal[]; loading: bo
         </div>
 
         {/* By Recency */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Posting Recency</p>
-          <p className="text-[11px] text-gray-400 mb-4">When these roles were posted</p>
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Posting Recency</p>
+          <p className="text-[11px] text-[#8A8398] mb-4">When these roles were posted</p>
           <div className="space-y-2">
             {Object.entries(stats.rec).map(([label, cnt]) => (
               <MiniBar key={label} label={label} count={cnt} total={stats.total} color={recencyColors[label]} />
             ))}
           </div>
           <div className="mt-4 pt-3 border-t border-gray-50">
-            <p className="text-[11px] text-gray-400">
-              <span className="font-semibold text-emerald-600">{stats.rec["Last 7d"]}</span> roles posted in the last week
+            <p className="text-[11px] text-[#8A8398]">
+              <span className="font-semibold text-[#5EE6B5]">{stats.rec["Last 7d"]}</span> roles posted in the last week
               {stats.rec["Last 7d"] > stats.rec["8–14d"] ? " — above prior week pace" : " — below prior week pace"}
             </p>
           </div>
         </div>
 
         {/* By Hiring Phase */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <p className="text-xs font-bold text-[#191c1e] mb-0.5">Hiring Phase Signal</p>
-          <p className="text-[11px] text-gray-400 mb-4">What stage of growth is driving hiring</p>
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 shadow-sm">
+          <p className="text-xs font-bold text-[#F4F0FA] mb-0.5">Hiring Phase Signal</p>
+          <p className="text-[11px] text-[#8A8398] mb-4">What stage of growth is driving hiring</p>
           <div className="space-y-2">
             {Object.entries(stats.byTag).sort((a, b) => b[1] - a[1]).map(([tag, cnt]) => (
               <MiniBar key={tag} label={tag} count={cnt} total={stats.total} color={tagColors[tag] ?? "#94a3b8"} />
@@ -7162,12 +7162,12 @@ function HiringSection({
           {/* Mobile backdrop */}
           <div className="fixed inset-0 bg-black/40 z-40 sm:hidden" onClick={() => setShowProfilePanel(false)} />
           {/* Panel — bottom sheet on mobile, inline card on desktop */}
-          <div className="fixed bottom-0 left-0 right-0 z-50 sm:static sm:z-auto bg-white sm:bg-violet-50 border-t sm:border border-violet-200 rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl sm:shadow-sm">
+          <div className="fixed bottom-0 left-0 right-0 z-50 sm:static sm:z-auto bg-[#14101E] sm:bg-[#1E1633] border-t sm:border border-[#2A2438] rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl sm:shadow-sm">
             {/* drag handle on mobile */}
-            <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4 sm:hidden" />
+            <div className="w-10 h-1 bg-[#14101E] rounded-full mx-auto mb-4 sm:hidden" />
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-bold text-violet-900">Your profile</p>
-              <button onClick={() => setShowProfilePanel(false)} className="text-violet-400 hover:text-violet-600 text-xs p-1">Close ✕</button>
+              <p className="text-sm font-bold text-[#C4B5FD]">Your profile</p>
+              <button onClick={() => setShowProfilePanel(false)} className="text-violet-400 hover:text-[#C4B5FD] text-xs p-1">Close ✕</button>
             </div>
             <p className="text-xs text-violet-500 mb-3">Describe your background — years of experience, firms, deal types, and what you're looking for. Stored locally on your device.</p>
             <textarea
@@ -7175,7 +7175,7 @@ function HiringSection({
               onChange={e => setProfileDraft(e.target.value)}
               rows={5}
               placeholder="e.g. 3 years at Goldman Sachs Leveraged Finance. Closed 12 LBO transactions $50M–$500M. Looking to move to direct lending."
-              className="w-full text-sm border border-violet-200 rounded-xl px-3 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-violet-300 resize-none placeholder:text-violet-300"
+              className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 bg-[#14101E] focus:outline-none focus:ring-2 focus:ring-[#2A2438] resize-none placeholder:text-violet-300"
             />
             <div className="flex gap-2 mt-3">
               <button
@@ -7186,7 +7186,7 @@ function HiringSection({
               </button>
               {userProfile && (
                 <button onClick={() => { onClearProfile(); setProfileDraft(""); setMatchResults(null); }}
-                  className="px-4 py-2.5 sm:py-2 text-xs font-medium text-red-500 hover:text-red-700 border border-red-200 rounded-lg transition-colors">
+                  className="px-4 py-2.5 sm:py-2 text-xs font-medium text-red-500 hover:text-[#FB7185] border border-[#2A2438] rounded-lg transition-colors">
                   Clear
                 </button>
               )}
@@ -7199,39 +7199,39 @@ function HiringSection({
       <div className="space-y-2">
         {/* Row 1: all view tabs, same style, scrollable on mobile */}
         <div className="flex overflow-x-auto gap-1 pb-0.5" style={{scrollbarWidth:"none"}}>
-          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400 hover:text-[#B8B0C8]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1.5" y="4" width="11" height="8.5" rx="1.2"/><path d="M4.5 4V2.5a2.5 2.5 0 015 0V4"/></svg>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400 hover:text-[#B8B0C8]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="4" x2="12" y2="4"/><line x1="2" y1="7" x2="9" y2="7"/><line x1="2" y1="10" x2="11" y2="10"/></svg>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400 hover:text-[#B8B0C8]"}`}>
               <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><path d="M1 12c0-2.2 2.2-4 5-4"/><path d="M10 8.5l1.5 1.5 2.5-2.5"/></svg>
               For You
             </button>
           )}
-          <div className="w-px bg-gray-200 self-stretch mx-0.5 flex-shrink-0" />
-          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-amber-500 text-white border-amber-500" : "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 hover:border-amber-300"}`}>
+          <div className="w-px bg-[#14101E] self-stretch mx-0.5 flex-shrink-0" />
+          <button onClick={() => setView("trends")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "trends" ? "bg-[#2A2113]0 text-white border-amber-500" : "bg-[#2A2113] text-[#F5B544] border-[#2A2438] hover:bg-[#2A2113] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="1.5,11 4.5,7 7,9 10,4.5 12.5,2.5"/><line x1="1.5" y1="11.5" x2="12.5" y2="11.5"/></svg>
             Trends
           </button>
-          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "capital" ? "bg-emerald-600 text-white border-emerald-600" : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300"}`}>
+          <button onClick={() => { setView("capital"); setFundSubTab("cycle"); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "capital" ? "bg-emerald-600 text-white border-emerald-600" : "bg-[#14352A] text-[#5EE6B5] border-[#2A2438] hover:bg-[#14352A] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3l2 1.5"/></svg>
             Capital
           </button>
-          <button onClick={() => setView("outreach")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "outreach" ? "bg-teal-600 text-white border-teal-600" : "bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100 hover:border-teal-300"}`}>
+          <button onClick={() => setView("outreach")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "outreach" ? "bg-teal-600 text-white border-teal-600" : "bg-[#0F2A2E] text-[#5EE6B5] border-[#2A2438] hover:bg-[#0F2A2E] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 7h9M7 3.5l4 3.5-4 3.5"/></svg>
             Outreach
           </button>
-          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-orange-500 text-white border-orange-500" : "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:border-orange-300"}`}>
+          <button onClick={() => setView("recruiters")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "recruiters" ? "bg-[#2A1A13]0 text-white border-orange-500" : "bg-[#2A1A13] text-[#FDBA74] border-[#2A2438] hover:bg-[#2A1A13] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="5" cy="4.5" r="2"/><path d="M1 12c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M10.5 8.5c1.5 0 2.5 1 2.5 2.5"/></svg>
             Recruiters
           </button>
-          <button onClick={() => setView("intel")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "intel" ? "bg-violet-600 text-white border-violet-600" : "bg-violet-50 text-violet-700 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
+          <button onClick={() => setView("intel")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "intel" ? "bg-violet-600 text-white border-violet-600" : "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438] hover:bg-[#1E1633] hover:border-[#2A2438]"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h10a1 1 0 011 1v5a1 1 0 01-1 1H8l-3 2v-2H2a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
             Feedback
           </button>
@@ -7245,7 +7245,7 @@ function HiringSection({
               {JOB_CATEGORIES.slice(0, 7).map((c) => (
                 <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all whitespace-nowrap flex-shrink-0 ${
-                    categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                    categoryFilter === c.v ? "bg-[#171226] text-white border-[#396477]" : "bg-[#14101E] text-[#9A93AC] border-[#2A2438] hover:border-gray-400"
                   }`}>
                   {c.l}
                 </button>
@@ -7255,19 +7255,19 @@ function HiringSection({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => { setProfileDraft(userProfile); setShowProfilePanel(!showProfilePanel); }}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-violet-100 text-violet-700 border-violet-300 hover:bg-violet-200" : "bg-violet-50 text-violet-600 border-violet-200 hover:bg-violet-100 hover:border-violet-300"}`}>
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${userProfile ? "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438] hover:bg-[#1E1633]" : "bg-[#1E1633] text-[#C4B5FD] border-[#2A2438] hover:bg-[#1E1633] hover:border-[#2A2438]"}`}>
                 <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="7" cy="5" r="2.5"/><path d="M2 12c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
                 {userProfile ? "Profile set" : "Set profile"}
               </button>
               <button onClick={() => setCompact(c => !c)}
                 title={compact ? "Card view" : "Compact view"}
-                className={`p-1.5 rounded-lg border text-gray-400 hover:text-gray-600 transition-colors ${compact ? "bg-gray-100 border-gray-300 text-gray-600" : "bg-white border-gray-200"}`}>
+                className={`p-1.5 rounded-lg border text-[#8A8398] hover:text-[#9A93AC] transition-colors ${compact ? "bg-[#14101E] border-[#2A2438] text-[#9A93AC]" : "bg-[#14101E] border-[#2A2438]"}`}>
                 {compact
                   ? <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="3" width="7" height="7" strokeWidth="2" rx="1"/><rect x="3" y="14" width="7" height="7" strokeWidth="2" rx="1"/><rect x="14" y="14" width="7" height="7" strokeWidth="2" rx="1"/></svg>
                   : <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" strokeWidth="2"/><line x1="3" y1="12" x2="21" y2="12" strokeWidth="2"/><line x1="3" y1="18" x2="21" y2="18" strokeWidth="2"/></svg>
                 }
               </button>
-              <span className="text-xs text-gray-400 ml-auto">
+              <span className="text-xs text-[#8A8398] ml-auto">
                 {loading ? "Loading…" : `${allRegistryProfiles.length} firms · ${earlySignalFirms.length} signals`}
               </span>
             </div>
@@ -7278,8 +7278,8 @@ function HiringSection({
       {loading && (
         <div className="space-y-3">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 animate-pulse">
-              <div className="h-4 w-48 bg-[#e0e3e5] rounded mb-3" />
+            <div key={i} className="bg-[#14101E] border border-[#2A2438]/40 rounded-xl p-5 animate-pulse">
+              <div className="h-4 w-48 bg-[#1A1428] rounded mb-3" />
               <div className="h-3 w-full bg-[#f0f2f4] rounded mb-2" />
               <div className="h-3 w-3/4 bg-[#f0f2f4] rounded" />
             </div>
@@ -7290,47 +7290,47 @@ function HiringSection({
       {view === "foryou" && (
         <div className="space-y-4">
           {!userProfile && (
-            <div className="bg-gray-50 border border-gray-200 rounded-xl px-5 py-8 text-center">
-              <p className="text-sm font-semibold text-gray-600 mb-1">Set your profile to see matched roles</p>
-              <p className="text-xs text-gray-400 mb-4">Describe your background and we'll rank current openings by fit.</p>
+            <div className="bg-[#14101E] border border-[#2A2438] rounded-xl px-5 py-8 text-center">
+              <p className="text-sm font-semibold text-[#9A93AC] mb-1">Set your profile to see matched roles</p>
+              <p className="text-xs text-[#8A8398] mb-4">Describe your background and we'll rank current openings by fit.</p>
               <button onClick={() => { setShowProfilePanel(true); setView("firms"); }}
-                className="px-4 py-2 bg-[#1A2B4A] text-white text-xs font-bold rounded-lg hover:bg-[#152238] transition-colors">
+                className="px-4 py-2 bg-[#7C3AED] text-white text-xs font-bold rounded-lg hover:bg-[#171226] transition-colors">
                 Set up profile
               </button>
             </div>
           )}
           {matchLoading && (
-            <div className="flex items-center gap-2 text-xs text-gray-400 py-6 justify-center">
-              <div className="w-4 h-4 border-2 border-gray-200 border-t-[#1A2B4A] rounded-full animate-spin" />
+            <div className="flex items-center gap-2 text-xs text-[#8A8398] py-6 justify-center">
+              <div className="w-4 h-4 border-2 border-[#2A2438] border-t-[#1A2B4A] rounded-full animate-spin" />
               Matching roles to your profile…
             </div>
           )}
-          {matchError && <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{matchError}</p>}
+          {matchError && <p className="text-xs text-red-500 bg-[#2E1620] border border-[#2A2438] rounded-lg px-4 py-3">{matchError}</p>}
           {matchResults !== null && matchResults.length === 0 && (
-            <p className="text-sm text-gray-400 text-center py-8">No strong matches found — try updating your profile with more detail.</p>
+            <p className="text-sm text-[#8A8398] text-center py-8">No strong matches found — try updating your profile with more detail.</p>
           )}
           {matchResults && matchResults.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-bold text-[#191c1e]">Matched roles</p>
-                <span className="text-[10px] bg-[#1A2B4A]/10 text-[#1A2B4A] font-bold px-1.5 py-0.5 rounded">{matchResults.length}</span>
-                <button onClick={runJobMatch} className="ml-auto text-[11px] text-gray-400 hover:text-gray-600 transition-colors">Refresh</button>
+                <p className="text-sm font-bold text-[#F4F0FA]">Matched roles</p>
+                <span className="text-[10px] bg-[#7C3AED]/10 text-[#F4F0FA] font-bold px-1.5 py-0.5 rounded">{matchResults.length}</span>
+                <button onClick={runJobMatch} className="ml-auto text-[11px] text-[#8A8398] hover:text-[#9A93AC] transition-colors">Refresh</button>
               </div>
               {matchResults.map((m, i) => (
                 <a key={m.id} href={m.url || "#"} target="_blank" rel="noopener noreferrer"
-                  className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3.5 hover:border-[#1A2B4A]/30 hover:shadow-sm transition-all group">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#1A2B4A]/10 flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-[#1A2B4A]">{i + 1}</span>
+                  className="flex items-start gap-3 bg-[#14101E] border border-[#2A2438] rounded-xl px-4 py-3.5 hover:border-[#1A2B4A]/30 hover:shadow-sm transition-all group">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#7C3AED]/10 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-[#F4F0FA]">{i + 1}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{m.role}</span>
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${m.score >= 9 ? "bg-emerald-100 text-emerald-700" : m.score >= 7 ? "bg-sky-100 text-sky-700" : "bg-gray-100 text-gray-600"}`}>
+                      <span className="text-sm font-semibold text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors truncate">{m.role}</span>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${m.score >= 9 ? "bg-[#14352A] text-[#5EE6B5]" : m.score >= 7 ? "bg-[#0F2033] text-[#7DD3FC]" : "bg-[#14101E] text-[#9A93AC]"}`}>
                         {m.score}/10
                       </span>
                     </div>
-                    <p className="text-xs text-[#71787c]">{m.firm} · {m.location} · {m.daysAgo}d ago</p>
-                    <p className="text-[11px] text-[#41484c] mt-1 italic">{m.reason}</p>
+                    <p className="text-xs text-[#9A93AC]">{m.firm} · {m.location} · {m.daysAgo}d ago</p>
+                    <p className="text-[11px] text-[#B8B0C8] mt-1 italic">{m.reason}</p>
                   </div>
                 </a>
               ))}
@@ -7348,14 +7348,14 @@ function HiringSection({
       {view === "capital" && (
         <div className="space-y-4">
           {/* Sub-tab switcher */}
-          <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5 w-fit">
+          <div className="flex gap-1 bg-[#14101E] rounded-lg p-0.5 w-fit">
             {([
               { id: "cycle",    label: "Capital Cycle" },
               { id: "search",   label: "Form D Search" },
               { id: "pipeline", label: "Pipeline" },
             ] as const).map(t => (
               <button key={t.id} onClick={() => setFundSubTab(t.id)}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${fundSubTab === t.id ? "bg-white text-emerald-800 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}>
+                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${fundSubTab === t.id ? "bg-[#14101E] text-[#5EE6B5] shadow-sm" : "text-[#9A93AC] hover:text-[#F4F0FA]"}`}>
                 {t.label}
               </button>
             ))}
@@ -7424,12 +7424,12 @@ function HiringSection({
             {/* ── Hiring Now ── */}
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Hiring Now</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
-                <span className="text-[10px] text-[#71787c]">{hiringGroups.length} firms</span>
+                <h2 className="text-sm font-bold text-[#F4F0FA]">Hiring Now</h2>
+                <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
+                <span className="text-[10px] text-[#9A93AC]">{hiringGroups.length} firms</span>
               </div>
               {allJobs.length === 0 ? (
-                <p className="text-sm text-gray-400 py-4">No open roles found yet — check back soon.</p>
+                <p className="text-sm text-[#8A8398] py-4">No open roles found yet — check back soon.</p>
               ) : (
                 <>
                   <div className="space-y-2">
@@ -7438,42 +7438,42 @@ function HiringSection({
                       const careersUrl = regFirm?.careersUrl;
                       const filing = regFirm ? filingByFirmId.get(regFirm.id) : undefined;
                       return (
-                        <div key={firmName} className="bg-white border border-[#c1c7cc]/40 rounded-xl overflow-hidden">
+                        <div key={firmName} className="bg-[#14101E] border border-[#2A2438]/40 rounded-xl overflow-hidden">
                           {/* Firm header bar */}
-                          <div className="flex items-center gap-2 px-4 py-2.5 bg-[#f8fafb] border-b border-[#c1c7cc]/30">
+                          <div className="flex items-center gap-2 px-4 py-2.5 bg-[#14101E] border-b border-[#2A2438]/30">
                             <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
-                              <span className="font-bold text-sm text-[#191c1e]">{firmName}</span>
+                              <span className="font-bold text-sm text-[#F4F0FA]">{firmName}</span>
                               {filing && (
-                                <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded">
+                                <span className="text-[10px] text-[#F5B544] font-semibold bg-[#2A2113] border border-[#2A2438]/60 px-1.5 py-0.5 rounded">
                                   {filing.totalOfferingAmount ? `${fmt(filing.totalOfferingAmount)} raised` : "Form D"}
                                 </span>
                               )}
-                              <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">
                                 {jobs.length} open
                               </span>
                             </div>
                             {careersUrl && (
                               <a href={careersUrl} target="_blank" rel="noopener noreferrer"
-                                className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2.5 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
+                                className="flex-shrink-0 text-[10px] font-semibold text-[#A78BFA] border border-[#396477]/30 px-2.5 py-1 rounded-lg hover:bg-[#171226] hover:text-white transition-colors whitespace-nowrap">
                                 All jobs →
                               </a>
                             )}
                           </div>
                           {/* Job rows */}
-                          <div className="divide-y divide-gray-100">
+                          <div className="divide-y divide-[#2A2438]">
                             {jobs.map(job => (
                               <a key={job.id} href={job.edgarUrl || careersUrl || "#"} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#396477]/5 group transition-colors">
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#171226]/5 group transition-colors">
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors leading-snug">{job.role}</p>
+                                  <p className="text-sm font-semibold text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors leading-snug">{job.role}</p>
                                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                     <SeniorityBadge seniority={job.classification.seniority} frontOffice={job.classification.frontOffice} />
-                                    {job.location && <span className="text-xs text-gray-400">{job.location}</span>}
+                                    {job.location && <span className="text-xs text-[#8A8398]">{job.location}</span>}
                                     {job.location && <span className="text-gray-200">·</span>}
-                                    <span className="text-xs text-gray-400">{job.daysAgo}d ago</span>
+                                    <span className="text-xs text-[#8A8398]">{job.daysAgo}d ago</span>
                                   </div>
                                 </div>
-                                <span className="text-xs font-bold text-[#396477] flex-shrink-0 group-hover:underline">Apply →</span>
+                                <span className="text-xs font-bold text-[#A78BFA] flex-shrink-0 group-hover:underline">Apply →</span>
                               </a>
                             ))}
                           </div>
@@ -7499,19 +7499,19 @@ function HiringSection({
             {radarFirms.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-2">
-                  <h2 className="text-sm font-bold text-[#191c1e]">On Radar</h2>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{radarFirms.length}</span>
-                  <span className="text-[10px] text-gray-400">Tracked · no current openings</span>
+                  <h2 className="text-sm font-bold text-[#F4F0FA]">On Radar</h2>
+                  <span className="text-[10px] bg-[#14101E] text-[#9A93AC] font-bold px-1.5 py-0.5 rounded">{radarFirms.length}</span>
+                  <span className="text-[10px] text-[#8A8398]">Tracked · no current openings</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {radarFirms.map(f => (
-                    <div key={f.id} className="flex items-center gap-1.5 bg-white border border-[#c1c7cc]/40 rounded-lg px-2.5 py-1.5 hover:border-[#396477]/30 transition-colors">
+                    <div key={f.id} className="flex items-center gap-1.5 bg-[#14101E] border border-[#2A2438]/40 rounded-lg px-2.5 py-1.5 hover:border-[#396477]/30 transition-colors">
                       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.signal === "raising" ? "bg-amber-400" : "bg-gray-300"}`} />
-                      <span className="text-xs font-medium text-[#41484c]">{f.name}</span>
-                      {f.filing && <span className="text-[10px] text-amber-600 font-medium">↑{f.filing.daysSinceFiling}d</span>}
+                      <span className="text-xs font-medium text-[#B8B0C8]">{f.name}</span>
+                      {f.filing && <span className="text-[10px] text-[#F5B544] font-medium">↑{f.filing.daysSinceFiling}d</span>}
                       {f.careersUrl && (
                         <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
-                          className="text-[10px] text-[#396477] hover:underline font-semibold">→</a>
+                          className="text-[10px] text-[#A78BFA] hover:underline font-semibold">→</a>
                       )}
                     </div>
                   ))}
@@ -7535,19 +7535,19 @@ function HiringSection({
           <div className="space-y-2">
             {roles.map((r) => (
               <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
+                className="flex items-start gap-3 bg-[#14101E] border border-[#2A2438]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+                    <span className="font-semibold text-sm text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors truncate">{r.role}</span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#71787c]">
-                    <span className="font-medium text-[#41484c]">{r.firm}</span>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#9A93AC]">
+                    <span className="font-medium text-[#B8B0C8]">{r.firm}</span>
                     <span className="hidden xs:inline">·</span><span>{r.location}</span>
                     <span>·</span><span>{r.daysAgo}d ago</span>
                   </div>
                   {r.classification.signal && (
-                    <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">{r.classification.signal}</p>
+                    <p className="text-[11px] text-[#9A93AC] italic mt-1 leading-relaxed">{r.classification.signal}</p>
                   )}
                 </div>
               </a>
@@ -7562,9 +7562,9 @@ function HiringSection({
             {seniorRoles.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-sm font-bold text-[#191c1e]">Senior Roles</h3>
-                  <span className="text-[10px] bg-violet-100 text-violet-700 font-bold px-1.5 py-0.5 rounded">{seniorRoles.length}</span>
-                  <span className="text-xs text-[#71787c]">VP · Director · MD · Partner</span>
+                  <h3 className="text-sm font-bold text-[#F4F0FA]">Senior Roles</h3>
+                  <span className="text-[10px] bg-[#1E1633] text-[#C4B5FD] font-bold px-1.5 py-0.5 rounded">{seniorRoles.length}</span>
+                  <span className="text-xs text-[#9A93AC]">VP · Director · MD · Partner</span>
                 </div>
                 <RoleList roles={seniorRoles} />
               </section>
@@ -7572,9 +7572,9 @@ function HiringSection({
             {juniorRoles.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-sm font-bold text-[#191c1e]">Experienced Junior Roles</h3>
-                  <span className="text-[10px] bg-sky-100 text-sky-700 font-bold px-1.5 py-0.5 rounded">{juniorRoles.length}</span>
-                  <span className="text-xs text-[#71787c]">Analyst · Associate</span>
+                  <h3 className="text-sm font-bold text-[#F4F0FA]">Experienced Junior Roles</h3>
+                  <span className="text-[10px] bg-[#0F2033] text-[#7DD3FC] font-bold px-1.5 py-0.5 rounded">{juniorRoles.length}</span>
+                  <span className="text-xs text-[#9A93AC]">Analyst · Associate</span>
                 </div>
                 <RoleList roles={juniorRoles} />
               </section>
@@ -7582,9 +7582,9 @@ function HiringSection({
             {internRoles.length > 0 && (
               <section>
                 <div className="flex items-center gap-2 mb-3">
-                  <h3 className="text-sm font-bold text-[#191c1e]">Internships</h3>
-                  <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-1.5 py-0.5 rounded">{internRoles.length}</span>
-                  <span className="text-xs text-[#71787c]">Summer · Co-op · Intern</span>
+                  <h3 className="text-sm font-bold text-[#F4F0FA]">Internships</h3>
+                  <span className="text-[10px] bg-[#2A2113] text-[#F5B544] font-bold px-1.5 py-0.5 rounded">{internRoles.length}</span>
+                  <span className="text-xs text-[#9A93AC]">Summer · Co-op · Intern</span>
                 </div>
                 <RoleList roles={internRoles} />
               </section>
@@ -7594,7 +7594,7 @@ function HiringSection({
       })()}
 
       {(signals.length > 0 || !loading) && (
-        <p className="text-center text-xs text-gray-400 py-1">
+        <p className="text-center text-xs text-[#8A8398] py-1">
           {FIRM_REGISTRY.length} firms monitored · Updated continuously
         </p>
       )}
@@ -7638,12 +7638,12 @@ function FirmNewsBar({ firmName }: { firmName: string }) {
     <div ref={ref} className="mb-3">
       {items.length > 0 && (
         <div className="space-y-1">
-          <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Recent signals</p>
+          <p className="text-[10px] font-semibold text-[#8A8398] uppercase tracking-wider mb-1.5">Recent signals</p>
           {items.slice(0, 2).map((item, i) => (
             <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
-              className="flex items-start gap-2 group rounded-lg px-2.5 py-1.5 hover:bg-amber-50/60 transition-colors border border-transparent hover:border-amber-100">
+              className="flex items-start gap-2 group rounded-lg px-2.5 py-1.5 hover:bg-[#2A2113]/60 transition-colors border border-transparent hover:border-[#2A2438]">
               <span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0 mt-1.5" />
-              <span className="text-[11px] text-[#41484c] group-hover:text-[#396477] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
+              <span className="text-[11px] text-[#B8B0C8] group-hover:text-[#A78BFA] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
               <span className="text-[10px] text-gray-300 flex-shrink-0 mt-0.5 whitespace-nowrap">{item.daysAgo}d</span>
             </a>
           ))}
@@ -7668,13 +7668,13 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
 
   if (compact) {
     return (
-      <div className="bg-white border border-[#c1c7cc]/40 rounded-lg px-4 py-2.5 flex items-center gap-3 hover:border-[#396477]/40 transition-colors">
+      <div className="bg-[#14101E] border border-[#2A2438]/40 rounded-lg px-4 py-2.5 flex items-center gap-3 hover:border-[#396477]/40 transition-colors">
         <WatchStatusBadge status={watchStatus} />
-        <span className="font-semibold text-sm text-[#191c1e] flex-1 truncate">{profile.name}</span>
-        <span className="text-xs text-[#396477] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
+        <span className="font-semibold text-sm text-[#F4F0FA] flex-1 truncate">{profile.name}</span>
+        <span className="text-xs text-[#A78BFA] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
         {filing && (
           <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-            className="text-[10px] font-semibold text-[#71787c] hover:text-[#396477] transition-colors flex-shrink-0">
+            className="text-[10px] font-semibold text-[#9A93AC] hover:text-[#A78BFA] transition-colors flex-shrink-0">
             signal ↗
           </button>
         )}
@@ -7683,7 +7683,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
   }
 
   return (
-    <div className="card-lift bg-white border border-[#c1c7cc]/40 rounded-xl p-4 sm:p-5">
+    <div className="card-lift bg-[#14101E] border border-[#2A2438]/40 rounded-xl p-4 sm:p-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1 min-w-0">
@@ -7691,25 +7691,25 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
             <WatchStatusBadge status={watchStatus} />
             {filing && (
               <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-                className="text-[10px] font-semibold text-[#396477] hover:underline transition-colors">
+                className="text-[10px] font-semibold text-[#A78BFA] hover:underline transition-colors">
                 Fund signal{filing.totalOfferingAmount ? ` · ${fmt(filing.totalOfferingAmount)}` : ""} ↗
               </button>
             )}
           </div>
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="font-bold text-[#191c1e] text-sm">{profile.name}</span>
+            <span className="font-bold text-[#F4F0FA] text-sm">{profile.name}</span>
             <FirmTypeBadge category={profile.category} />
           </div>
           <div className="flex flex-wrap gap-1 mt-1">
             {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
           </div>
         </div>
-        <span className="text-xs font-bold text-[#396477] flex-shrink-0 pt-0.5">{profile.frontOfficeCount} open</span>
+        <span className="text-xs font-bold text-[#A78BFA] flex-shrink-0 pt-0.5">{profile.frontOfficeCount} open</span>
       </div>
 
       {/* Signal note */}
       {signalNote && (
-        <p className="text-[12px] text-[#41484c] leading-relaxed bg-[#f7f9fb] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
+        <p className="text-[12px] text-[#B8B0C8] leading-relaxed bg-[#14101E] border border-[#e8eaec] rounded-lg px-3 py-2 mb-3">
           {signalNote}
         </p>
       )}
@@ -7722,13 +7722,13 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
               className="flex items-center justify-between gap-2 group">
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#41484c] group-hover:text-[#396477] truncate transition-colors">{r.role}</span>
+                <span className="text-xs text-[#B8B0C8] group-hover:text-[#A78BFA] truncate transition-colors">{r.role}</span>
               </div>
-              <span className="text-[10px] text-[#71787c] flex-shrink-0">{r.daysAgo}d</span>
+              <span className="text-[10px] text-[#9A93AC] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
           {allFrontOfficeRoles.length > 4 && (
-            <button onClick={() => setExpanded(e => !e)} className="text-[11px] text-[#396477] font-semibold pt-0.5 hover:underline text-left">
+            <button onClick={() => setExpanded(e => !e)} className="text-[11px] text-[#A78BFA] font-semibold pt-0.5 hover:underline text-left">
               {expanded ? "Show less ↑" : `+${allFrontOfficeRoles.length - 4} more →`}
             </button>
           )}
@@ -7761,12 +7761,12 @@ function IntelSection() {
     return (
       <div className="space-y-4 py-2">
         <div className="flex items-center gap-2">
-          <div className="h-4 w-32 bg-[#e0e3e5] rounded animate-pulse" />
-          <div className="h-4 w-24 bg-[#e0e3e5] rounded animate-pulse" />
+          <div className="h-4 w-32 bg-[#1A1428] rounded animate-pulse" />
+          <div className="h-4 w-24 bg-[#1A1428] rounded animate-pulse" />
         </div>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white border border-[#c1c7cc]/40 rounded-xl p-5 animate-pulse">
-            <div className="h-4 w-48 bg-[#e0e3e5] rounded mb-3" />
+          <div key={i} className="bg-[#14101E] border border-[#2A2438]/40 rounded-xl p-5 animate-pulse">
+            <div className="h-4 w-48 bg-[#1A1428] rounded mb-3" />
             <div className="h-3 w-32 bg-[#f0f2f4] rounded mb-2" />
             <div className="h-3 w-40 bg-[#f0f2f4] rounded" />
           </div>
@@ -7776,7 +7776,7 @@ function IntelSection() {
   }
 
   if (error) {
-    return <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">{error}</div>;
+    return <div className="bg-[#2E1620] border border-[#2A2438] rounded-lg p-4 text-sm text-[#FB7185]">{error}</div>;
   }
 
   if (!data) return null;
@@ -7789,13 +7789,13 @@ function IntelSection() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => setView("firms")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "firms" ? "bg-[#14101E] text-[#F4F0FA]" : "bg-[#0A0710] text-[#B8B0C8] hover:bg-[#e8eaec]"}`}
         >
           Firms ({allFirms.length})
         </button>
         <button
           onClick={() => setView("roles")}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-slate-200 text-slate-800" : "bg-[#f2f4f6] text-[#41484c] hover:bg-[#e8eaec]"}`}
+          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${view === "roles" ? "bg-[#14101E] text-[#F4F0FA]" : "bg-[#0A0710] text-[#B8B0C8] hover:bg-[#e8eaec]"}`}
         >
           All Roles ({data.allRoles.filter((r) => r.classification.frontOffice).length})
         </button>
@@ -7806,11 +7806,11 @@ function IntelSection() {
           {data.hiringPush.length > 0 && (
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Firms on a Hiring Push</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                <h2 className="text-sm font-bold text-[#F4F0FA]">Firms on a Hiring Push</h2>
+                <span className="text-[10px] bg-[#14352A] text-[#5EE6B5] font-bold px-1.5 py-0.5 rounded">
                   {data.hiringPush.length}
                 </span>
-                <span className="text-xs text-[#71787c]">3+ roles open</span>
+                <span className="text-xs text-[#9A93AC]">3+ roles open</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.hiringPush.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7821,11 +7821,11 @@ function IntelSection() {
           {data.postRaise.length > 0 && (
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Active Hiring</h2>
-                <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
+                <h2 className="text-sm font-bold text-[#F4F0FA]">Active Hiring</h2>
+                <span className="text-[10px] bg-[#0F2033] text-[#A78BFA] font-bold px-1.5 py-0.5 rounded">
                   {data.postRaise.length}
                 </span>
-                <span className="text-xs text-[#71787c]">Known firms with open roles</span>
+                <span className="text-xs text-[#9A93AC]">Known firms with open roles</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.postRaise.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7836,11 +7836,11 @@ function IntelSection() {
           {data.strategyBuilds.length > 0 && (
             <section>
               <div className="flex items-center gap-2 mb-3">
-                <h2 className="text-sm font-bold text-[#191c1e]">Strategy Buildouts</h2>
-                <span className="text-[10px] bg-[#e1ddf2]/70 text-[#5e5c6e] font-bold px-1.5 py-0.5 rounded">
+                <h2 className="text-sm font-bold text-[#F4F0FA]">Strategy Buildouts</h2>
+                <span className="text-[10px] bg-[#1A1428]/70 text-[#9A93AC] font-bold px-1.5 py-0.5 rounded">
                   {data.strategyBuilds.length}
                 </span>
-                <span className="text-xs text-[#71787c]">Hiring into new asset class</span>
+                <span className="text-xs text-[#9A93AC]">Hiring into new asset class</span>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {data.strategyBuilds.map((p) => <FirmCard key={p.firmId} profile={p} />)}
@@ -7849,9 +7849,9 @@ function IntelSection() {
           )}
 
           {allFirms.length === 0 && (
-            <div className="text-center py-16 text-gray-400">
+            <div className="text-center py-16 text-[#8A8398]">
               <div className="text-3xl mb-3">🔍</div>
-              <p className="font-semibold text-gray-700 text-sm">No firm signals found in the last 30 days</p>
+              <p className="font-semibold text-[#B8B0C8] text-sm">No firm signals found in the last 30 days</p>
               <p className="text-xs mt-1.5 max-w-xs mx-auto">Career pages are checked every 30 minutes. Check back later or expand the date range.</p>
             </div>
           )}
@@ -7864,26 +7864,26 @@ function IntelSection() {
             return (
               <section>
                 <div className="flex items-center gap-2 mb-3">
-                  <h2 className="text-sm font-bold text-[#191c1e]">Monitored — No Roles Posted Yet</h2>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-1.5 py-0.5 rounded">{quiet.length}</span>
+                  <h2 className="text-sm font-bold text-[#F4F0FA]">Monitored — No Roles Posted Yet</h2>
+                  <span className="text-[10px] bg-[#14101E] text-[#9A93AC] font-bold px-1.5 py-0.5 rounded">{quiet.length}</span>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                   {quiet.map((f) => (
-                    <div key={f.id} className="bg-white border border-[#c1c7cc]/30 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+                    <div key={f.id} className="bg-[#14101E] border border-[#2A2438]/30 rounded-xl px-4 py-3 flex items-center justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2 mb-0.5">
                           <TierBadge tier={f.tier} />
-                          <span className="font-semibold text-sm text-[#41484c]">{f.name}</span>
+                          <span className="font-semibold text-sm text-[#B8B0C8]">{f.name}</span>
                         </div>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {f.strategies.slice(0, 2).map((s) => <StrategyTag key={s} s={s} />)}
                         </div>
                       </div>
-                      <span className="text-[10px] text-[#71787c] whitespace-nowrap flex-shrink-0">No open roles</span>
+                      <span className="text-[10px] text-[#9A93AC] whitespace-nowrap flex-shrink-0">No open roles</span>
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-[#71787c] mt-3">
+                <p className="text-xs text-[#9A93AC] mt-3">
                   These firms are on our watch list. No roles posted in the last 45 days — consider reaching out directly or monitoring their careers page.
                 </p>
               </section>
@@ -7903,37 +7903,37 @@ function IntelSection() {
                 href={r.edgarUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-[0_1px_6px_rgba(57,100,119,0.08)] transition-all group"
+                className="flex items-start gap-3 bg-[#14101E] border border-[#2A2438]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-[0_1px_6px_rgba(57,100,119,0.08)] transition-all group"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">
+                    <span className="font-semibold text-sm text-[#F4F0FA] group-hover:text-[#A78BFA] transition-colors truncate">
                       {r.role}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[#71787c]">
-                    <span className="font-medium text-[#41484c]">{r.firm}</span>
+                  <div className="flex items-center gap-2 text-xs text-[#9A93AC]">
+                    <span className="font-medium text-[#B8B0C8]">{r.firm}</span>
                     <span>·</span>
                     <span>{r.location}</span>
                     <span>·</span>
                     <span>{r.daysAgo}d ago</span>
                   </div>
                   {r.classification.signal && (
-                    <p className="text-[11px] text-[#71787c] italic mt-1 leading-relaxed">
+                    <p className="text-[11px] text-[#9A93AC] italic mt-1 leading-relaxed">
                       {r.classification.signal}
                     </p>
                   )}
                 </div>
                 <div className="flex-shrink-0 text-right">
-                  <span className="text-xs font-bold text-[#396477]">{r.classification.relevanceScore}/10</span>
+                  <span className="text-xs font-bold text-[#A78BFA]">{r.classification.relevanceScore}/10</span>
                 </div>
               </a>
             ))}
         </div>
       )}
 
-      <p className="text-[11px] text-[#71787c] text-center pt-2">
+      <p className="text-[11px] text-[#9A93AC] text-center pt-2">
         Grouped by firm · Updated every 30 min
       </p>
     </div>
@@ -8037,8 +8037,8 @@ function OnluTableSection() {
         {/* ── LEFT: Events ── */}
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-3xl font-bold text-[#396477]">Onlu Table</h2>
-            <p className="text-lg text-[#64748b] leading-relaxed">
+            <h2 className="text-3xl font-bold text-[#A78BFA]">Onlu Table</h2>
+            <p className="text-lg text-[#9A93AC] leading-relaxed">
               Small-group coffee chats in NYC. No agenda.
             </p>
           </div>
@@ -8047,28 +8047,28 @@ function OnluTableSection() {
           {!selected && (
             <div className="space-y-4">
               {sessions.map((s) => (
-                <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
+                <div key={s.id} className="border border-[#2A2438] rounded-2xl p-5 bg-[#14101E] hover:border-[#1A2B4A]/30 transition-colors">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1A2B4A]/8 text-[#1A2B4A]">{s.theme}</span>
-                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-700"}`}>
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#7C3AED]/8 text-[#F4F0FA]">{s.theme}</span>
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-[#2E1620] text-[#FB7185]" : "bg-[#14352A] text-[#5EE6B5]"}`}>
                         {s.spotsLeft} spot{s.spotsLeft !== 1 ? "s" : ""} left
                       </span>
                     </div>
-                    <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
-                    <p className="text-xs text-[#71787c]">{s.time} · {s.location}</p>
-                    <p className="text-sm text-[#41484c] mt-2 leading-relaxed">{s.description}</p>
+                    <p className="text-[15px] font-semibold text-[#F4F0FA] mt-2">{s.date}</p>
+                    <p className="text-xs text-[#9A93AC]">{s.time} · {s.location}</p>
+                    <p className="text-sm text-[#B8B0C8] mt-2 leading-relaxed">{s.description}</p>
                   </div>
                   <button
                     onClick={() => { setSelected(s); setSubmitted(false); }}
                     disabled={s.spotsLeft === 0}
-                    className="mt-4 w-full py-2.5 bg-teal-100 border border-teal-200 text-teal-800 text-sm font-semibold rounded-xl hover:bg-teal-200 hover:border-teal-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="mt-4 w-full py-2.5 bg-[#0F2A2E] border border-[#2A2438] text-[#5EE6B5] text-sm font-semibold rounded-xl hover:bg-[#0F2A2E] hover:border-[#2A2438] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
                   </button>
                 </div>
               ))}
-              <p className="text-[11px] text-[#71787c] text-center pt-1">
+              <p className="text-[11px] text-[#9A93AC] text-center pt-1">
                 Sessions added every few weeks · NYC only for now · All levels welcome
               </p>
             </div>
@@ -8076,60 +8076,60 @@ function OnluTableSection() {
 
       {/* Signup form */}
       {selected && !submitted && (
-        <div className="border border-gray-200 rounded-2xl p-6 bg-white space-y-5">
+        <div className="border border-[#2A2438] rounded-2xl p-6 bg-[#14101E] space-y-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-[#71787c]">{selected.date} · {selected.time}</p>
-              <p className="text-base font-semibold text-[#1A2B4A] mt-0.5">{selected.theme} — {selected.location}</p>
+              <p className="text-xs text-[#9A93AC]">{selected.date} · {selected.time}</p>
+              <p className="text-base font-semibold text-[#F4F0FA] mt-0.5">{selected.theme} — {selected.location}</p>
             </div>
-            <button onClick={reset} className="text-xs text-[#71787c] hover:text-[#1A2B4A] transition-colors">← Back</button>
+            <button onClick={reset} className="text-xs text-[#9A93AC] hover:text-[#F4F0FA] transition-colors">← Back</button>
           </div>
 
           <form onSubmit={submit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">Full name *</label>
+                <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Full name *</label>
                 <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                   placeholder="Jane Smith"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                  className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">Email *</label>
+                <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Email *</label>
                 <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   placeholder="jane@example.com"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                  className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">Firm *</label>
+                <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Firm *</label>
                 <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
                   placeholder="Ares Management"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                  className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">Role *</label>
+                <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Role *</label>
                 <input required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
                   placeholder="Credit Analyst"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                  className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">LinkedIn URL <span className="text-[#71787c] font-normal">(optional)</span></label>
+              <label className="block text-xs font-medium text-[#B8B0C8] mb-1">LinkedIn URL <span className="text-[#9A93AC] font-normal">(optional)</span></label>
               <input value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))}
                 placeholder="linkedin.com/in/janesmith"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">What do you want to get out of this? <span className="text-[#71787c] font-normal">(optional)</span></label>
+              <label className="block text-xs font-medium text-[#B8B0C8] mb-1">What do you want to get out of this? <span className="text-[#9A93AC] font-normal">(optional)</span></label>
               <textarea rows={3} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
                 placeholder="e.g. Looking to connect with peers in private credit, compare notes on the market…"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
+                className="w-full border border-[#2A2438] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
-            {error && <p className="text-sm text-rose-600">{error}</p>}
+            {error && <p className="text-sm text-[#FB7185]">{error}</p>}
             <button type="submit" disabled={submitting}
-              className="w-full py-3 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
+              className="w-full py-3 bg-[#2A2113]0 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
               {submitting ? "Submitting…" : "Request My Seat →"}
             </button>
-            <p className="text-[11px] text-[#71787c] text-center">
+            <p className="text-[11px] text-[#9A93AC] text-center">
               We&apos;ll confirm your spot by email within 24 hours. Seats are limited to 8 per session.
             </p>
           </form>
@@ -8138,13 +8138,13 @@ function OnluTableSection() {
 
       {/* Success */}
       {selected && submitted && (
-        <div className="border border-emerald-200 rounded-2xl p-8 bg-emerald-50 text-center space-y-3">
+        <div className="border border-[#2A2438] rounded-2xl p-8 bg-[#14352A] text-center space-y-3">
           <div className="text-2xl">☕</div>
-          <p className="text-base font-semibold text-[#1A2B4A]">You&apos;re on the list</p>
-          <p className="text-sm text-[#41484c]">
+          <p className="text-base font-semibold text-[#F4F0FA]">You&apos;re on the list</p>
+          <p className="text-sm text-[#B8B0C8]">
             We&apos;ll send a confirmation to <strong>{form.email}</strong> within 24 hours with location details and who else is joining.
           </p>
-          <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
+          <button onClick={reset} className="mt-2 text-sm text-[#F4F0FA] underline hover:text-[#243d6b]">Browse other sessions</button>
         </div>
       )}
         </div>{/* end left column */}
@@ -8186,21 +8186,21 @@ function ReferralSection() {
   return (
     <div className="space-y-5">
       <div>
-        <h3 className="text-lg font-bold text-[#1A2B4A] mb-1">Network & Coaching</h3>
-        <p className="text-sm text-[#71787c] leading-relaxed">
+        <h3 className="text-lg font-bold text-[#F4F0FA] mb-1">Network & Coaching</h3>
+        <p className="text-sm text-[#9A93AC] leading-relaxed">
           Looking for a firm intro, or want to book a coaching session with someone who&apos;s been there? Submit below — we&apos;ll facilitate anonymously.
         </p>
       </div>
 
       {done ? (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-5 py-5 text-center">
-          <p className="text-sm font-semibold text-emerald-700">Received — we&apos;ll be in touch shortly.</p>
-          <p className="text-xs text-emerald-600 mt-1">{isIntro ? "Connections are facilitated by the Onlu team." : "We'll match you with a relevant coach within 1–2 days."}</p>
+        <div className="bg-[#14352A] border border-[#2A2438] rounded-xl px-5 py-5 text-center">
+          <p className="text-sm font-semibold text-[#5EE6B5]">Received — we&apos;ll be in touch shortly.</p>
+          <p className="text-xs text-[#5EE6B5] mt-1">{isIntro ? "Connections are facilitated by the Onlu team." : "We'll match you with a relevant coach within 1–2 days."}</p>
           <button onClick={() => { setDone(false); setForm({ firm: "", roleType: "", background: "", contact: "", message: "" }); }}
-            className="mt-3 text-xs text-emerald-700 underline hover:text-emerald-900">Submit another</button>
+            className="mt-3 text-xs text-[#5EE6B5] underline hover:text-[#5EE6B5]">Submit another</button>
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+        <div className="bg-[#14101E] border border-[#2A2438] rounded-2xl p-5 space-y-4">
           {/* Purpose toggle */}
           <div className="flex gap-2">
             {([
@@ -8210,8 +8210,8 @@ function ReferralSection() {
               <button key={v} onClick={() => setPurpose(v)}
                 className={`flex-1 py-2.5 rounded-xl text-xs font-bold border-2 transition-all ${
                   purpose === v
-                    ? v === "coaching" ? "border-violet-400 bg-violet-50 text-violet-700" : "border-[#1A2B4A] bg-[#1A2B4A]/5 text-[#1A2B4A]"
-                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                    ? v === "coaching" ? "border-violet-400 bg-[#1E1633] text-[#C4B5FD]" : "border-[#1A2B4A] bg-[#7C3AED]/5 text-[#F4F0FA]"
+                    : "border-[#2A2438] text-[#8A8398] hover:border-[#2A2438]"
                 }`}>
                 {label}
               </button>
@@ -8228,9 +8228,9 @@ function ReferralSection() {
                 className={`flex-1 py-2 rounded-lg text-xs font-semibold border transition-all ${
                   type === v
                     ? v === "offering"
-                      ? isIntro ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-violet-500 bg-violet-50 text-violet-700"
-                      : isIntro ? "border-[#396477] bg-[#396477]/5 text-[#396477]" : "border-violet-400 bg-violet-50 text-violet-600"
-                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                      ? isIntro ? "border-[#0F6E56] bg-[#14352A] text-[#5EE6B5]" : "border-violet-500 bg-[#1E1633] text-[#C4B5FD]"
+                      : isIntro ? "border-[#396477] bg-[#171226]/5 text-[#A78BFA]" : "border-violet-400 bg-[#1E1633] text-[#C4B5FD]"
+                    : "border-[#2A2438] text-[#8A8398] hover:border-[#2A2438]"
                 }`}>
                 {label}
               </button>
@@ -8241,33 +8241,33 @@ function ReferralSection() {
             {isIntro && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-[#41484c] mb-1">
+                  <label className="block text-xs font-medium text-[#B8B0C8] mb-1">
                     {type === "seeking" ? "Firm you want an intro to" : "Firm you're at"} <span className="text-red-400">*</span>
                   </label>
                   <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
                     placeholder="e.g. Ares Management"
-                    className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                    className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-[#41484c] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
+                  <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Role type <span className="text-gray-300 font-normal">(optional)</span></label>
                   <input value={form.roleType} onChange={e => setForm(f => ({ ...f, roleType: e.target.value }))}
                     placeholder="e.g. Credit Analyst, Associate"
-                    className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                    className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
                 </div>
               </div>
             )}
             {!isIntro && (
               <div>
-                <label className="block text-xs font-medium text-[#41484c] mb-1">
+                <label className="block text-xs font-medium text-[#B8B0C8] mb-1">
                   {type === "seeking" ? "What are you looking for?" : "What can you coach on?"} <span className="text-red-400">*</span>
                 </label>
                 <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
                   placeholder={type === "seeking" ? "e.g. Mock interview for Ares credit analyst role" : "e.g. Credit underwriting, LBO modelling, PE recruiting"}
-                  className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
+                  className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-violet-400/20 focus:border-violet-400" />
               </div>
             )}
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">
+              <label className="block text-xs font-medium text-[#B8B0C8] mb-1">
                 {isIntro
                   ? (type === "seeking" ? "Your background" : "What you can offer")
                   : (type === "seeking" ? "Your background & goals" : "Your experience & availability")
@@ -8282,25 +8282,25 @@ function ReferralSection() {
                   : (type === "seeking"
                     ? "Where are you in your search? What's your background and what would you like to work on?"
                     : "Your current role, years of experience, and how many sessions per month you can offer")}
-                className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
+                className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-[#41484c] mb-1">Contact email or LinkedIn <span className="text-red-400">*</span></label>
+              <label className="block text-xs font-medium text-[#B8B0C8] mb-1">Contact email or LinkedIn <span className="text-red-400">*</span></label>
               <input value={form.contact} onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
                 placeholder="email or linkedin.com/in/yourprofile"
                 required
-                className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
+                className="w-full text-sm border border-[#2A2438] rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
             </div>
             <button type="submit" disabled={submitting || !form.firm.trim() || !form.background.trim() || !form.contact.trim()}
               className={`w-full py-3 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-40 ${
-                !isIntro ? "bg-violet-600 hover:bg-violet-700" : type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#1A2B4A] hover:bg-[#243d6b]"
+                !isIntro ? "bg-violet-600 hover:bg-violet-700" : type === "offering" ? "bg-[#0F6E56] hover:bg-[#0a5a45]" : "bg-[#7C3AED] hover:bg-[#243d6b]"
               }`}>
               {submitting ? "Submitting…"
                 : isIntro
                   ? (type === "seeking" ? "Request intro →" : "Offer intro →")
                   : (type === "seeking" ? "Request coaching →" : "Apply to coach →")}
             </button>
-            <p className="text-[11px] text-gray-400 text-center">
+            <p className="text-[11px] text-[#8A8398] text-center">
               {isIntro
                 ? "We'll reach out if there's a match."
                 : type === "seeking"

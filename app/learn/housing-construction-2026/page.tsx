@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 
 export default function HousingConstructionPost() {
   return (
-    <div className="min-h-screen bg-[#f7f9fb] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
+    <div className="min-h-screen bg-[#14101E] flex flex-col" style={{ fontFamily: "'Nunito', sans-serif" }}>
       <SiteNav />
 
       {/* Breadcrumb */}
-      <div className="border-b border-gray-100 bg-white">
-        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-400">
-          <Link href="/?tab=learn" className="hover:text-[#396477] transition-colors">Onlu Learning</Link>
+      <div className="border-b border-[#2A2438] bg-[#14101E]">
+        <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-[#8A8398]">
+          <Link href="/?tab=learn" className="hover:text-[#A78BFA] transition-colors">Onlu Learning</Link>
           <span>›</span>
-          <span className="text-gray-600 truncate">US Residential Construction</span>
+          <span className="text-[#9A93AC] truncate">US Residential Construction</span>
         </div>
       </div>
 

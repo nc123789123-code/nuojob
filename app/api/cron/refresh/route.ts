@@ -102,7 +102,7 @@ export async function GET(req: NextRequest) {
             to: c.email,
             subject: `New role${matching.length > 1 ? "s" : ""} at ${c.firstName}`,
             html: `
-              <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
+              <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
                 <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">New role${matching.length > 1 ? "s" : ""} at ${c.firstName}</h2>
                 <ul style="padding-left:16px;color:#555;line-height:1.8">${roleList}</ul>
                 <p style="margin-top:16px"><a href="${baseUrl}?tab=hiring" style="display:inline-block;padding:10px 20px;background:#0f172a;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">View on Onlu →</a></p>

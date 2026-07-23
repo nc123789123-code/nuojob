@@ -125,26 +125,26 @@ export default function GuideDownloadPage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
       {/* Header */}
-      <header className="bg-white border-b border-[#c1c7cc]/30 px-6 py-4">
+      <header className="bg-[#14101E] border-b border-[#2A2438]/30 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={32} />
-            <span className="font-semibold text-base" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-semibold text-base" style={{ color: "#E9C989" }}>Onlu</span>
           </Link>
-          <span className="text-xs text-[#71787c]">Credit Interview Guide</span>
+          <span className="text-xs text-[#9A93AC]">Credit Interview Guide</span>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-12">
         {/* Title block */}
         <div className="mb-10">
-          <div className="inline-block px-2 py-0.5 bg-[#6aab8e]/10 text-[#6aab8e] text-xs font-medium rounded mb-3">
+          <div className="inline-block px-2 py-0.5 bg-[#7C3AED]/10 text-[#E9C989] text-xs font-medium rounded mb-3">
             Purchase confirmed
           </div>
-          <h1 className="text-2xl font-bold text-[#191c1e] mb-2">
+          <h1 className="text-2xl font-bold text-[#F4F0FA] mb-2">
             Credit Interview Guide
           </h1>
-          <p className="text-[#41484c] text-sm leading-relaxed">
+          <p className="text-[#B8B0C8] text-sm leading-relaxed">
             Private credit · Special situations · Distressed debt<br />
             Case-based frameworks for buy-side interviews.
           </p>
@@ -153,10 +153,10 @@ export default function GuideDownloadPage() {
           <div className="mt-6 bg-[#0f172a] rounded-xl px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-white font-semibold text-sm mb-0.5">Download the PDF</p>
-              <p className="text-slate-400 text-xs">Your personal download link was emailed to you after purchase. Check your inbox.</p>
+              <p className="text-[#8A8398] text-xs">Your personal download link was emailed to you after purchase. Check your inbox.</p>
             </div>
             <a href="mailto:research@onluintel.com?subject=Guide download link"
-              className="flex-shrink-0 inline-block px-4 py-2 bg-[#6aab8e] text-white text-xs font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors text-center">
+              className="flex-shrink-0 inline-block px-4 py-2 bg-[#7C3AED] text-white text-xs font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors text-center">
               Resend link →
             </a>
           </div>
@@ -165,24 +165,24 @@ export default function GuideDownloadPage() {
         {/* Sections */}
         <div className="space-y-10">
           {SECTIONS.map((section) => (
-            <section key={section.title} className="bg-white rounded-xl border border-[#c1c7cc]/30 p-6">
-              <h2 className="text-base font-bold text-[#191c1e] mb-4">{section.title}</h2>
+            <section key={section.title} className="bg-[#14101E] rounded-xl border border-[#2A2438]/30 p-6">
+              <h2 className="text-base font-bold text-[#F4F0FA] mb-4">{section.title}</h2>
 
               {section.content && (
                 <div className="space-y-3 mb-4">
                   {section.content.map((para, i) => (
-                    <p key={i} className="text-sm text-[#41484c] leading-relaxed">{para}</p>
+                    <p key={i} className="text-sm text-[#B8B0C8] leading-relaxed">{para}</p>
                   ))}
                 </div>
               )}
 
               {section.subsections?.map((sub) => (
                 <div key={sub.heading} className="mb-4">
-                  <h3 className="text-sm font-semibold text-[#191c1e] mb-2">{sub.heading}</h3>
+                  <h3 className="text-sm font-semibold text-[#F4F0FA] mb-2">{sub.heading}</h3>
                   <ul className="space-y-1.5">
                     {sub.points.map((pt, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-[#41484c]">
-                        <span className="text-[#6aab8e] mt-0.5 flex-shrink-0">•</span>
+                      <li key={i} className="flex gap-2 text-sm text-[#B8B0C8]">
+                        <span className="text-[#E9C989] mt-0.5 flex-shrink-0">•</span>
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -194,12 +194,12 @@ export default function GuideDownloadPage() {
                 <ol className="space-y-3">
                   {section.steps.map((step, i) => (
                     <li key={i} className="flex gap-3">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#6aab8e]/10 text-[#6aab8e] text-xs font-bold flex items-center justify-center mt-0.5">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#7C3AED]/10 text-[#E9C989] text-xs font-bold flex items-center justify-center mt-0.5">
                         {i + 1}
                       </span>
                       <div>
-                        <span className="text-sm font-semibold text-[#191c1e]">{step.label}: </span>
-                        <span className="text-sm text-[#41484c]">{step.detail}</span>
+                        <span className="text-sm font-semibold text-[#F4F0FA]">{step.label}: </span>
+                        <span className="text-sm text-[#B8B0C8]">{step.detail}</span>
                       </div>
                     </li>
                   ))}
@@ -209,7 +209,7 @@ export default function GuideDownloadPage() {
               {section.questions && (
                 <ul className="space-y-2.5">
                   {section.questions.map((q, i) => (
-                    <li key={i} className="text-sm text-[#41484c] bg-[#f8f9fa] rounded-lg p-3 leading-relaxed">
+                    <li key={i} className="text-sm text-[#B8B0C8] bg-[#f8f9fa] rounded-lg p-3 leading-relaxed">
                       {q}
                     </li>
                   ))}
@@ -220,8 +220,8 @@ export default function GuideDownloadPage() {
                 <div className="space-y-4">
                   {section.qas.map((qa, i) => (
                     <div key={i} className="border-l-2 border-[#6aab8e]/40 pl-4">
-                      <p className="text-sm font-semibold text-[#191c1e] mb-1">Q: {qa.q}</p>
-                      <p className="text-sm text-[#41484c] leading-relaxed">A: {qa.a}</p>
+                      <p className="text-sm font-semibold text-[#F4F0FA] mb-1">Q: {qa.q}</p>
+                      <p className="text-sm text-[#B8B0C8] leading-relaxed">A: {qa.a}</p>
                     </div>
                   ))}
                 </div>
@@ -233,19 +233,19 @@ export default function GuideDownloadPage() {
         {/* Footer CTA */}
         <div className="mt-10 p-6 bg-[#0f172a] rounded-xl text-center">
           <p className="text-white font-semibold mb-1">Ready to find your role?</p>
-          <p className="text-slate-400 text-sm mb-4">
+          <p className="text-[#8A8398] text-sm mb-4">
             Use Onlu's Fund Signals to identify firms actively hiring after a raise.
           </p>
           <Link
             href="/?tab=intel"
-            className="inline-block px-5 py-2.5 bg-[#6aab8e] text-white text-sm font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors"
+            className="inline-block px-5 py-2.5 bg-[#7C3AED] text-white text-sm font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors"
           >
             View Firm Intel →
           </Link>
         </div>
 
-        <p className="text-center text-xs text-[#71787c] mt-8">
-          Questions? <a href="mailto:research@onluintel.com" className="underline hover:text-[#41484c]">research@onluintel.com</a>
+        <p className="text-center text-xs text-[#9A93AC] mt-8">
+          Questions? <a href="mailto:research@onluintel.com" className="underline hover:text-[#B8B0C8]">research@onluintel.com</a>
         </p>
       </main>
     </div>

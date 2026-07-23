@@ -6,11 +6,11 @@ import LogoMark from "@/app/components/LogoMark";
 
 /* ── Tab color palette (matches main app) ──────────────────────────────── */
 const TABS = {
-  hiring:   { bg: "bg-emerald-50",  border: "border-emerald-200", text: "text-emerald-700", dot: "bg-emerald-400", badge: "bg-emerald-100 text-emerald-700", ring: "ring-emerald-200" },
-  pulse:    { bg: "bg-sky-50",      border: "border-sky-200",     text: "text-sky-700",     dot: "bg-sky-400",     badge: "bg-sky-100 text-sky-700",     ring: "ring-sky-200"     },
-  prep:     { bg: "bg-rose-50",     border: "border-rose-200",    text: "text-rose-700",    dot: "bg-rose-400",    badge: "bg-rose-100 text-rose-700",    ring: "ring-rose-200"    },
-  events:   { bg: "bg-amber-50",    border: "border-amber-200",   text: "text-amber-700",   dot: "bg-amber-400",   badge: "bg-amber-100 text-amber-700",  ring: "ring-amber-200"   },
-  learning: { bg: "bg-violet-50",   border: "border-violet-200",  text: "text-violet-700",  dot: "bg-violet-400",  badge: "bg-violet-100 text-violet-700", ring: "ring-violet-200" },
+  hiring:   { bg: "bg-[#14352A]",  border: "border-[#2A2438]", text: "text-[#5EE6B5]", dot: "bg-emerald-400", badge: "bg-[#14352A] text-[#5EE6B5]", ring: "ring-[#2A2438]" },
+  pulse:    { bg: "bg-[#0F2033]",      border: "border-[#2A2438]",     text: "text-[#7DD3FC]",     dot: "bg-sky-400",     badge: "bg-[#0F2033] text-[#7DD3FC]",     ring: "ring-[#2A2438]"     },
+  prep:     { bg: "bg-[#2E1620]",     border: "border-[#2A2438]",    text: "text-[#FB7185]",    dot: "bg-rose-400",    badge: "bg-[#2E1620] text-[#FB7185]",    ring: "ring-[#2A2438]"    },
+  events:   { bg: "bg-[#2A2113]",    border: "border-[#2A2438]",   text: "text-[#F5B544]",   dot: "bg-amber-400",   badge: "bg-[#2A2113] text-[#F5B544]",  ring: "ring-[#2A2438]"   },
+  learning: { bg: "bg-[#1E1633]",   border: "border-[#2A2438]",  text: "text-[#C4B5FD]",  dot: "bg-violet-400",  badge: "bg-[#1E1633] text-[#C4B5FD]", ring: "ring-[#2A2438]" },
 } as const;
 
 /* ── Live stats ─────────────────────────────────────────────────────────── */
@@ -49,16 +49,16 @@ function EmailCapture() {
   }
 
   if (state === "done") return (
-    <p className="text-sm font-semibold text-emerald-600">✓ You&apos;re on the list — check your inbox.</p>
+    <p className="text-sm font-semibold text-[#5EE6B5]">✓ You&apos;re on the list — check your inbox.</p>
   );
 
   return (
     <form onSubmit={submit} className="flex gap-2 flex-wrap">
       <input type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="your@email.com" required
-        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#c1c7cc]/60 bg-white text-[#191c1e] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#396477]/30" />
+        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#2A2438]/60 bg-[#14101E] text-[#F4F0FA] placeholder:text-[#8A8398] focus:outline-none focus:ring-2 focus:ring-[#396477]/30" />
       <button type="submit" disabled={state === "loading"}
-        className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#1A2B4A] text-white hover:bg-[#396477] transition-colors disabled:opacity-60">
+        className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#7C3AED] text-white hover:bg-[#171226] transition-colors disabled:opacity-60">
         {state === "loading" ? "…" : "Get signals →"}
       </button>
       {state === "error" && <p className="w-full text-xs text-red-400">Something went wrong — try again.</p>}
@@ -71,14 +71,14 @@ export default function LandingPage() {
   const stats = useLiveStats();
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-[#14101E] font-sans">
 
       {/* Nav */}
-      <header className="bg-white border-b border-[#c1c7cc]/40 sticky top-0 z-20">
+      <header className="bg-[#14101E] border-b border-[#2A2438]/40 sticky top-0 z-20">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={28} />
-            <span className="font-bold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-bold text-xl tracking-tight" style={{ color: "#E9C989" }}>Onlu</span>
           </Link>
           <div className="flex items-center gap-2">
             {/* 5 tab dots */}
@@ -87,8 +87,8 @@ export default function LandingPage() {
                 <span key={i} className={`w-2 h-2 rounded-full ${t.dot}`} />
               ))}
             </div>
-            <Link href="/this-week" className="hidden sm:inline text-xs text-[#71787c] hover:text-[#191c1e] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#f2f4f6]">Weekly Pulse</Link>
-            <Link href="/" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#396477] transition-colors">
+            <Link href="/this-week" className="hidden sm:inline text-xs text-[#9A93AC] hover:text-[#F4F0FA] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#0A0710]">Weekly Pulse</Link>
+            <Link href="/" className="px-4 py-2 bg-[#7C3AED] text-white text-sm font-bold rounded-xl hover:bg-[#171226] transition-colors">
               Open app →
             </Link>
           </div>
@@ -96,7 +96,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero — light, with 5 pastel tab badges */}
-      <section className="bg-gradient-to-b from-[#f8fafb] to-white border-b border-[#c1c7cc]/30">
+      <section className="bg-gradient-to-b from-[#14101E] to-white border-b border-[#2A2438]/30">
         <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
           {/* 5 tab pills */}
           <div className="flex flex-wrap gap-2 mb-8">
@@ -116,15 +116,15 @@ export default function LandingPage() {
             })}
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-[#1A2B4A] max-w-3xl mb-5">
+          <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-[#F4F0FA] max-w-3xl mb-5">
             Know which firms are actively building teams — and walk into every interview prepared.
           </h1>
-          <p className="text-[#71787c] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+          <p className="text-[#9A93AC] text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
             Onlu tracks capital raises, monitors 200+ buy-side firm career pages, and gives you firm-specific interview prep — all in one place. The edge most finance candidates never find.
           </p>
           <div className="max-w-lg mb-10">
             <EmailCapture />
-            <p className="text-gray-400 text-xs mt-2">Free bi-weekly digest · No spam · Unsubscribe anytime</p>
+            <p className="text-[#8A8398] text-xs mt-2">Free bi-weekly digest · No spam · Unsubscribe anytime</p>
           </div>
 
           {/* Live stats — each in its tab color */}
@@ -138,7 +138,7 @@ export default function LandingPage() {
               return (
                 <div key={label} className={`rounded-xl px-4 py-3 border ${c.bg} ${c.border}`}>
                   <p className={`text-2xl font-bold ${c.text}`}>{n}</p>
-                  <p className="text-xs text-[#71787c] mt-0.5">{label}</p>
+                  <p className="text-xs text-[#9A93AC] mt-0.5">{label}</p>
                 </div>
               );
             })}
@@ -149,9 +149,9 @@ export default function LandingPage() {
       {/* Problem → Solution */}
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
         <div className="grid sm:grid-cols-2 gap-10 items-start">
-          <div className="bg-[#fafafa] rounded-2xl border border-[#c1c7cc]/40 p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-3">The problem</p>
-            <h2 className="text-xl font-bold text-[#191c1e] mb-4 leading-snug">Most finance job seekers are flying blind.</h2>
+          <div className="bg-[#fafafa] rounded-2xl border border-[#2A2438]/40 p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-3">The problem</p>
+            <h2 className="text-xl font-bold text-[#F4F0FA] mb-4 leading-snug">Most finance job seekers are flying blind.</h2>
             <div className="space-y-2.5">
               {[
                 "Find out about roles weeks after they're filled",
@@ -159,7 +159,7 @@ export default function LandingPage() {
                 "No signal on which firms are actively building teams",
                 "Interview prep is scattered across forums and PDFs",
               ].map(p => (
-                <div key={p} className="flex items-start gap-2.5 text-sm text-[#71787c]">
+                <div key={p} className="flex items-start gap-2.5 text-sm text-[#9A93AC]">
                   <span className="text-red-300 mt-0.5 flex-shrink-0 font-bold">✕</span>{p}
                 </div>
               ))}
@@ -167,7 +167,7 @@ export default function LandingPage() {
           </div>
           <div className={`rounded-2xl border p-6 ${TABS.hiring.bg} ${TABS.hiring.border}`}>
             <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${TABS.hiring.text}`}>The Onlu edge</p>
-            <h2 className="text-xl font-bold text-[#191c1e] mb-4 leading-snug">One platform. Every signal that matters.</h2>
+            <h2 className="text-xl font-bold text-[#F4F0FA] mb-4 leading-snug">One platform. Every signal that matters.</h2>
             <div className="space-y-2.5">
               {[
                 "Track firms the moment they raise capital — hiring follows",
@@ -175,7 +175,7 @@ export default function LandingPage() {
                 "Firm-specific prep for PE, credit & hedge fund interviews",
                 "Bi-weekly digest covering raises, roles, and signals",
               ].map(p => (
-                <div key={p} className="flex items-start gap-2.5 text-sm text-[#41484c]">
+                <div key={p} className="flex items-start gap-2.5 text-sm text-[#B8B0C8]">
                   <span className="text-emerald-500 mt-0.5 flex-shrink-0 font-bold">✓</span>{p}
                 </div>
               ))}
@@ -185,11 +185,11 @@ export default function LandingPage() {
       </section>
 
       {/* 5 Feature cards — one per tab */}
-      <section className="border-t border-[#c1c7cc]/30 bg-[#f8fafb]">
+      <section className="border-t border-[#2A2438]/30 bg-[#14101E]">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-2">Five tools, one platform</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A]">Everything in one place</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-2">Five tools, one platform</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#F4F0FA]">Everything in one place</h2>
           </div>
 
           {/* Top 3 */}
@@ -220,16 +220,16 @@ export default function LandingPage() {
                   <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest mb-3 ${c.text}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />{label}
                   </span>
-                  <h3 className="font-bold text-[#191c1e] text-base mb-2">{title}</h3>
-                  <p className="text-sm text-[#71787c] leading-relaxed mb-3 flex-1">{desc}</p>
+                  <h3 className="font-bold text-[#F4F0FA] text-base mb-2">{title}</h3>
+                  <p className="text-sm text-[#9A93AC] leading-relaxed mb-3 flex-1">{desc}</p>
                   <ul className="space-y-1 mb-4">
                     {points.map(p => (
-                      <li key={p} className="flex items-start gap-2 text-xs text-[#41484c]">
+                      <li key={p} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
                         <span className={`font-bold mt-0.5 flex-shrink-0 ${c.text}`}>✓</span>{p}
                       </li>
                     ))}
                   </ul>
-                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-white transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
+                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
                     Explore →
                   </Link>
                 </div>
@@ -259,16 +259,16 @@ export default function LandingPage() {
                   <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest mb-3 ${c.text}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />{label}
                   </span>
-                  <h3 className="font-bold text-[#191c1e] text-base mb-2">{title}</h3>
-                  <p className="text-sm text-[#71787c] leading-relaxed mb-3 flex-1">{desc}</p>
+                  <h3 className="font-bold text-[#F4F0FA] text-base mb-2">{title}</h3>
+                  <p className="text-sm text-[#9A93AC] leading-relaxed mb-3 flex-1">{desc}</p>
                   <ul className="space-y-1 mb-4">
                     {points.map(p => (
-                      <li key={p} className="flex items-start gap-2 text-xs text-[#41484c]">
+                      <li key={p} className="flex items-start gap-2 text-xs text-[#B8B0C8]">
                         <span className={`font-bold mt-0.5 flex-shrink-0 ${c.text}`}>✓</span>{p}
                       </li>
                     ))}
                   </ul>
-                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-white transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
+                  <Link href={href} className={`text-center py-2 rounded-xl text-xs font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${c.border} ${c.text}`}>
                     Explore →
                   </Link>
                 </div>
@@ -279,11 +279,11 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-white border-t border-[#c1c7cc]/30">
+      <section className="bg-[#14101E] border-t border-[#2A2438]/30">
         <div className="max-w-5xl mx-auto px-4 py-14 sm:py-16">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#71787c] mb-2">How it works</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A]">Three steps to the inside edge</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#9A93AC] mb-2">How it works</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#F4F0FA]">Three steps to the inside edge</h2>
           </div>
           <div className="grid sm:grid-cols-3 gap-8">
             {[
@@ -296,8 +296,8 @@ export default function LandingPage() {
                 <div key={n} className="flex gap-4">
                   <span className={`text-3xl font-black flex-shrink-0 leading-none mt-0.5 ${c.text} opacity-40`}>{n}</span>
                   <div>
-                    <h3 className="font-bold text-[#191c1e] mb-1">{title}</h3>
-                    <p className="text-sm text-[#71787c] leading-relaxed">{desc}</p>
+                    <h3 className="font-bold text-[#F4F0FA] mb-1">{title}</h3>
+                    <p className="text-sm text-[#9A93AC] leading-relaxed">{desc}</p>
                   </div>
                 </div>
               );
@@ -312,11 +312,11 @@ export default function LandingPage() {
           <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-start sm:items-center gap-5">
             <div className="flex-1">
               <span className={`text-[10px] font-bold uppercase tracking-widest ${TABS.pulse.text}`}>Weekly Pulse</span>
-              <h3 className="font-bold text-[#191c1e] text-lg mt-1 mb-1">See this week&apos;s hiring signals</h3>
-              <p className="text-sm text-[#71787c]">Who&apos;s actively hiring, which funds raised capital, and roles worth applying to — updated every week.</p>
+              <h3 className="font-bold text-[#F4F0FA] text-lg mt-1 mb-1">See this week&apos;s hiring signals</h3>
+              <p className="text-sm text-[#9A93AC]">Who&apos;s actively hiring, which funds raised capital, and roles worth applying to — updated every week.</p>
             </div>
             <Link href="/this-week"
-              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold border bg-white transition-colors hover:opacity-80 ${TABS.pulse.border} ${TABS.pulse.text}`}>
+              className={`flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold border bg-[#14101E] transition-colors hover:opacity-80 ${TABS.pulse.border} ${TABS.pulse.text}`}>
               View this week →
             </Link>
           </div>
@@ -325,8 +325,8 @@ export default function LandingPage() {
 
       {/* Final CTA */}
       <section className="max-w-5xl mx-auto px-4 py-14 sm:py-16 text-center">
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#1A2B4A] mb-3">Start with the signals.</h2>
-        <p className="text-[#71787c] text-base mb-8 max-w-xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#F4F0FA] mb-3">Start with the signals.</h2>
+        <p className="text-[#9A93AC] text-base mb-8 max-w-xl mx-auto">
           Free bi-weekly digest. No credit card. Unsubscribe anytime.
         </p>
         <div className="flex justify-center mb-6">
@@ -334,18 +334,18 @@ export default function LandingPage() {
             <EmailCapture />
           </div>
         </div>
-        <Link href="/" className="text-[#71787c] text-sm hover:text-[#191c1e] transition-colors">
+        <Link href="/" className="text-[#9A93AC] text-sm hover:text-[#F4F0FA] transition-colors">
           Or go straight to the platform →
         </Link>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#c1c7cc]/30 bg-[#f8fafb]">
+      <footer className="border-t border-[#2A2438]/30 bg-[#14101E]">
         <div className="max-w-5xl mx-auto px-4 py-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <LogoMark size={22} />
-              <span className="font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
+              <span className="font-bold" style={{ color: "#E9C989" }}>Onlu</span>
             </div>
             <div className="flex items-center gap-1">
               {Object.values(TABS).map((t, i) => (
@@ -353,11 +353,11 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          <div className="flex gap-4 text-xs text-[#71787c]">
-            <Link href="/privacy"    className="hover:text-[#191c1e] transition-colors">Privacy</Link>
-            <Link href="/terms"      className="hover:text-[#191c1e] transition-colors">Terms</Link>
-            <Link href="/this-week"  className="hover:text-[#191c1e] transition-colors">Weekly Pulse</Link>
-            <Link href="/"           className="hover:text-[#191c1e] transition-colors">App</Link>
+          <div className="flex gap-4 text-xs text-[#9A93AC]">
+            <Link href="/privacy"    className="hover:text-[#F4F0FA] transition-colors">Privacy</Link>
+            <Link href="/terms"      className="hover:text-[#F4F0FA] transition-colors">Terms</Link>
+            <Link href="/this-week"  className="hover:text-[#F4F0FA] transition-colors">Weekly Pulse</Link>
+            <Link href="/"           className="hover:text-[#F4F0FA] transition-colors">App</Link>
           </div>
         </div>
       </footer>

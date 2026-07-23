@@ -49,7 +49,7 @@ function getWelcomeEmail(intent: Intent, email: string): { subject: string; html
     return {
       subject: "You're on the Onlu list",
       html: `
-        <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a2e">
+        <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#F4F0FA">
           <h2 style="font-size:18px;font-weight:700;margin-bottom:8px">You're in.</h2>
           <p style="color:#555;line-height:1.6">
             We'll send you new fund signals, relevant roles, and market insight as they come in.

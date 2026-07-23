@@ -22,22 +22,22 @@ export async function POST(req: Request) {
       to: adminEmail,
       subject: `[Onlu] Interview feedback: ${firm}`,
       html: `
-        <div style="font-family:sans-serif;max-width:600px;color:#1a1a2e">
+        <div style="font-family:sans-serif;max-width:600px;color:#F4F0FA">
           <h2 style="font-size:16px;margin-bottom:16px">Anonymous Interview Feedback</h2>
           <table style="width:100%;border-collapse:collapse;font-size:13px">
-            <tr><td style="padding:6px 12px 6px 0;color:#888;width:140px">Firm</td><td style="padding:6px 0"><strong>${firm}</strong></td></tr>
-            <tr><td style="padding:6px 12px 6px 0;color:#888">Role type</td><td style="padding:6px 0">${roleType || "—"}</td></tr>
-            <tr><td style="padding:6px 12px 6px 0;color:#888">Round</td><td style="padding:6px 0">${round || "—"}</td></tr>
-            <tr><td style="padding:6px 12px 6px 0;color:#888">Difficulty</td><td style="padding:6px 0">${difficulty || "—"}</td></tr>
-            <tr><td style="padding:6px 12px 6px 0;color:#888">Outcome</td><td style="padding:6px 0">${outcome || "—"}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#8A8398;width:140px">Firm</td><td style="padding:6px 0"><strong>${firm}</strong></td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#8A8398">Role type</td><td style="padding:6px 0">${roleType || "—"}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#8A8398">Round</td><td style="padding:6px 0">${round || "—"}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#8A8398">Difficulty</td><td style="padding:6px 0">${difficulty || "—"}</td></tr>
+            <tr><td style="padding:6px 12px 6px 0;color:#8A8398">Outcome</td><td style="padding:6px 0">${outcome || "—"}</td></tr>
           </table>
           <div style="margin-top:16px">
-            <p style="color:#888;font-size:12px;margin-bottom:4px">QUESTIONS ASKED</p>
-            <p style="background:#f7f9fb;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${questions.replace(/\n/g, "<br/>")}</p>
+            <p style="color:#8A8398;font-size:12px;margin-bottom:4px">QUESTIONS ASKED</p>
+            <p style="background:#14101E;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${questions.replace(/\n/g, "<br/>")}</p>
           </div>
           ${tips ? `
           <div style="margin-top:12px">
-            <p style="color:#888;font-size:12px;margin-bottom:4px">TIPS FOR CANDIDATES</p>
+            <p style="color:#8A8398;font-size:12px;margin-bottom:4px">TIPS FOR CANDIDATES</p>
             <p style="background:#f0fdf4;border-radius:8px;padding:12px;font-size:13px;line-height:1.6">${tips.replace(/\n/g, "<br/>")}</p>
           </div>` : ""}
         </div>`,
