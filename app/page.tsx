@@ -527,6 +527,18 @@ function HomeContent() {
       )}
 
       <main className="max-w-6xl mx-auto px-3 sm:px-5 py-4 sm:py-5 space-y-4 pb-24 sm:pb-5">
+        {/* Prominent subscribe — top of content */}
+        <div className="rounded-2xl p-[2px] bg-gradient-to-r from-[#7C3AED] via-[#EC4899] to-[#F5B544] shadow-[0_12px_34px_-10px_rgba(124,58,237,0.5)]">
+          <div className="rounded-[15px] bg-white">
+            <NewsletterCTA
+              dark={false}
+              intent="signals_subscriber"
+              title="Get the free daily finance digest 📬"
+              description="Fund signals, hiring intel & fresh roles in your inbox. Free — unsubscribe anytime."
+              cta="Subscribe free"
+            />
+          </div>
+        </div>
         {topTab === "pulse" && (
           <>
             <PulseSection />
