@@ -77,7 +77,7 @@ function AnimatedStat({ value, suffix = "", label, color = "text-[#191c1e]", too
       <div className={`text-4xl sm:text-5xl font-extrabold tracking-tight ${color}`}>
         {count}{suffix}
       </div>
-      <div className="text-[11px] font-medium text-[#2b3138] mt-1 uppercase tracking-wider">{label}</div>
+      <div className="text-[11px] font-semibold text-[#C7C1D6] mt-1 uppercase tracking-wider">{label}</div>
     </div>
   );
 }
@@ -368,11 +368,11 @@ function HomeContent() {
                   tooltip="Job boards cache for 30 minutes and refresh every 24h; SEC EDGAR Form D filings tracked daily" />
               </div>
               {!userProfile && (
-                <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-[#1A2B4A]/8 border border-[#1A2B4A]/15 rounded-xl">
-                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#1A2B4A] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
-                  <span className="text-xs text-[#1a1e24]">Set your profile to unlock <strong className="text-[#191c1e]">For You</strong> role matching</span>
+                <div className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-[#CFC9DB] flex-shrink-0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="8" cy="6" r="2.5"/><path d="M3 13c0-2.2 2.2-4 5-4s5 1.8 5 4"/></svg>
+                  <span className="text-xs text-[#E7E2F0]">Set your profile to unlock <strong className="text-white">For You</strong> role matching</span>
                   <button onClick={() => setShowProfilePanel(true)}
-                    className="text-[11px] font-bold text-[#1A2B4A] hover:underline flex-shrink-0">
+                    className="text-[11px] font-bold text-[#F5B544] hover:text-[#ffcf6b] hover:underline flex-shrink-0">
                     Set profile →
                   </button>
                 </div>
@@ -413,7 +413,7 @@ function HomeContent() {
           </div>
 
           {/* Feature map — same order as top nav, active tab highlighted */}
-          <div className="mt-4 sm:mt-6 grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2 max-w-3xl">
+          <div className="mt-5 sm:mt-7 grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3 max-w-4xl">
             {([
               {
                 icon: (
@@ -474,10 +474,10 @@ function HomeContent() {
               },
             ] as Array<{ icon: React.ReactNode; iconColor: string; label: string; desc: string; tab: TopTab; color: string; active: string }>).map(f => (
               <button key={f.tab} onClick={() => setTopTab(f.tab)}
-                className={`card-lift text-left p-2 sm:p-3 rounded-xl border-2 bg-white shadow-[0_8px_24px_-8px_rgba(124,58,237,0.35)] transition-all ${topTab === f.tab ? f.active + " !bg-white" : f.color}`}>
-                <div className={`mb-1 sm:mb-1.5 ${topTab === f.tab ? f.iconColor : "text-gray-600"}`}>{f.icon}</div>
-                <div className={`text-[10px] sm:text-[11px] font-bold leading-tight mb-0.5 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#1a1e24]"}`}>{f.label}</div>
-                <div className="text-[10px] text-gray-600 leading-snug hidden sm:block">{f.desc}</div>
+                className={`card-lift text-left p-3.5 sm:p-5 rounded-2xl border-2 bg-white shadow-[0_8px_24px_-8px_rgba(124,58,237,0.35)] transition-all ${topTab === f.tab ? f.active + " !bg-white" : f.color}`}>
+                <div className={`mb-2 sm:mb-3 [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-7 sm:[&>svg]:h-7 ${topTab === f.tab ? f.iconColor : "text-gray-600"}`}>{f.icon}</div>
+                <div className={`text-xs sm:text-sm font-bold leading-tight mb-1 ${topTab === f.tab ? "text-[#191c1e]" : "text-[#1a1e24]"}`}>{f.label}</div>
+                <div className="text-[11px] sm:text-xs text-gray-600 leading-snug">{f.desc}</div>
               </button>
             ))}
           </div>
