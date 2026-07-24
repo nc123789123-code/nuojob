@@ -285,7 +285,7 @@ function HomeContent() {
                 <circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" />
               </svg>
             } />
-            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Table" animal={
+            <NavTab active={topTab === "table"} onClick={() => setTopTab("table")} label="Onlu Coffee" animal={
               // Bee — social, community
               <svg viewBox="0 0 20 20" fill="none" className="w-6 h-6 text-amber-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
                 <ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" />
@@ -458,7 +458,7 @@ function HomeContent() {
                   </svg>
                 ),
                 iconColor: "text-amber-500",
-                label: "Onlu Table", desc: "Small-group finance dinners & catchups", tab: "table" as TopTab,
+                label: "Onlu Coffee", desc: "Small-group coffee for finance pros", tab: "table" as TopTab,
                 color: "border-amber-200 hover:border-amber-400 hover:bg-amber-50/50", active: "border-amber-400 bg-amber-50/60",
               },
               {
@@ -635,7 +635,7 @@ function HomeContent() {
             { id: "pulse" as TopTab, label: "Markets", color: "text-sky-500",
               icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="3,14 7,9 11,11 17,5"/><line x1="3" y1="17" x2="17" y2="17"/></svg>,
               animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-rose-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="10" cy="12" rx="6" ry="5" /><path d="M4 10 C2 7 3 5 5.5 7" /><path d="M16 10 C18 7 17 5 14.5 7" /><ellipse cx="10" cy="15" rx="2.5" ry="1.2" /><circle cx="8.8" cy="15" r="0.5" fill="currentColor" stroke="none" /><circle cx="11.2" cy="15" r="0.5" fill="currentColor" stroke="none" /><circle cx="7.5" cy="11" r="0.7" fill="currentColor" stroke="none" /><circle cx="12.5" cy="11" r="0.7" fill="currentColor" stroke="none" /></svg> },
-            { id: "table" as TopTab, label: "Table", color: "text-amber-500",
+            { id: "table" as TopTab, label: "Coffee", color: "text-amber-500",
               icon: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M7 10c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3"/><circle cx="10" cy="13" r="0.5" fill="currentColor"/></svg>,
               animal: <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-amber-400" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="8" cy="7" rx="3.5" ry="2" transform="rotate(-20 8 7)" /><ellipse cx="12" cy="7" rx="3.5" ry="2" transform="rotate(20 12 7)" /><ellipse cx="10" cy="13.5" rx="3.5" ry="4.5" /><line x1="6.8" y1="12.5" x2="13.2" y2="12.5" /><line x1="6.8" y1="15" x2="13.2" y2="15" /><circle cx="10" cy="9.2" r="1.8" /><path d="M9 8 L7.5 6.5" /><path d="M11 8 L12.5 6.5" /><circle cx="7.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" /><circle cx="12.5" cy="6.2" r="0.5" fill="currentColor" stroke="none" /></svg> },
             { id: "learn" as TopTab, label: "Learn", color: "text-violet-500",
@@ -7956,220 +7956,44 @@ function IntelSection() {
   );
 }
 
-// ─── Onlu Table Section ───────────────────────────────────────────────────────
-
-interface TableSession {
-  id: string;
-  dateISO: string;       // for auto-filtering past events
-  date: string;
-  time: string;
-  location: string;
-  theme: string;
-  capacity: number;
-  spotsLeft: number;
-  description: string;
-}
-
-const ALL_SESSIONS: TableSession[] = [
-  {
-    id: "jun-7-open",
-    dateISO: "2026-06-07",
-    date: "Saturday, June 7",
-    time: "11:00 AM – 1:00 PM ET",
-    location: "NYC – Midtown",
-    theme: "Finance Professionals",
-    capacity: 8,
-    spotsLeft: 8,
-    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
-  },
-  {
-    id: "jun-21-open",
-    dateISO: "2026-06-21",
-    date: "Saturday, June 21",
-    time: "11:00 AM – 1:00 PM ET",
-    location: "NYC – Midtown",
-    theme: "Finance Professionals",
-    capacity: 8,
-    spotsLeft: 8,
-    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
-  },
-  {
-    id: "jul-12-open",
-    dateISO: "2026-07-12",
-    date: "Saturday, July 12",
-    time: "11:00 AM – 1:00 PM ET",
-    location: "NYC – Midtown",
-    theme: "Finance Professionals",
-    capacity: 8,
-    spotsLeft: 8,
-    description: "Open coffee chat for anyone working in or breaking into finance. Hedge funds, PE, banking, private credit — all welcome. Casual conversation, max 8 people.",
-  },
-];
-
-const UPCOMING_SESSIONS = ALL_SESSIONS.filter(
-  (s) => s.dateISO >= new Date().toISOString().slice(0, 10)
-);
+// ─── Onlu Coffee Section ──────────────────────────────────────────────────────
+// Onlu Coffee (formerly "Onlu Table") now lives on its own site,
+// coffeewithonlu.com — the single source of truth for upcoming coffees + RSVP.
 
 function OnluTableSection() {
-  const [sessions, setSessions]     = useState<TableSession[]>(UPCOMING_SESSIONS);
-  const [selected, setSelected]     = useState<TableSession | null>(null);
-  const [form, setForm]             = useState({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted]   = useState(false);
-  const [error, setError]           = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("/api/admin/sessions")
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (Array.isArray(data) && data.length > 0) setSessions(data); })
-      .catch(() => {});
-  }, []);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selected) return;
-    setSubmitting(true); setError(null);
-    try {
-      const res = await fetch("/api/table-signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, session: selected }),
-      });
-      const d = await res.json();
-      if (!res.ok) throw new Error(d.error || "Something went wrong");
-      setSubmitted(true);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const reset = () => { setSelected(null); setSubmitted(false); setForm({ name: "", email: "", firm: "", role: "", linkedin: "", note: "" }); };
-
   return (
     <div className="max-w-5xl mx-auto px-1 py-6">
       <div className="flex flex-col sm:flex-row gap-6 items-start">
-        {/* ── LEFT: Events ── */}
+        {/* ── LEFT: Onlu Coffee (now at coffeewithonlu.com) ── */}
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-3xl font-bold text-[#396477]">Onlu Table</h2>
+            <h2 className="text-3xl font-bold text-[#396477]">Onlu Coffee</h2>
             <p className="text-lg text-[#2b3138] leading-relaxed">
-              Small-group coffee chats in NYC. No agenda.
+              Small-group coffee for finance professionals in NYC — grouped by your vertical.
             </p>
           </div>
 
-          {/* Session cards */}
-          {!selected && (
-            <div className="space-y-4">
-              {sessions.map((s) => (
-                <div key={s.id} className="border border-gray-200 rounded-2xl p-5 bg-white hover:border-[#1A2B4A]/30 transition-colors">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#1A2B4A]/8 text-[#1A2B4A]">{s.theme}</span>
-                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${s.spotsLeft <= 2 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-700"}`}>
-                        {s.spotsLeft} spot{s.spotsLeft !== 1 ? "s" : ""} left
-                      </span>
-                    </div>
-                    <p className="text-[15px] font-semibold text-[#1A2B4A] mt-2">{s.date}</p>
-                    <p className="text-xs text-[#2b3138]">{s.time} · {s.location}</p>
-                    <p className="text-sm text-[#1a1e24] mt-2 leading-relaxed">{s.description}</p>
-                  </div>
-                  <button
-                    onClick={() => { setSelected(s); setSubmitted(false); }}
-                    disabled={s.spotsLeft === 0}
-                    className="mt-4 w-full py-2.5 bg-teal-100 border border-teal-200 text-teal-800 text-sm font-semibold rounded-xl hover:bg-teal-200 hover:border-teal-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    {s.spotsLeft === 0 ? "Full" : "Request a Seat →"}
-                  </button>
-                </div>
-              ))}
-              <p className="text-[11px] text-[#2b3138] text-center pt-1">
-                Sessions added every few weeks · NYC only for now · All levels welcome
-              </p>
-            </div>
-          )}
-
-      {/* Signup form */}
-      {selected && !submitted && (
-        <div className="border border-gray-200 rounded-2xl p-6 bg-white space-y-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-[#2b3138]">{selected.date} · {selected.time}</p>
-              <p className="text-base font-semibold text-[#1A2B4A] mt-0.5">{selected.theme} — {selected.location}</p>
-            </div>
-            <button onClick={reset} className="text-xs text-[#2b3138] hover:text-[#1A2B4A] transition-colors">← Back</button>
-          </div>
-
-          <form onSubmit={submit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Full name *</label>
-                <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                  placeholder="Jane Smith"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Email *</label>
-                <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  placeholder="jane@example.com"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Firm *</label>
-                <input required value={form.firm} onChange={e => setForm(f => ({ ...f, firm: e.target.value }))}
-                  placeholder="Ares Management"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-[#1a1e24] mb-1">Role *</label>
-                <input required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}
-                  placeholder="Credit Analyst"
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-[#1a1e24] mb-1">LinkedIn URL <span className="text-[#2b3138] font-normal">(optional)</span></label>
-              <input value={form.linkedin} onChange={e => setForm(f => ({ ...f, linkedin: e.target.value }))}
-                placeholder="linkedin.com/in/janesmith"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A]" />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-[#1a1e24] mb-1">What do you want to get out of this? <span className="text-[#2b3138] font-normal">(optional)</span></label>
-              <textarea rows={3} value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
-                placeholder="e.g. Looking to connect with peers in private credit, compare notes on the market…"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1A2B4A]/20 focus:border-[#1A2B4A] resize-none" />
-            </div>
-            {error && <p className="text-sm text-rose-600">{error}</p>}
-            <button type="submit" disabled={submitting}
-              className="w-full py-3 bg-amber-500 text-white text-sm font-semibold rounded-xl hover:bg-amber-600 transition-colors disabled:opacity-50">
-              {submitting ? "Submitting…" : "Request My Seat →"}
-            </button>
-            <p className="text-[11px] text-[#2b3138] text-center">
-              We&apos;ll confirm your spot by email within 24 hours. Seats are limited to 8 per session.
+          <div className="border border-gray-200 rounded-2xl p-6 bg-white space-y-4">
+            <p className="text-sm text-[#1a1e24] leading-relaxed">
+              Upcoming coffees and RSVP now live on our dedicated site.
             </p>
-          </form>
+            <a
+              href="https://coffeewithonlu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              See upcoming coffees →
+            </a>
+            <p className="text-[11px] text-[#2b3138]">NYC · All levels welcome</p>
+          </div>
         </div>
-      )}
-
-      {/* Success */}
-      {selected && submitted && (
-        <div className="border border-emerald-200 rounded-2xl p-8 bg-emerald-50 text-center space-y-3">
-          <div className="text-2xl">☕</div>
-          <p className="text-base font-semibold text-[#1A2B4A]">You&apos;re on the list</p>
-          <p className="text-sm text-[#1a1e24]">
-            We&apos;ll send a confirmation to <strong>{form.email}</strong> within 24 hours with location details and who else is joining.
-          </p>
-          <button onClick={reset} className="mt-2 text-sm text-[#1A2B4A] underline hover:text-[#243d6b]">Browse other sessions</button>
-        </div>
-      )}
-        </div>{/* end left column */}
 
         {/* ── RIGHT: Network & Coaching ── */}
         <div className="w-full sm:w-80 flex-shrink-0">
           <ReferralSection />
         </div>
-      </div>{/* end flex row */}
+      </div>
     </div>
   );
 }
