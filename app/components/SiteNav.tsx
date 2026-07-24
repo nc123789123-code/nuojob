@@ -26,6 +26,9 @@ export default function SiteNav() {
           <Link href="/?tab=learn" className="px-3 py-1 rounded-md text-sm font-medium text-[#1a1e24] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Onlu Learning
           </Link>
+          <a href="https://coffeewithonlu.com" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-md text-sm font-medium text-[#6aab8e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+            Coffee ↗
+          </a>
         </nav>
         <div className="ml-auto flex items-center gap-4">
           <span className="hidden sm:inline text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full tracking-wide">Free · No login</span>
