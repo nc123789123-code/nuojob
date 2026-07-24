@@ -43,8 +43,8 @@ const OUTREACH_CFG = {
 
 function SignalChip({ label, color }: { label: string; color: string }) {
   const cls: Record<string, string> = {
-    blue:   "bg-sky-50 text-[#396477] border-sky-100",
-    green:  "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50",
+    blue:   "bg-sky-50 text-[#7C3AED] border-sky-100",
+    green:  "bg-[#ede9fe]/50 text-[#6D28D9] border-[#ddd6fe]/50",
     purple: "bg-[#e1ddf2]/60 text-[#2b3138] border-[#c7c4d8]/50",
     gray:   "bg-gray-50 text-gray-600 border-gray-100",
     red:    "bg-red-50 text-red-700 border-red-100",
@@ -85,8 +85,8 @@ function NewsPanel({ entityName }: { entityName: string }) {
             <div key={i} className="flex items-start gap-2">
               <span className={`mt-0.5 flex-shrink-0 text-[10px] font-bold px-1 py-0.5 rounded ${
                 a.tag === "fundraising"
-                  ? "bg-sky-100 text-[#396477]"
-                  : "bg-[#c3ecd7]/60 text-[#416656]"
+                  ? "bg-sky-100 text-[#7C3AED]"
+                  : "bg-[#ede9fe]/60 text-[#6D28D9]"
               }`}>
                 {a.tag === "fundraising" ? "Raise" : "Hire"}
               </span>
@@ -96,7 +96,7 @@ function NewsPanel({ entityName }: { entityName: string }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-xs text-gray-700 hover:text-[#396477] transition-colors leading-snug line-clamp-2"
+                  className="text-xs text-gray-700 hover:text-[#7C3AED] transition-colors leading-snug line-clamp-2"
                 >
                   {a.title}
                 </a>
@@ -203,14 +203,14 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           </div>
           {filing.score.whyNow[0] && (
             <p className="text-xs text-gray-700 mt-1 leading-relaxed">
-              <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
+              <span className="text-[#7C3AED]">→ </span>{filing.score.whyNow[0]}
             </p>
           )}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {chips.map((c) => <SignalChip key={c.label} label={c.label} color={c.color} />)}
             {hiringChip && <SignalChip key="hiring-timeline" label={hiringChip.label} color={hiringChip.color} />}
             {openRolesCount != null && openRolesCount > 0 && (
-              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50">
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-[#ede9fe]/60 text-[#6D28D9] border-[#ddd6fe]/50">
                 {openRolesCount} role{openRolesCount !== 1 ? "s" : ""} →
               </span>
             )}
@@ -230,7 +230,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
           {filing.totalAmountSold && filing.totalOfferingAmount && filing.totalAmountSold > 0 && (
             <div className="mt-1 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
               <div
-                className="h-1 rounded-full bg-[#396477]"
+                className="h-1 rounded-full bg-[#7C3AED]"
                 style={{ width: `${Math.min(100, Math.round((filing.totalAmountSold / filing.totalOfferingAmount) * 100))}%` }}
               />
             </div>
@@ -251,7 +251,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
               <ul className="space-y-1.5">
                 {filing.score.whyNow.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-[#396477] mt-0.5 flex-shrink-0">→</span>
+                    <span className="text-[#7C3AED] mt-0.5 flex-shrink-0">→</span>
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
@@ -324,7 +324,7 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-[#396477] hover:underline"
+                  className="text-[#7C3AED] hover:underline"
                 >
                   🌐 {filing.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
                 </a>
@@ -371,11 +371,11 @@ export default function FundRow({ filing, outreach, onOutreachChange, autoExpand
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Notes — contact info, convo details, timing…"
-                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#396477]"
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
                   rows={3}
                 />
                 <div className="flex gap-2">
-                  <button onClick={saveNotes} className="px-3 py-1.5 bg-[#396477] text-white rounded-lg text-xs font-medium hover:bg-[#2d5162]">Save</button>
+                  <button onClick={saveNotes} className="px-3 py-1.5 bg-[#7C3AED] text-white rounded-lg text-xs font-medium hover:bg-[#5b21b6]">Save</button>
                   <button onClick={() => setShowNotes(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200">Cancel</button>
                 </div>
               </div>

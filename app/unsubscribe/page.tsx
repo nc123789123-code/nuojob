@@ -43,7 +43,7 @@ export default async function UnsubscribePage({
               <h1 className="text-[#191c1e] text-xl font-bold mb-3">Something went wrong.</h1>
               <p className="text-[#1a1e24] text-sm leading-relaxed">
                 We couldn't process your unsubscribe request. Please email{" "}
-                <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">
+                <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">
                   info@onluintel.com
                 </a>{" "}
                 and we'll remove you manually.
@@ -55,7 +55,7 @@ export default async function UnsubscribePage({
               <h1 className="text-[#191c1e] text-xl font-bold mb-3">Invalid link.</h1>
               <p className="text-[#1a1e24] text-sm leading-relaxed">
                 This unsubscribe link is invalid. Please email{" "}
-                <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">
+                <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">
                   info@onluintel.com
                 </a>{" "}
                 to be removed.

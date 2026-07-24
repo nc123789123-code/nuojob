@@ -79,7 +79,7 @@ export default function CoachingPage() {
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={26} />
-            <span className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-extrabold text-xl tracking-tight" style={{ color: "#7C3AED" }}>Onlu</span>
           </Link>
           <div className="w-px h-4 bg-gray-200" />
           <span className="text-xs font-bold text-[#7c6fcd] uppercase tracking-widest">Coaching</span>
@@ -151,7 +151,7 @@ export default function CoachingPage() {
               <ul className="space-y-2 mb-6 flex-1">
                 {s.bullets.map(b => (
                   <li key={b} className="flex items-start gap-2 text-xs text-[#1a1e24]">
-                    <svg className="w-3.5 h-3.5 text-[#6aab8e] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
+                    <svg className="w-3.5 h-3.5 text-[#7C3AED] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l3.5 3.5L13 5" />
                     </svg>
                     {b}
@@ -229,7 +229,7 @@ export default function CoachingPage() {
         </div>
 
         <p className="text-center text-xs text-gray-600 mt-8">
-          Questions? Email us at <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>
+          Questions? Email us at <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">info@onluintel.com</a>
         </p>
       </div>
     </div>

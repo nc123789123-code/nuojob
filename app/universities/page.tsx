@@ -61,7 +61,7 @@ const TIERS = [
   },
   {
     badge: "Campus License",
-    badgeCls: "bg-[#eaf1f4] text-[#396477] border-[#396477]/20",
+    badgeCls: "bg-[#f0edff] text-[#7C3AED] border-[#7C3AED]/20",
     price: "$300",
     unit: "/ year",
     desc: "Pro access for your entire finance club or cohort. One invoice.",
@@ -104,7 +104,7 @@ export default function UniversitiesPage() {
             prep, and a daily jobs digest — the tools top firms actually test for.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="#contact" className="px-6 py-3 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors">
+            <a href="#contact" className="px-6 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#6D28D9] transition-colors">
               Get Free Access for Your School
             </a>
             <Link href="/" className="px-6 py-3 rounded-lg bg-white text-[#1A2B4A] text-sm font-bold border border-[#c1c7cc]/50 hover:bg-gray-50 transition-colors">
@@ -131,7 +131,7 @@ export default function UniversitiesPage() {
       {/* Features */}
       <section className="max-w-5xl mx-auto px-5 py-16 w-full">
         <div className="text-center mb-12">
-          <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">What&apos;s included</p>
+          <p className="text-xs font-bold text-[#7C3AED] uppercase tracking-widest mb-3">What&apos;s included</p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1A2B4A]">
             Everything students need to land their first role
           </h2>
@@ -151,7 +151,7 @@ export default function UniversitiesPage() {
       <section className="bg-white border-y border-gray-100">
         <div className="max-w-5xl mx-auto px-5 py-16">
           <div className="text-center mb-12">
-            <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">Partnership tiers</p>
+            <p className="text-xs font-bold text-[#7C3AED] uppercase tracking-widest mb-3">Partnership tiers</p>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1A2B4A]">
               Free for students. Flexible for schools.
             </h2>
@@ -173,7 +173,7 @@ export default function UniversitiesPage() {
                 <ul className="flex flex-col gap-2 mt-auto">
                   {t.features.map((feat) => (
                     <li key={feat} className="flex items-start gap-2 text-xs text-[#191c1e]">
-                      <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
+                      <span className="text-[#7C3AED] font-bold flex-shrink-0">✓</span>
                       {feat}
                     </li>
                   ))}
@@ -189,7 +189,7 @@ export default function UniversitiesPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {STATS.map((s) => (
             <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-6 text-center">
-              <div className="text-3xl font-extrabold tracking-tight text-[#6aab8e]">{s.num}</div>
+              <div className="text-3xl font-extrabold tracking-tight text-[#7C3AED]">{s.num}</div>
               <div className="text-xs text-[#1a1e24] mt-2 font-medium leading-snug">{s.label}</div>
             </div>
           ))}
@@ -209,7 +209,7 @@ export default function UniversitiesPage() {
         />
         <p className="text-center text-xs text-[#2b3138] mt-4">
           Or email us directly at{" "}
-          <a href="mailto:hello@onlu.ai" className="text-[#396477] font-semibold hover:underline">hello@onlu.ai</a>
+          <a href="mailto:hello@onlu.ai" className="text-[#7C3AED] font-semibold hover:underline">hello@onlu.ai</a>
         </p>
       </section>
 

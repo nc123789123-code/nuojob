@@ -76,7 +76,7 @@ async function sendProWelcome(email: string, plan: string) {
           Keep an eye on your inbox for the full digest.
         </p>
         <a href="${base}"
-           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6aab8e;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
+           style="display:inline-block;margin-top:16px;padding:12px 24px;background:#7C3AED;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">
           Open Onlu →
         </a>
         <p style="margin-top:24px;color:#888;font-size:12px">

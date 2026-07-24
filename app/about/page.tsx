@@ -52,10 +52,10 @@ export default function AboutPage() {
         {/* Hero */}
         <div className="bg-[#eef6f0] border-b border-[#d4ece0]">
           <div className="max-w-2xl mx-auto px-5 py-20">
-            <p className="text-[11px] font-bold text-[#6aab8e] uppercase tracking-widest mb-4">About Onlu</p>
+            <p className="text-[11px] font-bold text-[#7C3AED] uppercase tracking-widest mb-4">About Onlu</p>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight leading-snug mb-6 text-[#1A2B4A]">
               Built for Wall Street.<br />
-              <span style={{ color: "#6aab8e" }}>Signal-first.</span>
+              <span style={{ color: "#7C3AED" }}>Signal-first.</span>
             </h1>
             <p className="text-[#1a1e24] text-base leading-relaxed max-w-lg">
               Most platforms show what is already visible. Onlu is built to surface signals earlier —
@@ -85,8 +85,8 @@ export default function AboutPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {FEATURES.map((f) => (
                 <Link key={f.label} href={f.href}
-                  className="group bg-white border border-gray-200 rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all">
-                  <p className="text-sm font-bold text-[#191c1e] group-hover:text-[#396477] transition-colors mb-1">{f.label}</p>
+                  className="group bg-white border border-gray-200 rounded-xl px-4 py-4 hover:border-[#7C3AED]/40 hover:shadow-sm transition-all">
+                  <p className="text-sm font-bold text-[#191c1e] group-hover:text-[#7C3AED] transition-colors mb-1">{f.label}</p>
                   <p className="text-xs text-gray-700 leading-snug">{f.desc}</p>
                 </Link>
               ))}
@@ -103,7 +103,7 @@ export default function AboutPage() {
                 { title: "Career switchers", desc: "Coming from banking or consulting and looking for a structured, signal-driven approach to breaking in." },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#6aab8e] flex-shrink-0 mt-2" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#7C3AED] flex-shrink-0 mt-2" />
                   <p className="text-sm text-[#1a1e24]">
                     <span className="font-bold text-[#191c1e]">{item.title}</span> — {item.desc}
                   </p>

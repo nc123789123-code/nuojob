@@ -50,9 +50,9 @@ export default function DonatePage() {
       {/* Nav */}
       <div className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-3">
-          <Link href="/" className="font-extrabold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</Link>
+          <Link href="/" className="font-extrabold text-xl tracking-tight" style={{ color: "#7C3AED" }}>Onlu</Link>
           <div className="w-px h-4 bg-gray-200" />
-          <span className="text-xs font-bold text-[#396477] uppercase tracking-widest">Support</span>
+          <span className="text-xs font-bold text-[#7C3AED] uppercase tracking-widest">Support</span>
           <Link href="/" className="ml-auto text-xs text-gray-600 hover:text-gray-600 transition-colors">← Platform</Link>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function DonatePage() {
                 onClick={() => { setSelected(p.amount); setCustom(""); }}
                 className={`py-3 rounded-xl text-sm font-bold border-2 transition-all ${
                   selected === p.amount && !custom
-                    ? "border-[#396477] bg-[#396477]/8 text-[#396477]"
+                    ? "border-[#7C3AED] bg-[#7C3AED]/8 text-[#7C3AED]"
                     : "border-gray-200 text-gray-600 hover:border-gray-300"
                 }`}>
                 {p.label}
@@ -100,7 +100,7 @@ export default function DonatePage() {
                 value={custom}
                 onChange={e => { setCustom(e.target.value); setSelected(0); }}
                 placeholder="e.g. 15"
-                className="w-full text-sm border border-gray-200 rounded-xl pl-7 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#396477]/20 focus:border-[#396477]"
+                className="w-full text-sm border border-gray-200 rounded-xl pl-7 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/20 focus:border-[#7C3AED]"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function DonatePage() {
               "Keeping the platform free for everyone",
             ].map(item => (
               <li key={item} className="flex items-start gap-2 text-xs text-gray-600">
-                <svg className="w-3.5 h-3.5 text-[#6aab8e] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
+                <svg className="w-3.5 h-3.5 text-[#7C3AED] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l3.5 3.5L13 5" />
                 </svg>
                 {item}

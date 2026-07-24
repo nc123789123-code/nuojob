@@ -7,7 +7,7 @@ interface Props {
 }
 
 const CATEGORY_STYLE: Record<JobCategory, string> = {
-  "Private Credit":     "bg-sky-50 text-[#396477] border-sky-100",
+  "Private Credit":     "bg-sky-50 text-[#7C3AED] border-sky-100",
   "Public Credit":      "bg-sky-50 text-sky-700 border-sky-100",
   "Equity Research":    "bg-violet-50 text-violet-700 border-violet-100",
   "Other Finance Roles":   "bg-indigo-50 text-indigo-700 border-indigo-100",
@@ -19,7 +19,7 @@ const CATEGORY_STYLE: Record<JobCategory, string> = {
 const SIGNAL_STYLE: Record<JobSignalTag, string> = {
   "In-market raise":     "bg-amber-50 text-amber-700 border-amber-100",
   "Post-raise build-out":"bg-green-50 text-green-700 border-green-100",
-  "Fund scaling":        "bg-sky-50 text-[#396477] border-sky-100",
+  "Fund scaling":        "bg-sky-50 text-[#7C3AED] border-sky-100",
   "New fund":            "bg-gray-50 text-gray-700 border-gray-100",
 };
 
@@ -35,11 +35,11 @@ function sourceInfo(id: string): { label: string; style: string } {
   if (id.startsWith("gh-"))       return { label: "Greenhouse",     style: "bg-green-50 text-green-700 border-green-200"   };
   if (id.startsWith("lever-"))    return { label: "Lever",          style: "bg-teal-50 text-teal-700 border-teal-200"       };
   if (id.startsWith("edgar-"))    return { label: "EDGAR",          style: "bg-gray-50 text-gray-700 border-gray-200"       };
-  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-sky-50 text-[#396477] border-sky-100"        };
+  if (id.startsWith("adzuna-"))   return { label: "Adzuna",         style: "bg-sky-50 text-[#7C3AED] border-sky-100"        };
   if (id.startsWith("muse-"))     return { label: "The Muse",       style: "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/50" };
-  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-sky-50 text-[#396477] border-sky-100"        };
-  if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };
-  if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#396477] text-white border-[#2d5162]"       };
+  if (id.startsWith("jobs14-"))   return { label: "LinkedIn/Indeed",style: "bg-sky-50 text-[#7C3AED] border-sky-100"        };
+  if (id.startsWith("fj-"))       return { label: "LinkedIn",       style: "bg-[#7C3AED] text-white border-[#5b21b6]"       };
+  if (id.startsWith("li-"))       return { label: "LinkedIn",       style: "bg-[#7C3AED] text-white border-[#5b21b6]"       };
   return { label: "Board", style: "bg-gray-50 text-gray-700 border-gray-200" };
 }
 
@@ -68,7 +68,7 @@ export default function JobRow({ signal }: Props) {
         </div>
         <div className="text-sm text-gray-600 mt-0.5">{signal.role}</div>
         <p className="text-xs text-gray-600 mt-0.5 truncate">
-          <span className="text-[#396477]">→ </span>{signal.why}
+          <span className="text-[#7C3AED]">→ </span>{signal.why}
         </p>
       </div>
 
@@ -102,7 +102,7 @@ export default function JobRow({ signal }: Props) {
             href={signal.edgarUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] text-gray-500 group-hover:text-[#396477] transition-colors font-medium"
+            className="text-[10px] text-gray-500 group-hover:text-[#7C3AED] transition-colors font-medium"
             onClick={(e) => e.stopPropagation()}
           >
             {signal.id.startsWith("edgar-") ? "EDGAR ↗" : "Apply ↗"}

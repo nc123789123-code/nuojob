@@ -106,7 +106,7 @@ export default function PricingPage() {
           <ul className="flex flex-col gap-3 mb-8">
             {FREE_FEATURES.map((f) => (
               <li key={f} className="flex items-start gap-2.5 text-sm text-[#191c1e]">
-                <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
+                <span className="text-[#7C3AED] font-bold flex-shrink-0">✓</span>
                 {f}
               </li>
             ))}
@@ -120,11 +120,11 @@ export default function PricingPage() {
         </div>
 
         {/* Pro */}
-        <div className="bg-white border-2 border-[#6aab8e] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
-          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#6aab8e] text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+        <div className="bg-white border-2 border-[#7C3AED] rounded-2xl p-8 flex flex-col relative shadow-[0_12px_40px_rgba(106,171,142,0.15)]">
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#7C3AED] text-white text-[10px] font-bold uppercase tracking-wide px-3 py-1 rounded-full">
             Most Popular
           </span>
-          <p className="text-xs font-bold text-[#6aab8e] uppercase tracking-widest mb-3">Pro</p>
+          <p className="text-xs font-bold text-[#7C3AED] uppercase tracking-widest mb-3">Pro</p>
           <div className="flex items-baseline gap-1 mb-1">
             <span className="text-4xl font-extrabold tracking-tight text-[#1A2B4A]">
               {plan === "monthly" ? "$5" : "$45"}
@@ -137,7 +137,7 @@ export default function PricingPage() {
           <ul className="flex flex-col gap-3 mb-8">
             {PRO_FEATURES.map((f) => (
               <li key={f} className="flex items-start gap-2.5 text-sm text-[#191c1e]">
-                <span className="text-[#6aab8e] font-bold flex-shrink-0">✓</span>
+                <span className="text-[#7C3AED] font-bold flex-shrink-0">✓</span>
                 {f}
               </li>
             ))}
@@ -145,7 +145,7 @@ export default function PricingPage() {
           <button
             onClick={goPro}
             disabled={loading}
-            className="mt-auto block text-center px-5 py-3 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
+            className="mt-auto block text-center px-5 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#6D28D9] transition-colors disabled:opacity-50"
           >
             {loading ? "Redirecting…" : `Go Pro — ${plan === "monthly" ? "$5/mo" : "$45/yr"}`}
           </button>
@@ -157,7 +157,7 @@ export default function PricingPage() {
       <div className="max-w-2xl mx-auto px-5 pb-20 text-center">
         <p className="text-xs text-[#2b3138] leading-relaxed">
           Secure checkout via Stripe. Cancel anytime — no questions asked. Are you a university or finance club?{" "}
-          <Link href="/universities" className="text-[#396477] font-semibold hover:underline">
+          <Link href="/universities" className="text-[#7C3AED] font-semibold hover:underline">
             See partnership options →
           </Link>
         </p>

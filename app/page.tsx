@@ -251,7 +251,7 @@ function HomeContent() {
         <div className="max-w-6xl mx-auto px-3 sm:px-8 h-14 sm:h-24 flex items-center gap-2 sm:gap-6">
           <div className="flex items-center gap-3">
             <LogoMark size={64} />
-            <span className="font-bold text-2xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-bold text-2xl tracking-tight" style={{ color: "#7C3AED" }}>Onlu</span>
           </div>
           <div className="w-px h-4 bg-[#c1c7cc]/50 hidden sm:block" />
           <nav className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 sm:flex-none">
@@ -335,28 +335,28 @@ function HomeContent() {
         <div className="max-w-6xl mx-auto px-4 py-5 sm:py-8">
           {topTab === "pulse" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#396477] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#396477] rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-100/70 text-[#7C3AED] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#7C3AED] rounded-full animate-pulse" />
                 Market · Fund Intelligence · AI
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
+              <h1 className="text-[#7C3AED] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Market Pulse</h1>
               <p className="text-[#2b3138] text-base mt-2 max-w-xl leading-relaxed">Markets, funds, macro. In one place.</p>
             </>
           )}
           {topTab === "hiring" && (
             <>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c3ecd7]/60 text-[#416656] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
-                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#ede9fe]/60 text-[#6D28D9] text-[11px] font-semibold tracking-wider uppercase rounded-full mb-4">
+                <span className="w-1.5 h-1.5 bg-[#6D28D9] rounded-full animate-pulse" />
                 Hiring Intelligence
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+              <h1 className="text-[#7C3AED] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
                 Hiring signals for<br className="hidden sm:block" /> finance.
               </h1>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full tracking-wide">Free · No login required</span>
                 <span className="text-[10px] text-[#2b3138]">Just open and use</span>
               </div>
-              <p className="text-[#396477] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
+              <p className="text-[#7C3AED] text-base sm:text-lg font-semibold mt-3 max-w-lg leading-snug">
                 200+ firms. Who&apos;s hiring. Who&apos;s raising.
               </p>
               <div className="flex gap-6 sm:gap-8 mt-4 sm:mt-6 overflow-x-auto scrollbar-none pb-1">
@@ -385,7 +385,7 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-[#2b3138] rounded-full" />
                 Onlu Learning
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
+              <h1 className="text-[#7C3AED] text-3xl sm:text-4xl font-bold tracking-tight leading-snug">Onlu Learning</h1>
               <p className="text-[#2b3138] text-base mt-2 max-w-xl leading-relaxed">Finance deep-dives for practitioners.</p>
             </>
           )}
@@ -395,7 +395,7 @@ function HomeContent() {
                 <span className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
                 AI-Powered · Firm-Specific
               </div>
-              <h1 className="text-[#396477] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
+              <h1 className="text-[#7C3AED] text-3xl sm:text-4xl font-bold tracking-tight leading-tight">Edge Prep</h1>
               <p className="text-[#2b3138] text-base sm:text-lg mt-2 max-w-xl leading-relaxed">Credit, PE &amp; special sits prep.</p>
             </>
           )}
@@ -789,12 +789,12 @@ function NavTab({ active, onClick, label, badge, accent, animal }: { active: boo
     ? "bg-amber-100 text-amber-600"
     : badge === "Events"
     ? "bg-rose-100 text-rose-600"
-    : "bg-[#c3ecd7] text-[#416656]";
+    : "bg-[#ede9fe] text-[#6D28D9]";
 
-  const activeText = accent ?? "text-[#396477]";
+  const activeText = accent ?? "text-[#7C3AED]";
   const activeLine = accent
     ? accent.replace("text-", "bg-")
-    : "bg-[#396477]";
+    : "bg-[#7C3AED]";
 
   return (
     <button
@@ -861,7 +861,7 @@ function EmptyState({ icon, title, hint, onReset }: { icon: string; title: strin
       {onReset && (
         <button
           onClick={onReset}
-          className="mt-4 px-4 py-2 text-xs font-medium bg-[#396477] text-white rounded-lg hover:bg-[#2d5162] transition-colors"
+          className="mt-4 px-4 py-2 text-xs font-medium bg-[#7C3AED] text-white rounded-lg hover:bg-[#5b21b6] transition-colors"
         >
           Reset filters
         </button>
@@ -903,8 +903,8 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
           <span className="text-[#2b3138] text-xs font-medium">{today}</span>
           <div className="flex items-center gap-2">
             {daily.todayCount > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#c3ecd7] text-[#416656] border border-[#a8cfbc] rounded-full px-2.5 py-0.5">
-                <span className="w-1.5 h-1.5 bg-[#416656] rounded-full animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-[#ede9fe] text-[#6D28D9] border border-[#ddd6fe] rounded-full px-2.5 py-0.5">
+                <span className="w-1.5 h-1.5 bg-[#6D28D9] rounded-full animate-pulse" />
                 {daily.todayCount} new filing{daily.todayCount !== 1 ? "s" : ""} today
               </span>
             ) : (
@@ -922,8 +922,8 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
             <span className="text-[11px] text-[#2b3138] font-medium shrink-0">Recent filings:</span>
             {daily.topFunds.slice(0, 4).map((f) => {
               const bucketColor = f.offeringStatus === "open"
-                ? "bg-[#c3ecd7]/60 text-[#416656] border border-[#a8cfbc]/50 hover:bg-[#c3ecd7]"
-                : "bg-sky-50 text-[#396477] border border-sky-100 hover:bg-sky-100";
+                ? "bg-[#ede9fe]/60 text-[#6D28D9] border border-[#ddd6fe]/50 hover:bg-[#ede9fe]"
+                : "bg-sky-50 text-[#7C3AED] border border-sky-100 hover:bg-sky-100";
               return (
                 <Link key={f.id} href={`/fund/${f.cik}`}
                   className={`inline-flex items-center gap-1.5 text-[11px] font-medium rounded-full px-2.5 py-1 transition-colors cursor-pointer ${bucketColor}`}>
@@ -948,7 +948,7 @@ function DailyIntelBar({ daily, loading, onFundClick, onJobsClick }: {
                 <span className="text-[#1a1e24] max-w-[120px] truncate">{j.role}</span>
               </button>
             ))}
-            <button onClick={onJobsClick} className="text-[11px] text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
+            <button onClick={onJobsClick} className="text-[11px] text-[#7C3AED] hover:text-[#5b21b6] font-medium transition-colors">
               View all →
             </button>
           </div>
@@ -996,7 +996,7 @@ function TopFundOpportunities({ filings, onClick }: { filings: FundFiling[]; onC
 
 function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: number; onClick: () => void }) {
   const statusColor = filing.offeringStatus === "open"
-    ? "bg-[#c3ecd7] text-[#416656]"
+    ? "bg-[#ede9fe] text-[#6D28D9]"
     : filing.offeringStatus === "closed"
     ? "bg-[#e1ddf2]/70 text-[#2b3138]"
     : "bg-gray-100 text-gray-700";
@@ -1009,12 +1009,12 @@ function TopFundCard({ filing, rank, onClick }: { filing: FundFiling; rank: numb
         <span className="text-xs font-bold text-gray-500 w-4 tabular-nums">{rank}</span>
         <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${statusColor}`}>{statusLabel}</span>
       </div>
-      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#396477] transition-colors line-clamp-2">
+      <div className="font-semibold text-gray-900 text-xs leading-tight mb-1.5 group-hover:text-[#7C3AED] transition-colors line-clamp-2">
         {filing.entityName}
       </div>
       {filing.score.whyNow[0] && (
         <p className="text-[11px] text-gray-700 mb-2.5 leading-relaxed line-clamp-2">
-          <span className="text-[#396477]">→ </span>{filing.score.whyNow[0]}
+          <span className="text-[#7C3AED]">→ </span>{filing.score.whyNow[0]}
         </p>
       )}
       <div className="text-[10px] text-gray-600 mt-auto">
@@ -1057,7 +1057,7 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
     <div className="rounded-xl border border-sky-100 bg-sky-50/60 px-4 py-4">
       <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
         <div>
-          <p className="text-sm font-semibold text-[#396477]">
+          <p className="text-sm font-semibold text-[#7C3AED]">
             Signals → Jobs
           </p>
           <p className="text-xs text-[#2b3138] mt-0.5">
@@ -1067,7 +1067,7 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
         {pairs.length > 0 && (
           <button
             onClick={onViewJobs}
-            className="flex-shrink-0 text-xs font-semibold text-[#396477] border border-[#396477]/30 px-3 py-1.5 rounded-lg hover:bg-[#396477] hover:text-white transition-colors"
+            className="flex-shrink-0 text-xs font-semibold text-[#7C3AED] border border-[#7C3AED]/30 px-3 py-1.5 rounded-lg hover:bg-[#7C3AED] hover:text-white transition-colors"
           >
             View {totalRoles} role{totalRoles !== 1 ? "s" : ""} →
           </button>
@@ -1080,10 +1080,10 @@ function SignalJobsBridge({ filings, jobSignals, onViewJobs }: {
             <button
               key={filing.id}
               onClick={onViewJobs}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-medium text-[#396477] hover:border-[#396477]/50 hover:shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-medium text-[#7C3AED] hover:border-[#7C3AED]/50 hover:shadow-sm transition-all"
             >
               <span className="max-w-[140px] truncate">{matchFirm(filing.entityName)?.name ?? filing.entityName}</span>
-              <span className="bg-[#396477]/10 text-[#396477] text-[10px] font-bold px-1 py-0.5 rounded">
+              <span className="bg-[#7C3AED]/10 text-[#7C3AED] text-[10px] font-bold px-1 py-0.5 rounded">
                 {jobs.length} role{jobs.length !== 1 ? "s" : ""}
               </span>
             </button>
@@ -1265,7 +1265,7 @@ function FundsSection({
           <button onClick={() => setSubTab("search")} className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:text-gray-700"}`}>Search</button>
           <button onClick={() => setSubTab("pipeline")} className={`relative px-3 py-1 rounded-md text-xs font-medium transition-all ${subTab === "pipeline" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:text-gray-700"}`}>
             Pipeline
-            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#396477] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
+            {outreachRecords.length > 0 && <span className="absolute -top-1 -right-1 bg-[#7C3AED] text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">{outreachRecords.length}</span>}
           </button>
         </div>
         <p className="text-xs text-gray-600">Capital &amp; hiring signals · SEC Form D</p>
@@ -1329,13 +1329,13 @@ const JOB_SIGNAL_TAGS: Array<{ v: "all" | JobSignalTag; l: string }> = [
 ];
 
 const SOURCE_LABELS: Record<string, { label: string; color: string }> = {
-  adzuna:     { label: "Adzuna",            color: "bg-sky-50 text-[#396477] border-sky-100"             },
+  adzuna:     { label: "Adzuna",            color: "bg-sky-50 text-[#7C3AED] border-sky-100"             },
   muse:       { label: "The Muse",          color: "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/50"  },
   edgar:      { label: "EDGAR",             color: "bg-gray-50 text-gray-600 border-gray-200"             },
-  greenhouse: { label: "Greenhouse",        color: "bg-[#c3ecd7]/50 text-[#416656] border-[#a8cfbc]/50"  },
+  greenhouse: { label: "Greenhouse",        color: "bg-[#ede9fe]/50 text-[#6D28D9] border-[#ddd6fe]/50"  },
   lever:      { label: "Lever",             color: "bg-teal-50 text-teal-700 border-teal-200"              },
-  jobs14:     { label: "LinkedIn/Indeed",   color: "bg-sky-50 text-[#396477] border-sky-100"              },
-  linkedin:   { label: "LinkedIn",          color: "bg-[#396477] text-white border-[#2d5162]"             },
+  jobs14:     { label: "LinkedIn/Indeed",   color: "bg-sky-50 text-[#7C3AED] border-sky-100"              },
+  linkedin:   { label: "LinkedIn",          color: "bg-[#7C3AED] text-white border-[#5b21b6]"             },
 };
 
 function FundSignalBadge({ filing, onViewSignals }: { filing: FundFiling; onViewSignals: () => void }) {
@@ -1344,10 +1344,10 @@ function FundSignalBadge({ filing, onViewSignals }: { filing: FundFiling; onView
   return (
     <button
       onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-      className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-sky-50 text-[#396477] border-sky-200 hover:bg-sky-100 transition-colors"
+      className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border bg-sky-50 text-[#7C3AED] border-sky-200 hover:bg-sky-100 transition-colors"
       title="This firm has an active fund signal — click to view"
     >
-      <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-[#396477] animate-pulse" : "bg-sky-400"}`} />
+      <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? "bg-[#7C3AED] animate-pulse" : "bg-sky-400"}`} />
       Fund Signal{amt ? ` · ${amt}` : ""}
     </button>
   );
@@ -1380,7 +1380,7 @@ function JobsSection({
       {!loading && atSignalFirms.length > 0 && (
         <div className="flex items-center justify-between gap-3 bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
           <div>
-            <p className="text-base font-semibold text-[#396477]">
+            <p className="text-base font-semibold text-[#7C3AED]">
               {atSignalFirms.length} role{atSignalFirms.length !== 1 ? "s" : ""} at firms with active fund signals
             </p>
             <p className="text-sm text-[#2b3138] mt-0.5">
@@ -1389,7 +1389,7 @@ function JobsSection({
           </div>
           <button
             onClick={onViewSignals}
-            className="flex-shrink-0 text-xs font-medium text-[#396477] underline hover:no-underline transition-all whitespace-nowrap"
+            className="flex-shrink-0 text-xs font-medium text-[#7C3AED] underline hover:no-underline transition-all whitespace-nowrap"
           >
             View signals ↗
           </button>
@@ -1407,14 +1407,14 @@ function JobsSection({
         {JOB_CATEGORIES.map((c) => (
           <button key={c.v} onClick={() => setFilters({ ...filters, category: c.v === filters.category && c.v !== "all" ? "all" : c.v })}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-              filters.category === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              filters.category === c.v ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}>
             {c.l}
           </button>
         ))}
         <div className="w-px h-5 bg-gray-200 hidden sm:block" />
         <select value={filters.dateRange} onChange={(e) => setFilters({ ...filters, dateRange: e.target.value as JobFilters["dateRange"] })}
-          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]">
+          className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]">
           <option value="30">Last 30 days</option>
           <option value="45">Last 45 days</option>
           <option value="60">Last 60 days</option>
@@ -1459,8 +1459,8 @@ function JobsSection({
       {atSignalFirms.length > 0 && (
         <>
           <div className="flex items-center gap-2 pt-1">
-            <span className="text-[11px] font-semibold text-[#396477] uppercase tracking-wide">At Signal Firms</span>
-            <span className="text-[10px] bg-sky-100 text-[#396477] px-1.5 py-0.5 rounded font-bold">{atSignalFirms.length}</span>
+            <span className="text-[11px] font-semibold text-[#7C3AED] uppercase tracking-wide">At Signal Firms</span>
+            <span className="text-[10px] bg-sky-100 text-[#7C3AED] px-1.5 py-0.5 rounded font-bold">{atSignalFirms.length}</span>
             <div className="flex-1 h-px bg-sky-100" />
           </div>
           <div className="space-y-3">
@@ -1486,7 +1486,7 @@ function JobsSection({
               <span className="text-[11px] font-semibold text-[#2b3138] uppercase tracking-wide">Other Roles</span>
               <span className="text-[10px] bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold">{otherSignals.length}</span>
               <div className="flex-1 h-px bg-gray-100" />
-              <button onClick={onViewSignals} className="text-[11px] text-[#2b3138] hover:text-[#396477] transition-colors">
+              <button onClick={onViewSignals} className="text-[11px] text-[#2b3138] hover:text-[#7C3AED] transition-colors">
                 Check signals for these firms →
               </button>
             </div>
@@ -1515,7 +1515,7 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         <div className="text-3xl mb-3">📬</div>
         <p className="font-medium text-gray-600">No outreach tracked yet</p>
         <p className="text-sm mt-1">Open a fund row and set its status to start tracking</p>
-        <button onClick={onBack} className="mt-4 px-4 py-2 bg-[#396477] text-white rounded-lg text-sm font-medium hover:bg-[#2d5162]">Search Funds</button>
+        <button onClick={onBack} className="mt-4 px-4 py-2 bg-[#7C3AED] text-white rounded-lg text-sm font-medium hover:bg-[#5b21b6]">Search Funds</button>
       </div>
     );
   }
@@ -1530,7 +1530,7 @@ function OutreachPipeline({ records, onBack }: { records: OutreachRecord[]; onBa
         const group = groups[status];
         if (!group.length) return null;
         const titles = { in_discussion: "In Discussion", reached_out: "Reached Out", passed: "Passed" };
-        const colors = { in_discussion: "text-[#416656] bg-[#c3ecd7]/40 border-[#a8cfbc]/50", reached_out: "text-[#396477] bg-sky-50 border-sky-100", passed: "text-gray-600 bg-gray-50 border-gray-200" };
+        const colors = { in_discussion: "text-[#6D28D9] bg-[#ede9fe]/40 border-[#ddd6fe]/50", reached_out: "text-[#7C3AED] bg-sky-50 border-sky-100", passed: "text-gray-600 bg-gray-50 border-gray-200" };
         return (
           <div key={status}>
             <h2 className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">{titles[status]} <span className="font-normal">({group.length})</span></h2>
@@ -1571,7 +1571,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
             onClick={() => { setActiveTag(tag); setExpanded(null); }}
             className={`text-xs font-semibold px-3 py-1 rounded-full border transition-colors ${
               activeTag === tag
-                ? "bg-[#396477]/10 text-[#396477] border-[#396477]/30"
+                ? "bg-[#7C3AED]/10 text-[#7C3AED] border-[#7C3AED]/30"
                 : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}
           >
@@ -1593,7 +1593,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
                   {post.tag}
                 </span>
               )}
-              <h2 className="flex-1 text-[#396477] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
+              <h2 className="flex-1 text-[#7C3AED] text-sm sm:text-base font-semibold leading-snug group-hover:text-[#2d5060] transition-colors">
                 {post.title}
               </h2>
               <time className="text-[11px] text-gray-500 flex-shrink-0 hidden sm:block">{post.date}</time>
@@ -1608,7 +1608,7 @@ function PostList({ posts }: { posts: InsightPost[] }) {
                   {post.paragraphs[0]}
                 </p>
                 <Link href={`/learn/${post.slug}`}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-[#396477] hover:text-[#2d5060] transition-colors">
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-[#7C3AED] hover:text-[#2d5060] transition-colors">
                   Read full article →
                 </Link>
               </div>
@@ -2008,11 +2008,11 @@ function FirmPrepSection() {
                   <div className="col-span-2 sm:col-span-4 flex gap-3 mt-1">
                     {enrich.website && (
                       <a href={enrich.website} target="_blank" rel="noopener noreferrer"
-                        className="text-[11px] text-[#396477] hover:underline">Website →</a>
+                        className="text-[11px] text-[#7C3AED] hover:underline">Website →</a>
                     )}
                     {enrich.linkedin && (
                       <a href={enrich.linkedin} target="_blank" rel="noopener noreferrer"
-                        className="text-[11px] text-[#396477] hover:underline">LinkedIn →</a>
+                        className="text-[11px] text-[#7C3AED] hover:underline">LinkedIn →</a>
                     )}
                   </div>
                 )}
@@ -2551,7 +2551,7 @@ function MarketSection() {
           <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider">{sessionLabel} · {analysis.date}</span>
           <span className="text-xs text-gray-600">Updated {updatedTime}</span>
         </div>
-        <p className="text-[#396477] text-lg font-bold leading-snug">{analysis.headline}</p>
+        <p className="text-[#7C3AED] text-lg font-bold leading-snug">{analysis.headline}</p>
       </div>
 
       {/* Sections */}
@@ -2559,7 +2559,7 @@ function MarketSection() {
         {analysis.sections.map((sec) => (
           <div key={sec.title} className="border border-gray-200 bg-white rounded-xl px-5 py-4 space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold text-[#396477] text-base">{sec.title}</h3>
+              <h3 className="font-semibold text-[#7C3AED] text-base">{sec.title}</h3>
               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border capitalize ${SENTIMENT_STYLE[sec.sentiment] ?? SENTIMENT_STYLE.neutral}`}>
                 {sec.sentiment}
               </span>
@@ -2658,7 +2658,7 @@ function DailyNews() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Today in Finance</h2>
+          <h2 className="text-base font-bold text-[#7C3AED]">Today in Finance</h2>
           <p className="text-xs text-[#2b3138] mt-0.5">Live headlines direct from financial news sources</p>
         </div>
         {updatedTime && <span className="text-xs text-gray-600">Updated {updatedTime}</span>}
@@ -2750,7 +2750,7 @@ function TodayInHistory() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-base font-bold text-[#396477]">Today in Financial History</h2>
+        <h2 className="text-base font-bold text-[#7C3AED]">Today in Financial History</h2>
         {data && <p className="text-xs text-[#2b3138] mt-0.5">{data.monthDay} — notable moments in markets &amp; finance</p>}
       </div>
 
@@ -2858,7 +2858,7 @@ function DealsWatch() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Deal Flow</h2>
+          <h2 className="text-base font-bold text-[#7C3AED]">Deal Flow</h2>
           <p className="text-xs text-[#2b3138] mt-0.5">M&amp;A · IPO · Debt — with valuation commentary</p>
         </div>
         {updatedTime && <span className="text-xs text-gray-600">Updated {updatedTime}</span>}
@@ -2883,14 +2883,14 @@ function DealsWatch() {
               <div key={deal.id} className="bg-white border border-gray-200 rounded-xl px-5 py-4 space-y-3 hover:border-gray-300 transition-colors">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-semibold text-[#396477] text-base leading-tight truncate">{deal.company}</p>
+                    <p className="font-semibold text-[#7C3AED] text-base leading-tight truncate">{deal.company}</p>
                     {deal.counterparty && (
                       <p className="text-xs text-[#2b3138] mt-0.5">← {deal.counterparty}</p>
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-1 flex-shrink-0">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${style.cls}`}>{style.label}</span>
-                    {deal.dealSize && <span className="text-xs font-semibold text-[#396477]">{deal.dealSize}</span>}
+                    {deal.dealSize && <span className="text-xs font-semibold text-[#7C3AED]">{deal.dealSize}</span>}
                   </div>
                 </div>
 
@@ -2902,14 +2902,14 @@ function DealsWatch() {
 
                 <div className="bg-[#f0f7f4] border border-[#c8e6da] rounded-lg px-3 py-2.5">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-[10px] font-bold text-[#396477] uppercase tracking-wider">
+                    <p className="text-[10px] font-bold text-[#7C3AED] uppercase tracking-wider">
                       {deal.valuationSource === "reported" ? "Valuation" : "What to Watch"}
                     </p>
                     {deal.valuationSource === "watch" && (
                       <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-amber-100 text-amber-700 border border-amber-200 rounded-full">Terms pending</span>
                     )}
                   </div>
-                  <p className="text-sm text-[#396477] leading-snug">{deal.valuationNote}</p>
+                  <p className="text-sm text-[#7C3AED] leading-snug">{deal.valuationNote}</p>
                 </div>
 
                 <div className="flex items-start gap-2 pt-0.5">
@@ -2978,7 +2978,7 @@ function EarningsWatch() {
     <div className="space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h2 className="text-base font-bold text-[#396477]">Earnings This Week</h2>
+          <h2 className="text-base font-bold text-[#7C3AED]">Earnings This Week</h2>
           <p className="text-xs text-[#2b3138] mt-0.5">Upcoming earnings releases · EPS estimates</p>
         </div>
       </div>
@@ -3004,7 +3004,7 @@ function EarningsWatch() {
           <div className="space-y-6">
             {Object.entries(byDate).sort(([a], [b]) => a.localeCompare(b)).map(([dateISO, entries]) => (
               <div key={dateISO}>
-                <h3 className="text-xs font-semibold text-[#396477] uppercase tracking-wider mb-3">{relativeDay(dateISO)}</h3>
+                <h3 className="text-xs font-semibold text-[#7C3AED] uppercase tracking-wider mb-3">{relativeDay(dateISO)}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {entries.map(e => {
                     const forecastNum = parseFloat(e.epsForecast ?? "");
@@ -3019,7 +3019,7 @@ function EarningsWatch() {
                             <p className="text-xs text-[#2b3138] mt-1 truncate leading-tight">{e.name}</p>
                             {e.marketCap && (
                               <p className="text-[11px] text-[#2b3138] mt-0.5">
-                                <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#396477]">{e.marketCap}</span>
+                                <span className="font-medium">Mkt Cap:</span> <span className="font-semibold text-[#7C3AED]">{e.marketCap}</span>
                               </p>
                             )}
                           </div>
@@ -3140,7 +3140,7 @@ function DistressedWatch() {
               <div key={s.id} className="px-5 py-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span title={severity.label} className="text-[11px]">{severity.dot}</span>
-                  <span className="font-semibold text-base text-[#396477]">{s.company}</span>
+                  <span className="font-semibold text-base text-[#7C3AED]">{s.company}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
                   {s.bondPrice != null && (
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${s.bondPrice < 70 ? "bg-red-50 text-red-600 border-red-200" : s.bondPrice < 90 ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"}`}>
@@ -3156,7 +3156,7 @@ function DistressedWatch() {
                 <div className="flex items-center justify-end pt-0.5">
                   {s.edgarUrl && (
                     <a href={s.edgarUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-[10px] text-[#396477] hover:underline">
+                      className="text-[10px] text-[#7C3AED] hover:underline">
                       SEC filing →
                     </a>
                   )}
@@ -5450,9 +5450,9 @@ function classifyClient(role: string, firm: string) {
 type WatchStatus = "Likely Active" | "Near-Term Watch" | "Building" | "Early Signal" | "On the Radar";
 
 const WATCH_STATUS_STYLE: Record<WatchStatus, { badge: string; dot?: boolean }> = {
-  "Likely Active":   { badge: "bg-[#c3ecd7] text-[#416656] border-[#a8cfbc]/70", dot: true },
+  "Likely Active":   { badge: "bg-[#ede9fe] text-[#6D28D9] border-[#ddd6fe]/70", dot: true },
   "Near-Term Watch": { badge: "bg-amber-50 text-amber-700 border-amber-200", dot: true },
-  "Building":        { badge: "bg-sky-50 text-[#396477] border-sky-200" },
+  "Building":        { badge: "bg-sky-50 text-[#7C3AED] border-sky-200" },
   "Early Signal":    { badge: "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/60" },
   "On the Radar":    { badge: "bg-gray-50 text-gray-700 border-gray-200" },
 };
@@ -5496,7 +5496,7 @@ function hiringTimeline(days: number): { label: string; cls: string } | null {
   if (days <= 30)  return { label: "⏰ Outreach now — hiring likely 30–60d out", cls: "bg-red-50 text-red-700 border-red-200" };
   if (days <= 60)  return { label: "🟢 Hiring window open", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" };
   if (days <= 90)  return { label: "📋 Active build-out phase", cls: "bg-violet-50 text-violet-700 border-violet-200" };
-  if (days <= 180) return { label: "🔵 Post-close hiring", cls: "bg-sky-50 text-[#396477] border-sky-200" };
+  if (days <= 180) return { label: "🔵 Post-close hiring", cls: "bg-sky-50 text-[#7C3AED] border-sky-200" };
   return null;
 }
 
@@ -5617,7 +5617,7 @@ const STRATEGY_LABELS: Record<string, string> = {
 
 function TierBadge({ tier }: { tier: 1 | 2 | 3 }) {
   const cls = tier === 1
-    ? "bg-[#396477]/10 text-[#396477] border-[#396477]/20"
+    ? "bg-[#7C3AED]/10 text-[#7C3AED] border-[#7C3AED]/20"
     : tier === 2
     ? "bg-[#e1ddf2]/70 text-[#2b3138] border-[#c7c4d8]/50"
     : "bg-gray-50 text-gray-700 border-gray-200";
@@ -5668,8 +5668,8 @@ function SeniorityBadge({ seniority, frontOffice }: { seniority: string; frontOf
   const cls = !frontOffice
     ? "bg-gray-50 text-gray-600 border-gray-200"
     : isSenior
-    ? "bg-[#c3ecd7]/60 text-[#416656] border-[#a8cfbc]/50"
-    : "bg-sky-50 text-[#396477] border-sky-100";
+    ? "bg-[#ede9fe]/60 text-[#6D28D9] border-[#ddd6fe]/50"
+    : "bg-sky-50 text-[#7C3AED] border-sky-100";
   return (
     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${cls}`}>
       {SENIORITY_LABELS[seniority] ?? seniority}
@@ -5697,12 +5697,12 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
           </div>
         </div>
         <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <span className="text-xs font-bold text-[#396477]">{profile.frontOfficeCount} open</span>
+          <span className="text-xs font-bold text-[#7C3AED]">{profile.frontOfficeCount} open</span>
           {profile.edgarRaise && (
             <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-semibold ${
               profile.edgarRaise.status === "open"
-                ? "bg-[#c3ecd7] text-[#416656]"
-                : "bg-sky-100 text-[#396477]"
+                ? "bg-[#ede9fe] text-[#6D28D9]"
+                : "bg-sky-100 text-[#7C3AED]"
             }`}>
               {profile.edgarRaise.status === "open" ? "Raising" : "Closed raise"}
               {profile.edgarRaise.amountStr ? ` · ${profile.edgarRaise.amountStr}` : ""}
@@ -5742,7 +5742,7 @@ function FirmCard({ profile }: { profile: FirmIntelProfile }) {
             >
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#1a1e24] group-hover:text-[#396477] truncate transition-colors">
+                <span className="text-xs text-[#1a1e24] group-hover:text-[#7C3AED] truncate transition-colors">
                   {r.role}
                 </span>
               </div>
@@ -5889,7 +5889,7 @@ const STATIC_CASES: StaticCase[] = [
 const CASE_TYPE_STYLE: Record<string, { label: string; cls: string }> = {
   distressed:    { label: "Distressed", cls: "bg-red-50 text-red-600 border-red-200" },
   lbo:           { label: "LBO", cls: "bg-violet-50 text-violet-600 border-violet-200" },
-  credit:        { label: "Credit", cls: "bg-sky-50 text-[#396477] border-sky-200" },
+  credit:        { label: "Credit", cls: "bg-sky-50 text-[#7C3AED] border-sky-200" },
   restructuring: { label: "Restructuring", cls: "bg-amber-50 text-amber-700 border-amber-200" },
   ma:            { label: "M&A", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" },
 };
@@ -5935,7 +5935,7 @@ function CaseLibrarySection() {
     return (
       <div className="space-y-5">
         <button onClick={() => { setSelected(null); setAiCase(null); }}
-          className="flex items-center gap-1.5 text-xs text-[#396477] hover:text-[#2d5162] font-medium transition-colors">
+          className="flex items-center gap-1.5 text-xs text-[#7C3AED] hover:text-[#5b21b6] font-medium transition-colors">
           ← Back to cases
         </button>
         <div className="border border-gray-200 bg-white rounded-xl overflow-hidden">
@@ -5948,7 +5948,7 @@ function CaseLibrarySection() {
             <p className="text-xs text-[#1a1e24] mt-2 leading-relaxed">{displayCase.snapshot}</p>
             <div className="flex flex-wrap gap-1.5 mt-3">
               {displayCase.keyPlayers.map(f => (
-                <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#396477] border border-sky-100 rounded font-medium">{f}</span>
+                <span key={f} className="text-[10px] px-1.5 py-0.5 bg-sky-50 text-[#7C3AED] border border-sky-100 rounded font-medium">{f}</span>
               ))}
             </div>
           </div>
@@ -5957,7 +5957,7 @@ function CaseLibrarySection() {
             <ul className="space-y-1.5">
               {displayCase.mechanics.map((m, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-[#1a1e24]">
-                  <span className="mt-1.5 w-1 h-1 rounded-full bg-[#396477] flex-shrink-0" />
+                  <span className="mt-1.5 w-1 h-1 rounded-full bg-[#7C3AED] flex-shrink-0" />
                   {m}
                 </li>
               ))}
@@ -5994,7 +5994,7 @@ function CaseLibrarySection() {
         {filters.map(f => (
           <button key={f} onClick={() => setFilter(f)}
             className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all capitalize ${
-              filter === f ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+              filter === f ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
             }`}>
             {f === "all" ? "All Cases" : CASE_TYPE_STYLE[f]?.label ?? f}
           </button>
@@ -6007,12 +6007,12 @@ function CaseLibrarySection() {
           const style = CASE_TYPE_STYLE[c.type] ?? CASE_TYPE_STYLE.distressed;
           return (
             <button key={c.deal} onClick={() => setSelected(c)}
-              className="text-left border border-gray-200 bg-white rounded-xl px-4 py-4 hover:border-[#396477]/40 hover:shadow-sm transition-all group">
+              className="text-left border border-gray-200 bg-white rounded-xl px-4 py-4 hover:border-[#7C3AED]/40 hover:shadow-sm transition-all group">
               <div className="flex items-center gap-2 mb-2">
                 <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${style.cls}`}>{style.label}</span>
                 <span className="text-[11px] text-gray-600">{c.year}</span>
               </div>
-              <p className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors">{c.company}</p>
+              <p className="font-semibold text-sm text-[#191c1e] group-hover:text-[#7C3AED] transition-colors">{c.company}</p>
               <p className="text-xs text-gray-700 mt-0.5">{c.size}</p>
               <p className="text-xs text-[#2b3138] mt-2 leading-relaxed line-clamp-2">{c.snapshot.split(".")[0]}.</p>
             </button>
@@ -6030,17 +6030,17 @@ function CaseLibrarySection() {
             onChange={e => setAiInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && fetchAiCase()}
             placeholder="e.g. Sears Chapter 11, Dell LBO, Envision Healthcare..."
-            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-[#396477] bg-white"
+            className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-[#7C3AED] bg-white"
           />
           <button onClick={fetchAiCase} disabled={aiLoading || !aiInput.trim()}
-            className="px-4 py-2 bg-[#396477] text-white text-xs font-semibold rounded-lg hover:bg-[#2d5162] disabled:opacity-40 transition-colors flex-shrink-0">
+            className="px-4 py-2 bg-[#7C3AED] text-white text-xs font-semibold rounded-lg hover:bg-[#5b21b6] disabled:opacity-40 transition-colors flex-shrink-0">
             {aiLoading ? "Generating…" : "Analyze →"}
           </button>
         </div>
         {aiError && <p className="text-xs text-red-500">{aiError}</p>}
         {aiLoading && (
           <div className="flex items-center gap-2 text-xs text-gray-600">
-            <div className="w-3 h-3 border border-gray-300 border-t-[#396477] rounded-full animate-spin" />
+            <div className="w-3 h-3 border border-gray-300 border-t-[#7C3AED] rounded-full animate-spin" />
             Building case study…
           </div>
         )}
@@ -6196,7 +6196,7 @@ function ResumeReviewSection() {
                 {cat.fixes.length > 0 && (
                   <ul className="space-y-1">
                     {cat.fixes.map((fix, i) => (
-                      <li key={i} className="text-[11px] text-[#396477] flex gap-1.5">
+                      <li key={i} className="text-[11px] text-[#7C3AED] flex gap-1.5">
                         <span className="flex-shrink-0 mt-0.5">→</span>
                         <span>{fix}</span>
                       </li>
@@ -6222,7 +6222,7 @@ function ResumeReviewSection() {
           )}
 
           <button onClick={() => { setResult(null); setResume(""); setTargetRole(""); }}
-            className="text-xs text-[#396477] font-semibold hover:underline">
+            className="text-xs text-[#7C3AED] font-semibold hover:underline">
             ← Review another resume
           </button>
         </div>
@@ -6687,8 +6687,8 @@ function CapitalCycleSection({
 
       {/* Footer links */}
       <div className="flex gap-4 pt-2 border-t border-gray-100">
-        <button onClick={onViewFunds} className="text-xs text-[#396477] font-semibold hover:underline">Browse all Form D filings →</button>
-        <button onClick={onViewRoles} className="text-xs text-[#396477] font-semibold hover:underline">See all open roles →</button>
+        <button onClick={onViewFunds} className="text-xs text-[#7C3AED] font-semibold hover:underline">Browse all Form D filings →</button>
+        <button onClick={onViewRoles} className="text-xs text-[#7C3AED] font-semibold hover:underline">See all open roles →</button>
       </div>
     </div>
   );
@@ -6881,7 +6881,7 @@ function RecruitersSection() {
                 </div>
                 <p className="text-[11px] text-[#1a1e24] leading-relaxed">{h.focus}</p>
                 <a href={h.website} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] transition-colors">
+                  className="inline-flex items-center gap-1 mt-1.5 text-[10px] font-semibold text-[#7C3AED] hover:text-[#1A2B4A] transition-colors">
                   <svg viewBox="0 0 12 12" fill="none" className="w-2.5 h-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M2 6h8M7 3l3 3-3 3"/>
                   </svg>
@@ -7215,17 +7215,17 @@ function HiringSection({
       <div className="space-y-2">
         {/* Row 1: all view tabs, same style, scrollable on mobile */}
         <div className="flex overflow-x-auto gap-1 pb-0.5" style={{scrollbarWidth:"none"}}>
-          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("firms")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "firms" ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1.5" y="4" width="11" height="8.5" rx="1.2"/><path d="M4.5 4V2.5a2.5 2.5 0 015 0V4"/></svg>
             Watch List
           </button>
-          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+          <button onClick={() => setView("roles")} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "roles" ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
             <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="4" x2="12" y2="4"/><line x1="2" y1="7" x2="9" y2="7"/><line x1="2" y1="10" x2="11" y2="10"/></svg>
             All Roles ({frontOfficeJobs.length})
           </button>
           {userProfile && (
             <button onClick={() => { setView("foryou"); if (!matchResults && !matchLoading) runJobMatch(); }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${view === "foryou" ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:text-gray-700"}`}>
               <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><path d="M1 12c0-2.2 2.2-4 5-4"/><path d="M10 8.5l1.5 1.5 2.5-2.5"/></svg>
               For You
             </button>
@@ -7261,7 +7261,7 @@ function HiringSection({
               {JOB_CATEGORIES.slice(0, 7).map((c) => (
                 <button key={c.v} onClick={() => setCategoryFilter(categoryFilter === c.v && c.v !== "all" ? "all" : c.v)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all whitespace-nowrap flex-shrink-0 ${
-                    categoryFilter === c.v ? "bg-[#396477] text-white border-[#396477]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                    categoryFilter === c.v ? "bg-[#7C3AED] text-white border-[#7C3AED]" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
                   }`}>
                   {c.l}
                 </button>
@@ -7340,7 +7340,7 @@ function HiringSection({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{m.role}</span>
+                      <span className="text-sm font-semibold text-[#191c1e] group-hover:text-[#7C3AED] transition-colors truncate">{m.role}</span>
                       <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded flex-shrink-0 ${m.score >= 9 ? "bg-emerald-100 text-emerald-700" : m.score >= 7 ? "bg-sky-100 text-sky-700" : "bg-gray-100 text-gray-600"}`}>
                         {m.score}/10
                       </span>
@@ -7441,7 +7441,7 @@ function HiringSection({
             <section>
               <div className="flex items-center gap-2 mb-3">
                 <h2 className="text-sm font-bold text-[#191c1e]">Hiring Now</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
+                <span className="text-[10px] bg-[#ede9fe] text-[#6D28D9] font-bold px-1.5 py-0.5 rounded">{allJobs.length} roles</span>
                 <span className="text-[10px] text-[#2b3138]">{hiringGroups.length} firms</span>
               </div>
               {allJobs.length === 0 ? (
@@ -7464,13 +7464,13 @@ function HiringSection({
                                   {filing.totalOfferingAmount ? `${fmt(filing.totalOfferingAmount)} raised` : "Form D"}
                                 </span>
                               )}
-                              <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] bg-[#ede9fe] text-[#6D28D9] font-bold px-1.5 py-0.5 rounded">
                                 {jobs.length} open
                               </span>
                             </div>
                             {careersUrl && (
                               <a href={careersUrl} target="_blank" rel="noopener noreferrer"
-                                className="flex-shrink-0 text-[10px] font-semibold text-[#396477] border border-[#396477]/30 px-2.5 py-1 rounded-lg hover:bg-[#396477] hover:text-white transition-colors whitespace-nowrap">
+                                className="flex-shrink-0 text-[10px] font-semibold text-[#7C3AED] border border-[#7C3AED]/30 px-2.5 py-1 rounded-lg hover:bg-[#7C3AED] hover:text-white transition-colors whitespace-nowrap">
                                 All jobs →
                               </a>
                             )}
@@ -7479,9 +7479,9 @@ function HiringSection({
                           <div className="divide-y divide-gray-100">
                             {jobs.map(job => (
                               <a key={job.id} href={job.edgarUrl || careersUrl || "#"} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#396477]/5 group transition-colors">
+                                className="flex items-center gap-3 px-4 py-3 hover:bg-[#7C3AED]/5 group transition-colors">
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-semibold text-[#191c1e] group-hover:text-[#396477] transition-colors leading-snug">{job.role}</p>
+                                  <p className="text-sm font-semibold text-[#191c1e] group-hover:text-[#7C3AED] transition-colors leading-snug">{job.role}</p>
                                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                     <SeniorityBadge seniority={job.classification.seniority} frontOffice={job.classification.frontOffice} />
                                     {job.location && <span className="text-xs text-gray-600">{job.location}</span>}
@@ -7489,7 +7489,7 @@ function HiringSection({
                                     <span className="text-xs text-gray-600">{job.daysAgo}d ago</span>
                                   </div>
                                 </div>
-                                <span className="text-xs font-bold text-[#396477] flex-shrink-0 group-hover:underline">Apply →</span>
+                                <span className="text-xs font-bold text-[#7C3AED] flex-shrink-0 group-hover:underline">Apply →</span>
                               </a>
                             ))}
                           </div>
@@ -7521,13 +7521,13 @@ function HiringSection({
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {radarFirms.map(f => (
-                    <div key={f.id} className="flex items-center gap-1.5 bg-white border border-[#c1c7cc]/40 rounded-lg px-2.5 py-1.5 hover:border-[#396477]/30 transition-colors">
+                    <div key={f.id} className="flex items-center gap-1.5 bg-white border border-[#c1c7cc]/40 rounded-lg px-2.5 py-1.5 hover:border-[#7C3AED]/30 transition-colors">
                       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${f.signal === "raising" ? "bg-amber-400" : "bg-gray-300"}`} />
                       <span className="text-xs font-medium text-[#1a1e24]">{f.name}</span>
                       {f.filing && <span className="text-[10px] text-amber-600 font-medium">↑{f.filing.daysSinceFiling}d</span>}
                       {f.careersUrl && (
                         <a href={f.careersUrl} target="_blank" rel="noopener noreferrer"
-                          className="text-[10px] text-[#396477] hover:underline font-semibold">→</a>
+                          className="text-[10px] text-[#7C3AED] hover:underline font-semibold">→</a>
                       )}
                     </div>
                   ))}
@@ -7551,11 +7551,11 @@ function HiringSection({
           <div className="space-y-2">
             {roles.map((r) => (
               <a key={r.id} href={r.edgarUrl || "#"} target="_blank" rel="noopener noreferrer"
-                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-sm transition-all group">
+                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#7C3AED]/30 hover:shadow-sm transition-all group">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">{r.role}</span>
+                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#7C3AED] transition-colors truncate">{r.role}</span>
                   </div>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-[#2b3138]">
                     <span className="font-medium text-[#1a1e24]">{r.firm}</span>
@@ -7659,7 +7659,7 @@ function FirmNewsBar({ firmName }: { firmName: string }) {
             <a key={i} href={item.url} target="_blank" rel="noopener noreferrer"
               className="flex items-start gap-2 group rounded-lg px-2.5 py-1.5 hover:bg-amber-50/60 transition-colors border border-transparent hover:border-amber-100">
               <span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0 mt-1.5" />
-              <span className="text-[11px] text-[#1a1e24] group-hover:text-[#396477] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
+              <span className="text-[11px] text-[#1a1e24] group-hover:text-[#7C3AED] leading-snug flex-1 line-clamp-2 transition-colors">{item.title}</span>
               <span className="text-[10px] text-gray-500 flex-shrink-0 mt-0.5 whitespace-nowrap">{item.daysAgo}d</span>
             </a>
           ))}
@@ -7684,13 +7684,13 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
 
   if (compact) {
     return (
-      <div className="bg-white border border-[#c1c7cc]/40 rounded-lg px-4 py-2.5 flex items-center gap-3 hover:border-[#396477]/40 transition-colors">
+      <div className="bg-white border border-[#c1c7cc]/40 rounded-lg px-4 py-2.5 flex items-center gap-3 hover:border-[#7C3AED]/40 transition-colors">
         <WatchStatusBadge status={watchStatus} />
         <span className="font-semibold text-sm text-[#191c1e] flex-1 truncate">{profile.name}</span>
-        <span className="text-xs text-[#396477] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
+        <span className="text-xs text-[#7C3AED] font-bold flex-shrink-0">{profile.frontOfficeCount} open</span>
         {filing && (
           <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-            className="text-[10px] font-semibold text-[#2b3138] hover:text-[#396477] transition-colors flex-shrink-0">
+            className="text-[10px] font-semibold text-[#2b3138] hover:text-[#7C3AED] transition-colors flex-shrink-0">
             signal ↗
           </button>
         )}
@@ -7707,7 +7707,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
             <WatchStatusBadge status={watchStatus} />
             {filing && (
               <button onClick={(e) => { e.stopPropagation(); onViewSignals(); }}
-                className="text-[10px] font-semibold text-[#396477] hover:underline transition-colors">
+                className="text-[10px] font-semibold text-[#7C3AED] hover:underline transition-colors">
                 Fund signal{filing.totalOfferingAmount ? ` · ${fmt(filing.totalOfferingAmount)}` : ""} ↗
               </button>
             )}
@@ -7720,7 +7720,7 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
             {profile.strategies.slice(0, 3).map((s) => <StrategyTag key={s} s={s} />)}
           </div>
         </div>
-        <span className="text-xs font-bold text-[#396477] flex-shrink-0 pt-0.5">{profile.frontOfficeCount} open</span>
+        <span className="text-xs font-bold text-[#7C3AED] flex-shrink-0 pt-0.5">{profile.frontOfficeCount} open</span>
       </div>
 
       {/* Signal note */}
@@ -7738,13 +7738,13 @@ function HiringFirmCard({ profile, filingByFirmId, onViewSignals, compact = fals
               className="flex items-center justify-between gap-2 group">
               <div className="flex items-center gap-2 min-w-0">
                 <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                <span className="text-xs text-[#1a1e24] group-hover:text-[#396477] truncate transition-colors">{r.role}</span>
+                <span className="text-xs text-[#1a1e24] group-hover:text-[#7C3AED] truncate transition-colors">{r.role}</span>
               </div>
               <span className="text-[10px] text-[#2b3138] flex-shrink-0">{r.daysAgo}d</span>
             </a>
           ))}
           {allFrontOfficeRoles.length > 4 && (
-            <button onClick={() => setExpanded(e => !e)} className="text-[11px] text-[#396477] font-semibold pt-0.5 hover:underline text-left">
+            <button onClick={() => setExpanded(e => !e)} className="text-[11px] text-[#7C3AED] font-semibold pt-0.5 hover:underline text-left">
               {expanded ? "Show less ↑" : `+${allFrontOfficeRoles.length - 4} more →`}
             </button>
           )}
@@ -7823,7 +7823,7 @@ function IntelSection() {
             <section>
               <div className="flex items-center gap-2 mb-3">
                 <h2 className="text-sm font-bold text-[#191c1e]">Firms on a Hiring Push</h2>
-                <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                <span className="text-[10px] bg-[#ede9fe] text-[#6D28D9] font-bold px-1.5 py-0.5 rounded">
                   {data.hiringPush.length}
                 </span>
                 <span className="text-xs text-[#2b3138]">3+ roles open</span>
@@ -7838,7 +7838,7 @@ function IntelSection() {
             <section>
               <div className="flex items-center gap-2 mb-3">
                 <h2 className="text-sm font-bold text-[#191c1e]">Active Hiring</h2>
-                <span className="text-[10px] bg-sky-100 text-[#396477] font-bold px-1.5 py-0.5 rounded">
+                <span className="text-[10px] bg-sky-100 text-[#7C3AED] font-bold px-1.5 py-0.5 rounded">
                   {data.postRaise.length}
                 </span>
                 <span className="text-xs text-[#2b3138]">Known firms with open roles</span>
@@ -7919,12 +7919,12 @@ function IntelSection() {
                 href={r.edgarUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#396477]/30 hover:shadow-[0_1px_6px_rgba(57,100,119,0.08)] transition-all group"
+                className="flex items-start gap-3 bg-white border border-[#c1c7cc]/40 rounded-xl px-4 py-3 hover:border-[#7C3AED]/30 hover:shadow-[0_1px_6px_rgba(57,100,119,0.08)] transition-all group"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <SeniorityBadge seniority={r.classification.seniority} frontOffice={r.classification.frontOffice} />
-                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#396477] transition-colors truncate">
+                    <span className="font-semibold text-sm text-[#191c1e] group-hover:text-[#7C3AED] transition-colors truncate">
                       {r.role}
                     </span>
                   </div>
@@ -7942,7 +7942,7 @@ function IntelSection() {
                   )}
                 </div>
                 <div className="flex-shrink-0 text-right">
-                  <span className="text-xs font-bold text-[#396477]">{r.classification.relevanceScore}/10</span>
+                  <span className="text-xs font-bold text-[#7C3AED]">{r.classification.relevanceScore}/10</span>
                 </div>
               </a>
             ))}
@@ -7967,7 +7967,7 @@ function OnluTableSection() {
         {/* ── LEFT: Onlu Coffee (now at coffeewithonlu.com) ── */}
         <div className="flex-1 min-w-0 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-3xl font-bold text-[#396477]">Onlu Coffee</h2>
+            <h2 className="text-3xl font-bold text-[#7C3AED]">Onlu Coffee</h2>
             <p className="text-lg text-[#2b3138] leading-relaxed">
               Small-group coffee for finance professionals in NYC — grouped by your vertical.
             </p>
@@ -7981,7 +7981,7 @@ function OnluTableSection() {
               href="https://coffeewithonlu.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#396477] transition-all hover:-translate-y-0.5 hover:shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A2B4A] text-white text-sm font-bold rounded-full hover:bg-[#7C3AED] transition-all hover:-translate-y-0.5 hover:shadow-lg"
             >
               See upcoming coffees →
             </a>
@@ -8069,7 +8069,7 @@ function ReferralSection() {
                   type === v
                     ? v === "offering"
                       ? isIntro ? "border-[#0F6E56] bg-emerald-50 text-[#0F6E56]" : "border-violet-500 bg-violet-50 text-violet-700"
-                      : isIntro ? "border-[#396477] bg-[#396477]/5 text-[#396477]" : "border-violet-400 bg-violet-50 text-violet-600"
+                      : isIntro ? "border-[#7C3AED] bg-[#7C3AED]/5 text-[#7C3AED]" : "border-violet-400 bg-violet-50 text-violet-600"
                     : "border-gray-200 text-gray-600 hover:border-gray-300"
                 }`}>
                 {label}

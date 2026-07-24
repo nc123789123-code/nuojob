@@ -21,7 +21,7 @@ function SuccessContent() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-5 h-14 flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-bold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-bold text-xl tracking-tight" style={{ color: "#7C3AED" }}>Onlu</span>
           </Link>
         </div>
       </div>

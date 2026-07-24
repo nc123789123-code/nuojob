@@ -109,7 +109,7 @@ export default function ThisWeekPage() {
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <LogoMark size={24} />
-            <span className="text-sm font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="text-sm font-bold" style={{ color: "#7C3AED" }}>Onlu</span>
           </a>
           <span className="text-xs text-[#2b3138]">Weekly Pulse</span>
         </div>
@@ -119,8 +119,8 @@ export default function ThisWeekPage() {
 
         {/* Hero card */}
         <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
-          <div className="bg-[#396477] px-6 py-5">
-            <p className="text-[#c3ecd7] text-xs font-semibold uppercase tracking-widest mb-1">Finance Hiring Pulse</p>
+          <div className="bg-[#7C3AED] px-6 py-5">
+            <p className="text-[#ede9fe] text-xs font-semibold uppercase tracking-widest mb-1">Finance Hiring Pulse</p>
             <h1 className="text-white text-xl font-bold">{weekLabel()}</h1>
           </div>
           {loading ? (
@@ -147,14 +147,14 @@ export default function ThisWeekPage() {
           <div className="bg-white rounded-2xl border border-[#c1c7cc]/40 overflow-hidden shadow-sm">
             <div className="px-5 py-3.5 border-b border-[#c1c7cc]/30 flex items-center gap-2">
               <span className="text-sm font-bold text-[#191c1e]">Hiring Now</span>
-              <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">{totalFirmsHiring} firms</span>
+              <span className="text-[10px] bg-[#ede9fe] text-[#6D28D9] font-bold px-1.5 py-0.5 rounded">{totalFirmsHiring} firms</span>
             </div>
             <div className="divide-y divide-[#c1c7cc]/20">
               {firmGroups.map(([firmName, firmJobs]) => (
                 <div key={firmName} className="px-5 py-3.5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-sm text-[#191c1e]">{firmName}</span>
-                    <span className="text-[10px] bg-[#c3ecd7] text-[#416656] font-bold px-1.5 py-0.5 rounded">
+                    <span className="text-[10px] bg-[#ede9fe] text-[#6D28D9] font-bold px-1.5 py-0.5 rounded">
                       {firmJobs.length} open
                     </span>
                   </div>
@@ -166,7 +166,7 @@ export default function ThisWeekPage() {
                       </div>
                     ))}
                     {firmJobs.length > 3 && (
-                      <p className="text-[10px] text-[#396477]">+{firmJobs.length - 3} more roles</p>
+                      <p className="text-[10px] text-[#7C3AED]">+{firmJobs.length - 3} more roles</p>
                     )}
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export default function ThisWeekPage() {
             </div>
             {totalFirmsHiring > 8 && (
               <div className="px-5 py-3 border-t border-[#c1c7cc]/20 bg-[#f8fafb]">
-                <a href="/" className="text-xs font-semibold text-[#396477] hover:underline">
+                <a href="/" className="text-xs font-semibold text-[#7C3AED] hover:underline">
                   +{totalFirmsHiring - 8} more firms on the platform →
                 </a>
               </div>
@@ -207,7 +207,7 @@ export default function ThisWeekPage() {
               ))}
             </div>
             <div className="px-5 py-3 border-t border-[#c1c7cc]/20 bg-[#f8fafb]">
-              <a href="/?tab=capital" className="text-xs font-semibold text-[#396477] hover:underline">
+              <a href="/?tab=capital" className="text-xs font-semibold text-[#7C3AED] hover:underline">
                 View all capital signals →
               </a>
             </div>
@@ -226,11 +226,11 @@ export default function ThisWeekPage() {
         </div>
 
         {/* CTA */}
-        <div className="bg-[#396477] rounded-2xl p-5 text-center shadow-sm">
+        <div className="bg-[#7C3AED] rounded-2xl p-5 text-center shadow-sm">
           <p className="text-white font-bold text-sm mb-1">See the full picture</p>
-          <p className="text-[#c3ecd7] text-xs mb-4">Live roles, fund signals, market data, and interview prep — all in one place.</p>
+          <p className="text-[#ede9fe] text-xs mb-4">Live roles, fund signals, market data, and interview prep — all in one place.</p>
           <a href="/"
-            className="inline-block bg-white text-[#396477] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
+            className="inline-block bg-white text-[#7C3AED] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#f0f7fa] transition-colors">
             Open Onlu →
           </a>
         </div>

@@ -7,7 +7,7 @@ export default function SiteNav() {
       <div className="max-w-6xl mx-auto px-8 h-24 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-3">
           <LogoMark size={46} />
-          <span className="font-semibold text-lg tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+          <span className="font-semibold text-lg tracking-tight" style={{ color: "#7C3AED" }}>Onlu</span>
         </Link>
         <div className="w-px h-4 bg-[#c1c7cc]/50" />
         <nav className="flex items-center gap-1">
@@ -26,7 +26,7 @@ export default function SiteNav() {
           <Link href="/?tab=learn" className="px-3 py-1 rounded-md text-sm font-medium text-[#1a1e24] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Onlu Learning
           </Link>
-          <a href="https://coffeewithonlu.com" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-md text-sm font-medium text-[#6aab8e] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
+          <a href="https://coffeewithonlu.com" target="_blank" rel="noopener noreferrer" className="px-3 py-1 rounded-md text-sm font-medium text-[#7C3AED] hover:text-[#191c1e] hover:bg-[#f2f4f6] transition-all">
             Coffee ↗
           </a>
         </nav>
@@ -34,7 +34,7 @@ export default function SiteNav() {
           <span className="hidden sm:inline text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full tracking-wide">Free · No login</span>
           <Link href="/about" className="hidden sm:inline text-[#1a1e24] hover:text-[#191c1e] text-xs transition-colors">About</Link>
           <Link href="/contact" className="hidden sm:inline text-[#1a1e24] hover:text-[#191c1e] text-xs transition-colors">Contact</Link>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdy46uVtoHN2cwGicCqeGEbJCiU0yK-oRM66I8vdGnl_orObw/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-[10px] font-semibold text-[#396477] hover:text-[#1A2B4A] border border-[#396477]/30 px-2 py-0.5 rounded-full transition-colors">Give feedback</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdy46uVtoHN2cwGicCqeGEbJCiU0yK-oRM66I8vdGnl_orObw/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" className="hidden sm:inline text-[10px] font-semibold text-[#7C3AED] hover:text-[#1A2B4A] border border-[#7C3AED]/30 px-2 py-0.5 rounded-full transition-colors">Give feedback</a>
           <span className="text-[#2b3138] text-xs hidden md:block">Finance intelligence</span>
         </div>
       </div>

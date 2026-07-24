@@ -85,13 +85,13 @@ function buildEmail(
 
   <!-- Header -->
   <div style="padding:28px 24px 0">
-    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#396477">Onlu Intelligence</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#7C3AED">Onlu Intelligence</div>
     <h1 style="font-size:20px;font-weight:700;margin:6px 0 2px;color:#111827;line-height:1.2">Bi-Weekly Brief</h1>
     <div style="font-size:12px;color:#454e5a">${weekLabel}</div>
   </div>
 
   <!-- Editorial intro -->
-  <div style="margin:20px 24px 0;padding:16px 18px;background:#f0f9ff;border-radius:8px;border-left:3px solid #396477">
+  <div style="margin:20px 24px 0;padding:16px 18px;background:#f0f9ff;border-radius:8px;border-left:3px solid #7C3AED">
     <p style="margin:0;font-size:13px;line-height:1.7;color:#374151">${intro}</p>
   </div>
 
@@ -113,7 +113,7 @@ function buildEmail(
 
   <!-- CTA -->
   <div style="padding:24px;margin-top:24px;text-align:center;border-top:1px solid #f3f4f6">
-    <a href="${baseUrl}" style="display:inline-block;padding:11px 28px;background:#396477;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">
+    <a href="${baseUrl}" style="display:inline-block;padding:11px 28px;background:#7C3AED;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">
       View Full Platform →
     </a>
     <p style="margin:12px 0 0;font-size:12px;color:#454e5a">Market Brief · Fund Signals · Hiring Watch · Case Library</p>

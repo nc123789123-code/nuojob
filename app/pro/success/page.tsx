@@ -24,7 +24,7 @@ export default function ProSuccessPage() {
           </p>
           <Link
             href="/"
-            className="inline-block px-6 py-3 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors"
+            className="inline-block px-6 py-3 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#6D28D9] transition-colors"
           >
             Go to the platform →
           </Link>

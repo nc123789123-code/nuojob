@@ -13,7 +13,7 @@ export default function OfflinePage() {
           Check your connection and try again. Recent data you&apos;ve viewed may still be available.
         </p>
         <button onClick={() => window.location.reload()}
-          className="px-5 py-2.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#396477] transition-colors">
+          className="px-5 py-2.5 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#7C3AED] transition-colors">
           Try again
         </button>
       </div>

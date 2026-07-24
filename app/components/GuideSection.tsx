@@ -31,7 +31,7 @@ export default function GuideSection() {
       <div className="max-w-3xl mx-auto">
 
         {/* Section label */}
-        <p className="text-[11px] font-semibold text-[#6aab8e] uppercase tracking-widest mb-4">
+        <p className="text-[11px] font-semibold text-[#7C3AED] uppercase tracking-widest mb-4">
           Paid Resource
         </p>
 
@@ -70,7 +70,7 @@ export default function GuideSection() {
                   "Practical investor-style thinking, not textbook answers",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-[#1a1e24] text-sm">
-                    <span className="text-[#6aab8e] font-bold mt-0.5 flex-shrink-0">✓</span>
+                    <span className="text-[#7C3AED] font-bold mt-0.5 flex-shrink-0">✓</span>
                     {item}
                   </li>
                 ))}
@@ -88,14 +88,14 @@ export default function GuideSection() {
               <button
                 onClick={handleGetGuide}
                 disabled={checkoutLoading}
-                className="w-full sm:w-auto px-6 py-3 bg-[#396477] text-white text-sm font-bold rounded-lg hover:bg-[#2d5162] transition-colors disabled:opacity-50 mb-2 block sm:inline-block"
+                className="w-full sm:w-auto px-6 py-3 bg-[#7C3AED] text-white text-sm font-bold rounded-lg hover:bg-[#5b21b6] transition-colors disabled:opacity-50 mb-2 block sm:inline-block"
               >
                 {checkoutLoading ? "Redirecting…" : "Get Full Guide"}
               </button>
 
               <button
                 onClick={() => setShowSampleForm((v) => !v)}
-                className="w-full sm:w-auto px-6 py-3 bg-transparent border border-[#c1d9ce] text-[#396477] text-sm font-medium rounded-lg hover:border-[#6aab8e] hover:text-[#2d5162] transition-colors block sm:inline-block"
+                className="w-full sm:w-auto px-6 py-3 bg-transparent border border-[#c1d9ce] text-[#7C3AED] text-sm font-medium rounded-lg hover:border-[#7C3AED] hover:text-[#5b21b6] transition-colors block sm:inline-block"
               >
                 View Sample
               </button>

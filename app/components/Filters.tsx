@@ -20,7 +20,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.strategy}
         onChange={(e) => set("strategy", e.target.value as SearchFilters["strategy"])}
-        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
       >
         <option value="all">All strategies</option>
         <optgroup label="Credit / Private">
@@ -43,7 +43,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.dateRange}
         onChange={(e) => set("dateRange", e.target.value as SearchFilters["dateRange"])}
-        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
       >
         <option value="30">Last 30d</option>
         <option value="60">Last 60d</option>
@@ -55,7 +55,7 @@ export default function FundFilterBar({ filters, onChange, total, loading, onExp
       <select
         value={filters.minAmount}
         onChange={(e) => set("minAmount", e.target.value)}
-        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#396477]"
+        className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
       >
         <option value="">Any size</option>
         <option value="10">$10M+</option>

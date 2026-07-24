@@ -2,7 +2,7 @@ export function buildGuideEmail(email: string): string {
   const baseUrl  = process.env.NEXT_PUBLIC_URL || "https://onluintel.com";
   const unsubUrl = `${baseUrl}/unsubscribe?e=${Buffer.from(email).toString("base64url")}`;
 
-  const teal  = "#396477";
+  const teal  = "#7C3AED";
   const navy  = "#1A2B4A";
   const light = "#f0f6f8";
 

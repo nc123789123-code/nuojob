@@ -195,7 +195,7 @@ const AI_COMMODITY_POST_CONTENT = (
     <p>This is not a speculative thesis. It is already visible in power demand forecasts, copper order books, and water utility filings. The question for analysts is not whether AI will move commodity markets — it is which commodities, by how much, and over what timeframe.</p>
 
     {/* Pull quote */}
-    <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
+    <div className="my-6 border-l-4 border-[#7C3AED] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
       <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Training a single frontier AI model can consume more electricity than 100 US homes use in a year. Multiply that by thousands of models, millions of inference calls per day, and the demand curve becomes something commodity markets have not seen before."</p>
     </div>
 
@@ -344,7 +344,7 @@ const COMMODITY_POST_CONTENT = (
     <p>This piece sets out a systematic framework for commodity price analysis, covering the five major commodity classes — energy, metals, agricultural goods, precious metals, and soft commodities — and the structural drivers that cut across all of them: the US dollar, interest rates, geopolitical shocks, speculative positioning, and the long-cycle dynamics of capital expenditure.</p>
 
     {/* Pull quote */}
-    <div className="my-6 border-l-4 border-[#396477] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
+    <div className="my-6 border-l-4 border-[#7C3AED] pl-5 py-1 bg-[#f7fbfd] rounded-r-xl">
       <p className="text-base italic text-[#191c1e] font-medium leading-snug">"Commodities are the original macro asset. Every price is simultaneously a signal about growth, geopolitics, technology, and climate — all at once."</p>
     </div>
 
@@ -1082,12 +1082,12 @@ const ABF_POST_CONTENT = (
 
     <p>The headline numbers have done a lot of the marketing work. KKR pegs the private ABF market at around $5.2 trillion today and expects it to reach roughly $7.7 trillion by 2027. DealCatalyst cites a more aggressive path — a $20-trillion ABF market over the next decade. Whatever the right midpoint is, the direction is unambiguous: ABF is no longer the boutique corner of private credit. It is becoming the asset class itself.</p>
 
-    <blockquote className="border-l-2 border-[#396477] pl-4 italic text-[#1a1e24] my-4">
+    <blockquote className="border-l-2 border-[#7C3AED] pl-4 italic text-[#1a1e24] my-4">
       &ldquo;The easy beta of the last cycle is gone. Returns today are driven by the ability to originate with precision, structure with creativity, and manage risk with discipline.&rdquo;
       <span className="block mt-2 text-[11px] not-italic font-semibold text-gray-600 uppercase tracking-wider">— Carlyle, 2026 Credit Outlook</span>
     </blockquote>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What ABF Actually Is</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">What ABF Actually Is</h3>
     <p>Asset-based finance is an umbrella for privately originated loans secured by diversified pools of collateral — consumer receivables, auto loans, residential and commercial mortgages, equipment leases, royalty streams, fund finance lines, trade receivables, and an expanding frontier of esoteric assets like music catalogs, data-center leases, and litigation payouts. It is the private-market cousin of public securitization, but structured bilaterally and held by a single lender or small club.</p>
     <p>The distinction from direct lending is the part that matters for portfolio construction. Direct lending is corporate credit: one borrower, one enterprise value, one bullet maturity. ABF is structured credit: many underlying obligors, observable collateral with value independent of any single operating business, and a self-amortizing profile where principal is returned over the life of the loan rather than at the end. JPMorgan&apos;s private bank estimates that a typical ABF investment structured as a finance lease aims to return roughly three-quarters of principal within the first three years.</p>
 
@@ -1123,7 +1123,7 @@ const ABF_POST_CONTENT = (
       </table>
     </div>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Why Now — Four Structural Drivers</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">Why Now — Four Structural Drivers</h3>
     <p>The ABF narrative is not about a rate cycle or a single macro view. Four separate forces are pointing in the same direction, each on its own enough to reshape allocator behavior.</p>
 
     <div className="grid grid-cols-2 gap-3 my-4">
@@ -1141,7 +1141,7 @@ const ABF_POST_CONTENT = (
       ))}
     </div>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Sub-Segments Allocators Are Sorting Between</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">The Sub-Segments Allocators Are Sorting Between</h3>
     <p>&ldquo;ABF&rdquo; is doing a lot of work as a label. Underneath it sits a set of sub-markets with very different risk profiles and return expectations.</p>
 
     <div className="grid grid-cols-3 gap-2 my-4">
@@ -1161,7 +1161,7 @@ const ABF_POST_CONTENT = (
       ))}
     </div>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">The Scandal That Almost Derailed the Story — And Didn&apos;t</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">The Scandal That Almost Derailed the Story — And Didn&apos;t</h3>
     <p>No ABF conversation in 2026 is complete without Tricolor and First Brands. Tricolor, a subprime auto lender, collapsed into bankruptcy in September 2025 after evidence emerged that the same vehicles had been pledged as collateral on multiple loans. First Brands followed shortly after. JPMorgan, Barclays, and a long list of private credit managers were exposed.</p>
     <p>The more careful read — from Cambridge Associates, Rithm Capital, and KBRA — is that both failures were idiosyncratic, driven by fraud and weak lender controls rather than systemic ABF flaws. The lesson is not that ABF is broken. It is that the discipline of ABF — separate servicing, independent verification, sole-lender control, asset-level daily monitoring — is what distinguishes good ABF from expensive unsecured lending in a trench coat.</p>
 
@@ -1176,7 +1176,7 @@ const ABF_POST_CONTENT = (
       </div>
     </div>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">Key Players</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">Key Players</h3>
     <div className="grid grid-cols-3 gap-2 my-3">
       {[["Apollo","Atlas SP"],["KKR","Private ABF"],["Blackstone","BXCI ABF"],["Carlyle","Opportunistic Cr."],["Ares","Alt. Credit"],["Brookfield","Structured Cr."],["Nomura CM","Multi-mgr ABF"],["Janus / VPC","Specialty ABF"],["Rithm","Collateral control"]].map(([firm, platform]) => (
         <div key={firm} className="flex items-center justify-between bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
@@ -1186,13 +1186,13 @@ const ABF_POST_CONTENT = (
       ))}
     </div>
 
-    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#396477] pl-3">What to Read from the Shift</h3>
+    <h3 className="font-bold text-[#191c1e] text-base mt-8 border-l-[3px] border-[#7C3AED] pl-3">What to Read from the Shift</h3>
     <p>The broader signal embedded in the ABF rotation is about where private credit is in its own cycle. Direct lending matured, spreads compressed, documentation weakened, and the marginal capital deployed into the upper middle market is now earning a return difficult to distinguish from the BSL market. ABF is where the complexity premium still exists — and where the frontier of the asset class is still being defined.</p>
     <p>For allocators, naming exposure to &ldquo;ABF&rdquo; the way one might have named exposure to &ldquo;direct lending&rdquo; in 2018 is not going to be enough. Sub-strategy selection matters. Servicer quality matters. And manager selection — specifically the ability to distinguish between a disciplined, control-oriented ABF shop and a yield-chasing pool buyer — is about to become one of the highest-leverage decisions in a credit portfolio.</p>
 
     {/* Closing */}
     <div className="bg-[#1A2B4A] rounded-xl p-5 mt-6">
-      <p className="text-xs font-semibold text-[#6aab8e] uppercase tracking-widest mb-2">The short version</p>
+      <p className="text-xs font-semibold text-[#7C3AED] uppercase tracking-widest mb-2">The short version</p>
       <p className="text-white text-sm leading-relaxed">ABF is not a fad driven by one rate cycle. It is a structural re-plumbing of where non-bank credit gets made, who holds it, and how it is returned. The capital is early, the infrastructure is still being built, and the managers who win are going to be the ones who treat collateral control and data as the product — not the yield.</p>
     </div>
 

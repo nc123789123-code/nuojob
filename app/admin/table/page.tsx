@@ -82,7 +82,7 @@ export default function AdminTablePage() {
             value={secret}
             onChange={(e) => setSecret(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && login()}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-[#396477]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
           />
           {authErr && <p className="text-red-500 text-xs mb-2">{authErr}</p>}
           <button onClick={login} className="w-full bg-[#1A2B4A] text-white text-sm font-semibold py-2 rounded-lg hover:bg-[#152238]">
@@ -145,13 +145,13 @@ export default function AdminTablePage() {
                 <label className="text-xs text-gray-700 mb-1 block">Date (ISO) *</label>
                 <input required type="date" value={form.dateISO}
                   onChange={(e) => setForm({ ...form, dateISO: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
               <div>
                 <label className="text-xs text-gray-700 mb-1 block">Display Date *</label>
                 <input required placeholder="Saturday, May 17" value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -159,40 +159,40 @@ export default function AdminTablePage() {
                 <label className="text-xs text-gray-700 mb-1 block">Time *</label>
                 <input required value={form.time}
                   onChange={(e) => setForm({ ...form, time: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
               <div>
                 <label className="text-xs text-gray-700 mb-1 block">Location *</label>
                 <input required value={form.location}
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
             </div>
             <div>
               <label className="text-xs text-gray-700 mb-1 block">Theme *</label>
               <input required placeholder="Private Credit & Direct Lending" value={form.theme}
                 onChange={(e) => setForm({ ...form, theme: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-gray-700 mb-1 block">Capacity</label>
                 <input type="number" min={1} max={20} value={form.capacity}
                   onChange={(e) => setForm({ ...form, capacity: Number(e.target.value), spotsLeft: Number(e.target.value) })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
               <div>
                 <label className="text-xs text-gray-700 mb-1 block">Spots Left</label>
                 <input type="number" min={0} max={form.capacity} value={form.spotsLeft}
                   onChange={(e) => setForm({ ...form, spotsLeft: Number(e.target.value) })}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477]" />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED]" />
               </div>
             </div>
             <div>
               <label className="text-xs text-gray-700 mb-1 block">Description *</label>
               <textarea required rows={3} value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#396477] resize-none" />
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#7C3AED] resize-none" />
             </div>
             {msg && <p className={`text-xs ${msg.ok ? "text-emerald-600" : "text-red-500"}`}>{msg.text}</p>}
             <button type="submit" disabled={saving}

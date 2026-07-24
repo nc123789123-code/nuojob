@@ -129,7 +129,7 @@ export default function GuideDownloadPage() {
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={32} />
-            <span className="font-semibold text-base" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-semibold text-base" style={{ color: "#7C3AED" }}>Onlu</span>
           </Link>
           <span className="text-xs text-[#2b3138]">Credit Interview Guide</span>
         </div>
@@ -138,7 +138,7 @@ export default function GuideDownloadPage() {
       <main className="max-w-3xl mx-auto px-6 py-12">
         {/* Title block */}
         <div className="mb-10">
-          <div className="inline-block px-2 py-0.5 bg-[#6aab8e]/10 text-[#6aab8e] text-xs font-medium rounded mb-3">
+          <div className="inline-block px-2 py-0.5 bg-[#7C3AED]/10 text-[#7C3AED] text-xs font-medium rounded mb-3">
             Purchase confirmed
           </div>
           <h1 className="text-2xl font-bold text-[#191c1e] mb-2">
@@ -156,7 +156,7 @@ export default function GuideDownloadPage() {
               <p className="text-slate-600 text-xs">Your personal download link was emailed to you after purchase. Check your inbox.</p>
             </div>
             <a href="mailto:research@onluintel.com?subject=Guide download link"
-              className="flex-shrink-0 inline-block px-4 py-2 bg-[#6aab8e] text-white text-xs font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors text-center">
+              className="flex-shrink-0 inline-block px-4 py-2 bg-[#7C3AED] text-white text-xs font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors text-center">
               Resend link →
             </a>
           </div>
@@ -182,7 +182,7 @@ export default function GuideDownloadPage() {
                   <ul className="space-y-1.5">
                     {sub.points.map((pt, i) => (
                       <li key={i} className="flex gap-2 text-sm text-[#1a1e24]">
-                        <span className="text-[#6aab8e] mt-0.5 flex-shrink-0">•</span>
+                        <span className="text-[#7C3AED] mt-0.5 flex-shrink-0">•</span>
                         <span>{pt}</span>
                       </li>
                     ))}
@@ -194,7 +194,7 @@ export default function GuideDownloadPage() {
                 <ol className="space-y-3">
                   {section.steps.map((step, i) => (
                     <li key={i} className="flex gap-3">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#6aab8e]/10 text-[#6aab8e] text-xs font-bold flex items-center justify-center mt-0.5">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] text-xs font-bold flex items-center justify-center mt-0.5">
                         {i + 1}
                       </span>
                       <div>
@@ -219,7 +219,7 @@ export default function GuideDownloadPage() {
               {section.qas && (
                 <div className="space-y-4">
                   {section.qas.map((qa, i) => (
-                    <div key={i} className="border-l-2 border-[#6aab8e]/40 pl-4">
+                    <div key={i} className="border-l-2 border-[#7C3AED]/40 pl-4">
                       <p className="text-sm font-semibold text-[#191c1e] mb-1">Q: {qa.q}</p>
                       <p className="text-sm text-[#1a1e24] leading-relaxed">A: {qa.a}</p>
                     </div>
@@ -238,7 +238,7 @@ export default function GuideDownloadPage() {
           </p>
           <Link
             href="/?tab=intel"
-            className="inline-block px-5 py-2.5 bg-[#6aab8e] text-white text-sm font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors"
+            className="inline-block px-5 py-2.5 bg-[#7C3AED] text-white text-sm font-semibold rounded-lg hover:bg-[#5a9a7e] transition-colors"
           >
             View Firm Intel →
           </Link>

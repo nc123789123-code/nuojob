@@ -125,13 +125,13 @@ export default function Gate({ level, children, title, description }: Props) {
               <button
                 onClick={goPro}
                 disabled={submitting}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#6aab8e] text-white text-sm font-bold hover:bg-[#5d9a7e] transition-colors disabled:opacity-50"
+                className="w-full px-4 py-2.5 rounded-lg bg-[#7C3AED] text-white text-sm font-bold hover:bg-[#6D28D9] transition-colors disabled:opacity-50"
               >
                 {submitting ? "Redirecting…" : "Go Pro — $5/mo"}
               </button>
               <p className="text-[11px] text-[#2b3138] mt-2">
                 Already subscribed with a different email?{" "}
-                <button onClick={() => setNeedsUpgrade(false)} className="text-[#396477] font-semibold hover:underline">
+                <button onClick={() => setNeedsUpgrade(false)} className="text-[#7C3AED] font-semibold hover:underline">
                   Try another
                 </button>
               </p>
@@ -144,12 +144,12 @@ export default function Gate({ level, children, title, description }: Props) {
                 value={inputEmail}
                 onChange={(e) => setInputEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-lg border border-[#c1c7cc]/60 bg-[#f8fafb] text-sm px-3 py-2.5 text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#6aab8e] focus:border-transparent"
+                className="w-full rounded-lg border border-[#c1c7cc]/60 bg-[#f8fafb] text-sm px-3 py-2.5 text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full px-4 py-2.5 rounded-lg bg-[#1A2B4A] text-white text-sm font-bold hover:bg-[#243b63] transition-colors disabled:opacity-50"
+                className="w-full px-4 py-2.5 rounded-lg bg-[#1A2B4A] text-white text-sm font-bold hover:bg-[#5b21b6] transition-colors disabled:opacity-50"
               >
                 {submitting ? "Unlocking…" : level === "pro" ? "Continue" : "Unlock — it's free"}
               </button>

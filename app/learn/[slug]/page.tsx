@@ -40,7 +40,7 @@ export default async function LearnPostPage({
 
       <div className="border-b border-gray-100 bg-white">
         <div className="max-w-3xl mx-auto px-5 h-10 flex items-center gap-2 text-xs text-gray-600">
-          <Link href="/?tab=learn" className="hover:text-[#396477] transition-colors">Onlu Learning</Link>
+          <Link href="/?tab=learn" className="hover:text-[#7C3AED] transition-colors">Onlu Learning</Link>
           <span>›</span>
           <span className="text-gray-600 truncate">{post.title}</span>
         </div>
@@ -68,7 +68,7 @@ export default async function LearnPostPage({
         </article>
 
         <div className="mt-8 text-center">
-          <Link href="/?tab=learn" className="text-sm text-[#396477] hover:text-[#1A2B4A] transition-colors font-medium">
+          <Link href="/?tab=learn" className="text-sm text-[#7C3AED] hover:text-[#1A2B4A] transition-colors font-medium">
             ← Back to Onlu Learning
           </Link>
         </div>

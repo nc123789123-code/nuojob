@@ -60,7 +60,7 @@ export default function ContactPage() {
               "partnerships or collaborations",
             ].map((item) => (
               <li key={item} className="flex items-start gap-2.5 text-sm text-[#1a1e24]">
-                <span className="text-[#396477] font-bold mt-0.5 flex-shrink-0">→</span>
+                <span className="text-[#7C3AED] font-bold mt-0.5 flex-shrink-0">→</span>
                 <span>{item}</span>
               </li>
             ))}
@@ -72,7 +72,7 @@ export default function ContactPage() {
           <p className="text-xs text-[#2b3138] mb-1">Email directly</p>
           <a
             href="mailto:info@onluintel.com"
-            className="text-sm font-medium text-[#396477] hover:text-[#2d5162] hover:underline transition-colors"
+            className="text-sm font-medium text-[#7C3AED] hover:text-[#5b21b6] hover:underline transition-colors"
           >
             info@onluintel.com
           </a>
@@ -80,12 +80,12 @@ export default function ContactPage() {
 
         {/* Contact form */}
         {status === "sent" ? (
-          <div className="bg-[#c3ecd7]/40 border border-[#a8cfbc]/50 rounded-xl px-5 py-6 text-center">
-            <p className="text-[#416656] font-semibold text-sm mb-1">Message sent.</p>
+          <div className="bg-[#ede9fe]/40 border border-[#ddd6fe]/50 rounded-xl px-5 py-6 text-center">
+            <p className="text-[#6D28D9] font-semibold text-sm mb-1">Message sent.</p>
             <p className="text-[#1a1e24] text-xs">We&apos;ll get back to you at {email || "your email"}.</p>
             <button
               onClick={() => setStatus("idle")}
-              className="mt-4 text-xs text-[#396477] hover:underline"
+              className="mt-4 text-xs text-[#7C3AED] hover:underline"
             >
               Send another message
             </button>
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-shadow"
               />
             </div>
             <div>
@@ -121,7 +121,7 @@ export default function ContactPage() {
                 placeholder="Your message…"
                 required
                 rows={5}
-                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#396477] focus:border-transparent resize-none transition-shadow"
+                className="w-full text-sm border border-[#c1c7cc] rounded-lg px-3 py-2.5 bg-white text-[#191c1e] placeholder:text-[#2b3138] focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent resize-none transition-shadow"
               />
             </div>
             {status === "error" && (
@@ -130,7 +130,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="w-full px-5 py-3 bg-[#396477] text-white text-sm font-semibold rounded-lg hover:bg-[#2d5162] transition-colors disabled:opacity-60"
+              className="w-full px-5 py-3 bg-[#7C3AED] text-white text-sm font-semibold rounded-lg hover:bg-[#5b21b6] transition-colors disabled:opacity-60"
             >
               {status === "sending" ? "Sending…" : "Send Message"}
             </button>

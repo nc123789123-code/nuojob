@@ -51,7 +51,7 @@ export default function PrivacyPage() {
             <h2 className="text-[#191c1e] font-semibold text-base mb-2">4. Third-Party Services</h2>
             <p className="mb-2">We use the following third-party services to operate the platform:</p>
             <ul className="list-disc pl-5 space-y-1">
-              <li><span className="font-medium text-[#191c1e]">Stripe</span> — payment processing. Governed by <a href="https://stripe.com/privacy" className="text-[#396477] hover:underline" target="_blank" rel="noopener noreferrer">Stripe's Privacy Policy</a></li>
+              <li><span className="font-medium text-[#191c1e]">Stripe</span> — payment processing. Governed by <a href="https://stripe.com/privacy" className="text-[#7C3AED] hover:underline" target="_blank" rel="noopener noreferrer">Stripe's Privacy Policy</a></li>
               <li><span className="font-medium text-[#191c1e]">Resend</span> — transactional and newsletter email delivery</li>
               <li><span className="font-medium text-[#191c1e]">Vercel</span> — hosting and infrastructure</li>
               <li><span className="font-medium text-[#191c1e]">Anthropic</span> — AI-generated content (firm prep guides, concept answers, market snapshots). User search queries are sent to Anthropic's API; no account data or email is included</li>
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
               <li>Request deletion of your data</li>
               <li>Withdraw consent to email communications at any time</li>
             </ul>
-            <p className="mt-2">To exercise any of these rights, contact us at <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>. We will respond within 30 days.</p>
+            <p className="mt-2">To exercise any of these rights, contact us at <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">info@onluintel.com</a>. We will respond within 30 days.</p>
           </section>
 
           <section>
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-[#191c1e] font-semibold text-base mb-2">11. Contact</h2>
             <p>For any privacy-related questions or requests, contact us at{" "}
-              <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>.
+              <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">info@onluintel.com</a>.
             </p>
           </section>
 

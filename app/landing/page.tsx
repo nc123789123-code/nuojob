@@ -56,9 +56,9 @@ function EmailCapture() {
     <form onSubmit={submit} className="flex gap-2 flex-wrap">
       <input type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="your@email.com" required
-        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#c1c7cc]/60 bg-white text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#396477]/30" />
+        className="flex-1 min-w-[180px] px-4 py-2.5 rounded-xl text-sm border border-[#c1c7cc]/60 bg-white text-[#191c1e] placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/30" />
       <button type="submit" disabled={state === "loading"}
-        className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#1A2B4A] text-white hover:bg-[#396477] transition-colors disabled:opacity-60">
+        className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#1A2B4A] text-white hover:bg-[#7C3AED] transition-colors disabled:opacity-60">
         {state === "loading" ? "…" : "Get signals →"}
       </button>
       {state === "error" && <p className="w-full text-xs text-red-400">Something went wrong — try again.</p>}
@@ -78,7 +78,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={28} />
-            <span className="font-bold text-xl tracking-tight" style={{ color: "#6aab8e" }}>Onlu</span>
+            <span className="font-bold text-xl tracking-tight" style={{ color: "#7C3AED" }}>Onlu</span>
           </Link>
           <div className="flex items-center gap-2">
             {/* 5 tab dots */}
@@ -88,7 +88,7 @@ export default function LandingPage() {
               ))}
             </div>
             <Link href="/this-week" className="hidden sm:inline text-xs text-[#2b3138] hover:text-[#191c1e] transition-colors px-3 py-1.5 rounded-lg hover:bg-[#f2f4f6]">Weekly Pulse</Link>
-            <Link href="/" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#396477] transition-colors">
+            <Link href="/" className="px-4 py-2 bg-[#1A2B4A] text-white text-sm font-bold rounded-xl hover:bg-[#7C3AED] transition-colors">
               Open app →
             </Link>
           </div>
@@ -345,7 +345,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <LogoMark size={22} />
-              <span className="font-bold" style={{ color: "#6aab8e" }}>Onlu</span>
+              <span className="font-bold" style={{ color: "#7C3AED" }}>Onlu</span>
             </div>
             <div className="flex items-center gap-1">
               {Object.values(TABS).map((t, i) => (

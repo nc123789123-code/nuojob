@@ -49,16 +49,16 @@ export default function NewsletterCTA({
     }
   };
 
-  const bg = dark ? "bg-[#396477]" : "bg-white border border-gray-200";
+  const bg = dark ? "bg-[#7C3AED]" : "bg-white border border-gray-200";
   const headingColor = dark ? "text-white" : "text-gray-900";
   const descColor = dark ? "text-white/70" : "text-gray-700";
   const labelColor = dark ? "text-white/60" : "text-gray-600";
   const inputCls = dark
     ? "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:ring-white/60"
-    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-600 focus:ring-[#396477]";
+    : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-600 focus:ring-[#7C3AED]";
   const btnCls = dark
-    ? "bg-white text-[#396477] hover:bg-gray-100"
-    : "bg-[#396477] text-white hover:bg-[#2d5162]";
+    ? "bg-white text-[#7C3AED] hover:bg-gray-100"
+    : "bg-[#7C3AED] text-white hover:bg-[#5b21b6]";
 
   return (
     <div className={`${bg} rounded-xl px-6 py-7 text-center`}>

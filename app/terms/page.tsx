@@ -88,7 +88,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-[#191c1e] font-semibold text-base mb-2">13. Contact</h2>
             <p>For questions about these Terms, contact us at{" "}
-              <a href="mailto:info@onluintel.com" className="text-[#396477] hover:underline">info@onluintel.com</a>.
+              <a href="mailto:info@onluintel.com" className="text-[#7C3AED] hover:underline">info@onluintel.com</a>.
             </p>
           </section>
 
